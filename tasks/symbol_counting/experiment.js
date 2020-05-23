@@ -14,6 +14,30 @@ var instructions = {
     "to begin. </p>"
 }; timeline.push(instructions);
 
+var test_stimuli = [ 
+    {stimulus: "<div style='font-size:60px;'>$</div>"}, 
+    {stimulus: "<div style='font-size:60px;'>?</div>"}
+];
+
+var fixation = {
+    type: "html-keyboard-response", 
+    stimulus: "<div style='font-size:60px;'>+</div>",
+    choices: jsPsych.NO_KEYS, 
+    trial_duration: 500,
+};
+
+var test = {
+    type: "html-keyboard-response",
+    stimulus: jsPsych.timelineVariable('stimulus'),
+    choices: jsPsych.NO_KEYS,
+    trial_duration: 1000,
+};
+
+var test_procedure = {
+    timeline: [fixation, test], 
+    timeline_variables: test_stimuli
+}; timeline.push(test_procedure);
+
 jsPsych.init({
     timeline: timeline
 });
