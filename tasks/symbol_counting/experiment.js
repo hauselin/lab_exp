@@ -30,12 +30,14 @@ var test = {
     type: "html-keyboard-response",
     stimulus: jsPsych.timelineVariable('stimulus'),
     choices: jsPsych.NO_KEYS,
-    trial_duration: 1000,
+    trial_duration: 500,
 };
 
 var test_procedure = {
     timeline: [fixation, test], 
-    timeline_variables: test_stimuli
+    timeline_variables: test_stimuli, 
+    randomize_order: true,
+    repetitions: 11
 }; timeline.push(test_procedure);
 
 jsPsych.init({
