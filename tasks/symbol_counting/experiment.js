@@ -35,9 +35,7 @@ var test = {
 
 var test_procedure = {
     timeline: [fixation, test],
-    timeline_variables: test_stimuli,
-    randomize_order: true,
-    repetitions: 11
+    timeline_variables: jsPsych.randomization.sampleWithReplacement(test_stimuli, 11, [Math.round(Math.random() * 10), Math.round(Math.random() * 10)]),
 }; timeline.push(test_procedure);
 
 var debrief_block = {
@@ -47,9 +45,29 @@ var debrief_block = {
         var question_count = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>?</div>" }).count();
 
         return "<p> There were " + dollar_count + " dollar signs ($) and " + question_count + " question marks (?). </p>" +
-            "<p> Press any key to end the experiment. </p>";
+            "<p> Press any key to start the next trial. </p>";
     }
 }; timeline.push(debrief_block);
+
+var trials = 1;
+while (trials != 3) {
+    trials += 1;
+    timeline.push(test_procedure);
+    if (trials != 3) {
+        timeline.push(debrief_block);
+    }
+}
+
+var final_debrief_block = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        var dollar_count = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>$</div>" }).count();
+        var question_count = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>?</div>" }).count();
+
+        return "<p> There were " + dollar_count + " dollar signs ($) and " + question_count + " question marks (?). </p>" +
+            "<p> Press any key to end the experiment. </p>";
+    }
+}; timeline.push(final_debrief_block);
 
 jsPsych.init({
     timeline: timeline,
