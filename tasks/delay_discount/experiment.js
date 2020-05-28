@@ -6,12 +6,14 @@ const trial_per_delay = 5; //Number of trials per delay.
 
 var reward = null;  //Small reward without delay.
 var delay = [2, 10, 15, 20, 50];  //Delay in days.
+// var delay = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
+delay = jsPsych.randomization.shuffle(delay);
 var delay_index = 0;
 var trial_number = 1;
 var reward_window = [0, delayed_reward];
 
 var trial = {
-  on_start: function(trial){
+  on_start: function (trial) {
     var lower = (reward_window[1] - reward_window[0]) * quantile_range[0] + reward_window[0];
     var upper = (reward_window[1] - reward_window[0]) * quantile_range[1] + reward_window[0];
     reward = math.random(lower, upper);
@@ -23,16 +25,22 @@ var trial = {
   choices: [37, 39],
   post_trial_gap: 750,
   on_finish: function (data) {
+    data.delay = delay[delay_index];
+    data.large_reward = delayed_reward;
+    data.small_reward = reward;
     if (data.key_press == 37) {
       reward_window[0] = reward;
     }
     else if (data.key_press == 39) {
       reward_window[1] = reward;
     }
+    data.reward_window = reward_window;
+    data.indifference_value = math.mean(reward_window); // not working yet... probably got the logic/scoping wrong... see what's happening...
     if (trial_number < trial_per_delay) {
       trial_number += 1;
     }
     else if (trial_number >= trial_per_delay) {
+      // reset parameters for next delay
       trial_number = 0;
       reward = math.random(delayed_reward * quantile_range[0], delayed_reward * quantile_range[1]);
       reward_window = [0, delayed_reward];
@@ -46,7 +54,7 @@ var loop_node = {
   timeline: [trial],
   loop_function: function (data) {
     if (delay_index < delay.length) {
-      if (delay_index == delay.length - 1 && trial_number == trial_per_delay){
+      if (delay_index == delay.length - 1 && trial_number == trial_per_delay) {
         return false;
       }
       return true;

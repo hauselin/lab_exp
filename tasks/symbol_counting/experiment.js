@@ -1,3 +1,10 @@
+var trial_duration = 500;
+var symbol_duration = 500;
+var trials = 3;
+var reps = 11;
+
+// var itis = iti_exponential();  // see instructions on Notion
+
 var timeline = [];
 
 var welcome = {
@@ -23,14 +30,14 @@ var fixation = {
     type: "html-keyboard-response",
     stimulus: "<div style='font-size:30px;'>+</div>",
     choices: jsPsych.NO_KEYS,
-    trial_duration: 500,
+    trial_duration: trial_duration,
 };
 
 var test = {
     type: "html-keyboard-response",
     stimulus: jsPsych.timelineVariable('stimulus'),
     choices: jsPsych.NO_KEYS,
-    trial_duration: 500,
+    trial_duration: symbol_duration,
 };
 
 var test_procedure = {
