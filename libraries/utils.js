@@ -20,9 +20,9 @@ function round(value, step = 1.0) {
 // values a sampled from an exponential distribution (default lambda parameter = 4)
 function iti_exponential(low = 300, high = 1000, lambda = 4, round_step = 25) {
   let itis = [];
-  for (let i = 0; i <= 1000; i++) {
-    let iti = Math.log(1 - Math.random()) / (-lambda) * 1000 // iti in milliseconds (ms)
-    if (iti >= 500 && iti <= 1000) {
+  for (let i = 0; i <= 1000; i++) { // 
+    let iti = Math.log(1 - Math.random()) / (-lambda) * 1000 // multiply by 1000 to convert iti to milliseconds (ms)
+    if (iti >= low && iti <= high) {
       itis.push(round(iti, round_step));
     }
   }
