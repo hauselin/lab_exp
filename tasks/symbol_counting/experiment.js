@@ -10,6 +10,16 @@ var curr_trials = 0;            // current number of trials
 
 var timeline = [];
 
+timeline.push({
+    type: "fullscreen",
+    fullscreen_mode: true
+});
+
+timeline.push({
+    type: "html-keyboard-response", 
+    stimulus: "This trial will be in fullscreen mode."
+});
+
 var welcome = {
     type: "html-keyboard-response",
     stimulus: "Welcome to the experiment. Press any key to begin."
