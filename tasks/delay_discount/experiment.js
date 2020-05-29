@@ -5,7 +5,8 @@ const quantile_range = [0.40, 0.60] //Quantiles within window to draw values fro
 const trial_per_delay = 5; //Number of trials per delay.
 
 var reward = null;  //Small reward without delay.
-var delay = [2, 10, 15, 20, 50];  //Delay in days.
+var sorted_delay = [2, 10, 15, 20, 50];  //Delay in days.
+var delay = jsPsych.randomization.shuffle(sorted_delay)
 var delay_index = 0;
 var trial_number = 1;
 var reward_window = [0, delayed_reward];
