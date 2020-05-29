@@ -1,0 +1,22 @@
+{
+  "name": "lab_exp",
+  "version": "1.0.0",
+  "description": "jspsych: [jspsych](https://github.com/jspsych/jsPsych/) library",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hauselin/lab_exp.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hauselin/lab_exp/issues"
+  },
+  "homepage": "https://github.com/hauselin/lab_exp#readme",
+  "dependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
