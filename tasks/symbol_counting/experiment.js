@@ -1,7 +1,10 @@
-var trial_duration = 500;
-var symbol_duration = 500;
-var trials = 3;
-var reps = 11;
+var trial_duration = 500;       // each trial is 500 ms
+var symbol_duration = 500;      // each symbol appears for 500 ms
+const trials = 3;               // the total number of trials 
+var reps = 11;                  // the number of samples to draw
+var total_dollars = 0;          // total number of dollar signs that have appeared thus far
+var total_questions = 0;        // total number of question marks that have appeared thus far
+var curr_trials = 0;            // current number of trials 
 
 // var itis = iti_exponential();  // see instructions on Notion
 
@@ -40,41 +43,45 @@ var test = {
     trial_duration: symbol_duration,
 };
 
-var test_procedure = {
-    timeline: [fixation, test],
-    timeline_variables: jsPsych.randomization.sampleWithReplacement(test_stimuli, 11, [Math.round(Math.random() * 10), Math.round(Math.random() * 10)]),
-}; timeline.push(test_procedure);
-
 var debrief_block = {
     type: "html-keyboard-response",
     stimulus: function () {
-        var dollar_count = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>$</div>" }).count();
-        var question_count = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>?</div>" }).count();
+        var dollars = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>$</div>" }).count() - total_dollars;
+        var questions = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>?</div>" }).count() - total_questions;
 
-        return "<p> There were " + dollar_count + " dollar signs ($) and " + question_count + " question marks (?). </p>" +
+        total_dollars += dollars;
+        total_questions += questions;
+
+        return "<p> There were " + dollars + " dollar signs ($) and " + questions + " question marks (?). </p>" +
             "<p> Press any key to start the next trial. </p>";
     }
-}; timeline.push(debrief_block);
-
-var trials = 1;
-while (trials != 3) {
-    trials += 1;
-    timeline.push(test_procedure);
-    if (trials != 3) {
-        timeline.push(debrief_block);
-    }
-}
+}; 
 
 var final_debrief_block = {
     type: "html-keyboard-response",
     stimulus: function () {
-        var dollar_count = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>$</div>" }).count();
-        var question_count = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>?</div>" }).count();
+        var dollars = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>$</div>" }).count() - total_dollars;
+        var questions = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>?</div>" }).count() - total_questions;
 
-        return "<p> There were " + dollar_count + " dollar signs ($) and " + question_count + " question marks (?). </p>" +
+        return "<p> There were " + dollars + " dollar signs ($) and " + questions + " question marks (?). </p>" +
             "<p> Press any key to end the experiment. </p>";
     }
-}; timeline.push(final_debrief_block);
+}; 
+
+while (curr_trials != trials) { // this produces new random samples of question marks and dollar signs each time
+    curr_trials += 1;
+    var test_procedure = { 
+        timeline: [fixation, test],
+        timeline_variables: jsPsych.randomization.sampleWithReplacement(test_stimuli, reps, 
+            [Math.round(Math.random() * 10), Math.round(Math.random() * 10)])
+    }; 
+    timeline.push(test_procedure);
+    if (curr_trials != trials) {
+        timeline.push(debrief_block);
+    } else {
+        timeline.push(final_debrief_block); //  if the current number of trials == how many trials we want (3), display the final debrief block
+    }
+};
 
 jsPsych.init({
     timeline: timeline,
