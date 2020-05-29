@@ -19,7 +19,7 @@ var instructions = {
     type: "html-keyboard-response",
     stimulus: "<p>In this experiment, you will be presented with a sequence of " +
         "dollar signs ($) and question marks (?). You will need to keep a count of " +
-        "each of the two types of symbols. There will be 11 trials in total. </p><p> Each symbol will be separated from " +
+        "each of the two types of symbols. There will be 3 trials in total. </p><p> Each symbol will be separated from " +
         "the next by a fixation cross in the middle of the screen. </p><p> Press any key " +
         "to begin. </p>"
 }; timeline.push(instructions);
@@ -43,7 +43,7 @@ var test = {
     trial_duration: symbol_duration,
 };
 
-var debrief_block = {
+var feedback = {
     type: "html-keyboard-response",
     stimulus: function () {
         var dollars = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>$</div>" }).count() - total_dollars;
@@ -57,7 +57,7 @@ var debrief_block = {
     }
 }; 
 
-var final_debrief_block = {
+var final_feedback = {
     type: "html-keyboard-response",
     stimulus: function () {
         var dollars = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>$</div>" }).count() - total_dollars;
@@ -77,9 +77,9 @@ while (curr_trials != trials) { // this produces new random samples of question 
     }; 
     timeline.push(test_procedure);
     if (curr_trials != trials) {
-        timeline.push(debrief_block);
+        timeline.push(feedback);
     } else {
-        timeline.push(final_debrief_block); //  if the current number of trials == how many trials we want (3), display the final debrief block
+        timeline.push(final_feedback); //  if the current number of trials == how many trials we want (3), display the final debrief block
     }
 };
 
