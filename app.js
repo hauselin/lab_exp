@@ -1,17 +1,19 @@
 // LOAD MODULES 
-var express = require('express'); 
+const express = require('express'); 
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const morgan = require('morgan');
+const path = require('path');       // GET THE CURRENT PATH
+const app = express();              // INSTANTIATE THE APP
 
-// INSTANTIATE THE APP
-var app = express();
 
-// GET THE CURRENT PATH
-var path = require('path');
+app.use(morgan('combine'));
+app.use(bodyParser.json());         // allow app to parse any json request 
+app.use(cors());                    // allow any host to access this app
 
 // FIND STATIC FILES
-app.use(express.static(__dirname + '/tasks'));
 app.use('/jsPsych', express.static(__dirname + "/jsPsych"));
 app.use(express.static(path.join(__dirname, 'tasks/symbol_counting')));
-app.set('symbol_count', __dirname + '/tasks/symbol_counting');
 
 // ROUTING
 app.get('/', function(req, res) {
@@ -19,6 +21,6 @@ app.get('/', function(req, res) {
 });
 
 // START SERVER
-var server = app.listen(8080, function() {
+const server = app.listen(8080, function() {
     console.log("Server started on port %d", server.address().port);
 });
