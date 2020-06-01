@@ -2,30 +2,32 @@ var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 
 const trials = 2;               // the total number of trials 
-var reps = 8;                  // the number of symbols per trial
+var reps = 5;                  // the number of symbols per trial
 const difficulty = 1;   // task difficult (1, 2, 3, 4, or 5; 5 is most difficult)
+var show_performance = true;  // if true, also show subject counts on feedback page
+var adaptive = false; // TODO: adaptive version not implemented yet
 
 var symbol_duration = 500;      // each symbol appears for this duration (ms) 
 var fixation_duration = 500;  // fixation dduration
 var itis = iti_exponential(low = 200, high = 500);  // generate array of ITIs
 
+// parameters below typically don't need to be changed
 var n_trial = -1; // current trial number counter
 var n_rep = 0; // current rep counter
 var n_dollar = 0;
 var n_hash = 0;
 var choices = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
 var responses = [];  // subject's response on each trial $ and #
-
 var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task difficulty parameters
 
+// add data to all trials
 jsPsych.data.addProperties({
     subject: subject,
     condition: condition,
     browser: navigator.userAgent, // browser info
 });
 
-// function to determine switch reps on each trial
-// returns an array of length reps, with integers (0, 1) indicating which symbol to present
+// function to determine switch reps on each trial; returns an array of length reps, with integers (0, 1) indicating which symbol to present
 function determine_sequence(reps, symbols, trial_difficulty, verbose) {
     var switches = Math.floor(reps / switch_intensity[trial_difficulty]); // determine no. of switches
     var switch_trial_idx = range(1, reps - 1); // omit first and last reps (they never switch)
@@ -57,16 +59,14 @@ function determine_sequence(reps, symbols, trial_difficulty, verbose) {
 
 var timeline = [];
 
-timeline.push({
-    type: "fullscreen",
-    fullscreen_mode: false
-});
+// timeline.push({
+//     type: "fullscreen",
+//     fullscreen_mode: false
+// });
 
 var instructions = {
     type: "instructions",
-    pages: ["Weclome to the experiment.<p>Click next or press the right arrow key to proceed.</p>", "<p>In this experiment, you will be presented with a sequence of " +
-        "dollar signs ($) and hash marks (#). <p>You will need to keep a count of " +
-        "each of the two types of symbols.</p>"],
+    pages: ["Weclome!<p>Click next or press the right arrow key to proceed.</p>", "<p>In this task, you'll see sequences of " + "dollar signs ($) and hash/pound symbols (#). <p>Your goal is to keep a count of " + "each of the two types of symbols.</p>"],
     show_clickable_nav: true,
     show_page_number: true,
 }; timeline.push(instructions);
@@ -122,7 +122,7 @@ var symbols_sequence = { // determine sequence of symbols within a trial
     },
 };
 
-var response = {
+var response = { // collect response from subject
     timeline: [
         {
             type: 'html-button-response',
@@ -143,10 +143,14 @@ var response = {
     }
 };
 
-var feedback = {
+var feedback = { // show feedback to subject
     type: "html-button-response",
     stimulus: function () {
-        text = "Actual counts<p>" + n_dollar + " $ and " + n_hash + " #<p></p>";
+        text = "<p>Actual counts</p><p>" + n_dollar + " $ and " + n_hash + " #<p></p>";
+        if (show_performance) {
+            counts = "<p>Your counts</p><p>" + responses[0] + " $ and " + responses[1] + " #<p></p>";
+            text = counts + text;
+        }
         return "<div style='font-size:25px;'>" + text + "</div>";
     },
     choices: ['Continue'],
@@ -164,13 +168,21 @@ var feedback = {
         data.acc_dollar = acc_dollar;
         data.acc_hash = acc_hash;
         data.acc = overall_acc;
+        if (adaptive) {
+            // TODO: update task parameters/difficulty based on this trial's overall_acc
+            if (overall_acc) {
+                // do stuff
+            } else {
+                // do stuff
+            }
+        }
     }
 };
 
 var trial = { // events in a trial
     timeline: [fixation, symbols_sequence, response, feedback], // events in each trial
     repetitions: trials, // total number of trials to present
-    post_trial_gap: random_choice(itis),
+    post_trial_gap: random_choice(itis), // randomly select one ITI
 }; timeline.push(trial);
 
 jsPsych.init({
