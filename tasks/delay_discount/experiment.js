@@ -31,7 +31,7 @@ var timeline = [];
 
 var instructions = {
     type: "instructions",
-    pages: ["Weclome!<p>Click next or press the right arrow key to proceed.</p>", "<p>In this task, you'll have to decide which option you prefer.</p><p>For example, you'll see two options: $30.00 in 3 days or $2.40 in 0 days (today).</p><p>Choosing $30 days in 3 days means you'll wait 3 days so you can get $30. Choosing $2.40 means you will receive $2.40 today.</p><p>You'll use the left/right arrow keys on the keyboard to indicate which option you prefer (left or right option, respectively).</p>", "Click next or press the right arrow key to begin."],
+    pages: ["Welcome!<p>Click next or press the right arrow key to proceed.</p>", "<p>In this task, you'll have to decide which option you prefer.</p><p>For example, you'll see two options: $30.00 in 3 days or $2.40 in 0 days (today).</p><p>Choosing $30 days in 3 days means you'll wait 3 days so you can get $30. Choosing $2.40 means you will receive $2.40 today.</p><p>You'll use the left/right arrow keys on the keyboard to indicate which option you prefer (left or right option, respectively).</p>", "Click next or press the right arrow key to begin."],
     show_clickable_nav: true,
     show_page_number: true,
 }; timeline.push(instructions);
