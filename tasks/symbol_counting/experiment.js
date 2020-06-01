@@ -59,7 +59,7 @@ var timeline = [];
 
 timeline.push({
     type: "fullscreen",
-    fullscreen_mode: true
+    fullscreen_mode: false
 });
 
 var instructions = {
