@@ -3,7 +3,7 @@ var condition = 'control'; // experiment/task condition
 var task = 'delay discounting';
 var experiment = 'delay discounting';
 
-var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
+// var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
 const large_reward = 100; //Large reward after cost.
 const quantile_range = [0.40, 0.60] //Quantiles within window to draw values from.
 const trials_per_cost = 5; //Number of trials per cost/delays.
@@ -28,6 +28,11 @@ jsPsych.data.addProperties({
 });
 
 var timeline = [];
+
+timeline.push({
+    type: "fullscreen",
+    fullscreen_mode: true
+});
 
 var instructions = {
     type: "instructions",
@@ -65,6 +70,7 @@ var trial = {
         data.small_reward = small_reward;
         data.n_trial = n_trial;
         data.n_trial_overall = n_trial_overall;
+        data.keypress = 'left'; //TODO: convert to keycode
         n_trial += 1;
         n_trial_overall += 1;
         if (data.key_press == 37) {
