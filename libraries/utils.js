@@ -34,3 +34,9 @@ function iti_exponential(low = 300, high = 1000, lambda = 4, round_step = 50) {
 function random_choice(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
+
+
+// generate array of length times, filled with x
+function rep(x, times) {
+  return Array.from({ length: times }).fill(x);
+}

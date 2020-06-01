@@ -5,6 +5,7 @@ var reps = 11;                  // the number of samples to draw
 var total_dollars = 0;          // total number of dollar signs that have appeared thus far
 var total_questions = 0;        // total number of question marks that have appeared thus far
 var curr_trials = 0;            // current number of trials 
+//const utils = require('../../libraries/utils');
 
 // var itis = iti_exponential();  // see instructions on Notion
 
