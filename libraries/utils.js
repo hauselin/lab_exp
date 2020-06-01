@@ -4,7 +4,7 @@
 
 function range(start, end) {
   let ans = [];
-  for (let i = start; i <= end; i++) {
+  for (let i = start; i < end; i++) {
     ans.push(i);
   }
   return ans;
@@ -33,4 +33,10 @@ function iti_exponential(low = 300, high = 1000, lambda = 4, round_step = 50) {
 // randomly select one value from an array
 function random_choice(array) {
   return array[Math.floor(Math.random() * array.length)];
+}
+
+
+// generate array of length times, filled with x
+function rep(x, times) {
+  return Array.from({ length: times }).fill(x);
 }

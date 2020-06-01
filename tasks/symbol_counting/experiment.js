@@ -1,25 +1,43 @@
-var trial_duration = 500;       // each trial is 500 ms
-var symbol_duration = 1000;      // each symbol appears for 500 ms
-var fixation_duration = 500;
-const trials = 2;               // the total number of trials 
-var reps = 11;                  // the number of samples to draw
+var symbol_duration = 800;      // each symbol appears for 500 ms
+var fixation_duration = 1000;
+const trials = 3;               // the total number of trials 
+var reps = 4;                  // the number of symbols per trial
 var total_dollars = 0;          // total number of dollar signs that have appeared thus far
 var total_questions = 0;        // total number of question marks that have appeared thus far
 var curr_trials = 0;            // current number of trials 
-var itis = iti_exponential();  // see instructions on Notion
+const difficulty = 1;   // task difficult (1, 2, 3, 4, or 5; 5 is most difficult)
+var itis = iti_exponential(low = 400, high = 800);  // generate array of ITIs
 var current_trial = 0;
 
-var switch_intensity = { 0: reps, 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 }
-console.log(switch_intensity)
+var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task difficulty parameters
 
 // function to determine switch reps on each trial
-var switches = Math.floor(reps / switch_intensity[1]);
-var switch_trial_idx = range(0, reps - 1);
-switch_trial_idx = jsPsych.randomization.shuffle(switch_trial_idx);
-switch_trial_idx = switch_trial_idx.slice(0, switches);
-console.log(switch_trial_idx)
-// for loop to generate trial array
-
+// returns an array of length reps, with integers (0, 1) indicating which symbol to present
+function determine_sequence(reps, symbols, trial_difficulty) {
+    var switches = Math.floor(reps / switch_intensity[trial_difficulty]); // determine no. of switches
+    var switch_trial_idx = range(1, reps - 1); // omit first and last reps (they never switch)
+    // randomly pick four trial indices to switch ats 
+    switch_trial_idx = jsPsych.randomization.shuffle(switch_trial_idx);
+    switch_trial_idx = switch_trial_idx.slice(0, switches);
+    n_symbols = range(0, symbols.length); // generate indices for each symbol
+    // for loop to determine symbol on each rep 
+    var sequence = [];
+    for (i = 0; i < reps; i++) {
+        if (i == 0) { // randomly determine first symbol
+            current_symbol = random_choice(n_symbols);
+            sequence.push(current_symbol);
+        } else { // determine subsequent symbols
+            if (switch_trial_idx.includes(i)) { // if switch, change symbol
+                other_symbols = n_symbols.filter(function (x) {
+                    return x != current_symbol;
+                });
+                current_symbol = random_choice(other_symbols);
+            }
+            sequence.push(current_symbol)
+        }
+    }
+    return sequence;
+}
 
 var timeline = [];
 
@@ -36,10 +54,9 @@ var timeline = [];
 // var instructions = {
 //     type: "html-keyboard-response",
 //     stimulus: "<p>In this experiment, you will be presented with a sequence of " +
-//         "dollar signs ($) and question marks (?). You will need to keep a count of " +
-//         "each of the two types of symbols.</p><p> Each symbol will be separated from " +
-//         "the next by a fixation cross in the middle of the screen. </p><p> Press any key " +
-//         "to begin. </p>"
+//         "dollar signs ($) and question marks (?). <p>You will need to keep a count of " +
+//         "each of the two types of symbols.</p>" +
+//         "<p> Press any key to begin. </p> "
 // }; timeline.push(instructions);
 
 var symbols = [
@@ -50,7 +67,7 @@ var symbols = [
 var fixation = {
     // on_trial_start: console.log('New trial: ' + current_trial),
     type: "html-keyboard-response",
-    stimulus: "<div style='font-size:30px;'>+</div>",
+    stimulus: "<div style='font-size:30px;'>&#9679</div>", // dot as fixation
     choices: jsPsych.NO_KEYS,
     trial_duration: fixation_duration,
 };
@@ -62,76 +79,46 @@ var symbols_sequence = {
             stimulus: jsPsych.timelineVariable("symbol"),
             choices: jsPsych.NO_KEYS,
             trial_duration: symbol_duration,
+            post_trial_gap: 500,
         }
     ],
     timeline_variables: symbols,
-    sample: { // custom sampling function to sample symbols
+    sample: { // custom sampling function to generate pseudorandom sequence of symbols on each trial
         type: 'custom',
-        fn: function (t) {
-            console.log(range(0, reps - 1))
-            t = [1, 0, 0, 1, 0, 1];
-            return t;
+        fn: function (samples) {
+            samples = determine_sequence(reps, samples, difficulty);
+            console.log(samples);
+            return samples;
         }
     }
-}; //timeline.push(symbols_sequence)
+};
+
+// TODO: replace type with video-button-response.html
+var feedback = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        var dollars = jsPsych.data.get().filter({ stimulus: symbols[0]['symbol'] }).count() - total_dollars;
+        var questions = jsPsych.data.get().filter({ stimulus: symbols[1]['symbol'] }).count() - total_questions;
+
+        total_dollars += dollars;
+        total_questions += questions;
+
+        return "<p> There were " + dollars + " dollar signs ($) and " + questions + " question marks (?). </p>" +
+            "<p> Press any key to continue. </p>";
+    }
+};
 
 var trial = {
     on_trial_start: console.log('New trial: ' + current_trial),
-    timeline: [fixation, symbols_sequence],
-    repetitions: trials,
+    timeline: [fixation, symbols_sequence, feedback], // events in each trial
+    repetitions: trials, // total number of trials to present
     on_trial_finish: function () {
         current_trial += 1;
         total_dollars = 0;
         total_questions = 0;
+        return current_trial;
     }
 }; timeline.push(trial);
-
-// var test = {
-//     type: "html-keyboard-response",
-//     stimulus: jsPsych.timelineVariable('stimulus'),
-//     choices: jsPsych.NO_KEYS,
-//     trial_duration: symbol_duration,
-// };
-
-// var feedback = {
-//     type: "html-keyboard-response",
-//     stimulus: function () {
-//         var dollars = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>$</div>" }).count() - total_dollars;
-//         var questions = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>?</div>" }).count() - total_questions;
-
-//         total_dollars += dollars;
-//         total_questions += questions;
-
-//         return "<p> There were " + dollars + " dollar signs ($) and " + questions + " question marks (?). </p>" +
-//             "<p> Press any key to start the next trial. </p>";
-//     }
-// };
-
-// var final_feedback = {
-//     type: "html-keyboard-response",
-//     stimulus: function () {
-//         var dollars = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>$</div>" }).count() - total_dollars;
-//         var questions = jsPsych.data.get().filter({ stimulus: "<div style='font-size:60px;'>?</div>" }).count() - total_questions;
-
-//         return "<p> There were " + dollars + " dollar signs ($) and " + questions + " question marks (?). </p>" +
-//             "<p> Press any key to end the experiment. </p>";
-//     }
-// };
-
-// while (curr_trials != trials) { // this produces new random samples of question marks and dollar signs each time
-//     curr_trials += 1;
-//     var test_procedure = {
-//         timeline: [fixation, test],
-//         timeline_variables: jsPsych.randomization.sampleWithReplacement(symbols, reps,
-//             [Math.round(Math.random() * 10), Math.round(Math.random() * 10)])
-//     };
-//     timeline.push(test_procedure);
-//     if (curr_trials != trials) {
-//         timeline.push(feedback);
-//     } else {
-//         timeline.push(final_feedback); //  if the current number of trials == how many trials we want (3), display the final debrief block
-//     }
-// };
 
 jsPsych.init({
     timeline: timeline,
