@@ -69,7 +69,7 @@ var timeline = [];
 
 var instructions = {
     type: "instructions",
-    pages: ["Weclome!<p>Click next or press the right arrow key to proceed.</p>", "<p>In this task, you'll see sequences of " + "dollar signs ($) and hash/pound symbols (#). <p>Your goal is to keep a count of " + "each of the two types of symbols.</p>"],
+    pages: ["Weclome!<p>Click next or press the right arrow key to proceed.</p>", "<p>In this task, you'll see sequences of " + "dollar signs ($) and hash/pound symbols (#). <p>Your goal is to keep a count of " + "each of the two types of symbols.</p>", "Click next or press the right arrow key to begin."],
     show_clickable_nav: true,
     show_page_number: true,
 }; timeline.push(instructions);
