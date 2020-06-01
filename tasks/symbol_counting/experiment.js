@@ -1,5 +1,7 @@
 var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
+var task = 'symbol counter';
+var experiment = 'symbol counter';
 
 const trials = 2;               // the total number of trials 
 var reps = 5;                  // the number of symbols per trial
@@ -25,6 +27,7 @@ jsPsych.data.addProperties({
     subject: subject,
     condition: condition,
     browser: navigator.userAgent, // browser info
+    datetime: Date(),
 });
 
 // function to determine switch reps on each trial; returns an array of length reps, with integers (0, 1) indicating which symbol to present
