@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <script src="../jspsych.js"></script>
-    <script src="../plugins/jspsych-html-button-response.js"></script>
-    <link rel="stylesheet" href="../css/jspsych.css"></link>
-    <style>
-      img { width: 300px; }
-    </style>
-  </head>
-  <body></body>
-  <script>
+
+<head>
+  <script src="../jspsych.js"></script>
+  <script src="../plugins/jspsych-html-button-response.js"></script>
+  <link rel="stylesheet" href="../css/jspsych.css">
+  </link>
+  <style>
+    img {
+      width: 300px;
+    }
+  </style>
+</head>
+
+<body></body>
+<script>
 
   var timeline = [];
 
@@ -39,8 +44,9 @@
 
   jsPsych.init({
     timeline: timeline,
-    on_finish: function(){jsPsych.data.displayData();}
+    on_finish: function () { jsPsych.data.displayData(); }
   });
 
-  </script>
+</script>
+
 </html>

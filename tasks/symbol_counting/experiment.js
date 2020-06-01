@@ -2,19 +2,19 @@ var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 
 const trials = 2;               // the total number of trials 
-var reps = 3;                  // the number of symbols per trial
+var reps = 8;                  // the number of symbols per trial
 const difficulty = 1;   // task difficult (1, 2, 3, 4, or 5; 5 is most difficult)
 
-var symbol_duration = 200;      // each symbol appears for this duration (ms) 
-var fixation_duration = 1000;  // fixation dduration
+var symbol_duration = 500;      // each symbol appears for this duration (ms) 
+var fixation_duration = 500;  // fixation dduration
 var itis = iti_exponential(low = 200, high = 500);  // generate array of ITIs
 
-var n_dollars = 0;          // total number of dollar signs that have appeared thus far
-var n_questions = 0;        // total number of question marks that have appeared thus far
 var n_trial = -1; // current trial number counter
 var n_rep = 0; // current rep counter
 var n_dollar = 0;
-var n_question = 0;
+var n_hash = 0;
+var choices = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+var responses = [];  // subject's response on each trial $ and #
 
 var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task difficulty parameters
 
@@ -57,27 +57,23 @@ function determine_sequence(reps, symbols, trial_difficulty, verbose) {
 
 var timeline = [];
 
-// timeline.push({
-//     type: "fullscreen",
-//     fullscreen_mode: false
-// });
+timeline.push({
+    type: "fullscreen",
+    fullscreen_mode: true
+});
 
-// var welcome = {
-//     type: "html-keyboard-response",
-//     stimulus: "Welcome to the experiment. Press any key to begin."
-// }; timeline.push(welcome);
-
-// var instructions = {
-//     type: "html-keyboard-response",
-//     stimulus: "<p>In this experiment, you will be presented with a sequence of " +
-//         "dollar signs ($) and question marks (?). <p>You will need to keep a count of " +
-//         "each of the two types of symbols.</p>" +
-//         "<p> Press any key to begin. </p> "
-// }; timeline.push(instructions);
+var instructions = {
+    type: "instructions",
+    pages: ["Weclome to the experiment.<p>Click next or press the right arrow key to proceed.</p>", "<p>In this experiment, you will be presented with a sequence of " +
+        "dollar signs ($) and hash marks (#). <p>You will need to keep a count of " +
+        "each of the two types of symbols.</p>"],
+    show_clickable_nav: true,
+    show_page_number: true,
+}; timeline.push(instructions);
 
 var symbols = [ // define symbols
     { symbol: "<div style='font-size:80px;'>$</div>" },
-    { symbol: "<div style='font-size:80px;'>?</div>" }
+    { symbol: "<div style='font-size:80px;'>#</div>" }
 ];
 
 var fixation = { // define fixation
@@ -89,6 +85,7 @@ var fixation = { // define fixation
         event: 'fixation',
     },
     on_finish: function (data) {
+        responses = [];
         n_rep = -1;  // reset symbol repeition counter
         n_trial += 1;
         data.n_trial = n_trial; // save current trial
@@ -110,8 +107,8 @@ var symbols_sequence = { // determine sequence of symbols within a trial
                 data.n_trial = n_trial;
                 n_dollar = jsPsych.data.get().filter({ stimulus: symbols[0]['symbol'], n_trial: n_trial }).count();
                 data.n_dollar = n_dollar;
-                n_question = jsPsych.data.get().filter({ stimulus: symbols[1]['symbol'], n_trial: n_trial }).count();
-                data.n_question = n_question;
+                n_hash = jsPsych.data.get().filter({ stimulus: symbols[1]['symbol'], n_trial: n_trial }).count();
+                data.n_hash = n_hash;
             }
         }
     ],
@@ -125,23 +122,53 @@ var symbols_sequence = { // determine sequence of symbols within a trial
     },
 };
 
-// TODO: replace with video-button-response.html
+var response = {
+    timeline: [
+        {
+            type: 'html-button-response',
+            choices: choices,
+            stimulus: jsPsych.timelineVariable('symbol')
+        }
+    ],
+    timeline_variables: [
+        { symbol: '<div style="transform: translateY(-30px); font-size:25px;"> How many $ symbols </div>' },
+        { symbol: '<div style="transform: translateY(-30px); font-size:25px;"> How many # symbols </div>' }
+    ],
+    data: { event: "response" },
+    on_finish: function (data) {
+        // push last button press to responses array
+        responses.push(parseInt(choices[parseInt(jsPsych.data.get().last(1).values()[0].button_pressed)]));
+        console.log(responses);
+        data.n_trial = n_trial;
+    }
+};
+
 var feedback = {
-    type: "html-keyboard-response",
+    type: "html-button-response",
     stimulus: function () {
-        return "<p>$: " + n_dollar + "</p><p>?: " + n_question + "<p>Press any key to continue</p>";
+        text = "Actual counts<p>" + n_dollar + " $ and " + n_hash + " #<p></p>";
+        return "<div style='font-size:25px;'>" + text + "</div>";
     },
-    data: { event: 'response' },
+    choices: ['Continue'],
+    data: { event: 'feedback' },
     on_finish: function (data) {
         data.n_rep = n_rep;
         data.n_trial = n_trial;
         data.n_dollar = n_dollar;
-        data.n_question = n_question;
+        data.n_hash = n_hash;
+        data.n_dollar_response = responses[0];
+        data.n_hash_response = responses[1];
+        acc_dollar = + (n_dollar == responses[0]);
+        acc_hash = + (n_hash == responses[1]);
+        overall_acc = (acc_dollar + acc_hash) / 2;
+        data.acc_dollar = acc_dollar;
+        data.acc_hash = acc_hash;
+        data.acc = overall_acc;
     }
 };
 
 var trial = { // events in a trial
-    timeline: [fixation, symbols_sequence, feedback], // events in each trial
+    timeline: [fixation, symbols_sequence, response, feedback], // events in each trial
     repetitions: trials, // total number of trials to present
     post_trial_gap: random_choice(itis),
 }; timeline.push(trial);
