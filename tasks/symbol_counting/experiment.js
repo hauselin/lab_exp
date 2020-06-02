@@ -29,14 +29,6 @@ jsPsych.data.addProperties({
     browser: navigator.userAgent, // browser info
     datetime: Date(),
 });
-var trial_duration = 500;       // each trial is 500 ms
-var symbol_duration = 500;      // each symbol appears for 500 ms
-const trials = 3;               // the total number of trials 
-var reps = 11;                  // the number of samples to draw
-var total_dollars = 0;          // total number of dollar signs that have appeared thus far
-var total_questions = 0;        // total number of question marks that have appeared thus far
-var curr_trials = 0;            // current number of trials 
-//const utils = require('../../libraries/utils');
 
 // function to determine switch reps on each trial; returns an array of length reps, with integers (0, 1) indicating which symbol to present
 function determine_sequence(reps, symbols, trial_difficulty, verbose) {

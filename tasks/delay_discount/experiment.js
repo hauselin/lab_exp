@@ -31,15 +31,9 @@ var timeline = [];
 
 timeline.push({
     type: "fullscreen",
-    fullscreen_mode: true
+    fullscreen_mode: false
 });
 
-var reward = null;  //Small reward without delay.
-var sorted_delay = [2, 10, 15, 20, 50];  //Delay in days.
-var delay = jsPsych.randomization.shuffle(sorted_delay)
-var delay_index = 0;
-var trial_number = 1;
-var reward_window = [0, delayed_reward];
 var instructions = {
     type: "instructions",
     pages: ["Welcome!<p>Click next or press the right arrow key to proceed.</p>", "<p>In this task, you'll have to decide which option you prefer.</p><p>For example, you'll see two options: $30.00 in 3 days or $2.40 in 0 days (today).</p><p>Choosing $30 days in 3 days means you'll wait 3 days so you can get $30. Choosing $2.40 means you will receive $2.40 today.</p><p>You'll use the left/right arrow keys on the keyboard to indicate which option you prefer (left or right option, respectively).</p>", "Click next or press the right arrow key to begin."],
