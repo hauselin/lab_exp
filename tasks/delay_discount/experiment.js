@@ -1,3 +1,14 @@
+const dark_background = false;
+if (dark_background){
+    // background_colour = "black";
+    document.body.style.backgroundColor = "black";
+    font_colour = "white";
+} else if (!dark_background){
+    // background_colour = "white";
+    document.body.style.backgroundColor = "white";
+    font_colour = "black";
+};
+
 var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 var task = 'delay discounting';
@@ -9,8 +20,8 @@ const quantile_range = [0.40, 0.60] //Quantiles within window to draw values fro
 const trials_per_cost = 5; //Number of trials per cost/delays.
 
 var small_reward = null;  //Small reward without cost.
-var costs = [2, 10, 15, 50, 100];  //costs in days.
-// var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
+// var costs = [2, 10, 15, 50, 100];  //costs in days.
+var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
 costs = jsPsych.randomization.shuffle(costs);
 
 // parameters below typically don't need to be changed
@@ -31,19 +42,20 @@ var timeline = [];
 
 timeline.push({
     type: "fullscreen",
-    fullscreen_mode: false
+    message: "<p style='color: " + font_colour + "'>The experiment will switch to full screen mode when you press the button below</p>",
+    fullscreen_mode: true
 });
 
 var instructions = {
     type: "instructions",
-    pages: ["Welcome!<p>Click next or press the right arrow key to proceed.</p>", "<p>In this task, you'll have to decide which option you prefer.</p><p>For example, you'll see two options: $30.00 in 3 days or $2.40 in 0 days (today).</p><p>Choosing $30 days in 3 days means you'll wait 3 days so you can get $30. Choosing $2.40 means you will receive $2.40 today.</p><p>You'll use the left/right arrow keys on the keyboard to indicate which option you prefer (left or right option, respectively).</p>", "Click next or press the right arrow key to begin."],
+    pages: ["<p style='color: " + font_colour + "'>Welcome!</p><p style='color: " + font_colour + "'>Click next or press the right arrow key to proceed.</p>", "<p style='color: " + font_colour + "'>In this task, you'll have to decide which option you prefer.</p><p style='color: " + font_colour + "'>For example, you'll see two options: $30.00 in 3 days or $2.40 in 0 days (today).</p><p style='color: " + font_colour + "'>Choosing $30 days in 3 days means you'll wait 3 days so you can get $30. Choosing $2.40 means you will receive $2.40 today.</p><p style='color: " + font_colour + "'>You'll use the left/right arrow keys on the keyboard to indicate which option you prefer (left or right option, respectively).</p>", "<p style='color: " + font_colour + "'>Click next or press the right arrow key to begin.</p>"],
     show_clickable_nav: true,
     show_page_number: true,
 }; timeline.push(instructions);
 
 var trial = {
     type: "html-keyboard-response",
-    prompt: '<div style="transform: translateY(-130px); font-size: 15px;"> Press the <b>left</b> or <b>right</b> arrow key to indicate whether <br>you prefer the option on the left or right, respectively. </div>',
+    prompt: "<div style='transform: translateY(-130px); font-size: 15px; color: " + font_colour + "'> Press the <b>left</b> or <b>right</b> arrow key to indicate whether <br>you prefer the option on the left or right, respectively. </div>",
     choices: [37, 39],
     // post_trial_gap: random_choice(itis),
     timeline: [{
@@ -58,7 +70,7 @@ var trial = {
             };
             var text_or = "&nbsp;&nbsp;&nbsp; or &nbsp;&nbsp;&nbsp;";
             var text_right = "$" + small_reward.toFixed(2) + " in 0 days";
-            var text = text_left + text_or + text_right;
+            var text = "<font style='color: " + font_colour + "'>" + text_left + text_or + text_right + "</font>";
             return text;
         },
     }],
@@ -70,7 +82,7 @@ var trial = {
         data.small_reward = small_reward;
         data.n_trial = n_trial;
         data.n_trial_overall = n_trial_overall;
-        data.keypress = 'left'; //TODO: convert to keycode
+        data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press)
         n_trial += 1;
         n_trial_overall += 1;
         if (data.key_press == 37) {
@@ -92,9 +104,4 @@ var trial = {
     }
 }; timeline.push(trial);
 
-jsPsych.init({
-    timeline: timeline,
-    on_finish: function () {
-        jsPsych.data.displayData();
-    }
-});
+// generate_timeline(timeline);

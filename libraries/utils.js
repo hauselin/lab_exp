@@ -40,3 +40,13 @@ function random_choice(array) {
 function rep(x, times) {
   return Array.from({ length: times }).fill(x);
 }
+
+// generate timeline with the timeline array as the input
+function generate_timeline(timeline) {
+  jsPsych.init({
+    timeline: timeline,
+    on_finish: function () {
+        jsPsych.data.displayData();
+    }
+});
+}
