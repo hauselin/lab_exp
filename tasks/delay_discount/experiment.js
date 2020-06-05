@@ -6,15 +6,15 @@ var debug = false;
 
 // var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
 const large_reward = 100; //Large reward after cost.
-const quantile_range = [0.40, 0.60] //Quantiles within window to draw values from.
-const trials_per_cost = 5; //Number of trials per cost/delays.
-
-var small_reward = null;  //Small reward without cost.
 var costs = [2, 10, 15, 50, 100];  //costs in days.
 // var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
-costs = jsPsych.randomization.shuffle(costs);
+const trials_per_cost = 5; //Number of trials per cost/delays.
 
 // parameters below typically don't need to be changed
+var small_reward = null;  //Small reward without cost.
+const quantile_range = [0.40, 0.60] //Quantiles within window to draw values from.
+costs = jsPsych.randomization.shuffle(costs);
+
 var n_cost = 0;
 var n_trial = 0;
 var n_trial_overall = 0;
@@ -24,6 +24,8 @@ var reward_window = [0, large_reward];
 jsPsych.data.addProperties({
     subject: subject,
     condition: condition,
+    task: task,
+    experiment: experiment,
     browser: navigator.userAgent, // browser info
     datetime: Date(),
 });
@@ -98,6 +100,7 @@ var trial = {
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
+        jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
         jsPsych.data.displayData();
     }
 });
