@@ -98,6 +98,6 @@ var trial = {
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
-        jsPsych.data.displayData('csv');
+        jsPsych.data.displayData();
     }
 });
