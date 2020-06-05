@@ -51,7 +51,7 @@ function combine(a1, a2) {
     }
     return x;
 }
-// var symbols_min_max = [11, 16];
-// var difficulty_min_max = [1, 5];
-// var difficulty_steps = combine(difficulty_min_max, symbols_min_max);
-// difficulty_steps
+var symbols_min_max = [11, 16];
+var difficulty_min_max = [1, 5];
+var difficulty_steps = combine(difficulty_min_max, symbols_min_max);
+difficulty_steps

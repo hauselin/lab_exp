@@ -2,6 +2,7 @@ var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 var task = 'delay discounting';
 var experiment = 'delay discounting';
+var debug = false;
 
 // var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
 const large_reward = 100; //Large reward after cost.
@@ -31,7 +32,7 @@ var timeline = [];
 
 timeline.push({
     type: "fullscreen",
-    fullscreen_mode: true
+    fullscreen_mode: false
 });
 
 var instructions = {
@@ -82,8 +83,10 @@ var trial = {
         data.reward_window = [reward_window[0], reward_window[1]];
         indifference = (reward_window[0] + reward_window[1]) / 2;
         data.indifference = indifference;
-        // console.log(costs[n_cost])
-        // console.log(reward_window)
+        if (debug) {
+            console.log(costs[n_cost]);
+            console.log(reward_window);
+        }
         if (n_trial == trials_per_cost) { // after 5 trials, move to next cost/delay
             n_trial = 0; // reset trial counter
             n_cost += 1;
@@ -95,6 +98,6 @@ var trial = {
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
-        jsPsych.data.displayData();
+        jsPsych.data.displayData('csv');
     }
 });

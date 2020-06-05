@@ -6,7 +6,7 @@ var experiment = 'symbol counter';
 const trials = 2;               // the total number of trials 
 var reps = 5;                  // the number of symbols per trial
 const difficulty = 1;   // task difficult (1, 2, 3, 4, or 5; 5 is most difficult)
-var show_performance = true;  // if true, also show subject counts on feedback page
+var show_performance = false;  // if true, also show subject counts on feedback page
 var adaptive = false; // TODO: adaptive version not implemented yet
 
 var symbol_duration = 500;      // each symbol appears for this duration (ms) 
