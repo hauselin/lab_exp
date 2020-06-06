@@ -14,6 +14,7 @@ app.use(cors());                    // allow any host to access this app
 // FIND STATIC FILES
 app.use('/jsPsych', express.static(__dirname + "/jsPsych"));
 app.use(express.static(path.join(__dirname, 'tasks/symbol_counting')));
+app.use('/libraries', express.static(__dirname + "/libraries"));
 
 // ROUTING
 app.get('/', function(req, res) {

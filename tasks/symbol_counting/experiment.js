@@ -8,6 +8,7 @@ var curr_trials = 0;            // current number of trials
 const difficulty = 1;   // task difficult (1, 2, 3, 4, or 5; 5 is most difficult)
 var itis = iti_exponential(low = 400, high = 800);  // generate array of ITIs
 var current_trial = 0;
+var debug = false;
 
 var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task difficulty parameters
 
@@ -87,7 +88,9 @@ var symbols_sequence = {
         type: 'custom',
         fn: function (samples) {
             samples = determine_sequence(reps, samples, difficulty);
-            console.log(samples);
+            if (debug) {
+                console.log(samples);
+            }
             return samples;
         }
     }
@@ -109,7 +112,11 @@ var feedback = {
 };
 
 var trial = {
-    on_trial_start: console.log('New trial: ' + current_trial),
+    on_trial_start: function() {
+        if (debug) {
+            console.log('New trial: ' + current_trial);
+        }
+    },
     timeline: [fixation, symbols_sequence, feedback], // events in each trial
     repetitions: trials, // total number of trials to present
     on_trial_finish: function () {
