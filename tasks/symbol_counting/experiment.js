@@ -2,7 +2,7 @@ var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 var task = 'symbol counter';
 var experiment = 'symbol counter';
-var debug = false; 
+var debug = true; 
 
 const trials = 2;               // the total number of trials 
 var reps = 12;                  // the number of symbols per trial
@@ -88,6 +88,7 @@ function difficulty_calc(overall_acc) {
             symbol_duration += Math.floor(1000/60);
         }
     }
+    return reps, difficulty, symbol_duration;
 };
 
 var timeline = [];
