@@ -42,10 +42,10 @@ function determine_sequence(reps, symbols, trial_difficulty) {
 
 var timeline = [];
 
-// timeline.push({
-//     type: "fullscreen",
-//     fullscreen_mode: false
-// });
+timeline.push({
+    type: "fullscreen",
+    fullscreen_mode: true
+});
 
 var welcome = {
     type: "html-keyboard-response",
