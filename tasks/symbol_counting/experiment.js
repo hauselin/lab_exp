@@ -8,7 +8,7 @@ const trials = 2;               // the total number of trials
 var reps = 12;                  // the number of symbols per trial
 var difficulty = 1;   // task difficult (1, 2, 3, 4, or 5; 5 is most difficult)
 var show_performance = true;  // if true, also show subject counts on feedback page
-var adaptive = true; // TODO: adaptive version not implemented yet
+var adaptive = true; 
 
 var symbol_duration = 1000;      // each symbol appears for this duration (ms) 
 var fixation_duration = 500;  // fixation duration
@@ -78,7 +78,7 @@ function difficulty_calc(overall_acc) {
     } 
     else {
         // decrease reps, difficulty, increase time
-        if (reps > 1) {
+        if (reps > 11) {
             reps -= 1;
         }
         if (difficulty > 1) {

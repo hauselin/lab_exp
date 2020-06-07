@@ -1,8 +1,7 @@
 // LOAD MODULES 
 const express = require('express'); 
 const bodyParser = require('body-parser');
-const cors = require('cors');
-const morgan = require('morgan');
+const mongoose = require('mongoose');
 const path = require('path');       // GET THE CURRENT PATH
 const app = express();              // INSTANTIATE THE APP
 
