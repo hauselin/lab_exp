@@ -226,7 +226,7 @@ jsPsych.init({
         jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
         $.ajax({
             type: "POST",
-            url: "/submit-data", 
+            url: "/submit-symbol-data", 
             data: jsPsych.data.get().json(),
             contentType: "application/json"
         })
