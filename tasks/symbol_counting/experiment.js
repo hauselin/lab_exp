@@ -113,7 +113,7 @@ var symbols = [ // define symbols
 var fixation = { // define fixation
     type: "image-keyboard-response",
     // stimulus: "<div style='font-size:30px;'>&#9679</div>", // dot as fixation
-    stimulus: "stimuli/fixation_white.png", // dot as fixation
+    stimulus: "../../tasks/symbol_counting/fixation_white.png", // dot as fixation
     stimulus_height: 30,
     stimulus_width: 30,
     choices: jsPsych.NO_KEYS,

@@ -10,8 +10,7 @@ app.use(express.json());
 // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES
 app.use('/jsPsych', express.static(__dirname + "/jsPsych"));
 app.use('/libraries', express.static(__dirname + "/libraries"));
-app.use(express.static(path.join(__dirname + "/tasks/delay_discount")));
-app.use(express.static(path.join(__dirname + "/tasks/symbol_counting")));
+app.use('/tasks', express.static(__dirname + "/tasks"));
 
 // GET ACCESS TO THE ROUTES DEFINED IN ROUTES.JS
 require('./routes')(app, path)
