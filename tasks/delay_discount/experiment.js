@@ -101,6 +101,12 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
+        $.ajax({
+            type: "POST",
+            url: "/submit-delay-data", 
+            data: jsPsych.data.get().json(),
+            contentType: "application/json"
+        })
         jsPsych.data.displayData();
     }
 });
