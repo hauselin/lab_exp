@@ -13,18 +13,19 @@ var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 var task = 'delay discounting';
 var experiment = 'delay discounting';
+var debug = false;
 
 // var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
 const large_reward = 100; //Large reward after cost.
-const quantile_range = [0.40, 0.60] //Quantiles within window to draw values from.
+var costs = [2, 10, 15, 50, 100];  //costs in days.
+// var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
 const trials_per_cost = 5; //Number of trials per cost/delays.
 
+// parameters below typically don't need to be changed
 var small_reward = null;  //Small reward without cost.
-// var costs = [2, 10, 15, 50, 100];  //costs in days.
-var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
+const quantile_range = [0.40, 0.60] //Quantiles within window to draw values from.
 costs = jsPsych.randomization.shuffle(costs);
 
-// parameters below typically don't need to be changed
 var n_cost = 0;
 var n_trial = 0;
 var n_trial_overall = 0;
@@ -34,6 +35,8 @@ var reward_window = [0, large_reward];
 jsPsych.data.addProperties({
     subject: subject,
     condition: condition,
+    task: task,
+    experiment: experiment,
     browser: navigator.userAgent, // browser info
     datetime: Date(),
 });
@@ -42,8 +45,7 @@ var timeline = [];
 
 timeline.push({
     type: "fullscreen",
-    message: "<p style='color: " + font_colour + "'>The experiment will switch to full screen mode when you press the button below</p>",
-    fullscreen_mode: true
+    fullscreen_mode: false
 });
 
 var instructions = {
@@ -94,8 +96,10 @@ var trial = {
         data.reward_window = [reward_window[0], reward_window[1]];
         indifference = (reward_window[0] + reward_window[1]) / 2;
         data.indifference = indifference;
-        // console.log(costs[n_cost])
-        // console.log(reward_window)
+        if (debug) {
+            console.log(costs[n_cost]);
+            console.log(reward_window);
+        }
         if (n_trial == trials_per_cost) { // after 5 trials, move to next cost/delay
             n_trial = 0; // reset trial counter
             n_cost += 1;
@@ -104,4 +108,16 @@ var trial = {
     }
 }; timeline.push(trial);
 
-// generate_timeline(timeline);
+jsPsych.init({
+    timeline: timeline,
+    on_finish: function () {
+        jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
+        $.ajax({
+            type: "POST",
+            url: "/submit-delay-data", 
+            data: jsPsych.data.get().json(),
+            contentType: "application/json"
+        })
+        jsPsych.data.displayData();
+    }
+});

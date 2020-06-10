@@ -1,22 +1,19 @@
 // LOAD MODULES 
 const express = require('express'); 
 const bodyParser = require('body-parser');
-const cors = require('cors');
-const morgan = require('morgan');
-const path = require('path');       // GET THE CURRENT PATH
-const {sequelize} = require('./models')
-const config = require('./config/config');
-const app = express();              // INSTANTIATE THE APP
+const path = require('path');               // GET THE CURRENT PATH
+const app = express();                      // INSTANTIATE THE APP
 
-app.use(morgan('combine'));
-app.use(bodyParser.json());         // allow app to parse any json request 
-app.use(cors());                    // allow any host to access this app
+app.use(bodyParser.json());                 // allow app to parse any json request
+app.use(express.json());
 
-// FIND STATIC FILES
+// TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES
 app.use('/jsPsych', express.static(__dirname + "/jsPsych"));
-app.use(express.static(path.join(__dirname, 'tasks/symbol_counting')));
-    
-require('./routes')(app)
+app.use('/libraries', express.static(__dirname + "/libraries"));
+app.use('/tasks', express.static(__dirname + "/tasks"));
+
+// GET ACCESS TO THE ROUTES DEFINED IN ROUTES.JS
+require('./routes')(app, path)
 
 // START SERVER
 sequelize.sync().then(() => {

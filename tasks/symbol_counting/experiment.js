@@ -2,15 +2,16 @@ var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 var task = 'symbol counter';
 var experiment = 'symbol counter';
+var debug = true; 
 
 const trials = 2;               // the total number of trials 
-var reps = 5;                  // the number of symbols per trial
-const difficulty = 1;   // task difficult (1, 2, 3, 4, or 5; 5 is most difficult)
+var reps = 12;                  // the number of symbols per trial
+var difficulty = 1;   // task difficult (1, 2, 3, 4, or 5; 5 is most difficult)
 var show_performance = true;  // if true, also show subject counts on feedback page
-var adaptive = false; // TODO: adaptive version not implemented yet
+var adaptive = true; // TODO: adaptive version not implemented yet
 
-var symbol_duration = 500;      // each symbol appears for this duration (ms) 
-var fixation_duration = 500;  // fixation dduration
+var symbol_duration = 1000;      // each symbol appears for this duration (ms) 
+var fixation_duration = 500;  // fixation duration
 var itis = iti_exponential(low = 200, high = 500);  // generate array of ITIs
 
 // parameters below typically don't need to be changed
@@ -26,6 +27,8 @@ var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task diffic
 jsPsych.data.addProperties({
     subject: subject,
     condition: condition,
+    task: task,
+    experiment: experiment,
     browser: navigator.userAgent, // browser info
     datetime: Date(),
 });
@@ -60,12 +63,40 @@ function determine_sequence(reps, symbols, trial_difficulty, verbose) {
     return sequence;
 }
 
+// function to determine the level of difficulty of the next trial depending on the accuracy of the current trial
+function difficulty_calc(overall_acc) {
+    if (overall_acc > 0.5) {
+        // increase reps, difficulty, decrease time
+        if (reps < 17) {
+            reps += 1;
+        }
+        if (difficulty < 5) {
+            difficulty += 1;
+        }
+        if (symbol_duration >= 416)
+        symbol_duration -= Math.floor(1000/60); 
+    } 
+    else {
+        // decrease reps, difficulty, increase time
+        if (reps > 1) {
+            reps -= 1;
+        }
+        if (difficulty > 1) {
+            difficulty -= 1;
+        }
+        if (symbol_duration <= 984) {
+            symbol_duration += Math.floor(1000/60);
+        }
+    }
+    return reps, difficulty, symbol_duration;
+};
+
 var timeline = [];
 
-// timeline.push({
-//     type: "fullscreen",
-//     fullscreen_mode: false
-// });
+timeline.push({
+    type: "fullscreen",
+    fullscreen_mode: true
+});
 
 var instructions = {
     type: "instructions",
@@ -82,7 +113,7 @@ var symbols = [ // define symbols
 var fixation = { // define fixation
     type: "image-keyboard-response",
     // stimulus: "<div style='font-size:30px;'>&#9679</div>", // dot as fixation
-    stimulus: "stimuli/fixation_white.png", // dot as fixation
+    stimulus: "../../tasks/symbol_counting/fixation_white.png", // dot as fixation
     stimulus_height: 30,
     stimulus_width: 30,
     choices: jsPsych.NO_KEYS,
@@ -144,7 +175,9 @@ var response = { // collect response from subject
     on_finish: function (data) {
         // push last button press to responses array
         responses.push(parseInt(choices[parseInt(jsPsych.data.get().last(1).values()[0].button_pressed)]));
-        console.log(responses);
+        if (debug) {
+            console.log(responses);
+        }
         data.n_trial = n_trial;
     }
 };
@@ -176,11 +209,7 @@ var feedback = { // show feedback to subject
         data.acc = overall_acc;
         if (adaptive) {
             // TODO: update task parameters/difficulty based on this trial's overall_acc
-            if (overall_acc) {
-                // do stuff
-            } else {
-                // do stuff
-            }
+            reps, difficulty, symbol_duration = difficulty_calc(overall_acc);
         }
     }
 };
@@ -194,6 +223,13 @@ var trial = { // events in a trial
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
+        jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
+        $.ajax({
+            type: "POST",
+            url: "/submit-symbol-data", 
+            data: jsPsych.data.get().json(),
+            contentType: "application/json"
+        })
         jsPsych.data.displayData();
     }
 });
