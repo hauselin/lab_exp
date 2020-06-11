@@ -1,14 +1,4 @@
 const dark_background = false;
-if (dark_background){
-    // background_colour = "black";
-    document.body.style.backgroundColor = "black";
-    font_colour = "white";
-} else if (!dark_background){
-    // background_colour = "white";
-    document.body.style.backgroundColor = "white";
-    font_colour = "black";
-};
-
 var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 var task = 'delay discounting';
@@ -31,6 +21,16 @@ var n_trial = 0;
 var n_trial_overall = 0;
 var reward_window = [0, large_reward];
 
+if (dark_background){
+    // background_colour = "black";
+    document.body.style.backgroundColor = "black";
+    font_colour = "white";
+} else if (!dark_background){
+    // background_colour = "white";
+    document.body.style.backgroundColor = "white";
+    font_colour = "black";
+};
+
 // add data to all trials
 jsPsych.data.addProperties({
     subject: subject,
@@ -45,7 +45,7 @@ var timeline = [];
 
 timeline.push({
     type: "fullscreen",
-    fullscreen_mode: false
+    fullscreen_mode: true
 });
 
 var instructions = {
@@ -84,13 +84,13 @@ var trial = {
         data.small_reward = small_reward;
         data.n_trial = n_trial;
         data.n_trial_overall = n_trial_overall;
-        data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press)
+        data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press);
         n_trial += 1;
         n_trial_overall += 1;
-        if (data.key_press == 37) {
+        if (data.key_press == 'leftarrow') {
             reward_window[0] = small_reward;
         }
-        else if (data.key_press == 39) {
+        else if (data.key_press == 'rightarrow') {
             reward_window[1] = small_reward;
         }
         data.reward_window = [reward_window[0], reward_window[1]];
@@ -99,6 +99,7 @@ var trial = {
         if (debug) {
             console.log(costs[n_cost]);
             console.log(reward_window);
+            console.log(indifference);
         }
         if (n_trial == trials_per_cost) { // after 5 trials, move to next cost/delay
             n_trial = 0; // reset trial counter
@@ -108,16 +109,47 @@ var trial = {
     }
 }; timeline.push(trial);
 
+
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
-        $.ajax({
-            type: "POST",
-            url: "/submit-delay-data", 
-            data: jsPsych.data.get().json(),
-            contentType: "application/json"
-        })
+        // $.ajax({
+        //     type: "POST",
+        //     url: "/submit-delay-data", 
+        //     data: jsPsych.data.get().json(),
+        //     contentType: "application/json"
+        // })
+        jsPsych.data.get().addToAll({auc: get_auc()});
         jsPsych.data.displayData();
+        // var all_data = jsPsych.data.get().filter({trial_type: 'html-keyboard-response'}).localSave('json','data.json');
     }
 });
+
+function get_auc() {    //note that this area is an underestimation of the hyperbolic curve, as the width of the histogram bars are bounded by the lower cost and the entry's cost.
+    var curve_data = jsPsych.data.get().filter({trial_type: 'html-keyboard-response'}).ignore('rt').ignore('stimulus').ignore('key_press').ignore('trial_type').ignore('trial_index').ignore('time_elapsed').ignore('internal_node_id').ignore('subject').ignore('condition').ignore('task').ignore('experiment').ignore('browser').ignore('datetime').ignore('n_cost').ignore('large_reward').ignore('n_trial').ignore('n_trial_overall').ignore('reward_window').ignore('total_time');
+    // console.log(curve_data.localSave('csv','data.csv'));
+    var indifference_data = jsPsych.data.get().select('indifference').values;
+    var delayed_reward_data = jsPsych.data.get().select('small_reward').values;
+    var cost_data = jsPsych.data.get().select('cost').values;
+    var sorted_costs = costs.sort(function(a, b){return a - b});
+    // console.log(sorted_costs);
+    var bar_areas = [];
+    for (i = 0; i < costs.length; i++) {
+        last_trial_index = i * trials_per_cost + (trials_per_cost - 1);
+        var height = indifference_data[last_trial_index] / delayed_reward_data[last_trial_index];
+        // console.log(height);
+        if (sorted_costs.indexOf(cost_data[last_trial_index]) == 0) {
+            var width = cost_data[last_trial_index];
+            // console.log(width); //this value should always be the smallest value on the costs array, and it should only appear once.
+        } else {
+            width = cost_data[last_trial_index] - sorted_costs[sorted_costs.indexOf(cost_data[last_trial_index]) - 1];
+            // console.log(width);
+        }
+        bar_areas.push(width * height);
+    }
+    // console.log(bar_areas);
+    return bar_areas.reduce(function(a, b){
+        return a + b;
+    }, 0);
+}

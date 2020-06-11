@@ -55,3 +55,37 @@ var symbols_min_max = [11, 16];
 var difficulty_min_max = [1, 5];
 var difficulty_steps = combine(difficulty_min_max, symbols_min_max);
 difficulty_steps
+
+// generate mental math updating array
+function number_update(array1, array2, n_distractors){
+    var output = [];
+    var correct = '';
+    for (i = 0; i < array1.length; i++) {
+        if (i < array2.length){
+            var correct_num = array1[i] + array2[i];
+            if (correct_num < 0) {
+                correct_num = 0
+            }
+            correct = correct.concat(correct_num.toString());
+        } else {
+            var correct_num = array1[i] + array2[array2.length - 1];
+            if (correct_num < 0) {
+                correct_num = 0
+            }
+            correct = correct.concat(correct_num.toString());
+        }
+    }
+    output.push(correct);
+    for (i = 0; i < n_distractors; i++) {
+        var distractor = '';
+        for (j = 0; j < correct.length; j++) {
+            var distractor_num = Number(correct.charAt(j)) + (Math.floor(Math.random() * 3) + -1);
+            if (distractor_num < 0) {
+                distractor_num = Number(correct.charAt(j)) + (Math.floor(Math.random() * 2));
+            }
+            distractor = distractor.concat(distractor_num.toString());
+        }
+        output.push(distractor);
+    }
+    return output;
+}
