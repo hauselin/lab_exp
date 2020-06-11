@@ -1,122 +1,136 @@
-var subject = jsPsych.randomization.randomID(15);
+var subject = jsPsych.randomization.randomID(15); // random character subject id
+var condition = 'control'; // experiment/task condition
+var task = 'stroop';
+var experiment = 'stroop';
+var debug = true;
+var no_incongruent_neighbors = true;
+var show_feedback = true; // TODO: if true, show feedback (show accuracy and rt)
+var adaptive = true; // TODO: if true, adapt task difficulty (reduce rt_deadline if correct; increase rt_deadlline if wrong; by 50 ms)
 
-const trial_duration = 1500;
-const choices = [
-    'red',
-    'green',
-    'blue'
+// TODO: make background black, instructions white
+
+var rt_deadline = 5000;
+var fixation_duration = 300;
+var feedback_duration = 1000;
+var itis = iti_exponential(low = 300, high = 700);
+
+var color_key = { 'red': 'r', 'green': 'g', 'yellow': 'y' }; // color-key mapping
+var stimuli_unique = [  // unique stroop trials
+    { text: 'red', color: 'red', data: { trialtype: 'congruent', reps: 2 } },
+    { text: 'green', color: 'green', data: { trialtype: 'congruent', reps: 2 } },
+    { text: 'yellow', color: 'yellow', data: { trialtype: 'congruent', reps: 2 } },
+    { text: 'red', color: 'green', data: { trialtype: 'incongruent', reps: 1 } },
+    { text: 'red', color: 'yellow', data: { trialtype: 'incongruent', reps: 1 } },
+    { text: 'green', color: 'red', data: { trialtype: 'incongruent', reps: 1 } },
+    { text: 'green', color: 'yellow', data: { trialtype: 'incongruent', reps: 1 } },
+    { text: 'yellow', color: 'red', data: { trialtype: 'incongruent', reps: 1 } },
+    { text: 'yellow', color: 'green', data: { trialtype: 'incongruent', reps: 1 } },
+    { text: 'xxxx', color: 'red', data: { trialtype: 'neutral', reps: 2 } },
+    { text: 'xxxx', color: 'green', data: { trialtype: 'neutral', reps: 2 } },
+    { text: 'xxxx', color: 'yellow', data: { trialtype: 'neutral', reps: 2 } }
 ];
-const congruent_trials = 5;
-const incongruent_trials = 2;   // precondition: incongruent_trials <= (congruent_trials + neutral_trials + 1).
-const neutral_trials = 5;
-// warning from jsPsych documentation: if you provide an array that has very few valid permutations with no neighboring elements, then this method will fail and cause the browser to hang.
-const neutral_prompt = 'any colour';
-const dark_background = false;
-var itis = iti_exponential(low = 200, high = 500);
 
-if (dark_background){
-    document.body.style.backgroundColor = "black";
-    font_colour = "white";
-} else if (!dark_background){
-    document.body.style.backgroundColor = "white";
-    font_colour = "black";
-};
+// parameters below typically don't need to be changed
+var stimuli_repetitions = [2, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2];
+// repeat each stimulus reps times
+var stimuli_shuffled = jsPsych.randomization.repeat(stimuli_unique, stimuli_repetitions);  // repeat and shuffle
+if (no_incongruent_neighbors) { // ensure incongruent stimuli aren't presented consecutively
+    function equality_test(a, b) {
+        if (a.trialtype != 'incongruent') {
+            return false;  // ignore if it's not incongruent trialtype
+        } else {
+            return a.trialtype === b.trialtype;  // return true if neighbors are both incongruent
+        }
+    }
+    var stimuli_shuffled = jsPsych.randomization.shuffleNoRepeats(stimuli_shuffled, equality_test);
+}
+if (debug) { console.log(stimuli_shuffled); }
 
-var slow_response = null;
-
+// add data to all trials
 jsPsych.data.addProperties({
     subject: subject,
-    browser: navigator.userAgent,
+    condition: condition,
+    task: task,
+    experiment: experiment,
+    browser: navigator.userAgent, // browser info
     datetime: Date(),
 });
 
-function generate_variables(congruency, incongruency, neutrality) {
-    mutable_choices = choices.slice();
-    variables = [];
-    for (i = 0; i < congruency; i++) {
-        colour = random_choice(choices);
-        variables.push({colour: colour, text: colour, incongruency: false});
-    }
-    for (i = 0; i < incongruency; i++) {
-        colour = random_choice(choices);
-        mutable_choices.splice(choices.indexOf(colour), 1);
-        text = random_choice(mutable_choices);
-        variables.push({colour: colour, text: text, incongruency: true});
-        mutable_choices = choices.slice();
-    }
-    for (i = 0; i < neutrality; i++) {
-        colour = random_choice(choices);
-        variables.push({colour: colour, text: neutral_prompt, incongruency: false});
-    }
-    // console.log(variables);
-    return jsPsych.randomization.shuffleNoRepeats(variables, function(before, after) {
-        return before.incongruency && after.incongruency;
-    });
-}
-// console.log(generate_variables(congruent_trials, incongruent_trials, neutral_trials));
+var timeline = [];
 
-const variable_array = generate_variables(congruent_trials, incongruent_trials, neutral_trials);
-var variable_index = 0;
-var stimulus_and_response = {
-    type: 'html-keyboard-response',
-    choices: ['r', 'g', 'b'],
-    trial_duration: trial_duration,
-    response_ends_trial: false,
-    timeline: [{
-        stimulus: function(){
-            text_stimulus = variable_array[variable_index].text;
-            colour_stimulus = variable_array[variable_index].colour;
-            return '<p style="font-size: 48px; color: ' + colour_stimulus +'">' + text_stimulus +'</p>';
-        }
-    }],
-    on_finish: function (data) {
-        data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press)
-        data.text_stimulus = text_stimulus;
-        data.colour_stimulus = colour_stimulus;
-        data.correctness = (data.key_press == data.colour_stimulus.substring(0, 1));
-        if(data.key_press){
-            slow_response = false;
-        } else if(!data.key_press){
-            slow_response = true;
-        }
-        data.slow_response = slow_response;
-        variable_index++;
-    }
-};
+var n_trial = 0; // stroop trial number counter
 
-var slow_response_feedback = {
-    type: 'html-keyboard-response',
+var fixation = {
+    type: "html-keyboard-response",
     choices: jsPsych.NO_KEYS,
-    timeline: [{
-        stimulus: function() {
-            if (slow_response){
-                return '<p style="font-size: 48px; color: ' + font_colour +'">Response is too slow.</p>';
-            } else if (!slow_response){
-                return '';}},
-        trial_duration: function() {
-            if (slow_response){
-                return 1000;
-            } else if (!slow_response){
-                return 0;}},
-        },
-    ]
+    stimulus: "+", // TODO show the fixation image instead (see symbol counting task; image-keyboard-response)
+    trial_duration: fixation_duration,
+    data: { event: 'fixation' },
+    on_finish: function (data) {
+        data.n_trial = 0;
+    },
 };
 
-timeline = [];
-for (i = 0; i < (congruent_trials + incongruent_trials + neutral_trials); i++) {
-    timeline.push({
-        type: 'html-keyboard-response',
-        stimulus: '<p style="font-size: 48px; color: ' + font_colour +'">+</p>',
-        choices: jsPsych.NO_KEYS,
-        trial_duration: random_choice(itis),
-    });
-    timeline.push(stimulus_and_response);
-    timeline.push(slow_response_feedback);
+var correct_key = ''; // correct key on each trial
+var stimulus = {
+    type: "html-keyboard-response",
+    choices: Object.values(color_key),
+    stimulus: function () {
+        var text = jsPsych.timelineVariable('text', true);
+        var color = jsPsych.timelineVariable('color', true);
+        var trialtype = jsPsych.timelineVariable('data', true).trialtype;
+        correct_key = color_key[jsPsych.timelineVariable('color', true)];
+        if (debug) {
+            console.log("trial " + n_trial + "; text: " + text + "; color: " + color + "; " + trialtype + ' (correct key: ' + correct_key + ")");
+        }
+        text_html = "<font style='color:" + color + "'>" + text + "</font>"; // TODO: make font size bigger
+        return text_html;
+    },
+    trial_duration: rt_deadline,
+    data: jsPsych.timelineVariable('data'),
+    on_finish: function (data) {
+        data.event = 'stimulus';
+        data.text = jsPsych.timelineVariable('text', true);
+        data.color = jsPsych.timelineVariable('color', true);
+        data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press);
+        data.n_trial = n_trial;
+        if (data.key_press == correct_key) {
+            data.acc = 1;
+        } else {
+            data.acc = 0;
+        };
+        if (debug) {
+            console.log("response: " + data.key_press);
+        };
+        n_trial += 1;
+    },
 }
+
+var feedback = { // TODO: show feedback if var feedback is true (if correct, "correct, 456 ms"; if wrong, "wrong, 600 ms"; if no response, "respond faster")
+    type: "html-keyboard-response",
+    stimulus: function () {
+        return 'show feedback';
+    },
+    choices: jsPsych.NO_KEYS,
+    trial_duration: feedback_duration,
+}
+
+var trial_sequence = {
+    timeline: [fixation, stimulus, feedback],
+    timeline_variables: stimuli_shuffled,
+};
+timeline.push(trial_sequence);
 
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
+        jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
+        // $.ajax({
+        //     type: "POST",
+        //     url: "/submit-data",
+        //     data: jsPsych.data.get().json(),
+        //     contentType: "application/json"
+        // })
         jsPsych.data.displayData();
     }
 });
