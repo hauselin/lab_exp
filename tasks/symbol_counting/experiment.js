@@ -2,7 +2,7 @@ var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 var task = 'symbol counter';
 var experiment = 'symbol counter';
-var debug = true; 
+var debug = true;
 
 const trials = 2;               // the total number of trials 
 var reps = 12;                  // the number of symbols per trial
@@ -19,7 +19,7 @@ var n_trial = -1; // current trial number counter
 var n_rep = 0; // current rep counter
 var n_dollar = 0;
 var n_hash = 0;
-var choices = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+var choices = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14'];
 var responses = [];  // subject's response on each trial $ and #
 var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task difficulty parameters
 
@@ -74,8 +74,8 @@ function difficulty_calc(overall_acc) {
             difficulty += 1;
         }
         if (symbol_duration >= 416)
-        symbol_duration -= Math.floor(1000/60); 
-    } 
+            symbol_duration -= Math.floor(1000 / 60);
+    }
     else {
         // decrease reps, difficulty, increase time
         if (reps > 1) {
@@ -85,7 +85,7 @@ function difficulty_calc(overall_acc) {
             difficulty -= 1;
         }
         if (symbol_duration <= 984) {
-            symbol_duration += Math.floor(1000/60);
+            symbol_duration += Math.floor(1000 / 60);
         }
     }
     return reps, difficulty, symbol_duration;
@@ -135,7 +135,7 @@ var symbols_sequence = { // determine sequence of symbols within a trial
             type: "html-keyboard-response",
             stimulus: jsPsych.timelineVariable("symbol"),
             choices: jsPsych.NO_KEYS,
-            trial_duration: symbol_duration,
+            trial_duration: function () { return symbol_duration }, // function is needed to dynamically change value on each trial
             post_trial_gap: 500,
             data: { event: 'symbol' },
             on_finish: function (data) {
@@ -146,6 +146,10 @@ var symbols_sequence = { // determine sequence of symbols within a trial
                 data.n_dollar = n_dollar;
                 n_hash = jsPsych.data.get().filter({ stimulus: symbols[1]['symbol'], n_trial: n_trial }).count();
                 data.n_hash = n_hash;
+                if (debug) {
+                    console.log("n_dollar: " + n_dollar);
+                    console.log("n_hash: " + n_hash);
+                }
             }
         }
     ],
@@ -226,7 +230,7 @@ jsPsych.init({
         jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
         $.ajax({
             type: "POST",
-            url: "/submit-symbol-data", 
+            url: "/submit-symbol-data",
             data: jsPsych.data.get().json(),
             contentType: "application/json"
         })

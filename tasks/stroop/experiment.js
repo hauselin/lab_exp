@@ -6,12 +6,13 @@ var debug = true;
 var no_incongruent_neighbors = true;
 var show_feedback = true; // TODO: will explain this feature next time
 var adaptive = true; // TODO: if true, adapt task difficulty (reduce rt_deadline if correct; increase rt_deadlline if wrong; by 50 ms)
+var fullscreen = false;
 
 // TODO: make background black, instructions white
 
-var rt_deadline = 5000;
+var rt_deadline = 1000;
 var fixation_duration = 300;
-var feedback_duration = 1000;
+var feedback_duration = 750;
 var itis = iti_exponential(low = 300, high = 700);
 
 // unique stroop trials
@@ -68,7 +69,11 @@ jsPsych.data.addProperties({
     datetime: Date(),
 });
 
+// TODO: add fullscreen
+
 var timeline = [];
+
+var instructions = {};  // TODO add welcome page and other pages for task instructions (then add to trial_sequence timeline)
 
 var n_trial = 0; // stroop trial number counter
 
@@ -99,19 +104,27 @@ var stimulus = {
         text_html = "<font style='color:" + color + "'>" + text + "</font>"; // TODO: make font size bigger 
         return text_html;
     },
-    trial_duration: rt_deadline,
+    trial_duration: function () { return rt_deadline; },
     data: jsPsych.timelineVariable('data'),  // all data inside the 'data' attribute of our timeline variable (stimuli_shuffled) will be saved to the json file
     on_finish: function (data) {
         data.event = 'stimulus';
         data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press);
         data.n_trial = n_trial;
+        data.rt_deadline = rt_deadline;
         if (data.key_press == correct_key) {
             data.acc = 1;
         } else {
             data.acc = 0;
         };
+        if (adaptive) {
+            if (data.acc == 1) {
+                rt_deadline -= 50; // TODO: algorithm: reduce rt_deadline if last two trials' acc == 1 (i.e., sum of the last two trial's acc == 2), but make sure rt_deadline is never lower than 200
+            } else if (data.acc == 0) {
+                rt_deadline += 50; // increase rt_deadline by 50 ms if acc == 0
+            };
+        }
         if (debug) {
-            console.log("response: " + data.key_press + "; acc: " + data.acc);
+            console.log("response: " + data.key_press + "; acc: " + data.acc + "; next trial rt_deadline: " + rt_deadline);
         };
         n_trial += 1;
         current_iti = random_choice(itis);  // select an iti for this trial (to be presented later)
