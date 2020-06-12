@@ -104,7 +104,7 @@ var stimulus = {
         text_html = "<font style='color:" + color + "'>" + text + "</font>"; // TODO: make font size bigger 
         return text_html;
     },
-    trial_duration: function () { return rt_deadline; },
+    trial_duration: function () { return rt_deadline; }, // function is needed to dynamically change value on each trial
     data: jsPsych.timelineVariable('data'),  // all data inside the 'data' attribute of our timeline variable (stimuli_shuffled) will be saved to the json file
     on_finish: function (data) {
         data.event = 'stimulus';

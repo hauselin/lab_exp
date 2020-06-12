@@ -67,14 +67,13 @@ function determine_sequence(reps, symbols, trial_difficulty, verbose) {
 function difficulty_calc(overall_acc) {
     if (overall_acc > 0.5) {
         // increase reps, difficulty, decrease time
-        if (reps < 17) {
+        if (reps < 17) { // TODO: implement the "correct" algorithm
             reps += 1;
         }
         if (difficulty < 5) {
             difficulty += 1;
         }
-        if (symbol_duration >= 416)
-            symbol_duration -= Math.floor(1000 / 60);
+        symbol_duration = Math.max(symbol_duration - 1000 / 60, 400);
     }
     else {
         // decrease reps, difficulty, increase time
@@ -84,9 +83,7 @@ function difficulty_calc(overall_acc) {
         if (difficulty > 1) {
             difficulty -= 1;
         }
-        if (symbol_duration <= 984) {
-            symbol_duration += Math.floor(1000 / 60);
-        }
+        symbol_duration = Math.min(symbol_duration + 1000 / 60, 1000);
     }
     return reps, difficulty, symbol_duration;
 };
