@@ -29,6 +29,7 @@ jsPsych.data.addProperties({
     condition: condition,
     task: task,
     experiment: experiment,
+    adaptive: adaptive,
     browser: navigator.userAgent, // browser info
     datetime: Date(),
 });
