@@ -14,24 +14,34 @@ var fixation_duration = 300;
 var feedback_duration = 1000;
 var itis = iti_exponential(low = 300, high = 700);
 
-var color_key = { 'red': 'r', 'green': 'g', 'yellow': 'y' }; // color-key mapping
+// unique stroop trials
+// reps: how many times to repeat that object/stimulus
 var stimuli_unique = [  // unique stroop trials
-    { text: 'red', color: 'red', data: { trialtype: 'congruent', reps: 2 } },
-    { text: 'green', color: 'green', data: { trialtype: 'congruent', reps: 2 } },
-    { text: 'yellow', color: 'yellow', data: { trialtype: 'congruent', reps: 2 } },
-    { text: 'red', color: 'green', data: { trialtype: 'incongruent', reps: 1 } },
-    { text: 'red', color: 'yellow', data: { trialtype: 'incongruent', reps: 1 } },
-    { text: 'green', color: 'red', data: { trialtype: 'incongruent', reps: 1 } },
-    { text: 'green', color: 'yellow', data: { trialtype: 'incongruent', reps: 1 } },
-    { text: 'yellow', color: 'red', data: { trialtype: 'incongruent', reps: 1 } },
-    { text: 'yellow', color: 'green', data: { trialtype: 'incongruent', reps: 1 } },
-    { text: 'xxxx', color: 'red', data: { trialtype: 'neutral', reps: 2 } },
-    { text: 'xxxx', color: 'green', data: { trialtype: 'neutral', reps: 2 } },
-    { text: 'xxxx', color: 'yellow', data: { trialtype: 'neutral', reps: 2 } }
+    { data: { text: 'red', color: 'red', trialtype: 'congruent', reps: 2 } },
+    { data: { text: 'green', color: 'green', trialtype: 'congruent', reps: 3 } },
+    { data: { text: 'yellow', color: 'yellow', trialtype: 'congruent', reps: 4 } },
+    { data: { text: 'red', color: 'green', trialtype: 'incongruent', reps: 1 } },
+    { data: { text: 'red', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
+    { data: { text: 'green', color: 'red', trialtype: 'incongruent', reps: 1 } },
+    { data: { text: 'green', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
+    { data: { text: 'yellow', color: 'red', trialtype: 'incongruent', reps: 1 } },
+    { data: { text: 'yellow', color: 'green', trialtype: 'incongruent', reps: 1 } },
+    { data: { text: 'xxxx', color: 'red', trialtype: 'neutral', reps: 2 } },
+    { data: { text: 'xxxx', color: 'green', trialtype: 'neutral', reps: 2 } },
+    { data: { text: 'xxxx', color: 'yellow', trialtype: 'neutral', reps: 2 } }
 ];
 
+var color_key = { 'red': 'r', 'green': 'g', 'yellow': 'y' }; // color-key mapping
+
 // parameters below typically don't need to be changed
-var stimuli_repetitions = [2, 2, 2, 1, 1, 1, 1, 1, 1, 2, 2, 2];
+var stimuli_repetitions = [];
+for (i = 0; i < stimuli_unique.length; i++) {
+    stimuli_repetitions.push(stimuli_unique[i].data.reps);
+}
+if (debug) {
+    console.log(stimuli_repetitions);
+}
+
 // repeat each stimulus reps times
 var stimuli_shuffled = jsPsych.randomization.repeat(stimuli_unique, stimuli_repetitions);  // repeat and shuffle
 if (no_incongruent_neighbors) { // ensure incongruent stimuli aren't presented consecutively
@@ -72,26 +82,25 @@ var fixation = {
 };
 
 var correct_key = ''; // correct key on each trial
+var current_iti = 0;
 var stimulus = {
     type: "html-keyboard-response",
     choices: Object.values(color_key),
     stimulus: function () {
-        var text = jsPsych.timelineVariable('text', true);
-        var color = jsPsych.timelineVariable('color', true);
+        var text = jsPsych.timelineVariable('data', true).text;
+        var color = jsPsych.timelineVariable('data', true).color;
         var trialtype = jsPsych.timelineVariable('data', true).trialtype;
-        correct_key = color_key[jsPsych.timelineVariable('color', true)];
+        correct_key = color_key[color];
         if (debug) {
-            console.log("trial " + n_trial + "; text: " + text + "; color: " + color + "; " + trialtype + ' (correct key: ' + correct_key + ")");
+            console.log("trial " + n_trial + "; text: " + text + "; color: " + color + "; " + trialtype + ' (correct key: ' + correct_key + ")"); // TODO: use your font function eventually....
         }
-        text_html = "<font style='color:" + color + "'>" + text + "</font>"; // TODO: make font size bigger
+        text_html = "<font style='color:" + color + "'>" + text + "</font>"; // TODO: make font size bigger 
         return text_html;
     },
     trial_duration: rt_deadline,
     data: jsPsych.timelineVariable('data'),
     on_finish: function (data) {
         data.event = 'stimulus';
-        data.text = jsPsych.timelineVariable('text', true);
-        data.color = jsPsych.timelineVariable('color', true);
         data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press);
         data.n_trial = n_trial;
         if (data.key_press == correct_key) {
@@ -100,9 +109,11 @@ var stimulus = {
             data.acc = 0;
         };
         if (debug) {
-            console.log("response: " + data.key_press);
+            console.log("response: " + data.key_press + "; acc: " + data.acc);
         };
         n_trial += 1;
+        current_iti = random_choice(itis);
+        data.iti = current_iti;
     },
 }
 
@@ -113,11 +124,13 @@ var feedback = { // TODO: show feedback if var feedback is true (if correct, "co
     },
     choices: jsPsych.NO_KEYS,
     trial_duration: feedback_duration,
+    data: { event: "feedback" },
 }
 
 var trial_sequence = {
     timeline: [fixation, stimulus, feedback],
     timeline_variables: stimuli_shuffled,
+    post_trial_gap: current_iti,
 };
 timeline.push(trial_sequence);
 
