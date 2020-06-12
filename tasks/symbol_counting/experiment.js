@@ -22,6 +22,11 @@ var n_hash = 0;
 var choices = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14'];
 var responses = [];  // subject's response on each trial $ and #
 var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task difficulty parameters
+var difficulty_min_max = [1, 5];  // difficulty ranges from 1 to 5
+var reps_min_max = [11, 16]; // reps range from 11 to 16
+var difficulty_steps = combine(difficulty_min_max, reps_min_max);
+var current_idx = 0;
+var current_difficulty;
 
 // add data to all trials
 jsPsych.data.addProperties({
@@ -62,32 +67,40 @@ function determine_sequence(reps, symbols, trial_difficulty, verbose) {
         console.log(sequence);
     }
     return sequence;
+};
+
+// function that creates a nested array of [switch intensity, reps]
+function combine(a1, a2) {
+    let x = [];
+    for (let i = a1[0]; i <= a1[1]; i++) {
+        for (let j = a2[0]; j <= a2[1]; j++) {
+            x.push([i, j]);
+        }
+    }
+    return x;
 }
 
 // function to determine the level of difficulty of the next trial depending on the accuracy of the current trial
 function difficulty_calc(overall_acc) {
     if (overall_acc > 0.5) {
-        // increase reps, difficulty, decrease time
-        if (reps < 17) { // TODO: implement the "correct" algorithm
-            reps += 1;
+        if (current_idx < difficulty_steps.length-1) {
+            current_idx += 1;
         }
-        if (difficulty < 5) {
-            difficulty += 1;
-        }
-        symbol_duration = Math.max(symbol_duration - 1000 / 60, 400);
+        difficulty = difficulty_steps[current_idx][0];
+        reps = difficulty_steps[current_idx][1];
+        symbol_duration = Math.max(symbol_duration - 1000/60, 400);
     }
     else {
-        // decrease reps, difficulty, increase time
-        if (reps > 1) {
-            reps -= 1;
+        if (current_idx > 0) {
+            current_idx -= 1;
         }
-        if (difficulty > 1) {
-            difficulty -= 1;
-        }
+        difficulty = difficulty_steps[current_idx][0];
+        reps = difficulty_steps[current_idx][1];
         symbol_duration = Math.min(symbol_duration + 1000 / 60, 1000);
     }
     return reps, difficulty, symbol_duration;
-};
+}
+
 
 var timeline = [];
 
@@ -212,6 +225,9 @@ var feedback = { // show feedback to subject
         if (adaptive) {
             // TODO: update task parameters/difficulty based on this trial's overall_acc
             reps, difficulty, symbol_duration = difficulty_calc(overall_acc);
+            console.log(reps);
+            console.log(difficulty);
+            console.log(symbol_duration);
         }
     }
 };

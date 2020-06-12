@@ -16,7 +16,5 @@ app.use('/tasks', express.static(__dirname + "/tasks"));
 require('./routes')(app, path)
 
 // START SERVER
-sequelize.sync().then(() => {
-    app.listen(config.port);
-    console.log(`Server started on port ${config.port}`)
-})
+app.listen(8080);
+console.log("Server started on port 8080");
