@@ -4,7 +4,7 @@ var task = 'stroop';
 var experiment = 'stroop';
 var debug = true;
 var no_incongruent_neighbors = true;
-var show_feedback = true; // TODO: if true, show feedback (show accuracy and rt)
+var show_feedback = true; // TODO: will explain this feature next time
 var adaptive = true; // TODO: if true, adapt task difficulty (reduce rt_deadline if correct; increase rt_deadlline if wrong; by 50 ms)
 
 // TODO: make background black, instructions white
@@ -16,6 +16,7 @@ var itis = iti_exponential(low = 300, high = 700);
 
 // unique stroop trials
 // reps: how many times to repeat that object/stimulus
+// objects have the data field because that allows jsPsych to store all the data automatically
 var stimuli_unique = [  // unique stroop trials
     { data: { text: 'red', color: 'red', trialtype: 'congruent', reps: 2 } },
     { data: { text: 'green', color: 'green', trialtype: 'congruent', reps: 3 } },
@@ -35,6 +36,7 @@ var color_key = { 'red': 'r', 'green': 'g', 'yellow': 'y' }; // color-key mappin
 
 // parameters below typically don't need to be changed
 var stimuli_repetitions = [];
+// extract the value of the reps attribute in the stimuli_unique array
 for (i = 0; i < stimuli_unique.length; i++) {
     stimuli_repetitions.push(stimuli_unique[i].data.reps);
 }
@@ -82,14 +84,14 @@ var fixation = {
 };
 
 var correct_key = ''; // correct key on each trial
-var current_iti = 0;
+var current_iti = 0; // iti on each trial
 var stimulus = {
     type: "html-keyboard-response",
-    choices: Object.values(color_key),
+    choices: Object.values(color_key), // get all the values (drop the keys) in the object color_key
     stimulus: function () {
-        var text = jsPsych.timelineVariable('data', true).text;
-        var color = jsPsych.timelineVariable('data', true).color;
-        var trialtype = jsPsych.timelineVariable('data', true).trialtype;
+        var text = jsPsych.timelineVariable('data', true).text;  // e.g., stimulus_shuffled[i].data.text
+        var color = jsPsych.timelineVariable('data', true).color; // e.g., stimulus_shuffled[i].data.color 
+        var trialtype = jsPsych.timelineVariable('data', true).trialtype;  // e.g., stimulus_shuffled[i].data.trialtype
         correct_key = color_key[color];
         if (debug) {
             console.log("trial " + n_trial + "; text: " + text + "; color: " + color + "; " + trialtype + ' (correct key: ' + correct_key + ")"); // TODO: use your font function eventually....
@@ -98,7 +100,7 @@ var stimulus = {
         return text_html;
     },
     trial_duration: rt_deadline,
-    data: jsPsych.timelineVariable('data'),
+    data: jsPsych.timelineVariable('data'),  // all data inside the 'data' attribute of our timeline variable (stimuli_shuffled) will be saved to the json file
     on_finish: function (data) {
         data.event = 'stimulus';
         data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press);
@@ -112,12 +114,12 @@ var stimulus = {
             console.log("response: " + data.key_press + "; acc: " + data.acc);
         };
         n_trial += 1;
-        current_iti = random_choice(itis);
-        data.iti = current_iti;
+        current_iti = random_choice(itis);  // select an iti for this trial (to be presented later)
+        data.iti = current_iti; // save iti in data
     },
 }
 
-var feedback = { // TODO: show feedback if var feedback is true (if correct, "correct, 456 ms"; if wrong, "wrong, 600 ms"; if no response, "respond faster")
+var feedback = { // TODO: if correct (acc > 0), "correct, 456 ms"; if wrong (acc < 1), "wrong, 600 ms"; if no response (rt === null && acc < 1), "respond faster"
     type: "html-keyboard-response",
     stimulus: function () {
         return 'show feedback';
@@ -128,9 +130,9 @@ var feedback = { // TODO: show feedback if var feedback is true (if correct, "co
 }
 
 var trial_sequence = {
-    timeline: [fixation, stimulus, feedback],
-    timeline_variables: stimuli_shuffled,
-    post_trial_gap: current_iti,
+    timeline: [fixation, stimulus, feedback], // one timeline/trial has these objects
+    timeline_variables: stimuli_shuffled, // the above timeline/trial is repeated stimuli_shuffled.length times
+    post_trial_gap: current_iti,  // present iti after one timeline/trial
 };
 timeline.push(trial_sequence);
 
