@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/jspsych', 
-{ useUnifiedTopology: true, useNewUrlParser: true });
+mongoose.connect('mongodb://localhost/jspsych',
+    { useUnifiedTopology: true, useNewUrlParser: true });
 
-var symbolSchema = new mongoose.Schema({}, { strict: false });
-var DataCollection = mongoose.model('DataCollection', symbolSchema);
+var jspsychDataSchema = new mongoose.Schema({}, { strict: false });
+var DataCollection = mongoose.model('DataCollection', jspsychDataSchema);
 
 module.exports = {
     create(req, res) {
