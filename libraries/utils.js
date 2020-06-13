@@ -41,7 +41,7 @@ function rep(x, times) {
     return Array.from({ length: times }).fill(x);
 }
 
-
+// function to create all possible combinations of two arrays of INT
 function combine(a1, a2) {
     let x = [];
     for (let i = a1[0]; i <= a1[1]; i++) {
@@ -51,10 +51,6 @@ function combine(a1, a2) {
     }
     return x;
 }
-var symbols_min_max = [11, 16];
-var difficulty_min_max = [1, 5];
-var difficulty_steps = combine(difficulty_min_max, symbols_min_max);
-difficulty_steps
 
 // generate mental math updating array
 function number_update(array1, array2, n_distractors) {
