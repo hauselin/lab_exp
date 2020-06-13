@@ -29,7 +29,6 @@ var difficulty_min_max = [1, 5];  // difficulty ranges from 1 to 5
 var reps_min_max = [11, 17]; // reps range from 11 to 16
 var difficulty_steps = combine(difficulty_min_max, reps_min_max);
 var current_idx = 0;
-var current_difficulty;
 
 // add data to all trials
 jsPsych.data.addProperties({
@@ -161,6 +160,9 @@ var symbols_sequence = { // determine sequence of symbols within a trial
                 data.n_dollar = n_dollar;
                 n_hash = jsPsych.data.get().filter({ stimulus: symbols[1]['symbol'], n_trial: n_trial }).count();
                 data.n_hash = n_hash;
+                data.rep = reps;
+                data.difficulty = difficulty;
+                data.symbol_duration = symbol_duration;
                 if (debug) {
                     console.log("n_dollar: " + n_dollar);
                     console.log("n_hash: " + n_hash);
@@ -226,6 +228,9 @@ var feedback = { // show feedback to subject
         data.acc_dollar = acc_dollar;
         data.acc_hash = acc_hash;
         data.acc = overall_acc;
+        data.rep = reps;
+        data.difficulty = difficulty;
+        data.symbol_duration = symbol_duration;
         if (adaptive) {
             reps, difficulty, symbol_duration = difficulty_calc(overall_acc);
         }
