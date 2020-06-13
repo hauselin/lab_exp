@@ -114,12 +114,12 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
-        // $.ajax({
-        //     type: "POST",
-        //     url: "/submit-delay-data", 
-        //     data: jsPsych.data.get().json(),
-        //     contentType: "application/json"
-        // })
+        $.ajax({
+            type: "POST",
+            url: "/submit-data", 
+            data: jsPsych.data.get().json(),
+            contentType: "application/json"
+        })
         jsPsych.data.get().addToAll({auc: get_auc()});
         jsPsych.data.displayData();
         // var all_data = jsPsych.data.get().filter({trial_type: 'html-keyboard-response'}).localSave('json','data.json');
