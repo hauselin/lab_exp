@@ -12,7 +12,6 @@ module.exports = function(app, path) {
 
 
     // POST REQUESTS
-    app.post('/submit-symbol-data', DataController.create);
-    app.post('/submit-delay-data', DataController.create);
+    app.post('/submit-data', DataController.create);
 
 }
