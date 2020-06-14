@@ -113,5 +113,5 @@ function generate_similar_numbers(array, n_distractors) {
         };
         v += 1;
     };
-    return shuffle(result.slice(0, n_distractors));
+    return [array].concat(shuffle(result.slice(0, n_distractors))); // [array + distractors]
 }
