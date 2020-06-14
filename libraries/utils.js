@@ -71,22 +71,12 @@ function number_update(array1, array2) {
     var str_output = '';
     for (i = 0; i < array1.length; i++) {
         if (array2.length < array1.length) {
-            try {
-                if (array2[0] > 9) throw "high";
-                if (array2[0] < -9) throw "low";
-            }
-            catch (err) {
-                return "number in array2 is too " + err;
-            }
+            if (array2[0] > 9) throw "number in array2 must be < 10";
+            if (array2[0] < -9) throw "number in array2 must be > -10";
             var correct_num = array1[i] + array2[0]; // if array2 is shorter than array1, always add the first element of array2 to each element in array1
         } else if (array1.length == array2.length) {
-            try {
-                if (array2[i] > 9) throw "high";
-                if (array2[i] < -9) throw "low";
-            }
-            catch (err) {
-                return "number " + (i + 1).toString() + " in array2 is too " + err;
-            }
+            if (array2[i] > 9) throw "number in array2 must be < 10";
+            if (array2[i] < -9) throw "number in array2 must be > -10";
             var correct_num = array1[i] + array2[i];
         };
         if (correct_num < 0) {
@@ -102,7 +92,6 @@ function number_update(array1, array2) {
 
 // create distractors/wrong responses
 function generate_similar_numbers(array, n_distractors) {
-    var n_distractors = 30; // n distractors
     var result = [];
     var v = 1; // distractor's difference from correct answer, changes with each additional distractor
     while (result.length < n_distractors) { // loop stops when the result array is full
