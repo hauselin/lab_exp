@@ -7,9 +7,9 @@ var debug = false;
 
 // var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
 const large_reward = 100; //Large reward after cost.
-var costs = [2, 10, 15, 50, 100];  //costs in days.
+var costs = [2, 10, 15, 50, 100, 100];  //costs in days.
 // var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
-const trials_per_cost = 5; //Number of trials per cost/delays.
+const trials_per_cost = 6; //Number of trials per cost/delays.
 
 // parameters below typically don't need to be changed
 var small_reward = null;  //Small reward without cost.
@@ -96,16 +96,16 @@ var trial = {
         data.reward_window = [reward_window[0], reward_window[1]];
         indifference = (reward_window[0] + reward_window[1]) / 2;
         data.indifference = indifference;
-        if (debug) {
-            console.log(costs[n_cost]);
-            console.log(reward_window);
-            console.log(indifference);
-        }
         if (n_trial == trials_per_cost) { // after 5 trials, move to next cost/delay
             n_trial = 0; // reset trial counter
             n_cost += 1;
             reward_window = [0, large_reward]; // reset reward window
-        }
+        };
+        if (debug) {
+            console.log('this trial indifference: ' + indifference);
+            console.log('next trial cost: ' + costs[n_cost]);
+            console.log('next trial reward window: ' + reward_window);
+        };
     }
 }; timeline.push(trial);
 
