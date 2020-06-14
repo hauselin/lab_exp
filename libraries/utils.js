@@ -53,7 +53,7 @@ function combine(a1, a2) {
 }
 
 // generate mental math updating array
-function number_update(array1, array2, n_distractors) {
+function number_update(array1, array2, n_distractors, distractor_range=1) { // new parameter distractor_range that specifies the range that each digit in the distractor can differ from the correct answer
     var output = [];
     var correct = '';
     // determine correct response
@@ -63,21 +63,38 @@ function number_update(array1, array2, n_distractors) {
         } else if (array1.length == array2.length) {
             var correct_num = array1[i] + array2[i];
         }
-        if (correct_num < 0) {
-            correct_num = 0; // TODO: fix algorithm
+        if (correct_num >=0) {
+            correct = correct.concat(correct_num.toString().charAt(correct_num.toString().length - 1)); // concat string integers
+        } else {
+            correct = correct.concat('-', correct_num.toString().charAt(correct_num.toString().length - 1));
         }
-        correct = correct.concat(correct_num.toString()); // concat string integers
     }
     output.push(correct);
     // create distractors/wrong responses
     for (i = 0; i < n_distractors; i++) {
         var distractor = '';
         for (j = 0; j < correct.length; j++) {
-            var distractor_num = Number(correct.charAt(j)) + (Math.floor(Math.random() * 3) + -1); // hm? next time explain to me the logic of this?
-            if (distractor_num < 0) {
-                distractor_num = Number(correct.charAt(j)) + (Math.floor(Math.random() * 2));
+            if (j > 0 && (correct.charAt(j) != '-')) {
+                if (correct.charAt(j - 1) != '-') {
+                    var distractor_num = Number(correct.charAt(j)) + (Math.floor(Math.random() * (1 + 2 * distractor_range)) + -1 * (distractor_range)); // makes one of the digits for a distractor by adding a random integer between 0 and 2 (inclusive) to -1, making the overall difference +/-1
+                    distractor_num = distractor_num.toString();
+                    if (distractor_num >= 0) {
+                        distractor = distractor.concat(distractor_num.charAt(distractor_num.length - 1));
+                    } else {
+                        distractor = distractor.concat('-', distractor_num.charAt(distractor_num.length - 1));
+                    }
+                } else {
+                    var distractor_num = -Number(correct.charAt(j)) + (Math.floor(Math.random() * (1 + 2 * distractor_range)) + -1 * (distractor_range)); // makes one of the digits for a distractor by adding a random integer between 0 and 2 (inclusive) to -1, making the overall difference +/-1
+                    distractor_num = distractor_num.toString();
+                    // console.log(distractor_num);
+                    if (distractor_num.charAt(0) != '-') {
+                        distractor = distractor.concat(distractor_num.charAt(distractor_num.length - 1));
+                    } else {
+                        distractor = distractor.concat('-', distractor_num.charAt(distractor_num.length - 1));
+                    }
+                    console.log(distractor)
+                }
             }
-            distractor = distractor.concat(distractor_num.toString());
         }
         output.push(distractor);
     }
