@@ -80,12 +80,12 @@ function number_update(array1, array2) {
             var correct_num = array1[i] + array2[i];
         };
         if (correct_num < 0) {
-            correct_num = 10 - Number(correct_num.toString().charAt(correct_num.toString().length - 1));
+            correct_num += 10;
         } else if (correct_num > 9) {
-            correct_num = Number(correct_num.toString().charAt(correct_num.toString().length - 1));
+            correct_num -= 10;
         }
         str_output = str_output.concat(correct_num.toString()); // concat string integers
-        array_output.push(correct_num)
+        array_output.push(correct_num);
     }
     return [array_output, str_output]
 }
