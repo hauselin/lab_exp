@@ -2,7 +2,7 @@ var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 var task = 'symbol counter';
 var experiment = 'symbol counter';
-var debug = false;
+var debug = true;
 var fullscreen = true;
 
 const trials = 200;               // the total number of trials 
@@ -27,8 +27,14 @@ var responses = [];  // subject's response on each trial $ and #
 var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task difficulty parameters
 var difficulty_min_max = [1, 5];  // difficulty ranges from 1 to 5
 var reps_min_max = [11, 17]; // reps range from 11 to 16
-var difficulty_steps = combine(difficulty_min_max, reps_min_max);
-var current_idx = 0;
+var difficulty_steps = combine(difficulty_min_max, reps_min_max); // array of arrays of [difficulty, reps]
+var current_idx = 1; // start at "level 2" difficulty (i.e., index 1 of difficulty_steps)
+
+if (debug) {
+    console.log("difficulty_steps");
+    console.log(difficulty_steps);
+    console.log("current difficulty_step: " + difficulty_steps[current_idx]);
+}
 
 // add data to all trials
 jsPsych.data.addProperties({
@@ -69,7 +75,7 @@ function determine_sequence(reps, symbols, trial_difficulty, verbose) {
         console.log(sequence);
     }
     return sequence;
-};
+}
 
 // function that creates a nested array of [switch intensity, reps]
 function combine(a1, a2) {
@@ -83,7 +89,7 @@ function combine(a1, a2) {
 }
 
 // function to determine the level of difficulty of the next trial depending on the accuracy of the current trial
-function difficulty_calc(overall_acc) {
+function update_difficulty(overall_acc) {
     if (overall_acc > 0.5) {
         if (current_idx < difficulty_steps.length - 1) {
             current_idx += 1;
@@ -100,7 +106,6 @@ function difficulty_calc(overall_acc) {
         reps = difficulty_steps[current_idx][1];
         symbol_duration = Math.min(symbol_duration + 1000 / 60 * 2, 1000); // increase symbol duration (max 400 ms)
     }
-    return reps, difficulty, symbol_duration;
 }
 
 var timeline = [];
@@ -140,6 +145,9 @@ var fixation = { // define fixation
         n_rep = -1;  // reset symbol repeition counter
         n_trial += 1;
         data.n_trial = n_trial; // save current trial
+        if (debug) {
+            console.log("trial " + n_trial);
+        }
     },
 };
 
@@ -232,7 +240,7 @@ var feedback = { // show feedback to subject
         data.difficulty = difficulty;
         data.symbol_duration = symbol_duration;
         if (adaptive) {
-            reps, difficulty, symbol_duration = difficulty_calc(overall_acc);
+            update_difficulty(overall_acc);
         }
         if (debug) {
             console.log(reps);
