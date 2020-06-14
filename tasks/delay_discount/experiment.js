@@ -21,11 +21,11 @@ var n_trial = 0;
 var n_trial_overall = 0;
 var reward_window = [0, large_reward];
 
-if (dark_background){
+if (dark_background) {
     // background_colour = "black";
     document.body.style.backgroundColor = "black";
     font_colour = "white";
-} else if (!dark_background){
+} else if (!dark_background) {
     // background_colour = "white";
     document.body.style.backgroundColor = "white";
     font_colour = "black";
@@ -45,7 +45,7 @@ var timeline = [];
 
 timeline.push({
     type: "fullscreen",
-    fullscreen_mode: true
+    fullscreen_mode: false
 });
 
 var instructions = {
@@ -116,40 +116,37 @@ jsPsych.init({
         jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
         $.ajax({
             type: "POST",
-            url: "/submit-data", 
+            url: "/submit-data",
             data: jsPsych.data.get().json(),
             contentType: "application/json"
         })
-        jsPsych.data.get().addToAll({auc: get_auc()});
+        jsPsych.data.get().addToAll({ auc: get_auc() });
         jsPsych.data.displayData();
         // var all_data = jsPsych.data.get().filter({trial_type: 'html-keyboard-response'}).localSave('json','data.json');
     }
 });
 
 function get_auc() {    //note that this area is an underestimation of the hyperbolic curve, as the width of the histogram bars are bounded by the lower cost and the entry's cost.
-    var curve_data = jsPsych.data.get().filter({trial_type: 'html-keyboard-response'}).ignore('rt').ignore('stimulus').ignore('key_press').ignore('trial_type').ignore('trial_index').ignore('time_elapsed').ignore('internal_node_id').ignore('subject').ignore('condition').ignore('task').ignore('experiment').ignore('browser').ignore('datetime').ignore('n_cost').ignore('large_reward').ignore('n_trial').ignore('n_trial_overall').ignore('reward_window').ignore('total_time');
+    // var curve_data = jsPsych.data.get().filter({trial_type: 'html-keyboard-response'}).ignore('rt').ignore('stimulus').ignore('key_press').ignore('trial_type').ignore('trial_index').ignore('time_elapsed').ignore('internal_node_id').ignore('subject').ignore('condition').ignore('task').ignore('experiment').ignore('browser').ignore('datetime').ignore('n_cost').ignore('large_reward').ignore('n_trial').ignore('n_trial_overall').ignore('reward_window').ignore('total_time');
     // console.log(curve_data.localSave('csv','data.csv'));
-    var indifference_data = jsPsych.data.get().select('indifference').values;
-    var delayed_reward_data = jsPsych.data.get().select('small_reward').values;
-    var cost_data = jsPsych.data.get().select('cost').values;
-    var sorted_costs = costs.sort(function(a, b){return a - b});
-    // console.log(sorted_costs);
+    var trial_data = jsPsych.data.get().filter({ n_trial: (trials_per_cost - 1) });
+    var indifference_data = trial_data.select('indifference').values;
+    var delayed_reward_data = trial_data.select('large_reward').values;
+    var cost_data = trial_data.select('cost').values;
+    var sorted_costs = cost_data.slice(0, cost_data.length).sort(function (a, b) { return a - b });  // sort a sliced copy of cost_data (try to keep things local as much as we can, so we avoid using the global costs variable) 
     var bar_areas = [];
-    for (i = 0; i < costs.length; i++) {
-        last_trial_index = i * trials_per_cost + (trials_per_cost - 1);
-        var height = indifference_data[last_trial_index] / delayed_reward_data[last_trial_index];
-        // console.log(height);
-        if (sorted_costs.indexOf(cost_data[last_trial_index]) == 0) {
-            var width = cost_data[last_trial_index];
-            // console.log(width); //this value should always be the smallest value on the costs array, and it should only appear once.
-        } else {
-            width = cost_data[last_trial_index] - sorted_costs[sorted_costs.indexOf(cost_data[last_trial_index]) - 1];
-            // console.log(width);
+    // compute area for each cost
+    for (i = 0; i < sorted_costs.length; i++) {
+        var height = indifference_data[i] / delayed_reward_data[i]; // in this task, elements in delay_reward_data have the same value
+        if (sorted_costs.indexOf(cost_data[i]) == 0) { // width of first (leftmost) bar
+            var width = cost_data[i] / Math.max(...sorted_costs);
+        } else {  // width of the second bar onwards 
+            var width = (cost_data[i] - sorted_costs[sorted_costs.indexOf(cost_data[i]) - 1]) / Math.max(...sorted_costs);
         }
         bar_areas.push(width * height);
     }
-    // console.log(bar_areas);
-    return bar_areas.reduce(function(a, b){
+    console.log(bar_areas);
+    return bar_areas.reduce(function (a, b) { // sum values in array
         return a + b;
     }, 0);
 }

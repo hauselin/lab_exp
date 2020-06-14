@@ -62,10 +62,13 @@ function number_update(array1, array2, n_distractors) {
             var correct_num = array1[i] + array2[0]; // if array2 is shorter than array1, always add the first element of array2 to each element in array1
         } else if (array1.length == array2.length) {
             var correct_num = array1[i] + array2[i];
-        }
+        };
         if (correct_num < 0) {
-            correct_num = 0; // TODO: fix algorithm
+            correct_num += 10;
+        } else if (correct_num > 9) {
+            correct_num -= 10;
         }
+        console.log(correct_num);
         correct = correct.concat(correct_num.toString()); // concat string integers
     }
     output.push(correct);
