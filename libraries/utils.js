@@ -74,7 +74,7 @@ function logit(x) {
 }
 
 /**
- * Fit ez-diffusion model
+ * Fit ez-drift diffusion model (ezddm)
  * @param  {Number} prop_correct proportion correct (0 to 1.0)
  * @param  {Number} rt_correct_variance_s correct responses reaction time (rt) variance in seconds
  * @param  {Number} rt_correct_mean_s correct responses mean reaction time (rt) in seconds
@@ -84,7 +84,6 @@ function logit(x) {
 function ezddm(prop_correct, rt_correct_variance_s, rt_correct_mean_s, n_trials) {
     var s = 0.1; // scaling parameter
     var s2 = s ** 2; // variance 
-    console.log(n_trials)
 
     if (prop_correct < 0.00001) {
         var a = Number.NaN;
