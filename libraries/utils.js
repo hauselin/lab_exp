@@ -74,7 +74,7 @@ function logit(x) {
 }
 
 /**
- * Add two numbers together
+ * Fit ez-diffusion model
  * @param  {Number} prop_correct proportion correct (0 to 1.0)
  * @param  {Number} rt_correct_variance_s correct responses reaction time (rt) variance in seconds
  * @param  {Number} rt_correct_mean_s correct responses mean reaction time (rt) in seconds
