@@ -3,7 +3,7 @@ var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 var task = 'delay discounting';
 var experiment = 'delay discounting';
-var debug = false;
+var debug = true;
 var fullscreen = false;
 
 // var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
@@ -32,12 +32,19 @@ if (dark_background) {
     font_colour = "black";
 };
 
+var reverse_sides = Math.random() > 0.5; // randomly determine whether to switch large/small reward sides
+var stimuli_sides = "left_large_right_small";
+if (reverse_sides) {
+    stimuli_sides = "left_small_right_large";
+}
+
 // add data to all trials
 jsPsych.data.addProperties({
     subject: subject,
     condition: condition,
     task: task,
     experiment: experiment,
+    stimuli_sides: stimuli_sides,
     browser: navigator.userAgent, // browser info
     datetime: Date(),
 });
@@ -76,6 +83,9 @@ var trial = {
             var text_or = "&nbsp;&nbsp;&nbsp; or &nbsp;&nbsp;&nbsp;";
             var text_right = "$" + small_reward.toFixed(2) + " in 0 days";
             var text = "<font style='color: " + font_colour + "'>" + text_left + text_or + text_right + "</font>";
+            if (reverse_sides) { // switch left text to right and vice versa
+                text = "<font style='color: " + font_colour + "'>" + text_right + text_or + text_left + "</font>";
+            }
             return text;
         },
     }],
@@ -91,12 +101,22 @@ var trial = {
         n_trial += 1;
         n_trial_overall += 1;
         if (data.key_press == 'leftarrow') {
-            reward_window[0] = small_reward;
-            data.choice = 1;
+            if (reverse_sides) {
+                reward_window[1] = small_reward;
+                data.choice = 0; // 0: smaller reward chosen, 1: larger reward chosen
+            } else {
+                reward_window[0] = small_reward;
+                data.choice = 1;
+            }
         }
         else if (data.key_press == 'rightarrow') {
-            reward_window[1] = small_reward;
-            data.choice = 0;
+            if (reverse_sides) {
+                reward_window[0] = small_reward;
+                data.choice = 1;
+            } else {
+                reward_window[1] = small_reward;
+                data.choice = 0;
+            }
         }
         data.reward_window = [reward_window[0], reward_window[1]];
         indifference = (reward_window[0] + reward_window[1]) / 2;
