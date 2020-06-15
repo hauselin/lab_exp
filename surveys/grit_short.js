@@ -16,9 +16,9 @@ var grit_procedure = {
             stimulus: jsPsych.timelineVariable('remark'), 
             labels: ['Very much like me', 'Mostly like me', 'Somewhat like me', 
                 'Not much like me', 'Not like me at all'],
-            slider_width: 900, 
-            start: 0, 
-            step: 25
+            slider_width: 900, // width of the slider in pixels 
+            start: 0,          // starting value of the slider
+            step: 25           // step of the slider, the amount by which the slider moves back and forth
         }
     ], 
     timeline_variables: [
