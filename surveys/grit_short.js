@@ -6,7 +6,9 @@ var grit_procedure = {
             labels: ['Very much like me', 'Mostly like me', 'Somewhat like me', 
                 'Not much like me', 'Not like me at all'],
             require_movement: true, 
-            slider_width: 900
+            slider_width: 900, 
+            start: 0, 
+            step: 25
         }
     ], 
     timeline_variables: [
@@ -22,8 +24,6 @@ var grit_procedure = {
         
     ]
 };
-
-
 
 jsPsych.init({
     timeline: [grit_procedure],
