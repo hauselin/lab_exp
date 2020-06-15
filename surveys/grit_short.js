@@ -1,3 +1,6 @@
+// var response_legend = {0: 'Very much like me', 25: 'Mostly like me', 50: 'Somewhat like me', 
+//                         75: 'Not much like me', 100: 'Not like me at all'};
+
 var grit_procedure = {
     timeline: [
         {
@@ -19,7 +22,6 @@ var grit_procedure = {
         {remark: "<p>Setbacks don't discourage me.</p>"},
         {remark: '<p>I am diligent.</p>'}, 
         {remark: '<p>I am a hard worker.</p>'},
-        {remark: '<p>New ideas and projects sometimes distract me from previous ones.</p>'}
         
     ]
 };
@@ -27,6 +29,14 @@ var grit_procedure = {
 jsPsych.init({
     timeline: [grit_procedure],
     on_finish: function() {
+        jsPsych.data.displayData();
+        jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
+        $.ajax({
+            type: "POST",
+            url: "/submit-data",
+            data: jsPsych.data.get().json(),
+            contentType: "application/json"
+        })
         jsPsych.data.displayData();
     }
 })
