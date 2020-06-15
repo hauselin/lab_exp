@@ -11,6 +11,7 @@ app.use(express.json());
 app.use('/jsPsych', express.static(__dirname + "/jsPsych"));
 app.use('/libraries', express.static(__dirname + "/libraries"));
 app.use('/tasks', express.static(__dirname + "/tasks"));
+app.use('/surveys', express.static(__dirname + "/surveys"))
 
 // GET ACCESS TO THE ROUTES DEFINED IN ROUTES.JS
 require('./routes')(app, path)

@@ -9,6 +9,9 @@ module.exports = function(app, path) {
     app.get('/symbol-counting', function(req, res) {
         res.sendFile(path.join(__dirname + '/tasks/symbol_counting/experiment.html'));
     });
+    app.get('/grit_short', function(req, res) {
+        res.sendFile(path.join(__dirname + '/surveys/grit_short.html'))
+    })
 
 
     // POST REQUESTS
