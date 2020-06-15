@@ -1,6 +1,14 @@
 // var response_legend = {0: 'Very much like me', 25: 'Mostly like me', 50: 'Somewhat like me', 
 //                         75: 'Not much like me', 100: 'Not like me at all'};
 
+var task = 'grit survey';
+
+jsPsych.data.addProperties({
+    task: task,
+    browser: navigator.userAgent, // browser info
+    datetime: Date(),
+});
+
 var grit_procedure = {
     timeline: [
         {
