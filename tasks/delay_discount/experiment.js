@@ -4,10 +4,11 @@ var condition = 'control'; // experiment/task condition
 var task = 'delay discounting';
 var experiment = 'delay discounting';
 var debug = false;
+var fullscreen = false;
 
 // var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
 const large_reward = 100; //Large reward after cost.
-var costs = [2, 10, 15, 50, 100, 100];  //costs in days.
+var costs = [2, 10, 15, 50, 100];  //costs in days.
 // var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
 const trials_per_cost = 6; //Number of trials per cost/delays.
 
@@ -43,10 +44,12 @@ jsPsych.data.addProperties({
 
 var timeline = [];
 
-timeline.push({
-    type: "fullscreen",
-    fullscreen_mode: false
-});
+if (fullscreen) {
+    timeline.push({
+        type: "fullscreen",
+        fullscreen_mode: true
+    });
+}
 
 var instructions = {
     type: "instructions",
@@ -89,9 +92,11 @@ var trial = {
         n_trial_overall += 1;
         if (data.key_press == 'leftarrow') {
             reward_window[0] = small_reward;
+            data.choice = 1;
         }
         else if (data.key_press == 'rightarrow') {
             reward_window[1] = small_reward;
+            data.choice = 0;
         }
         data.reward_window = [reward_window[0], reward_window[1]];
         indifference = (reward_window[0] + reward_window[1]) / 2;
