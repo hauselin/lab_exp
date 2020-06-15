@@ -64,54 +64,46 @@ function shuffle(a) {
     return a;
 }
 
-// generate mental math updating array
-// determine correct response
-function number_update(array1, array2) {
-    var array_output = [];
-    var str_output = '';
-    for (i = 0; i < array1.length; i++) {
-        if (array2.length < array1.length) {
-            if (array2[0] > 9) throw "number in array2 must be < 10";
-            if (array2[0] < -9) throw "number in array2 must be > -10";
-            var correct_num = array1[i] + array2[0]; // if array2 is shorter than array1, always add the first element of array2 to each element in array1
-        } else if (array1.length == array2.length) {
-            if (array2[i] > 9) throw "number in array2 must be < 10";
-            if (array2[i] < -9) throw "number in array2 must be > -10";
-            var correct_num = array1[i] + array2[i];
-        };
-        if (correct_num < 0) {
-            correct_num += 10;
-        } else if (correct_num > 9) {
-            correct_num -= 10;
-        }
-        str_output = str_output.concat(correct_num.toString()); // concat string integers
-        array_output.push(correct_num);
-    }
-    return [array_output, str_output]
+
+function logistic(x, mean = 0, scale = 1) {
+    return 1 / (1 + Math.exp(-(x - mean) / scale));
 }
 
-// create distractors/wrong responses
-function generate_similar_numbers(array, n_distractors) {
-    var result = [];
-    var v = 1; // distractor's difference from correct answer, changes with each additional distractor
-    while (result.length < n_distractors) { // loop stops when the result array is full
-        for (i = 0; i < array.length; i++) { // iterate through the different indeces of different distractors
-            result.push(array.slice(0, array.length));
-            result.push(array.slice(0, array.length)); // append two copies of the correct answer into the result
-            var y = array[i] // y is a copy of the correct answer's digit at different indeces
-            var y_plus = y + v;
-            var y_minus = y - v;
-            if (y_plus > 9) {
-                y_plus -= 10;
-            };
-            if (y_minus < 0) {
-                y_minus += 10;
-            };
-            result[result.length - 1][i] = y_plus;
-            result[result.length - 2][i] = y_minus; // the two copies undergo different changes at the same index.
-            // in the next iteration, newly pushed distractors change at the next index, but the same locations for the previous iteration's distractors do not change.
-        };
-        v += 1;
-    };
-    return [array].concat(shuffle(result.slice(0, n_distractors))); // [array + distractors]
+function logit(x) {
+    return Math.log(x / (1 - x));
+}
+
+/**
+ * Add two numbers together
+ * @param  {Number} prop_correct proportion correct (0 to 1.0)
+ * @param  {Number} rt_correct_variance_s correct responses reaction time (rt) variance in seconds
+ * @param  {Number} rt_correct_mean_s correct responses mean reaction time (rt) in seconds
+ * @param  {Number} n_trials number of trials 
+ * @return {Object} object containing boundary, drift, and nondecisiontime properties
+ */
+function ezddm(prop_correct, rt_correct_variance_s, rt_correct_mean_s, n_trials) {
+    var s = 0.1; // scaling parameter
+    var s2 = s ** 2; // variance 
+    console.log(n_trials)
+
+    if (prop_correct < 0.00001) {
+        var a = Number.NaN;
+        var v = Number.NaN;
+        var ndt = Number.NaN;
+        console.log("Proportion correct is 0. Cannot determine parameters D:");
+    } else if (prop_correct == 0.5) {
+        prop_correct += 0.00001;
+        console.log("Proportion correct is close to chance performance (0.5); drift will be close to 0.");
+    } else if (prop_correct > 0.9999) {
+        prop_correct = 1 - (1 / (2 * n_trials));
+        console.log("Proportion correct is 1. Edge correction has been applied.");
+    }
+    var l = logit(prop_correct);
+    var x = l * (l * prop_correct ** 2 - l * prop_correct + prop_correct - 0.5) / rt_correct_variance_s;
+    var v = Math.sign(prop_correct - 0.5) * s * x ** (1 / 4); // drift rate parameter
+    var a = s2 * logit(prop_correct) / v; // boundary parameter
+    var y = -v * a / s2;
+    var mdt = (a / (2 * v)) * (1 - Math.exp(y)) / (1 + Math.exp(y)); // mean decision time
+    var ndt = rt_correct_mean_s - mdt; // non-decision time parameter
+    return { boundary: a, drift: v, nondecisiontime: ndt };
 }
