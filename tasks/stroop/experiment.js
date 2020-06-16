@@ -7,20 +7,20 @@ var no_incongruent_neighbors = true;
 var show_feedback = true; // TODO: will explain this feature next time
 var adaptive = true; // TODO: if true, adapt task difficulty (reduce rt_deadline if correct; increase rt_deadlline if wrong; by 50 ms)
 var fullscreen = false;
-var dark_background = false;
+var dark_background = true;
 
-if (dark_background){
+if (dark_background) {
     document.body.style.backgroundColor = "black";
     font_colour = "white";
-} else if (!dark_background){
+} else if (!dark_background) {
     document.body.style.backgroundColor = "white";
     font_colour = "black";
 };
 
-var rt_deadline = 1000;
+var rt_deadline = 1500;
 var fixation_duration = 300;
-var feedback_duration = 750;
-var itis = iti_exponential(low = 300, high = 700);
+var feedback_duration = 1500;
+var itis = iti_exponential(low = 300, high = 800);
 
 // unique stroop trials
 // reps: how many times to repeat that object/stimulus
@@ -77,26 +77,24 @@ jsPsych.data.addProperties({
     datetime: Date(),
 });
 
-// TODO: add fullscreen
-
 var timeline = [];
 
 if (fullscreen) {
     timeline.push({
         type: "fullscreen",
         fullscreen_mode: true,
-        message: generate_html("The experiment will switch to full screen mode when you press the button below",font_colour)
+        message: generate_html("The experiment will switch to full screen mode when you press the button below", font_colour)
     });
 }
 
 var instructions = {
     type: "instructions",
     pages: [
-        generate_html("Welcome!",font_colour) + generate_html("Click next or press the right arrow key to proceed.",font_colour),
-        generate_html("In this task, you'll have to select the correct font colour for each of the words shown.",font_colour) + generate_html("If you see red coloured text, press 'r'; if you see blue coloured text, press 'b'; if you see yellow coloured text, press 'y';",font_colour),
-        generate_html("For example, you'll see:",font_colour) + generate_html("red", "red") + generate_html("And the correct response would be pressing 'r'.",font_colour),
-        generate_html("You have a limited amount of time to respond to each prompted word, so react quickly!",font_colour),
-        generate_html("Click next or press the right arrow key to begin.",font_colour)
+        generate_html("Welcome!", font_colour) + generate_html("Click next or press the right arrow key to proceed.", font_colour),
+        generate_html("In this task, you'll have to select the correct font colour for each of the words shown.", font_colour) + generate_html("If you see red coloured text, press 'r'; if you see blue coloured text, press 'b'; if you see yellow coloured text, press 'y';", font_colour),
+        generate_html("For example, you'll see:", font_colour) + generate_html("red", "red") + generate_html("And the correct response would be pressing 'r'.", font_colour),
+        generate_html("You have a limited amount of time to respond to each prompted word, so react quickly!", font_colour),
+        generate_html("Click next or press the right arrow key to begin.", font_colour)
     ],
     show_clickable_nav: true,
     show_page_number: true,
@@ -108,13 +106,19 @@ var n_trial = 0; // stroop trial number counter
 var fixation = {
     type: "image-keyboard-response",
     choices: jsPsych.NO_KEYS,
-    stimulus: "../../tasks/stroop/fixation_white.png",
+    stimulus: function () {
+        if (dark_background) {
+            return "../../tasks/stroop/fixation_black.png"
+        } else {
+            return "../../tasks/stroop/fixation_white.png"
+        }
+    },
     stimulus_height: 30,
     stimulus_width: 30,
     trial_duration: fixation_duration,
     data: { event: 'fixation' },
     on_finish: function (data) {
-        data.n_trial = 0;
+        data.n_trial = n_trial;
     },
 };
 
@@ -129,9 +133,9 @@ var stimulus = {
         var trialtype = jsPsych.timelineVariable('data', true).trialtype;  // e.g., stimulus_shuffled[i].data.trialtype
         correct_key = color_key[color];
         if (debug) {
-            console.log("trial " + n_trial + "; text: " + text + "; color: " + color + "; " + trialtype + ' (correct key: ' + correct_key + ")"); // TODO: use your font function eventually....
+            console.log("trial " + n_trial + "; text: " + text + "; color: " + color + "; " + trialtype + ' (correct key: ' + correct_key + ")");
         }
-        text_html = generate_html(text, color, [0,0], 150); // TODO: make font size bigger 
+        text_html = generate_html(text, color, 100);
         return text_html;
     },
     trial_duration: function () { return rt_deadline; }, // function is needed to dynamically change value on each trial
@@ -146,9 +150,16 @@ var stimulus = {
         } else {
             data.acc = 0;
         };
-        if (adaptive) {
-            if (data.acc == 1) {
-                rt_deadline -= 50; // TODO: algorithm: reduce rt_deadline if last two trials' acc == 1 (i.e., sum of the last two trial's acc == 2), but make sure rt_deadline is never lower than 200
+        if (debug) {
+            console.log("Accuracies so far: " + jsPsych.data.get().filter({ "event": "stimulus" }).select('acc').values);
+        }
+        if (adaptive && n_trial > 0) {
+            var previoustrials_acc = jsPsych.data.get().filter({ 'event': 'stimulus' }).last(2).select('acc').sum(); // get last two trials
+            if (debug) {
+                console.log("Previous trials' summed accuracy: " + previoustrials_acc);
+            }
+            if (previoustrials_acc > 1 && rt_deadline >= 250) {
+                rt_deadline -= 50; // algorithm: reduce rt_deadline if last two trials' acc == 1 (i.e., sum of the last two trial's acc == 2), but make sure rt_deadline is never lower than 200
             } else if (data.acc == 0) {
                 rt_deadline += 50; // increase rt_deadline by 50 ms if acc == 0
             };
@@ -162,20 +173,30 @@ var stimulus = {
     },
 }
 
-var feedback = { // TODO: if correct (acc > 0), "correct, 456 ms"; if wrong (acc < 1), "wrong, 600 ms"; if no response (rt === null && acc < 1), "respond faster"
+var feedback = { // if correct (acc > 0), "correct, 456 ms"; if wrong (acc < 1), "wrong, 600 ms"; if no response (rt === null && acc < 1), "respond faster"
     type: "html-keyboard-response",
     stimulus: function () {
-        return 'show feedback';
+        last_trial_data = jsPsych.data.getLastTrialData();
+        if (last_trial_data.select('acc').values[0] > 0) {
+            var prompt = "correct, your reaction time was " + Math.round(last_trial_data.select('rt').values[0]) + " ms";
+        } else {
+            if (last_trial_data.select('key_press').values[0]) {
+                var prompt = "wrong";
+            } else {
+                var prompt = "respond faster";
+            }
+        }
+        return generate_html(prompt, font_colour, 25);
     },
     choices: jsPsych.NO_KEYS,
     trial_duration: feedback_duration,
     data: { event: "feedback" },
+    post_trial_gap: function () { return current_iti },  // present iti after one timeline/trial
 }
 
 var trial_sequence = {
     timeline: [fixation, stimulus, feedback], // one timeline/trial has these objects
     timeline_variables: stimuli_shuffled, // the above timeline/trial is repeated stimuli_shuffled.length times
-    post_trial_gap: current_iti,  // present iti after one timeline/trial
 };
 timeline.push(trial_sequence);
 

@@ -21,7 +21,7 @@ var n_trial = -1; // current trial number counter
 var n_rep = 0; // current rep counter
 var n_dollar = 0;  // dollar counter on each triial
 var n_hash = 0;  // hash counter on each trial
-var itis = iti_exponential(low = 200, high = 500);  // generate array of ITIs
+var itis = iti_exponential(low = 100, high = 5000);  // generate array of ITIs
 var choices = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'];
 var responses = [];  // subject's response on each trial $ and #
 var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task difficulty parameters
@@ -228,6 +228,7 @@ var feedback = { // show feedback to subject
     },
     choices: ['Continue'],
     data: { event: 'feedback' },
+    post_trial_gap: function () { return random_choice(itis) }, // randomly select one ITI
     on_finish: function (data) {
         data.n_rep = n_rep;
         data.n_trial = n_trial;
@@ -258,7 +259,6 @@ var feedback = { // show feedback to subject
 var trial = { // events in a trial
     timeline: [fixation, symbols_sequence, response, feedback], // events in each trial
     repetitions: trials, // total number of trials to present
-    post_trial_gap: random_choice(itis), // randomly select one ITI
     conditional_function: function () { // skip this object/timeline if time has elapsed
         var max_tasktime_ms = max_tasktime_minutes * 60 * 1000;
         var start_time = jsPsych.data.get().first().select('time_elapsed').values[0];
