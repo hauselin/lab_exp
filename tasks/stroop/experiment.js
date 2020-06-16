@@ -17,7 +17,7 @@ if (dark_background) {
     font_colour = "black";
 };
 
-var rt_deadline = 2000;
+var rt_deadline = 1500;
 var fixation_duration = 300;
 var feedback_duration = 1500;
 var itis = iti_exponential(low = 300, high = 800);
@@ -133,9 +133,9 @@ var stimulus = {
         var trialtype = jsPsych.timelineVariable('data', true).trialtype;  // e.g., stimulus_shuffled[i].data.trialtype
         correct_key = color_key[color];
         if (debug) {
-            console.log("trial " + n_trial + "; text: " + text + "; color: " + color + "; " + trialtype + ' (correct key: ' + correct_key + ")"); // TODO: use your font function eventually....
+            console.log("trial " + n_trial + "; text: " + text + "; color: " + color + "; " + trialtype + ' (correct key: ' + correct_key + ")");
         }
-        text_html = generate_html(text, color, 50);
+        text_html = generate_html(text, color, 100);
         return text_html;
     },
     trial_duration: function () { return rt_deadline; }, // function is needed to dynamically change value on each trial
@@ -145,25 +145,24 @@ var stimulus = {
         data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press);
         data.n_trial = n_trial;
         data.rt_deadline = rt_deadline;
-        var last_acc = jsPsych.data.get().select('acc').values[jsPsych.data.get().select('acc').values.length - 1];
         if (data.key_press == correct_key) {
             data.acc = 1;
         } else {
             data.acc = 0;
         };
         if (debug) {
-            console.log("All accuracies for the trials as an array is: " + jsPsych.data.get().select('acc').values);
+            console.log("Accuracies so far: " + jsPsych.data.get().filter({ "event": "stimulus" }).select('acc').values);
         }
-        if (adaptive) {
-            if ((last_acc + data.acc) == 2 && rt_deadline >= 250) {
+        if (adaptive && n_trial > 0) {
+            var previoustrials_acc = jsPsych.data.get().filter({ 'event': 'stimulus' }).last(2).select('acc').sum(); // get last two trials
+            if (debug) {
+                console.log("Previous trials' summed accuracy: " + previoustrials_acc);
+            }
+            if (previoustrials_acc > 1 && rt_deadline >= 250) {
                 rt_deadline -= 50; // algorithm: reduce rt_deadline if last two trials' acc == 1 (i.e., sum of the last two trial's acc == 2), but make sure rt_deadline is never lower than 200
             } else if (data.acc == 0) {
                 rt_deadline += 50; // increase rt_deadline by 50 ms if acc == 0
             };
-            if (debug) {
-                console.log("The sum of last two trials' acc is: " + (last_acc + data.acc).toString());
-                console.log("The updated reaction time deadline is: " + rt_deadline);
-            }
         }
         if (debug) {
             console.log("response: " + data.key_press + "; acc: " + data.acc + "; next trial rt_deadline: " + rt_deadline);
@@ -179,20 +178,11 @@ var feedback = { // if correct (acc > 0), "correct, 456 ms"; if wrong (acc < 1),
     stimulus: function () {
         last_trial_data = jsPsych.data.getLastTrialData();
         if (last_trial_data.select('acc').values[0] > 0) {
-            if (debug) {
-                console.log('There was an correct response');
-            }
             var prompt = "correct, your reaction time was " + Math.round(last_trial_data.select('rt').values[0]) + " ms";
         } else {
             if (last_trial_data.select('key_press').values[0]) {
-                if (debug) {
-                    console.log('There was an incorrect response');
-                }
                 var prompt = "wrong";
             } else {
-                if (debug) {
-                    console.log('There was no response');
-                }
                 var prompt = "respond faster";
             }
         }
