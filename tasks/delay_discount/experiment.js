@@ -70,7 +70,7 @@ var instructions = {
 
 var trial = {
     type: "html-keyboard-response",
-    prompt: generate_html("Press the <b>left</b> or <b>right</b> arrow key to indicate whether <br>you prefer the option on the left or right, respectively.",font_colour,[0,-130]),
+    prompt: generate_html("Press the <b>left</b> or <b>right</b> arrow key to indicate whether <br>you prefer the option on the left or right, respectively.",font_colour,15,['0px','-130px']),
     choices: [37, 39],
     // post_trial_gap: random_choice(itis),
     timeline: [{

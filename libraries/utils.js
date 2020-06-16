@@ -108,8 +108,8 @@ function ezddm(prop_correct, rt_correct_variance_s, rt_correct_mean_s, n_trials)
     return output;
 }
 
-function generate_html(text, color='black', location=[0,0], size=15, bold=false) {
-    var div = "<p><div style='size:" + size.toString + "px;color:" + color + ";transform: translate(" + location.toString() + ")'>" + text + "</div></p>"
+function generate_html(text, color='black', size=20, location=['0px','0px'], bold=false) {
+    var div = "<p><div style='font-size:" + size.toString() + "px;color:" + color + ";transform: translate(" + location.toString() + ")'>" + text + "</div></p>"
     if (bold) {
         return "<b>" + div + "</b>";
     } else {
