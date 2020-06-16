@@ -105,4 +105,14 @@ function ezddm(prop_correct, rt_correct_variance_s, rt_correct_mean_s, n_trials)
     var mdt = (a / (2 * v)) * (1 - Math.exp(y)) / (1 + Math.exp(y)); // mean decision time
     var ndt = rt_correct_mean_s - mdt; // non-decision time parameter
     return { boundary: a, drift: v, nondecisiontime: ndt };
+    return output;
+}
+
+function generate_html(text, color='black', size=20, location=['0px','0px'], bold=false) {
+    var div = "<p><div style='font-size:" + size.toString() + "px;color:" + color + ";transform: translate(" + location.toString() + ")'>" + text + "</div></p>"
+    if (bold) {
+        return "<b>" + div + "</b>";
+    } else {
+        return div;
+    }
 }
