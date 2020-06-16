@@ -7,8 +7,15 @@ var no_incongruent_neighbors = true;
 var show_feedback = true; // TODO: will explain this feature next time
 var adaptive = true; // TODO: if true, adapt task difficulty (reduce rt_deadline if correct; increase rt_deadlline if wrong; by 50 ms)
 var fullscreen = false;
+var dark_background = false;
 
-// TODO: make background black, instructions white
+if (dark_background){
+    document.body.style.backgroundColor = "black";
+    font_colour = "white";
+} else if (!dark_background){
+    document.body.style.backgroundColor = "white";
+    font_colour = "black";
+};
 
 var rt_deadline = 1000;
 var fixation_duration = 300;
@@ -74,14 +81,36 @@ jsPsych.data.addProperties({
 
 var timeline = [];
 
-var instructions = {};  // TODO add welcome page and other pages for task instructions (then add to trial_sequence timeline)
+if (fullscreen) {
+    timeline.push({
+        type: "fullscreen",
+        fullscreen_mode: true,
+        message: generate_html("The experiment will switch to full screen mode when you press the button below",font_colour)
+    });
+}
+
+var instructions = {
+    type: "instructions",
+    pages: [
+        generate_html("Welcome!",font_colour) + generate_html("Click next or press the right arrow key to proceed.",font_colour),
+        generate_html("In this task, you'll have to select the correct font colour for each of the words shown.",font_colour) + generate_html("If you see red coloured text, press 'r'; if you see blue coloured text, press 'b'; if you see yellow coloured text, press 'y';",font_colour),
+        generate_html("For example, you'll see:",font_colour) + generate_html("red", "red") + generate_html("And the correct response would be pressing 'r'.",font_colour),
+        generate_html("You have a limited amount of time to respond to each prompted word, so react quickly!",font_colour),
+        generate_html("Click next or press the right arrow key to begin.",font_colour)
+    ],
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+timeline.push(instructions);
 
 var n_trial = 0; // stroop trial number counter
 
 var fixation = {
-    type: "html-keyboard-response",
+    type: "image-keyboard-response",
     choices: jsPsych.NO_KEYS,
-    stimulus: "+", // TODO show the fixation image instead (see symbol counting task; image-keyboard-response)
+    stimulus: "../../tasks/stroop/fixation_white.png",
+    stimulus_height: 30,
+    stimulus_width: 30,
     trial_duration: fixation_duration,
     data: { event: 'fixation' },
     on_finish: function (data) {
@@ -102,7 +131,7 @@ var stimulus = {
         if (debug) {
             console.log("trial " + n_trial + "; text: " + text + "; color: " + color + "; " + trialtype + ' (correct key: ' + correct_key + ")"); // TODO: use your font function eventually....
         }
-        text_html = "<font style='color:" + color + "'>" + text + "</font>"; // TODO: make font size bigger 
+        text_html = generate_html(text, color, [0,0], 150); // TODO: make font size bigger 
         return text_html;
     },
     trial_duration: function () { return rt_deadline; }, // function is needed to dynamically change value on each trial
