@@ -2,12 +2,12 @@ var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 var task = 'stroop';
 var experiment = 'stroop';
-var debug = true;
+var debug = false;
 var no_incongruent_neighbors = true;
 var show_feedback = true; // TODO: will explain this feature next time
 var adaptive = true; // TODO: if true, adapt task difficulty (reduce rt_deadline if correct; increase rt_deadlline if wrong; by 50 ms)
-var fullscreen = false;
-var dark_background = false;
+var fullscreen = true;
+var dark_background = true;
 
 if (dark_background){
     document.body.style.backgroundColor = "black";
@@ -77,8 +77,6 @@ jsPsych.data.addProperties({
     datetime: Date(),
 });
 
-// TODO: add fullscreen
-
 var timeline = [];
 
 if (fullscreen) {
@@ -108,7 +106,13 @@ var n_trial = 0; // stroop trial number counter
 var fixation = {
     type: "image-keyboard-response",
     choices: jsPsych.NO_KEYS,
-    stimulus: "../../tasks/stroop/fixation_white.png",
+    stimulus: function() {
+        if (dark_background) {
+            return "../../tasks/stroop/fixation_black.png"
+        } else {
+            return "../../tasks/stroop/fixation_white.png"
+        }
+    },
     stimulus_height: 30,
     stimulus_width: 30,
     trial_duration: fixation_duration,
@@ -131,7 +135,7 @@ var stimulus = {
         if (debug) {
             console.log("trial " + n_trial + "; text: " + text + "; color: " + color + "; " + trialtype + ' (correct key: ' + correct_key + ")"); // TODO: use your font function eventually....
         }
-        text_html = generate_html(text, color, [0,0], 150); // TODO: make font size bigger 
+        text_html = generate_html(text, color, 50);
         return text_html;
     },
     trial_duration: function () { return rt_deadline; }, // function is needed to dynamically change value on each trial
@@ -141,17 +145,25 @@ var stimulus = {
         data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press);
         data.n_trial = n_trial;
         data.rt_deadline = rt_deadline;
+        var last_acc = jsPsych.data.get().select('acc').values[jsPsych.data.get().select('acc').values.length - 1];
         if (data.key_press == correct_key) {
             data.acc = 1;
         } else {
             data.acc = 0;
         };
+        if (debug) {
+            console.log("All accuracies for the trials as an array is: " + jsPsych.data.get().select('acc').values);
+        }
         if (adaptive) {
-            if (data.acc == 1) {
-                rt_deadline -= 50; // TODO: algorithm: reduce rt_deadline if last two trials' acc == 1 (i.e., sum of the last two trial's acc == 2), but make sure rt_deadline is never lower than 200
+            if ((last_acc + data.acc) == 2 && rt_deadline >= 250) {
+                rt_deadline -= 50; // algorithm: reduce rt_deadline if last two trials' acc == 1 (i.e., sum of the last two trial's acc == 2), but make sure rt_deadline is never lower than 200
             } else if (data.acc == 0) {
                 rt_deadline += 50; // increase rt_deadline by 50 ms if acc == 0
             };
+            if (debug) {
+                console.log("The sum of last two trials' acc is: " + (last_acc + data.acc).toString());
+                console.log("The updated reaction time deadline is: " + rt_deadline);
+            }
         }
         if (debug) {
             console.log("response: " + data.key_press + "; acc: " + data.acc + "; next trial rt_deadline: " + rt_deadline);
@@ -162,10 +174,31 @@ var stimulus = {
     },
 }
 
-var feedback = { // TODO: if correct (acc > 0), "correct, 456 ms"; if wrong (acc < 1), "wrong, 600 ms"; if no response (rt === null && acc < 1), "respond faster"
+var feedback = { // if correct (acc > 0), "correct, 456 ms"; if wrong (acc < 1), "wrong, 600 ms"; if no response (rt === null && acc < 1), "respond faster"
     type: "html-keyboard-response",
     stimulus: function () {
-        return 'show feedback';
+        last_trial_data = jsPsych.data.getLastTrialData();
+        if (last_trial_data.select('acc').values[0] > 0) {
+            if (debug) {
+                console.log('There was an correct response');
+            }
+            var prompt = "correct, " + Math.round(last_trial_data.select('rt').values[0]) + "ms";
+            return generate_html(prompt, font_colour);
+        } else {
+            if (last_trial_data.select('key_press').values[0]) {
+                if (debug) {
+                    console.log('There was an incorrect response');
+                }
+                var prompt = "wrong, " + Math.round(last_trial_data.select('rt').values[0]) + "ms";
+                return generate_html(prompt, font_colour);
+            } else {
+                if (debug) {
+                    console.log('There was no response');
+                }
+                var prompt = "respond faster";
+                return generate_html(prompt, font_colour);
+            }
+        }
     },
     choices: jsPsych.NO_KEYS,
     trial_duration: feedback_duration,
