@@ -1,10 +1,10 @@
-const dark_background = true;
+const dark_background = false;
 var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 var task = 'delay discounting';
 var experiment = 'delay discounting';
 var debug = true;
-var fullscreen = true;
+var fullscreen = false;
 
 // var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
 const large_reward = 100; //Large reward after cost.
@@ -22,10 +22,10 @@ var n_trial = 0;
 var n_trial_overall = 0;
 var reward_window = [0, large_reward];
 
-if (dark_background){
+if (dark_background) {
     document.body.style.backgroundColor = "black";
     font_colour = "white";
-} else if (!dark_background){
+} else if (!dark_background) {
     document.body.style.backgroundColor = "white";
     font_colour = "black";
 };
@@ -53,16 +53,16 @@ if (fullscreen) {
     timeline.push({
         type: "fullscreen",
         fullscreen_mode: true,
-        message: generate_html("The experiment will switch to full screen mode when you press the button below",font_colour)
+        message: generate_html("The experiment will switch to full screen mode when you press the button below", font_colour)
     });
 }
 
 var instructions = {
     type: "instructions",
     pages: [
-        generate_html("Welcome!",font_colour) + generate_html("Click next or press the right arrow key to proceed.",font_colour),
-        generate_html("In this task, you'll have to decide which option you prefer.",font_colour) + generate_html("For example, you'll see two options: $30.00 in 3 days or $2.40 in 0 days (today).",font_colour) + generate_html("Choosing $30 days in 3 days means you'll wait 3 days so you can get $30. Choosing $2.40 means you will receive $2.40 today.",font_colour) + generate_html("You'll use the left/right arrow keys on the keyboard to indicate which option you prefer (left or right option, respectively).",font_colour),
-        generate_html("Click next or press the right arrow key to begin.",font_colour)
+        generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("Click next or press the right arrow key to proceed.", font_colour),
+        generate_html("In this task, you'll have to decide which option you prefer.", font_colour) + generate_html("For example, you'll see two options: $30.00 in 3 days or $2.40 in 0 days (today).", font_colour) + generate_html("Choosing $30 days in 3 days means you'll wait 3 days so you can get $30. Choosing $2.40 means you will receive $2.40 today.", font_colour) + generate_html("You'll use the left/right arrow keys on the keyboard to indicate which option you prefer (left or right option, respectively).", font_colour),
+        generate_html("Click next or press the right arrow key to begin.", font_colour)
     ],
     show_clickable_nav: true,
     show_page_number: true,
@@ -70,7 +70,7 @@ var instructions = {
 
 var trial = {
     type: "html-keyboard-response",
-    prompt: generate_html("Press the <b>left</b> or <b>right</b> arrow key to indicate whether <br>you prefer the option on the left or right, respectively.",font_colour,15,['0px','-130px']),
+    prompt: generate_html("Press the <b>left</b> or <b>right</b> arrow key to indicate whether <br>you prefer the option on the left or right, respectively.", font_colour, 18, [0, -160]),
     choices: [37, 39],
     // post_trial_gap: random_choice(itis),
     timeline: [{
@@ -85,9 +85,9 @@ var trial = {
             };
             var text_or = "&nbsp;&nbsp;&nbsp; or &nbsp;&nbsp;&nbsp;";
             var text_right = "$" + small_reward.toFixed(2) + " in 0 days";
-            var text = generate_html(text_left+text_or+text_right,font_colour);
+            var text = generate_html(text_left + text_or + text_right, font_colour, 30);
             if (reverse_sides) { // switch left text to right and vice versa
-                text = generate_html(text_right+text_or+text_left,font_colour);
+                text = generate_html(text_right + text_or + text_left, font_colour, 30);
             }
             return text;
         },
