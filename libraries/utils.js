@@ -108,7 +108,7 @@ function ezddm(prop_correct, rt_correct_variance_s, rt_correct_mean_s, n_trials)
 }
 
 function generate_html(text, color = 'black', size = 20, location = [0, 0], bold = false) {
-    var div = "<p><div style='font-size:" + size + "px;color:" + color + ";transform: translate(" + location[0] + "px," + location[1] + "px)'>" + text + "</div></p>"
+    var div = "<p><div style='font-size:" + size + "px;color:" + color + ";transform: translate(" + location[0] + "px," + location[1] + "px)'>" + text + "</div></p>";
     if (bold) {
         return "<b>" + div + "</b>";
     } else {
