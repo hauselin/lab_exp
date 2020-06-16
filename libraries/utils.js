@@ -115,3 +115,13 @@ function generate_html(text, color = 'black', size = 20, location = [0, 0], bold
         return div;
     }
 }
+
+
+
+function median(array) {
+    if (array.length == 0) { return undefined };
+    var numbers = array.slice(0).sort(function (a, b) { return a - b; }); // sort
+    var middle = Math.floor(numbers.length / 2);
+    var isEven = numbers.length % 2 === 0;
+    return isEven ? (numbers[middle] + numbers[middle - 1]) / 2 : numbers[middle];
+}
