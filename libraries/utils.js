@@ -117,11 +117,38 @@ function generate_html(text, color = 'black', size = 20, location = [0, 0], bold
 }
 
 
-
+// median function adapted from jspsych
 function median(array) {
     if (array.length == 0) { return undefined };
     var numbers = array.slice(0).sort(function (a, b) { return a - b; }); // sort
     var middle = Math.floor(numbers.length / 2);
     var isEven = numbers.length % 2 === 0;
     return isEven ? (numbers[middle] + numbers[middle - 1]) / 2 : numbers[middle];
+}
+
+// median absolute deviation for values in array x
+function mad(x, constant = 1.4826) {
+    var med = median(x);
+    var output = [];
+    x.forEach(function (e) {
+        output.push(Math.abs(e - med));
+    });
+    return median(output) * constant;
+}
+
+// compute deviation for each value
+function mad_deviation(x, abs = true) {
+    var med = median(x);
+    var madev = mad(x);
+    if (abs) {
+        return x.map(i => Math.abs((i - med) / madev));
+    } else {
+        return x.map(i => (i - med) / madev);
+    }
+}
+
+// return the lower and upper bound for excluding values
+function mad_cutoffs(x, cutoff = 3.0) {
+    return [median(x) - 3 * mad(x), median(x) + 3 * mad(x)];
+    // values < element 0 or values > element 1 are considered outliers
 }
