@@ -203,7 +203,13 @@ timeline.push(trial_sequence);
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
-        jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
+        var data_subset = jsPsych.data.get().filter({ "event": "stimulus" });  // select stroop trials
+        var ddm_params = fit_ezddm_to_jspsych_data(data_subset);  // fit model
+        if (debug) {
+            console.log("ez-ddm parameters");
+            console.log(ddm_params);
+        }
+        jsPsych.data.get().addToAll({ total_time: jsPsych.totalTime(), ddm_params: ddm_params });
         // $.ajax({
         //     type: "POST",
         //     url: "/submit-data",

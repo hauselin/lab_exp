@@ -64,6 +64,32 @@ function shuffle(a) {
     return a;
 }
 
+function sum(x) {
+    var s = 0;
+    for (var i = 0; i < x.length; i++) {
+        s += x[i];
+    }
+    return s;
+}
+
+function mean(x) {
+    return sum(x) / x.length;
+}
+
+function variance(x) {
+    var m = mean(x);
+    var sum_square_error = 0;
+    for (var i = 0; i < x.length; i++) {
+        sum_square_error += Math.pow(x[i] - m, 2);
+    }
+    var mse = sum_square_error / (x.length - 1);
+    return mse;
+}
+
+function divide(x, divisor) {
+    return x.map(i => (i / divisor));
+
+}
 
 function logistic(x, mean = 0, scale = 1) {
     return 1 / (1 + Math.exp(-(x - mean) / scale));
@@ -114,6 +140,21 @@ function generate_html(text, color = 'black', size = 20, location = [0, 0], bold
     } else {
         return div;
     }
+}
+
+function fit_ezddm_to_jspsych_data(filtered_trials) {
+    // get valid responses before computing ezddm parameters
+    var data_sub = filtered_trials.filterCustom(function (trial) { return trial.rt > 50 });
+    var cutoffs = mad_cutoffs(data_sub.select('rt').values);
+    data_sub = data_sub.filterCustom(function (trial) { return trial.rt > cutoffs[0] }).filterCustom(function (trial) { return trial.rt < cutoffs[1] });
+    var prop_correct = data_sub.select('acc').mean();
+    var correct_rt = data_sub.filter({ "acc": 1 }).select('rt').values;
+    correct_rt = divide(correct_rt, 1000);
+    var rt_correct_variance_s = variance(correct_rt);
+    var rt_correct_mean_s = mean(correct_rt);
+    var n_trials = data_sub.select('rt').count();
+    var ezparams = ezddm(prop_correct, rt_correct_variance_s, rt_correct_mean_s, n_trials);
+    return ezparams;
 }
 
 

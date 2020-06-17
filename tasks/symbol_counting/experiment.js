@@ -291,7 +291,7 @@ var debrief_block = {
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
-        jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
+        jsPsych.data.get().addToAll({ total_time: jsPsych.totalTime() });
         $.ajax({
             type: "POST",
             url: "/submit-data",
