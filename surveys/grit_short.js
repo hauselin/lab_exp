@@ -2,9 +2,9 @@
 //                         75: 'Not much like me', 100: 'Not like me at all'};
 
 var task = 'grit survey';
-slider_width = 900;
-start = 0;
-step = 25;
+var slider_width = 900;
+var start = 0;
+var step = 25;
 
 jsPsych.data.addProperties({
     task: task,
