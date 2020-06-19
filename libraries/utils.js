@@ -52,34 +52,144 @@ function combine(a1, a2) {
     return x;
 }
 
-// generate mental math updating array
-function number_update(array1, array2, n_distractors) {
+// shuffle an array
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = a[i];
+        a[i] = a[j];
+        a[j] = x;
+    }
+    return a;
+}
+
+function sum(x) {
+    var s = 0;
+    for (var i = 0; i < x.length; i++) {
+        s += x[i];
+    }
+    return s;
+}
+
+function mean(x) {
+    return sum(x) / x.length;
+}
+
+function variance(x) {
+    var m = mean(x);
+    var sum_square_error = 0;
+    for (var i = 0; i < x.length; i++) {
+        sum_square_error += Math.pow(x[i] - m, 2);
+    }
+    var mse = sum_square_error / (x.length - 1);
+    return mse;
+}
+
+function divide(x, divisor) {
+    return x.map(i => (i / divisor));
+
+}
+
+function logistic(x, mean = 0, scale = 1) {
+    return 1 / (1 + Math.exp(-(x - mean) / scale));
+}
+
+function logit(x) {
+    return Math.log(x / (1 - x));
+}
+
+/**
+ * Fit ez-drift diffusion model (ezddm)
+ * @param  {Number} prop_correct proportion correct (0 to 1.0)
+ * @param  {Number} rt_correct_variance_s correct responses reaction time (rt) variance in seconds
+ * @param  {Number} rt_correct_mean_s correct responses mean reaction time (rt) in seconds
+ * @param  {Number} n_trials number of trials 
+ * @return {Object} object containing boundary, drift, and nondecisiontime properties
+ */
+function ezddm(prop_correct, rt_correct_variance_s, rt_correct_mean_s, n_trials) {
+    var s = 0.1; // scaling parameter
+    var s2 = s ** 2; // variance 
+
+    if (prop_correct < 0.00001) {
+        var a = Number.NaN;
+        var v = Number.NaN;
+        var ndt = Number.NaN;
+        console.log("Proportion correct is 0. Cannot determine parameters D:");
+    } else if (prop_correct == 0.5) {
+        prop_correct += 0.00001;
+        console.log("Proportion correct is close to chance performance (0.5); drift will be close to 0.");
+    } else if (prop_correct > 0.9999) {
+        prop_correct = 1 - (1 / (2 * n_trials));
+        console.log("Proportion correct is 1. Edge correction has been applied.");
+    }
+    var l = logit(prop_correct);
+    var x = l * (l * prop_correct ** 2 - l * prop_correct + prop_correct - 0.5) / rt_correct_variance_s;
+    var v = Math.sign(prop_correct - 0.5) * s * x ** (1 / 4); // drift rate parameter
+    var a = s2 * logit(prop_correct) / v; // boundary parameter
+    var y = -v * a / s2;
+    var mdt = (a / (2 * v)) * (1 - Math.exp(y)) / (1 + Math.exp(y)); // mean decision time
+    var ndt = rt_correct_mean_s - mdt; // non-decision time parameter
+    return { boundary: a, drift: v, nondecisiontime: ndt };
+}
+
+function generate_html(text, color = 'black', size = 20, location = [0, 0], bold = false) {
+    var div = "<p><div style='font-size:" + size + "px;color:" + color + ";transform: translate(" + location[0] + "px," + location[1] + "px)'>" + text + "</div></p>";
+    if (bold) {
+        return "<b>" + div + "</b>";
+    } else {
+        return div;
+    }
+}
+
+function fit_ezddm_to_jspsych_data(filtered_trials) {
+    // get valid responses before computing ezddm parameters
+    var data_sub = filtered_trials.filterCustom(function (trial) { return trial.rt > 50 });
+    var cutoffs = mad_cutoffs(data_sub.select('rt').values);
+    data_sub = data_sub.filterCustom(function (trial) { return trial.rt > cutoffs[0] }).filterCustom(function (trial) { return trial.rt < cutoffs[1] });
+    var prop_correct = data_sub.select('acc').mean();
+    var correct_rt = data_sub.filter({ "acc": 1 }).select('rt').values;
+    correct_rt = divide(correct_rt, 1000);
+    var rt_correct_variance_s = variance(correct_rt);
+    var rt_correct_mean_s = mean(correct_rt);
+    var n_trials = data_sub.select('rt').count();
+    var ezparams = ezddm(prop_correct, rt_correct_variance_s, rt_correct_mean_s, n_trials);
+    return ezparams;
+}
+
+
+// median function adapted from jspsych
+function median(array) {
+    if (array.length == 0) { return undefined };
+    var numbers = array.slice(0).sort(function (a, b) { return a - b; }); // sort
+    var middle = Math.floor(numbers.length / 2);
+    var isEven = numbers.length % 2 === 0;
+    return isEven ? (numbers[middle] + numbers[middle - 1]) / 2 : numbers[middle];
+}
+
+// median absolute deviation for values in array x
+function mad(x, constant = 1.4826) {
+    var med = median(x);
     var output = [];
-    var correct = '';
-    // determine correct response
-    for (i = 0; i < array1.length; i++) {
-        if (array2.length < array1.length) {
-            var correct_num = array1[i] + array2[0]; // if array2 is shorter than array1, always add the first element of array2 to each element in array1
-        } else if (array1.length == array2.length) {
-            var correct_num = array1[i] + array2[i];
-        }
-        if (correct_num < 0) {
-            correct_num = 0; // TODO: fix algorithm
-        }
-        correct = correct.concat(correct_num.toString()); // concat string integers
+    x.forEach(function (e) {
+        output.push(Math.abs(e - med));
+    });
+    return median(output) * constant;
+}
+
+// compute deviation for each value
+function mad_deviation(x, abs = true) {
+    var med = median(x);
+    var madev = mad(x);
+    if (abs) {
+        return x.map(i => Math.abs((i - med) / madev));
+    } else {
+        return x.map(i => (i - med) / madev);
     }
-    output.push(correct);
-    // create distractors/wrong responses
-    for (i = 0; i < n_distractors; i++) {
-        var distractor = '';
-        for (j = 0; j < correct.length; j++) {
-            var distractor_num = Number(correct.charAt(j)) + (Math.floor(Math.random() * 3) + -1); // hm? next time explain to me the logic of this?
-            if (distractor_num < 0) {
-                distractor_num = Number(correct.charAt(j)) + (Math.floor(Math.random() * 2));
-            }
-            distractor = distractor.concat(distractor_num.toString());
-        }
-        output.push(distractor);
-    }
-    return output;
+}
+
+// return the lower and upper bound for excluding values
+function mad_cutoffs(x, cutoff = 3.0) {
+    return [median(x) - 3 * mad(x), median(x) + 3 * mad(x)];
+    // values < element 0 or values > element 1 are considered outliers
 }
