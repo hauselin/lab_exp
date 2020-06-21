@@ -1,10 +1,11 @@
-// var response_legend = {0: 'Very much like me', 25: 'Mostly like me', 50: 'Somewhat like me', 
-//                         75: 'Not much like me', 100: 'Not like me at all'};
-
 var task = 'grit survey';
-slider_width = 900;
-start = 0;
-step = 25;
+var csvfile = 'grit_short.csv';
+var slider_width = 500; // width of slider in pixels
+var scale_min_max = [1, 5]; // slider min max values
+var scale_starting_points = [2, 3, 4]; // starting point of scale; if length > 1, randomly pick one for each scale item
+var scale_labels = ['not at all like me', 'very much like me']
+var step = 0.01; // step size of scale
+var require_movement = false; // whether subject must move slider before they're allowed to click continue
 
 jsPsych.data.addProperties({
     task: task,
@@ -12,34 +13,43 @@ jsPsych.data.addProperties({
     datetime: Date(),
 });
 
+// read survey csv file
+// https://www.papaparse.com
+var survey;
+Papa.parse(csvfile, {
+    download: true, header: true, dynamicTyping: true, complete: function (results) { survey = results.data; }
+});
+
 var grit_procedure = {
     timeline: [
         {
-            type: 'html-slider-response', 
-            stimulus: jsPsych.timelineVariable('remark'), 
-            labels: ['Very much like me', 'Mostly like me', 'Somewhat like me', 
-                'Not much like me', 'Not like me at all'],
-            slider_width: slider_width, // width of the slider in pixels 
-            start: start,               // starting value of the slider
-            step: step                  // step of the slider, the amount by which the slider moves back and forth
+            type: 'html-slider-response',
+            stimulus: jsPsych.timelineVariable('remark'),
+            labels: scale_labels,
+            slider_width: slider_width,
+            min: scale_min_max[0],
+            max: scale_min_max[1],
+            start: function () { return jsPsych.randomization.sampleWithoutReplacement(scale_starting_points, 1)[0] },
+            step: step,
+            require_movement: require_movement
         }
-    ], 
+    ],
     timeline_variables: [
-        {remark: '<p>I often set a goal but later choose to pursue a different one.</p>'},
-        {remark: '<p>New ideas and projects sometimes distract me from previous ones.</p>'}, 
-        {remark: '<p>I have been obsessed with a certain idea or project for a short time but later lost interest.</p>'},
-        {remark: '<p>I have difficulty maintaining my focus on projects that take more than a few months to complete.</p>'},
-        {remark: '<p>I finish whatever I begin.</p>'},
-        {remark: "<p>Setbacks don't discourage me.</p>"},
-        {remark: '<p>I am diligent.</p>'}, 
-        {remark: '<p>I am a hard worker.</p>'},
-        
+        { remark: '<p>I often set a goal but later choose to pursue a different one.</p>' },
+        { remark: '<p>New ideas and projects sometimes distract me from previous ones.</p>' },
+        { remark: '<p>I have been obsessed with a certain idea or project for a short time but later lost interest.</p>' },
+        { remark: '<p>I have difficulty maintaining my focus on projects that take more than a few months to complete.</p>' },
+        { remark: '<p>I finish whatever I begin.</p>' },
+        { remark: "<p>Setbacks don't discourage me.</p>" },
+        { remark: '<p>I am diligent.</p>' },
+        { remark: '<p>I am a hard worker.</p>' },
+
     ]
 };
 
 jsPsych.init({
     timeline: [grit_procedure],
-    on_finish: function() {
+    on_finish: function () {
         jsPsych.data.displayData();
         jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
         $.ajax({
