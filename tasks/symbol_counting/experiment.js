@@ -2,33 +2,44 @@ var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 var task = 'symbol counter';
 var experiment = 'symbol counter';
-var debug = false;
-var fullscreen = true;
+var debug = true;
+var fullscreen = false;
 
 const trials = 200;               // the total number of trials 
 const max_tasktime_minutes = 5;   // maximum task time in minutes (task ends after this amount of time regardless of how many trials have been completed)
 var reps = 12;                  // the number of symbols per trial
 var difficulty = 1;   // task difficult (1, 2, 3, 4, or 5; 5 is most difficult)
+var adaptive = true;  // adjust difficulty based on accuracy (true/false) (if true, reps and difficulty will be overwritten by difficulty_reps_steps[current_idx])
 var show_performance = true;  // if true, also show subject counts on feedback page
 var show_overall_performance = true; // whether to show overall performance at the end
-var adaptive = true;  // adjust difficulty based on accuracy (true/false)
-
 var symbol_duration = 1000;      // each symbol appears for this duration (ms) 
 var fixation_duration = 500;  // fixation duration
-var itis = iti_exponential(low = 200, high = 500);  // generate array of ITIs
+var inter_symbol_duration = 400;  // gap between consecutive symbols
 
 // parameters below typically don't need to be changed
 var n_trial = -1; // current trial number counter
 var n_rep = 0; // current rep counter
 var n_dollar = 0;  // dollar counter on each triial
 var n_hash = 0;  // hash counter on each trial
+var itis = iti_exponential(low = 100, high = 5000);  // generate array of ITIs
 var choices = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'];
 var responses = [];  // subject's response on each trial $ and #
 var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task difficulty parameters
-var difficulty_min_max = [1, 5];  // difficulty ranges from 1 to 5
-var reps_min_max = [11, 17]; // reps range from 11 to 16
-var difficulty_steps = combine(difficulty_min_max, reps_min_max);
-var current_idx = 0;
+
+// set up adaptive procedure
+if (adaptive) {
+    var difficulty_min_max = [1, 5];  // difficulty ranges from 1 to 5 (see switch_intensity)
+    var reps_min_max = [11, 17]; // specify min/max symbols (reps) to present on each trial
+    var difficulty_reps_steps = combine(difficulty_min_max, reps_min_max); // array of arrays of [difficulty, reps]
+    var current_idx = 1; // initial difficulty level; can be any value from 0 (easiest) to difficult_reps_steps.length;     
+    // overwrite reps and difficulty variables set earlier on
+    difficulty = difficulty_reps_steps[current_idx][0];
+    reps = difficulty_reps_steps[current_idx][1];
+    console.log("difficulty_reps_steps");
+    console.log(difficulty_reps_steps);
+    console.log("initial difficulty: " + difficulty);
+    console.log("initial reps: " + reps);
+}
 
 // add data to all trials
 jsPsych.data.addProperties({
@@ -69,7 +80,7 @@ function determine_sequence(reps, symbols, trial_difficulty, verbose) {
         console.log(sequence);
     }
     return sequence;
-};
+}
 
 // function that creates a nested array of [switch intensity, reps]
 function combine(a1, a2) {
@@ -83,24 +94,23 @@ function combine(a1, a2) {
 }
 
 // function to determine the level of difficulty of the next trial depending on the accuracy of the current trial
-function difficulty_calc(overall_acc) {
+function update_difficulty(overall_acc) {
     if (overall_acc > 0.5) {
-        if (current_idx < difficulty_steps.length - 1) {
+        if (current_idx < difficulty_reps_steps.length - 1) {
             current_idx += 1;
         }
-        difficulty = difficulty_steps[current_idx][0];
-        reps = difficulty_steps[current_idx][1];
+        difficulty = difficulty_reps_steps[current_idx][0];
+        reps = difficulty_reps_steps[current_idx][1];
         symbol_duration = Math.max(symbol_duration - 1000 / 60 * 2, 400); // reduce symbol duration (min 400ms)
     }
     else {
         if (current_idx > 0) {
             current_idx -= 1;
         }
-        difficulty = difficulty_steps[current_idx][0];
-        reps = difficulty_steps[current_idx][1];
+        difficulty = difficulty_reps_steps[current_idx][0];
+        reps = difficulty_reps_steps[current_idx][1];
         symbol_duration = Math.min(symbol_duration + 1000 / 60 * 2, 1000); // increase symbol duration (max 400 ms)
     }
-    return reps, difficulty, symbol_duration;
 }
 
 var timeline = [];
@@ -140,6 +150,9 @@ var fixation = { // define fixation
         n_rep = -1;  // reset symbol repeition counter
         n_trial += 1;
         data.n_trial = n_trial; // save current trial
+        if (debug) {
+            console.log("trial " + n_trial);
+        }
     },
 };
 
@@ -150,7 +163,7 @@ var symbols_sequence = { // determine sequence of symbols within a trial
             stimulus: jsPsych.timelineVariable("symbol"),
             choices: jsPsych.NO_KEYS,
             trial_duration: function () { return symbol_duration }, // function is needed to dynamically change value on each trial
-            post_trial_gap: 400,
+            post_trial_gap: inter_symbol_duration,
             data: { event: 'symbol' },
             on_finish: function (data) {
                 n_rep += 1;
@@ -215,6 +228,7 @@ var feedback = { // show feedback to subject
     },
     choices: ['Continue'],
     data: { event: 'feedback' },
+    post_trial_gap: function () { return random_choice(itis) }, // randomly select one ITI
     on_finish: function (data) {
         data.n_rep = n_rep;
         data.n_trial = n_trial;
@@ -232,7 +246,7 @@ var feedback = { // show feedback to subject
         data.difficulty = difficulty;
         data.symbol_duration = symbol_duration;
         if (adaptive) {
-            reps, difficulty, symbol_duration = difficulty_calc(overall_acc);
+            update_difficulty(overall_acc);
         }
         if (debug) {
             console.log(reps);
@@ -245,7 +259,6 @@ var feedback = { // show feedback to subject
 var trial = { // events in a trial
     timeline: [fixation, symbols_sequence, response, feedback], // events in each trial
     repetitions: trials, // total number of trials to present
-    post_trial_gap: random_choice(itis), // randomly select one ITI
     conditional_function: function () { // skip this object/timeline if time has elapsed
         var max_tasktime_ms = max_tasktime_minutes * 60 * 1000;
         var start_time = jsPsych.data.get().first().select('time_elapsed').values[0];
@@ -278,7 +291,7 @@ var debrief_block = {
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
-        jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
+        jsPsych.data.get().addToAll({ total_time: jsPsych.totalTime() });
         $.ajax({
             type: "POST",
             url: "/submit-data",
