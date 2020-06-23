@@ -100,10 +100,10 @@ input, select, textarea {
 
 	body {
 		background-color: #ffffff;
-		background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #dcdcdc 15%, #dcdcdc 85%);
+		/* background-image: url("images/overlay.png"), -moz-linear-gradient(45deg, #dcdcdc 15%, #dcdcdc 85%);
 		background-image: url("images/overlay.png"), -webkit-linear-gradient(45deg, #dcdcdc 15%, #dcdcdc 85%);
 		background-image: url("images/overlay.png"), -ms-linear-gradient(45deg, #dcdcdc 15%, #dcdcdc 85%);
-		background-image: url("images/overlay.png"), linear-gradient(45deg, #dcdcdc 15%, #dcdcdc 85%);
+		background-image: url("images/overlay.png"), linear-gradient(45deg, #dcdcdc 15%, #dcdcdc 85%); */
 	}
 
 		body.is-preload *, body.is-preload *:before, body.is-preload *:after {
@@ -121,7 +121,7 @@ input, select, textarea {
 
 	body {
 		background-color: #ffffff;
-		color: rgba(255, 255, 255, 0.65);
+		color: black;
 	}
 
 	body, input, select, textarea {
@@ -303,19 +303,19 @@ input, select, textarea {
 	}
 
 	input, select, textarea {
-		color: #ffffff;
+		color: black;
 	}
 
 	a:hover {
-		color: #ffffff;
+		color: black;
 	}
 
 	strong, b {
-		color: #ffffff;
+		color: black;
 	}
 
 	h1, h2, h3, h4, h5, h6 {
-		color: #ffffff;
+		color: black;
 	}
 
 	blockquote {
@@ -1925,7 +1925,7 @@ input, select, textarea {
 	.button {
 		background-color: transparent;
 		box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.35);
-		color: #ffffff !important;
+		color: black !important;
 	}
 
 		input[type="submit"]:hover,
@@ -2140,7 +2140,7 @@ input, select, textarea {
 	}
 
 	label {
-		color: #ffffff;
+		color: black;
 	}
 
 	input[type="text"],
@@ -2488,7 +2488,7 @@ input, select, textarea {
 	}
 
 	dl dt {
-		color: #ffffff;
+		color: black;
 	}
 
 /* Actions */
