@@ -6,17 +6,10 @@ var scale_labels = ['not at all like me', 'very much like me']
 var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before they're allowed to click continue
 
-jsPsych.data.addProperties({
-    task: task,
-    browser: navigator.userAgent, // browser info
-    datetime: Date(),
-});
 
 // read survey csv file
 // https://www.papaparse.com
-
 var survey;
-
 Papa.parse('../surveys/' + task + '.csv', {
     download: true, 
     header: true, 
@@ -25,18 +18,33 @@ Papa.parse('../surveys/' + task + '.csv', {
 
         survey = results.data;
 
+        jsPsych.data.addProperties({
+            task: task,
+            browser: navigator.userAgent, // browser info
+            datetime: Date(),
+        });
+
         var grit_procedure = {
             timeline: [
                 {
                     type: 'html-slider-response',
                     stimulus: jsPsych.timelineVariable('desc'),
+                    data: {
+                        q: jsPsych.timelineVariable('q'),
+                        subscale: jsPsych.timelineVariable('subscale'), 
+                        reverse: jsPsych.timelineVariable('reverse')
+                    },
                     labels: scale_labels,
                     slider_width: slider_width,
                     min: scale_min_max[0],
                     max: scale_min_max[1],
                     start: function () { return jsPsych.randomization.sampleWithoutReplacement(scale_starting_points, 1)[0] },
                     step: step,
-                    require_movement: require_movement
+                    require_movement: require_movement,
+                    on_finish: function(data) {
+                        data.response = Number(data.response)
+                        data.resp_reverse = scale_min_max[1] + 1 - data.response
+                    }
                 }
             ],
         
