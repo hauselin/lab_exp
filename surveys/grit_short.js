@@ -78,11 +78,11 @@ function run_survey(survey) {
                     display();
                 }
             })
-            function display() {
+            function display() {  // trying to display jspsych data for 5 seconds
                 setTimeout(function(){ 
                     jsPsych.data.displayData();}, 5000)
             }
-            window.location.replace("http://localhost:8080/grit_short");
+            window.location.replace("http://localhost:8080/grit_short"); // redirect to grit_short after the survey is complete
         }
     });
 };
