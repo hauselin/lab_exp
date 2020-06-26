@@ -1,5 +1,5 @@
 // LOAD MODULES 
-const express = require('express'); 
+const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');               // GET THE CURRENT PATH
 const app = express();                      // INSTANTIATE THE APP

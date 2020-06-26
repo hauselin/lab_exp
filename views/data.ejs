@@ -1,0 +1,193 @@
+<%
+    var filtered = discount_data[0].data.filter(function(response) {
+        return response.trial_type == "html-keyboard-response";
+    });
+%>
+<%
+    indifference_array = [];
+    elapsed_time_array = [];
+    rt_array = [];
+    for (i = 0; i < filtered.length; i++) {
+        indifference_array.push(filtered[i].indifference)
+        elapsed_time_array.push(filtered[i].time_elapsed)
+        rt_array.push(filtered[i].rt)
+    };
+%>
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Generic - Stellar by HTML5 UP</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="../frontend/assets/css/main.css" />
+    <noscript>
+        <link rel="stylesheet" href="../frontend/assets/css/noscript.css" /></noscript>
+    <script src="../libraries/plotly-latest.min.js"></script>
+</head>
+
+<body class="is-preload">
+    <!-- Wrapper -->
+    <div id="wrapper">
+        <!-- Header -->
+        <header id="header">
+            <h1>Delay Discounting Data</h1>
+            <p>Visualized with plotly.js</p>
+        </header>
+        <!-- Main -->
+        <div id="main">
+            <!-- Content -->
+            <section id="content" class="main">
+                <div id="user1" style="width:100%;height:100%;"></div>
+                <div id="user2" style="width:100%;height:100%;"></div>
+            </section>
+        </div>
+    </div>
+    <!-- Scripts -->
+    <script>
+        function chunkArray(myArray, chunk_size) {
+            var index = 0;
+            var arrayLength = myArray.length;
+            var tempArray = [];
+            for (index = 0; index < arrayLength; index += chunk_size) {
+                myChunk = myArray.slice(index, index + chunk_size);
+                // Do something if you want with the group
+                tempArray.push(myChunk);
+            }
+            return tempArray;
+        }
+    </script>
+    <script>
+        var user_id = '<%= discount_data[0]._id %>';
+        var client_elapsed_time_array = [<%= elapsed_time_array %>];
+        client_elapsed_time_chunk = chunkArray(client_elapsed_time_array, 5);
+        var client_indifference_array = [<%= indifference_array %>];
+        client_indifference_chunk = chunkArray(client_indifference_array, 5);
+
+        var trace1 = {
+            x: client_elapsed_time_chunk[0],
+            y: client_indifference_chunk[0],
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Trial 1',
+            marker: { size: 12 }
+        };
+
+        var trace2 = {
+            x: client_elapsed_time_chunk[1],
+            y: client_indifference_chunk[1],
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Trial 2',
+            marker: { size: 12 }
+        };
+
+        var trace3 = {
+            x: client_elapsed_time_chunk[2],
+            y: client_indifference_chunk[2],
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Trial 3',
+            marker: { size: 12 }
+        };
+
+        var trace4 = {
+            x: client_elapsed_time_chunk[3],
+            y: client_indifference_chunk[3],
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Trial 4',
+            marker: { size: 12 }
+        };
+
+        var trace5 = {
+            x: client_elapsed_time_chunk[4],
+            y: client_indifference_chunk[4],
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Trial 5',
+            marker: { size: 12 }
+        };
+
+        var data = [trace1, trace2, trace3, trace4, trace5];
+
+        var layout = {
+            xaxis: {},
+            yaxis: {},
+            title: 'Delay Discount User ' + user_id + ' Data'
+        };
+
+        Plotly.newPlot('user1', data, layout);
+    </script>
+    <script>
+        var user_id = '<%= discount_data[0]._id %>';
+        var client_rt_array = [<%= rt_array %>];
+        client_rt_array_chunk = chunkArray(client_rt_array, 5);
+        console.log(client_rt_array);
+        console.log(client_indifference_array);
+
+        var trace1 = {
+            x: client_rt_array_chunk[0],
+            y: client_indifference_chunk[0],
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Trial 1',
+            marker: { size: 12 }
+        };
+
+        var trace2 = {
+            x: client_rt_array_chunk[1],
+            y: client_indifference_chunk[1],
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Trial 2',
+            marker: { size: 12 }
+        };
+
+        var trace3 = {
+            x: client_rt_array_chunk[2],
+            y: client_indifference_chunk[2],
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Trial 3',
+            marker: { size: 12 }
+        };
+
+        var trace4 = {
+            x: client_rt_array_chunk[3],
+            y: client_indifference_chunk[3],
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Trial 4',
+            marker: { size: 12 }
+        };
+
+        var trace5 = {
+            x: client_rt_array_chunk[4],
+            y: client_indifference_chunk[4],
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Trial 5',
+            marker: { size: 12 }
+        };
+
+        var data = [trace1, trace2, trace3, trace4, trace5];
+
+        var layout = {
+            xaxis: {},
+            yaxis: {},
+            title: 'Delay Discount User ' + user_id + ' Data'
+        };
+
+        Plotly.newPlot('user2', data, layout);
+    </script>
+    <script src="../frontend/assets/js/jquery.min.js"></script>
+    <script src="../frontend/assets/js/jquery.scrollex.min.js"></script>
+    <script src="../frontend/assets/js/jquery.scrolly.min.js"></script>
+    <script src="../frontend/assets/js/browser.min.js"></script>
+    <script src="../frontend/assets/js/breakpoints.min.js"></script>
+    <script src="../frontend/assets/js/util.js"></script>
+    <script src="../frontend/assets/js/main.js"></script>
+</body>
+
+</html>

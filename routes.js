@@ -1,19 +1,44 @@
 const DataController = require('./DataController');
 
-module.exports = function (app, path) {
+// CONNECT TO MONGO DATABASES
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+// Connection URL
+const url = 'mongodb://localhost:27017';
+// Database Name
+const dbName = 'jspsych';
+// Create a new MongoClient
+const client = new MongoClient(url);
 
+// Use connect method to connect to the Server
+client.connect(function (err) {
+    assert.equal(null, err);
+    console.log("Connected successfully to database");
+});
+
+module.exports = function (app, path) {
     // GET REQUESTS
-    // app.get('/delay-discounting', function(req, res) {
-    //     res.sendFile(path.join(__dirname + '/tasks/delay_discount/experiment.html'));
-    // });
-    // app.get('/symbol-counting', function(req, res) {
-    //     res.sendFile(path.join(__dirname + '/tasks/symbol_counting/experiment.html'));
-    // });
+    app.get('/delay-discounting', function(req, res) {
+        res.sendFile(path.join(__dirname + '/tasks/delay_discount/experiment.html'));
+    });
+    app.get('/symbol-counting', function(req, res) {
+        res.sendFile(path.join(__dirname + '/tasks/symbol_counting/experiment.html'));
+    });
     app.get('/home', function (req, res) {
         res.sendFile(path.join(__dirname + '/index.html'));
     });
     app.get('/grit_short', function (req, res) {
         res.sendFile(path.join(__dirname + '/surveys/grit_short.html'))
+    });
+
+    // Add data ejs route
+    app.get("/data", function (req, res) {
+        const db = client.db(dbName);
+        const collection = db.collection('delaydiscounts');
+        collection.find({}).toArray(function (err, discount_data) {
+            assert.equal(err, null);
+            res.render("data.ejs", { discount_data: discount_data });
+        });
     });
 
     // catch-all route to demonstrate/test ejs file
@@ -32,5 +57,4 @@ module.exports = function (app, path) {
 
     // POST REQUESTS
     app.post('/submit-data', DataController.create);
-
 }
