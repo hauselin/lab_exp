@@ -73,9 +73,16 @@ function run_survey(survey) {
                 type: "POST",
                 url: "/submit-data",
                 data: jsPsych.data.get().json(),
-                contentType: "application/json"
+                contentType: "application/json",
+                success: function() {
+                    display();
+                }
             })
-            jsPsych.data.displayData();
+            function display() {
+                setTimeout(function(){ 
+                    jsPsych.data.displayData();}, 5000)
+            }
+            window.location.replace("http://localhost:8080/grit_short");
         }
     });
 };
