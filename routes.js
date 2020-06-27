@@ -32,7 +32,7 @@ module.exports = function (app, path) {
     });
 
     // Add data ejs route
-    app.get("/data", function (req, res) {
+    app.get("/viz", function (req, res) {
         const db = client.db(dbName);
         const collection = db.collection('delaydiscounts');
         collection.find({}).toArray(function (err, discount_data) {
