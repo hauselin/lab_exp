@@ -73,9 +73,21 @@ function run_survey(survey) {
                 type: "POST",
                 url: "/submit-data",
                 data: jsPsych.data.get().json(),
-                contentType: "application/json"
+                contentType: "application/json",
+                success: function (data) { // success only runs if html status code is 2xx (success)
+                    // data is just the success status code sent from server (200)
+                    console.log(data + ' data successfully saved');
+                    console.log('replace this line with redirection code');
+                },
+                complete: function (data) { // complete ALWAYS runs at the end of request
+                    // data is the entire response object!
+                    console.log('COMPLETE');
+                    console.log(data);
+                    console.log('response status: ' + data.status);
+                    console.log('response text: ' + data.responseText);
+                }
+
             })
-            jsPsych.data.displayData();
         }
     });
 };
