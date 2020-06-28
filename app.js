@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');               // GET THE CURRENT PATH
 const app = express();                      // INSTANTIATE THE APP
+const axios = require('axios')
 
 app.use(bodyParser.json());                 // allow app to parse any json request
 app.use(express.json());
