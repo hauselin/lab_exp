@@ -76,8 +76,7 @@ function run_survey(survey) {
                 contentType: "application/json",
                 success: function (data) { // success only runs if html status code is 2xx (success)
                     // data is just the success status code sent from server (200)
-                    console.log(data + ' data successfully saved');
-                    console.log('replace this line with redirection code');
+                    console.log(data + ' data successfully saved'); // just for us to see in the console that data are saved
                 },
                 complete: function (data) { // complete ALWAYS runs at the end of request
                     // data is the entire response object!
@@ -85,6 +84,7 @@ function run_survey(survey) {
                     console.log(data);
                     console.log('response status: ' + data.status);
                     console.log('response text: ' + data.responseText);
+                    console.log('replace this line with redirection code'); // redirect regardless of status code
                 }
 
             })
