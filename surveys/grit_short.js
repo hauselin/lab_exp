@@ -77,17 +77,23 @@ function run_survey(survey) {
                 window.location.replace("http://localhost:8080/grit_short"); // redirect to grit_short after the survey is complete
             }
         }
-    }
+    };
 
     jsPsych.init({
-        timeline: [procedure, complete],
+        timeline: [procedure],
         on_finish: function () {
             jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
             $.ajax({
                 type: "POST",
                 url: "/submit-data",
                 data: jsPsych.data.get().json(),
-                contentType: "application/json"
+                contentType: "application/json",
+                success: function(data) {
+                    if (data == "Saved") {
+                        console.log(data);
+                        window.location.replace("http://localhost:8080/grit_short");
+                    }
+                }
             })
 
         }

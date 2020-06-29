@@ -16,5 +16,6 @@ module.exports = {
             datetime: req.body[0].datetime,
             data: req.body
         })
+        res.send("Saved");
     }
 }
