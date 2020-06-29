@@ -1,3 +1,4 @@
+var subject = jsPsych.randomization.randomID(15);
 var task = 'grit_short'; // must be identical to script name and csv file name
 var slider_width = 500; // width of slider in pixels
 var scale_min_max = [1, 5]; // slider min max values
@@ -22,6 +23,7 @@ Papa.parse('../surveys/' + task + '.csv', {
 // entire task is a (callback) function called by Papa.parse
 function run_survey(survey) {
     jsPsych.data.addProperties({
+        subject: subject,
         task: task,
         browser: navigator.userAgent, // browser info
         datetime: Date(),
