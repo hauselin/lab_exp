@@ -14,7 +14,15 @@ module.exports = {
             condition: req.body[0].condition,
             browser: req.body[0].browser,
             datetime: req.body[0].datetime,
-            data: req.body
-        })
+            data: req.body,
+        }, function (err, data) {
+            if (err) { // error
+                console.log(err); // print error to nodejs console
+                res.sendStatus(500);  // send internal server error (500: http status code internal server error)
+            } else { // success
+                // console.log(data); // print req.body in nodejs console
+                res.sendStatus(200); // send OK to client (200: http status code OK)
+            }
+        });
     }
 }
