@@ -5,7 +5,7 @@ var experiment = 'symbol counter';
 var debug = true;
 var fullscreen = false;
 
-const trials = 200;               // the total number of trials 
+const trials = 2;               // the total number of trials 
 const max_tasktime_minutes = 5;   // maximum task time in minutes (task ends after this amount of time regardless of how many trials have been completed)
 var reps = 12;                  // the number of symbols per trial
 var difficulty = 1;   // task difficult (1, 2, 3, 4, or 5; 5 is most difficult)
@@ -292,12 +292,7 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         jsPsych.data.get().addToAll({ total_time: jsPsych.totalTime() });
-        $.ajax({
-            type: "POST",
-            url: "/submit-data",
-            data: jsPsych.data.get().json(),
-            contentType: "application/json"
-        })
+        submit_data(jsPsych.data.get().json(), false);
         jsPsych.data.displayData();
     }
 });

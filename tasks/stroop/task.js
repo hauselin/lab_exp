@@ -210,12 +210,7 @@ jsPsych.init({
             console.log(ddm_params);
         }
         jsPsych.data.get().addToAll({ total_time: jsPsych.totalTime(), ddm_params: ddm_params });
-        // $.ajax({
-        //     type: "POST",
-        //     url: "/submit-data",
-        //     data: jsPsych.data.get().json(),
-        //     contentType: "application/json"
-        // })
+        submit_data(jsPsych.data.get().json(), false);
         jsPsych.data.displayData();
     }
 });
