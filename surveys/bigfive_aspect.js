@@ -1,0 +1,9 @@
+var task = 'bigfive_aspect'; // must be identical to script name and csv file name
+var slider_width = 500; // width of slider in pixels
+var scale_min_max = [1, 5]; // slider min max values
+var scale_starting_points = [2, 3, 4]; // starting point of scale; if length > 1, randomly pick one for each scale item
+var scale_labels = ['not at all like me', 'very much like me']
+var step = 0.01; // step size of scale
+var require_movement = false; // whether subject must move slider before they're allowed to click continue
+var shuffle_items = false; // randomize order of item presentation
+var debug = true;
