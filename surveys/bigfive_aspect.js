@@ -14,7 +14,7 @@ Papa.parse('../surveys/' + task + '.csv', {
     dynamicTyping: true,
     complete: function (results) {
         if (debug) {
-            run_survey(results.data.slice(0,3));
+            run_survey(results.data.slice(0, 3));
         }
         else {
             run_survey(results.data);
@@ -78,18 +78,15 @@ function run_survey(survey) {
                 data: jsPsych.data.get().json(),
                 contentType: "application/json",
                 success: function (data) { // success only runs if html status code is 2xx (success)
-                    // data is just the success status code sent from server (200)
-                    console.log(data + ' data successfully saved'); // just for us to see in the console that data are saved
+                    console.log('SUCCESS: ' + data + ' data successfully saved in database'); // data is just the success status code sent from server (200)
                 },
                 complete: function (data) { // complete ALWAYS runs at the end of request
-                    // data is the entire response object!
-                    console.log('COMPLETE');
-                    console.log(data);
-                    console.log('response status: ' + data.status);
-                    console.log('response text: ' + data.responseText);
-                    console.log('replace this line with redirection code'); // redirect regardless of status code
+                    if (data.status != 200) { // data is the entire response object!
+                        console.log('WARNING! Data might not have been saved! Response status: ' + data.status);
+                    };
+                    console.log('Post request complete');
+                    // window.location.replace('/'); // redirect to homepage
                 }
-
             })
         }
     });
