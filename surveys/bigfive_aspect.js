@@ -39,6 +39,33 @@ function run_survey(survey) {
                 subscale: jsPsych.timelineVariable('subscale'),
                 reverse: jsPsych.timelineVariable('reverse')
             },
-        }]
-    }
+            labels: scale_labels,
+            slider_width: slider_width,
+            min: scale_min_max[0],
+            max: scale_min_max[1],
+            start: function () {
+                start_point = jsPsych.randomization.sampleWithoutReplacement(scale_starting_points, 1)[0];
+                return start_point;
+            },
+            step: step,
+            require_movement: require_movement,
+            on_finish: function (data) {
+                data.start_point = start_point;
+                data.resp = Number(data.response);
+                data.resp_reverse = data.resp;
+                if (data.reverse) { // reverse code item if necessary
+                    data.resp_reverse = scale_min_max[1] + 1 - data.resp;
+                }
+                if (debug) {
+                    console.log("q" + data.q + " (reverse: " + data.reverse + "): " + data.stimulus);
+                    console.log("resp: " + data.resp + ", resp_reverse: " + data.resp_reverse);
+                }
+            }
+        }],
+
+        timeline_variables: survey,
+        randomize_order: shuffle_items
+    };
+
+    
 }
