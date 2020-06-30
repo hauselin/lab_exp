@@ -18,6 +18,9 @@ module.exports = function (app, path) {
     app.get('/grit-short', function (req, res) {
         res.sendFile(path.join(__dirname + '/surveys/grit_short.html'))
     });
+    app.get('/big-five', function (req, res) {
+        res.sendFile(path.join(__dirname + '/surveys/bigfive_aspect.html'))
+    });
 
     // catch-all route to demonstrate/test ejs file
     app.get('/*', function (req, res) {

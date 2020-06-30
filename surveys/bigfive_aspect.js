@@ -7,3 +7,12 @@ var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before they're allowed to click continue
 var shuffle_items = false; // randomize order of item presentation
 var debug = true;
+
+Papa.parse('../surveys/' + task + '.csv', {
+    download: true,
+    header: true,
+    dynamicTyping: true,
+    complete: function (results) {
+        console.log(results.data.slice(0,3))
+    }
+});
