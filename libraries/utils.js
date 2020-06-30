@@ -193,3 +193,26 @@ function mad_cutoffs(x, cutoff = 3.0) {
     return [median(x) - 3 * mad(x), median(x) + 3 * mad(x)];
     // values < element 0 or values > element 1 are considered outliers
 }
+
+function submit_data(results, redirect_url) {
+    $.ajax({
+        type: "POST",
+        url: "/submit-data",
+        data: results,
+        contentType: "application/json",
+        success: function (data) { // success only runs if html status code is 2xx (success)
+            console.log('SUCCESS: ' + data + ' data successfully saved in database'); // data is just the success status code sent from server (200)
+        },
+        complete: function (data) { // complete ALWAYS runs at the end of request
+            if (data.status != 200) { // data is the entire response object!
+                console.log('WARNING! Data might not have been saved! Response status: ' + data.status);
+            }
+            else {
+                console.log('Post request complete.');
+                if (redirect_url != false) {
+                    window.location.replace(redirect_url);
+                }
+            }
+        }
+    })
+}

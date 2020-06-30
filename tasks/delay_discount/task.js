@@ -142,12 +142,7 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         jsPsych.data.get().addToAll({ auc: get_auc(), total_time: jsPsych.totalTime() });
-        $.ajax({
-            type: "POST",
-            url: "/submit-data",
-            data: jsPsych.data.get().json(),
-            contentType: "application/json"
-        })
+        submit_data(jsPsych.data.get().json(), false);
         jsPsych.data.displayData();
         // var all_data = jsPsych.data.get().filter({trial_type: 'html-keyboard-response'}).localSave('json','data.json');
     }

@@ -1,4 +1,5 @@
 var task = 'bigfive_aspect'; // must be identical to script name and csv file name
+var subject = jsPsych.randomization.randomID(15);
 var slider_width = 500; // width of slider in pixels
 var scale_min_max = [1, 5]; // slider min max values
 var scale_starting_points = [2, 3, 4]; // starting point of scale; if length > 1, randomly pick one for each scale item
@@ -25,6 +26,7 @@ Papa.parse('../surveys/' + task + '.csv', {
 function run_survey(survey) {
     jsPsych.data.addProperties({
         task: task,
+        subject: subject,
         browser: navigator.userAgent, // browser info
         datetime: Date(),
     });
