@@ -8,7 +8,7 @@ var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before they're allowed to click continue
 var shuffle_items = false; // randomize order of item presentation
 var debug = true;
-var url = 'http://localhost:8080/home';
+var url = 'http://localhost:8080/home'; // if this is false, no redirection occurs
 
 Papa.parse('../surveys/' + task + '.csv', {
     download: true,
