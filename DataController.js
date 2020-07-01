@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/jspsych',
+mongoose.connect('mongodb://localhost/datalibrary',
     { useUnifiedTopology: true, useNewUrlParser: true });
 
-var jspsychDataSchema = new mongoose.Schema({}, { strict: false });
-var DataCollection = mongoose.model('DataCollection', jspsychDataSchema);
+var dataLibrarySchema = new mongoose.Schema({}, { strict: false });
+var DataLibrary = mongoose.model('DataLibrary', dataLibrarySchema);
 
 module.exports = {
     create(req, res) {
-        DataCollection.create({
+        DataLibrary.create({
             subject: req.body[0].subject,
             task: req.body[0].task,
             experiment: req.body[0].experiment,
