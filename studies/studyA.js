@@ -1,36 +1,29 @@
 var subject = jsPsych.randomization.randomID(15);
-// const grit_task = 'grit_short'; // must be identical to script name and csv file name
-// const big_task = 'bigfive_aspect';
 var slider_width = 500; // width of slider in pixels
 var scale_min_max = [1, 5]; // slider min max values
 var scale_starting_points = [2, 3, 4]; // starting point of scale; if length > 1, randomly pick one for each scale item
-// const grit_scale_labels = ['not at all like me', 'very much like me'];
-// const big_scale_labels = ['strongly disagree', 'neither agree nor disagree', 'strongly agree'];
 var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before they're allowed to click continue
 var shuffle_items = false; // randomize order of item presentation
 var debug = true;
 var url = false;  // if this is false, no redirection occurs
 
-var tests = new Map();
-tests.set('grit_short', ['not at all like me', 'very much like me']);
-tests.set('bigfive_aspect', ['strongly disagree', 'neither agree nor disagree', 'strongly agree']);
+var test_tasks = ['grit_short', 'bigfive_aspect'];
+var test_labels = [['not at all like me', 'very much like me'], ['strongly disagree', 'neither agree nor disagree', 'strongly agree']]
 
-for (const[key, value] of tests.entries()) {
-    console.log([key, value]);
-    Papa.parse('../surveys/' + key + '.csv', {
+for (var i = 0; i < test_tasks.length; i++) {
+    Papa.parse('../surveys/' + test_tasks[i] + '.csv', {
         download: true,
         header: true,
         dynamicTyping: true,
         complete: function (results) {
-            if (debug && key == 'bigfive_aspect') {
-                run_survey(results.data.slice(0, 3), key, value);
+            if (debug && test_tasks[i] == 'bigfive_aspect') {
+                run_survey(results.data.slice(0, 3), test_tasks[i], test_labels[i]);
             } else {
-                run_survey(results.data, key, value);
+                run_survey(results.data, test_tasks[i], test_labels[i]);
             }
         }
     });
-
 }
 
 // entire task is a (callback) function called by Papa.parse
