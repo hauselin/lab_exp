@@ -90,6 +90,10 @@ module.exports = function (app, path) {
         });
     });
 
+    app.get('/delay-discounting/local_viz', function (req, res) {
+        res.sendFile(path.join(__dirname + '/tasks/delay_discount/local_viz.html'));
+    });
+
     app.get("/ejs_home", function (req, res) {
         const db = client.db(dbName);
         const collection = db.collection('index_stats');

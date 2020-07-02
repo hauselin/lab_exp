@@ -142,6 +142,24 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         jsPsych.data.get().addToAll({ auc: get_auc(), total_time: jsPsych.totalTime() });
+        var subject_id = jsPsych.data.get().filter({trial_type: "html-keyboard-response"}).select('subject').values[0];
+        var indiff_data = jsPsych.data.get().filter({trial_type: "html-keyboard-response"}).select('indifference').values;
+        var cost_data = jsPsych.data.get().filter({trial_type: "html-keyboard-response"}).select('cost').values;
+        var auc_data = jsPsych.data.get().filter({trial_type: "html-keyboard-response"}).select('auc').values[0];
+        sessionStorage.setItem("subject", subject_id);
+        sessionStorage.setItem("trials_per_cost", trials_per_cost);
+        sessionStorage.setObj("indifference", indiff_data);
+        sessionStorage.setObj("cost", cost_data);
+        sessionStorage.setItem("auc", auc_data);
+        jsPsych.data.addProperties({
+            data_summary: {
+                subject: subject_id,
+                trials_per_cost: trials_per_cost,
+                indifference: indiff_data,
+                cost: cost_data,
+                auc: auc_data
+            },
+        });
         $.ajax({
             type: "POST",
             url: "/submit-data",

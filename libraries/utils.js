@@ -193,3 +193,11 @@ function mad_cutoffs(x, cutoff = 3.0) {
     return [median(x) - 3 * mad(x), median(x) + 3 * mad(x)];
     // values < element 0 or values > element 1 are considered outliers
 }
+
+// allows sessionStorage to store arrays and objects using sessionStorage.setObj() and sessionStorage.getObj()
+Storage.prototype.setObj = function(key, obj) {
+    return this.setItem(key, JSON.stringify(obj))
+}
+Storage.prototype.getObj = function(key) {
+    return JSON.parse(this.getItem(key))
+}
