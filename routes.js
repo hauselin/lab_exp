@@ -22,9 +22,6 @@ module.exports = function (app, path) {
     app.get('/delay-discounting', function(req, res) {
         res.sendFile(path.join(__dirname + '/tasks/delay_discount/task.html'));
     });
-    app.get('/delay-discounting/consent', function(req, res) {
-        res.sendFile(path.join(__dirname + '/tasks/delay_discount/consent.html'));
-    });
     app.get('/symbol-counting', function(req, res) {
         res.sendFile(path.join(__dirname + '/tasks/symbol_counting/task.html'));
     });
