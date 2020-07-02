@@ -53,6 +53,7 @@ if (getQueryString().hasOwnProperty('subject')) {
     }
 }
 
+date = new Date();
 // add data to all trials
 jsPsych.data.addProperties({
     subject: subject,
@@ -60,8 +61,16 @@ jsPsych.data.addProperties({
     task: task,
     experiment: experiment,
     stimuli_sides: stimuli_sides,
-    browser: navigator.userAgent, // browser info
-    datetime: Date(),
+    info: {
+        datetime: date,
+        timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
+        platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
+        browser: navigator.userAgent, // browser info
+        ip: geoplugin_request(),
+        city: geoplugin_city(),
+        region: geoplugin_region(),
+        country_name: geoplugin_countryName(),
+    }
 });
 
 var timeline = [];
