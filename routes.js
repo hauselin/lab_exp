@@ -19,12 +19,12 @@ client.connect(function (err) {
 
 module.exports = function (app, path) {
     // GET REQUESTS
-    // app.get('/delay-discounting', function(req, res) {
-    //     res.sendFile(path.join(__dirname + '/tasks/delay_discount/experiment.html'));
-    // });
-    // app.get('/symbol-counting', function(req, res) {
-    //     res.sendFile(path.join(__dirname + '/tasks/symbol_counting/experiment.html'));
-    // });
+    app.get('/delay-discounting', function(req, res) {
+        res.sendFile(path.join(__dirname + '/tasks/delay_discount/task.html'));
+    });
+    app.get('/symbol-counting', function(req, res) {
+        res.sendFile(path.join(__dirname + '/tasks/symbol_counting/task.html'));
+    });
     app.get('/', function (req, res) {
         res.sendFile(path.join(__dirname + '/index.html'));
     });
@@ -42,14 +42,11 @@ module.exports = function (app, path) {
     app.get("/data", function (req, res) {
         const db = client.db(dbName);
         const collection = db.collection('datacollections');
-        collection.find({experiment: 'delay discounting'}).toArray(function (err, discount_data) {
+        collection.find({ experiment: 'delay discounting' }).toArray(function (err, discount_data) {
             assert.equal(err, null);
-            var filtered = discount_data[discount_data.length - 1].data.filter(function(response) {
+            var filtered = discount_data[discount_data.length - 1].data.filter(function (response) {
                 return response.trial_type == "html-keyboard-response";
             });
-            // var indiff = [filtered[filtered.length - 1].indifference];
-            // var rt = [filtered[filtered.length - 1].rt];
-            // var time = [filtered[filtered.length - 1].time_elapsed];
             var indiff = [];
             var rt = [];
             var time = [];
@@ -58,7 +55,37 @@ module.exports = function (app, path) {
                 time.push(filtered[i].time_elapsed)
                 rt.push(filtered[i].rt)
             };
-            res.render("data.ejs", { subject_id: discount_data[discount_data.length - 1].subject, indiff: indiff, time: time, rt: rt });
+
+            function chunkArray(myArray, chunk_size) {
+                var index = 0;
+                var arrayLength = myArray.length;
+                var tempArray = [];
+                for (index = 0; index < arrayLength; index += chunk_size) {
+                    myChunk = myArray.slice(index, index + chunk_size);
+                    // Do something if you want with the group
+                    tempArray.push(myChunk);
+                }
+                return tempArray;
+            }
+            indiff_chunk = chunkArray(indiff, 5);
+            time_chunk = chunkArray(time, 5);
+            rt_chunk = chunkArray(rt, 5);
+
+
+            curve_data = filtered.filter(function (response) {
+                return response.n_trial == 5;
+            });
+            curve_data.sort(function (a, b) {
+                return a.cost - b.cost;
+            });
+
+            var sorted_indiff = [];
+            var sorted_costs = [];
+            for (i = 0; i < curve_data.length; i++) {
+                sorted_indiff.push(curve_data[i].indifference)
+                sorted_costs.push(curve_data[i].cost)
+            };
+            res.render("data.ejs", { subject_id: discount_data[discount_data.length - 1].subject, indiff_chunk: indiff_chunk, time_chunk: time_chunk, rt_chunk: rt_chunk, sorted_indiff: sorted_indiff, sorted_costs: sorted_costs, filtered: curve_data });
         });
     });
 

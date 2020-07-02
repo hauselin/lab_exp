@@ -19,36 +19,42 @@
         </header>
         <div id="main">
             <section id="content" class="main">
+                <div id="indiff_curve" style="width:100%;height:100%;"></div>
                 <div id="user1" style="width:100%;height:100%;"></div>
                 <div id="user2" style="width:100%;height:100%;"></div>
             </section>
         </div>
     </div>
     <script>
-        function chunkArray(myArray, chunk_size) {
-            var index = 0;
-            var arrayLength = myArray.length;
-            var tempArray = [];
-            for (index = 0; index < arrayLength; index += chunk_size) {
-                myChunk = myArray.slice(index, index + chunk_size);
-                // Do something if you want with the group
-                tempArray.push(myChunk);
-            }
-            return tempArray;
-        }
-    </script>
-    <script>
         var subject_id = '<%= subject_id %>';
         console.log(subject_id);
         var sub_header = document.getElementById("subject");
         sub_header.textContent += subject_id;
+    </script>
+    <script>
+        var trace = {
+            x: [<%= sorted_costs %>],
+            y: [<%= sorted_indiff %>],
+            mode: 'markers',
+            type: 'scatter',
+            marker: { size: 12 }
+        };
 
-        time_chunk = chunkArray([<%= time %>], 5);
-        indiff_chunk = chunkArray([<%= indiff %>], 5);
+        var data = [trace];
+
+        var layout = {
+            xaxis: {},
+            yaxis: {},
+            title: 'Indifference value over time.'
+        };
+
+        Plotly.newPlot('indiff_curve', data, layout);
+    </script>
+    <script>
 
         var trace1 = {
-            x: time_chunk[0],
-            y: indiff_chunk[0],
+            x: [<%= time_chunk[0] %>],
+            y: [<%= indiff_chunk[0] %>],
             mode: 'markers',
             type: 'scatter',
             name: 'Reward 1',
@@ -56,8 +62,8 @@
         };
 
         var trace2 = {
-            x: time_chunk[1],
-            y: indiff_chunk[1],
+            x: [<%= time_chunk[1] %>],
+            y: [<%= indiff_chunk[1] %>],
             mode: 'markers',
             type: 'scatter',
             name: 'Reward 2',
@@ -65,8 +71,8 @@
         };
 
         var trace3 = {
-            x: time_chunk[2],
-            y: indiff_chunk[2],
+            x: [<%= time_chunk[2] %>],
+            y: [<%= indiff_chunk[2] %>],
             mode: 'markers',
             type: 'scatter',
             name: 'Reward 3',
@@ -74,8 +80,8 @@
         };
 
         var trace4 = {
-            x: time_chunk[3],
-            y: indiff_chunk[3],
+            x: [<%= time_chunk[3] %>],
+            y: [<%= indiff_chunk[3] %>],
             mode: 'markers',
             type: 'scatter',
             name: 'Reward 4',
@@ -83,8 +89,8 @@
         };
 
         var trace5 = {
-            x: time_chunk[4],
-            y: indiff_chunk[4],
+            x: [<%= time_chunk[4] %>],
+            y: [<%= indiff_chunk[4] %>],
             mode: 'markers',
             type: 'scatter',
             name: 'Reward 5',
@@ -102,12 +108,9 @@
         Plotly.newPlot('user1', data, layout);
     </script>
     <script>
-        var subject_id = '<%= subject_id %>';
-        rt_chunk = chunkArray([<%= rt %>], 5);
-
         var trace1 = {
-            x: rt_chunk[0],
-            y: indiff_chunk[0],
+            x: [<%= rt_chunk[0] %>],
+            y: [<%= indiff_chunk[0] %>],
             mode: 'markers',
             type: 'scatter',
             name: 'Reward 1',
@@ -115,8 +118,8 @@
         };
 
         var trace2 = {
-            x: rt_chunk[1],
-            y: indiff_chunk[1],
+            x: [<%= rt_chunk[1] %>],
+            y: [<%= indiff_chunk[1] %>],
             mode: 'markers',
             type: 'scatter',
             name: 'Reward 2',
@@ -124,8 +127,8 @@
         };
 
         var trace3 = {
-            x: rt_chunk[2],
-            y: indiff_chunk[2],
+            x: [<%= rt_chunk[2] %>],
+            y: [<%= indiff_chunk[2] %>],
             mode: 'markers',
             type: 'scatter',
             name: 'Reward 3',
@@ -133,8 +136,8 @@
         };
 
         var trace4 = {
-            x: rt_chunk[3],
-            y: indiff_chunk[3],
+            x: [<%= rt_chunk[3] %>],
+            y: [<%= indiff_chunk[3] %>],
             mode: 'markers',
             type: 'scatter',
             name: 'Reward 4',
@@ -142,8 +145,8 @@
         };
 
         var trace5 = {
-            x: rt_chunk[4],
-            y: indiff_chunk[4],
+            x: [<%= rt_chunk[4] %>],
+            y: [<%= indiff_chunk[4] %>],
             mode: 'markers',
             type: 'scatter',
             name: 'Reward 5',
