@@ -1,5 +1,4 @@
 const dark_background = false;
-var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 var task = 'delay discounting';
 var experiment = 'delay discounting';
@@ -34,6 +33,24 @@ var reverse_sides = Math.random() > 0.5; // randomly determine whether to switch
 var stimuli_sides = "left_large_right_small";
 if (reverse_sides) {
     stimuli_sides = "left_small_right_large";
+}
+
+if (getQueryString().hasOwnProperty('subject')) {
+    sessionStorage.setItem('subject', getQueryString().subject);
+    var subject = getQueryString().subject;
+    if (debug) {
+        console.log('There was url subject ID variable: ' + subject);
+    }
+} else if (sessionStorage.getItem('subject')) {
+    var subject = sessionStorage.getItem('subject');
+    if (debug) {
+        console.log('There was no url subject ID variable but there was subject ID in sessionStorage: ' + subject);
+    }
+} else {
+    var subject = jsPsych.randomization.randomID(15); // random character subject id
+    if (debug) {
+        console.log('There was no url subject ID variable or subject ID in sessionStorage, hence the subject ID is randomly generated: ' + subject);
+    }
 }
 
 // add data to all trials
