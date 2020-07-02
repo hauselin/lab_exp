@@ -3,6 +3,7 @@ const DataController = require('./DataController');
 // CONNECT TO MONGO DATABASES
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
+const { time } = require('console');
 // Connection URL
 const url = 'mongodb://localhost:27017';
 // Database Name
@@ -46,9 +47,18 @@ module.exports = function (app, path) {
             var filtered = discount_data[0].data.filter(function(response) {
                 return response.trial_type == "html-keyboard-response";
             });
-            var indifference_array = [filtered[filtered.length - 1].indifference];
-            var rt_array = [filtered[filtered.length - 1].rt];
-            res.render("data.ejs", { discount_data:filtered, subject_id: filtered.subject, indiff: indifference_array, time: elapsed_time_array, rt: rt_array });
+            // var indiff = [filtered[filtered.length - 1].indifference];
+            // var rt = [filtered[filtered.length - 1].rt];
+            // var time = [filtered[filtered.length - 1].time_elapsed];
+            var indiff = [];
+            var rt = [];
+            var time = [];
+            for (i = 0; i < filtered.length; i++) {
+                indiff.push(filtered[i].indifference)
+                time.push(filtered[i].time_elapsed)
+                rt.push(filtered[i].rt)
+            };
+            res.render("data.ejs", { filtered:filtered, subject_id: filtered.subject, indiff: indiff, time: time, rt: rt });
         });
     });
 
