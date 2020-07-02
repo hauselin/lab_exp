@@ -15,7 +15,7 @@
     <div id="wrapper">
         <header id="header">
             <h1>Delay Discounting Data</h1>
-            <p>Visualized with plotly.js</p>
+            <p id="subject">Delay Discount Data for Subject: </p>
         </header>
         <div id="main">
             <section id="content" class="main">
@@ -40,6 +40,9 @@
     <script>
         var subject_id = '<%= subject_id %>';
         console.log(subject_id);
+        var sub_header = document.getElementById("subject");
+        sub_header.textContent += subject_id;
+
         time_chunk = chunkArray([<%= time %>], 5);
         indiff_chunk = chunkArray([<%= indiff %>], 5);
 
@@ -48,7 +51,7 @@
             y: indiff_chunk[0],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 1',
+            name: 'Reward 1',
             marker: { size: 12 }
         };
 
@@ -57,7 +60,7 @@
             y: indiff_chunk[1],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 2',
+            name: 'Reward 2',
             marker: { size: 12 }
         };
 
@@ -66,7 +69,7 @@
             y: indiff_chunk[2],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 3',
+            name: 'Reward 3',
             marker: { size: 12 }
         };
 
@@ -75,7 +78,7 @@
             y: indiff_chunk[3],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 4',
+            name: 'Reward 4',
             marker: { size: 12 }
         };
 
@@ -84,7 +87,7 @@
             y: indiff_chunk[4],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 5',
+            name: 'Reward 5',
             marker: { size: 12 }
         };
 
@@ -93,7 +96,7 @@
         var layout = {
             xaxis: {},
             yaxis: {},
-            title: 'Delay Discount Data for Subject: ' + subject_id
+            title: 'Indifference value over time.'
         };
 
         Plotly.newPlot('user1', data, layout);
@@ -107,7 +110,7 @@
             y: indiff_chunk[0],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 1',
+            name: 'Reward 1',
             marker: { size: 12 }
         };
 
@@ -116,7 +119,7 @@
             y: indiff_chunk[1],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 2',
+            name: 'Reward 2',
             marker: { size: 12 }
         };
 
@@ -125,7 +128,7 @@
             y: indiff_chunk[2],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 3',
+            name: 'Reward 3',
             marker: { size: 12 }
         };
 
@@ -134,7 +137,7 @@
             y: indiff_chunk[3],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 4',
+            name: 'Reward 4',
             marker: { size: 12 }
         };
 
@@ -143,7 +146,7 @@
             y: indiff_chunk[4],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 5',
+            name: 'Reward 5',
             marker: { size: 12 }
         };
 
@@ -152,7 +155,7 @@
         var layout = {
             xaxis: {},
             yaxis: {},
-            title: 'Delay Discount Data for Subject: ' + subject_id
+            title: 'Indifference value with respect to reaction time.'
         };
 
         Plotly.newPlot('user2', data, layout);
