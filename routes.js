@@ -39,7 +39,7 @@ module.exports = function (app, path) {
     });
 
     // Add data ejs route
-    app.get("/viz", function (req, res) {
+    app.get("/delay-discounting/viz", function (req, res) {
         const db = client.db(dbName);
         const collection = db.collection('datacollections');
         collection.find({ experiment: 'delay discounting' }).toArray(function (err, discount_data) {
@@ -87,15 +87,6 @@ module.exports = function (app, path) {
                 sorted_costs.push(curve_data[i].cost)
             };
             res.render("viz.ejs", { subject_id: discount_data[discount_data.length - 1].subject, indiff_chunk: indiff_chunk, time_chunk: time_chunk, rt_chunk: rt_chunk, sorted_indiff: sorted_indiff, sorted_costs: sorted_costs, filtered: curve_data });
-        });
-    });
-
-    app.get("/data", function (req, res) {
-        const db = client.db(dbName);
-        const collection = db.collection('datacollections');
-        collection.find({}).toArray(function (err, discount_data) {
-            assert.equal(err, null);
-            res.render("data.ejs", { discount_data: discount_data });
         });
     });
 
