@@ -44,7 +44,7 @@ module.exports = function (app, path) {
         const collection = db.collection('datacollections');
         collection.find({experiment: 'delay discounting'}).toArray(function (err, discount_data) {
             assert.equal(err, null);
-            var filtered = discount_data[0].data.filter(function(response) {
+            var filtered = discount_data[discount_data.length - 1].data.filter(function(response) {
                 return response.trial_type == "html-keyboard-response";
             });
             // var indiff = [filtered[filtered.length - 1].indifference];
@@ -58,7 +58,7 @@ module.exports = function (app, path) {
                 time.push(filtered[i].time_elapsed)
                 rt.push(filtered[i].rt)
             };
-            res.render("data.ejs", { filtered:filtered, subject_id: filtered.subject, indiff: indiff, time: time, rt: rt });
+            res.render("data.ejs", { subject_id: discount_data[discount_data.length - 1].subject, indiff: indiff, time: time, rt: rt });
         });
     });
 
