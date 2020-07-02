@@ -39,7 +39,7 @@ module.exports = function (app, path) {
     });
 
     // Add data ejs route
-    app.get("/data", function (req, res) {
+    app.get("/viz", function (req, res) {
         const db = client.db(dbName);
         const collection = db.collection('datacollections');
         collection.find({ experiment: 'delay discounting' }).toArray(function (err, discount_data) {
@@ -86,16 +86,28 @@ module.exports = function (app, path) {
                 sorted_indiff.push(curve_data[i].indifference / max_indiff)
                 sorted_costs.push(curve_data[i].cost)
             };
-            res.render("data.ejs", { subject_id: discount_data[discount_data.length - 1].subject, indiff_chunk: indiff_chunk, time_chunk: time_chunk, rt_chunk: rt_chunk, sorted_indiff: sorted_indiff, sorted_costs: sorted_costs, filtered: curve_data });
+            res.render("viz.ejs", { subject_id: discount_data[discount_data.length - 1].subject, indiff_chunk: indiff_chunk, time_chunk: time_chunk, rt_chunk: rt_chunk, sorted_indiff: sorted_indiff, sorted_costs: sorted_costs, filtered: curve_data });
         });
     });
 
-    app.get("/viz", function (req, res) {
+    app.get("/data", function (req, res) {
         const db = client.db(dbName);
         const collection = db.collection('datacollections');
         collection.find({}).toArray(function (err, discount_data) {
             assert.equal(err, null);
-            res.render("viz.ejs", { discount_data: discount_data });
+            res.render("data.ejs", { discount_data: discount_data });
+        });
+    });
+
+    app.get("/ejs_home", function (req, res) {
+        const db = client.db(dbName);
+        const collection = db.collection('index_stats');
+        collection.find({}).toArray(function (err, site_data) {
+            assert.equal(err, null);
+            var num_tasks = site_data[site_data.length - 1].num_tasks;
+            var num_studies = site_data[site_data.length - 1].num_studies;
+            var num_entries = site_data[site_data.length - 1].num_entries;
+            res.render("../ejs_home.ejs", { num_tasks: num_tasks, num_studies: num_studies, num_entries: num_entries });
         });
     });
 

@@ -1,23 +1,8 @@
-<%
-    var filtered = discount_data[0].data.filter(function(response) {
-        return response.trial_type == "html-keyboard-response";
-    });
-%>
-<%
-    indifference_array = [];
-    elapsed_time_array = [];
-    rt_array = [];
-    for (i = 0; i < filtered.length; i++) {
-        indifference_array.push(filtered[i].indifference)
-        elapsed_time_array.push(filtered[i].time_elapsed)
-        rt_array.push(filtered[i].rt)
-    };
-%>
 <!DOCTYPE HTML>
 <html>
 
 <head>
-    <title>Generic - Stellar by HTML5 UP</title>
+    <title>Data</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="../frontend/assets/css/main.css" />
@@ -27,89 +12,88 @@
 </head>
 
 <body class="is-preload">
-    <!-- Wrapper -->
     <div id="wrapper">
-        <!-- Header -->
         <header id="header">
             <h1>Delay Discounting Data</h1>
-            <p>Visualized with plotly.js</p>
+            <p id="subject">Delay Discount Data for Subject: </p>
         </header>
-        <!-- Main -->
         <div id="main">
-            <!-- Content -->
             <section id="content" class="main">
+                <div id="indiff_curve" style="width:100%;height:100%;"></div>
                 <div id="user1" style="width:100%;height:100%;"></div>
                 <div id="user2" style="width:100%;height:100%;"></div>
             </section>
         </div>
     </div>
-    <!-- Scripts -->
     <script>
-        var debug = true;
-        function chunkArray(myArray, chunk_size) {
-            var index = 0;
-            var arrayLength = myArray.length;
-            var tempArray = [];
-            for (index = 0; index < arrayLength; index += chunk_size) {
-                myChunk = myArray.slice(index, index + chunk_size);
-                // Do something if you want with the group
-                tempArray.push(myChunk);
-            }
-            return tempArray;
-        }
+        var subject_id = '<%= subject_id %>';
+        console.log(subject_id);
+        var sub_header = document.getElementById("subject");
+        sub_header.textContent += subject_id;
     </script>
     <script>
-        var subject_id = '<%= discount_data[0].subject %>';
-        if(debug) {
-            console.log(subject_id);
-        };
-        var client_elapsed_time_array = [<%= elapsed_time_array %>];
-        client_elapsed_time_chunk = chunkArray(client_elapsed_time_array, 5);
-        var client_indifference_array = [<%= indifference_array %>];
-        client_indifference_chunk = chunkArray(client_indifference_array, 5);
-
-        var trace1 = {
-            x: client_elapsed_time_chunk[0],
-            y: client_indifference_chunk[0],
+        var trace = {
+            x: [<%= sorted_costs %>],
+            y: [<%= sorted_indiff %>],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 1',
+            marker: { size: 12 }
+        };
+
+        var data = [trace];
+
+        var layout = {
+            xaxis: {},
+            yaxis: {},
+            title: 'Indifference curve.'
+        };
+
+        Plotly.newPlot('indiff_curve', data, layout);
+    </script>
+    <script>
+
+        var trace1 = {
+            x: [<%= time_chunk[0] %>],
+            y: [<%= indiff_chunk[0] %>],
+            mode: 'markers',
+            type: 'scatter',
+            name: 'Reward 1',
             marker: { size: 12 }
         };
 
         var trace2 = {
-            x: client_elapsed_time_chunk[1],
-            y: client_indifference_chunk[1],
+            x: [<%= time_chunk[1] %>],
+            y: [<%= indiff_chunk[1] %>],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 2',
+            name: 'Reward 2',
             marker: { size: 12 }
         };
 
         var trace3 = {
-            x: client_elapsed_time_chunk[2],
-            y: client_indifference_chunk[2],
+            x: [<%= time_chunk[2] %>],
+            y: [<%= indiff_chunk[2] %>],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 3',
+            name: 'Reward 3',
             marker: { size: 12 }
         };
 
         var trace4 = {
-            x: client_elapsed_time_chunk[3],
-            y: client_indifference_chunk[3],
+            x: [<%= time_chunk[3] %>],
+            y: [<%= indiff_chunk[3] %>],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 4',
+            name: 'Reward 4',
             marker: { size: 12 }
         };
 
         var trace5 = {
-            x: client_elapsed_time_chunk[4],
-            y: client_indifference_chunk[4],
+            x: [<%= time_chunk[4] %>],
+            y: [<%= indiff_chunk[4] %>],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 5',
+            name: 'Reward 5',
             marker: { size: 12 }
         };
 
@@ -118,63 +102,54 @@
         var layout = {
             xaxis: {},
             yaxis: {},
-            title: 'Individual data of user: ' + subject_id
+            title: 'Indifference value over time.'
         };
 
         Plotly.newPlot('user1', data, layout);
     </script>
     <script>
-        var subject_id = '<%= discount_data[0].subject %>';
-        if(debug) {
-            console.log(subject_id);
-        };
-        var client_rt_array = [<%= rt_array %>];
-        client_rt_array_chunk = chunkArray(client_rt_array, 5);
-        console.log(client_rt_array);
-        console.log(client_indifference_array);
-
         var trace1 = {
-            x: client_rt_array_chunk[0],
-            y: client_indifference_chunk[0],
+            x: [<%= rt_chunk[0] %>],
+            y: [<%= indiff_chunk[0] %>],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 1',
+            name: 'Reward 1',
             marker: { size: 12 }
         };
 
         var trace2 = {
-            x: client_rt_array_chunk[1],
-            y: client_indifference_chunk[1],
+            x: [<%= rt_chunk[1] %>],
+            y: [<%= indiff_chunk[1] %>],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 2',
+            name: 'Reward 2',
             marker: { size: 12 }
         };
 
         var trace3 = {
-            x: client_rt_array_chunk[2],
-            y: client_indifference_chunk[2],
+            x: [<%= rt_chunk[2] %>],
+            y: [<%= indiff_chunk[2] %>],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 3',
+            name: 'Reward 3',
             marker: { size: 12 }
         };
 
         var trace4 = {
-            x: client_rt_array_chunk[3],
-            y: client_indifference_chunk[3],
+            x: [<%= rt_chunk[3] %>],
+            y: [<%= indiff_chunk[3] %>],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 4',
+            name: 'Reward 4',
             marker: { size: 12 }
         };
 
         var trace5 = {
-            x: client_rt_array_chunk[4],
-            y: client_indifference_chunk[4],
+            x: [<%= rt_chunk[4] %>],
+            y: [<%= indiff_chunk[4] %>],
             mode: 'markers',
             type: 'scatter',
-            name: 'Trial 5',
+            name: 'Reward 5',
             marker: { size: 12 }
         };
 
@@ -183,7 +158,7 @@
         var layout = {
             xaxis: {},
             yaxis: {},
-            title: 'Individual data of subject: ' + subject_id
+            title: 'Indifference value with respect to reaction time.'
         };
 
         Plotly.newPlot('user2', data, layout);
