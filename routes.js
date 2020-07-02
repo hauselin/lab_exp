@@ -81,8 +81,9 @@ module.exports = function (app, path) {
 
             var sorted_indiff = [];
             var sorted_costs = [];
+            const max_indiff = Math.max(...indiff);
             for (i = 0; i < curve_data.length; i++) {
-                sorted_indiff.push(curve_data[i].indifference)
+                sorted_indiff.push(curve_data[i].indifference / max_indiff)
                 sorted_costs.push(curve_data[i].cost)
             };
             res.render("data.ejs", { subject_id: discount_data[discount_data.length - 1].subject, indiff_chunk: indiff_chunk, time_chunk: time_chunk, rt_chunk: rt_chunk, sorted_indiff: sorted_indiff, sorted_costs: sorted_costs, filtered: curve_data });
