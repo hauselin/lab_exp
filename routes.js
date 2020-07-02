@@ -38,12 +38,26 @@ module.exports = function (app, path) {
     });
 
     // Add data ejs route
+    app.get("/data", function (req, res) {
+        const db = client.db(dbName);
+        const collection = db.collection('datacollections');
+        collection.find({experiment: 'delay discounting'}).toArray(function (err, discount_data) {
+            assert.equal(err, null);
+            var filtered = discount_data[0].data.filter(function(response) {
+                return response.trial_type == "html-keyboard-response";
+            });
+            var indifference_array = [filtered[filtered.length - 1].indifference];
+            var rt_array = [filtered[filtered.length - 1].rt];
+            res.render("data.ejs", { discount_data:filtered, subject_id: filtered.subject, indiff: indifference_array, time: elapsed_time_array, rt: rt_array });
+        });
+    });
+
     app.get("/viz", function (req, res) {
         const db = client.db(dbName);
-        const collection = db.collection('delaydiscounts');
+        const collection = db.collection('datacollections');
         collection.find({}).toArray(function (err, discount_data) {
             assert.equal(err, null);
-            res.render("data.ejs", { discount_data: discount_data });
+            res.render("viz.ejs", { discount_data: discount_data });
         });
     });
 
