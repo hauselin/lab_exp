@@ -21,15 +21,15 @@ module.exports = function (app, path) {
     app.get('/bigfive-aspect', function (req, res) {
         res.sendFile(path.join(__dirname + '/surveys/bigfive_aspect.html'))
     });
+
+    // test downlload csv file
     app.get('/dl', function (req, res) {
         res.download(path.join(__dirname + '/surveys/grit_short.csv'), 'abc.csv', function (err) {
             if (err) {
                 console.log(err);
-            } else {
-                console.log(res);
             }
         });
-    })
+    });
 
     // catch-all route to demonstrate/test ejs file
     // app.get('/*', function (req, res) {
