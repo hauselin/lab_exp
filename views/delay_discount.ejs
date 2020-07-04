@@ -17,7 +17,7 @@
         <header id="header">
             <h1>Delay Discounting Data</h1>
             <p id="subject">Delay Discount Data for Subject: </p>
-            <p id="auc">Your AUC is: </p>
+            <p id="auc">Your area-under-curve is </p>
         </header>
         <div id="main">
             <section id="content" class="main">
@@ -75,7 +75,7 @@
             yaxis: {
                 range: [-0.05, 1.05]
             },
-            title: 'Indifference curve.'
+            title: 'Indifference curve'
         };
 
         Plotly.newPlot('indiff_curve', data, layout);

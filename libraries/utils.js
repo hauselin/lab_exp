@@ -195,21 +195,20 @@ function mad_cutoffs(x, cutoff = 3.0) {
 }
 
 // allows sessionStorage to store arrays and objects using sessionStorage.setObj() and sessionStorage.getObj()
-Storage.prototype.setObj = function(key, obj) {
+Storage.prototype.setObj = function (key, obj) {
     return this.setItem(key, JSON.stringify(obj))
 }
-Storage.prototype.getObj = function(key) {
+Storage.prototype.getObj = function (key) {
     return JSON.parse(this.getItem(key))
 }
 
 // get querry string
-function getQueryString() {
+function get_query_string() {
     var a = window.location.search.substr(1).split('&');
     if (a == "") return {};
     var b = {};
-    for (var i = 0; i < a.length; ++i)
-    {
-        var p=a[i].split('=', 2);
+    for (var i = 0; i < a.length; ++i) {
+        var p = a[i].split('=', 2);
         if (p.length == 1)
             b[p[0]] = "";
         else

@@ -35,7 +35,8 @@ if (reverse_sides) {
     stimuli_sides = "left_small_right_large";
 }
 
-if (getQueryString().hasOwnProperty('subject')) {
+// save 
+if (get_query_string().hasOwnProperty('subject')) {
     sessionStorage.setItem('subject', getQueryString().subject);
     var subject = getQueryString().subject;
     if (debug) {
@@ -54,23 +55,26 @@ if (getQueryString().hasOwnProperty('subject')) {
 }
 
 date = new Date();
+var info = {
+    datetime: date,
+    timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
+    platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
+    browser: navigator.userAgent, // browser info
+    // TODO: geolocation breaks the code if it doesn't work
+    // ip: geoplugin_request(),
+    // city: geoplugin_city(),
+    // region: geoplugin_region(),
+    // country_name: geoplugin_countryName(),
+};
+
 // add data to all trials
 jsPsych.data.addProperties({
     subject: subject,
     condition: condition,
     task: task,
     experiment: experiment,
-    stimuli_sides: stimuli_sides,
-    info: {
-        datetime: date,
-        timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
-        platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
-        browser: navigator.userAgent, // browser info
-        ip: geoplugin_request(),
-        city: geoplugin_city(),
-        region: geoplugin_region(),
-        country_name: geoplugin_countryName(),
-    }
+    info: info,
+    stimuli_sides: stimuli_sides
 });
 
 var timeline = [];
@@ -91,7 +95,7 @@ var check_consent = function (elem) {
 // declare the block.
 var consent = {
     type: 'external-html',
-    url: "/delay-discounting/consent",
+    url: "../tasks/delay_discount/consent.html",
     cont_btn: "start",
     check_fn: check_consent
 }; timeline.push(consent);
@@ -189,10 +193,10 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         jsPsych.data.get().addToAll({ auc: get_auc(), total_time: jsPsych.totalTime() });
-        var subject_id = jsPsych.data.get().filter({trial_type: "html-keyboard-response"}).select('subject').values[0];
-        var indiff_data = jsPsych.data.get().filter({trial_type: "html-keyboard-response"}).select('indifference').values;
-        var cost_data = jsPsych.data.get().filter({trial_type: "html-keyboard-response"}).select('cost').values;
-        var auc_data = jsPsych.data.get().filter({trial_type: "html-keyboard-response"}).select('auc').values[0];
+        var subject_id = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('subject').values[0];
+        var indiff_data = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('indifference').values;
+        var cost_data = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('cost').values;
+        var auc_data = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('auc').values[0];
         sessionStorage.setItem("subject", subject_id);
         sessionStorage.setItem("trials_per_cost", trials_per_cost);
         sessionStorage.setObj("indifference", indiff_data);
