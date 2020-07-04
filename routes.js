@@ -1,25 +1,41 @@
 const DataController = require('./DataController');
 
+//TODO: Maham, can we connect to the database here or elsewhere? Some of our requests below will require querying from the database. Not sure what's the best way to do it? We now connect to it only inside DataController.js so we'll have to reconnect again here, which doesn't make sense... Can we connect to it just once? If so, in which file should we connect to it? See also https://stackoverflow.com/questions/30743203/where-should-i-put-routes-in-express-js
+
 module.exports = function (app, path) {
+    // POST REQUESTS
+    app.post('/submit-data', DataController.create);
 
     // GET REQUESTS
-    // app.get('/delay-discounting', function(req, res) {
-    //     res.sendFile(path.join(__dirname + '/tasks/delay_discount/experiment.html'));
-    // });
-    // app.get('/symbol-counting', function(req, res) {
-    //     res.sendFile(path.join(__dirname + '/tasks/symbol_counting/experiment.html'));
-    // });
+    // homepage
     app.get('/', function (req, res) {
-        res.sendFile(path.join(__dirname + '/index.html'));
+        // TODO: Frank. retrieve info from database
+        res.render("index.ejs", { num_tasks: 123, num_studies: 456, num_entries: 789 });
     });
     app.get('/home', function (req, res) {
-        res.sendFile(path.join(__dirname + '/index.html'));
+        // TODO: Frank. retrieve info from database
+        res.render("index.ejs", { num_tasks: 123, num_studies: 456, num_entries: 789 });
     });
+
+    // tasks
+    app.get('/delay-discount', function (req, res) {
+        res.sendFile(path.join(__dirname + '/tasks/delay_discount/task.html'));
+    });
+    app.get('/symbol-counting', function (req, res) {
+        res.sendFile(path.join(__dirname + '/tasks/symbol_counting/task.html'));
+    });
+
+    // surveys
     app.get('/grit-short', function (req, res) {
         res.sendFile(path.join(__dirname + '/surveys/grit_short.html'))
     });
     app.get('/bigfive-aspect', function (req, res) {
         res.sendFile(path.join(__dirname + '/surveys/bigfive_aspect.html'))
+    });
+
+    // visualizations
+    app.get("/delay-discount/viz", function (req, res) {
+        res.render("delay_discount.ejs"); // render delay_discount.ejs in views directory
     });
 
     // DEMO download csv file: grit_short.csv
@@ -36,6 +52,7 @@ module.exports = function (app, path) {
     // DEMO download csv string
     // https://stackoverflow.com/questions/18306013/how-to-export-csv-nodejs/39652522
     app.get('/dl2', function (req, res) {
+        // TODO: Maham see comment below
         // JUST A DEMO! JSON2CSV should be elsewhere (Maham, can you help move it elsewhere?) ! (jspsych's function to convert its json data to csv)
         function JSON2CSV(objArray) {
             // https://github.com/jspsych/jsPsych/blob/83980085ef604c815f0d97ab55c816219e969b84/jspsych.js#L1565
@@ -91,8 +108,5 @@ module.exports = function (app, path) {
     //     // eventually, we'll pass in data from our database to our ejs file
     //     res.render("test.ejs", { my_variable: var_to_display }); // looks within views dir for ejs files
     // });
-
-    // POST REQUESTS
-    app.post('/submit-data', DataController.create);
 
 }
