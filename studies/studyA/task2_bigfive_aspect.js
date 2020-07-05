@@ -10,7 +10,7 @@ var shuffle_items = false; // randomize order of item presentation
 var debug = true;
 var url = '/'; // if this is false, no redirection occurs
 
-const csvfile = '../surveys/' + task + '/items.csv';
+const csvfile = '../../surveys/' + task + '/items.csv';
 console.log('Reading file: ' + csvfile);
 Papa.parse(csvfile, {
     download: true,
@@ -75,7 +75,9 @@ function run_survey(survey) {
     jsPsych.init({
         timeline: [procedure],
         on_finish: function () {
-            jsPsych.data.displayData();
+            if (debug) {
+                jsPsych.data.displayData();
+            }
             jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
             submit_data(jsPsych.data.get().json(), url);
         }

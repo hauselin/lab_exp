@@ -16,13 +16,7 @@ module.exports = function (app, path) {
     // STUDIES
     // studyA
     app.get('/studyA', function (req, res) {
-        res.sendFile(path.join(__dirname + '/studies/studyA/studyA.html'))
-    });
-    app.get('/studyA-grit-short', function (req, res) {
-        res.sendFile(path.join(__dirname + '/studies/studyA/task1_grit_short.html'))
-    }); // TODO Maham: not sure if there's a better way to connect the studies without having to create separate routes for each one? 
-    app.get('/studyA-bigfive-aspect', function (req, res) {
-        res.sendFile(path.join(__dirname + '/studies/studyA/task2_bigfive_aspect.html'))
+        res.sendFile(path.join(__dirname + '/studies/studyA/runstudy.html'))
     });
 
     // TASK TEMPLATES
