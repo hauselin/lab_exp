@@ -13,6 +13,19 @@ module.exports = function (app, path) {
         res.render("index.ejs", { num_tasks: 123, num_studies: 456, num_entries: 789 });
     });
 
+    // STUDIES
+    // studyA
+    app.get('/studyA', function (req, res) {
+        res.sendFile(path.join(__dirname + '/studies/studyA/studyA.html'))
+    });
+    app.get('/studyA-grit-short', function (req, res) {
+        res.sendFile(path.join(__dirname + '/studies/studyA/grit_short.html'))
+    });
+    app.get('/studyA-bigfive-aspect', function (req, res) {
+        res.sendFile(path.join(__dirname + '/studies/studyA/bigfive_aspect.html'))
+    });
+
+
     // tasks
     // TODO Maham: are these routes necessary if we're going to be clicking to them via the website?
     app.get('/delay-discount', function (req, res) {
@@ -29,11 +42,6 @@ module.exports = function (app, path) {
     app.get('/bigfive-aspect', function (req, res) {
         res.sendFile(path.join(__dirname + '/surveys/bigfive_aspect.html'))
     });
-
-
-    app.get('/studyA', function (req, res) {
-        res.sendFile(path.join(__dirname + '/studies/studyA/studyA.html'))
-    })
 
     // catch-all route to demonstrate/test ejs file
     // app.get('/*', function (req, res) {

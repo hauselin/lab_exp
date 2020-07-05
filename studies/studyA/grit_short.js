@@ -8,7 +8,7 @@ var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before they're allowed to click continue
 var shuffle_items = false; // randomize order of item presentation
 var debug = true;
-var url = 'http://localhost:8080/big-five';  // if this is false, no redirection occurs
+var url = "http://localhost:8080/studyA-bigfive-aspect";  // if this is false, no redirection occurs
 
 // read survey csv file
 // https://www.papaparse.com
@@ -85,6 +85,9 @@ function run_survey(survey) {
     jsPsych.init({
         timeline: [procedure],
         on_finish: function () {
+            if (debug) {
+                jsPsych.data.displayData();
+            }
             jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
             submit_data(jsPsych.data.get().json(), url);
         }

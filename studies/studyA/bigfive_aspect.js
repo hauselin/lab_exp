@@ -16,7 +16,7 @@ Papa.parse('../surveys/' + task + '.csv', {
     dynamicTyping: true,
     complete: function (results) {
         if (debug) {
-            run_survey(results.data.slice(0,3));
+            run_survey(results.data.slice(0, 3));
         }
         else {
             run_survey(results.data);
@@ -73,7 +73,9 @@ function run_survey(survey) {
     jsPsych.init({
         timeline: [procedure],
         on_finish: function () {
-            jsPsych.data.displayData();
+            if (debug) {
+                jsPsych.data.displayData();
+            }
             jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
             submit_data(jsPsych.data.get().json(), url);
         }
