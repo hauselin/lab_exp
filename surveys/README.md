@@ -1,6 +1,6 @@
 # Surveys
 
-`bigfive_aspect.csv`: DeYoung, C. G., Quilty, L. C., & Peterson, J. B. (2007). Between facets and domains: 10 aspects of the Big Five. J Pers Soc Psychol, 93(5), 880-896. doi:10.1037/0022-3514.93.5.880
+`bigfive_aspect`: DeYoung, C. G., Quilty, L. C., & Peterson, J. B. (2007). Between facets and domains: 10 aspects of the Big Five. J Pers Soc Psychol, 93(5), 880-896. doi:10.1037/0022-3514.93.5.880
 
 * 5-point Likert-type scale: 1 to 5
 * Labels: strongly disagree, neither disagree nor disagree, strongly agree

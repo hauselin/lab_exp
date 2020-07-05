@@ -1,4 +1,4 @@
-var task = 'bigfive_aspect'; // must be identical to script name and csv file name
+var task = 'bigfive_aspect'; // must be identical to survey directory name
 var subject = jsPsych.randomization.randomID(15);
 var slider_width = 500; // width of slider in pixels
 var scale_min_max = [1, 5]; // slider min max values
@@ -10,7 +10,9 @@ var shuffle_items = false; // randomize order of item presentation
 var debug = true;
 var url = false; // if this is false, no redirection occurs
 
-Papa.parse('../surveys/' + task + '.csv', {
+const csvfile = '../surveys/' + task + '/items.csv';
+console.log('Reading file: ' + csvfile);
+Papa.parse(csvfile, {
     download: true,
     header: true,
     dynamicTyping: true,
@@ -73,9 +75,7 @@ function run_survey(survey) {
     jsPsych.init({
         timeline: [procedure],
         on_finish: function () {
-            if (debug) {
-                jsPsych.data.displayData();
-            }
+            jsPsych.data.displayData();
             jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
             submit_data(jsPsych.data.get().json(), url);
         }

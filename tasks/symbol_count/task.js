@@ -1,7 +1,7 @@
 var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
-var task = 'symbol counter';
-var experiment = 'symbol counter';
+var task = 'symbol count';
+var experiment = 'symbol count';
 var debug = true;
 var fullscreen = false;
 
@@ -137,7 +137,7 @@ var symbols = [ // define symbols
 var fixation = { // define fixation
     type: "image-keyboard-response",
     // stimulus: "<div style='font-size:30px;'>&#9679</div>", // dot as fixation
-    stimulus: "../../tasks/symbol_counting/fixation_white.png", // dot as fixation
+    stimulus: "../../tasks/symbol_count/fixation_white.png", // dot as fixation
     stimulus_height: 30,
     stimulus_width: 30,
     choices: jsPsych.NO_KEYS,

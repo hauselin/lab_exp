@@ -19,28 +19,29 @@ module.exports = function (app, path) {
         res.sendFile(path.join(__dirname + '/studies/studyA/studyA.html'))
     });
     app.get('/studyA-grit-short', function (req, res) {
-        res.sendFile(path.join(__dirname + '/studies/studyA/grit_short.html'))
+        res.sendFile(path.join(__dirname + '/studies/studyA/task1_grit_short.html'))
     });
     app.get('/studyA-bigfive-aspect', function (req, res) {
-        res.sendFile(path.join(__dirname + '/studies/studyA/bigfive_aspect.html'))
+        res.sendFile(path.join(__dirname + '/studies/studyA/task2_bigfive_aspect.html'))
     });
 
-
     // tasks
-    // TODO Maham: are these routes necessary if we're going to be clicking to them via the website?
     app.get('/delay-discount', function (req, res) {
         res.sendFile(path.join(__dirname + '/tasks/delay_discount/task.html'));
     });
-    app.get('/symbol-counting', function (req, res) {
-        res.sendFile(path.join(__dirname + '/tasks/symbol_counting/task.html'));
+    app.get('/symbol-count', function (req, res) {
+        res.sendFile(path.join(__dirname + '/tasks/symbol_count/task.html'));
+    });
+    app.get('/stroop', function (req, res) {
+        res.sendFile(path.join(__dirname + '/tasks/stroop/task.html'));
     });
 
     // surveys
     app.get('/grit-short', function (req, res) {
-        res.sendFile(path.join(__dirname + '/surveys/grit_short.html'))
+        res.sendFile(path.join(__dirname + '/surveys/grit_short/task.html'));
     });
     app.get('/bigfive-aspect', function (req, res) {
-        res.sendFile(path.join(__dirname + '/surveys/bigfive_aspect.html'))
+        res.sendFile(path.join(__dirname + '/surveys/bigfive_aspect/task.html'));
     });
 
     // catch-all route to demonstrate/test ejs file
@@ -63,7 +64,7 @@ module.exports = function (app, path) {
 
     // DEMO download csv file: grit_short.csv
     app.get('/dl', function (req, res) {
-        const file = path.join(__dirname + '/surveys/grit_short.csv');
+        const file = path.join(__dirname + '/surveys/grit_short/items.csv');
         const filename = 'dl.csv';
         res.download(file, filename, function (err) {
             if (err) {
