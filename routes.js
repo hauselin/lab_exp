@@ -113,7 +113,6 @@ module.exports = function (app, path) {
         res.status(200).send(csvstring); // csv string to save inside dl2.csv (this will be the CSV representation of jspsych's data)
     });
 
-
     // catch-all route to demonstrate/test ejs file
     // app.get('/*', function (req, res) {
     //     var params = req.params;

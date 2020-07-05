@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/datalibrary',
     { useUnifiedTopology: true, useNewUrlParser: true });
-// TODO Maham: catch error if fail to connect to mongodb
+// TODO Maham: catch error if fail to connect to mongodb?
 
 var dataLibrarySchema = new mongoose.Schema({}, { strict: false });
 var DataLibrary = mongoose.model('DataLibrary', dataLibrarySchema);
