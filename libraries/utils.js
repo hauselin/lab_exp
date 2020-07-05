@@ -190,7 +190,7 @@ function mad_deviation(x, abs = true) {
 
 // return the lower and upper bound for excluding values
 function mad_cutoffs(x, cutoff = 3.0) {
-    return [median(x) - 3 * mad(x), median(x) + 3 * mad(x)];
+    return [median(x) - cutoff * mad(x), median(x) + cutoff * mad(x)];
     // values < element 0 or values > element 1 are considered outliers
 }
 
