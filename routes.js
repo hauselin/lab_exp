@@ -9,7 +9,7 @@ module.exports = function (app, path) {
     // GET REQUESTS
     // homepage
     app.get('/', function (req, res) {
-        // TODO: Frank. retrieve info from database
+        // TODO Frank: retrieve values by querying database
         res.render("index.ejs", { num_tasks: 123, num_studies: 456, num_entries: 789 });
     });
 
@@ -20,12 +20,12 @@ module.exports = function (app, path) {
     });
     app.get('/studyA-grit-short', function (req, res) {
         res.sendFile(path.join(__dirname + '/studies/studyA/task1_grit_short.html'))
-    });
+    }); // TODO Maham: not sure if there's a better way to connect the studies without having to create separate routes for each one? 
     app.get('/studyA-bigfive-aspect', function (req, res) {
         res.sendFile(path.join(__dirname + '/studies/studyA/task2_bigfive_aspect.html'))
     });
 
-    // tasks
+    // TASK TEMPLATES
     app.get('/delay-discount', function (req, res) {
         res.sendFile(path.join(__dirname + '/tasks/delay_discount/task.html'));
     });
@@ -36,7 +36,7 @@ module.exports = function (app, path) {
         res.sendFile(path.join(__dirname + '/tasks/stroop/task.html'));
     });
 
-    // surveys
+    // SURVEY TEMPLATES
     app.get('/grit-short', function (req, res) {
         res.sendFile(path.join(__dirname + '/surveys/grit_short/task.html'));
     });
