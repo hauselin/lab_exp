@@ -6,6 +6,9 @@ const app = express();                      // INSTANTIATE THE APP
 
 app.use(bodyParser.json());                 // allow app to parse any json request
 app.use(express.json());
+app.set("view engine", "ejs"); // use ejs template engine for rendering
+
+// TODO Maham: connect to mongodb here
 
 // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES
 app.use('/jsPsych', express.static(__dirname + "/jsPsych"));

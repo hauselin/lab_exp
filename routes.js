@@ -1,6 +1,6 @@
 const DataController = require('./DataController');
 
-//TODO: Maham, can we connect to the database here or elsewhere? Some of our requests below will require querying from the database. Not sure what's the best way to do it? We now connect to it only inside DataController.js so we'll have to reconnect again here, which doesn't make sense... Can we connect to it just once? If so, in which file should we connect to it? See also https://stackoverflow.com/questions/30743203/where-should-i-put-routes-in-express-js
+//TODO: Maham, can we connect to the database here or elsewhere? Some of our requests below will require querying from the database. Not sure what's the best way to do it? We now connect to it only inside DataController.js so we'll have to reconnect again here, which doesn't make sense... Can we connect to it just once? If so, in which file should we connect to it? Create routes, models, middleware folders etc.
 
 module.exports = function (app, path) {
     // POST REQUESTS
@@ -12,12 +12,9 @@ module.exports = function (app, path) {
         // TODO: Frank. retrieve info from database
         res.render("index.ejs", { num_tasks: 123, num_studies: 456, num_entries: 789 });
     });
-    app.get('/home', function (req, res) {
-        // TODO: Frank. retrieve info from database
-        res.render("index.ejs", { num_tasks: 123, num_studies: 456, num_entries: 789 });
-    });
 
     // tasks
+    // TODO Maham: are these routes necessary if we're going to be clicking to them via the website?
     app.get('/delay-discount', function (req, res) {
         res.sendFile(path.join(__dirname + '/tasks/delay_discount/task.html'));
     });

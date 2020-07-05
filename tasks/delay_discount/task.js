@@ -95,7 +95,7 @@ var check_consent = function (elem) {
 // declare the block.
 var consent = {
     type: 'external-html',
-    url: "../tasks/delay_discount/consent.html",
+    url: "../../tasks/delay_discount/consent.html",
     cont_btn: "start",
     check_fn: check_consent
 }; timeline.push(consent);
