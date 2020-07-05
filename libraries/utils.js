@@ -205,7 +205,7 @@ function submit_data(results, redirect_url) {
                 console.log('SUCCESS: ' + data + ' data successfully saved in database'); // data is just the success status code sent from server (200)
             },
             error: function (xhr, status, err) {
-                console.log(err)
+                console.log(err);
             },
             complete: function (data) { // complete ALWAYS runs at the end of request
                 if (data.status != 200) { // data is the entire response object!
@@ -221,8 +221,8 @@ function submit_data(results, redirect_url) {
         })
     }
     catch (err) {
-        console.log('ERROR! submit_data failed to make post request')
-        console.log(err)
+        console.log('ERROR! submit_data failed to make post request');
+        console.log(err);
     }
 }
 
