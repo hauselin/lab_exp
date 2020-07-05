@@ -1,5 +1,4 @@
 const dark_background = false;
-var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
 var task = 'delay discounting';
 var experiment = 'delay discounting';
@@ -36,18 +35,70 @@ if (reverse_sides) {
     stimuli_sides = "left_small_right_large";
 }
 
+date = new Date();
+var info_ = {
+    datetime: date,
+    timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
+    platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
+    browser: navigator.userAgent, // browser info
+    // TODO FRANK: works for me now! It's the way I've set up my Firefox (it disables this kind of tracking by preventing the plugin from even loading!) so make sure to use try/catch to make sure the code below works even when the geolocation plugin hasn't been loaded.
+    ip: geoplugin_request(),
+    city: geoplugin_city(),
+    region: geoplugin_region(),
+    country_name: geoplugin_countryName(),
+};
+
+// save subject info 
+if (get_query_string().hasOwnProperty('subject')) {
+    sessionStorage.setItem('subject', get_query_string().subject); // TODO Frank; save in info_ object (create empty info_ and datasummary_ objects above first)
+    var subject = get_query_string().subject;
+    if (debug) {
+        console.log('There was url subject ID variable: ' + subject);
+    }
+} else if (sessionStorage.getItem('subject')) {
+    var subject = sessionStorage.getItem('subject');
+    if (debug) {
+        console.log('There was no url subject ID variable but there was subject ID in sessionStorage: ' + subject);
+    }
+} else {
+    var subject = jsPsych.randomization.randomID(15); // random character subject id
+    if (debug) {
+        console.log('There was no url subject ID variable or subject ID in sessionStorage, hence the subject ID is randomly generated: ' + subject);
+    }
+}
+
 // add data to all trials
 jsPsych.data.addProperties({
     subject: subject,
     condition: condition,
     task: task,
     experiment: experiment,
-    stimuli_sides: stimuli_sides,
-    browser: navigator.userAgent, // browser info
-    datetime: Date(),
+    info: info_,
+    stimuli_sides: stimuli_sides
 });
 
 var timeline = [];
+
+// sample function that might be used to check if a subject has given
+// consent to participate.
+var check_consent = function (elem) {
+    if (document.getElementById('consent_checkbox').checked) {
+        return true;
+    }
+    else {
+        alert("If you wish to participate, you must check the box next to the statement 'I agree to participate in this study.'");
+        return false;
+    }
+    return false;
+};
+
+// declare the block.
+var consent = {
+    type: 'external-html',
+    url: "../../tasks/delay_discount/consent.html",
+    cont_btn: "start",
+    check_fn: check_consent
+}; timeline.push(consent);
 
 if (fullscreen) {
     timeline.push({
@@ -142,6 +193,24 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         jsPsych.data.get().addToAll({ auc: get_auc(), total_time: jsPsych.totalTime() });
+        var subject_id = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('subject').values[0];
+        var indiff_data = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('indifference').values;
+        var cost_data = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('cost').values;
+        var auc_data = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('auc').values[0];
+        sessionStorage.setItem("subject", subject_id);
+        sessionStorage.setItem("trials_per_cost", trials_per_cost);
+        sessionStorage.setObj("indifference", indiff_data);
+        sessionStorage.setObj("cost", cost_data);
+        sessionStorage.setItem("auc", auc_data);
+        jsPsych.data.addProperties({
+            data_summary: {
+                subject: subject_id,
+                trials_per_cost: trials_per_cost,
+                indifference: indiff_data,
+                cost: cost_data,
+                auc: auc_data
+            },
+        });
         submit_data(jsPsych.data.get().json(), false);
         jsPsych.data.displayData();
         // var all_data = jsPsych.data.get().filter({trial_type: 'html-keyboard-response'}).localSave('json','data.json');

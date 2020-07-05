@@ -16,7 +16,7 @@ Papa.parse('../surveys/' + task + '.csv', {
     dynamicTyping: true,
     complete: function (results) {
         if (debug) {
-            run_survey(results.data.slice(0,3));
+            run_survey(results.data.slice(0, 3));
         }
         else {
             run_survey(results.data);
