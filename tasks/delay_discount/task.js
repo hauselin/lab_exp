@@ -35,10 +35,23 @@ if (reverse_sides) {
     stimuli_sides = "left_small_right_large";
 }
 
-// save 
+date = new Date();
+var info_ = {
+    datetime: date,
+    timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
+    platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
+    browser: navigator.userAgent, // browser info
+    // TODO FRANK: works for me now! It's the way I've set up my Firefox (it disables this kind of tracking by preventing the plugin from even loading!) so make sure to use try/catch to make sure the code below works even when the geolocation plugin hasn't been loaded.
+    ip: geoplugin_request(),
+    city: geoplugin_city(),
+    region: geoplugin_region(),
+    country_name: geoplugin_countryName(),
+};
+
+// save subject info 
 if (get_query_string().hasOwnProperty('subject')) {
-    sessionStorage.setItem('subject', getQueryString().subject);
-    var subject = getQueryString().subject;
+    sessionStorage.setItem('subject', get_query_string().subject); // TODO Frank; save in info_ object (create empty info_ and datasummary_ objects above first)
+    var subject = get_query_string().subject;
     if (debug) {
         console.log('There was url subject ID variable: ' + subject);
     }
@@ -54,26 +67,13 @@ if (get_query_string().hasOwnProperty('subject')) {
     }
 }
 
-date = new Date();
-var info = {
-    datetime: date,
-    timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
-    platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
-    browser: navigator.userAgent, // browser info
-    // TODO FRANK: works for me now! It's the way I've set up my Firefox (it disables this kind of tracking by preventing the plugin from even loading!) so make sure to use try/catch to make sure the code below works even when the geolocation plugin hasn't been loaded.
-    ip: geoplugin_request(),
-    city: geoplugin_city(),
-    region: geoplugin_region(),
-    country_name: geoplugin_countryName(),
-};
-
 // add data to all trials
 jsPsych.data.addProperties({
     subject: subject,
     condition: condition,
     task: task,
     experiment: experiment,
-    info: info,
+    info: info_,
     stimuli_sides: stimuli_sides
 });
 

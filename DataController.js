@@ -12,7 +12,7 @@ module.exports = {
         DataLibrary.create({
             subject: req.body[0].subject,
             task: req.body[0].task,
-            info_: 'info_ to be saved here',
+            info_: req.body[0].info_,
             datasummary_: 'datasummary_ to be saved here',
             experiment: req.body[0].experiment,
             condition: req.body[0].condition,
