@@ -23,7 +23,7 @@ module.exports = function (app, path) {
     });
 
     app.get('/studyA', function (req, res) {
-        res.sendFile(path.join(__dirname + '/studies/studyA.html'))
+        res.sendFile(path.join(__dirname + '/studies/studyA/studyA.html'))
     })
 
     // catch-all route to demonstrate/test ejs file
