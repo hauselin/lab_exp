@@ -60,11 +60,11 @@ var info = {
     timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
     platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
     browser: navigator.userAgent, // browser info
-    // TODO: geolocation breaks the code if it doesn't work
-    // ip: geoplugin_request(),
-    // city: geoplugin_city(),
-    // region: geoplugin_region(),
-    // country_name: geoplugin_countryName(),
+    // TODO FRANK: works for me now! It's the way I've set up my Firefox (it disables this kind of tracking by preventing the plugin from even loading!) so make sure to use try/catch to make sure the code below works even when the geolocation plugin hasn't been loaded.
+    ip: geoplugin_request(),
+    city: geoplugin_city(),
+    region: geoplugin_region(),
+    country_name: geoplugin_countryName(),
 };
 
 // add data to all trials
