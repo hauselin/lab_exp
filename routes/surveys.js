@@ -1,7 +1,13 @@
 // SURVEY TEMPLATES
-app.get('/grit-short', function (req, res) {
-    res.sendFile(path.join(__dirname + '/surveys/grit_short/task.html'));
+var express = require("express");
+var router = express.Router()
+
+router.get('/grit-short', function (req, res) {
+    res.sendFile('task.html', {root: '../lab_exp/surveys/grit_short'});
 });
-app.get('/bigfive-aspect', function (req, res) {
-    res.sendFile(path.join(__dirname + '/surveys/bigfive_aspect/task.html'));
+
+router.get('/bigfive-aspect', function (req, res) {
+    res.sendFile('task.html', {root: '../lab_exp/surveys/bigfive_aspect'});
 });
+
+module.exports = router;
