@@ -26,28 +26,28 @@
         </div>
     </div>
     <script>
-        var subject_id = sessionStorage.getItem("subject");
+        data = sessionStorage.getObj("delay_discounting_data")
+        var subject_id = data.subject;
         console.log(subject_id);
         var id_header = document.getElementById("subject");
         id_header.textContent += subject_id;
 
-        var auc = sessionStorage.getItem("auc");
+        var auc = data.auc;
         var auc_header = document.getElementById("auc");
         auc_header.textContent += auc;
     </script>
     <script>
-        var costs = sessionStorage.getObj("cost");
-        var indiff = sessionStorage.getObj("indifference");
+        var costs = data.cost;
+        var indiff = data.indifference;
 
         var filtered_costs = [];
         var filtered_indiff = [];
-        for (i = Number(sessionStorage.getItem("trials_per_cost")) - 1; i < costs.length; i = i + Number(sessionStorage.getItem("trials_per_cost"))) {
+        for (i = Number(data.trials_per_cost) - 1; i < costs.length; i = i + Number(data.trials_per_cost)) {
             filtered_costs.push(costs[i]);
         }
-        for (i = Number(sessionStorage.getItem("trials_per_cost")) - 1; i < indiff.length; i = i + Number(sessionStorage.getItem("trials_per_cost"))) {
+        for (i = Number(data.trials_per_cost) - 1; i < indiff.length; i = i + Number(data.trials_per_cost)) {
             filtered_indiff.push(indiff[i]);
         }
-
         var scaled_indiff = [];
         const max_indiff = Math.max(...indiff);
         for (i = 0; i < filtered_indiff.length; i++) {
