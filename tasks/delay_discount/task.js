@@ -4,6 +4,7 @@ var task = 'delay discounting';
 var experiment = 'delay discounting';
 var debug = true;
 var fullscreen = false;
+var redirect_url = "/delay-discount/viz"; // if false, no direction
 
 // var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
 const large_reward = 100; //Large reward after cost.
@@ -35,6 +36,9 @@ if (reverse_sides) {
     stimuli_sides = "left_small_right_large";
 }
 
+// for saving summary variables at the end of experiment
+var datasummary_ = {};
+// for saving info about experiment and subject
 date = new Date();
 var info_ = {
     subject: "",
@@ -52,27 +56,28 @@ var info_ = {
 
 // save subject info
 if (get_query_string().hasOwnProperty('subject')) {
-    // sessionStorage.setItem('subject', get_query_string().subject); // TODO Frank; save in info_ object (create empty info_ and datasummary_ objects above first)
     var subject = get_query_string().subject;
     if (debug) {
-        console.log('There was url subject ID variable: ' + subject);
+        console.log('url subject parameter: ' + subject);
     }
 } else if (sessionStorage.getItem('subject')) {
-    var subject = sessionStorage.getItem('subject');
+    var subject = sessionStorage.getObj('subject');
     if (debug) {
-        console.log('There was no url subject ID variable but there was subject ID in sessionStorage: ' + subject);
+        console.log('no url subject parameter but subject ID found in sessionStorage: ' + subject);
     }
 } else {
     var subject = jsPsych.randomization.randomID(15); // random character subject id
     if (debug) {
-        console.log('There was no url subject ID variable or subject ID in sessionStorage, hence the subject ID is randomly generated: ' + subject);
+        console.log('subject ID is randomly generated: ' + subject);
     }
 }
 info_.subject = subject;
 sessionStorage.setObj("info_", info_);
+sessionStorage.setObj("subject", subject);
 
 // add data to all trials
 jsPsych.data.addProperties({
+    subject: subject,
     task: task,
     experiment: experiment,
     info_: info_,
@@ -147,6 +152,7 @@ var trial = {
     }],
     repetitions: trials_per_cost * costs.length,
     on_finish: function (data) {
+        data.event = 'choice';
         data.cost = costs[n_cost];
         data.n_cost = n_cost;
         data.large_reward = large_reward;
@@ -194,38 +200,44 @@ var trial = {
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
-        jsPsych.data.get().addToAll({ auc: get_auc(), total_time: jsPsych.totalTime() });
-        var subject_id = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('subject').values[0];
-        var indiff_data = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('indifference').values;
-        var cost_data = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('cost').values;
-        var auc_data = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('auc').values[0];
-        var datasummary_ = {
-            subject: subject_id,
-            trials_per_cost: trials_per_cost,
-            indifference: indiff_data,
-            cost: cost_data,
-            auc: auc_data
+        if (debug) {
+            jsPsych.data.displayData();
         }
-        sessionStorage.setObj("delay_discounting_data", datasummary_);
-        jsPsych.data.addProperties({
+        datasummary_ = summarize_data(); // summarize data
+        jsPsych.data.get().addToAll({ // save data to all trials
+            auc: datasummary_.auc,
             datasummary_: datasummary_,
+            total_time: datasummary_.total_time,
         });
-        submit_data(jsPsych.data.get().json(), false);
-        jsPsych.data.displayData();
-        // var all_data = jsPsych.data.get().filter({trial_type: 'html-keyboard-response'}).localSave('json','data.json');
+        submit_data(jsPsych.data.get().json(), redirect_url); // make post request to save data in database
     }
 });
 
+// functions to summarize data below
+function summarize_data() {
+    datasummary_.subject = info_.subject;
+    datasummary_.trials_per_cost = trials_per_cost;
+    datasummary_.indifference_all = jsPsych.data.get().filter({ event: "choice" }).select('indifference').values;
+    datasummary_.cost_all = jsPsych.data.get().filter({ event: "choice" }).select('cost').values;
+    datasummary_.auc = get_auc();
+    datasummary_.total_time = jsPsych.totalTime();
+    sessionStorage.setObj("datasummary_delaydiscount_", datasummary_); // save to sessionStorage
+    return datasummary_;
+}
+
 function get_auc() {    //note that this area is an underestimation of the hyperbolic curve, as the width of the histogram bars are bounded by the lower cost and the entry's cost.
-    // var curve_data = jsPsych.data.get().filter({trial_type: 'html-keyboard-response'}).ignore('rt').ignore('stimulus').ignore('key_press').ignore('trial_type').ignore('trial_index').ignore('time_elapsed').ignore('internal_node_id').ignore('subject').ignore('condition').ignore('task').ignore('experiment').ignore('browser').ignore('datetime').ignore('n_cost').ignore('large_reward').ignore('n_trial').ignore('n_trial_overall').ignore('reward_window').ignore('total_time');
-    // console.log(curve_data.localSave('csv','data.csv'));
     var trial_data = jsPsych.data.get().filter({ n_trial: (trials_per_cost - 1) });
     var indifference_data = trial_data.select('indifference').values;
     var delayed_reward_data = trial_data.select('large_reward').values;
     var cost_data = trial_data.select('cost').values;
     var sorted_costs = cost_data.slice(0, cost_data.length).sort(function (a, b) { return a - b });  // sort a sliced copy of cost_data (try to keep things local as much as we can, so we avoid using the global costs variable) 
-    var bar_areas = [];
+    // save in sessionStorage
+    datasummary_.indifference = indifference_data;
+    datasummary_.delayed_reward = delayed_reward_data;
+    datasummary_.cost = cost_data;
+
     // compute area for each cost
+    var bar_areas = [];
     for (i = 0; i < sorted_costs.length; i++) {
         var height = indifference_data[i] / delayed_reward_data[i]; // in this task, elements in delay_reward_data have the same value
         if (sorted_costs.indexOf(cost_data[i]) == 0) { // width of first (leftmost) bar
@@ -235,7 +247,9 @@ function get_auc() {    //note that this area is an underestimation of the hyper
         }
         bar_areas.push(width * height);
     }
-    console.log(bar_areas);
+    if (debug) {
+        console.log(bar_areas);
+    }
     return bar_areas.reduce(function (a, b) { // sum values in array
         return a + b;
     }, 0);
