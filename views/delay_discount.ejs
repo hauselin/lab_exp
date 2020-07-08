@@ -15,8 +15,8 @@
 <body class="is-preload">
     <div id="wrapper">
         <header id="header">
-            <h1>Delay Discounting Data</h1>
-            <p id="subject">Delay Discount Data for Subject: </p>
+            <h1>Delay discounting results</h1>
+            <p id="subject">Subject: </p>
             <p id="auc">Your area-under-curve is </p>
         </header>
         <div id="main">
@@ -26,60 +26,78 @@
         </div>
     </div>
     <script>
-        var subject_id = sessionStorage.getItem("subject");
-        console.log(subject_id);
+        // retrieve objects from sessionStorage
+        datasummary = sessionStorage.getObj("datasummary_delaydiscount_");
+        info = sessionStorage.getObj("info_");
+
+        var subject_id = info.subject;
         var id_header = document.getElementById("subject");
         id_header.textContent += subject_id;
 
-        var auc = sessionStorage.getItem("auc");
+        console.log('subject id: ' + subject_id);
+        console.log('datasummary_')
+        console.log(datasummary)
+
+        var auc = datasummary.auc; // TODO Frank: round this number to 4 decimal places
         var auc_header = document.getElementById("auc");
         auc_header.textContent += auc;
     </script>
     <script>
-        var costs = sessionStorage.getObj("cost");
-        var indiff = sessionStorage.getObj("indifference");
 
-        var filtered_costs = [];
-        var filtered_indiff = [];
-        for (i = Number(sessionStorage.getItem("trials_per_cost")) - 1; i < costs.length; i = i + Number(sessionStorage.getItem("trials_per_cost"))) {
-            filtered_costs.push(costs[i]);
-        }
-        for (i = Number(sessionStorage.getItem("trials_per_cost")) - 1; i < indiff.length; i = i + Number(sessionStorage.getItem("trials_per_cost"))) {
-            filtered_indiff.push(indiff[i]);
-        }
+        // plot indifference (y) against delay (x)
 
-        var scaled_indiff = [];
-        const max_indiff = Math.max(...indiff);
-        for (i = 0; i < filtered_indiff.length; i++) {
-            scaled_indiff.push(filtered_indiff[i] / max_indiff)
-        };
-
-        console.log(costs);
-        console.log(indiff);
-        console.log(filtered_costs);
-        console.log(filtered_indiff);
-        console.log(scaled_indiff);
+        var delayed_reward = datasummary.delayed_reward[0]; // x axis
+        var indiff = datasummary.indifference; // y axis
+        var indiff_normed = divide(indiff, delayed_reward); // normalize y axis to range from 0 to 1
 
         var trace = {
-            x: filtered_costs,
-            y: scaled_indiff,
+            x: datasummary.cost,
+            y: indiff_normed,
             mode: 'markers',
             type: 'scatter',
-            marker: { size: 12 }
+            marker: { size: 15 }
         };
 
         var data = [trace];
 
         var layout = {
-            xaxis: {},
-            yaxis: {
-                range: [-0.05, 1.05]
+            autosize: true,
+            automargin: true,
+            // width: 800, // https://plotly.com/javascript/setting-graph-size/
+            height: 700,
+            title: {
+                text: 'Indifference curve',
+                font: { size: 28 }
             },
-            title: 'Indifference curve'
+            xaxis: {
+                title: {
+                    text: "Delay (days to reward)",
+                    font: {
+                        size: 24
+                    }
+                },
+                tickwidth: 4, // https://plotly.com/javascript/axes/#toggling-axes-lines-ticks-labels-and-autorange
+                ticklen: 8,
+                ticks: 'inside',
+                tickfont: { // https://plotly.com/javascript/reference/#layout-scene-xaxis-tickfont-size
+                    size: 20
+                }
+            },
+            yaxis: {
+                title: {
+                    text: "Subjective value",
+                    font: {
+                        size: 24
+                    }
+                },
+                range: [-0.05, 1.05],
+                tickfont: {
+                    size: 20
+                }
+            }
         };
 
         Plotly.newPlot('indiff_curve', data, layout);
-
     </script>
 
     <script src="../frontend/assets/js/jquery.min.js"></script>
