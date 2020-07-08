@@ -13,31 +13,6 @@ module.exports = function (app, path) {
         res.render("index.ejs", { num_tasks: 123, num_studies: 456, num_entries: 789 });
     });
 
-    // STUDIES
-    // studyA
-    app.get('/studyA', function (req, res) {
-        res.sendFile(path.join(__dirname + '/studies/studyA/runstudy.html'))
-    });
-
-    // TASK TEMPLATES
-    app.get('/delay-discount', function (req, res) {
-        res.sendFile(path.join(__dirname + '/tasks/delay_discount/task.html'));
-    });
-    app.get('/symbol-count', function (req, res) {
-        res.sendFile(path.join(__dirname + '/tasks/symbol_count/task.html'));
-    });
-    app.get('/stroop', function (req, res) {
-        res.sendFile(path.join(__dirname + '/tasks/stroop/task.html'));
-    });
-
-    // SURVEY TEMPLATES
-    app.get('/grit-short', function (req, res) {
-        res.sendFile(path.join(__dirname + '/surveys/grit_short/task.html'));
-    });
-    app.get('/bigfive-aspect', function (req, res) {
-        res.sendFile(path.join(__dirname + '/surveys/bigfive_aspect/task.html'));
-    });
-
     // catch-all route to demonstrate/test ejs file
     // app.get('/*', function (req, res) {
     //     var params = req.params;
