@@ -37,6 +37,8 @@ if (reverse_sides) {
 
 date = new Date();
 var info_ = {
+    subject: "",
+    condition: condition,
     datetime: date,
     timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
     platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
@@ -48,9 +50,9 @@ var info_ = {
     country_name: geoplugin_countryName(),
 };
 
-// save subject info 
+// save subject info
 if (get_query_string().hasOwnProperty('subject')) {
-    sessionStorage.setItem('subject', get_query_string().subject); // TODO Frank; save in info_ object (create empty info_ and datasummary_ objects above first)
+    // sessionStorage.setItem('subject', get_query_string().subject); // TODO Frank; save in info_ object (create empty info_ and datasummary_ objects above first)
     var subject = get_query_string().subject;
     if (debug) {
         console.log('There was url subject ID variable: ' + subject);
@@ -66,14 +68,13 @@ if (get_query_string().hasOwnProperty('subject')) {
         console.log('There was no url subject ID variable or subject ID in sessionStorage, hence the subject ID is randomly generated: ' + subject);
     }
 }
+info_.subject = subject;
 
 // add data to all trials
 jsPsych.data.addProperties({
-    subject: subject,
-    condition: condition,
     task: task,
     experiment: experiment,
-    info: info_,
+    info_: info_,
     stimuli_sides: stimuli_sides
 });
 
@@ -207,7 +208,7 @@ jsPsych.init({
         };
         sessionStorage.setObj("delay_discounting_data", delay_discounting_data);
         jsPsych.data.addProperties({
-            data_summary: {
+            datasummary_: {
                 subject: subject_id,
                 trials_per_cost: trials_per_cost,
                 indifference: indiff_data,

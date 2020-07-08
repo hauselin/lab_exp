@@ -13,7 +13,7 @@ module.exports = {
             subject: req.body[0].subject,
             task: req.body[0].task,
             info_: req.body[0].info_,
-            datasummary_: 'datasummary_ to be saved here',
+            datasummary_: req.body[0].datasummary_,
             experiment: req.body[0].experiment,
             condition: req.body[0].condition,
             browser: req.body[0].browser,
