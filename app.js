@@ -21,7 +21,8 @@ app.use('/studies', express.static(__dirname + "/studies"));
 // GET ACCESS TO THE ROUTES DEFINED IN ROUTES.JS
 // require('./routes/studies')(app, path)
 // require('./routes/surveys')(app, path)
-require('./routes/tasks')(app)
+var taskRoutes = require('./routes/tasks');
+app.use(taskRoutes)
 
 
 // START SERVER

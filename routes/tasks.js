@@ -1,15 +1,17 @@
 // TASK TEMPLATES
+var express = require("express");
+var router = express.Router()
 
-module.exports = function (app) {
+router.get('/delay-discount', function (req, res) {
+    res.sendFile('task.html', {root: '../lab_exp/tasks/delay_discount'});
+});
 
-    app.get('/delay-discount', function (req, res) {
-        res.sendFile('../tasks/delay_discount/task.html');
-    });
-    app.get('/symbol-count', function (req, res) {
-        res.sendFile(path.join(__dirname + '/tasks/symbol_count/task.html'));
-    });
-    app.get('/stroop', function (req, res) {
-        res.sendFile(path.join(__dirname + '/tasks/stroop/task.html'));
-    });
+router.get('/symbol-count', function (req, res) {
+    res.sendFile('task.html', {root: '../lab_exp/tasks/symbol_count'});
+}); 
 
-}
+router.get('/stroop', function (req, res) {
+    res.sendFile('task.html', {root: '../lab_exp/tasks/stroop'});
+});
+
+module.exports = router;
