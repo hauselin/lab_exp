@@ -26,6 +26,8 @@ app.use(taskRoutes);
 app.use(studiesRoutes);
 app.use(surveysRoutes);
 
+require('./routes')(app, path)
+
 
 // START SERVER
 app.listen(8080);
