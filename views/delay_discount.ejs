@@ -55,7 +55,11 @@
             y: indiff_normed,
             mode: 'markers',
             type: 'scatter',
-            marker: { size: 15 }
+            marker: {
+                size: 15,
+                color: [1, 1, 1, 1, 2], // TODO Frank: behaves in a funny way...
+                colorscale: 'Viridis', // TODO Frank, can't change color scheme...
+            }
         };
 
         var data = [trace];
@@ -97,7 +101,9 @@
             }
         };
 
-        Plotly.newPlot('indiff_curve', data, layout);
+        var config = { responsive: true }; // https://plotly.com/javascript/responsive-fluid-layout/
+
+        Plotly.newPlot('indiff_curve', data, layout, config);
     </script>
 
     <script src="../frontend/assets/js/jquery.min.js"></script>
