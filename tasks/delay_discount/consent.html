@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>Consent Form</title>
+	<title>Informed consent</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="../../frontend/assets/css/main.css" />
@@ -12,27 +12,21 @@
 
 <body class="is-preload">
 	<div id="wrapper">
-		<header id="header">
-			<h2>Informed Consent</h2>
-		</header>
-		<div id="main">
-			<div id="consent">
-				<!-- render markdown consent as html  -->
-				<p style="text-align:left">
-					<zero-md src="../../tasks/delay_discount/consent.md"></zero-md>
-				</p>
-				<br>
-				<!-- show buttons -->
-				<ul class="actions special">
-					<li><a href="/" class="button">Disagree</a></li>
-					<li><a class="button primary" id="agree_button">Agree and continue</a></li>
-					<li><a href="/delay-discount/consent" class="button">Download</a></li>
-				</ul>
-				</footer>
-			</div>
+		<h2>Informed Consent</h2>
+		<div id="consent">
+			<!-- render markdown consent as html  -->
+			<p style="text-align:left">
+				<zero-md src="../../tasks/delay_discount/consent.md"></zero-md>
+			</p>
+			<br>
+			<!-- show buttons -->
+			<ul class="actions special">
+				<li><a href="/" class="button">Disagree</a></li>
+				<li><a class="button primary" id="agree_button">Agree and continue</a></li>
+				<li><a href="/delay-discount/consent" class="button">Download</a></li>
+			</ul>
 		</div>
 	</div>
-	</script>
 	<script src="../../frontend/assets/js/jquery.min.js"></script>
 	<script src="../../frontend/assets/js/jquery.scrollex.min.js"></script>
 	<script src="../../frontend/assets/js/jquery.scrolly.min.js"></script>
