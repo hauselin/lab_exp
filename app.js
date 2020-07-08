@@ -22,7 +22,9 @@ app.use('/studies', express.static(__dirname + "/studies"));
 // require('./routes/studies')(app, path)
 // require('./routes/surveys')(app, path)
 var taskRoutes = require('./routes/tasks');
+var studiesRoutes = require('./routes/studies');
 app.use(taskRoutes)
+app.use(studiesRoutes)
 
 
 // START SERVER
