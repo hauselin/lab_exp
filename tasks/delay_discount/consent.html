@@ -5,39 +5,41 @@
 	<title>Consent Form</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<link rel="stylesheet" href="assets/css/main.css" />
+	<link rel="stylesheet" href="../../frontend/assets/css/main.css" />
 	<noscript>
-		<link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<link rel="stylesheet" href="../../frontend/assets/css/noscript.css" /></noscript>
 </head>
 
 <body class="is-preload">
 	<div id="wrapper">
 		<header id="header">
-			<h1>Consent Form</h1>
+			<h2>Informed Consent</h2>
 		</header>
 		<div id="main">
 			<div id="consent">
-				<p>
-				  This is a demo experiment, with this minimal consent form being loaded
-				  as an external html document. To continue, click the checkbox below
-				  and hit "Start Experiment".
+				<!-- render markdown consent as html  -->
+				<p style="text-align:left">
+					<zero-md src="../../tasks/delay_discount/consent.md"></zero-md>
 				</p>
-				<p>
-				  <input type="checkbox" id="consent_checkbox" />
-				  I agree to take part in this study.
-				</p>
-				<button type="button" id="start">Start Experiment</button>
-			  </div>
+				<br>
+				<!-- show buttons -->
+				<ul class="actions special">
+					<li><a href="/" class="button">Disagree</a></li>
+					<li><a class="button primary" id="agree_button">Agree and continue</a></li>
+					<li><a href="" class="button">Download this form</a></li>
+				</ul>
+				</footer>
+			</div>
 		</div>
 	</div>
-	<script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/jquery.scrollex.min.js"></script>
-	<script src="assets/js/jquery.scrolly.min.js"></script>
-	<script src="assets/js/browser.min.js"></script>
-	<script src="assets/js/breakpoints.min.js"></script>
-	<script src="assets/js/util.js"></script>
-	<script src="assets/js/main.js"></script>
-
+	</script>
+	<script src="../../frontend/assets/js/jquery.min.js"></script>
+	<script src="../../frontend/assets/js/jquery.scrollex.min.js"></script>
+	<script src="../../frontend/assets/js/jquery.scrolly.min.js"></script>
+	<script src="../../frontend/assets/js/browser.min.js"></script>
+	<script src="../../frontend/assets/js/breakpoints.min.js"></script>
+	<script src="../../frontend/assets/js/util.js"></script>
+	<script src="../../frontend/assets/js/main.js"></script>
 </body>
 
 </html>
