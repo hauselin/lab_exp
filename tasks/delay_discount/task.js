@@ -69,6 +69,7 @@ if (get_query_string().hasOwnProperty('subject')) {
     }
 }
 info_.subject = subject;
+sessionStorage.setObj("info_", info_);
 
 // add data to all trials
 jsPsych.data.addProperties({
@@ -206,7 +207,6 @@ jsPsych.init({
             auc: auc_data
         }
         sessionStorage.setObj("delay_discounting_data", datasummary_);
-        sessionStorage.setObj("info_", info_);
         jsPsych.data.addProperties({
             datasummary_: datasummary_,
         });
