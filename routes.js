@@ -138,6 +138,18 @@ module.exports = function (app, path) {
         res.status(200).send(csvstring); // csv string to save inside dl2.csv (this will be the CSV representation of jspsych's data)
     });
 
+    // let subjects download consent for md file
+    app.get("/delay-discount/consent", function (req, res) {
+        // TODO: make the route dynamic 
+        const file = path.join(__dirname + '/tasks/delay_discount/consent.md');
+        const filename = 'consent.md';
+        res.download(file, filename, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
+    });
+
     // catch-all route to demonstrate/test ejs file
     // app.get('/*', function (req, res) {
     //     var params = req.params;
