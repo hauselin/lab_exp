@@ -198,23 +198,17 @@ jsPsych.init({
         var indiff_data = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('indifference').values;
         var cost_data = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('cost').values;
         var auc_data = jsPsych.data.get().filter({ trial_type: "html-keyboard-response" }).select('auc').values[0];
-        var delay_discounting_data = {
-            "subject": subject_id,
-            "trials_per_cost": trials_per_cost,
-            "indifference": indiff_data,
-            "cost": cost_data,
-            "auc": auc_data,
-            "delay_discounting_data": delay_discounting_data
-        };
-        sessionStorage.setObj("delay_discounting_data", delay_discounting_data);
+        var datasummary_ = {
+            subject: subject_id,
+            trials_per_cost: trials_per_cost,
+            indifference: indiff_data,
+            cost: cost_data,
+            auc: auc_data
+        }
+        sessionStorage.setObj("delay_discounting_data", datasummary_);
+        sessionStorage.setObj("info_", info_);
         jsPsych.data.addProperties({
-            datasummary_: {
-                subject: subject_id,
-                trials_per_cost: trials_per_cost,
-                indifference: indiff_data,
-                cost: cost_data,
-                auc: auc_data
-            },
+            datasummary_: datasummary_,
         });
         submit_data(jsPsych.data.get().json(), false);
         jsPsych.data.displayData();
