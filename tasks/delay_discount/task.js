@@ -40,19 +40,39 @@ if (reverse_sides) {
 var datasummary_ = {};
 // for saving info about experiment and subject
 date = new Date();
-var info_ = {
-    subject: "",
-    condition: condition,
-    datetime: date,
-    timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
-    platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
-    browser: navigator.userAgent, // browser info
-    // TODO FRANK: works for me now! It's the way I've set up my Firefox (it disables this kind of tracking by preventing the plugin from even loading!) so make sure to use try/catch to make sure the code below works even when the geolocation plugin hasn't been loaded.
-    ip: geoplugin_request(),
-    city: geoplugin_city(),
-    region: geoplugin_region(),
-    country_name: geoplugin_countryName(),
-};
+try {
+    geoplugin_request()
+}
+catch (err) {
+    var info_ = {
+        subject: "",
+        condition: condition,
+        datetime: date,
+        timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
+        platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
+        browser: navigator.userAgent, // browser info
+        // TODO FRANK: works for me now! It's the way I've set up my Firefox (it disables this kind of tracking by preventing the plugin from even loading!) so make sure to use try/catch to make sure the code below works even when the geolocation plugin hasn't been loaded.
+        ip: 'Unavailable',
+        city: 'Unavailable',
+        region: 'Unavailable',
+        country_name: 'Unavailable',
+    };
+}
+finally {
+    var info_ = {
+        subject: "",
+        condition: condition,
+        datetime: date,
+        timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
+        platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
+        browser: navigator.userAgent, // browser info
+        // TODO FRANK: works for me now! It's the way I've set up my Firefox (it disables this kind of tracking by preventing the plugin from even loading!) so make sure to use try/catch to make sure the code below works even when the geolocation plugin hasn't been loaded.
+        ip: geoplugin_request(),
+        city: geoplugin_city(),
+        region: geoplugin_region(),
+        country_name: geoplugin_countryName(),
+    };
+}
 
 // save subject info
 if (get_query_string().hasOwnProperty('subject')) {
