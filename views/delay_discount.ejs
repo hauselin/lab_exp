@@ -38,7 +38,7 @@
         console.log('datasummary_')
         console.log(datasummary)
 
-        var auc = datasummary.auc; // TODO Frank: round this number to 4 decimal places
+        var auc = datasummary.auc.toFixed(4);
         var auc_header = document.getElementById("auc");
         auc_header.textContent += auc;
     </script>

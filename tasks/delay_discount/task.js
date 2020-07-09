@@ -2,9 +2,10 @@ const dark_background = false;
 var condition = 'control'; // experiment/task condition
 var task = 'delay discounting';
 var experiment = 'delay discounting';
+var type = 'task'; // task, survey, or study
 var debug = true;
 var fullscreen = false;
-var redirect_url = "/delay-discount/viz"; // if false, no direction
+var redirect_url = false //"/delay-discount/viz"; // set to false if no redirection required
 
 // var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
 const large_reward = 100; //Large reward after cost.
@@ -36,51 +37,23 @@ if (reverse_sides) {
     stimuli_sides = "left_small_right_large";
 }
 
-// for saving summary variables at the end of experiment
-var datasummary_ = {};
-// for saving info about experiment and subject
-date = new Date();
-var info_ = {
-    subject: "",
-    condition: condition,
-    datetime: date,
-    timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
-    platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
-    browser: navigator.userAgent, // browser info
-    // TODO FRANK: works for me now! It's the way I've set up my Firefox (it disables this kind of tracking by preventing the plugin from even loading!) so make sure to use try/catch to make sure the code below works even when the geolocation plugin hasn't been loaded.
-    ip: geoplugin_request(),
-    city: geoplugin_city(),
-    region: geoplugin_region(),
-    country_name: geoplugin_countryName(),
-};
+const subject = get_subject_ID(); // get from url or sessionStorage or generate subject id
+var datasummary_ = {}; // for saving summary variables at the end of experiment
+var info_ = create_info_({ subject: subject, condition: condition, type: type, experiment: experiment }); // for saving user information and any relevant task information (pass variables to be saved in the object)
 
-// save subject info
-if (get_query_string().hasOwnProperty('subject')) {
-    var subject = get_query_string().subject;
-    if (debug) {
-        console.log('url subject parameter: ' + subject);
-    }
-} else if (sessionStorage.getItem('subject')) {
-    var subject = sessionStorage.getObj('subject');
-    if (debug) {
-        console.log('no url subject parameter but subject ID found in sessionStorage: ' + subject);
-    }
-} else {
-    var subject = jsPsych.randomization.randomID(15); // random character subject id
-    if (debug) {
-        console.log('subject ID is randomly generated: ' + subject);
-    }
-}
-info_.subject = subject;
 sessionStorage.setObj("info_", info_);
+sessionStorage.setObj("datasummary_delaydiscount_", datasummary_);
 sessionStorage.setObj("subject", subject);
 
 // add data to all trials
 jsPsych.data.addProperties({
     subject: subject,
     task: task,
+    type: type,
+    condition: condition,
     experiment: experiment,
     info_: info_,
+    datasummary_: datasummary_,
     stimuli_sides: stimuli_sides
 });
 
@@ -93,7 +66,7 @@ var consent = {
     cont_btn: "agree_button",
 }; timeline.push(consent);
 
-if (fullscreen) {
+if (fullscreen && !debug) {
     timeline.push({
         type: "fullscreen",
         fullscreen_mode: true,

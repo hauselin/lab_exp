@@ -248,3 +248,63 @@ function get_query_string() {
     }
     return b;
 }
+
+// generate object that stores the user's metadata
+function create_info_(params) {
+    var date = new Date();
+    var info_ = {
+        user_date: [date.getFullYear(), date.getMonth(), date.getDate()],
+        user_time: [date.getHours(), date.getMinutes(), date.getSeconds()],
+        user_timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
+        utc_date: [date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDay()],
+        utc_time: [date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()],
+        time: Date.now(), // returns the numeric value corresponding to the current time—the number of milliseconds elapsed since January 1, 1970 00:00:00 UTC, with leap seconds ignored
+        platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
+        browser_info: navigator.userAgent, // browser info
+        ip: null,
+        city: null,
+        region: null,
+        country_name: null,
+    };
+
+    info_ = { ...params, ...info_ }; // spread operator to merge objects (second object will overwrite first one if both have same properties)
+
+    info_ = { ...get_query_string(), ...info_ }; // add parameters from query string into info_
+
+    info_ = add_ip_info(info_); // add geolocation info if available
+    return info_;
+}
+
+// add ip address information onto object
+function add_ip_info(info_) {
+    try {
+        info_.ip = geoplugin_request();
+        info_.city = geoplugin_city();
+        info_.region = geoplugin_region();
+        info_.country_name = geoplugin_countryName();
+    } catch (err) {
+        console.log(err);
+    }
+    return info_;
+}
+
+// get subject id from url or sessionStorage or generate subject ID
+function get_subject_ID() {
+    if (get_query_string().hasOwnProperty('subject')) {
+        var subject = get_query_string().subject;
+        if (debug) {
+            console.log('url subject parameter: ' + subject);
+        }
+    } else if (sessionStorage.getItem('subject')) {
+        var subject = sessionStorage.getObj('subject');
+        if (debug) {
+            console.log('no url subject parameter but subject ID found in sessionStorage: ' + subject);
+        }
+    } else {
+        var subject = jsPsych.randomization.randomID(15); // random character subject id
+        if (debug) {
+            console.log('subject ID is randomly generated: ' + subject);
+        }
+    }
+    return subject
+}
