@@ -51,9 +51,7 @@ if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
 
 info_ = get_user_info();
 add_ip_info(info_);
-info_.subject = "";
 info_.condition = condition;
-
 subject = get_subject_ID();
 info_.subject = subject;
 sessionStorage.setObj("info_", info_);
