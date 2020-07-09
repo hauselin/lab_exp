@@ -248,3 +248,52 @@ function get_query_string() {
     }
     return b;
 }
+
+// generate object that stores the user's metadata
+function get_user_info() {
+    var info_ = {
+        datetime_user: date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString() + '-' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + ':' + date.getSeconds().toString(), // returns local time
+        timezone_user: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
+        time: Date.now(), // returns the numeric value corresponding to the current time—the number of milliseconds elapsed since January 1, 1970 00:00:00 UTC, with leap seconds ignored
+        platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
+        browser_info: navigator.userAgent, // browser info
+        ip: null,
+        city: null,
+        region: null,
+        country_name: null,
+    };
+    return info_;
+}
+
+// add ip address information onto object
+function add_ip_info(info_) {
+    try {
+        info_.ip = geoplugin_request();
+        info_.city = geoplugin_city();
+        info_.region = geoplugin_region();
+        info_.country_name = geoplugin_countryName();
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+// generate subject ID
+function get_subject_ID() {
+    if (get_query_string().hasOwnProperty('subject')) {
+        var subject = get_query_string().subject;
+        if (debug) {
+            console.log('url subject parameter: ' + subject);
+        }
+    } else if (sessionStorage.getItem('subject')) {
+        var subject = sessionStorage.getObj('subject');
+        if (debug) {
+            console.log('no url subject parameter but subject ID found in sessionStorage: ' + subject);
+        }
+    } else {
+        var subject = jsPsych.randomization.randomID(15); // random character subject id
+        if (debug) {
+            console.log('subject ID is randomly generated: ' + subject);
+        }
+    }
+    return subject
+}
