@@ -2,19 +2,15 @@ const dark_background = false;
 var condition = 'control'; // experiment/task condition
 var task = 'delay discounting';
 var experiment = 'delay discounting';
+var type = 'task'; // task, survey, or study
 var debug = true;
 var fullscreen = false;
-if (debug) {
-    var fullscreen = false;
-}
-var redirect_url = "/delay-discount/viz"; // if false, no direction
+var redirect_url = false //"/delay-discount/viz"; // set to false if no redirection required
 
 // var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
 const large_reward = 100; //Large reward after cost.
 var costs = [2, 10, 15, 50, 100];  //costs in days.
-if (debug) {
-    var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
-}
+// var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
 const trials_per_cost = 6; //Number of trials per cost/delays.
 
 // parameters below typically don't need to be changed
@@ -41,28 +37,23 @@ if (reverse_sides) {
     stimuli_sides = "left_small_right_large";
 }
 
-// for saving summary variables at the end of experiment
-var datasummary_ = {};
-// for saving info about experiment and subject
-date = new Date();
-if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
-    var browser = 'Chrome';
-}
+const subject = get_subject_ID(); // get from url or sessionStorage or generate subject id
+var datasummary_ = {}; // for saving summary variables at the end of experiment
+var info_ = create_info_({ subject: subject, condition: condition, type: type, experiment: experiment }); // for saving user information and any relevant task information (pass variables to be saved in the object)
 
-info_ = get_user_info();
-add_ip_info(info_);
-info_.condition = condition;
-subject = get_subject_ID();
-info_.subject = subject;
 sessionStorage.setObj("info_", info_);
+sessionStorage.setObj("datasummary_delaydiscount_", datasummary_);
 sessionStorage.setObj("subject", subject);
 
 // add data to all trials
 jsPsych.data.addProperties({
     subject: subject,
     task: task,
+    type: type,
+    condition: condition,
     experiment: experiment,
     info_: info_,
+    datasummary_: datasummary_,
     stimuli_sides: stimuli_sides
 });
 
@@ -73,12 +64,9 @@ var consent = {
     type: 'external-html',
     url: "../../tasks/delay_discount/consent.html",
     cont_btn: "agree_button",
-};
-if (!debug) {
-    timeline.push(consent);
-}
+}; timeline.push(consent);
 
-if (fullscreen) {
+if (fullscreen && !debug) {
     timeline.push({
         type: "fullscreen",
         fullscreen_mode: true,
@@ -95,10 +83,7 @@ var instructions = {
     ],
     show_clickable_nav: true,
     show_page_number: true,
-};
-if (!debug) {
-    timeline.push(instructions);
-}
+}; timeline.push(instructions);
 
 var trial = {
     type: "html-keyboard-response",
@@ -183,9 +168,7 @@ jsPsych.init({
             datasummary_: datasummary_,
             total_time: datasummary_.total_time,
         });
-        if (!debug) {
-            submit_data(jsPsych.data.get().json(), redirect_url); // make post request to save data in database
-        }
+        submit_data(jsPsych.data.get().json(), redirect_url); // make post request to save data in database
     }
 });
 
