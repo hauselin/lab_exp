@@ -4,12 +4,17 @@ var task = 'delay discounting';
 var experiment = 'delay discounting';
 var debug = true;
 var fullscreen = false;
+if (debug) {
+    var fullscreen = false;
+}
 var redirect_url = "/delay-discount/viz"; // if false, no direction
 
 // var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
 const large_reward = 100; //Large reward after cost.
 var costs = [2, 10, 15, 50, 100];  //costs in days.
-// var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
+if (debug) {
+    var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
+}
 const trials_per_cost = 6; //Number of trials per cost/delays.
 
 // parameters below typically don't need to be changed
@@ -40,6 +45,9 @@ if (reverse_sides) {
 var datasummary_ = {};
 // for saving info about experiment and subject
 date = new Date();
+if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
+    var browser = 'Chrome';
+}
 try {
     geoplugin_request()
 }
@@ -51,7 +59,6 @@ catch (err) {
         timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
         platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
         browser: navigator.userAgent, // browser info
-        // TODO FRANK: works for me now! It's the way I've set up my Firefox (it disables this kind of tracking by preventing the plugin from even loading!) so make sure to use try/catch to make sure the code below works even when the geolocation plugin hasn't been loaded.
         ip: 'Unavailable',
         city: 'Unavailable',
         region: 'Unavailable',
@@ -62,11 +69,11 @@ finally {
     var info_ = {
         subject: "",
         condition: condition,
-        datetime: date,
+        datetime: date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString() + '-' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + ':' + date.getSeconds().toString(), // returns local time
         timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
+        time: Date.now(), // returns the numeric value corresponding to the current time—the number of milliseconds elapsed since January 1, 1970 00:00:00 UTC, with leap seconds ignored
         platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
-        browser: navigator.userAgent, // browser info
-        // TODO FRANK: works for me now! It's the way I've set up my Firefox (it disables this kind of tracking by preventing the plugin from even loading!) so make sure to use try/catch to make sure the code below works even when the geolocation plugin hasn't been loaded.
+        browser_info: navigator.userAgent, // browser info
         ip: geoplugin_request(),
         city: geoplugin_city(),
         region: geoplugin_region(),
@@ -111,7 +118,10 @@ var consent = {
     type: 'external-html',
     url: "../../tasks/delay_discount/consent.html",
     cont_btn: "agree_button",
-}; timeline.push(consent);
+};
+if (!debug) {
+    timeline.push(consent);
+}
 
 if (fullscreen) {
     timeline.push({
@@ -130,7 +140,10 @@ var instructions = {
     ],
     show_clickable_nav: true,
     show_page_number: true,
-}; timeline.push(instructions);
+};
+if (!debug) {
+    timeline.push(instructions);
+}
 
 var trial = {
     type: "html-keyboard-response",
@@ -215,7 +228,7 @@ jsPsych.init({
             datasummary_: datasummary_,
             total_time: datasummary_.total_time,
         });
-        submit_data(jsPsych.data.get().json(), redirect_url); // make post request to save data in database
+        // submit_data(jsPsych.data.get().json(), redirect_url); // make post request to save data in database
     }
 });
 
