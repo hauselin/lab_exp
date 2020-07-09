@@ -49,27 +49,10 @@ if (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) {
     var browser = 'Chrome';
 }
 
-var info_ = {
-    subject: "",
-    condition: condition,
-    datetime_user: date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString() + '-' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + ':' + date.getSeconds().toString(), // returns local time
-    timezone_user: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
-    time: Date.now(), // returns the numeric value corresponding to the current time—the number of milliseconds elapsed since January 1, 1970 00:00:00 UTC, with leap seconds ignored
-    platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
-    browser_info: navigator.userAgent, // browser info
-    ip: null,
-    city: null,
-    region: null,
-    country_name: null,
-};
-try {
-    info_.ip = geoplugin_request();
-    info_.city = geoplugin_city();
-    info_.region = geoplugin_region();
-    info_.country_name = geoplugin_countryName();
-} catch (err) {
-    console.log(err);
-}
+info_ = get_user_info();
+add_ip_info(info_);
+info_.subject = "";
+info_.condition = condition;
 
 // save subject info
 if (get_query_string().hasOwnProperty('subject')) {
