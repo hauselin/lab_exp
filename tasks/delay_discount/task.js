@@ -228,7 +228,9 @@ jsPsych.init({
             datasummary_: datasummary_,
             total_time: datasummary_.total_time,
         });
-        // submit_data(jsPsych.data.get().json(), redirect_url); // make post request to save data in database
+        if (!debug) {
+            submit_data(jsPsych.data.get().json(), redirect_url); // make post request to save data in database
+        }
     }
 });
 
