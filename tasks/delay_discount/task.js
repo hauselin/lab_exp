@@ -54,23 +54,7 @@ add_ip_info(info_);
 info_.subject = "";
 info_.condition = condition;
 
-// save subject info
-if (get_query_string().hasOwnProperty('subject')) {
-    var subject = get_query_string().subject;
-    if (debug) {
-        console.log('url subject parameter: ' + subject);
-    }
-} else if (sessionStorage.getItem('subject')) {
-    var subject = sessionStorage.getObj('subject');
-    if (debug) {
-        console.log('no url subject parameter but subject ID found in sessionStorage: ' + subject);
-    }
-} else {
-    var subject = jsPsych.randomization.randomID(15); // random character subject id
-    if (debug) {
-        console.log('subject ID is randomly generated: ' + subject);
-    }
-}
+subject = get_subject_ID();
 info_.subject = subject;
 sessionStorage.setObj("info_", info_);
 sessionStorage.setObj("subject", subject);
