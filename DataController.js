@@ -31,5 +31,6 @@ module.exports = {
                 res.sendStatus(200); // send OK to client (200: http status code OK)
             }
         });
-    }
+    },
+    DataLibrary
 }
