@@ -17,11 +17,9 @@
         <header id="header">
             <h1>Delay discounting results</h1>
             <p id="subject">Subject: </p>
-            <p id="auc">Your area-under-curve is </p>
         </header>
         <div id="main">
-            <section id="content" class="main">
-                <div id="indiff_curve" style="width:100%;height:100%;"></div>
+            <div id="indiff_curve" style="width:100%;height:100%;"></div>
             </section>
         </div>
     </div>
@@ -39,8 +37,6 @@
         console.log(datasummary)
 
         var auc = datasummary.auc.toFixed(4);
-        var auc_header = document.getElementById("auc");
-        auc_header.textContent += auc;
     </script>
     <script>
 
@@ -70,8 +66,8 @@
             // width: 800, // https://plotly.com/javascript/setting-graph-size/
             height: 700,
             title: {
-                text: 'Indifference curve',
-                font: { size: 28 }
+                text: 'Discounting curve<br>Area-under-curve: ' + auc,
+                font: { size: 32 }
             },
             xaxis: {
                 title: {

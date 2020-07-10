@@ -1,11 +1,10 @@
 const dark_background = false;
-var condition = 'control'; // experiment/task condition
-var task = 'delay discounting';
-var experiment = 'delay discounting';
-var type = 'task'; // task, survey, or study
-var debug = true;
-var fullscreen = false;
-var redirect_url = false //"/delay-discount/viz"; // set to false if no redirection required
+const condition = null; // experiment/task condition
+const type = 'task'; // task, survey, or study
+const uniquestudyid = 'delaydiscount'; // unique task id (do not include spaces!)
+const debug = true;
+const fullscreen = false;
+const redirect_url = "/delay-discount/viz"; // set to false if no redirection required
 
 // var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
 const large_reward = 100; //Large reward after cost.
@@ -25,11 +24,8 @@ var reward_window = [0, large_reward];
 
 if (dark_background) {
     document.body.style.backgroundColor = "black";
-    font_colour = "white";
-} else if (!dark_background) {
-    document.body.style.backgroundColor = "white";
-    font_colour = "black";
-};
+    var font_colour = "white";
+}
 
 var reverse_sides = Math.random() > 0.5; // randomly determine whether to switch large/small reward sides
 var stimuli_sides = "left_large_right_small";
@@ -37,28 +33,23 @@ if (reverse_sides) {
     stimuli_sides = "left_small_right_large";
 }
 
-const subject = get_subject_ID(); // get from url or sessionStorage or generate subject id
-var datasummary_ = {}; // for saving summary variables at the end of experiment
-var info_ = create_info_({ subject: subject, condition: condition, type: type, experiment: experiment }); // for saving user information and any relevant task information (pass variables to be saved in the object)
-
-sessionStorage.setObj("info_", info_);
-sessionStorage.setObj("datasummary_delaydiscount_", datasummary_);
-sessionStorage.setObj("subject", subject);
+var info_ = create_info_({ condition: condition, type: type, uniquestudyid: uniquestudyid });
+var datasummary_ = create_datasummary_(info_);
 
 // add data to all trials
 jsPsych.data.addProperties({
-    subject: subject,
-    task: task,
-    type: type,
+    subject: info_.subject,
     condition: condition,
-    experiment: experiment,
+    type: type,
+    uniquestudyid: uniquestudyid,
+    stimuli_sides: stimuli_sides,
     info_: info_,
-    datasummary_: datasummary_,
-    stimuli_sides: stimuli_sides
+    datasummary_: datasummary_
 });
 
 var timeline = [];
 
+// TODO Frank: dark background should NEVER be applied to consent form! maybe make sure the consent.html overwrites these settings if possible? let me know...
 // check consent (if clicked on agree button, proceed)
 var consent = {
     type: 'external-html',
@@ -159,15 +150,14 @@ var trial = {
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
+        jsPsych.data.get().addToAll({ // save data to all trials
+            auc: datasummary_.auc,
+            datasummary_: summarize_data(), // summarize data
+            total_time: datasummary_.total_time,
+        });
         if (debug) {
             jsPsych.data.displayData();
         }
-        datasummary_ = summarize_data(); // summarize data
-        jsPsych.data.get().addToAll({ // save data to all trials
-            auc: datasummary_.auc,
-            datasummary_: datasummary_,
-            total_time: datasummary_.total_time,
-        });
         submit_data(jsPsych.data.get().json(), redirect_url); // make post request to save data in database
     }
 });
@@ -180,7 +170,7 @@ function summarize_data() {
     datasummary_.cost_all = jsPsych.data.get().filter({ event: "choice" }).select('cost').values;
     datasummary_.auc = get_auc();
     datasummary_.total_time = jsPsych.totalTime();
-    sessionStorage.setObj("datasummary_delaydiscount_", datasummary_); // save to sessionStorage
+    sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
     return datasummary_;
 }
 

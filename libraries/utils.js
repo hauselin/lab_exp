@@ -250,9 +250,11 @@ function get_query_string() {
 }
 
 // generate object that stores the user's metadata
+// also saves obj to sessionInfo as info_
 function create_info_(params) {
     var date = new Date();
     var info_ = {
+        subject: get_subject_ID(),
         user_date: [date.getFullYear(), date.getMonth(), date.getDate()],
         user_time: [date.getHours(), date.getMinutes(), date.getSeconds()],
         user_timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
@@ -266,13 +268,25 @@ function create_info_(params) {
         region: null,
         country_name: null,
     };
-
-    info_ = { ...params, ...info_ }; // spread operator to merge objects (second object will overwrite first one if both have same properties)
-
-    info_ = { ...get_query_string(), ...info_ }; // add parameters from query string into info_
-
     info_ = add_ip_info(info_); // add geolocation info if available
+    info_ = { ...info_, ...params }; // spread operator to merge objects (second object will overwrite first one if both have same properties)
+    info_ = { ...info_, ...get_query_string() }; // add parameters from query string into info_
+    // IMPORTANT: if url query parameters exist, they'll ALWAYS overwrite existing properties with the same name (url parameters take precedence!)
+
+    info_.datasummary_name = "datasummary_" + info_.uniquestudyid + "_";
+
+    console.log("Friendly reminder: If URL query parameters exist, they'll overwrite properties with the same name in info_")
+
+    sessionStorage.setObj("info_", info_);
+    console.log('saved to sessionStorage: info_');
     return info_;
+}
+
+function create_datasummary_(info_) {
+    const datasummary_ = {};
+    sessionStorage.setObj(info_.datasummary_name, datasummary_);
+    console.log('saved to sessionStorage: ' + info_.datasummary_name);
+    return datasummary_;
 }
 
 // add ip address information onto object
@@ -292,19 +306,15 @@ function add_ip_info(info_) {
 function get_subject_ID() {
     if (get_query_string().hasOwnProperty('subject')) {
         var subject = get_query_string().subject;
-        if (debug) {
-            console.log('url subject parameter: ' + subject);
-        }
+        console.log('subject ID found in url parameter: ' + subject);
     } else if (sessionStorage.getItem('subject')) {
         var subject = sessionStorage.getObj('subject');
-        if (debug) {
-            console.log('no url subject parameter but subject ID found in sessionStorage: ' + subject);
-        }
+        console.log('subject ID found in sessionStorage: ' + subject);
     } else {
-        var subject = jsPsych.randomization.randomID(15); // random character subject id
-        if (debug) {
-            console.log('subject ID is randomly generated: ' + subject);
-        }
+        var subject = jsPsych.randomization.randomID(30); // random character subject id
+        console.log('subject ID is randomly generated: ' + subject);
     }
-    return subject
+    sessionStorage.setObj("subject", subject);
+    console.log("saved subject ID to sessionStorage: " + subject);
+    return subject;
 }

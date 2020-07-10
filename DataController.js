@@ -11,12 +11,11 @@ module.exports = {
     create(req, res) {
         DataLibrary.create({
             subject: req.body[0].subject,
-            task: req.body[0].task,
+            condition: req.body[0].condition,
             type: req.body[0].type,
-            experiment: req.body[0].experiment,
+            uniquestudyid: req.body[0].uniquestudyid,
             info_: req.body[0].info_,
             datasummary_: req.body[0].datasummary_,
-            condition: req.body[0].condition,
             browser: req.body[0].browser,
             user_date: req.body[0].info_.user_date,
             user_time: req.body[0].info_.user_time,
