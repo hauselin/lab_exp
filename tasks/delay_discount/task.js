@@ -4,7 +4,7 @@ const type = 'task'; // task, survey, or study
 const uniquestudyid = 'delaydiscount'; // unique task id (do not include spaces!)
 const debug = true;
 const fullscreen = false;
-const redirect_url = "/delay-discount/viz"; // set to false if no redirection required
+const redirect_url = false// "/delay-discount/viz"; // set to false if no redirection required
 
 // var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
 const large_reward = 100; //Large reward after cost.
@@ -160,27 +160,31 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
+        datasummary_ = summarize_data(); // summarize data
         jsPsych.data.get().addToAll({ // add objects to all trials
+            info_: info_,
+            datasummary_: datasummary_,
             auc: datasummary_.auc,
-            datasummary_: summarize_data(), // summarize data
             total_time: datasummary_.total_time,
         });
         if (debug) {
             jsPsych.data.displayData();
         }
+        sessionStorage.setObj('info_', info_); // save to sessionStorage
+        sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
         submit_data(jsPsych.data.get().json(), redirect_url); // save data to database and redirect
     }
 });
 
 // functions to summarize data below
 function summarize_data() {
+    info_.ABC = 'HEY';
     datasummary_.subject = info_.subject;
     datasummary_.trials_per_cost = trials_per_cost;
     datasummary_.indifference_all = jsPsych.data.get().filter({ event: "choice" }).select('indifference').values;
     datasummary_.cost_all = jsPsych.data.get().filter({ event: "choice" }).select('cost').values;
     datasummary_.auc = get_auc();
     datasummary_.total_time = jsPsych.totalTime();
-    sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
     return datasummary_;
 }
 

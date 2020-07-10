@@ -10,7 +10,7 @@ var DataLibrary = mongoose.model('DataLibrary', dataLibrarySchema);
 module.exports = {
     create(req, res) {
         DataLibrary.create({
-            subject: req.body[0].subject,
+            subject: req.body[0].subject, // body is the json data from jspsych
             condition: req.body[0].condition,
             type: req.body[0].type,
             uniquestudyid: req.body[0].uniquestudyid,

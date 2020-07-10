@@ -15,10 +15,10 @@ module.exports = function (app, path) {
         DataLibrary.find({}, function (err, data) {
             let x = data.map(a => a.toObject().subject); // unique subjects
             let y = new Set(x).size; // unique subjects
-            console.log(x)
-            console.log(y)
-            var num_tasks = y;
-            var num_studies = y;
+            console.log('subjects: ' + x);
+            console.log('unique subjects: ' + y);
+            var num_tasks = y; // wrong! just demo purpooses for now
+            var num_studies = y; // same... wrong!
             var num_entries = data.length;
             res.render("index.ejs", { num_tasks: num_tasks, num_studies: num_studies, num_entries: num_entries });
         });
@@ -71,7 +71,7 @@ module.exports = function (app, path) {
     app.get('/dl2', function (req, res) {
         // TODO: Maham see comment below
         // JUST A DEMO! JSON2CSV should be elsewhere (Maham, can you help move it elsewhere?) ! (jspsych's function to convert its json data to csv)
-        function JSON2CSV(objArray) {
+        function json2csv(objArray) {
             // https://github.com/jspsych/jsPsych/blob/83980085ef604c815f0d97ab55c816219e969b84/jspsych.js#L1565
             var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
             var line = '';
@@ -105,7 +105,7 @@ module.exports = function (app, path) {
             return result;
         }
         // create some dummy data for testing purposes
-        const csvstring = JSON2CSV([{ trial: 1, rt: 1 }, { trial: 2, rt: 2 }, { trial: 3, rt: 3, acc: 0 }]);
+        const csvstring = json2csv([{ trial: 1, rt: 1 }, { trial: 2, rt: 2 }, { trial: 3, rt: 3, acc: 0 }]);
         console.log(csvstring); // just checking the output
         res.attachment('dl2.csv'); // filename
         // res.status(200).send('abc,cde\n11,22'); // csv string to save inside dl2.csv (this will be the CSV representation of jspsych's data)
