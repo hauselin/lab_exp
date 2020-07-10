@@ -253,14 +253,16 @@ function get_query_string() {
 // also saves obj to sessionInfo as info_
 function create_info_(params) {
     var date = new Date();
+    const utc_datetime = date.toISOString()
     var info_ = {
         subject: get_subject_ID(),
-        user_date: [date.getFullYear(), date.getMonth(), date.getDate()],
-        user_time: [date.getHours(), date.getMinutes(), date.getSeconds()],
-        user_timezone: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
-        utc_date: [date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDay()],
-        utc_time: [date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds()],
-        time: Date.now(), // returns the numeric value corresponding to the current time—the number of milliseconds elapsed since January 1, 1970 00:00:00 UTC, with leap seconds ignored
+        utc_datetime: utc_datetime,
+        time: date.getTime(), // milliseconds since January 01, 1970, 00:00:00 UTC
+        utc_date: utc_datetime.split("T")[0],
+        utc_time: utc_datetime.split("T")[1],
+        user_date: date.toLocaleDateString(),
+        user_time: date.toLocaleTimeString(),
+        user_timezone: date.getTimezoneOffset(),
         platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
         browser_info: navigator.userAgent, // browser info
         ip: null,
@@ -284,6 +286,7 @@ function create_info_(params) {
 
 function create_datasummary_(info_) {
     const datasummary_ = {};
+    datasummary_.subject = info_.subject;
     sessionStorage.setObj(info_.datasummary_name, datasummary_);
     console.log('saved to sessionStorage: ' + info_.datasummary_name);
     return datasummary_;
@@ -311,7 +314,8 @@ function get_subject_ID() {
         var subject = sessionStorage.getObj('subject');
         console.log('subject ID found in sessionStorage: ' + subject);
     } else {
-        var subject = jsPsych.randomization.randomID(30); // random character subject id
+        const date = new Date();
+        var subject = date.getTime() + "_" + jsPsych.randomization.randomID(5);
         console.log('subject ID is randomly generated: ' + subject);
     }
     sessionStorage.setObj("subject", subject);

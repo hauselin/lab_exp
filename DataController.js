@@ -17,10 +17,12 @@ module.exports = {
             info_: req.body[0].info_,
             datasummary_: req.body[0].datasummary_,
             browser: req.body[0].browser,
-            user_date: req.body[0].info_.user_date,
-            user_time: req.body[0].info_.user_time,
+            time: req.body[0].info_.time,
+            utc_datetime: req.body[0].info_.utc_datetime,
             utc_date: req.body[0].info_.utc_date,
             utc_time: req.body[0].info_.utc_time,
+            user_date: req.body[0].info_.user_date,
+            user_time: req.body[0].info_.user_time,
             data: req.body,
         }, function (err, data) {
             if (err) { // error
