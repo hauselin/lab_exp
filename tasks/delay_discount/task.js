@@ -1,4 +1,4 @@
-const dark_background = false;
+const dark_background = true;
 const condition = null; // experiment/task condition
 const type = 'task'; // task, survey, or study
 const uniquestudyid = 'delaydiscount'; // unique task id (do not include spaces!)
@@ -22,11 +22,6 @@ var n_trial = 0;
 var n_trial_overall = 0;
 var reward_window = [0, large_reward];
 
-if (dark_background) {
-    document.body.style.backgroundColor = "black";
-    var font_colour = "white";
-}
-
 var reverse_sides = Math.random() > 0.5; // randomly determine whether to switch large/small reward sides
 var stimuli_sides = "left_large_right_small";
 if (reverse_sides) {
@@ -47,14 +42,28 @@ jsPsych.data.addProperties({
     datasummary_: datasummary_
 });
 
+if (dark_background) {
+    document.body.style.backgroundColor = "black";
+    var font_colour = 'white';
+} else {
+    var font_colour = 'black';
+}
+
 var timeline = [];
 
-// TODO Frank: dark background should NEVER be applied to consent form! maybe make sure the consent.html overwrites these settings if possible? let me know...
 // check consent (if clicked on agree button, proceed)
 var consent = {
+    on_start: function () {
+        document.body.style.backgroundColor = "white"; // always white background for consent page
+    },
     type: 'external-html',
     url: "../../tasks/delay_discount/consent.html",
     cont_btn: "agree_button",
+    on_finish: function () {
+        if (dark_background) {
+            document.body.style.backgroundColor = "black";
+        }
+    },
 }; timeline.push(consent);
 
 if (fullscreen && !debug) {
@@ -150,7 +159,8 @@ var trial = {
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
-        jsPsych.data.get().addToAll({ // save data to all trials
+        document.body.style.backgroundColor = 'white';
+        jsPsych.data.get().addToAll({ // add objects to all trials
             auc: datasummary_.auc,
             datasummary_: summarize_data(), // summarize data
             total_time: datasummary_.total_time,
@@ -158,7 +168,7 @@ jsPsych.init({
         if (debug) {
             jsPsych.data.displayData();
         }
-        submit_data(jsPsych.data.get().json(), redirect_url); // make post request to save data in database
+        submit_data(jsPsych.data.get().json(), redirect_url); // save data to database and redirect
     }
 });
 

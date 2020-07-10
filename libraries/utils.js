@@ -318,3 +318,9 @@ function get_subject_ID() {
     console.log("saved subject ID to sessionStorage: " + subject);
     return subject;
 }
+
+function white_on_black() {
+    document.body.style.backgroundColor = "black";
+    font_colour = 'white';
+    return font_colour;
+}
