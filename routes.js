@@ -8,6 +8,14 @@ module.exports = function (app, path) {
     // GET REQUESTS
     // homepage
     app.get('/', function (req, res) {
+        // DEMO query database to look for documents matching certain criteria
+        DataLibrary.find({ 'utc_date.year': 2020, 'utc_date.month': 7 }, function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(data);
+            }
+        });
         // TODO Frank: retrieve values by querying database
         DataLibrary.find({}, function (err, data) {
             let x = data.map(a => a.toObject().subject); // unique subjects

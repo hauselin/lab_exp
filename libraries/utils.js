@@ -254,12 +254,16 @@ function get_query_string() {
 function create_info_(params) {
     var date = new Date();
     const utc_datetime = date.toISOString()
+    var utc_date = utc_datetime.split("T")[0].split("-");
+    utc_date = { year: Number(utc_date[0]), month: Number(utc_date[1]), day: Number(utc_date[2]) };
+    var utc_time = utc_datetime.split("T")[1].split(":");
+    utc_time = { hour: Number(utc_time[0]), min: Number(utc_time[1]), sec: Number(utc_time[2].slice(0, 2)) };
     var info_ = {
         subject: get_subject_ID(),
         utc_datetime: utc_datetime,
         time: date.getTime(), // milliseconds since January 01, 1970, 00:00:00 UTC
-        utc_date: utc_datetime.split("T")[0],
-        utc_time: utc_datetime.split("T")[1],
+        utc_date: utc_date,
+        utc_time: utc_time,
         user_date: date.toLocaleDateString(),
         user_time: date.toLocaleTimeString(),
         user_timezone: date.getTimezoneOffset(),
