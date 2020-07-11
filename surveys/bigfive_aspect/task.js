@@ -1,5 +1,17 @@
-var task = 'bigfive_aspect'; // must be identical to survey directory name
-var subject = jsPsych.randomization.randomID(15);
+const taskinfo = {
+    type: 'survey', // 'task', 'survey', or 'study'
+    uniquestudyid: 'bigfive_aspect', // unique task id that MUST BE THE SAME as the html file name
+    desc: 'bigfive aspects scale', // brief description of task
+    condition: null, // experiment/task condition
+    redirect_url: '/' // set to false if no redirection required
+};
+
+var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
+var datasummary_ = create_datasummary_(info_); // initialize datasummary object
+
+const debug = true;  // debug mode to print messages to console and display json data at the end
+const black_background = true; // if true, white text on black background
+
 var slider_width = 500; // width of slider in pixels
 var scale_min_max = [1, 5]; // slider min max values
 var scale_starting_points = [2, 3, 4]; // starting point of scale; if length > 1, randomly pick one for each scale item
@@ -7,10 +19,8 @@ var scale_labels = ['strongly disagree', 'neither agree nor disagree', 'strongly
 var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before they're allowed to click continue
 var shuffle_items = false; // randomize order of item presentation
-var debug = true;
-var url = false; // if this is false, no redirection occurs
 
-const csvfile = '../../surveys/' + task + '/items.csv';
+const csvfile = '../../surveys/' + taskinfo.uniquestudyid + '/items.csv';
 console.log('Reading file: ' + csvfile);
 Papa.parse(csvfile, {
     download: true,
@@ -18,7 +28,8 @@ Papa.parse(csvfile, {
     dynamicTyping: true,
     complete: function (results) {
         if (debug) {
-            run_survey(results.data.slice(0, 3));
+            shuffle_items = true;
+            run_survey(results.data.slice(0, 5));
         }
         else {
             run_survey(results.data);
@@ -27,11 +38,16 @@ Papa.parse(csvfile, {
 });
 
 function run_survey(survey) {
+    // add data to all trials
     jsPsych.data.addProperties({
-        task: task,
-        subject: subject,
-        browser: navigator.userAgent, // browser info
-        datetime: Date(),
+        subject: info_.subject,
+        type: taskinfo.type,
+        uniquestudyid: taskinfo.uniquestudyid,
+        desc: taskinfo.desc,
+        condition: taskinfo.condition,
+        shuffle_items: shuffle_items,
+        info_: info_,
+        datasummary_: datasummary_
     });
 
     var start_point;
@@ -75,12 +91,18 @@ function run_survey(survey) {
     jsPsych.init({
         timeline: [procedure],
         on_finish: function () {
+            document.body.style.backgroundColor = 'white';
+            jsPsych.data.get().addToAll({ // add objects to all trials
+                info_: info_,
+                datasummary_: datasummary_,
+                total_time: datasummary_.total_time,
+            });
             if (debug) {
                 jsPsych.data.displayData();
             }
-            jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
-            submit_data(jsPsych.data.get().json(), url);
+            sessionStorage.setObj('info_', info_); // save to sessionStorage
+            sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
+            submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
         }
     });
-
 }

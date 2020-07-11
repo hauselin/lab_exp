@@ -6,6 +6,9 @@ const taskinfo = {
     redirect_url: "delaydiscount/viz" // set to false if no redirection required
 };
 
+var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
+var datasummary_ = create_datasummary_(info_); // initialize datasummary object
+
 const debug = false;  // debug mode to print messages to console and display json data at the end
 const black_background = true; // if true, white text on black background
 
@@ -30,9 +33,6 @@ var stimuli_sides = "left_large_right_small";
 if (reverse_sides) {
     stimuli_sides = "left_small_right_large";
 }
-
-var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 
 // add data to all trials
 jsPsych.data.addProperties({

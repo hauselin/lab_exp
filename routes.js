@@ -28,10 +28,6 @@ module.exports = function (app, path) {
     });
 
     // TASK TEMPLATES
-    // TODO Maham: work on dynamic routes
-    app.get('/:uniquestudyid', function (req, res) {
-        res.sendFile(path.join(__dirname + '/tasks/' + req.params.uniquestudyid + '/task.html'));  // for now only delay discounting task works
-    });
     app.get('/symbol-count', function (req, res) {
         res.sendFile(path.join(__dirname + '/tasks/symbol_count/task.html'));
     });
@@ -45,6 +41,11 @@ module.exports = function (app, path) {
     });
     app.get('/bigfive-aspect', function (req, res) {
         res.sendFile(path.join(__dirname + '/surveys/bigfive_aspect/task.html'));
+    });
+
+    // TODO Maham: work on dynamic routes
+    app.get('/:uniquestudyid', function (req, res) {
+        res.sendFile(path.join(__dirname + '/tasks/' + req.params.uniquestudyid + '/task.html'));  // for now only delay discounting task works
     });
 
 
