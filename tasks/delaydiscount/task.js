@@ -7,8 +7,7 @@ const taskinfo = {
 };
 
 const debug = false;  // debug mode to print messages to console and display json data at the end
-const fullscreen = false;
-const dark_background = true; // if true, white text on black background
+const black_background = true; // if true, white text on black background
 
 // task paramemters
 const large_reward = 100; //Large reward after cost.
@@ -47,42 +46,20 @@ jsPsych.data.addProperties({
     datasummary_: datasummary_
 });
 
-if (dark_background) {
+var font_colour = 'black';
+if (black_background) {
     document.body.style.backgroundColor = "black";
     var font_colour = 'white';
-} else {
-    var font_colour = 'black';
 }
 
+// create experiment timeline
 var timeline = [];
-
-// check consent (if clicked on agree button, proceed)
-var consent = {
-    on_start: function () {
-        document.body.style.backgroundColor = "white"; // always white background for consent page
-    },
-    type: 'external-html',
-    url: "consent/" + taskinfo.uniquestudyid + ".html",
-    cont_btn: "agree_button",
-    on_finish: function () {
-        if (dark_background) {
-            document.body.style.backgroundColor = "black";
-        }
-    },
-}; timeline.push(consent);
-
-if (fullscreen && !debug) {
-    timeline.push({
-        type: "fullscreen",
-        fullscreen_mode: true,
-        message: generate_html("The experiment will switch to full screen mode when you press the button below", font_colour)
-    });
-}
+timeline = create_consent(timeline, taskinfo); // show consent form (presents markdown file in consent directory)
 
 var instructions = {
     type: "instructions",
     pages: [
-        generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("Click next or press the right arrow key to proceed.", font_colour),
+        generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("Click next or press the right arrow key to ontinue.", font_colour),
         generate_html("In this task, you'll have to decide which option you prefer.", font_colour) + generate_html("For example, you'll see two options: $30.00 in 3 days or $2.40 in 0 days (today).", font_colour) + generate_html("Choosing $30 days in 3 days means you'll wait 3 days so you can get $30. Choosing $2.40 means you will receive $2.40 today.", font_colour) + generate_html("You'll use the left/right arrow keys on the keyboard to indicate which option you prefer (left or right option, respectively).", font_colour),
         generate_html("Click next or press the right arrow key to begin.", font_colour)
     ],

@@ -364,3 +364,22 @@ function json2csv(objArray) {
     }
     return result;
 }
+
+// add consent to timeline
+function create_consent(timeline, taskinfo) {
+    var consent = {
+        on_start: function () {
+            document.body.style.backgroundColor = "white"; // always white background for consent page
+        },
+        type: 'external-html',
+        url: "consent/" + taskinfo.uniquestudyid + ".html",
+        cont_btn: "agree_button",
+        on_finish: function () {
+            if (black_background) {
+                document.body.style.backgroundColor = "black";
+            }
+        },
+    };
+    timeline.push(consent);
+    return timeline;
+}
