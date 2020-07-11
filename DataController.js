@@ -11,9 +11,10 @@ module.exports = {
     create(req, res) {
         DataLibrary.create({
             subject: req.body[0].subject, // body is the json data from jspsych
-            condition: req.body[0].condition,
             type: req.body[0].type,
             uniquestudyid: req.body[0].uniquestudyid,
+            desc: req.body[0].desc,
+            condition: req.body[0].condition,
             info_: req.body[0].info_,
             datasummary_: req.body[0].datasummary_,
             browser: req.body[0].browser,

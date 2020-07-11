@@ -1,12 +1,16 @@
-const dark_background = true;
-const condition = null; // experiment/task condition
-const type = 'task'; // task, survey, or study
-const uniquestudyid = 'delaydiscount'; // unique task id (do not include spaces!)
-const debug = true;
-const fullscreen = false;
-const redirect_url = false// "/delay-discount/viz"; // set to false if no redirection required
+const taskinfo = {
+    type: 'task', // 'task', 'survey', or 'study'
+    uniquestudyid: 'delaydiscount', // unique task id that MUST BE THE SAME as the html file name
+    desc: 'delay discounting task staircase with 6 delays', // brief description of task
+    condition: null, // experiment/task condition
+    redirect_url: "delaydiscount/viz" // set to false if no redirection required
+};
 
-// var itis = iti_exponential(low = 300, high = 800);  // generate array of ITIs
+const debug = false;  // debug mode to print messages to console and display json data at the end
+const fullscreen = false;
+const dark_background = true; // if true, white text on black background
+
+// task paramemters
 const large_reward = 100; //Large reward after cost.
 var costs = [2, 10, 15, 50, 100];  //costs in days.
 // var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
@@ -28,15 +32,16 @@ if (reverse_sides) {
     stimuli_sides = "left_small_right_large";
 }
 
-var info_ = create_info_({ condition: condition, type: type, uniquestudyid: uniquestudyid });
-var datasummary_ = create_datasummary_(info_);
+var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
+var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 
 // add data to all trials
 jsPsych.data.addProperties({
     subject: info_.subject,
-    condition: condition,
-    type: type,
-    uniquestudyid: uniquestudyid,
+    type: taskinfo.type,
+    uniquestudyid: taskinfo.uniquestudyid,
+    desc: taskinfo.desc,
+    condition: taskinfo.condition,
     stimuli_sides: stimuli_sides,
     info_: info_,
     datasummary_: datasummary_
@@ -57,7 +62,7 @@ var consent = {
         document.body.style.backgroundColor = "white"; // always white background for consent page
     },
     type: 'external-html',
-    url: "../../tasks/delay_discount/consent.html",
+    url: "consent/" + taskinfo.uniquestudyid + ".html",
     cont_btn: "agree_button",
     on_finish: function () {
         if (dark_background) {
@@ -89,7 +94,6 @@ var trial = {
     type: "html-keyboard-response",
     prompt: generate_html("Press the <b>left</b> or <b>right</b> arrow key to indicate whether <br>you prefer the option on the left or right, respectively.", font_colour, 18, [0, -160]),
     choices: [37, 39],
-    // post_trial_gap: random_choice(itis),
     timeline: [{
         stimulus: function () {
             var lower = (reward_window[1] - reward_window[0]) * quantile_range[0] + reward_window[0];
@@ -172,7 +176,7 @@ jsPsych.init({
         }
         sessionStorage.setObj('info_', info_); // save to sessionStorage
         sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
-        submit_data(jsPsych.data.get().json(), redirect_url); // save data to database and redirect
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
     }
 });
 

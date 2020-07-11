@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<title>Informed consent</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="../frontend/assets/css/main.css" />
+	<noscript>
+		<link rel="stylesheet" href="../frontend/assets/css/noscript.css" /></noscript>
+</head>
+
+<body class="is-preload">
+	<div id="wrapper">
+		<h2>Informed Consent</h2>
+		<div id="consent">
+			<!-- render markdown consent as html (make sure name matches uniquestudyid) -->
+			<!-- REMEMBER TO CHANGE uniquestudyid -->
+			<p style="text-align:left">
+				<zero-md src="/consent/delaydiscount.md"></zero-md>
+			</p>
+			<br>
+			<!-- show buttons -->
+			<ul class="actions special">
+				<li><a href="/" class="button">Disagree</a></li>
+				<li><a class="button primary" id="agree_button">Agree and continue</a></li>
+				<!-- REMEMBER TO CHANGE uniquestudyid -->
+				<li><a href="/delaydiscount/consent" class="button">Download</a></li>
+			</ul>
+		</div>
+	</div>
+	<script src="../frontend/assets/js/jquery.min.js"></script>
+	<script src="../frontend/assets/js/jquery.scrollex.min.js"></script>
+	<script src="../frontend/assets/js/jquery.scrolly.min.js"></script>
+	<script src="../frontend/assets/js/browser.min.js"></script>
+	<script src="../frontend/assets/js/breakpoints.min.js"></script>
+	<script src="../frontend/assets/js/util.js"></script>
+	<script src="../frontend/assets/js/main.js"></script>
+</body>
+
+</html>

@@ -1,7 +1,4 @@
 const DataController = require('./DataController');
-
-//TODO: Maham, can we connect to the database in app.js (we should only have to connect to it once)? Some of our requests below will require querying from the database. Not sure what's the best way to do it? We now connect to it only inside DataController.js so we'll have to reconnect again here, which doesn't make sense... Can we connect to it just once? If so, in which file should we connect to it? Create routes, models, middleware folders etc.
-
 DataLibrary = DataController.DataLibrary;
 
 module.exports = function (app, path) {
@@ -31,8 +28,9 @@ module.exports = function (app, path) {
     });
 
     // TASK TEMPLATES
-    app.get('/delay-discount', function (req, res) {
-        res.sendFile(path.join(__dirname + '/tasks/delay_discount/task.html'));
+    // TODO Maham: work on dynamic routes
+    app.get('/:uniquestudyid', function (req, res) {
+        res.sendFile(path.join(__dirname + '/tasks/' + req.params.uniquestudyid + '/task.html'));  // for now only delay discounting task works
     });
     app.get('/symbol-count', function (req, res) {
         res.sendFile(path.join(__dirname + '/tasks/symbol_count/task.html'));
@@ -50,9 +48,9 @@ module.exports = function (app, path) {
     });
 
 
-    // visualizations
-    app.get("/delay-discount/viz", function (req, res) {
-        res.render("delay_discount.ejs"); // render delay_discount.ejs in views directory
+    // visualizations (dynamic route)
+    app.get("/:uniquestudyid/viz", function (req, res) {
+        res.render(req.params.uniquestudyid + ".ejs"); // render {uniquestudyid}.ejs in views directory
     });
 
     // DEMO download csv file: grit_short.csv
@@ -112,10 +110,10 @@ module.exports = function (app, path) {
         res.status(200).send(csvstring); // csv string to save inside dl2.csv (this will be the CSV representation of jspsych's data)
     });
 
-    // let subjects download consent for md file
-    app.get("/delay-discount/consent", function (req, res) {
-        // TODO: make the route dynamic 
-        const file = path.join(__dirname + '/tasks/delay_discount/consent.md');
+    // let subjects download consent for md file (dynamic route)
+    app.get("/:uniquestudyid/consent", function (req, res) {
+        // path to consent markdown (md) file for study (consent forms are kept in consent directory)
+        const file = path.join(__dirname + '/consent/' + req.params.uniquestudyid + '.md');
         const filename = 'consent.md';
         res.download(file, filename, function (err) {
             if (err) {
