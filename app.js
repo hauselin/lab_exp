@@ -1,8 +1,8 @@
 // LOAD MODULES 
-const express = require('express');
-const bodyParser = require('body-parser');
-const path = require('path');               // GET THE CURRENT PATH
-const app = express();                      // INSTANTIATE THE APP
+var express     = require("express"),
+    app         = express(),
+    bodyParser  = require('body-parser'),
+    path        = require('path')
 
 app.use(bodyParser.json());                 // allow app to parse any json request
 app.use(express.json());
