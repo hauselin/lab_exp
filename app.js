@@ -4,7 +4,12 @@ var express     = require("express"),
     bodyParser  = require('body-parser'),
     path        = require('path')
 
-app.use(bodyParser.json());                 // allow app to parse any json request
+var taskRoutes      = require('./routes/tasks'),
+    studiesRoutes   = require('./routes/studies'),
+    surveysRoutes   = require('./routes/surveys')
+
+    
+app.use(bodyParser.json());                 
 app.use(express.json());
 app.set("view engine", "ejs"); // use ejs template engine for rendering
 
@@ -18,10 +23,7 @@ app.use('/surveys', express.static(__dirname + "/surveys"))
 app.use('/frontend', express.static(__dirname + "/frontend"));
 app.use('/studies', express.static(__dirname + "/studies"));
 
-// GET ACCESS TO THE ROUTES DEFINED IN ROUTES.JS
-var taskRoutes = require('./routes/tasks');
-var studiesRoutes = require('./routes/studies');
-var surveysRoutes = require('./routes/surveys');
+// GET ACCESS TO THE ROUTES DEFINED IN ROUTES FOLDER
 app.use(taskRoutes);
 app.use(studiesRoutes);
 app.use(surveysRoutes);
