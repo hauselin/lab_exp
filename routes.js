@@ -1,36 +1,27 @@
-const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/datalibrary',
-    { useUnifiedTopology: true, useNewUrlParser: true });
-
-var dataLibrarySchema = new mongoose.Schema({}, { strict: false });
-var DataLibrary = mongoose.model('DataLibrary', dataLibrarySchema);
-
-
-//TODO: Maham, can we connect to the database in app.js (we should only have to connect to it once)? Some of our requests below will require querying from the database. Not sure what's the best way to do it? We now connect to it only inside DataController.js so we'll have to reconnect again here, which doesn't make sense... Can we connect to it just once? If so, in which file should we connect to it? Create routes, models, middleware folders etc.
 
 module.exports = function (app, path) {
     // POST REQUESTS
-    app.post('/submit-data', function(req, res){
-        DataLibrary.create({
-            subject: req.body[0].subject,
-            task: req.body[0].task,
-            experiment: req.body[0].experiment,
-            info_: req.body[0].info_,
-            datasummary_: req.body[0].datasummary_,
-            condition: req.body[0].condition,
-            browser: req.body[0].browser,
-            datetime: req.body[0].datetime,
-            data: req.body,
-        }, function (err, data) {
-            if (err) { // error
-                console.log(err); // print error to nodejs console
-                res.sendStatus(500);  // send internal server error (500: http status code internal server error)
-            } else { // success
-                // console.log(data); // print req.body in nodejs console
-                res.sendStatus(200); // send OK to client (200: http status code OK)
-            }
-        });
-    });
+    // app.post('/submit-data', function(req, res){
+    //     DataLibrary.create({
+    //         subject: req.body[0].subject,
+    //         task: req.body[0].task,
+    //         experiment: req.body[0].experiment,
+    //         info_: req.body[0].info_,
+    //         datasummary_: req.body[0].datasummary_,
+    //         condition: req.body[0].condition,
+    //         browser: req.body[0].browser,
+    //         datetime: req.body[0].datetime,
+    //         data: req.body,
+    //     }, function (err, data) {
+    //         if (err) { // error
+    //             console.log(err); // print error to nodejs console
+    //             res.sendStatus(500);  // send internal server error (500: http status code internal server error)
+    //         } else { // success
+    //             // console.log(data); // print req.body in nodejs console
+    //             res.sendStatus(200); // send OK to client (200: http status code OK)
+    //         }
+    //     });
+    // });
 
     // GET REQUESTS
     // homepage
