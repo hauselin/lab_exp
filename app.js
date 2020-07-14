@@ -9,7 +9,8 @@ var express     = require("express"),
 var taskRoutes        = require('./routes/tasks'),
     studiesRoutes     = require('./routes/studies'),
     surveysRoutes     = require('./routes/surveys'),
-    datalibraryRoutes = require('./routes/datalibrary')
+    datalibraryRoutes = require('./routes/datalibrary'),
+    vizRoutes         = require('./routes/viz')
 
 
 app.use(bodyParser.json());                 
@@ -35,7 +36,8 @@ app.use('/studies', express.static(__dirname + "/studies"));
 app.use(taskRoutes);
 app.use(studiesRoutes);
 app.use(surveysRoutes);
-app.use(datalibraryRoutes)
+app.use(datalibraryRoutes);
+app.use(vizRoutes)
 
 // require('./routes')(app, path)
 
