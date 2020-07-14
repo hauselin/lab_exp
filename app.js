@@ -10,7 +10,8 @@ var taskRoutes        = require('./routes/tasks'),
     studiesRoutes     = require('./routes/studies'),
     surveysRoutes     = require('./routes/surveys'),
     datalibraryRoutes = require('./routes/datalibrary'),
-    vizRoutes         = require('./routes/viz')
+    vizRoutes         = require('./routes/viz'),
+    downloadsRoutes   = require('./routes/downloads')
 
 
 app.use(bodyParser.json());                 
@@ -19,9 +20,7 @@ app.set("view engine", "ejs"); // use ejs template engine for rendering
 
 mongoose.connect('mongodb://localhost/datalibrary',
 { useUnifiedTopology: true, useNewUrlParser: true }, function(err) {
-    if(err) {
-        console.log(err);
-    } else {
+    if(err) { console.log(err);} else {
         console.log('Successfully connected to database.')
     }}
 );
@@ -37,7 +36,8 @@ app.use(taskRoutes);
 app.use(studiesRoutes);
 app.use(surveysRoutes);
 app.use(datalibraryRoutes);
-app.use(vizRoutes)
+app.use(vizRoutes);
+app.use(downloadsRoutes)
 
 // require('./routes')(app, path)
 
