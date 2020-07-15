@@ -59,7 +59,7 @@ module.exports = function (app, path) {
 
     // visualizations (dynamic route)
     app.get("/:uniquestudyid/viz", function (req, res) {
-        res.render(req.params.uniquestudyid + ".ejs"); // render {uniquestudyid}.ejs in views directory
+        res.render('viz/' + req.params.uniquestudyid + ".ejs"); // render {uniquestudyid}.ejs in views directory
     });
 
     // DEMO download csv file: grit_short.csv
