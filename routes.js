@@ -39,7 +39,15 @@ module.exports = function (app, path) {
                     if (err) {
                         console.log(err);
                     }
-                    res.render("index.ejs", { num_tasks: tasks.length, num_studies: studies.length, num_entries: entries.length });
+                    DataLibrary.distinct('_id', { task: "delay discounting" }, function (err, entries_delaydiscount) {
+                        DataLibrary.distinct('_id', { task: "stroop" }, function (err, entries_stroop) {
+                            DataLibrary.distinct('_id', { task: "symbol count" }, function (err, entries_symbolcount) {
+                                DataLibrary.distinct('_id', { task: "mental math" }, function (err, entries_mentalmath) {
+                                    res.render("index.ejs", { num_tasks: tasks.length, num_studies: studies.length, num_entries: entries.length, entries_delaydiscount: entries_delaydiscount.length, entries_stroop: entries_stroop.length, entries_symbolcount: entries_symbolcount.length, entries_mentalmath: entries_mentalmath.length });
+                                })
+                            })
+                        })
+                    })
                 })
             })
         })
