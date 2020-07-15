@@ -17,16 +17,32 @@ module.exports = function (app, path) {
             }
         });
         // TODO Frank: retrieve values by querying database
-        DataLibrary.find({}, function (err, data) {
-            let x = data.map(a => a.toObject().subject); // unique subjects
-            let y = new Set(x).size; // unique subjects
-            console.log('subjects: ' + x);
-            console.log('unique subjects: ' + y);
-            var num_tasks = y; // wrong! just demo purpooses for now
-            var num_studies = y; // same... wrong!
-            var num_entries = data.length;
-            res.render("index.ejs", { num_tasks: num_tasks, num_studies: num_studies, num_entries: num_entries });
-        });
+        // DataLibrary.find({}, function (err, data) {
+        //     let x = data.map(a => a.toObject().subject); // unique subjects
+        //     let y = new Set(x).size; // unique subjects
+        //     console.log('subjects: ' + x);
+        //     console.log('unique subjects: ' + y);
+        //     var num_tasks = y; // wrong! just demo purpooses for now
+        //     var num_studies = y; // same... wrong!
+        //     var num_entries = data.length;
+        //     res.render("index.ejs", { num_tasks: num_tasks, num_studies: num_studies, num_entries: num_entries });
+        // });
+        DataLibrary.distinct('task', function (err, tasks) {
+            if (err) {
+                console.log(err);
+            }
+            DataLibrary.distinct('experiment', function (err, studies) {
+                if (err) {
+                    console.log(err);
+                }
+                DataLibrary.distinct('_id', function (err, entries) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    res.render("index.ejs", { num_tasks: tasks.length, num_studies: studies.length, num_entries: entries.length });
+                })
+            })
+        })
     });
 
     // STUDIES
