@@ -10,14 +10,20 @@ var DataLibrary = mongoose.model('DataLibrary', dataLibrarySchema);
 module.exports = {
     create(req, res) {
         DataLibrary.create({
-            subject: req.body[0].subject,
-            task: req.body[0].task,
-            experiment: req.body[0].experiment,
+            subject: req.body[0].subject, // body is the json data from jspsych
+            type: req.body[0].type,
+            uniquestudyid: req.body[0].uniquestudyid,
+            desc: req.body[0].desc,
+            condition: req.body[0].condition,
             info_: req.body[0].info_,
             datasummary_: req.body[0].datasummary_,
-            condition: req.body[0].condition,
             browser: req.body[0].browser,
-            datetime: req.body[0].datetime,
+            time: req.body[0].info_.time,
+            utc_datetime: req.body[0].info_.utc_datetime,
+            utc_date: req.body[0].info_.utc_date,
+            utc_time: req.body[0].info_.utc_time,
+            user_date: req.body[0].info_.user_date,
+            user_time: req.body[0].info_.user_time,
             data: req.body,
         }, function (err, data) {
             if (err) { // error
@@ -28,5 +34,6 @@ module.exports = {
                 res.sendStatus(200); // send OK to client (200: http status code OK)
             }
         });
-    }
+    },
+    DataLibrary
 }

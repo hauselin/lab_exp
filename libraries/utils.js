@@ -250,11 +250,23 @@ function get_query_string() {
 }
 
 // generate object that stores the user's metadata
-function get_user_info() {
+// also saves obj to sessionInfo as info_
+function create_info_(params) {
+    var date = new Date();
+    const utc_datetime = date.toISOString()
+    var utc_date = utc_datetime.split("T")[0].split("-");
+    utc_date = { year: Number(utc_date[0]), month: Number(utc_date[1]), day: Number(utc_date[2]) };
+    var utc_time = utc_datetime.split("T")[1].split(":");
+    utc_time = { hour: Number(utc_time[0]), min: Number(utc_time[1]), sec: Number(utc_time[2].slice(0, 2)) };
     var info_ = {
-        datetime_user: date.getFullYear().toString() + '-' + (date.getMonth() + 1).toString() + '-' + date.getDate().toString() + ' ' + date.getHours().toString() + ':' + date.getMinutes().toString() + ':' + date.getSeconds().toString(), // returns local time
-        timezone_user: date.getTimezoneOffset(), // return the time zone difference, in minutes, from current locale (host system settings) to UTC
-        time: Date.now(), // returns the numeric value corresponding to the current time—the number of milliseconds elapsed since January 1, 1970 00:00:00 UTC, with leap seconds ignored
+        subject: get_subject_ID(),
+        utc_datetime: utc_datetime,
+        time: date.getTime(), // milliseconds since January 01, 1970, 00:00:00 UTC
+        utc_date: utc_date,
+        utc_time: utc_time,
+        user_date: date.toLocaleDateString(),
+        user_time: date.toLocaleTimeString(),
+        user_timezone: date.getTimezoneOffset(),
         platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
         browser_info: navigator.userAgent, // browser info
         ip: null,
@@ -262,7 +274,26 @@ function get_user_info() {
         region: null,
         country_name: null,
     };
+    info_ = add_ip_info(info_); // add geolocation info if available
+    info_ = { ...info_, ...params }; // spread operator to merge objects (second object will overwrite first one if both have same properties)
+    info_ = { ...info_, ...get_query_string() }; // add parameters from query string into info_
+    // IMPORTANT: if url query parameters exist, they'll ALWAYS overwrite existing properties with the same name (url parameters take precedence!)
+
+    info_.datasummary_name = "datasummary_" + info_.uniquestudyid + "_";
+
+    console.log("Friendly reminder: If URL query parameters exist, they'll overwrite properties with the same name in info_")
+
+    sessionStorage.setObj("info_", info_);
+    console.log('saved to sessionStorage: info_');
     return info_;
+}
+
+function create_datasummary_(info_) {
+    const datasummary_ = {};
+    datasummary_.subject = info_.subject;
+    sessionStorage.setObj(info_.datasummary_name, datasummary_);
+    console.log('saved to sessionStorage: ' + info_.datasummary_name);
+    return datasummary_;
 }
 
 // add ip address information onto object
@@ -275,25 +306,84 @@ function add_ip_info(info_) {
     } catch (err) {
         console.log(err);
     }
+    return info_;
 }
 
-// generate subject ID
+// get subject id from url or sessionStorage or generate subject ID
 function get_subject_ID() {
     if (get_query_string().hasOwnProperty('subject')) {
         var subject = get_query_string().subject;
-        if (debug) {
-            console.log('url subject parameter: ' + subject);
-        }
+        console.log('subject ID found in url parameter: ' + subject);
     } else if (sessionStorage.getItem('subject')) {
         var subject = sessionStorage.getObj('subject');
-        if (debug) {
-            console.log('no url subject parameter but subject ID found in sessionStorage: ' + subject);
-        }
+        console.log('subject ID found in sessionStorage: ' + subject);
     } else {
-        var subject = jsPsych.randomization.randomID(15); // random character subject id
-        if (debug) {
-            console.log('subject ID is randomly generated: ' + subject);
+        const date = new Date();
+        var subject = date.getTime() + "_" + jsPsych.randomization.randomID(5);
+        console.log('subject ID is randomly generated: ' + subject);
+    }
+    sessionStorage.setObj("subject", subject);
+    console.log("saved subject ID to sessionStorage: " + subject);
+    return subject;
+}
+
+function white_on_black() {
+    document.body.style.backgroundColor = "black";
+    font_colour = 'white';
+    return font_colour;
+}
+
+
+// convert json to csv
+function json2csv(objArray) {
+    // https://github.com/jspsych/jsPsych/blob/83980085ef604c815f0d97ab55c816219e969b84/jspsych.js#L1565
+    var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    var line = '';
+    var result = '';
+    var columns = [];
+    var i = 0;
+    for (var j = 0; j < array.length; j++) {
+        for (var key in array[j]) {
+            var keyString = key + "";
+            keyString = '"' + keyString.replace(/"/g, '""') + '",';
+            if (!columns.includes(key)) {
+                columns[i] = key;
+                line += keyString;
+                i++;
+            }
         }
     }
-    return subject
+    line = line.slice(0, -1);
+    result += line + '\r\n';
+    for (var i = 0; i < array.length; i++) {
+        var line = '';
+        for (var j = 0; j < columns.length; j++) {
+            var value = (typeof array[i][columns[j]] === 'undefined') ? '' : array[i][columns[j]];
+            var valueString = value + "";
+            line += '"' + valueString.replace(/"/g, '""') + '",';
+        }
+
+        line = line.slice(0, -1);
+        result += line + '\r\n';
+    }
+    return result;
+}
+
+// add consent to timeline
+function create_consent(timeline, taskinfo) {
+    var consent = {
+        on_start: function () {
+            document.body.style.backgroundColor = "white"; // always white background for consent page
+        },
+        type: 'external-html',
+        url: "consent/" + taskinfo.uniquestudyid + ".html",
+        cont_btn: "agree_button",
+        on_finish: function () {
+            if (black_background) {
+                document.body.style.backgroundColor = "black";
+            }
+        },
+    };
+    timeline.push(consent);
+    return timeline;
 }

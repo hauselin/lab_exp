@@ -1,23 +1,5 @@
 const DataController = require('./DataController');
-
-// CONNECT TO MONGO DATABASES
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
-const { time } = require('console');
-// Connection URL
-const url = 'mongodb://localhost:27017';
-// Database Name
-const dbName = 'datalibrary';
-// Create a new MongoClient
-const client = new MongoClient(url);
-
-// Use connect method to connect to the Server
-client.connect(function (err) {
-    assert.equal(null, err);
-    console.log("Connected successfully to database");
-});
-
-//TODO: Maham, can we connect to the database in app.js (we should only have to connect to it once)? Some of our requests below will require querying from the database. Not sure what's the best way to do it? We now connect to it only inside DataController.js so we'll have to reconnect again here, which doesn't make sense... Can we connect to it just once? If so, in which file should we connect to it? Create routes, models, middleware folders etc.
+DataLibrary = DataController.DataLibrary;
 
 module.exports = function (app, path) {
     // POST REQUESTS
@@ -26,26 +8,23 @@ module.exports = function (app, path) {
     // GET REQUESTS
     // homepage
     app.get('/', function (req, res) {
-        // TODO Frank: retrieve values by querying database
-        const db = client.db(dbName);
-        const collection = db.collection('datalibraries');
-        collection.find({}).toArray(function (err, all_entries) {
-            assert.equal(err, null);
-            var num_tasks = 0;
-            var tasks = [];
-            var num_studies = 0;
-            var studies = [];
-            var num_entries = all_entries.length;
-            for (i = 0; i < num_entries; i++) { // TODO Frank: not the best way to do it (will be expensive/slow to compute once we have many documents/records in the collection...)
-                if (!(tasks.includes(all_entries[i].task))) {
-                    num_tasks++;
-                    tasks.push(all_entries[i].task);
-                }
-                if (!(studies.includes(all_entries[i].experiment))) {
-                    num_studies++;
-                    studies.push(all_entries[i].experiment);
-                }
+        // DEMO query database to look for documents matching certain criteria
+        DataLibrary.find({ 'utc_date.year': 2020, 'utc_date.month': 7 }, function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(data);
             }
+        });
+        // TODO Frank: retrieve values by querying database
+        DataLibrary.find({}, function (err, data) {
+            let x = data.map(a => a.toObject().subject); // unique subjects
+            let y = new Set(x).size; // unique subjects
+            console.log('subjects: ' + x);
+            console.log('unique subjects: ' + y);
+            var num_tasks = y; // wrong! just demo purpooses for now
+            var num_studies = y; // same... wrong!
+            var num_entries = data.length;
             res.render("index.ejs", { num_tasks: num_tasks, num_studies: num_studies, num_entries: num_entries });
         });
     });
@@ -57,9 +36,6 @@ module.exports = function (app, path) {
     });
 
     // TASK TEMPLATES
-    app.get('/delay-discount', function (req, res) {
-        res.sendFile(path.join(__dirname + '/tasks/delay_discount/task.html'));
-    });
     app.get('/symbol-count', function (req, res) {
         res.sendFile(path.join(__dirname + '/tasks/symbol_count/task.html'));
     });
@@ -75,10 +51,15 @@ module.exports = function (app, path) {
         res.sendFile(path.join(__dirname + '/surveys/bigfive_aspect/task.html'));
     });
 
+    // TODO Maham: work on dynamic routes
+    app.get('/:uniquestudyid', function (req, res) {
+        res.sendFile(path.join(__dirname + '/tasks/' + req.params.uniquestudyid + '/task.html'));  // for now only delay discounting task works
+    });
 
-    // visualizations
-    app.get("/delay-discount/viz", function (req, res) {
-        res.render("delay_discount.ejs"); // render delay_discount.ejs in views directory
+
+    // visualizations (dynamic route)
+    app.get("/:uniquestudyid/viz", function (req, res) {
+        res.render(req.params.uniquestudyid + ".ejs"); // render {uniquestudyid}.ejs in views directory
     });
 
     // DEMO download csv file: grit_short.csv
@@ -97,7 +78,7 @@ module.exports = function (app, path) {
     app.get('/dl2', function (req, res) {
         // TODO: Maham see comment below
         // JUST A DEMO! JSON2CSV should be elsewhere (Maham, can you help move it elsewhere?) ! (jspsych's function to convert its json data to csv)
-        function JSON2CSV(objArray) {
+        function json2csv(objArray) {
             // https://github.com/jspsych/jsPsych/blob/83980085ef604c815f0d97ab55c816219e969b84/jspsych.js#L1565
             var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
             var line = '';
@@ -131,17 +112,17 @@ module.exports = function (app, path) {
             return result;
         }
         // create some dummy data for testing purposes
-        const csvstring = JSON2CSV([{ trial: 1, rt: 1 }, { trial: 2, rt: 2 }, { trial: 3, rt: 3, acc: 0 }]);
+        const csvstring = json2csv([{ trial: 1, rt: 1 }, { trial: 2, rt: 2 }, { trial: 3, rt: 3, acc: 0 }]);
         console.log(csvstring); // just checking the output
         res.attachment('dl2.csv'); // filename
         // res.status(200).send('abc,cde\n11,22'); // csv string to save inside dl2.csv (this will be the CSV representation of jspsych's data)
         res.status(200).send(csvstring); // csv string to save inside dl2.csv (this will be the CSV representation of jspsych's data)
     });
 
-    // let subjects download consent for md file
-    app.get("/delay-discount/consent", function (req, res) {
-        // TODO: make the route dynamic 
-        const file = path.join(__dirname + '/tasks/delay_discount/consent.md');
+    // let subjects download consent for md file (dynamic route)
+    app.get("/:uniquestudyid/consent", function (req, res) {
+        // path to consent markdown (md) file for study (consent forms are kept in consent directory)
+        const file = path.join(__dirname + '/consent/' + req.params.uniquestudyid + '.md');
         const filename = 'consent.md';
         res.download(file, filename, function (err) {
             if (err) {

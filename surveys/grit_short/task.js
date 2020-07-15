@@ -69,21 +69,6 @@ function run_survey(survey) {
         randomize_order: shuffle_items
     };
 
-    // var complete = {
-    //     type: "html-button-response", 
-    //     stimulus: "<p> The survey is complete. Your responses have been recorded. </p>",
-    //     choices: ['Continue', 'Go Home'], 
-    //     prompt: "<p> Click Continue to do the survey again. Click Go Home to go to the home page. </p>",
-    //     on_finish: function(data) {
-    //         if (data.button_pressed == "1") {
-    //             window.location.replace("http://localhost:8080/home");       // redirect to home page after survey is complete
-    //         }
-    //         else if (data.button_pressed == "0") {
-    //             window.location.replace("http://localhost:8080/grit_short"); // redirect to grit_short after the survey is complete
-    //         }
-    //     }
-    // };
-
     jsPsych.init({
         timeline: [procedure],
         on_finish: function () {

@@ -17,6 +17,7 @@ app.use('/tasks', express.static(__dirname + "/tasks"));
 app.use('/surveys', express.static(__dirname + "/surveys"))
 app.use('/frontend', express.static(__dirname + "/frontend"));
 app.use('/studies', express.static(__dirname + "/studies"));
+app.use('/consent', express.static(__dirname + "/consent"));
 
 // GET ACCESS TO THE ROUTES DEFINED IN ROUTES.JS
 require('./routes')(app, path)
