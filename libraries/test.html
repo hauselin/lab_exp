@@ -2,22 +2,40 @@
 <html>
 
 <head>
-    <title>My experiment</title>
-    <script src="utils.js"></script>
-    <script src="math.min.js"></script>
-    <script src="plotly-latest.min.js"></script>
+    <title>My pretty graph</title>
+    <meta charset="utf-8" />
+
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
+    <link href="test.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
-    <div id="trying_stuff" style="width:800px;height:550px;"></div>
+    <h1>My chart</h1>
+
+    <div id="vis" class='plot'></div>
+
     <script>
-        TESTER = document.getElementById('trying_stuff');
-        Plotly.newPlot(TESTER, [{
-            x: [1, 2, 3, 4, 5],
-            y: [1, 2, 4, 8, 16]
-        }], {
-            margin: { t: 0 }
-        });
+
+        var spec = {
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            config: { axis: { labelFont: "monospace", labelFontSize: 20, titleFontSize: 35 }, title: { font: "Georgia", fontSize: 40 }, legend: { labelFontSize: 30 } },
+            // https://vega.github.io/vega/docs/title/
+            // https://vega.github.io/vega-lite/docs/legend.html
+            data: { url: "https://raw.githubusercontent.com/hauselin/datasets/master/iris.csv" },
+            mark: { type: "point", tooltip: true },
+            encoding: {
+                "x": { field: "sepal_length", axis: { "title": "Sepal length" } },
+                "y": { field: "petal_length" },
+                "color": { field: "species" },
+            },
+            title: "My pretty graph",
+            width: 300,
+            height: 300,
+        }
+
+        vegaEmbed('#vis', spec, { theme: "vox" });
     </script>
 </body>
 
