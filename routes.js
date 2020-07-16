@@ -1,10 +1,4 @@
-const DataController = require('./DataController');
-DataLibrary = DataController.DataLibrary;
-
 module.exports = function (app, path) {
-    // POST REQUESTS
-    app.post('/submit-data', DataController.create);
-
     // GET REQUESTS
     // homepage
     app.get('/', function (req, res) {
@@ -16,17 +10,6 @@ module.exports = function (app, path) {
                 console.log(data);
             }
         });
-        // TODO Frank: retrieve values by querying database
-        // DataLibrary.find({}, function (err, data) {
-        //     let x = data.map(a => a.toObject().subject); // unique subjects
-        //     let y = new Set(x).size; // unique subjects
-        //     console.log('subjects: ' + x);
-        //     console.log('unique subjects: ' + y);
-        //     var num_tasks = y; // wrong! just demo purpooses for now
-        //     var num_studies = y; // same... wrong!
-        //     var num_entries = data.length;
-        //     res.render("index.ejs", { num_tasks: num_tasks, num_studies: num_studies, num_entries: num_entries });
-        // });
         DataLibrary.distinct('task', function (err, tasks) {
             if (err) {
                 console.log(err);
@@ -53,33 +36,10 @@ module.exports = function (app, path) {
         })
     });
 
-    // STUDIES
-    // studyA
-    app.get('/studyA', function (req, res) {
-        res.sendFile(path.join(__dirname + '/studies/studyA/runstudy.html'))
-    });
-
-    // TASK TEMPLATES
-    app.get('/symbol-count', function (req, res) {
-        res.sendFile(path.join(__dirname + '/tasks/symbol_count/task.html'));
-    });
-    app.get('/stroop', function (req, res) {
-        res.sendFile(path.join(__dirname + '/tasks/stroop/task.html'));
-    });
-
-    // SURVEY TEMPLATES
-    app.get('/grit-short', function (req, res) {
-        res.sendFile(path.join(__dirname + '/surveys/grit_short/task.html'));
-    });
-    app.get('/bigfive-aspect', function (req, res) {
-        res.sendFile(path.join(__dirname + '/surveys/bigfive_aspect/task.html'));
-    });
-
     // TODO Maham: work on dynamic routes
     app.get('/:uniquestudyid', function (req, res) {
         res.sendFile(path.join(__dirname + '/tasks/' + req.params.uniquestudyid + '/task.html'));  // for now only delay discounting task works
     });
-
 
     // visualizations (dynamic route)
     app.get("/:uniquestudyid/viz", function (req, res) {
