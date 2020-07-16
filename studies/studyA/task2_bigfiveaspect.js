@@ -1,7 +1,7 @@
 const taskinfo = {
     type: 'survey', // 'task', 'survey', or 'study'
-    uniquestudyid: 'bigfiveaspect', // unique task id: must be IDENTICAL to directory name
-    desc: 'DeYoung 2007 big five aspects scale', // brief description of task
+    uniquestudyid: 'studyA', // unique task id: must be IDENTICAL to directory name
+    desc: 'studyA part 2 DeYoung 2007 big five aspects scale', // brief description of task
     condition: null, // experiment/task condition
     redirect_url: false // set to false if no redirection required
 };
@@ -27,7 +27,7 @@ var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before they're allowed to click continue
 var shuffle_items = false; // randomize order of item presentation
 
-const csvfile = '../../surveys/' + taskinfo.uniquestudyid + '/items.csv';
+const csvfile = '../../surveys/bigfiveaspects/items.csv';
 console.log('Reading file: ' + csvfile);
 Papa.parse(csvfile, {
     download: true,

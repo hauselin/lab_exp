@@ -1,7 +1,7 @@
 const taskinfo = {
     type: 'survey', // 'task', 'survey', or 'study'
-    uniquestudyid: 'gritshort', // unique task id: must be IDENTICAL to directory name
-    desc: 'Duckworth 2009 grit short scale', // brief description of task
+    uniquestudyid: 'studyA', // unique task id: must be IDENTICAL to directory name
+    desc: 'study A part 1 Duckworth 2009 grit short scale', // brief description of task
     condition: null, // experiment/task condition
     redirect_url: "/studies/studyA/task2_bigfiveaspect.html" // set to false if no redirection required
 };
@@ -28,7 +28,7 @@ var shuffle_items = false; // randomize order of item presentation
 
 // read survey csv file
 // https://www.papaparse.com
-const csvfile = '../../surveys/' + taskinfo.uniquestudyid + '/items.csv';
+const csvfile = '../../surveys/gritshort/items.csv';
 console.log('Reading file: ' + csvfile);
 Papa.parse(csvfile, {
     download: true,
