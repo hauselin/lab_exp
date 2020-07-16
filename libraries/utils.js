@@ -283,8 +283,44 @@ function create_info_(params) {
 
     console.log("Friendly reminder: If URL query parameters exist, they'll overwrite properties with the same name in info_")
 
+    // get previous time/uniquestudy info if it exists in sessionStorage
+    info_ = get_previous_info(info_)
+
+    // save variables to sessionStorage
     sessionStorage.setObj("info_", info_);
     console.log('saved to sessionStorage: info_');
+    sessionStorage.setObj("subject", info_.subject);
+    sessionStorage.setObj("type", info_.type);
+    console.log('type: ' + info_.type);
+    sessionStorage.setObj("uniquestudyid", info_.uniquestudyid);
+    console.log('uniquestudyid: ' + info_.uniquestudyid);
+    sessionStorage.setObj("condition", info_.condition);
+    console.log('condition: ' + info_.condition);
+    console.log('utc_datetime: ' + info_.utc_datetime);
+
+    return info_;
+}
+
+// add previous study info to info_ if it exists in sessionStorage
+function get_previous_info(info_) {
+    var x = sessionStorage.getObj('info_');
+    info_.previous_uniquestudyid = null;
+    info_.previous_time = null;
+    info_.previous_mins_before = null;
+    if (x) {
+        try {
+            info_.previous_uniquestudyid = x.uniquestudyid;
+            info_.previous_time = x.utc_datetime;
+            const time_previous = x.time;
+            const time_current = info_.time;
+            var time_diff = time_current - time_previous;
+            info_.previous_mins_before = time_diff / 60000;
+        } catch {
+            console.log("info_ doesn't exist in sessionObject yet!")
+        }
+    }
+    console.log('previous_uniquestudyid: ', info_.previous_uniquestudyid);
+    console.log('previous_mins_before: ', info_.previous_mins_before);
     return info_;
 }
 
