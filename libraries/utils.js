@@ -370,13 +370,13 @@ function json2csv(objArray) {
 }
 
 // add consent to timeline
-function create_consent(timeline, taskinfo) {
+function create_consent(timeline, html_path) {
     var consent = {
         on_start: function () {
             document.body.style.backgroundColor = "white"; // always white background for consent page
         },
         type: 'external-html',
-        url: "consent/" + taskinfo.uniquestudyid + ".html",
+        url: html_path,
         cont_btn: "agree_button",
         on_finish: function () {
             if (black_background) {

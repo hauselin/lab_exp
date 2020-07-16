@@ -9,7 +9,7 @@ const taskinfo = {
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 
-const debug = false;  // debug mode to print messages to console and display json data at the end
+const debug = true;  // debug mode to print messages to console and display json data at the end
 const black_background = true; // if true, white text on black background
 
 // task paramemters
@@ -54,7 +54,8 @@ if (black_background) {
 
 // create experiment timeline
 var timeline = [];
-timeline = create_consent(timeline, taskinfo); // show consent form (presents markdown file in consent directory)
+const html_path = "../tasks/delaydiscount/consent.html";
+timeline = create_consent(timeline, html_path);
 
 var instructions = {
     type: "instructions",
@@ -144,7 +145,7 @@ jsPsych.init({
         datasummary_ = summarize_data(); // summarize data
         jsPsych.data.get().addToAll({ // add objects to all trials
             info_: info_,
-            datasummary_: datasummary_,
+            datasummary_: {},
             auc: datasummary_.auc,
             total_time: datasummary_.total_time,
         });
@@ -159,13 +160,13 @@ jsPsych.init({
 
 // functions to summarize data below
 function summarize_data() {
-    info_.ABC = 'HEY';
     datasummary_.subject = info_.subject;
     datasummary_.trials_per_cost = trials_per_cost;
     datasummary_.indifference_all = jsPsych.data.get().filter({ event: "choice" }).select('indifference').values;
     datasummary_.cost_all = jsPsych.data.get().filter({ event: "choice" }).select('cost').values;
     datasummary_.auc = get_auc();
     datasummary_.total_time = jsPsych.totalTime();
+    datasummary_.data = jsPsych.data.get().filter({ event: "choice" }).values();
     return datasummary_;
 }
 
