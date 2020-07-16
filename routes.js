@@ -5,13 +5,6 @@ module.exports = function (app, path) {
     // homepage
     app.get('/', function (req, res) {
         // DEMO query database to look for documents matching certain criteria
-        DataLibrary.find({ 'utc_date.year': 2020, 'utc_date.month': 7 }, function (err, data) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(data);
-            }
-        });
         DataLibrary.distinct('task', function (err, tasks) {
             if (err) {
                 console.log(err);

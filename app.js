@@ -9,6 +9,7 @@ var express = require("express"),
 var taskRoutes = require('./routes/tasks'),
     studiesRoutes = require('./routes/studies'),
     surveysRoutes = require('./routes/surveys'),
+    indexRoutes = require('./routes/index'),
     datalibraryRoutes = require('./routes/datalibrary'),
     vizRoutes = require('./routes/viz'),
     downloadsRoutes = require('./routes/downloads')
@@ -35,9 +36,10 @@ app.use('/public', express.static(__dirname + "/public"));
 app.use(taskRoutes);
 app.use(studiesRoutes);
 app.use(surveysRoutes);
+app.use(indexRoutes); // TODO Maham: work on index routes
 app.use(datalibraryRoutes);
 app.use(vizRoutes);
-// app.use(downloadsRoutes); // TODO Maham: work on download routes and set up index route
+// app.use(downloadsRoutes); // TODO Maham: work on download routes
 
 // require('./routes')(app, path)
 
