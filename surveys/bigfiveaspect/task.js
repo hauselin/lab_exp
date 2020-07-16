@@ -1,17 +1,25 @@
 const taskinfo = {
-    type: 'survey', // 'task', 'survey', or 'study'
-    uniquestudyid: 'bigfiveaspect', // unique task id that MUST BE THE SAME as the html file name
-    desc: 'bigfive aspects scale', // brief description of task
+    type: 'task', // 'task', 'survey', or 'study'
+    uniquestudyid: 'bigfiveaspect', // unique task id: must be IDENTICAL to directory name
+    desc: 'big five aspects scale', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: '/' // set to false if no redirection required
+    redirect_url: false // set to false if no redirection required
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 
 const debug = true;  // debug mode to print messages to console and display json data at the end
-const black_background = true; // if true, white text on black background
 
+// TODO Frank: black background doesn't work here... weird (has to do with the way the timelinevariable is nested within a function): stimulus: jsPsych.timelineVariable('desc'),
+const black_background = false; // if true, white text on black background
+var font_colour = 'black';
+if (black_background) {
+    document.body.style.backgroundColor = "black";
+    var font_colour = 'white';
+}
+
+// TASK PARAMETERS
 var slider_width = 500; // width of slider in pixels
 var scale_min_max = [1, 5]; // slider min max values
 var scale_starting_points = [2, 3, 4]; // starting point of scale; if length > 1, randomly pick one for each scale item
@@ -45,7 +53,6 @@ function run_survey(survey) {
         uniquestudyid: taskinfo.uniquestudyid,
         desc: taskinfo.desc,
         condition: taskinfo.condition,
-        shuffle_items: shuffle_items,
         info_: info_,
         datasummary_: datasummary_
     });
@@ -92,9 +99,10 @@ function run_survey(survey) {
         timeline: [procedure],
         on_finish: function () {
             document.body.style.backgroundColor = 'white';
+            datasummary_ = {}; // summarize data
             jsPsych.data.get().addToAll({ // add objects to all trials
                 info_: info_,
-                datasummary_: datasummary_,
+                datasummary_: {},
                 total_time: datasummary_.total_time,
             });
             if (debug) {
