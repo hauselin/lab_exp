@@ -54,7 +54,8 @@ if (black_background) {
 
 // create experiment timeline
 var timeline = [];
-timeline = create_consent(timeline, taskinfo); // show consent form (presents markdown file in consent directory)
+const html_path = "../tasks/delaydiscount/consent.html";
+timeline = create_consent(timeline, html_path);
 
 var instructions = {
     type: "instructions",
@@ -144,7 +145,7 @@ jsPsych.init({
         datasummary_ = summarize_data(); // summarize data
         jsPsych.data.get().addToAll({ // add objects to all trials
             info_: info_,
-            datasummary_: datasummary_,
+            datasummary_: {},
             auc: datasummary_.auc,
             total_time: datasummary_.total_time,
         });
@@ -165,6 +166,7 @@ function summarize_data() {
     datasummary_.cost_all = jsPsych.data.get().filter({ event: "choice" }).select('cost').values;
     datasummary_.auc = get_auc();
     datasummary_.total_time = jsPsych.totalTime();
+    datasummary_.data = jsPsych.data.get().filter({ event: "choice" }).values();
     return datasummary_;
 }
 

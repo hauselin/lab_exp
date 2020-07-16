@@ -1,4 +1,5 @@
 const DataController = require('./DataController');
+const fs = require('fs');
 DataLibrary = DataController.DataLibrary;
 
 module.exports = function (app, path) {
@@ -144,29 +145,13 @@ module.exports = function (app, path) {
     });
 
     // let subjects download consent for md file (dynamic route)
-    app.get("/:uniquestudyid/consent", function (req, res) {
-        // path to consent markdown (md) file for study (consent forms are kept in consent directory)
-        const file = path.join(__dirname + '/consent/' + req.params.uniquestudyid + '.md');
-        const filename = 'consent.md';
+    app.get("/:type/:uniquestudyid/consent", function (req, res) {
+        const filename = 'consent.md'; // download filename
+        var file = path.join(__dirname + '/' + req.params.type + '/' + req.params.uniquestudyid + '/consent.md');
         res.download(file, filename, function (err) {
             if (err) {
                 console.log(err);
             }
         });
     });
-
-    // catch-all route to demonstrate/test ejs file
-    // app.get('/*', function (req, res) {
-    //     var params = req.params;
-    //     console.log(params);
-    //     var var_to_display;
-    //     if (params['0'] == '') {
-    //         var_to_display = "you didn't specify a route; see examples below";
-    //     } else {
-    //         var_to_display = params['0'];
-    //     }
-    //     // eventually, we'll pass in data from our database to our ejs file
-    //     res.render("test.ejs", { my_variable: var_to_display }); // looks within views dir for ejs files
-    // });
-
 }
