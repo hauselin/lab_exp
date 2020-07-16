@@ -1,5 +1,4 @@
 const DataController = require('./DataController');
-const fs = require('fs');
 DataLibrary = DataController.DataLibrary;
 
 module.exports = function (app, path) {

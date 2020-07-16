@@ -15,10 +15,8 @@ app.use('/jsPsych', express.static(__dirname + "/jsPsych"));
 app.use('/libraries', express.static(__dirname + "/libraries"));
 app.use('/tasks', express.static(__dirname + "/tasks"));
 app.use('/surveys', express.static(__dirname + "/surveys"))
-app.use('/frontend', express.static(__dirname + "/frontend"));
 app.use('/studies', express.static(__dirname + "/studies"));
-app.use('/consent', express.static(__dirname + "/consent"));
-app.use('/public', express.static('public'))
+app.use('/public', express.static(__dirname + '/public'));
 
 // GET ACCESS TO THE ROUTES DEFINED IN ROUTES.JS
 require('./routes')(app, path)
