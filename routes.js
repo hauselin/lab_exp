@@ -1,5 +1,7 @@
 module.exports = function (app, path) {
     // GET REQUESTS
+
+    // TODO Maham: index route
     // homepage
     app.get('/', function (req, res) {
         // DEMO query database to look for documents matching certain criteria
@@ -38,12 +40,25 @@ module.exports = function (app, path) {
 
     // TODO Maham: work on dynamic routes
     app.get('/:uniquestudyid', function (req, res) {
+        res.sendFile(path.join(__dirname + '/studies/' + req.params.uniquestudyid + '/task.html'));  // for now only delay discounting task works
+    });
+    app.get('/:uniquestudyid', function (req, res) {
+        res.sendFile(path.join(__dirname + '/surveys/' + req.params.uniquestudyid + '/task.html'));  // for now only delay discounting task works
+    });
+    app.get('/:uniquestudyid', function (req, res) {
         res.sendFile(path.join(__dirname + '/tasks/' + req.params.uniquestudyid + '/task.html'));  // for now only delay discounting task works
     });
 
-    // visualizations (dynamic route)
-    app.get("/:uniquestudyid/viz", function (req, res) {
-        res.render('viz/' + req.params.uniquestudyid + ".ejs"); // render {uniquestudyid}.ejs in views directory
+    // TODO Maham: all the routes below are download routes
+    // let subjects download consent for md file (dynamic route)
+    app.get("/:type/:uniquestudyid/consent", function (req, res) {
+        const filename = 'consent.md'; // download filename
+        var file = path.join(__dirname + '/' + req.params.type + '/' + req.params.uniquestudyid + '/consent.md');
+        res.download(file, filename, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
     });
 
     // DEMO download csv file: grit_short.csv
@@ -103,14 +118,5 @@ module.exports = function (app, path) {
         res.status(200).send(csvstring); // csv string to save inside dl2.csv (this will be the CSV representation of jspsych's data)
     });
 
-    // let subjects download consent for md file (dynamic route)
-    app.get("/:type/:uniquestudyid/consent", function (req, res) {
-        const filename = 'consent.md'; // download filename
-        var file = path.join(__dirname + '/' + req.params.type + '/' + req.params.uniquestudyid + '/consent.md');
-        res.download(file, filename, function (err) {
-            if (err) {
-                console.log(err);
-            }
-        });
-    });
+
 }
