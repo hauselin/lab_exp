@@ -44,7 +44,7 @@ module.exports = function (app, path) {
     app.get("/:type/:uniquestudyid/consent", function (req, res) {
         const filename = 'consent.md'; // download filename
         var file = path.join(__dirname + '/' + req.params.type + '/' + req.params.uniquestudyid + '/consent.md');
-        console.log(file)
+        console.log(file);
         res.download(file, filename, function (err) {
             if (err) {
                 console.log(err);
