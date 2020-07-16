@@ -31,12 +31,9 @@ module.exports = function (app, path) {
         })
     });
 
-    // TODO Maham: work on dynamic routes
+    // TODO Maham: work on dynamic routes; if we use dynamic routes, we might not need separate .js files for tasks/surveys/studies (see tasks routes)
     app.get('/:uniquestudyid', function (req, res) {
         res.sendFile(path.join(__dirname + '/studies/' + req.params.uniquestudyid + '/task.html'));  // for now only delay discounting task works
-    });
-    app.get('/:uniquestudyid', function (req, res) {
-        res.sendFile(path.join(__dirname + '/surveys/' + req.params.uniquestudyid + '/task.html'));  // for now only delay discounting task works
     });
     app.get('/:uniquestudyid', function (req, res) {
         res.sendFile(path.join(__dirname + '/tasks/' + req.params.uniquestudyid + '/task.html'));  // for now only delay discounting task works

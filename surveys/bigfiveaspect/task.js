@@ -1,6 +1,6 @@
 const taskinfo = {
     type: 'survey', // 'task', 'survey', or 'study'
-    uniquestudyid: 'bigfive_aspect', // unique task id that MUST BE THE SAME as the html file name
+    uniquestudyid: 'bigfiveaspect', // unique task id that MUST BE THE SAME as the html file name
     desc: 'bigfive aspects scale', // brief description of task
     condition: null, // experiment/task condition
     redirect_url: '/' // set to false if no redirection required

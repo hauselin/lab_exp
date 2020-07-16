@@ -1,6 +1,6 @@
 var subject = jsPsych.randomization.randomID(15); // random character subject id
 var condition = 'control'; // experiment/task condition
-var task = 'symbol count';
+var task = 'symbolcount';
 var experiment = 'symbol count';
 var debug = true;
 var fullscreen = false;

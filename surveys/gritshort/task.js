@@ -1,5 +1,5 @@
 var subject = jsPsych.randomization.randomID(15);
-var task = 'grit_short'; // must be identical to survey directory name
+var task = 'gritshort'; // must be identical to survey directory name
 var slider_width = 500; // width of slider in pixels
 var scale_min_max = [1, 5]; // slider min max values
 var scale_starting_points = [2, 3, 4]; // starting point of scale; if length > 1, randomly pick one for each scale item

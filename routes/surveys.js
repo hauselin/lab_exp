@@ -2,12 +2,12 @@
 var express = require("express");
 var router = express.Router()
 
-router.get('/grit-short', function (req, res) {
-    res.sendFile('task.html', { root: '../lab_exp/surveys/grit_short' });
+router.get('/gritshort', function (req, res) {
+    res.sendFile('task.html', { root: '../lab_exp/surveys/gritshort' });
 });
 
-router.get('/bigfive-aspect', function (req, res) {
-    res.sendFile('task.html', { root: '../lab_exp/surveys/bigfive_aspect' });
+router.get('/bigfiveaspect', function (req, res) {
+    res.sendFile('task.html', { root: '../lab_exp/surveys/bigfiveaspect' });
 });
 
 module.exports = router;
