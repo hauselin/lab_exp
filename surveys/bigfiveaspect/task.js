@@ -1,7 +1,7 @@
 const taskinfo = {
-    type: 'task', // 'task', 'survey', or 'study'
+    type: 'survey', // 'task', 'survey', or 'study'
     uniquestudyid: 'bigfiveaspect', // unique task id: must be IDENTICAL to directory name
-    desc: 'big five aspects scale', // brief description of task
+    desc: 'DeYoung 2007 big five aspects scale', // brief description of task
     condition: null, // experiment/task condition
     redirect_url: false // set to false if no redirection required
 };
@@ -10,7 +10,6 @@ var info_ = create_info_(taskinfo);  // initialize subject id and task parameter
 var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 
 const debug = true;  // debug mode to print messages to console and display json data at the end
-
 // TODO Frank: black background doesn't work here... weird (has to do with the way the timelinevariable is nested within a function): stimulus: jsPsych.timelineVariable('desc'),
 const black_background = false; // if true, white text on black background
 var font_colour = 'black';

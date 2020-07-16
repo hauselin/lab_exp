@@ -1,5 +1,23 @@
-var subject = jsPsych.randomization.randomID(15);
-var task = 'gritshort'; // must be identical to survey directory name
+const taskinfo = {
+    type: 'survey', // 'task', 'survey', or 'study'
+    uniquestudyid: 'gritshort', // unique task id: must be IDENTICAL to directory name
+    desc: 'Duckworth 2009 grit short scale', // brief description of task
+    condition: null, // experiment/task condition
+    redirect_url: false // set to false if no redirection required
+};
+
+var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
+var datasummary_ = create_datasummary_(info_); // initialize datasummary object
+
+const debug = true;  // debug mode to print messages to console and display json data at the end
+// TODO Frank: black background doesn't work here... weird (has to do with the way the timelinevariable is nested within a function): stimulus: jsPsych.timelineVariable('desc'),
+const black_background = false; // if true, white text on black background
+var font_colour = 'black';
+if (black_background) {
+    document.body.style.backgroundColor = "black";
+    var font_colour = 'white';
+}
+
 var slider_width = 500; // width of slider in pixels
 var scale_min_max = [1, 5]; // slider min max values
 var scale_starting_points = [2, 3, 4]; // starting point of scale; if length > 1, randomly pick one for each scale item
@@ -7,12 +25,10 @@ var scale_labels = ['not at all like me', 'very much like me']
 var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before they're allowed to click continue
 var shuffle_items = false; // randomize order of item presentation
-var debug = true;
-var url = false;  // if this is false, no redirection occurs
 
 // read survey csv file
 // https://www.papaparse.com
-const csvfile = '../../surveys/' + task + '/items.csv';
+const csvfile = '../../surveys/' + taskinfo.uniquestudyid + '/items.csv';
 console.log('Reading file: ' + csvfile);
 Papa.parse(csvfile, {
     download: true,
@@ -26,10 +42,13 @@ Papa.parse(csvfile, {
 // entire task is a (callback) function called by Papa.parse
 function run_survey(survey) {
     jsPsych.data.addProperties({
-        subject: subject,
-        task: task,
-        browser: navigator.userAgent, // browser info
-        datetime: Date(),
+        subject: info_.subject,
+        type: taskinfo.type,
+        uniquestudyid: taskinfo.uniquestudyid,
+        desc: taskinfo.desc,
+        condition: taskinfo.condition,
+        info_: info_,
+        datasummary_: datasummary_
     });
 
     var start_point;
@@ -72,11 +91,19 @@ function run_survey(survey) {
     jsPsych.init({
         timeline: [procedure],
         on_finish: function () {
+            document.body.style.backgroundColor = 'white';
+            datasummary_ = {}; // summarize data
+            jsPsych.data.get().addToAll({ // add objects to all trials
+                info_: info_,
+                datasummary_: {},
+                total_time: datasummary_.total_time,
+            });
             if (debug) {
                 jsPsych.data.displayData();
             }
-            jsPsych.data.addProperties({ total_time: jsPsych.totalTime() });
-            submit_data(jsPsych.data.get().json(), url);
+            sessionStorage.setObj('info_', info_); // save to sessionStorage
+            sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
+            submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
         }
     });
 };
