@@ -423,3 +423,4 @@ function create_consent(timeline, html_path) {
     timeline.push(consent);
     return timeline;
 }
+
