@@ -28,7 +28,7 @@ var shuffle_items = false; // randomize order of item presentation
 
 // read survey csv file
 // https://www.papaparse.com
-const csvfile = '../../surveys/' + taskinfo.uniquestudyid + '/items.csv';
+const csvfile = '../../surveys/gritshort/items.csv';
 console.log('Reading file: ' + csvfile);
 Papa.parse(csvfile, {
     download: true,

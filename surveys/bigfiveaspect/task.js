@@ -27,7 +27,7 @@ var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before they're allowed to click continue
 var shuffle_items = false; // randomize order of item presentation
 
-const csvfile = '../../surveys/' + taskinfo.uniquestudyid + '/items.csv';
+const csvfile = '../../surveys/bigfiveaspect/items.csv';
 console.log('Reading file: ' + csvfile);
 Papa.parse(csvfile, {
     download: true,
