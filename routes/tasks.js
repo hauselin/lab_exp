@@ -2,16 +2,16 @@
 var express = require("express");
 var router = express.Router()
 
-router.get('/delay-discount', function (req, res) {
-    res.sendFile('task.html', {root: '../lab_exp/tasks/delay_discount'});
+router.get('/delaydiscount', function (req, res) {
+    res.sendFile('task.html', { root: '../lab_exp/tasks/delaydiscount' });
 });
 
-router.get('/symbol-count', function (req, res) {
-    res.sendFile('task.html', {root: '../lab_exp/tasks/symbol_count'});
-}); 
+router.get('/symbolcount', function (req, res) {
+    res.sendFile('task.html', { root: '../lab_exp/tasks/symbolcount' });
+});
 
 router.get('/stroop', function (req, res) {
-    res.sendFile('task.html', {root: '../lab_exp/tasks/stroop'});
+    res.sendFile('task.html', { root: '../lab_exp/tasks/stroop' });
 });
 
 module.exports = router;

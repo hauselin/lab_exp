@@ -1,49 +1,50 @@
-
 module.exports = function (app, path) {
-
-
     // GET REQUESTS
     // homepage
     app.get('/', function (req, res) {
-        // TODO Frank: retrieve values by querying database
-        const db = client.db(dbName);
-        const collection = db.collection('datalibraries');
-        collection.find({}).toArray(function (err, all_entries) {
-            assert.equal(err, null);
-            var num_tasks = 0;
-            var tasks = [];
-            var num_studies = 0;
-            var studies = [];
-            var num_entries = all_entries.length;
-            for (i = 0; i < num_entries; i++) { // TODO Frank: not the best way to do it (will be expensive/slow to compute once we have many documents/records in the collection...)
-                if (!(tasks.includes(all_entries[i].task))) {
-                    num_tasks++;
-                    tasks.push(all_entries[i].task);
-                }
-                if (!(studies.includes(all_entries[i].experiment))) {
-                    num_studies++;
-                    studies.push(all_entries[i].experiment);
-                }
+        // DEMO query database to look for documents matching certain criteria
+        DataLibrary.find({ 'utc_date.year': 2020, 'utc_date.month': 7 }, function (err, data) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(data);
             }
-            res.render("index.ejs", { num_tasks: num_tasks, num_studies: num_studies, num_entries: num_entries });
         });
+        DataLibrary.distinct('task', function (err, tasks) {
+            if (err) {
+                console.log(err);
+            }
+            DataLibrary.distinct('experiment', function (err, studies) {
+                if (err) {
+                    console.log(err);
+                }
+                DataLibrary.distinct('_id', function (err, entries) {
+                    if (err) {
+                        console.log(err);
+                    }
+                    DataLibrary.distinct('_id', { task: "delay discounting" }, function (err, entries_delaydiscount) {
+                        DataLibrary.distinct('_id', { task: "stroop" }, function (err, entries_stroop) {
+                            DataLibrary.distinct('_id', { task: "symbol count" }, function (err, entries_symbolcount) {
+                                DataLibrary.distinct('_id', { task: "mental math" }, function (err, entries_mentalmath) {
+                                    res.render("index.ejs", { num_tasks: tasks.length, num_studies: studies.length, num_entries: entries.length, entries_delaydiscount: entries_delaydiscount.length, entries_stroop: entries_stroop.length, entries_symbolcount: entries_symbolcount.length, entries_mentalmath: entries_mentalmath.length });
+                                })
+                            })
+                        })
+                    })
+                })
+            })
+        })
     });
 
-    // catch-all route to demonstrate/test ejs file
-    // app.get('/*', function (req, res) {
-    //     var params = req.params;
-    //     console.log(params);
-    //     var var_to_display;
-    //     if (params['0'] == '') {
-    //         var_to_display = "you didn't specify a route; see examples below";
-    //     } else {
-    //         var_to_display = params['0'];
-    //     }
-    //     // eventually, we'll pass in data from our database to our ejs file
-    //     res.render("test.ejs", { my_variable: var_to_display }); // looks within views dir for ejs files
-    // });
-    // visualizations
+    // TODO Maham: work on dynamic routes
+    app.get('/:uniquestudyid', function (req, res) {
+        res.sendFile(path.join(__dirname + '/tasks/' + req.params.uniquestudyid + '/task.html'));  // for now only delay discounting task works
+    });
 
+    // visualizations (dynamic route)
+    app.get("/:uniquestudyid/viz", function (req, res) {
+        res.render('viz/' + req.params.uniquestudyid + ".ejs"); // render {uniquestudyid}.ejs in views directory
+    });
 
     // DEMO download csv file: grit_short.csv
     app.get('/dl', function (req, res) {
@@ -61,7 +62,7 @@ module.exports = function (app, path) {
     app.get('/dl2', function (req, res) {
         // TODO: Maham see comment below
         // JUST A DEMO! JSON2CSV should be elsewhere (Maham, can you help move it elsewhere?) ! (jspsych's function to convert its json data to csv)
-        function JSON2CSV(objArray) {
+        function json2csv(objArray) {
             // https://github.com/jspsych/jsPsych/blob/83980085ef604c815f0d97ab55c816219e969b84/jspsych.js#L1565
             var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
             var line = '';
@@ -95,25 +96,21 @@ module.exports = function (app, path) {
             return result;
         }
         // create some dummy data for testing purposes
-        const csvstring = JSON2CSV([{ trial: 1, rt: 1 }, { trial: 2, rt: 2 }, { trial: 3, rt: 3, acc: 0 }]);
+        const csvstring = json2csv([{ trial: 1, rt: 1 }, { trial: 2, rt: 2 }, { trial: 3, rt: 3, acc: 0 }]);
         console.log(csvstring); // just checking the output
         res.attachment('dl2.csv'); // filename
         // res.status(200).send('abc,cde\n11,22'); // csv string to save inside dl2.csv (this will be the CSV representation of jspsych's data)
         res.status(200).send(csvstring); // csv string to save inside dl2.csv (this will be the CSV representation of jspsych's data)
     });
 
-    // catch-all route to demonstrate/test ejs file
-    // app.get('/*', function (req, res) {
-    //     var params = req.params;
-    //     console.log(params);
-    //     var var_to_display;
-    //     if (params['0'] == '') {
-    //         var_to_display = "you didn't specify a route; see examples below";
-    //     } else {
-    //         var_to_display = params['0'];
-    //     }
-    //     // eventually, we'll pass in data from our database to our ejs file
-    //     res.render("test.ejs", { my_variable: var_to_display }); // looks within views dir for ejs files
-    // });
-
+    // let subjects download consent for md file (dynamic route)
+    app.get("/:type/:uniquestudyid/consent", function (req, res) {
+        const filename = 'consent.md'; // download filename
+        var file = path.join(__dirname + '/' + req.params.type + '/' + req.params.uniquestudyid + '/consent.md');
+        res.download(file, filename, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        });
+    });
 }
