@@ -1,10 +1,23 @@
-var subject = jsPsych.randomization.randomID(15); // random character subject id
-var condition = 'control'; // experiment/task condition
-var task = 'symbolcount';
-var experiment = 'symbol count';
-var debug = true;
-var fullscreen = false;
+const taskinfo = {
+    type: 'task', // 'task', 'survey', or 'study'
+    uniquestudyid: 'symbolcount', // unique task id: must be IDENTICAL to directory name
+    desc: 'symbol counting task', // brief description of task
+    condition: null, // experiment/task condition
+    redirect_url: false // set to false if no redirection required
+};
 
+var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
+var datasummary_ = create_datasummary_(info_); // initialize datasummary object
+
+const debug = true;  // debug mode to print messages to console and display json data at the end
+const black_background = false; // if true, white text on black background
+var font_colour = 'black';
+if (black_background) {
+    document.body.style.backgroundColor = "black";
+    var font_colour = 'white';
+}
+
+// TASK PARAMETERS
 const trials = 2;               // the total number of trials 
 const max_tasktime_minutes = 5;   // maximum task time in minutes (task ends after this amount of time regardless of how many trials have been completed)
 var reps = 12;                  // the number of symbols per trial
@@ -43,14 +56,15 @@ if (adaptive) {
 
 // add data to all trials
 jsPsych.data.addProperties({
-    subject: subject,
-    condition: condition,
-    task: task,
-    experiment: experiment,
-    adaptive: adaptive,
-    browser: navigator.userAgent, // browser info
-    datetime: Date(),
+    subject: info_.subject,
+    type: taskinfo.type,
+    uniquestudyid: taskinfo.uniquestudyid,
+    desc: taskinfo.desc,
+    condition: taskinfo.condition,
+    info_: info_,
+    datasummary_: datasummary_
 });
+
 
 // function to determine switch reps on each trial; returns an array of length reps, with integers (0, 1) indicating which symbol to present
 function determine_sequence(reps, symbols, trial_difficulty, verbose) {
@@ -114,13 +128,6 @@ function update_difficulty(overall_acc) {
 }
 
 var timeline = [];
-
-if (fullscreen) {
-    timeline.push({
-        type: "fullscreen",
-        fullscreen_mode: true
-    });
-}
 
 var instructions = {
     type: "instructions",
@@ -291,8 +298,18 @@ var debrief_block = {
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
-        jsPsych.data.get().addToAll({ total_time: jsPsych.totalTime() });
-        submit_data(jsPsych.data.get().json(), false);
-        jsPsych.data.displayData();
+        document.body.style.backgroundColor = 'white';
+        datasummary_ = {}; // summarize data
+        jsPsych.data.get().addToAll({ // add objects to all trials
+            info_: info_,
+            datasummary_: {},
+            total_time: datasummary_.total_time,
+        });
+        if (debug) {
+            jsPsych.data.displayData();
+        }
+        sessionStorage.setObj('info_', info_); // save to sessionStorage
+        sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
     }
 });

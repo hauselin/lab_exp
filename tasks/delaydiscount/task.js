@@ -1,6 +1,6 @@
 const taskinfo = {
     type: 'task', // 'task', 'survey', or 'study'
-    uniquestudyid: 'delaydiscount', // unique task id that MUST BE THE SAME as the html file name
+    uniquestudyid: 'delaydiscount', // unique task id: must be IDENTICAL to directory name
     desc: 'delay discounting task staircase with 6 delays', // brief description of task
     condition: null, // experiment/task condition
     redirect_url: "delaydiscount/viz" // set to false if no redirection required
@@ -11,8 +11,13 @@ var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 
 const debug = true;  // debug mode to print messages to console and display json data at the end
 const black_background = true; // if true, white text on black background
+var font_colour = 'black';
+if (black_background) {
+    document.body.style.backgroundColor = "black";
+    var font_colour = 'white';
+}
 
-// task paramemters
+// TASK PARAMETERSs
 const large_reward = 100; //Large reward after cost.
 var costs = [2, 10, 15, 50, 100];  //costs in days.
 // var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
@@ -41,16 +46,9 @@ jsPsych.data.addProperties({
     uniquestudyid: taskinfo.uniquestudyid,
     desc: taskinfo.desc,
     condition: taskinfo.condition,
-    stimuli_sides: stimuli_sides,
     info_: info_,
     datasummary_: datasummary_
 });
-
-var font_colour = 'black';
-if (black_background) {
-    document.body.style.backgroundColor = "black";
-    var font_colour = 'white';
-}
 
 // create experiment timeline
 var timeline = [];
@@ -146,8 +144,9 @@ jsPsych.init({
         jsPsych.data.get().addToAll({ // add objects to all trials
             info_: info_,
             datasummary_: {},
-            auc: datasummary_.auc,
             total_time: datasummary_.total_time,
+            auc: datasummary_.auc,
+            stimuli_sides: stimuli_sides
         });
         if (debug) {
             jsPsych.data.displayData();
