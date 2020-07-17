@@ -41,6 +41,12 @@ app.use(vizRoutes);
 
 // require('./routes')(app, path)
 
+//The 404 Route (ALWAYS Keep this as the last route)
+// TODO FRANK: put 404 page in views and render it whenever people navigate to a route that doesn't exist ('*' is a catch-all route)
+app.get('*', function (req, res) {
+    res.send("where do you think you are going??? Frank, can you render Leap's 404 ejs file here?");
+});
+
 // START SERVER
 app.listen(8080);
 console.log("Server started on port 8080");
