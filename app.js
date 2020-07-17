@@ -6,9 +6,7 @@ var express = require("express"),
     path = require('path'),
     DataLibrary = require('./models/datalibrary')
 
-var taskRoutes = require('./routes/tasks'),
-    studiesRoutes = require('./routes/studies'),
-    surveysRoutes = require('./routes/surveys'),
+var showRoutes = require('./routes/show'),
     indexRoutes = require('./routes/index'),
     datalibraryRoutes = require('./routes/datalibrary'),
     vizRoutes = require('./routes/viz'),
@@ -27,20 +25,19 @@ mongoose.connect('mongodb://localhost/datalibrary',
 );
 
 // // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES/ROUTES DEFINED IN ROUTES FOLDER
-app.use(taskRoutes);
-app.use(studiesRoutes);
-app.use(surveysRoutes);
+app.use('/tasks', express.static(__dirname + "/tasks"));
+app.use('/surveys', express.static(__dirname + "/surveys"));
+app.use('/studies', express.static(__dirname + "/studies"));
+app.use('/jsPsych', express.static(__dirname + "/jsPsych"));
+app.use('/libraries', express.static(__dirname + "/libraries"));
+app.use('/public', express.static(__dirname + "/public"));
+
+app.use(showRoutes);
 app.use(indexRoutes); // TODO Maham: work on index routes
 app.use(datalibraryRoutes);
 app.use(vizRoutes);
 // app.use(downloadsRoutes); // TODO Maham: work on download routes
 
-app.use('/jsPsych', express.static(__dirname + "/jsPsych"));
-app.use('/libraries', express.static(__dirname + "/libraries"));
-app.use('/tasks', express.static(__dirname + "/tasks"));
-app.use('/surveys', express.static(__dirname + "/surveys"));
-app.use('/studies', express.static(__dirname + "/studies"));
-app.use('/public', express.static(__dirname + "/public"));
 
 // require('./routes')(app, path)
 

@@ -3,7 +3,7 @@ const taskinfo = {
     uniquestudyid: 'delaydiscount', // unique task id: must be IDENTICAL to directory name
     desc: 'delay discounting task staircase with 6 delays', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: "delaydiscount/viz" // set to false if no redirection required
+    redirect_url: "/tasks/delaydiscount/viz" // set to false if no redirection required
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
@@ -52,7 +52,7 @@ jsPsych.data.addProperties({
 
 // create experiment timeline
 var timeline = [];
-const html_path = "../tasks/delaydiscount/consent.html";
+const html_path = "../../tasks/delaydiscount/consent.html";
 timeline = create_consent(timeline, html_path);
 
 var instructions = {

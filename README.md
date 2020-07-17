@@ -13,12 +13,12 @@ tasks: behavioral tasks
 ## unique study ids and routes
 
 - studies
-    - studyA
+    - studies/studyA
 - surveys
-    - bigfiveaspect
-    - gritshort
+    - surveys/bigfiveaspect
+    - surveys/gritshort
 - tasks 
-    - bigfiveaspect
-    - gritshort
+    - tasks/bigfiveaspect
+    - tasks/gritshort
 
 
