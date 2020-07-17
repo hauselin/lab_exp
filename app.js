@@ -38,13 +38,16 @@ app.use(datalibraryRoutes);
 app.use(vizRoutes);
 // app.use(downloadsRoutes); // TODO Maham: work on download routes
 
-
-// require('./routes')(app, path)
-
-//The 404 Route (ALWAYS Keep this as the last route)
+// Handle 404
 // TODO FRANK: put 404 page in views and render it whenever people navigate to a route that doesn't exist ('*' is a catch-all route)
-app.get('*', function (req, res) {
+app.use(function (req, res) {
     res.send("where do you think you are going??? Frank, can you render Leap's 404 ejs file here?");
+});
+
+// TODO Frank: same as above
+// Handle 500
+app.use(function (error, req, res, next) {
+    res.send('500: Internal Server Error', 500);
 });
 
 // START SERVER
