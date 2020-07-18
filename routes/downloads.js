@@ -1,6 +1,7 @@
-// TODO Maham: all the routes below are download routes (not working yet)
-// let subjects download consent for md file (dynamic route)
-app.get("/:type/:uniquestudyid/consent", function (req, res) {
+var express = require('express');
+var router = express.Router();
+
+router.get("/:type/:uniquestudyid/consent", function (req, res) {
     const filename = 'consent.md'; // download filename
     var file = path.join(__dirname + '/' + req.params.type + '/' + req.params.uniquestudyid + '/consent.md');
     console.log(file);
@@ -12,7 +13,7 @@ app.get("/:type/:uniquestudyid/consent", function (req, res) {
 });
 
 // DEMO download csv file: grit_short.csv
-app.get('/dl', function (req, res) {
+router.get('/dl', function (req, res) {
     // TODO Maham: route not working now (make sure it works after refactoring) (error: Cannot GET /dl)
     const file = path.join(__dirname + '/surveys/gritshort/items.csv');
     const filename = 'dl.csv';
@@ -25,7 +26,7 @@ app.get('/dl', function (req, res) {
 
 // DEMO download csv string
 // https://stackoverflow.com/questions/18306013/how-to-export-csv-nodejs/39652522
-app.get('/dl2', function (req, res) {
+router.get('/dl2', function (req, res) {
     // TODO: Maham see comment below
     // JUST A DEMO! JSON2CSV should be elsewhere (Maham, can you help move it elsewhere?) ! (jspsych's function to convert its json data to csv)
     function json2csv(objArray) {
@@ -69,3 +70,4 @@ app.get('/dl2', function (req, res) {
     res.status(200).send(csvstring); // csv string to save inside dl2.csv (this will be the CSV representation of jspsych's data)
 });
 
+module.exports = router;
