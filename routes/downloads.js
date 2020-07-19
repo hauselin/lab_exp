@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 router.get("/:type/:uniquestudyid/consent", function (req, res) {
-    const filename = 'consent.md'; // download filename
+    var filename = 'consent.md'; // download filename
     var file = '../lab_exp/' + req.params.type + '/' + req.params.uniquestudyid + '/' + filename;
     console.log(file);
     res.download(file, filename, function (err) {
@@ -14,9 +14,8 @@ router.get("/:type/:uniquestudyid/consent", function (req, res) {
 
 // DEMO download csv file: grit_short.csv
 router.get('/dl', function (req, res) {
-    // TODO Maham: route not working now (make sure it works after refactoring) (error: Cannot GET /dl)
-    const file = path.join(__dirname + '/surveys/gritshort/items.csv');
-    const filename = 'dl.csv';
+    var filename = 'dl.csv';
+    var file = '../lab_exp/surveys/gritshort/items.csv';
     res.download(file, filename, function (err) {
         if (err) {
             console.log(err);
