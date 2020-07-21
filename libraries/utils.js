@@ -227,12 +227,12 @@ function submit_data(results, redirect_url) {
 }
 
 // allows sessionStorage to store arrays and objects using sessionStorage.setObj() and sessionStorage.getObj()
-// Storage.prototype.setObj = function (key, obj) {
-//     return this.setItem(key, JSON.stringify(obj))
-// }
-// Storage.prototype.getObj = function (key) {
-//     return JSON.parse(this.getItem(key))
-// }
+Storage.prototype.setObj = function (key, obj) {
+    return this.setItem(key, JSON.stringify(obj))
+}
+Storage.prototype.getObj = function (key) {
+    return JSON.parse(this.getItem(key))
+}
 
 // get querry string
 function get_query_string() {
