@@ -39,7 +39,6 @@ app.use(vizRoutes);
 // app.use(downloadsRoutes); // TODO Maham: work on download routes
 
 // Handle 404
-// TODO FRANK: put 404 page in views and render it whenever people navigate to a route that doesn't exist ('*' is a catch-all route)
 app.use(function (req, res) {
     res.render("404.ejs");
 });
