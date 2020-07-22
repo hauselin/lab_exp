@@ -112,8 +112,13 @@
             // https://vega.github.io/vega/docs/title/
             // https://vega.github.io/vega-lite/docs/legend.html
             data: {
-                values: datasummary.data.filter(i => i.n_trial == (datasummary.trials_per_cost - 1))
+                // values: datasummary.data.filter(i => i.n_trial == (datasummary.trials_per_cost - 1))
+                values: datasummary.data
             },
+            transform: [
+                {filter: "datum.n_trial == "+ (datasummary.trials_per_cost - 1).toString() +""},
+                {calculate: "datum.indifference/datum.large_reward", as: "indifference"}
+            ],
             mark: { type: "point", tooltip: true },
             encoding: {
                 "x": { field: "cost", axis: { "title": "Delay (days to reward)" } },
