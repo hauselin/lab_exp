@@ -43,10 +43,9 @@ app.use(function (req, res) {
     res.render("404.ejs");
 });
 
-// TODO Frank: same as above
 // Handle 500
 app.use(function (error, req, res, next) {
-    res.render("404.ejs");
+    res.send("500.ejs");
 });
 
 // START SERVER
