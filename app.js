@@ -39,15 +39,14 @@ app.use(vizRoutes);
 // app.use(downloadsRoutes); // TODO Maham: work on download routes
 
 // Handle 404
-// TODO FRANK: put 404 page in views and render it whenever people navigate to a route that doesn't exist ('*' is a catch-all route)
 app.use(function (req, res) {
-    res.send("where do you think you are going??? Frank, can you render Leap's 404 ejs file here?");
+    res.render("404.ejs");
 });
 
 // TODO Frank: same as above
 // Handle 500
 app.use(function (error, req, res, next) {
-    res.send('500: Internal Server Error', 500);
+    res.render("404.ejs");
 });
 
 // START SERVER
