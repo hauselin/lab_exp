@@ -6,97 +6,71 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <script src="../../libraries/utils.js"></script>
-    <script src="../../libraries/plotly-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
+    <style>
+        .center {
+            top: 50%;
+            left: 25%;
+        }
+    </style>
 </head>
 
 <body class="is-preload">
-    <div id="wrapper">
-        <header id="header">
-            <h1>Delay discounting results</h1>
-            <p id="subject">Subject: </p>
-        </header>
-        <div id="main">
-            <div id="indiff_curve" style="width:100%;height:100%;"></div>
-            </section>
-        </div>
+    <header id="header">
+        <h1>Delay discounting results</h1>
+        <p id="subject">Subject: </p>
+        <p id="auc">AUC: </p>
+    </header>
+    <div id="main">
+        <div id="indiff_curve" style="width:100%;height:100%;"></div>
+        </section>
     </div>
-    <script>
+
+    <script type="text/javascript">
         // retrieve objects from sessionStorage
         datasummary = sessionStorage.getObj("datasummary_delaydiscount_");
         info = sessionStorage.getObj("info_");
 
+        var auc = datasummary.auc.toFixed(4);
         var subject_id = info.subject;
         var id_header = document.getElementById("subject");
         id_header.textContent += subject_id;
+        var auc_header = document.getElementById("auc");
+        auc_header.textContent += auc;
 
         console.log('subject id: ' + subject_id);
         console.log('datasummary_')
         console.log(datasummary)
-
-        var auc = datasummary.auc.toFixed(4);
     </script>
-    <script>
 
-        // plot indifference (y) against delay (x)
+    <div id="vis" class="center"></div>
 
-        var delayed_reward = datasummary.delayed_reward[0]; // x axis
-        var indiff = datasummary.indifference; // y axis
-        var indiff_normed = divide(indiff, delayed_reward); // normalize y axis to range from 0 to 1
-
-        var trace = {
-            x: datasummary.cost,
-            y: indiff_normed,
-            mode: 'markers',
-            type: 'scatter',
-            marker: {
-                size: 15,
-                color: [1, 1, 1, 1, 2], // TODO Frank: behaves in a funny way...
-                colorscale: 'Viridis', // TODO Frank, can't change color scheme...
-            }
-        };
-
-        var data = [trace];
-
-        var layout = {
-            autosize: true,
-            automargin: true,
-            // width: 800, // https://plotly.com/javascript/setting-graph-size/
-            height: 700,
-            title: {
-                text: 'Discounting curve<br>Area-under-curve: ' + auc,
-                font: { size: 32 }
+    <script type="text/javascript">
+        // console.log(datasummary.data);
+        var indiff_curve = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            data: {
+                // values: datasummary.data.filter(i => i.n_trial == (datasummary.trials_per_cost - 1))
+                values: datasummary.data
             },
-            xaxis: {
-                title: {
-                    text: "Delay (days to reward)",
-                    font: {
-                        size: 24
-                    }
-                },
-                tickwidth: 4, // https://plotly.com/javascript/axes/#toggling-axes-lines-ticks-labels-and-autorange
-                ticklen: 8,
-                ticks: 'inside',
-                tickfont: { // https://plotly.com/javascript/reference/#layout-scene-xaxis-tickfont-size
-                    size: 20
-                }
+            transform: [
+                { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
+                { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
+            ],
+            mark: { type: "point", tooltip: true, filled: true },
+            encoding: {
+                x: { field: "cost", type: "quantitative", axis: { "title": "Delay (days to reward)", labelAlign: "center" } },
+                y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
+                size: { value: 233 }
             },
-            yaxis: {
-                title: {
-                    text: "Subjective value",
-                    font: {
-                        size: 24
-                    }
-                },
-                range: [-0.05, 1.05],
-                tickfont: {
-                    size: 20
-                }
-            }
+            title: "Discounting curve",
+            width: 550,
+            height: 400,
         };
-
-        var config = { responsive: true }; // https://plotly.com/javascript/responsive-fluid-layout/
-
-        Plotly.newPlot('indiff_curve', data, layout, config);
+        vegaEmbed('#vis', indiff_curve, { theme: "vox" });
     </script>
 
 </body>
