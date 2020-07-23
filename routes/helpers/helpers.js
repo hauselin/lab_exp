@@ -1,4 +1,4 @@
-// convert json to csv
+// convert jspsych's json data to csv
 function json2csv(objArray) {
     // https://github.com/jspsych/jsPsych/blob/83980085ef604c815f0d97ab55c816219e969b84/jspsych.js#L1565
     var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
