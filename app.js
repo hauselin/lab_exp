@@ -32,22 +32,21 @@ app.use('/jsPsych', express.static(__dirname + "/jsPsych"));
 app.use('/libraries', express.static(__dirname + "/libraries"));
 app.use('/public', express.static(__dirname + "/public"));
 
-app.use(indexRoutes); // TODO Maham: work on index routes
+app.use(indexRoutes);
 app.use(datalibraryRoutes);
 app.use(showRoutes);
 app.use(vizRoutes);
-// app.use(downloadsRoutes); // TODO Maham: work on download routes
+app.use(downloadsRoutes);
 
 // Handle 404
 app.use(function (req, res) {
-    // res.redirect("/"); // redirect to homepage
-    res.redirect('/public/404.html'); // works but not the right way?
+    res.redirect('/public/404.html');
     // res.render("404.ejs");
 });
 
 // Handle 500
 app.use(function (error, req, res, next) {
-    res.redirect('/public/500.html'); // works but not the right way?
+    res.redirect('/public/500.html');
     // res.render('500.ejs');
 });
 
