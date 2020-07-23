@@ -40,6 +40,7 @@ app.use(vizRoutes);
 
 // Handle 404
 app.use(function (req, res) {
+    // res.redirect("/"); // redirect to homepage
     res.redirect('/public/404.html'); // works but not the right way?
     // res.render("404.ejs");
 });
