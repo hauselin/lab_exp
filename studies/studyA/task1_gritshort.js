@@ -9,7 +9,7 @@ const taskinfo = {
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 
-const debug = true;  // debug mode to print messages to console and display json data at the end
+const debug = false;  // debug mode to print messages to console and display json data at the end
 // TODO Frank: black background doesn't work here... weird (has to do with the way the timelinevariable is nested within a function): stimulus: jsPsych.timelineVariable('desc'),
 const black_background = false; // if true, white text on black background
 var font_colour = 'black';

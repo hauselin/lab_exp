@@ -18,7 +18,7 @@ app.set("view engine", "ejs"); // use ejs template engine for rendering
 
 mongoose.connect('mongodb://localhost/datalibrary',
     { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
-        if (err) { console.log(err); } else {
+        if (err) { console.log('Not connected to database!'); } else {
             console.log('Successfully connected to database.')
         }
     }
@@ -32,20 +32,22 @@ app.use('/jsPsych', express.static(__dirname + "/jsPsych"));
 app.use('/libraries', express.static(__dirname + "/libraries"));
 app.use('/public', express.static(__dirname + "/public"));
 
-app.use(showRoutes);
 app.use(indexRoutes); // TODO Maham: work on index routes
 app.use(datalibraryRoutes);
+app.use(showRoutes);
 app.use(vizRoutes);
 // app.use(downloadsRoutes); // TODO Maham: work on download routes
 
 // Handle 404
 app.use(function (req, res) {
-    res.render("404.ejs");
+    res.redirect('/public/404.html'); // works but not the right way?
+    // res.render("404.ejs");
 });
 
 // Handle 500
 app.use(function (error, req, res, next) {
-    res.send("500.ejs");
+    res.redirect('/public/500.html'); // works but not the right way?
+    // res.render('500.ejs');
 });
 
 // START SERVER
