@@ -5,8 +5,7 @@ var DataLibrary = require("../models/datalibrary")
 router.get('/', function (req, res) {
 
     // EXAMPLES database querying
-    console.clear();
-    console.log('\n\n\nBEGIN')
+    console.log('\n\n\nBEGIN QUERIES')
 
     // .findOne takes 4 arguments: filter, select, options, callback
     // select subject field; drop _id field; sort by time (descending order); callback function
@@ -67,9 +66,9 @@ router.get('/', function (req, res) {
         console.log("EXAMPLE 7: ")
         console.log(doc1);
         console.log(doc2.subject);
-    });
+    }).catch(err => { console.log(err) });
 
-    console.log('END (note the asynchronous output!)\n\n')
+    console.log('END OF QUERIES (note the asynchronous output!)\n\n')
 
     res.render("index.ejs", { num_tasks: 1, num_studies: 2, num_entries: 3, entries_delaydiscount: 4, entries_stroop: 5, entries_symbolcount: 6, entries_mentalmath: 6 });
 });
