@@ -17,7 +17,7 @@ router.get('/', function (req, res) {
         }).
         catch(err => { console.log(err) });
 
-    // select on more field utc_datatime
+    // select one more field utc_datatime
     DataLibrary.findOne({}, { subject: 1, uniquestudyid: 1, utc_datetime: 1, _id: 0 }, { sort: { time: -1 } }).
         then(doc => {
             console.log('EXAMPLE 2:');
