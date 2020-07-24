@@ -7,9 +7,9 @@ router.get('/', function (req, res) {
     // EXAMPLES database querying
     console.log('\n\n\nBEGIN QUERIES')
 
-    // .findOne takes 4 arguments: filter, select, options, callback
-    // select subject field; drop _id field; sort by time (descending order); callback function
-    // this example uses promises: https://mongoosejs.com/docs/promises.html
+    // .findOne() takes 4 arguments: filter, select, options, callback
+    // this example uses promises instead of callback function: https://mongoosejs.com/docs/promises.html
+    // no filtering; select subject field, drop _id field; sort by time (-1 is descending order)
     DataLibrary.findOne({}, { subject: 1, _id: 0 }, { sort: { time: -1 } }).
         then(doc => {
             console.log('EXAMPLE 1:');
@@ -17,6 +17,7 @@ router.get('/', function (req, res) {
         }).
         catch(err => { console.log(err) });
 
+    // select on more field utc_datatime
     DataLibrary.findOne({}, { subject: 1, uniquestudyid: 1, utc_datetime: 1, _id: 0 }, { sort: { time: -1 } }).
         then(doc => {
             console.log('EXAMPLE 2:');
