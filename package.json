@@ -4,8 +4,7 @@
   "description": "jspsych: [jspsych](https://github.com/jspsych/jsPsych/) library",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon app.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
