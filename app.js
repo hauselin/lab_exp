@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.set("view engine", "ejs"); // use ejs template engine for rendering
 
-mongoose.connect('mongodb://localhost/datalibrary',
+mongoose.connect('mongodb+srv://datalibrary:HLXE0xme6mSJ9hCR@datalibrary.wjesv.mongodb.net/datalibrary?retryWrites=true&w=majority',
     { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
         if (err) { console.log('Not connected to database!'); } else {
             console.log('Successfully connected to database.')
