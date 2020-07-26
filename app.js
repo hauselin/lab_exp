@@ -25,12 +25,12 @@ mongoose.connect('mongodb+srv://datalibrary:HLXE0xme6mSJ9hCR@datalibrary.wjesv.m
 );
 
 // // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES/ROUTES DEFINED IN ROUTES FOLDER
-app.use('/tasks', express.static(__dirname + "/tasks"));
-app.use('/surveys', express.static(__dirname + "/surveys"));
-app.use('/studies', express.static(__dirname + "/studies"));
 app.use('/jsPsych', express.static(__dirname + "/jsPsych"));
 app.use('/libraries', express.static(__dirname + "/libraries"));
 app.use('/public', express.static(__dirname + "/public"));
+app.use('/tasks', express.static(__dirname + "/tasks"));
+app.use('/surveys', express.static(__dirname + "/surveys"));
+app.use('/studies', express.static(__dirname + "/studies"));
 
 app.use(indexRoutes);
 app.use(datalibraryRoutes);
