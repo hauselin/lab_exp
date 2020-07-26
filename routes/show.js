@@ -5,7 +5,7 @@ const fs = require('fs');
 
 // TODO Maham: I think this single rotue is enough for all tasks/studies/surveys?
 router.get('/:type/:uniquestudyid', function (req, res, next) {
-    const root = '../app/' + req.params.type + '/' + req.params.uniquestudyid;
+    const root = '../app/' + 'tasks' + '/' + 'delaydiscount';
     // check if file exists without opening it
     fs.access(root + '/' + 'task.html', fs.F_OK, (err) => {
         if (err) {

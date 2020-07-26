@@ -1,5 +1,3 @@
-import jsPsych from '../jspsych';
-
 /**
  * utils.js
  **/
