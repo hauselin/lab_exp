@@ -17,7 +17,7 @@ router.get("/:type/:uniquestudyid/consent", function (req, res) {
 // DEMO download csv file: grit_short.csv
 router.get('/dl', function (req, res) {
     var filename = 'dl.csv';
-    var file = '../lab_exp/surveys/gritshort/items.csv';
+    var file = '../app/surveys/gritshort/items.csv';
     res.download(file, filename, function (err) {
         if (err) {
             console.log(err);
