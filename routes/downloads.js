@@ -5,7 +5,7 @@ const helper = require('../routes/helpers/helpers')
 // route for downloading consent forms
 router.get("/:type/:uniquestudyid/consent", function (req, res) {
     var filename = 'consent.md'; // download filename
-    var file = '../lab_exp/' + req.params.type + '/' + req.params.uniquestudyid + '/' + filename;
+    var file = '../app/' + req.params.type + '/' + req.params.uniquestudyid + '/' + filename;
     // console.log(file);
     res.download(file, filename, function (err) {
         if (err) {
