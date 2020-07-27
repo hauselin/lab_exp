@@ -198,36 +198,3 @@ function get_auc() {    //note that this area is an underestimation of the hyper
         return a + b;
     }, 0);
 }
-
-function submit_data(results, redirect_url) {
-    try {
-        $.ajax({
-            type: "POST",
-            url: "/submit-data",
-            data: results,
-            contentType: "application/json",
-            timeout: 5000, // timeout after 5 seconds
-            success: function (data) { // success only runs if html status code is 2xx (success)
-                console.log('SUCCESS: ' + data + ' data successfully saved in database'); // data is just the success status code sent from server (200)
-            },
-            error: function (xhr, status, err) {
-                console.log(err);
-            },
-            complete: function (data) { // complete ALWAYS runs at the end of request
-                if (data.status != 200) { // data is the entire response object!
-                    console.log('WARNING! Data might not have been saved! Response status: ' + data.status);
-                }
-                else {
-                    console.log('Post request complete.');
-                }
-                if (redirect_url) {
-                    window.location.replace(redirect_url);
-                }
-            }
-        })
-    }
-    catch (err) {
-        console.log('ERROR! submit_data failed to make post request');
-        console.log(err);
-    }
-}
