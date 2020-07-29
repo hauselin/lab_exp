@@ -81,11 +81,7 @@
         console.log("Queried Data:");
         data = <%- JSON.stringify(data) %>;
         console.log(data);
-
-        data_array = [];
-        for (i=0; i<data.length; i++) {
-            data_array.push.apply(data_array, data[i].data);
-        }
+        data_array = <%- JSON.stringify(data_array) %>;
         console.log(data_array);
 
         var aggregate_curve = {
