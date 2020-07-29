@@ -98,7 +98,6 @@
                     type: "quantitative",
                     axis: { "title": "Delay (days to reward)" }
                 },
-                size: { value: 3 }
             },
             layer: [
                 {
@@ -112,6 +111,7 @@
                             type: "quantitative",
                             axis: { "title": "Subjective Value" }
                         },
+                        size: { value: 5 }
                     },
 
                 },
@@ -125,7 +125,8 @@
                             type: "quantitative",
                             axis: { "title": "Subjective Value" },
                             aggregate: "median",
-                        }
+                        },
+                        size: { value: 3 }
                     },
                     transform: [
                         {
@@ -138,7 +139,6 @@
                 {
                     mark: { type: "point", tooltip: true, filled: true },
                     encoding: {
-                        x: { field: "cost", type: "quantitative", axis: { "title": "Delay (days to reward)", labelAlign: "center" } },
                         y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
                         size: { value: 233 }
                     }
@@ -149,6 +149,38 @@
         };
         vegaEmbed('#vis2', aggregate_curve, { theme: "vox" });
     </script>
+
+    <div id="vis3" class="center"></div>
+
+    <script type="text/javascript">
+        var auc_histogram = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            data: { values: data_array },
+            transform: [
+                { filter: "datum.trial_index == 0" },
+            ],
+            mark: { type: "bar"},
+            encoding: {
+                x: {
+                    type: "quantitative",
+                    bin: true,
+                    field: "auc",
+                },
+                y: {
+                    aggregate: "count",
+                    scale: {
+                        round: true
+                    }
+                }
+            },
+            title: "Aggregate AUC histogram",
+            width: 550,
+            height: 400,
+        };
+        vegaEmbed('#vis3', auc_histogram, { theme: "vox" });
+    </script>
+
 
 </body>
 
