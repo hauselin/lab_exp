@@ -66,11 +66,58 @@
                 y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
                 size: { value: 233 }
             },
-            title: "Discounting curve",
+            title: "Individual discounting curve",
             width: 550,
             height: 400,
         };
         vegaEmbed('#vis', indiff_curve, { theme: "vox" });
+    </script>
+
+    <div id="vis2" class="center"></div>
+    
+    <script type="text/javascript">
+        // console.log(datasummary.data);
+        console.log("Total Entries: " + <%= data.length %>);
+        console.log("Queried Data:");
+        data = <%- JSON.stringify(data) %>;
+        console.log(data);
+
+        data_array = [];
+        for (i=0; i<data.length; i++) {
+            data_array.push.apply(data_array, data[i].data);
+        }
+        console.log(data_array);
+
+        var aggregate_curve = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            data: { values: data_array },
+            transform: [
+                { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
+                { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
+            ],
+            mark: {
+                type: "boxplot",
+                extent: 1.5
+            },
+            encoding: {
+                x: {
+                    field: "cost",
+                    type: "quantitative",
+                    axis: { "title": "Delay (days to reward)" }
+                },
+                y: {
+                    field: "indifference",
+                    type: "quantitative",
+                    axis: { "title": "Subjective Value" }
+                },
+                size: { value: 5 }
+            },
+            title: "Aggregate discounting curve",
+            width: 550,
+            height: 400,
+        };
+        vegaEmbed('#vis2', aggregate_curve, { theme: "vox" });
     </script>
 
 </body>
