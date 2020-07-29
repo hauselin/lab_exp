@@ -76,4 +76,16 @@ router.get('/', function (req, res) {
     res.render("index.ejs", { num_tasks: 1, num_studies: 2, num_entries: 3, entries_delaydiscount: 4, entries_stroop: 5, entries_symbolcount: 6, entries_mentalmath: 6 });
 });
 
+router.get('/tasks', function (req, res) {
+    Promise.all([
+        DataLibrary.find({uniquestudyid: 'delaydiscount'}).lean(),
+        DataLibrary.find({uniquestudyid: 'stroop'}).lean(),
+        DataLibrary.find({uniquestudyid: 'symbolcount'}).lean(),
+        DataLibrary.find({uniquestudyid: 'updatemath'}).lean()
+    ])
+        .then(([delaydiscount, stroop, symbolcount, updatemath]) => {
+            res.render("tasks.ejs", { entries_delaydiscount: delaydiscount.length, entries_stroop: stroop.length, entries_symbolcount: symbolcount.length, entries_mentalmath: updatemath.length });
+        })
+});
+
 module.exports = router;
