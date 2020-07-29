@@ -74,7 +74,7 @@
     </script>
 
     <div id="vis2" class="center"></div>
-    
+
     <script type="text/javascript">
         // console.log(datasummary.data);
         console.log("Total Entries: " + <%= data.length %>);
@@ -92,23 +92,57 @@
                 { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
                 { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
             ],
-            mark: {
-                type: "boxplot",
-                extent: 1.5
-            },
             encoding: {
                 x: {
                     field: "cost",
                     type: "quantitative",
                     axis: { "title": "Delay (days to reward)" }
                 },
-                y: {
-                    field: "indifference",
-                    type: "quantitative",
-                    axis: { "title": "Subjective Value" }
-                },
-                size: { value: 5 }
+                size: { value: 3 }
             },
+            layer: [
+                {
+                    mark: {
+                        type: "boxplot",
+                        extent: 1.5
+                    },
+                    encoding: {
+                        y: {
+                            field: "indifference",
+                            type: "quantitative",
+                            axis: { "title": "Subjective Value" }
+                        },
+                    },
+
+                },
+                {
+                    mark: {
+                        type: "line",
+                    },
+                    encoding: {
+                        y: {
+                            field: "indifference",
+                            type: "quantitative",
+                            axis: { "title": "Subjective Value" },
+                            aggregate: "median",
+                        }
+                    },
+                    transform: [
+                        {
+                            regression: "indifference",
+                            on: "cost",
+                            method: "log"
+                        }
+                    ]
+                },
+                {
+                    mark: { type: "point", tooltip: true, filled: true },
+                    encoding: {
+                        x: { field: "cost", type: "quantitative", axis: { "title": "Delay (days to reward)", labelAlign: "center" } },
+                        y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
+                        size: { value: 233 }
+                    }
+                }],
             title: "Aggregate discounting curve",
             width: 550,
             height: 400,
