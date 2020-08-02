@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const helper = require('../routes/helpers/helpers')
+const helper = require('../routes/helpers/helpers');
+var DataLibrary = require("../models/datalibrary")
 
 // route for downloading consent forms
 router.get("/:type/:uniquestudyid/consent", function (req, res) {
@@ -37,8 +38,15 @@ router.get('/dl2', function (req, res) {
 });
 
 router.get('/d1', function(req, res) {
-    // Download the most recent document (regardless of task): 
-
+    // Download the most recent document (regardless of task)
+    var recent = DataLibrary.collection.find().skip(DataLibrary.collection.count() - 1);
+    var file = helper.json2csv(recent);
+    var filename = 'd1.csv';
+    res.download(file, filename, function (err) {
+        if (err) {
+            console.log(err);
+        }
+    });
 }); 
 
 router.get('/:type/:uniquestudyid/d:n', function(req, res) {
