@@ -37,22 +37,27 @@ router.get('/dl2', function (req, res) {
 });
 
 router.get('/d1', function(req, res) {
+    // Download the most recent document (regardless of task): 
 
 }); 
 
 router.get('/:type/:uniquestudyid/d:n', function(req, res) {
+    // Download most recent n document(s) for a given task
 
 });
 
 router.get('/:type/:uniquestudyid/d/:yyyy', function(req, res) {
+    // Filter and download documents by year for a given task
 
 });
 
 router.get('/:type/:uniquestudyid/d/:yyyy/:mm', function(req, res) {
+    // Filter and download documents by year and month for a given task
 
 });
 
 router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function(req, res) {
+    // Filter and download documents by year, month, and day for a given task
 
 });
 
