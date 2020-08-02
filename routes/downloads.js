@@ -36,4 +36,25 @@ router.get('/dl2', function (req, res) {
     res.status(200).send(csvstring); // csv string to save inside dl2.csv (this will be the CSV representation of jspsych's data)
 });
 
+router.get('/d1', function(req, res) {
+
+}); 
+
+router.get('/:type/:uniquestudyid/d:n', function(req, res) {
+
+});
+
+router.get('/:type/:uniquestudyid/d/:yyyy', function(req, res) {
+
+});
+
+router.get('/:type/:uniquestudyid/d/:yyyy/:mm', function(req, res) {
+
+});
+
+router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function(req, res) {
+
+});
+
+
 module.exports = router;
