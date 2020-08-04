@@ -37,37 +37,43 @@ router.get('/dl2', function (req, res) {
     res.status(200).send(csvstring); // csv string to save inside dl2.csv (this will be the CSV representation of jspsych's data)
 });
 
-router.get('/d1', function(req, res) {
+router.get('/dl1', function(req, res) {
     // Download the most recent document (regardless of task)
-    var recent = DataLibrary.collection.find().skip(DataLibrary.collection.count() - 1);
-    var file = helper.json2csv(recent);
-    var filename = 'd1.csv';
-    res.download(file, filename, function (err) {
-        if (err) {
+    DataLibrary.findOne().sort({ time: -1 }).exec(function(err, post) {
+        if (err) { 
             console.log(err);
-        }
+        } else {
+            console.log(post)
+            var file = helper.json2csv(post);
+            var filename = 'd1.csv';
+            res.download(file, filename, function(err) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+        };
     });
-}); 
-
-router.get('/:type/:uniquestudyid/d:n', function(req, res) {
-    // Download most recent n document(s) for a given task
-
 });
 
-router.get('/:type/:uniquestudyid/d/:yyyy', function(req, res) {
-    // Filter and download documents by year for a given task
+// router.get('/:type/:uniquestudyid/d:n', function(req, res) {
+//     // Download most recent n document(s) for a given task
 
-});
+// });
 
-router.get('/:type/:uniquestudyid/d/:yyyy/:mm', function(req, res) {
-    // Filter and download documents by year and month for a given task
+// router.get('/:type/:uniquestudyid/d/:yyyy', function(req, res) {
+//     // Filter and download documents by year for a given task
 
-});
+// });
 
-router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function(req, res) {
-    // Filter and download documents by year, month, and day for a given task
+// router.get('/:type/:uniquestudyid/d/:yyyy/:mm', function(req, res) {
+//     // Filter and download documents by year and month for a given task
 
-});
+// });
+
+// router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function(req, res) {
+//     // Filter and download documents by year, month, and day for a given task
+
+// });
 
 
 module.exports = router;
