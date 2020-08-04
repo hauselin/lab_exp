@@ -195,7 +195,7 @@
         console.log(datasummary)
     </script>
 
-
+    <!-- Individual discount curve -->
     <script type="text/javascript">
         // console.log(datasummary.data);
         var indiff_curve = {
@@ -222,7 +222,7 @@
         vegaEmbed('#vis', indiff_curve, { theme: "vox" });
     </script>
 
-
+    <!-- Aggregate box plot -->
     <script type="text/javascript">
         // console.log(datasummary.data);
         console.log("Total Entries: " + <%= data.length %>);
@@ -251,21 +251,26 @@
                 {
                     mark: {
                         type: "boxplot",
-                        extent: 1.5
+                        extent: 1.5,
                     },
                     encoding: {
                         y: {
                             field: "indifference",
                             type: "quantitative",
+                            axis: { "title": "Subjective value" }
                         },
                         size: { value: 20 }
                     },
 
                 },
                 {
-                    mark: { type: "point", tooltip: true, filled: false, color: "black" },
+                    mark: { type: "point", tooltip: true, filled: false, color: "black", opacity: 0.3 },
                     encoding: {
-                        y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
+                        y: { 
+                            field: "indifference", 
+                            type: "quantitative", 
+                            scale: { domain: [0, 1] } 
+                        },
                         size: { value: 15 },
                     }
                 }],
@@ -276,8 +281,7 @@
         vegaEmbed('#vis2', aggregate_curve, { theme: "vox" });
     </script>
 
-    <div id="vis3" class="center"></div>
-
+    <!-- Aggregate AUC histogram -->
     <script type="text/javascript">
         var auc_histogram = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
@@ -289,7 +293,7 @@
             mark: { type: "bar" },
             encoding: {
                 x: {
-                    type: "quantitative",
+                    type: "nominal",
                     bin: true,
                     field: "auc",
                 },
