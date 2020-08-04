@@ -46,7 +46,7 @@
                                 <span class="h1">Text</span>
                             </div>
                             <p id="subject">Subject ID: </p>
-                            <p id="auc">AUC: </p>                   
+                            <p id="auc">AUC: </p>
                             <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
                                 praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
                                 sint occaecati.</p>
@@ -67,8 +67,8 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg" alt="patch icon"
-                        data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg"
+                        alt="patch icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>A</h5>
                         <p>
@@ -102,7 +102,8 @@
             </div>
         </div>
         <div class="divider">
-            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic" data-inject-svg />
+            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
+                data-inject-svg />
         </div>
     </section>
     <section class="bg-primary-alt">
@@ -121,6 +122,9 @@
                         </div>
                         <div class="carousel-cell mx-3">
                             <div id="vis3" class="center"></div>
+                        </div>
+                        <div class="carousel-cell mx-3">
+                            <div id="vis4" class="center"></div>
                         </div>
                     </div>
                 </div>
@@ -266,10 +270,10 @@
                 {
                     mark: { type: "point", tooltip: true, filled: false, color: "black", opacity: 0.3 },
                     encoding: {
-                        y: { 
-                            field: "indifference", 
-                            type: "quantitative", 
-                            scale: { domain: [0, 1] } 
+                        y: {
+                            field: "indifference",
+                            type: "quantitative",
+                            scale: { domain: [0, 1] }
                         },
                         size: { value: 15 },
                     }
@@ -309,6 +313,36 @@
             height: 400,
         };
         vegaEmbed('#vis3', auc_histogram, { theme: "vox" });
+    </script>
+
+    <!-- Aggregate AUC density -->
+    <script type="text/javascript">
+        var auc_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            data: { values: data_array },
+            transform: [
+                { filter: "datum.trial_index == 0" },
+            ],
+            mark: { type: "bar" },
+            encoding: {
+                x: {
+                    type: "nominal",
+                    bin: true,
+                    field: "auc",
+                },
+                y: {
+                    aggregate: "count",
+                    scale: {
+                        round: true
+                    }
+                }
+            },
+            title: "Aggregate AUC density",
+            width: 550,
+            height: 400,
+        };
+        vegaEmbed('#vis4', auc_density, { theme: "vox" });
     </script>
 
 
