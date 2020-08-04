@@ -300,12 +300,14 @@
                     type: "nominal",
                     bin: true,
                     field: "auc",
+                    title: "AUC",
                 },
                 y: {
                     aggregate: "count",
                     scale: {
                         round: true
-                    }
+                    },
+                    title: "Counts",
                 }
             },
             title: "Aggregate AUC histogram",
@@ -322,9 +324,9 @@
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             data: { values: data_array },
             transform: [
-                { filter: "datum.trial_index == 0" },
+                { filter: "datum.trial_index == 0", density: "" },
             ],
-            mark: { type: "bar" },
+            mark: { type: "area" },
             encoding: {
                 x: {
                     type: "nominal",
