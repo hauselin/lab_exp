@@ -109,38 +109,16 @@
                         y: {
                             field: "indifference",
                             type: "quantitative",
-                            axis: { "title": "Subjective Value" }
                         },
-                        size: { value: 5 }
+                        size: { value: 20 }
                     },
 
                 },
                 {
-                    mark: {
-                        type: "line",
-                    },
-                    encoding: {
-                        y: {
-                            field: "indifference",
-                            type: "quantitative",
-                            axis: { "title": "Subjective Value" },
-                            aggregate: "median",
-                        },
-                        size: { value: 3 }
-                    },
-                    transform: [
-                        {
-                            regression: "indifference",
-                            on: "cost",
-                            method: "log"
-                        }
-                    ]
-                },
-                {
-                    mark: { type: "point", tooltip: true, filled: true },
+                    mark: { type: "point", tooltip: true, filled: false, color: "black" },
                     encoding: {
                         y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
-                        size: { value: 233 }
+                        size: { value: 15 },
                     }
                 }],
             title: "Aggregate discounting curve",
