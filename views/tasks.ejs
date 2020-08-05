@@ -1,0 +1,218 @@
+<%- include('partials/header') %>
+<div data-overlay class="bg-primary text-light o-hidden position-relative">
+  <section class="text-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-9">
+          <h2 class="h1">Tasks</h2>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+<section class="pt-4 bg-primary-alt">
+  <div class="dropdown" style="text-align: center;">
+    <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown-grid" type="button" aria-expanded="false" aria-haspopup="true">
+      <span>View all</span>
+      <!-- Arrow icon SVG in dropdown toggle -->
+      <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14.4444 8.41358C14.7776 8.2281 15.1875 8.46907 15.1875 8.85048V15.1495C15.1875 15.5309 14.7776 15.7719 14.4444 15.5864L8.78505 12.4369C8.44258 12.2463 8.44258 11.7537 8.78505 11.5631L14.4444 8.41358Z" fill="#212529"></path></svg>
+    </button>
+    <div class="justify-content-center dropdown-menu row">
+      <div class="col-xl-6 col-lg-7 col-md-8" data-dropdown-content>
+        <div class="card card-body shadow p-0">
+          <h6 class="mb-0 dropdown-content">Tasks</h6>
+          <hr class="m-0">
+          <div class="row no-gutters">
+            <div class="col-md">
+              <a href="#delaydiscount" data-smooth-scroll class="d-flex m-3">
+                <!-- Timer icon SVG -->
+                <svg class="icon icon-lg bg-primary-2" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><title>Icon For Timer</title><g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"><rect opacity="0" x="0" y="0" width="24" height="24"></rect><path d="M12,21 C7.581722,21 4,17.418278 4,13 C4,8.581722 7.581722,5 12,5 C16.418278,5 20,8.581722 20,13 C20,17.418278 16.418278,21 12,21 Z" fill="#000000" opacity="0.3"></path><path d="M13,5.06189375 C12.6724058,5.02104333 12.3386603,5 12,5 C11.6613397,5 11.3275942,5.02104333 11,5.06189375 L11,4 L10,4 C9.44771525,4 9,3.55228475 9,3 C9,2.44771525 9.44771525,2 10,2 L14,2 C14.5522847,2 15,2.44771525 15,3 C15,3.55228475 14.5522847,4 14,4 L13,4 L13,5.06189375 Z" fill="#000000"></path><path d="M16.7099142,6.53272645 L17.5355339,5.70710678 C17.9260582,5.31658249 18.5592232,5.31658249 18.9497475,5.70710678 C19.3402718,6.09763107 19.3402718,6.73079605 18.9497475,7.12132034 L18.1671361,7.90393167 C17.7407802,7.38854954 17.251061,6.92750259 16.7099142,6.53272645 Z" fill="#000000"></path><path d="M11.9630156,7.5 L12.0369844,7.5 C12.2982526,7.5 12.5154733,7.70115317 12.5355117,7.96165175 L12.9585886,13.4616518 C12.9797677,13.7369807 12.7737386,13.9773481 12.4984096,13.9985272 C12.4856504,13.9995087 12.4728582,14 12.4600614,14 L11.5399386,14 C11.2637963,14 11.0399386,13.7761424 11.0399386,13.5 C11.0399386,13.4872031 11.0404299,13.4744109 11.0414114,13.4616518 L11.4644883,7.96165175 C11.4845267,7.70115317 11.7017474,7.5 11.9630156,7.5 Z" fill="#000000"></path></g></svg>
+                <div class="ml-2">
+                  <span class="h6 mb-0">Delay discount</span>
+                  <div class="text-small text-muted">Choose your preferred reward.</div>
+                </div>
+              </a>
+              <a href="#symbolcount" data-smooth-scroll class="d-flex m-3">
+                <!-- Layout icon SVG -->
+                <svg class="icon icon-lg bg-primary-2" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">    <title>Icon For Layout-top-panel-2</title>    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">        <rect opacity="0" x="0" y="0" width="24" height="24"></rect>        <path d="M3,4 L20,4 C20.5522847,4 21,4.44771525 21,5 L21,7 C21,7.55228475 20.5522847,8 20,8 L3,8 C2.44771525,8 2,7.55228475 2,7 L2,5 C2,4.44771525 2.44771525,4 3,4 Z M10,10 L20,10 C20.5522847,10 21,10.4477153 21,11 L21,19 C21,19.5522847 20.5522847,20 20,20 L10,20 C9.44771525,20 9,19.5522847 9,19 L9,11 C9,10.4477153 9.44771525,10 10,10 Z" fill="#000000"></path>        <rect fill="#000000" opacity="0.3" x="2" y="10" width="5" height="10" rx="1"></rect>    </g></svg>
+                <div class="ml-2">
+                  <span class="h6 mb-0">Symbol counting</span>
+                  <div class="text-small text-muted">Count the prompted symbols mentally.</div>
+                </div>
+              </a>
+            </div>
+            <div class="col-md">
+              <a href="#stroop" data-smooth-scroll class="d-flex m-3">
+                <!-- Page icon SVG -->
+                <svg class="icon icon-lg bg-primary-2" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">    <title>Icon For File</title>    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">        <polygon points="0 0 24 0 24 24 0 24" opacity="0"></polygon>        <path d="M5.85714286,2 L13.7364114,2 C14.0910962,2 14.4343066,2.12568431 14.7051108,2.35473959 L19.4686994,6.3839416 C19.8056532,6.66894833 20,7.08787823 20,7.52920201 L20,20.0833333 C20,21.8738751 19.9795521,22 18.1428571,22 L5.85714286,22 C4.02044787,22 4,21.8738751 4,20.0833333 L4,3.91666667 C4,2.12612489 4.02044787,2 5.85714286,2 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"></path>        <rect fill="#000000" x="6" y="11" width="9" height="2" rx="1"></rect>        <rect fill="#000000" x="6" y="15" width="5" height="2" rx="1"></rect>    </g></svg>
+                <div class="ml-2">
+                  <span class="h6 mb-0">Stroop</span>
+                  <div class="text-small text-muted">Respond to prompted texts with their colours.</div>
+                </div>
+              </a>
+              <a href="#mentalmath" data-smooth-scroll class="d-flex m-3">
+                <!-- Box icon SVG -->
+                <svg class="icon icon-lg bg-primary-2" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">    <title>Icon For Box#2</title>    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">        <rect opacity="0" x="0" y="0" width="24" height="24"></rect>        <path d="M4,9.67471899 L10.880262,13.6470401 C10.9543486,13.689814 11.0320333,13.7207107 11.1111111,13.740321 L11.1111111,21.4444444 L4.49070127,17.526473 C4.18655139,17.3464765 4,17.0193034 4,16.6658832 L4,9.67471899 Z M20,9.56911707 L20,16.6658832 C20,17.0193034 19.8134486,17.3464765 19.5092987,17.526473 L12.8888889,21.4444444 L12.8888889,13.6728275 C12.9050191,13.6647696 12.9210067,13.6561758 12.9368301,13.6470401 L20,9.56911707 Z" fill="#000000"></path>        <path d="M4.21611835,7.74669402 C4.30015839,7.64056877 4.40623188,7.55087574 4.5299008,7.48500698 L11.5299008,3.75665466 C11.8237589,3.60013944 12.1762411,3.60013944 12.4700992,3.75665466 L19.4700992,7.48500698 C19.5654307,7.53578262 19.6503066,7.60071528 19.7226939,7.67641889 L12.0479413,12.1074394 C11.9974761,12.1365754 11.9509488,12.1699127 11.9085461,12.2067543 C11.8661433,12.1699127 11.819616,12.1365754 11.7691509,12.1074394 L4.21611835,7.74669402 Z" fill="#000000" opacity="0.3"></path>    </g></svg>
+                <div class="ml-2">
+                  <span class="h6 mb-0">Mental math</span>
+                  <div class="text-small text-muted">Mental math task</div>
+                </div>
+              </a>
+            </div>
+          </div>
+          <hr class="m-0">
+          <div class="px-3 py-2 d-flex justify-content-between align-items-center">
+            <span class="text-small">Click on the task to scoll to that section.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="pt-0 bg-primary-alt" id="delaydiscount">
+  <div class="container">
+    <div class="row" data-aos="fade-up">
+      <div class="col-md-6">
+        <a class="fade-page" href="/tasks/delaydiscount">
+          <img align="right" style="width:80%; height: 300px; object-fit: cover; margin-right: 25px;" src="../public/assets/img/tasks/delaydiscount.jpg" class="rounded shadow-3d hover-shadow-3d border mb-3 mb-md-0">
+        </a>
+      </div>
+      <div class="col">
+        <div class="row justify-content-left">
+          <div class="col-xl-9 col-lg-10" style="margin-left: 25px;">
+            <a href="/tasks/delaydiscount" class="fade-up">
+              <h3 class="h2">Delay discounting task</h3>
+            </a>
+            <p class="lead">
+              Choose your preferred reward.
+            </p>
+            <ul class="list-unstyled my-3">
+              <li class="d-flex align-items-center my-2">
+                <img class="icon icon-lg" src="../public/assets/img/icons/theme/home/clock.svg" alt="icon" />
+                <span class="h6 mb-0 ml-2">3-5 Minutes</span>
+              </li>
+              <li class="d-flex align-items-center my-2">
+                <img class="icon icon-lg" src="../public/assets/img/icons/theme/communication/add-user.svg" alt="icon" />
+                <span class="h6 mb-0 ml-2"><%= entries_delaydiscount %> Entries</span>
+              </li>
+              <li class="d-flex align-items-center my-2">
+                <a href="/" class="btn btn-secondary" data-smooth-scroll>See Data</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="pt-0 bg-primary-alt" id="symbolcount">
+  <div class="container">
+    <div class="row" data-aos="fade-up">
+      <div class="col-md-6">
+        <a class="fade-page" href="/tasks/symbolcount">
+          <img align="right" style="width:80%; height: 300px; object-fit: cover; margin-right: 25px;" src="../public/assets/img/tasks/symbolcount.jpg" class="rounded shadow-3d hover-shadow-3d border mb-3 mb-md-0">
+        </a>
+      </div>
+      <div class="col">
+        <div class="row justify-content-left">
+          <div class="col-xl-9 col-lg-10" style="margin-left: 25px;">
+            <a href="/tasks/symbolcount" class="fade-up">
+              <h3 class="h2">Symbol counting task</h3>
+            </a>
+            <p class="lead">
+              Count the prompted symbols mentally.
+            </p>
+            <ul class="list-unstyled my-3">
+              <li class="d-flex align-items-center my-2">
+                <img class="icon icon-lg" src="../public/assets/img/icons/theme/home/clock.svg" alt="icon" />
+                <span class="h6 mb-0 ml-2">3-5 Minutes</span>
+              </li>
+              <li class="d-flex align-items-center my-2">
+                <img class="icon icon-lg" src="../public/assets/img/icons/theme/communication/add-user.svg" alt="icon" />
+                <span class="h6 mb-0 ml-2"><%= entries_symbolcount %> Entries</span>
+              </li>
+              <li class="d-flex align-items-center my-2">
+                <a href="/" class="btn btn-secondary" data-smooth-scroll>See Data</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="pt-0 bg-primary-alt" id="stroop">
+  <div class="container">
+    <div class="row" data-aos="fade-up">
+      <div class="col-md-6">
+        <a class="fade-page" href="/tasks/stroop">
+          <img align="right" style="width:80%; height: 300px; object-fit: cover; margin-right: 25px;" src="../public/assets/img/tasks/stroop.png" class="rounded shadow-3d hover-shadow-3d border mb-3 mb-md-0">
+        </a>
+      </div>
+      <div class="col">
+        <div class="row justify-content-left">
+          <div class="col-xl-9 col-lg-10" style="margin-left: 25px;">
+            <a href="/tasks/stroop" class="fade-up">
+              <h3 class="h2">Stroop cognitive control task</h3>
+            </a>
+            <p class="lead">
+              Respond to prompted texts with their colours.
+            </p>
+            <ul class="list-unstyled my-3">
+              <li class="d-flex align-items-center my-2">
+                <img class="icon icon-lg" src="../public/assets/img/icons/theme/home/clock.svg" alt="icon" />
+                <span class="h6 mb-0 ml-2">2-3 Minutes</span>
+              </li>
+              <li class="d-flex align-items-center my-2">
+                <img class="icon icon-lg" src="../public/assets/img/icons/theme/communication/add-user.svg" alt="icon" />
+                <span class="h6 mb-0 ml-2"><%= entries_stroop %> Entries</span>
+              </li>
+              <li class="d-flex align-items-center my-2">
+                <a href="/" class="btn btn-secondary" data-smooth-scroll>See Data</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="pt-0 bg-primary-alt" id="mentalmath">
+  <div class="container">
+    <div class="row" data-aos="fade-up">
+      <div class="col-md-6">
+        <a class="fade-page" href="#">
+          <img align="right" style="width:80%; height: 300px; object-fit: cover; margin-right: 25px;" src="../public/assets/img/tasks/mentalmath.jpg" class="rounded shadow-3d hover-shadow-3d border mb-3 mb-md-0">
+        </a>
+      </div>
+      <div class="col">
+        <div class="row justify-content-left">
+          <div class="col-xl-9 col-lg-10" style="margin-left: 25px;">
+            <a href="#" class="fade-up">
+              <h3 class="h2">Mental math task<span class="badge badge-primary ml-2">New</span></h3>
+            </a>
+            <p class="lead">
+              Mental math task.
+            </p>
+            <ul class="list-unstyled my-3">
+              <li class="d-flex align-items-center my-2">
+                <img class="icon icon-lg" src="../public/assets/img/icons/theme/home/clock.svg" alt="icon" />
+                <span class="h6 mb-0 ml-2">1-2 Minutes</span>
+              </li>
+              <li class="d-flex align-items-center my-2">
+                <img class="icon icon-lg" src="../public/assets/img/icons/theme/communication/add-user.svg" alt="icon" />
+                <span class="h6 mb-0 ml-2"><%= entries_mentalmath %> Entries</span>
+              </li>
+              <li class="d-flex align-items-center my-2">
+                <a href="/" class="btn btn-secondary" data-smooth-scroll>See Data</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<%- include('partials/footer') %>
