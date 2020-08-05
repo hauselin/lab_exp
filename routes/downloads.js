@@ -78,10 +78,15 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm', function(req, res) {
 
 });
 
-// router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function(req, res) {
-//     // Filter and download documents by year, month, and day for a given task
+router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function(req, res) {
+    // Filter and download documents by year, month, and day for a given task
+    DataLibrary.find({ "utc_date.year": req.params.yyyy, "utc_date.month": req.params.mm, "utc_date.day": req.params.dd,
+     uniquestudyid: req.params.uniquestudyid }, {}, {}).then(doc => {
+         console.log(doc);
+         // use for loop to convert them to csv, then download
+    }) 
 
-// });
+});
 
 
 module.exports = router;
