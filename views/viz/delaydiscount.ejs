@@ -9,24 +9,176 @@
     <script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
-    <style>
-        .center {
-            top: 50%;
-            left: 25%;
-        }
-    </style>
+    <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
+        crossorigin="anonymous">
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI.var.woff2" type="font/woff2"
+        crossorigin="anonymous">
 </head>
 
 <body class="is-preload">
-    <header id="header">
-        <h1>Delay discounting results</h1>
-        <p id="subject">Subject: </p>
-        <p id="auc">AUC: </p>
-    </header>
-    <div id="main">
-        <div id="indiff_curve" style="width:100%;height:100%;"></div>
-        </section>
-    </div>
+
+    <section class="bg-primary-alt header-inner o-hidden">
+        <div class="container">
+            <div class="row py-6 text-center justify-content-center align-items-center layer-2">
+                <div class="col-xl-8 col-lg-10">
+                    <h1 class="display-4">Delay discount results</h1>
+                    <p class="lead mb-0">See your data.</p>
+                </div>
+            </div>
+        </div>
+        <div class="divider layer-1">
+            <img src="../../public/assets/img/dividers/divider-2.svg" alt="graphical divider" data-inject-svg />
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row align-items-center justify-content-around">
+                <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                    <div id="vis" class="center"></div>
+                </div>
+                <div class="col-md-6 col-xl-5">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-10 col-lg-11">
+                            <span class="badge badge-primary">Your data</span>
+                            <div class="my-3">
+                                <span class="h1">Text</span>
+                            </div>
+                            <p id="subject">Subject ID: </p>
+                            <p id="auc">AUC: </p>
+                            <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                                praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
+                                sint occaecati.</p>
+                            <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia deserunt
+                                mollitia animi, id est laborum et dolorum fuga.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="pt-0 has-divider">
+        <div class="container">
+            <div class="row mb-4" data-aos="fade-up">
+                <div class="col">
+                    <h2>What does this say about you?</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg"
+                        alt="patch icon" data-inject-svg />
+                    <div class="ml-3">
+                        <h5>A</h5>
+                        <p>
+                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                            laudantium, totam rem aperiam.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg"
+                        alt="miso-soup icon" data-inject-svg />
+                    <div class="ml-3">
+                        <h5>B</h5>
+                        <p>
+                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                            laudantium, totam rem aperiam.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg"
+                        alt="door-open icon" data-inject-svg />
+                    <div class="ml-3">
+                        <h5>C</h5>
+                        <p>
+                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                            laudantium, totam rem aperiam.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divider">
+            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
+                data-inject-svg />
+        </div>
+    </section>
+    <section class="bg-primary-alt">
+        <div class="container">
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10 col-xl-8 text-center">
+                    <h2 class="h1">Aggregate data</h2>
+                    <p class="lead">This is everyone's data.</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-10 col-xl-8">
+                    <div data-flickity='{ "imagesLoaded": true, "wrapAround": true }' class="mb-5">
+                        <div class="carousel-cell mx-3">
+                            <div id="vis2" class="center"></div>
+                        </div>
+                        <div class="carousel-cell mx-3">
+                            <div id="vis3" class="center"></div>
+                        </div>
+                        <div class="carousel-cell mx-3">
+                            <div id="vis4" class="center"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div id="vis5" class="center"></div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-10">
+                    <h2 class="h1 mb-4">Other tasks to do</h2>
+                    <div class="row no-gutters mb-3 d-none d-md-flex">
+                        <div class="col-xl-8 col-lg-7 col-md-6">
+                            <span class="text-small text-muted">Task</span>
+                        </div>
+                        <div class="col">
+                            <span class="text-small text-muted">Estimated time</span>
+                        </div>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <a href="/tasks/symbolcount" class="list-group-item list-group-item-action row no-gutters py-3">
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <h5 class="mb-0">Symbol counting</h5>
+                            </div>
+                            <div class="col-md">
+                                <span>3-4 min</span>
+                            </div>
+                        </a>
+                        <a href="/tasks/stroop" class="list-group-item list-group-item-action row no-gutters py-3">
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <h5 class="mb-0">Stroop</h5>
+                            </div>
+                            <div class="col-md">
+                                <span>3-4 min</span>
+                            </div>
+                        </a>
+                        <a href="/tasks/mentalmath" class="list-group-item list-group-item-action row no-gutters py-3">
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <h5 class="mb-0">Mental Math</h5>
+                            </div>
+                            <div class="col-md">
+                                <span>3-4 min</span>
+                            </div>
+                        </a>
+                    </div>
+                    <span class="d-block mt-4"><a href="/tasks" class="hover-arrow">See all tasks</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <script type="text/javascript">
         // retrieve objects from sessionStorage
@@ -45,8 +197,7 @@
         console.log(datasummary)
     </script>
 
-    <div id="vis" class="center"></div>
-
+    <!-- Individual discount curve -->
     <script type="text/javascript">
         // console.log(datasummary.data);
         var indiff_curve = {
@@ -66,11 +217,239 @@
                 y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
                 size: { value: 233 }
             },
-            title: "Discounting curve",
+            title: "Individual discounting curve",
             width: 550,
             height: 400,
         };
         vegaEmbed('#vis', indiff_curve, { theme: "vox" });
+    </script>
+
+    <!-- Aggregate box plot -->
+    <script type="text/javascript">
+        // console.log(datasummary.data);
+        console.log("Total Entries: " + <%= data.length %>);
+        console.log("Queried Data:");
+        data = <%- JSON.stringify(data) %>;
+        console.log(data);
+        data_array = <%- JSON.stringify(data_array) %>;
+        console.log(data_array);
+
+        var aggregate_curve = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            data: { values: data_array },
+            transform: [
+                { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
+                { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
+            ],
+            encoding: {
+                x: {
+                    field: "cost",
+                    type: "quantitative",
+                    axis: { "title": "Delay (days to reward)" }
+                },
+            },
+            layer: [
+                {
+                    mark: {
+                        type: "boxplot",
+                        extent: 1.5,
+                    },
+                    encoding: {
+                        y: {
+                            field: "indifference",
+                            type: "quantitative",
+                            axis: { "title": "Subjective value" }
+                        },
+                        size: { value: 20 }
+                    },
+
+                },
+                {
+                    mark: { type: "point", tooltip: true, filled: false, color: "black", opacity: 0.3 },
+                    encoding: {
+                        y: {
+                            field: "indifference",
+                            type: "quantitative",
+                            scale: { domain: [0, 1] }
+                        },
+                        size: { value: 15 },
+                    }
+                }],
+            title: "Aggregate discounting curve",
+            width: 550,
+            height: 400,
+        };
+        vegaEmbed('#vis2', aggregate_curve, { theme: "vox" });
+    </script>
+
+    <!-- Aggregate AUC histogram -->
+    <script type="text/javascript">
+        var auc_histogram = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            data: { values: data_array },
+            transform: [
+                { filter: "datum.trial_index == 0" },
+            ],
+            mark: { type: "bar" },
+            encoding: {
+                x: {
+                    type: "nominal",
+                    bin: true,
+                    field: "auc",
+                    title: "AUC",
+                },
+                y: {
+                    aggregate: "count",
+                    scale: {
+                        round: true
+                    },
+                    title: "Counts",
+                }
+            },
+            title: "Aggregate AUC histogram",
+            width: 550,
+            height: 400,
+        };
+        vegaEmbed('#vis3', auc_histogram, { theme: "vox" });
+    </script>
+
+    <!-- Aggregate AUC density -->
+    <script type="text/javascript">
+        var density_array = data_array.filter(function (item) {
+            return item.trial_index == 0;
+        });
+
+        var auc_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            data: { values: density_array },
+            transform: [
+                { density: "auc" },
+            ],
+            mark: { type: "area" },
+            encoding: {
+                x: {
+                    type: "quantitative",
+                    field: "value",
+                    title: "AUC",
+                },
+                y: {
+                    type: "quantitative",
+                    field: "density",
+                    title: "Counts",
+                }
+            },
+            title: "Aggregate AUC density",
+            width: 550,
+            height: 400,
+        };
+        vegaEmbed('#vis4', auc_density, { theme: "vox" });
+    </script>
+
+    <script>
+        var location_plot = {
+            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            title: "Delay discount task choropleth",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            width: 750,
+            height: 500,
+            layer: [
+                {
+                    data: {
+                        url: "../../public/data/countries-110m.json",
+                        format: {
+                            type: "topojson",
+                            feature: "countries"
+                        }
+                    },
+                    projection: {
+                        type: "equirectangular"
+                    },
+                    mark: {
+                        type: "geoshape",
+                        fill: "lightgray",
+                        stroke: "white"
+                    }
+                },
+                {
+                    data: { values: data_array },
+                    transform: [
+                        { filter: "datum.n_trial_overall == 0" },
+                        { calculate: "datum.info_.longitude", as: "longitude" },
+                        { calculate: "datum.info_.latitude", as: "latitude" }
+                    ],
+                    projection: {
+                        type: "equirectangular"
+                    },
+                    mark: "circle",
+                    encoding: {
+                        longitude: {
+                            field: "longitude",
+                            type: "quantitative"
+                        },
+                        latitude: {
+                            field: "latitude",
+                            type: "quantitative"
+                        },
+                        size: { "value": 10 },
+                        color: { "value": "steelblue" }
+                    }
+                }
+            ]
+        };
+        vegaEmbed('#vis5', location_plot, { theme: "vox" });
+    </script>
+
+    <!-- Required vendor scripts (Do not remove) -->
+    <script type="text/javascript" src="../../public/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../public/assets/js/popper.min.js"></script>
+    <script type="text/javascript" src="../../public/assets/js/bootstrap.js"></script>
+
+    <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
+
+    <!-- AOS (Animate On Scroll - animates elements into view while scrolling down) -->
+    <script type="text/javascript" src="../../public/assets/js/aos.js"></script>
+    <!-- Clipboard (copies content from browser into OS clipboard) -->
+    <script type="text/javascript" src="../../public/assets/js/clipboard.js"></script>
+    <!-- Fancybox (handles image and video lightbox and galleries) -->
+    <script type="text/javascript" src="../../public/assets/js/jquery.fancybox.min.js"></script>
+    <!-- Flatpickr (calendar/date/time picker UI) -->
+    <script type="text/javascript" src="../../public/assets/js/flatpickr.min.js"></script>
+    <!-- Flickity (handles touch enabled carousels and sliders) -->
+    <script type="text/javascript" src="../../public/assets/js/flickity.pkgd.min.js"></script>
+    <!-- Ion rangeSlider (flexible and pretty range slider elements) -->
+    <script type="text/javascript" src="../../public/assets/js/ion.rangeSlider.min.js"></script>
+    <!-- Isotope (masonry layouts and filtering) -->
+    <script type="text/javascript" src="../../public/assets/js/isotope.pkgd.min.js"></script>
+    <!-- jarallax (parallax effect and video backgrounds) -->
+    <script type="text/javascript" src="../../public/assets/js/jarallax.min.js"></script>
+    <script type="text/javascript" src="../../public/assets/js/jarallax-video.min.js"></script>
+    <script type="text/javascript" src="../../public/assets/js/jarallax-element.min.js"></script>
+    <!-- jQuery Countdown (displays countdown text to a specified date) -->
+    <script type="text/javascript" src="../../public/assets/js/jquery.countdown.min.js"></script>
+    <!-- jQuery smartWizard facilitates steppable wizard content -->
+    <script type="text/javascript" src="../../public/assets/js/jquery.smartWizard.min.js"></script>
+    <!-- Plyr (unified player for Video, Audio, Vimeo and Youtube) -->
+    <script type="text/javascript" src="../../public/assets/js/plyr.polyfilled.min.js"></script>
+    <!-- Prism (displays formatted code boxes) -->
+    <script type="text/javascript" src="../../public/assets/js/prism.js"></script>
+    <!-- ScrollMonitor (manages events for elements scrolling in and out of view) -->
+    <script type="text/javascript" src="../../public/assets/js/scrollMonitor.js"></script>
+    <!-- Smooth scroll (animation to links in-page)-->
+    <script type="text/javascript" src="../../public/assets/js/smooth-scroll.polyfills.min.js"></script>
+    <!-- SVGInjector (replaces img tags with SVG code to allow easy inclusion of SVGs with the benefit of inheriting colors and styles)-->
+    <script type="text/javascript" src="../../public/assets/js/svg-injector.umd.production.js"></script>
+    <!-- TwitterFetcher (displays a feed of tweets from a specified account)-->
+    <script type="text/javascript" src="../../public/assets/js/twitterFetcher_min.js"></script>
+    <!-- Typed text (animated typing effect)-->
+    <script type="text/javascript" src="../../public/assets/js/typed.min.js"></script>
+    <!-- Required theme scripts (Do not remove) -->
+    <script type="text/javascript" src="../../public/assets/js/theme.js"></script>
+    <!-- Removes page load animation when window is finished loading -->
+    <script type="text/javascript">
+        window.addEventListener("load", function () { document.querySelector('body').classList.add('loaded'); });
     </script>
 
 </body>

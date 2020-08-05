@@ -159,10 +159,7 @@ jsPsych.init({
 
 // functions to summarize data below
 function summarize_data() {
-    datasummary_.subject = info_.subject;
     datasummary_.trials_per_cost = trials_per_cost;
-    datasummary_.indifference_all = jsPsych.data.get().filter({ event: "choice" }).select('indifference').values;
-    datasummary_.cost_all = jsPsych.data.get().filter({ event: "choice" }).select('cost').values;
     datasummary_.auc = get_auc();
     datasummary_.total_time = jsPsych.totalTime() / 60000;
     datasummary_.data = jsPsych.data.get().filter({ event: "choice" }).values();
