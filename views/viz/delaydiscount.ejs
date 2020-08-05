@@ -319,25 +319,28 @@
 
     <!-- Aggregate AUC density -->
     <script type="text/javascript">
+        var density_array = data_array.filter(function (item) {
+            return item.trial_index == 0;
+        });
+
         var auc_density = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-            data: { values: data_array },
+            data: { values: density_array },
             transform: [
-                { filter: "datum.trial_index == 0", density: "" },
+                { density: "auc" },
             ],
             mark: { type: "area" },
             encoding: {
                 x: {
-                    type: "nominal",
-                    bin: true,
-                    field: "auc",
+                    type: "quantitative",
+                    field: "value",
+                    title: "AUC",
                 },
                 y: {
-                    aggregate: "count",
-                    scale: {
-                        round: true
-                    }
+                    type: "quantitative",
+                    field: "density",
+                    title: "Counts",
                 }
             },
             title: "Aggregate AUC density",
