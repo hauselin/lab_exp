@@ -129,6 +129,9 @@
                     </div>
                 </div>
             </div>
+            <div class="row justify-content-center">
+                <div id="vis5" class="center"></div>
+            </div>
         </div>
     </section>
     <section>
@@ -176,11 +179,6 @@
             </div>
         </div>
     </section>
-
-    <div id="main">
-        <div id="indiff_curve" style="width:100%;height:100%;"></div>
-        </section>
-    </div>
 
     <script type="text/javascript">
         // retrieve objects from sessionStorage
@@ -350,6 +348,59 @@
         vegaEmbed('#vis4', auc_density, { theme: "vox" });
     </script>
 
+    <script>
+        var location_plot = {
+            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            title: "Delay discount task choropleth",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            width: 750,
+            height: 500,
+            layer: [
+                {
+                    data: {
+                        url: "../../public/data/countries-110m.json",
+                        format: {
+                            type: "topojson",
+                            feature: "countries"
+                        }
+                    },
+                    projection: {
+                        type: "equirectangular"
+                    },
+                    mark: {
+                        type: "geoshape",
+                        fill: "lightgray",
+                        stroke: "white"
+                    }
+                },
+                {
+                    data: { values: data_array },
+                    transform: [
+                        { filter: "datum.n_trial_overall == 0" },
+                        { calculate: "datum.info_.longitude", as: "longitude" },
+                        { calculate: "datum.info_.latitude", as: "latitude" }
+                    ],
+                    projection: {
+                        type: "equirectangular"
+                    },
+                    mark: "circle",
+                    encoding: {
+                        longitude: {
+                            field: "longitude",
+                            type: "quantitative"
+                        },
+                        latitude: {
+                            field: "latitude",
+                            type: "quantitative"
+                        },
+                        size: { "value": 10 },
+                        color: { "value": "steelblue" }
+                    }
+                }
+            ]
+        };
+        vegaEmbed('#vis5', location_plot, { theme: "vox" });
+    </script>
 
     <!-- Required vendor scripts (Do not remove) -->
     <script type="text/javascript" src="../../public/assets/js/jquery.min.js"></script>
