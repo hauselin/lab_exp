@@ -39,26 +39,26 @@ router.get('/dl2', function (req, res) {
 
 router.get('/dl1', function(req, res) {
     // Download the most recent document (regardless of task)
-    DataLibrary.findOne().sort({ time: -1 }).exec(function(err, post) {
-        if (err) { 
-            console.log(err);
-        } else {
-            console.log(post)
-            var file = helper.json2csv(post);
-            var filename = 'd1.csv';
-            res.download(file, filename, function(err) {
-                if (err) {
-                    console.log(err);
-                }
-            });
-        };
-    });
+    DataLibrary.findOne({}, {}, { sort: { time: -1 } }).then(doc => {
+        console.log(doc);
+        // var datastring = helper.json2csv([doc]);
+        // res.attachment('dl1.csv');
+        // res.status(200).send(datastring);
+    })
+    .catch(err => {console.log(err) });
+    
 });
 
-// router.get('/:type/:uniquestudyid/d:n', function(req, res) {
-//     // Download most recent n document(s) for a given task
+router.get('/:type/:uniquestudyid/:n', function(req, res) {
+    // Download most recent n document(s) for a given task
+    DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, {},
+        { sort: { time: -1 }, limit: Number(req.params.n) }).then(doc => {
+             console.log(doc);
+             // use for loop to convert them to csv, then download
+        }) 
+});
+    
 
-// });
 
 // router.get('/:type/:uniquestudyid/d/:yyyy', function(req, res) {
 //     // Filter and download documents by year for a given task
