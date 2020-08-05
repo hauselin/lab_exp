@@ -46,7 +46,7 @@
                                 <span class="h1">Text</span>
                             </div>
                             <p id="subject">Subject ID: </p>
-                            <p id="auc">AUC: </p>                   
+                            <p id="auc">AUC: </p>
                             <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
                                 praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
                                 sint occaecati.</p>
@@ -67,8 +67,8 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg" alt="patch icon"
-                        data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg"
+                        alt="patch icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>A</h5>
                         <p>
@@ -102,7 +102,8 @@
             </div>
         </div>
         <div class="divider">
-            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic" data-inject-svg />
+            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
+                data-inject-svg />
         </div>
     </section>
     <section class="bg-primary-alt">
@@ -122,8 +123,14 @@
                         <div class="carousel-cell mx-3">
                             <div id="vis3" class="center"></div>
                         </div>
+                        <div class="carousel-cell mx-3">
+                            <div id="vis4" class="center"></div>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="row justify-content-center">
+                <div id="vis5" class="center"></div>
             </div>
         </div>
     </section>
@@ -173,11 +180,6 @@
         </div>
     </section>
 
-    <div id="main">
-        <div id="indiff_curve" style="width:100%;height:100%;"></div>
-        </section>
-    </div>
-
     <script type="text/javascript">
         // retrieve objects from sessionStorage
         datasummary = sessionStorage.getObj("datasummary_delaydiscount_");
@@ -195,7 +197,7 @@
         console.log(datasummary)
     </script>
 
-
+    <!-- Individual discount curve -->
     <script type="text/javascript">
         // console.log(datasummary.data);
         var indiff_curve = {
@@ -222,7 +224,7 @@
         vegaEmbed('#vis', indiff_curve, { theme: "vox" });
     </script>
 
-
+    <!-- Aggregate box plot -->
     <script type="text/javascript">
         // console.log(datasummary.data);
         console.log("Total Entries: " + <%= data.length %>);
@@ -251,21 +253,26 @@
                 {
                     mark: {
                         type: "boxplot",
-                        extent: 1.5
+                        extent: 1.5,
                     },
                     encoding: {
                         y: {
                             field: "indifference",
                             type: "quantitative",
+                            axis: { "title": "Subjective value" }
                         },
                         size: { value: 20 }
                     },
 
                 },
                 {
-                    mark: { type: "point", tooltip: true, filled: false, color: "black" },
+                    mark: { type: "point", tooltip: true, filled: false, color: "black", opacity: 0.3 },
                     encoding: {
-                        y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
+                        y: {
+                            field: "indifference",
+                            type: "quantitative",
+                            scale: { domain: [0, 1] }
+                        },
                         size: { value: 15 },
                     }
                 }],
@@ -276,8 +283,7 @@
         vegaEmbed('#vis2', aggregate_curve, { theme: "vox" });
     </script>
 
-    <div id="vis3" class="center"></div>
-
+    <!-- Aggregate AUC histogram -->
     <script type="text/javascript">
         var auc_histogram = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
@@ -289,15 +295,17 @@
             mark: { type: "bar" },
             encoding: {
                 x: {
-                    type: "quantitative",
+                    type: "nominal",
                     bin: true,
                     field: "auc",
+                    title: "AUC",
                 },
                 y: {
                     aggregate: "count",
                     scale: {
                         round: true
-                    }
+                    },
+                    title: "Counts",
                 }
             },
             title: "Aggregate AUC histogram",
@@ -307,6 +315,92 @@
         vegaEmbed('#vis3', auc_histogram, { theme: "vox" });
     </script>
 
+    <!-- Aggregate AUC density -->
+    <script type="text/javascript">
+        var density_array = data_array.filter(function (item) {
+            return item.trial_index == 0;
+        });
+
+        var auc_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            data: { values: density_array },
+            transform: [
+                { density: "auc" },
+            ],
+            mark: { type: "area" },
+            encoding: {
+                x: {
+                    type: "quantitative",
+                    field: "value",
+                    title: "AUC",
+                },
+                y: {
+                    type: "quantitative",
+                    field: "density",
+                    title: "Counts",
+                }
+            },
+            title: "Aggregate AUC density",
+            width: 550,
+            height: 400,
+        };
+        vegaEmbed('#vis4', auc_density, { theme: "vox" });
+    </script>
+
+    <script>
+        var location_plot = {
+            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            title: "Delay discount task choropleth",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            width: 750,
+            height: 500,
+            layer: [
+                {
+                    data: {
+                        url: "../../public/data/countries-110m.json",
+                        format: {
+                            type: "topojson",
+                            feature: "countries"
+                        }
+                    },
+                    projection: {
+                        type: "equirectangular"
+                    },
+                    mark: {
+                        type: "geoshape",
+                        fill: "lightgray",
+                        stroke: "white"
+                    }
+                },
+                {
+                    data: { values: data_array },
+                    transform: [
+                        { filter: "datum.n_trial_overall == 0" },
+                        { calculate: "datum.info_.longitude", as: "longitude" },
+                        { calculate: "datum.info_.latitude", as: "latitude" }
+                    ],
+                    projection: {
+                        type: "equirectangular"
+                    },
+                    mark: "circle",
+                    encoding: {
+                        longitude: {
+                            field: "longitude",
+                            type: "quantitative"
+                        },
+                        latitude: {
+                            field: "latitude",
+                            type: "quantitative"
+                        },
+                        size: { "value": 10 },
+                        color: { "value": "steelblue" }
+                    }
+                }
+            ]
+        };
+        vegaEmbed('#vis5', location_plot, { theme: "vox" });
+    </script>
 
     <!-- Required vendor scripts (Do not remove) -->
     <script type="text/javascript" src="../../public/assets/js/jquery.min.js"></script>
