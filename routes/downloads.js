@@ -60,18 +60,23 @@ router.get('/:type/:uniquestudyid/d/:n', function(req, res) {
 
 router.get('/:type/:uniquestudyid/d/:yyyy', function(req, res) {
     // Filter and download documents by year for a given task
-    DataLibrary.find({ uniquestudyid: req.params.uniquestudyid, 'utc_datetime.year': req.params.yyyy }, {},
-        { sort: { time: -1 } }).then(doc => {
+    DataLibrary.find({ "utc_date.year": req.params.yyyy, uniquestudyid: req.params.uniquestudyid }, {},
+        {}).then(doc => {
              console.log(doc);
              // use for loop to convert them to csv, then download
         }) 
 
 });
 
-// router.get('/:type/:uniquestudyid/d/:yyyy/:mm', function(req, res) {
-//     // Filter and download documents by year and month for a given task
+router.get('/:type/:uniquestudyid/d/:yyyy/:mm', function(req, res) {
+    // Filter and download documents by year and month for a given task
+    DataLibrary.find({ "utc_date.year": req.params.yyyy, "utc_date.month": req.params.mm,
+     uniquestudyid: req.params.uniquestudyid }, {}, {}).then(doc => {
+         console.log(doc);
+         // use for loop to convert them to csv, then download
+    }) 
 
-// });
+});
 
 // router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function(req, res) {
 //     // Filter and download documents by year, month, and day for a given task
