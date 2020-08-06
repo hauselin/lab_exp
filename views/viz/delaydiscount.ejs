@@ -11,10 +11,8 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
     <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
     <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
-    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
-        crossorigin="anonymous">
-    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI.var.woff2" type="font/woff2"
-        crossorigin="anonymous">
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI.var.woff2" type="font/woff2" crossorigin="anonymous">
 </head>
 
 <body class="is-preload">
@@ -23,8 +21,8 @@
         <div class="container">
             <div class="row py-6 text-center justify-content-center align-items-center layer-2">
                 <div class="col-xl-8 col-lg-10">
-                    <h1 class="display-4">Delay discount results</h1>
-                    <p class="lead mb-0">See your data.</p>
+                    <h1 class="display-4">Results</h1>
+                    <p class="lead mb-0">See your results. More description to follow</p>
                 </div>
             </div>
         </div>
@@ -41,12 +39,12 @@
                 <div class="col-md-6 col-xl-5">
                     <div class="row justify-content-center">
                         <div class="col-xl-10 col-lg-11">
-                            <span class="badge badge-primary">Your data</span>
+                            <span class="badge badge-primary">Your results</span>
                             <div class="my-3">
-                                <span class="h1">Text</span>
+                                <span class="h1">Discounting curve</span>
                             </div>
-                            <p id="subject">Subject ID: </p>
-                            <p id="auc">AUC: </p>
+                            <!-- <p id="subject">Subject ID: </p> -->
+                            <!-- <p id="auc">AUC: </p> -->
                             <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
                                 praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
                                 sint occaecati.</p>
@@ -67,8 +65,7 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg"
-                        alt="patch icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg" alt="patch icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>A</h5>
                         <p>
@@ -78,8 +75,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg"
-                        alt="miso-soup icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg" alt="miso-soup icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>B</h5>
                         <p>
@@ -89,8 +85,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg"
-                        alt="door-open icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg" alt="door-open icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>C</h5>
                         <p>
@@ -102,8 +97,7 @@
             </div>
         </div>
         <div class="divider">
-            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
-                data-inject-svg />
+            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic" data-inject-svg />
         </div>
     </section>
     <section class="bg-primary-alt">
@@ -166,7 +160,7 @@
                         </a>
                         <a href="/tasks/mentalmath" class="list-group-item list-group-item-action row no-gutters py-3">
                             <div class="col-xl-8 col-lg-7 col-md-6">
-                                <h5 class="mb-0">Mental Math</h5>
+                                <h5 class="mb-0">Mental math</h5>
                             </div>
                             <div class="col-md">
                                 <span>3-4 min</span>
@@ -201,7 +195,8 @@
     <script type="text/javascript">
         // console.log(datasummary.data);
         var indiff_curve = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            // TODO Frank: change font to Inter-UI
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "monospace", titleFont: "monospace"}, title: { fontSize: 28, font: "monospace", subtitleFont: "monospace"}, legend: { labelFontSize: 30, labelFont: "monospace", titleFont: "monospace"}, header: { labelFont: "monospace", titleFont: "monospace" }, mark: { font: "monospace" }}, 
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             data: {
                 // values: datasummary.data.filter(i => i.n_trial == (datasummary.trials_per_cost - 1))
@@ -211,13 +206,15 @@
                 { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
                 { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
             ],
-            mark: { type: "point", tooltip: true, filled: true },
+            mark: { type: "point", tooltip: true, filled: true , color: "#3755be"},
             encoding: {
-                x: { field: "cost", type: "quantitative", axis: { "title": "Delay (days to reward)", labelAlign: "center" } },
+                x: { field: "cost", type: "quantitative", axis: { "title": "Delay (days to reward)", labelAlign: "center" }},
+                // color: {field: "cost", legend: null}, // color by variable
                 y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
-                size: { value: 233 }
+                size: { value: 233 },
+                tooltip: [{field: "indifference", format: ".3f", title: 'Subjective value'}, { field: "cost", format: ".0f", title: 'Delay' }] // format tooltip
             },
-            title: "Individual discounting curve",
+            // title: "Individual discounting curve",
             width: 550,
             height: 400,
         };
@@ -353,7 +350,7 @@
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             title: "Delay discount task choropleth",
             config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
-            width: 750,
+            width: 850,
             height: 500,
             layer: [
                 {
@@ -383,7 +380,7 @@
                     projection: {
                         type: "equirectangular"
                     },
-                    mark: "circle",
+                    mark: {type: "circle", tooltip: true},
                     encoding: {
                         longitude: {
                             field: "longitude",
@@ -393,8 +390,8 @@
                             field: "latitude",
                             type: "quantitative"
                         },
-                        size: { "value": 10 },
-                        color: { "value": "steelblue" }
+                        size: { "value": 80 },
+                        color: { "value": "red" }
                     }
                 }
             ]
