@@ -210,6 +210,7 @@
             encoding: {
                 x: { field: "cost", type: "quantitative", axis: { "title": "Delay (days to reward)", labelAlign: "center" }},
                 // color: {field: "cost", legend: null}, // color by variable
+                color: { field: "cost", scale: { scheme: "viridis" }, legend: null},
                 y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
                 size: { value: 233 },
                 tooltip: [{field: "indifference", format: ".3f", title: 'Subjective value'}, { field: "cost", format: ".0f", title: 'Delay' }] // format tooltip
@@ -218,7 +219,7 @@
             width: 550,
             height: 400,
         };
-        vegaEmbed('#vis', indiff_curve, { theme: "vox", actions: {source: false, compiled: false, editor: false}}); // https://github.com/vega/vega-embed#options
+        vegaEmbed('#vis', indiff_curve, {actions: {source: false, compiled: false, editor: false}}); // https://github.com/vega/vega-embed#options
     </script>
 
     <!-- Aggregate box plot -->
@@ -243,9 +244,11 @@
             encoding: {
                 x: {
                     field: "cost",
-                    type: "quantitative",
+                    type: "nominal",
                     axis: { "title": "Delay (days to reward)" }
                 },
+                // color: {field: "cost", legend: null}, // color by cost
+                color: {field: "cost", legend: null, scale: { scheme: "viridis" }}, // color by cost, use viridis
             },
             layer: [
                 {
@@ -274,11 +277,11 @@
                         size: { value: 15 },
                     }
                 }],
-            title: "Aggregate discounting curve",
+            // title: "Aggregate discounting curve",
             width: 550,
             height: 400,
         };
-        vegaEmbed('#vis2', aggregate_curve, { theme: "vox" });
+        vegaEmbed('#vis2', aggregate_curve, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
     </script>
 
     <!-- Aggregate AUC histogram -->
@@ -291,7 +294,7 @@
             transform: [
                 { filter: "datum.trial_index == 0" },
             ],
-            mark: { type: "bar" },
+            mark: { type: "bar" , color: "#3755be"},
             encoding: {
                 x: {
                     type: "nominal",
@@ -328,12 +331,12 @@
             transform: [
                 { density: "auc" },
             ],
-            mark: { type: "area" },
+            mark: { type: "area", color: "#3755be"},
             encoding: {
                 x: {
                     type: "quantitative",
                     field: "value",
-                    title: "AUC",
+                    title: "Area under discounting curve",
                 },
                 y: {
                     type: "quantitative",
@@ -341,7 +344,7 @@
                     title: "Counts",
                 }
             },
-            title: "Aggregate AUC density",
+            // title: "Aggregate AUC density",
             width: 550,
             height: 400,
         };
@@ -351,8 +354,8 @@
     <script>
         var location_plot = {
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
-            title: "Delay discount task choropleth",
-            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            title: "Global results",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 }, view: {stroke: "transparent"}},
             background: "#f3f5fb",
             width: 850,
             height: 500,
