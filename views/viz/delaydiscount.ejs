@@ -218,7 +218,7 @@
             width: 550,
             height: 400,
         };
-        vegaEmbed('#vis', indiff_curve, { theme: "vox" });
+        vegaEmbed('#vis', indiff_curve, { theme: "vox", actions: {source: false, compiled: false, editor: false}}); // https://github.com/vega/vega-embed#options
     </script>
 
     <!-- Aggregate box plot -->
@@ -234,6 +234,7 @@
         var aggregate_curve = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
             data: { values: data_array },
             transform: [
                 { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
@@ -285,6 +286,7 @@
         var auc_histogram = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
             data: { values: data_array },
             transform: [
                 { filter: "datum.trial_index == 0" },
@@ -321,6 +323,7 @@
         var auc_density = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
             data: { values: density_array },
             transform: [
                 { density: "auc" },
@@ -350,6 +353,7 @@
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             title: "Delay discount task choropleth",
             config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            background: "#f3f5fb",
             width: 850,
             height: 500,
             layer: [

@@ -78,10 +78,10 @@ router.get('/', function (req, res) {
 
 router.get('/tasks', function (req, res) {
     Promise.all([
-        DataLibrary.find({uniquestudyid: 'delaydiscount'}).lean(),
-        DataLibrary.find({uniquestudyid: 'stroop'}).lean(),
-        DataLibrary.find({uniquestudyid: 'symbolcount'}).lean(),
-        DataLibrary.find({uniquestudyid: 'updatemath'}).lean()
+        DataLibrary.find({ uniquestudyid: 'delaydiscount' }),
+        DataLibrary.find({ uniquestudyid: 'stroop' }),
+        DataLibrary.find({ uniquestudyid: 'symbolcount' }),
+        DataLibrary.find({ uniquestudyid: 'updatemath' })
     ])
         .then(([delaydiscount, stroop, symbolcount, updatemath]) => {
             res.render("tasks.ejs", { entries_delaydiscount: delaydiscount.length, entries_stroop: stroop.length, entries_symbolcount: symbolcount.length, entries_mentalmath: updatemath.length });
