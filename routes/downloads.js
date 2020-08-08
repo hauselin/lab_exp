@@ -45,7 +45,7 @@ router.get('/dl1', function(req, res) {
         var datastring = helper.json2csv(data);
         console.log(data);
         res.attachment('d1.csv');
-        res.status(200).send(data);
+        res.status(200).send(datastring);
     })
     .catch(err => {console.log(err) });
     
@@ -54,9 +54,14 @@ router.get('/dl1', function(req, res) {
 router.get('/:type/:uniquestudyid/:dn', function(req, res) {
     // Download most recent n document(s) for a given task
     DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, {},
-        { sort: { time: -1 }, limit: Number(req.params.n) }).then(doc => {
-             console.log(doc);
-             // use for loop to convert them to csv, then download
+        { sort: { time: -1 }, limit: Number(req.params.dn.slice(1,2)) }).then(doc => {
+             var data = [];
+             for (var i = 0; i < doc.length; i++) {
+                 data.push(doc);
+             };
+             var datastring = helper.json2csv(data);
+             res.attachment('d' + req.params.dn.slice(1,2) + '.csv');
+             res.status(200).send(datastring);
         }) 
 });
 
