@@ -40,16 +40,18 @@ router.get('/dl2', function (req, res) {
 router.get('/dl1', function(req, res) {
     // Download the most recent document (regardless of task)
     DataLibrary.findOne({}, {}, { sort: { time: -1 } }).then(doc => {
-        console.log(doc);
-        // var datastring = helper.json2csv([doc]);
-        // res.attachment('dl1.csv');
-        // res.status(200).send(datastring);
+        var data = [];
+        data.push(doc);
+        var datastring = helper.json2csv(data);
+        console.log(data);
+        res.attachment('d1.csv');
+        res.status(200).send(data);
     })
     .catch(err => {console.log(err) });
     
 });
 
-router.get('/:type/:uniquestudyid/d/:n', function(req, res) {
+router.get('/:type/:uniquestudyid/:dn', function(req, res) {
     // Download most recent n document(s) for a given task
     DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, {},
         { sort: { time: -1 }, limit: Number(req.params.n) }).then(doc => {
