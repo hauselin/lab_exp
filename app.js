@@ -47,6 +47,7 @@ app.use(function (req, res) {
 // Handle 500
 app.use(function (error, req, res, next) {
     res.redirect('/public/500.html');
+    console.log(error);
     // res.render('500.ejs');
 });
 

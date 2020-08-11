@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const helper = require('../routes/helpers/helpers');
-var DataLibrary = require("../models/datalibrary")
+var DataLibrary = require("../models/datalibrary");
+const { db } = require('../models/datalibrary');
 
 // route for downloading consent forms
 router.get("/:type/:uniquestudyid/consent", function (req, res) {
@@ -39,11 +40,9 @@ router.get('/dl2', function (req, res) {
 
 router.get('/dl1', function(req, res) {
     // Download the most recent document (regardless of task)
-    DataLibrary.findOne({}, {}, { sort: { time: -1 } }).then(doc => {
-        var data = [];
-        data.push(doc);
-        var datastring = helper.json2csv(data);
-        console.log(data);
+    DataLibrary.findOne({}, {}, { sort: { time: -1 } }).lean().then(doc => {
+        var datastring = helper.json2csv(doc.data);
+        console.log(doc.data);
         res.attachment('d1.csv');
         res.status(200).send(datastring);
     })
@@ -54,12 +53,11 @@ router.get('/dl1', function(req, res) {
 router.get('/:type/:uniquestudyid/:dn', function(req, res) {
     // Download most recent n document(s) for a given task
     DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, {},
-        { sort: { time: -1 }, limit: Number(req.params.dn.slice(1,2)) }).then(doc => {
-             var data = [];
-             for (var i = 0; i < doc.length; i++) {
-                 data.push(doc);
-             };
-             var datastring = helper.json2csv(data);
+        { sort: { time: -1 }, limit: Number(req.params.dn.slice(1,2)) }).lean().then(doc => {
+            var datastring;
+            for (var i = 0; i < doc.length; i++) {
+                datastring += helper.json2csv(doc[i].data);
+            };
              res.attachment('d' + req.params.dn.slice(1,2) + '.csv');
              res.status(200).send(datastring);
         }) 
@@ -67,31 +65,43 @@ router.get('/:type/:uniquestudyid/:dn', function(req, res) {
 
 router.get('/:type/:uniquestudyid/d/:yyyy', function(req, res) {
     // Filter and download documents by year for a given task
-    DataLibrary.find({ "utc_date.year": req.params.yyyy, uniquestudyid: req.params.uniquestudyid }, {},
-        {}).then(doc => {
-             console.log(doc);
-             // use for loop to convert them to csv, then download
-        }) 
-
+    DataLibrary.find({uniquestudyid: req.params.uniquestudyid, "utc_date.year": req.params.yyyy }, 
+    {}, { sort: { time: -1 }}).lean().then(doc => {
+        var datastring;
+        for (var i = 0; i < doc.length; i++) {
+            datastring += helper.json2csv(doc[i].data);
+        };
+        res.attachment('d' + req.params.yyyy + '.csv');
+        res.status(200).send(datastring);
+    })
 });
 
 router.get('/:type/:uniquestudyid/d/:yyyy/:mm', function(req, res) {
     // Filter and download documents by year and month for a given task
-    DataLibrary.find({ "utc_date.year": req.params.yyyy, "utc_date.month": req.params.mm,
-     uniquestudyid: req.params.uniquestudyid }, {}, {}).then(doc => {
-         console.log(doc);
-         // use for loop to convert them to csv, then download
-    }) 
-
+    DataLibrary.find({uniquestudyid: req.params.uniquestudyid, 
+        "utc_date.year": req.params.yyyy, "utc_date.month": req.params.mm }, 
+    {}, { sort: { time: -1 }}).lean().then(doc => {
+        var datastring;
+        for (var i = 0; i < doc.length; i++) {
+            datastring += helper.json2csv(doc[i].data);
+        };
+        res.attachment('d' + req.params.yyyy + req.params.mm + '.csv');
+        res.status(200).send(datastring);
+    })
 });
 
 router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function(req, res) {
     // Filter and download documents by year, month, and day for a given task
-    DataLibrary.find({ "utc_date.year": req.params.yyyy, "utc_date.month": req.params.mm, "utc_date.day": req.params.dd,
-     uniquestudyid: req.params.uniquestudyid }, {}, {}).then(doc => {
-         console.log(doc);
-         // use for loop to convert them to csv, then download
-    }) 
+    DataLibrary.find({uniquestudyid: req.params.uniquestudyid, 
+        "utc_date.year": req.params.yyyy, "utc_date.month": req.params.mm, "utc_date.day": req.params.dd}, 
+        {}, { sort: { time: -1 }}).lean().then(doc => {
+        var datastring;
+        for (var i = 0; i < doc.length; i++) {
+            datastring += helper.json2csv(doc[i].data);
+        };
+        res.attachment('d' + req.params.yyyy + req.params.mm + req.params.dd + '.csv');
+        res.status(200).send(datastring);
+    })
 
 });
 
