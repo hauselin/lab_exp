@@ -340,10 +340,23 @@ function add_ip_info(info_) {
         info_.city = geoplugin_city();
         info_.region = geoplugin_region();
         info_.country_name = geoplugin_countryName();
+        info_.latitude = geoplugin_latitude();
+        info_.longitude = geoplugin_longitude();
     } catch (err) {
         console.log(err);
     }
     return info_;
+}
+
+// generate random string of specified length
+function random_ID(length) {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
 }
 
 // get subject id from url or sessionStorage or generate subject ID
@@ -356,7 +369,7 @@ function get_subject_ID() {
         console.log('subject ID found in sessionStorage: ' + subject);
     } else {
         const date = new Date();
-        var subject = date.getTime() + "_" + jsPsych.randomization.randomID(5);
+        var subject = date.getTime() + "_" + random_ID(5);
         console.log('subject ID is randomly generated: ' + subject);
     }
     sessionStorage.setObj("subject", subject);
