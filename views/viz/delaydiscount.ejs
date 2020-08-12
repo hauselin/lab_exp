@@ -206,9 +206,9 @@
                     <div class="col-md-6 col-xl-5">
                         <div class="row justify-content-center">
                             <div class="col-xl-10 col-lg-11">
-                                <span class="badge badge-primary">Global results</span>
+                                <span class="badge badge-primary">Everyone's results</span>
                                 <div class="my-3">
-                                    <span class="h1">AUC density graph</span>
+                                    <span class="h1">Global data inputs</span>
                                 </div>
                                 <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
                                     praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
@@ -229,9 +229,9 @@
                     <div class="col-md-6 col-xl-5">
                         <div class="row justify-content-center">
                             <div class="col-xl-10 col-lg-11">
-                                <span class="badge badge-primary">AUC per country</span>
+                                <span class="badge badge-primary">Everyone's results</span>
                                 <div class="my-3">
-                                    <span class="h1">AUC density graph</span>
+                                    <span class="h1">Median AUC per country</span>
                                 </div>
                                 <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
                                     praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
@@ -252,9 +252,9 @@
                     <div class="col-md-6 col-xl-5">
                         <div class="row justify-content-center">
                             <div class="col-xl-10 col-lg-11">
-                                <span class="badge badge-primary">Global AUC</span>
+                                <span class="badge badge-primary">Everyone's results</span>
                                 <div class="my-3">
-                                    <span class="h1">AUC density graph</span>
+                                    <span class="h1">Global median AUC choropleth</span>
                                 </div>
                                 <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
                                     praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
@@ -518,7 +518,7 @@
                             type: "quantitative",
                             field: "density",
                             title: "Counts",
-                        }
+                        },
                     }
                 },
                 {
@@ -541,10 +541,10 @@
     <script>
         var location_plot = {
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
-            title: "Global results",
+            // title: "Global results",
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, background: "#f3f5fb",
-            width: 850,
-            height: 500,
+            width: 600,
+            height: 400,
             layer: [
                 {
                     data: {
@@ -593,7 +593,7 @@
     </script>
 
     <script>
-        var country_plot = {
+        var country_histogram = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             data: { values: country_array },
@@ -624,21 +624,21 @@
                     }
                 ]
             },
-            title: "AUC per country",
-            width: 550,
+            // title: "AUC per country",
+            width: 450,
             height: 400,
         };
-        vegaEmbed('#vis6', country_plot, { theme: "vox" });
+        vegaEmbed('#vis6', country_histogram, { theme: "vox" });
     </script>
 
     <script>
 
         var global_auc_plot = {
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
-            title: "Global results",
+            // title: "Global results",
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, background: "#f3f5fb",
-            width: 850,
-            height: 500,
+            width: 520,
+            height: 400,
             data: {
                 url: "../../public/data/countries-110m.json",
                 format: {
