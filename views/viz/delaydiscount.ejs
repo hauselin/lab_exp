@@ -131,7 +131,11 @@
                 </div>
             </div>
             <div class="row justify-content-center">
-                <div id="vis5" class="center"></div>
+                <div class="col">
+                    <div id="vis5" class="center"></div>
+                    <div id="vis6" class="center"></div>
+                    <div id="vis7" class="center"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -238,6 +242,8 @@
         console.log(data);
         data_array = <%- JSON.stringify(data_array) %>;
         console.log(data_array);
+        country_array = <%- JSON.stringify(country_array) %>;
+        console.log(country_array);
 
         var aggregate_curve = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
@@ -316,7 +322,7 @@
     <!-- Aggregate AUC histogram -->
     <script type="text/javascript">
         var auc_histogram = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             layer: [{
                 data: { values: data_array },
@@ -363,7 +369,7 @@
         });
 
         var auc_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             layer: [
                 {
@@ -406,7 +412,7 @@
         var location_plot = {
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             title: "Global results",
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },            background: "#f3f5fb",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, background: "#f3f5fb",
             width: 850,
             height: 500,
             layer: [
@@ -454,6 +460,97 @@
             ]
         };
         vegaEmbed('#vis5', location_plot, { theme: "vox" });
+    </script>
+
+    <script>
+        var country_plot = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            data: { values: country_array },
+            mark: { type: "bar", color: "#3755be" },
+            encoding: {
+                x: {
+                    type: "nominal",
+                    field: "country_name",
+                    title: "Country",
+                },
+                y: {
+                    field: "median_auc",
+                    title: "AUC",
+                },
+                color: {
+                    field: "median_auc",
+                    type: "quantitative",
+                    scale: {domain: [0,1], scheme: "viridis"}
+                },
+                tooltip: [
+                    {
+                        field: "country_name",
+                        type: "nominal"
+                    },
+                    {
+                        field: "median_auc",
+                        type: "quantitative"
+                    }
+                ]
+            },
+            title: "AUC per country",
+            width: 550,
+            height: 400,
+        };
+        vegaEmbed('#vis6', country_plot, { theme: "vox" });
+    </script>
+
+    <script>
+
+        var global_auc_plot = {
+            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            title: "Global results",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, background: "#f3f5fb",
+            width: 850,
+            height: 500,
+            data: {
+                url: "../../public/data/countries-110m.json",
+                format: {
+                    type: "topojson",
+                    feature: "countries"
+                }
+            },
+            transform: [
+                {
+                    lookup: "id",
+                    from: {
+                        data: {values: country_array},
+                        key: "country_id",
+                        fields: ["median_auc", "country_name"]
+                    },
+                }
+            ],
+            projection: {
+                type: "equirectangular"
+            },
+            mark: {
+                type: "geoshape",
+            },
+            encoding: {
+                color: {
+                    field: "median_auc",
+                    type: "quantitative",
+                    scale: {domain: [0,1], scheme: "viridis"}
+                },
+                tooltip: [
+                    {
+                        field: "country_name",
+                        type: "nominal"
+                    },
+                    {
+                        field: "median_auc",
+                        type: "quantitative"
+                    }
+                ]
+            }
+        };
+        vegaEmbed('#vis7', global_auc_plot, { theme: "vox" });
     </script>
 
     <!-- Required vendor scripts (Do not remove) -->
