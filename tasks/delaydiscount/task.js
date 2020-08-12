@@ -61,7 +61,7 @@ var instructions = {
     pages: [
         generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("Click next or press the right arrow key to ontinue.", font_colour),
         generate_html("In this task, you'll have to decide which option you prefer.", font_colour) + generate_html("For example, you'll see two options: $30.00 in 3 days or $2.40 in 0 days (today).", font_colour) + generate_html("Choosing $30 days in 3 days means you'll wait 3 days so you can get $30. Choosing $2.40 means you will receive $2.40 today.", font_colour) + generate_html("You'll use the left/right arrow keys on the keyboard to indicate which option you prefer (left or right option, respectively).", font_colour),
-        generate_html("Next up is a practice trial.", font_colour) + generate_html("Your data will NOT be recorded.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour) 
+        generate_html("Next up is a practice trial.", font_colour) + generate_html("Your data will NOT be recorded.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour)
     ],
     show_clickable_nav: true,
     show_page_number: true,
@@ -70,7 +70,7 @@ var instructions = {
 var instructions2 = {
     type: "instructions",
     pages: [
-        generate_html("That was it for the practice trial.", font_colour) + generate_html("Click next or press the right arrow key to begin the experiment.", font_colour) + generate_html("Your data WILL be recorded this time.", font_colour)
+        generate_html("That was the practice trial.", font_colour) + generate_html("Click next or press the right arrow key to begin the experiment.", font_colour) + generate_html("Your data WILL be recorded this time.", font_colour)
     ],
     show_clickable_nav: true,
     show_page_number: false,
@@ -100,9 +100,8 @@ var trial = {
         },
     }],
     repetitions: trials_per_cost * costs.length,
-    event: 'choice',
     on_finish: function (data) {
-        data.event = trial.event;
+        data.event = 'choice';
         data.cost = costs[n_cost];
         data.n_cost = n_cost;
         data.large_reward = large_reward;
@@ -147,9 +146,24 @@ var trial = {
 };
 
 timeline.push(instructions);
-practice_trial = jsPsych.utils.deepCopy(trial);
+var practice_trial = jsPsych.utils.deepCopy(trial);
+delete practice_trial.on_finish;
+delete practice_trial.timeline;
+console.log(practice_trial);
 practice_trial.repetitions = practice_trials;
-practice_trials.event = 'practice';
+practice_trial.timeline = [
+    {
+        stimulus: function () {
+        var large_reward = 100;
+        var small_reward = large_reward - Math.floor(Math.random() * large_reward);
+        var text_left = "<b><font color='#317EF3'>" + "$" + large_reward.toFixed(2) + " in " + Math.floor(Math.random() * 100) + " days" + "</font></b>";
+        var text_or = "&nbsp;&nbsp;&nbsp; or &nbsp;&nbsp;&nbsp;";
+        var text_right = "$" + small_reward.toFixed(2) + " in 0 days";
+        var text = generate_html(text_left + text_or + text_right, font_colour, 30);
+        return text;
+        }
+    }];
+practice_trial.on_finish = function (data) {data.event = 'practice';};
 timeline.push(practice_trial);
 timeline.push(instructions2);
 timeline.push(trial);
