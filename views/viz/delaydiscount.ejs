@@ -11,8 +11,10 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
     <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
     <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
-    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI.var.woff2" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
+        crossorigin="anonymous">
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI.var.woff2" type="font/woff2"
+        crossorigin="anonymous">
 </head>
 
 <body class="is-preload">
@@ -65,7 +67,8 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg" alt="patch icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg"
+                        alt="patch icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>A</h5>
                         <p>
@@ -75,7 +78,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg" alt="miso-soup icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg"
+                        alt="miso-soup icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>B</h5>
                         <p>
@@ -85,7 +89,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg" alt="door-open icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg"
+                        alt="door-open icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>C</h5>
                         <p>
@@ -97,7 +102,8 @@
             </div>
         </div>
         <div class="divider">
-            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic" data-inject-svg />
+            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
+                data-inject-svg />
         </div>
     </section>
     <section class="bg-primary-alt">
@@ -196,7 +202,7 @@
         // console.log(datasummary.data);
         var indiff_curve = {
             // TODO Frank: change font to Inter-UI
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "monospace", titleFont: "monospace"}, title: { fontSize: 28, font: "monospace", subtitleFont: "monospace"}, legend: { labelFontSize: 30, labelFont: "monospace", titleFont: "monospace"}, header: { labelFont: "monospace", titleFont: "monospace" }, mark: { font: "monospace" }}, 
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "monospace", titleFont: "monospace" }, title: { fontSize: 28, font: "monospace", subtitleFont: "monospace" }, legend: { labelFontSize: 30, labelFont: "monospace", titleFont: "monospace" }, header: { labelFont: "monospace", titleFont: "monospace" }, mark: { font: "monospace" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             data: {
                 // values: datasummary.data.filter(i => i.n_trial == (datasummary.trials_per_cost - 1))
@@ -206,20 +212,20 @@
                 { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
                 { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
             ],
-            mark: { type: "point", tooltip: true, filled: true , color: "#3755be"},
+            mark: { type: "point", tooltip: true, filled: true, color: "#3755be" },
             encoding: {
-                x: { field: "cost", type: "quantitative", axis: { "title": "Delay (days to reward)", labelAlign: "center" }},
+                x: { field: "cost", type: "quantitative", axis: { "title": "Delay (days to reward)", labelAlign: "center" } },
                 // color: {field: "cost", legend: null}, // color by variable
-                color: { field: "cost", scale: { scheme: "viridis" }, legend: null},
+                color: { field: "cost", scale: { scheme: "viridis" }, legend: null },
                 y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
                 size: { value: 233 },
-                tooltip: [{field: "indifference", format: ".3f", title: 'Subjective value'}, { field: "cost", format: ".0f", title: 'Delay' }] // format tooltip
+                tooltip: [{ field: "indifference", format: ".3f", title: 'Subjective value' }, { field: "cost", format: ".0f", title: 'Delay' }] // format tooltip
             },
             // title: "Individual discounting curve",
             width: 550,
             height: 400,
         };
-        vegaEmbed('#vis', indiff_curve, {actions: {source: false, compiled: false, editor: false}}); // https://github.com/vega/vega-embed#options
+        vegaEmbed('#vis', indiff_curve, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
     </script>
 
     <!-- Aggregate box plot -->
@@ -236,25 +242,24 @@
             config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
-            data: { values: data_array },
-            transform: [
-                { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
-                { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
-            ],
             encoding: {
                 x: {
                     field: "cost",
                     type: "nominal",
                     axis: { "title": "Delay (days to reward)" }
                 },
-                // color: {field: "cost", legend: null}, // color by cost
-                color: {field: "cost", legend: null, scale: { scheme: "viridis" }}, // color by cost, use viridis
             },
             layer: [
                 {
+                    data: { values: data_array },
+                    transform: [
+                        { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
+                        { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
+                    ],
                     mark: {
                         type: "boxplot",
                         extent: 1.5,
+                        opacity: 0.5
                     },
                     encoding: {
                         y: {
@@ -262,11 +267,17 @@
                             type: "quantitative",
                             axis: { "title": "Subjective value" }
                         },
-                        size: { value: 20 }
+                        size: { value: 20 },
+                        color: { field: "cost", legend: null, scale: { scheme: "viridis" } }, // color by cost, use viridis
                     },
 
                 },
                 {
+                    data: { values: data_array },
+                    transform: [
+                        { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
+                        { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
+                    ],
                     mark: { type: "point", tooltip: true, filled: false, color: "black", opacity: 0.3 },
                     encoding: {
                         y: {
@@ -275,7 +286,24 @@
                             scale: { domain: [0, 1] }
                         },
                         size: { value: 15 },
+                        color: { field: "cost", legend: null, scale: { scheme: "viridis" } }, // color by cost, use viridis
                     }
+                },
+                {
+                    data: {
+                        // values: datasummary.data.filter(i => i.n_trial == (datasummary.trials_per_cost - 1))
+                        values: datasummary.data
+                    },
+                    transform: [
+                        { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
+                        { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
+                    ],
+                    mark: { type: "point", tooltip: true, filled: true, color: "black" },
+                    encoding: {
+                        y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] } },
+                        size: { value: 233 },
+                        tooltip: [{ field: "indifference", format: ".3f", title: 'Subjective value' }, { field: "cost", format: ".0f", title: 'Delay' }] // format tooltip
+                    },
                 }],
             // title: "Aggregate discounting curve",
             width: 550,
@@ -294,7 +322,7 @@
             transform: [
                 { filter: "datum.trial_index == 0" },
             ],
-            mark: { type: "bar" , color: "#3755be"},
+            mark: { type: "bar", color: "#3755be" },
             encoding: {
                 x: {
                     type: "nominal",
@@ -331,7 +359,7 @@
             transform: [
                 { density: "auc" },
             ],
-            mark: { type: "area", color: "#3755be"},
+            mark: { type: "area", color: "#3755be" },
             encoding: {
                 x: {
                     type: "quantitative",
@@ -355,7 +383,7 @@
         var location_plot = {
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             title: "Global results",
-            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 }, view: {stroke: "transparent"}},
+            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 }, view: { stroke: "transparent" } },
             background: "#f3f5fb",
             width: 850,
             height: 500,
@@ -387,7 +415,7 @@
                     projection: {
                         type: "equirectangular"
                     },
-                    mark: {type: "circle", tooltip: true},
+                    mark: { type: "circle", tooltip: true },
                     encoding: {
                         longitude: {
                             field: "longitude",
