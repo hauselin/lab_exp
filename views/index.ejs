@@ -16,8 +16,8 @@
     <div class="loading-animation"></div>
   </div>
   <%- include('partials/menu_bar_index') %>
-  <div data-overlay class="bg-primary text-light o-hidden position-relative">
-    <section class="min-vh-70 o-hidden d-flex flex-column justify-content-center">
+  <section data-overlay class="bg-primary text-light o-hidden position-relative">
+    <div class="min-vh-70 o-hidden d-flex flex-column justify-content-center">
       <div class="container">
         <div class="row justify-content-center text-center align-items-center">
           <div class="col-xl-8 col-lg-9 col-md-10 layer-3" data-aos="fade-up" data-aos-delay="500">
@@ -32,8 +32,8 @@
           </div>
         </div>
       </div>
-    </section>
-  </div>
+    </div>
+  </section>
 
   <section class="bg-primary-alt" id="surveys">
     <div class="container">
@@ -192,9 +192,13 @@
 
   <section class="bg-primary" id="studies">
     <div class="container">
-      <div class="row justify-content-center text-light mb-4">
-        <h3 class="h1">Studies</h3>
-        <!-- // TODO Frank: add See more -->
+      <div class="row justify-content-center text-center text-light mb-4">
+        <div class="col">
+          <h3 class="h1">Studies</h3>
+          <a href="/studies">
+            <p>See more ></p>
+          </a> 
+        </div>
       </div>
       <div class="row">
 
