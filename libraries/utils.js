@@ -340,6 +340,7 @@ function add_ip_info(info_) {
         info_.city = geoplugin_city();
         info_.region = geoplugin_region();
         info_.country_name = geoplugin_countryName();
+        info_.country_code = geoplugin_countryCode();
         info_.latitude = geoplugin_latitude();
         info_.longitude = geoplugin_longitude();
     } catch (err) {
