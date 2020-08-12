@@ -357,7 +357,7 @@
             background: "#f3f5fb",
             data: { values: density_array },
             transform: [
-                { density: "auc" },
+                { density: "auc", counts: false, cumulative: false },
             ],
             mark: { type: "area", color: "#3755be" },
             encoding: {
