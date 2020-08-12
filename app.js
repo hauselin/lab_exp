@@ -24,7 +24,7 @@ mongoose.connect('mongodb://localhost/datalibrary',
     }
 );
 
-// // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES/ROUTES DEFINED IN ROUTES FOLDER
+// // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES
 app.use('/tasks', express.static(__dirname + "/tasks"));
 app.use('/surveys', express.static(__dirname + "/surveys"));
 app.use('/studies', express.static(__dirname + "/studies"));
@@ -47,6 +47,7 @@ app.use(function (req, res) {
 // Handle 500
 app.use(function (error, req, res, next) {
     res.redirect('/public/500.html');
+    console.log(error);
     // res.render('500.ejs');
 });
 
