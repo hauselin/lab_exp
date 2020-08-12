@@ -6,3 +6,13 @@
 /*  in your page by adding a reference to assets/css/custom.css in the head of each page.
 /*
 */
+
+@font-face {
+    font-family: Inter-UI-upright;
+    src: url(../fonts/Inter-UI-upright.var.woff2);
+}
+
+@font-face {
+    font-family: Inter-UI;
+    src: url(../fonts/Inter-UI.var.woff2);
+}
