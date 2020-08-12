@@ -73,7 +73,7 @@ router.get('/', function (req, res) {
 
     console.log('END OF QUERIES (note the asynchronous output!)\n\n')
 
-    res.render("index.ejs", { num_tasks: 1, num_studies: 2, num_entries: 3, entries_delaydiscount: 4, entries_stroop: 5, entries_symbolcount: 6, entries_mentalmath: 6 });
+    res.render("index.ejs");
 });
 
 router.get('/tasks', function (req, res) {
