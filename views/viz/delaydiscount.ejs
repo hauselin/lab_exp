@@ -11,6 +11,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
     <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
     <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
     <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
         crossorigin="anonymous">
     <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI.var.woff2" type="font/woff2"
@@ -202,7 +203,7 @@
         // console.log(datasummary.data);
         var indiff_curve = {
             // TODO Frank: change font to Inter-UI
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "monospace", titleFont: "monospace" }, title: { fontSize: 28, font: "monospace", subtitleFont: "monospace" }, legend: { labelFontSize: 30, labelFont: "monospace", titleFont: "monospace" }, header: { labelFont: "monospace", titleFont: "monospace" }, mark: { font: "monospace" } },
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28, font: "Inter-UI-upright", subtitleFont: "Inter-UI-upright" }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, header: { labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, mark: { font: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             data: {
                 // values: datasummary.data.filter(i => i.n_trial == (datasummary.trials_per_cost - 1))
@@ -239,7 +240,7 @@
         console.log(data_array);
 
         var aggregate_curve = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             encoding: {
@@ -315,8 +316,7 @@
     <!-- Aggregate AUC histogram -->
     <script type="text/javascript">
         var auc_histogram = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
-            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             layer: [{
                 data: { values: data_array },
@@ -363,8 +363,7 @@
         });
 
         var auc_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
-            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             layer: [
                 {
@@ -407,8 +406,7 @@
         var location_plot = {
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             title: "Global results",
-            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 }, view: { stroke: "transparent" } },
-            background: "#f3f5fb",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },            background: "#f3f5fb",
             width: 850,
             height: 500,
             layer: [
