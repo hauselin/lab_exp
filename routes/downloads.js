@@ -17,7 +17,7 @@ router.get("/:type/:uniquestudyid/consent", function (req, res) {
 
 router.get('/d1', function (req, res) {
     // Download the most recent document (regardless of task)
-    DataLibrary.findOne({}, {}, { sort: { time: -1 } }).lean()
+    DataLibrary.findOne({}, { data: 1, _id: 0 }, { sort: { time: -1 } }).lean()
         .then(doc => {
             if (doc.data.length > 0) {
                 const filename = doc.type + "_" + doc.uniquestudyid + "_" + doc.subject + '.csv';
@@ -34,9 +34,10 @@ router.get('/d1', function (req, res) {
 
 router.get('/:type/:uniquestudyid/:dn', function (req, res) {
     // Download most recent n document(s) for a given task
-    DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, {},
+    DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, { data: 1, _id: 0 },
         { sort: { time: -1 }, limit: Number(req.params.dn.slice(1, 2)) }).lean()
         .then(doc => {
+            console.log(doc)
             if (doc.length > 0) {
                 const filename = req.params.dn + "_" + req.params.type + "_" + req.params.uniquestudyid + ".csv";
                 var datastring = helper.doc2datastring(doc);
@@ -55,7 +56,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy', function (req, res) {
             uniquestudyid: req.params.uniquestudyid,
             "utc_date.year": Number(req.params.yyyy)
         },
-        {},
+        { data: 1, _id: 0 },
         { sort: { time: -1 } }).lean()
         .then(doc => {
             if (doc.length > 0) {
@@ -77,7 +78,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm', function (req, res) {
             "utc_date.year": Number(req.params.yyyy),
             "utc_date.month": Number(req.params.mm)
         },
-        {},
+        { data: 1, _id: 0 },
         { sort: { time: -1 } }).lean()
         .then(doc => {
             if (doc.length > 0) {
@@ -100,7 +101,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function (req, res) {
             "utc_date.month": Number(req.params.mm),
             "utc_date.day": Number(req.params.dd)
         },
-        {},
+        { data: 1, _id: 0 },
         { sort: { time: -1 } }).lean()
         .then(doc => {
             if (doc.length > 0) {

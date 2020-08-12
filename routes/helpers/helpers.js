@@ -33,17 +33,22 @@ function json2csv(objArray) {
     return result;
 }
 
-function doc2datastring(doc) {
-    var datastring = '';
-    for (var i = 0; i < doc.length; i++) {
-        if (i == 0) { // save header from csv
-            datastring += json2csv(doc[i].data);
-        } else { // if not the first document, remove header row from csv 
-            var temp_datastring = json2csv(doc[i].data);
-            datastring += temp_datastring.slice(temp_datastring.indexOf("\n"));
-        }
+// function doc2datastring(doc) {
+//     var datastring = '';
+//     for (var i = 0; i < doc.length; i++) {
+//         if (i == 0) { // save header from csv
+//             datastring += json2csv(doc[i].data);
+//         } else { // if not the first document, remove header row from csv 
+//             var temp_datastring = json2csv(doc[i].data);
+//             datastring += temp_datastring.slice(temp_datastring.indexOf("\n"));
+//         }
 
-    } return datastring;
+//     } return datastring;
+// }
+
+function doc2datastring(doc) {
+    var datastring = json2csv(doc.map(i => i.data).flat(1)); // get data from documents, then flatten the nested arrays, then convert from json to csv
+    return datastring;
 }
 
 module.exports = { json2csv, doc2datastring }
