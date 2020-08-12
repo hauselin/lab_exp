@@ -318,26 +318,37 @@
             config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
-            data: { values: data_array },
-            transform: [
-                { filter: "datum.trial_index == 0" },
-            ],
-            mark: { type: "bar", color: "#3755be" },
-            encoding: {
-                x: {
-                    type: "nominal",
-                    bin: true,
-                    field: "auc",
-                    title: "AUC",
-                },
-                y: {
-                    aggregate: "count",
-                    scale: {
-                        round: true
+            layer: [{
+                data: { values: data_array },
+                transform: [
+                    { filter: "datum.trial_index == 0" },
+                ],
+                mark: { type: "bar", color: "#3755be" },
+                encoding: {
+                    x: {
+                        type: "quantitative",
+                        bin: true,
+                        field: "auc",
+                        title: "AUC",
                     },
-                    title: "Counts",
+                    y: {
+                        aggregate: "count",
+                        scale: {
+                            round: true
+                        },
+                        title: "Counts",
+                    }
                 }
             },
+            {
+                data: { values: "auc\n" + auc, format: { type: "csv" } },
+                mark: "rule",
+                encoding: {
+                    x: { field: "auc" },
+                    color: { value: "black" },
+                    size: { value: 3 }
+                },
+            }],
             title: "Aggregate AUC histogram",
             width: 550,
             height: 400,
@@ -355,23 +366,36 @@
             config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
-            data: { values: density_array },
-            transform: [
-                { density: "auc", counts: false, cumulative: false },
-            ],
-            mark: { type: "area", color: "#3755be" },
-            encoding: {
-                x: {
-                    type: "quantitative",
-                    field: "value",
-                    title: "Area under discounting curve",
+            layer: [
+                {
+                    data: { values: density_array },
+                    transform: [
+                        { density: "auc", counts: false, cumulative: false },
+                    ],
+                    mark: { type: "area", color: "#3755be" },
+                    encoding: {
+                        x: {
+                            type: "quantitative",
+                            field: "value",
+                            title: "Area under discounting curve",
+                        },
+                        y: {
+                            type: "quantitative",
+                            field: "density",
+                            title: "Counts",
+                        }
+                    }
                 },
-                y: {
-                    type: "quantitative",
-                    field: "density",
-                    title: "Counts",
+                {
+                    data: { values: "auc\n" + auc, format: { type: "csv" } },
+                    mark: "rule",
+                    encoding: {
+                        x: { field: "auc" },
+                        color: { value: "black" },
+                        size: { value: 3 }
+                    },
                 }
-            },
+            ],
             // title: "Aggregate AUC density",
             width: 550,
             height: 400,
