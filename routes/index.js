@@ -88,4 +88,18 @@ router.get('/tasks', function (req, res) {
         })
 });
 
+router.get('/surveys', function (req, res) {
+    Promise.all([
+        DataLibrary.find({ uniquestudyid: 'bigfiveaspect' }),
+        DataLibrary.find({ uniquestudyid: 'gritshort' }),
+    ])
+        .then(([bigfiveaspect, gritshort]) => {
+            res.render("surveys.ejs", { entries_bigfiveaspect: bigfiveaspect.length, entries_gritshort: gritshort.length });
+        })
+});
+
+router.get('/studies', function (req, res) {
+    res.render("studies.ejs");
+});
+
 module.exports = router;
