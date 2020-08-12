@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Anthrope</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
+  <link rel="preload" as="font" href="../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2">
+  <link rel="preload" as="font" href="../public/assets/fonts/Inter-UI.var.woff2" type="font/woff2">
+</head>
+
+<body style="overflow-x: hidden; " data-smooth-scroll-offset="73">
+  <div class="loader">
+    <div class="loading-animation"></div>
+  </div>
+  <%- include('partials/menu_bar_internal') %>
+  <div data-overlay class="bg-primary text-light o-hidden position-relative">
+    <section class="text-center">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-xl-9">
+            <h2 class="h1">Studies</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <section class="pt-4 bg-primary-alt">
+    <div class="container">
+      <div class="row">
+
+        <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
+          <a href="/studies/studyA/task.html"
+            class="card card-sm card-body flex-row align-items-center fade-page hover-shadow-3d">
+            <img class="icon icon-lg
+        bg-primary-2" src="../public/assets/img/icons/theme/general/thunder-move.svg" alt="icon" />
+            <div class="ml-3">
+              <h5 class="mb-0">Study A</h5>
+              <span>Description...</span>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <%- include('partials/footer') %>
