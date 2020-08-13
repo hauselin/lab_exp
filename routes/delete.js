@@ -60,7 +60,7 @@ router.get('/:type/:uniquestudyid/delete/:yyyy', function (req, res) {
 
 
 router.get('/:type/:uniquestudyid/delete/:yyyy/:mm', function (req, res) {
-    // Filter and download documents by year and month for a given task
+    // Filter and delete documents by year and month for a given task
     DataLibrary.find(
         {
             uniquestudyid: req.params.uniquestudyid,
@@ -83,5 +83,35 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm', function (req, res) {
             }
         })
 });
+
+
+router.get('/:type/:uniquestudyid/delete/:yyyy/:mm/:dd', function (req, res) {
+    // Filter and delete documents by year, month, and day for a given task
+    DataLibrary.find(
+        {
+            uniquestudyid: req.params.uniquestudyid,
+            "utc_date.year": Number(req.params.yyyy),
+            "utc_date.month": Number(req.params.mm),
+            "utc_date.day": Number(req.params.dd)
+        },
+        {},
+        { sort: { time: -1 } }).lean()
+        .then(doc => {
+            if (doc.length == 0) {
+                console.log("No documents found to delete.");
+            } else {
+                for (var i = 0; i < doc.length; i++) {
+                    DataLibrary.deleteOne( {user_time: doc[i].user_time}, function(err) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    })
+                }; console.log("Deleted record(s) for " + req.params.yyyy + "/" + req.params.mm + 
+                "/" + req.params.dd + " successfully.");
+            }
+        })
+
+});
+
 
 module.exports = router;
