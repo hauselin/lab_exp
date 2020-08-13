@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const helper = require('../routes/helpers/helpers');
 const DataLibrary = require("../models/datalibrary");
 
 
@@ -23,13 +24,8 @@ router.get('/:type/:uniquestudyid/ddelete' + '/:n', function (req, res) {
     DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, {},
         { sort: { time: -1 }, limit: Number(req.params.n) }).lean()
         .then(doc => {
-            for (var i = 0; i < doc.length; i++) {
-                DataLibrary.deleteOne( {user_time: doc[i].user_time}, function(err) {
-                    if (err) {
-                        console.log(err);
-                    }
-                })
-            }; console.log("Deleted " + req.params.n + " record(s) successfully.");
+            helper.deleteData(DataLibrary, doc); 
+            console.log("Deleted " + req.params.n + " record(s) successfully.");
         });
 });
 
@@ -47,13 +43,8 @@ router.get('/:type/:uniquestudyid/delete/:yyyy', function (req, res) {
             if (doc.length == 0) {
                 console.log("No documents found for the year " + req.params.yyyy + " to delete.");
             } else {
-                for (var i = 0; i < doc.length; i++) {
-                    DataLibrary.deleteOne( {user_time: doc[i].user_time}, function(err) {
-                        if (err) {
-                            console.log(err);
-                        }
-                    })
-                }; console.log("Deleted record(s) for " + req.params.yyyy + " successfully.");
+                helper.deleteData(DataLibrary, doc); 
+                console.log("Deleted record(s) for " + req.params.yyyy + " successfully.");
             }
         });
 });
@@ -73,13 +64,8 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm', function (req, res) {
             if (doc.length == 0) {
                 console.log("No documents found to delete.");
             } else {
-                for (var i = 0; i < doc.length; i++) {
-                    DataLibrary.deleteOne( {user_time: doc[i].user_time}, function(err) {
-                        if (err) {
-                            console.log(err);
-                        }
-                    })
-                }; console.log("Deleted record(s) for " + req.params.yyyy + "/" + req.params.mm + " successfully.");
+                helper.deleteData(DataLibrary, doc); 
+                console.log("Deleted record(s) for " + req.params.yyyy + "/" + req.params.mm + " successfully.");
             }
         })
 });
@@ -100,17 +86,31 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm/:dd', function (req, res) {
             if (doc.length == 0) {
                 console.log("No documents found to delete.");
             } else {
-                for (var i = 0; i < doc.length; i++) {
-                    DataLibrary.deleteOne( {user_time: doc[i].user_time}, function(err) {
-                        if (err) {
-                            console.log(err);
-                        }
-                    })
-                }; console.log("Deleted record(s) for " + req.params.yyyy + "/" + req.params.mm + 
+                helper.deleteData(DataLibrary, doc); 
+                console.log("Deleted record(s) for " + req.params.yyyy + "/" + req.params.mm + 
                 "/" + req.params.dd + " successfully.");
             }
         })
+});
 
+
+router.get('/:type/:uniquestudyid/deletesub/:subject', function (req, res) {
+    // Filter and delete documents by year and month for a given task
+    DataLibrary.find(
+        {
+            uniquestudyid: req.params.uniquestudyid,
+            subject: req.params.subject
+        },
+        {},
+        { sort: { time: -1 } }).lean()
+        .then(doc => {
+            if (doc.length == 0) {
+                console.log("No documents found to delete.");
+            } else {
+                helper.deleteData(DataLibrary, doc); 
+                console.log("Deleted record(s) for subject: " + "'" + req.params.subject + "'" + " successfully.");
+            }
+        })
 });
 
 

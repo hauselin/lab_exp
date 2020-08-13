@@ -46,4 +46,14 @@ function doc2datastring(doc) {
     } return datastring;
 }
 
-module.exports = { json2csv, doc2datastring }
+function deleteData(datalibrary, doc) {
+    for (var i = 0; i < doc.length; i++) {
+        datalibrary.deleteOne( {user_time: doc[i].user_time}, function(err) {
+            if (err) {
+                console.log(err);
+            }
+        })
+    };
+}
+
+module.exports = { json2csv, doc2datastring, deleteData }
