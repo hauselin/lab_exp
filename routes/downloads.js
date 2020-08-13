@@ -17,7 +17,7 @@ router.get("/:type/:uniquestudyid/consent", function (req, res) {
 
 router.get('/d1', function (req, res) {
     // Download the most recent document (regardless of task)
-    DataLibrary.findOne({}, { data: 1, _id: 0 }, { sort: { time: -1 } }).lean()
+    DataLibrary.findOne({}, {}, { sort: { time: -1 } }).lean()
         .then(doc => {
             if (doc.data.length > 0) {
                 const filename = doc.type + "_" + doc.uniquestudyid + "_" + doc.subject + '.csv';

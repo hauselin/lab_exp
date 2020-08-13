@@ -84,7 +84,8 @@ var trial = {
         stimulus: function () {
             var lower = (reward_window[1] - reward_window[0]) * quantile_range[0] + reward_window[0];
             var upper = (reward_window[1] - reward_window[0]) * quantile_range[1] + reward_window[0];
-            small_reward = math.random(lower, upper);
+            // small_reward = math.random(lower, upper);
+            small_reward = random_min_max(lower, upper);
 
             var text_left = "$" + large_reward.toFixed(2) + " in " + costs[n_cost] + " days";
             if (n_trial == 0) { // bold and change color of left option on first trial of each cost/delay
@@ -149,21 +150,20 @@ timeline.push(instructions);
 var practice_trial = jsPsych.utils.deepCopy(trial);
 delete practice_trial.on_finish;
 delete practice_trial.timeline;
-console.log(practice_trial);
 practice_trial.repetitions = practice_trials;
 practice_trial.timeline = [
     {
         stimulus: function () {
-        var large_reward = 100;
-        var small_reward = large_reward - Math.floor(Math.random() * large_reward);
-        var text_left = "<b><font color='#317EF3'>" + "$" + large_reward.toFixed(2) + " in " + Math.floor(Math.random() * 100) + " days" + "</font></b>";
-        var text_or = "&nbsp;&nbsp;&nbsp; or &nbsp;&nbsp;&nbsp;";
-        var text_right = "$" + small_reward.toFixed(2) + " in 0 days";
-        var text = generate_html(text_left + text_or + text_right, font_colour, 30);
-        return text;
+            var large_reward = 100;
+            var small_reward = large_reward - Math.floor(Math.random() * large_reward);
+            var text_left = "<b><font color='#317EF3'>" + "$" + large_reward.toFixed(2) + " in " + Math.floor(Math.random() * 100) + " days" + "</font></b>";
+            var text_or = "&nbsp;&nbsp;&nbsp; or &nbsp;&nbsp;&nbsp;";
+            var text_right = "$" + small_reward.toFixed(2) + " in 0 days";
+            var text = generate_html(text_left + text_or + text_right, font_colour, 30);
+            return text;
         }
     }];
-practice_trial.on_finish = function (data) {data.event = 'practice';};
+practice_trial.on_finish = function (data) { data.event = 'practice'; };
 timeline.push(practice_trial);
 timeline.push(instructions2);
 timeline.push(trial);
@@ -199,7 +199,7 @@ function summarize_data() {
 }
 
 function get_auc() {    //note that this area is an underestimation of the hyperbolic curve, as the width of the histogram bars are bounded by the lower cost and the entry's cost.
-    var trial_data = jsPsych.data.get().filter({ n_trial: (trials_per_cost - 1) });
+    var trial_data = jsPsych.data.get().filter({ n_trial: (trials_per_cost - 1), event: "choice" });
     var indifference_data = trial_data.select('indifference').values;
     var delayed_reward_data = trial_data.select('large_reward').values;
     var cost_data = trial_data.select('cost').values;

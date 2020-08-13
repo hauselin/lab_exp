@@ -10,6 +10,10 @@ function range(start, end) {
     return ans;
 }
 
+function random_min_max(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
 // https://stackoverflow.com/questions/6137986/javascript-roundoff-number-to-nearest-0-5
 // round to any step
 function round(value, step = 1.0) {
