@@ -16,4 +16,19 @@ router.get('/delete1', function (req, res) {
     })
 });
 
+router.get('/:type/:uniquestudyid/delete' + '/:n', function (req, res) {
+    // Download most recent n document(s) for a given task
+    DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, {},
+        { sort: { time: -1 }, limit: Number(req.params.n) }).lean()
+        .then(doc => {
+            for (var i = 0; i < doc.length; i++) {
+                DataLibrary.deleteOne( {user_time: doc[i].user_time}, function(err) {
+                    if (err) {
+                        console.log(err);
+                    }
+                })
+            }; console.log("Deleted " + req.params.n + " record(s) successfully.");
+        });
+});
+
 module.exports = router;
