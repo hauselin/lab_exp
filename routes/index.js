@@ -1,6 +1,6 @@
-var express = require("express");
-var router = express.Router();
-var DataLibrary = require("../models/datalibrary")
+const express = require("express");
+const router = express.Router();
+const DataLibrary = require("../models/datalibrary")
 
 router.get('/', function (req, res) {
 
