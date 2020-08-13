@@ -115,4 +115,25 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function (req, res) {
 
 });
 
+router.get('/:type/:uniquestudyid/dsub/:subject', function (req, res) {
+    // Filter and download documents by subject for a given task
+    DataLibrary.find(
+        {
+            uniquestudyid: req.params.uniquestudyid,
+            subject: req.params.subject
+        },
+        {},
+        { sort: { time: -1 } }).lean()
+        .then(doc => {
+            if (doc.length > 0) {
+                const filename = "d" + req.params.subject + "_" + req.params.type + "_" + req.params.uniquestudyid + ".csv";
+                var datastring = helper.doc2datastring(doc);
+                res.attachment(filename);
+                res.status(200).send(datastring);
+            } else {
+                res.status(200).end();
+            }
+        })
+});
+
 module.exports = router;

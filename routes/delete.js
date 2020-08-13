@@ -95,7 +95,7 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm/:dd', function (req, res) {
 
 
 router.get('/:type/:uniquestudyid/deletesub/:subject', function (req, res) {
-    // Filter and delete documents by year and month for a given task
+    // Filter and delete documents by subject for a given task
     DataLibrary.find(
         {
             uniquestudyid: req.params.uniquestudyid,
