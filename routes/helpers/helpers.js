@@ -47,8 +47,8 @@ function json2csv(objArray) {
 // }
 
 function doc2datastring(doc) {
-    var datastring = json2csv(doc.map(i => i.data).flat(1)); // get data from each document (so that each document's data objects will be in one array), then flatten the arrays, then convert flattend array to csv
-    return datastring;
+    // get data from each document (so that each document's data objects will be in one array), then flatten the arrays, then convert flattend array to csv
+    return json2csv(doc.map(i => i.data).flat(1));
 }
 
 module.exports = { json2csv, doc2datastring }
