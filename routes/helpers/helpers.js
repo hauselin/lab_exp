@@ -40,7 +40,7 @@ function doc2datastring(doc) {
             datastring += json2csv(doc[i].data);
         } else { // if not the first document, remove header row from csv 
             var temp_datastring = json2csv(doc[i].data);
-            datastring += temp_datastring.slice(temp_datastring.indexOf("\n"));
+            datastring += temp_datastring.slice(temp_datastring.indexOf("\n") + 1);
         }
 
     } return datastring;
