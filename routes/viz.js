@@ -58,10 +58,8 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
     obj = Array.from(summed_earnings_by_sport, ([sport, earnings_summed]) => ({ sport, earnings_summed }))
     console.log(obj)
 
-    Promise.all([
-        DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }).lean(),
-    ])
-        .then(([data]) => {
+    DataLibrary.find({ uniquestudyid: 'delaydiscount' }).lean()
+        .then(data => {
             data_array = [];
             country_trials = [];
             for (i = 0; i < data.length; i++) {
