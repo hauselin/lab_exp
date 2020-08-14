@@ -34,21 +34,13 @@ router.get('/d1', function (req, res) {
 
 router.get('/:type/:uniquestudyid/:dn', function (req, res) {
     // Download most recent n document(s) for a given task
-    DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, {},
+    DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, { data: 1, _id: 0 },
         { sort: { time: -1 }, limit: Number(req.params.dn.slice(1, 2)) }).lean()
         .then(doc => {
+            console.log(doc)
             if (doc.length > 0) {
                 const filename = req.params.dn + "_" + req.params.type + "_" + req.params.uniquestudyid + ".csv";
-                // TODO Maham: from here onwards, I think we can turn it into a helper function that takes doc as input, and returns the datastring as output (call the function doc2datastring), and use the function for all the routes below
-                var datastring = '';
-                for (var i = 0; i < doc.length; i++) {
-                    if (i == 0) { // save header from csv
-                        datastring += helper.json2csv(doc[i].data);
-                    } else { // if not the first document, remove header row from csv 
-                        var temp_datastring = helper.json2csv(doc[i].data);
-                        datastring += temp_datastring.slice(temp_datastring.indexOf("\n"));
-                    }
-                }; // TODO Maham end of doc2datastring function
+                var datastring = helper.doc2datastring(doc);
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
@@ -64,15 +56,12 @@ router.get('/:type/:uniquestudyid/d/:yyyy', function (req, res) {
             uniquestudyid: req.params.uniquestudyid,
             "utc_date.year": Number(req.params.yyyy)
         },
-        {},
+        { data: 1, _id: 0 },
         { sort: { time: -1 } }).lean()
         .then(doc => {
             if (doc.length > 0) {
                 const filename = "d" + req.params.yyyy + "_" + req.params.type + "_" + req.params.uniquestudyid + ".csv";
-                var datastring = '';
-                for (var i = 0; i < doc.length; i++) {
-                    datastring += helper.json2csv(doc[i].data);
-                };
+                var datastring = helper.doc2datastring(doc);
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
@@ -89,15 +78,12 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm', function (req, res) {
             "utc_date.year": Number(req.params.yyyy),
             "utc_date.month": Number(req.params.mm)
         },
-        {},
+        { data: 1, _id: 0 },
         { sort: { time: -1 } }).lean()
         .then(doc => {
             if (doc.length > 0) {
                 const filename = "d" + req.params.yyyy + "_" + req.params.mm + "_" + req.params.type + "_" + req.params.uniquestudyid + ".csv";
-                var datastring = '';
-                for (var i = 0; i < doc.length; i++) {
-                    datastring += helper.json2csv(doc[i].data);
-                };
+                var datastring = helper.doc2datastring(doc);
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
@@ -115,15 +101,12 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function (req, res) {
             "utc_date.month": Number(req.params.mm),
             "utc_date.day": Number(req.params.dd)
         },
-        {},
+        { data: 1, _id: 0 },
         { sort: { time: -1 } }).lean()
         .then(doc => {
             if (doc.length > 0) {
                 const filename = "d" + req.params.yyyy + "_" + req.params.mm + "_" + req.params.dd + "_" + req.params.type + "_" + req.params.uniquestudyid + ".csv";
-                var datastring = '';
-                for (var i = 0; i < doc.length; i++) {
-                    datastring += helper.json2csv(doc[i].data);
-                };
+                var datastring = helper.doc2datastring(doc);
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {

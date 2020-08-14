@@ -1,6 +1,6 @@
-var express = require("express");
-var router = express.Router();
-var DataLibrary = require("../models/datalibrary")
+const express = require("express");
+const router = express.Router();
+const DataLibrary = require("../models/datalibrary")
 
 router.get('/', function (req, res) {
 
@@ -32,11 +32,25 @@ router.get('/', function (req, res) {
         })
         .catch(err => console.log(err));
 
-    DataLibrary.find({ uniquestudyid: 'gritshort' }, { utc_datetime: 1, _id: 0 }, { sort: { time: -1 }, limit: 3 })
+    DataLibrary.find({ uniquestudyid: 'gritshort' }, { data: 1, _id: 0, info_: 1 }, { sort: { time: -1 }, limit: 2, lean: true })
         .then(doc => {
             console.log('EXAMPLE 4:');
-            console.log(doc);
-            console.log(doc[0].utc_datetime); // undefined because it's a cursor/reference (see lean example below)
+
+            var data_flat = doc.map(i => i.data).flat(1) // flatten doc.data
+            // console.log(data_flat);
+
+            var subject_info = doc.map(function (d, i) { // retrieve relevant data from inside doc.info_
+                return {
+                    subject: d.info_.subject,
+                    index: i + 1, // just for demo (we can remove this line)
+                    country: d.info_.country_name,
+                    rt_trial1: d.data[0].rt, // get trial 1 reaction time for each subject
+                    time_elapsed_trial1: d.data[3].time_elapsed // get trial 4 time_elapsed for each subject
+                }
+            });
+            console.log(subject_info)
+
+            // console.log(doc[0].utc_datetime); // undefined because it's a cursor/reference (see lean example below)
         })
         .catch(err => console.log(err));
 
