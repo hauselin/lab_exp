@@ -650,6 +650,8 @@
                 {
                     lookup: "id",
                     from: {
+                        // data: {values: [{country_id: 124, country_name: "Canada", median_auc: 0.5}, {country_id: 156, country_name: "China", median_auc: 0.9}]},
+                        // The above line is to see multiple countries on the choropleth. Each object in the array must have all three properties: country_id, country_name, median_auc.
                         data: {values: country_array},
                         key: "country_id",
                         fields: ["median_auc", "country_name"]
