@@ -33,13 +33,22 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
     // console.log(athletes_grouped.get("Basketball"));
 
     // console.log("rollups: apply function by group");
-    summed_earnings_by_sport = d3.rollup(athletes, v => d3.sum(v, d => d.earnings), by => by.sport);
-    // console.log(summed_earnings_by_sport);
+    summed_earnings_by_sport = d3.rollup(athletes,
+        // v => d3.sum(v, d => d.earnings),
+        function (v) {
+            return {
+                x: v.length,
+                y: d3.sum(v, d => d.earnings),
+                z: d3.min(v, d => d.name)
+            }
+        },
+        by => by.sport)
+    console.log(summed_earnings_by_sport);
     // console.log(summed_earnings_by_sport.get('Boxing'))
     // console.log(summed_earnings_by_sport);
 
     // https://github.com/d3/d3-array#group
-    obj = Array.from(summed_earnings_by_sport, ([sport, earnings_summed]) => ({ sport, earnings_summed }))
+    obj = Array.from(summed_earnings_by_sport, ([sport, x]) => ({ sport, x }))
     // console.log(obj)
 
     DataLibrary.find({ uniquestudyid: 'delaydiscount' }).lean()
@@ -66,9 +75,24 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
 
             // prepare data for chloropleth auc
             // each subject has 5 auc values (repeated) because we have 5 trials per subject, but that's fine for t
-            country_data = d3.rollups(data_array, v => d3.median(v, d => d.auc), d => d.country_id); // compute median for each country
-            var country_data = Array.from(country_data, ([country_id, median_auc]) => ({ country_id, median_auc })); // convert to object with key-val pair
+            country_data = d3.rollups(data_array, // compute median for each country
+                function (v) {
+                    return {
+                        median_auc: d3.median(v, d => d.auc),
+                        country_name: d3.min(v, d => d.country)
+                        // country_id: d3.min(v, d => d.ountry_id)
+                    }
+                },
+                // v => d3.median(v, d => d.auc),
+                d => d.country_id);
             console.log(country_data)
+            country_data = Array.from(country_data, function (i) {
+                return { country_id: i[0], country_name: i[1].country_name, median_auc: i[1].median_auc }
+            })
+            console.log(country_data);
+
+            // console.log(summed_earnings_by_sport);
+            // console.log(obj.flat(1))
 
             // render
             // TODO: clean up code to avoid passing the entire data object to client! data_array is the trimmed/cleaned data and should have all we need?
