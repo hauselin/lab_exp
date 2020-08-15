@@ -11,13 +11,14 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
     <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
     <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
     <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2" crossorigin="anonymous">
     <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI.var.woff2" type="font/woff2" crossorigin="anonymous">
 </head>
 
 <body class="is-preload">
-
-    <section class="bg-primary-alt header-inner o-hidden">
+    <%- include('../partials/menu_bar_viz') %>
+    <section class="bg-primary-alt header-inner o-hidden pt-7">
         <div class="container">
             <div class="row py-6 text-center justify-content-center align-items-center layer-2">
                 <div class="col-xl-8 col-lg-10">
@@ -108,7 +109,7 @@
                     <p class="lead">This is everyone's data.</p>
                 </div>
             </div>
-            <div class="row justify-content-center">
+            <!-- <div class="row justify-content-center">
                 <div class="col-lg-10 col-xl-8">
                     <div data-flickity='{ "imagesLoaded": true, "wrapAround": true }' class="mb-5">
                         <div class="carousel-cell mx-3">
@@ -122,11 +123,163 @@
                         </div>
                     </div>
                 </div>
+            </div> -->
+            <div class="container">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                        <div id="vis2" class="center"></div>
+                    </div>
+                    <div class="col-md-6 col-xl-5">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11">
+                                <span class="badge badge-primary">Everyone's results</span>
+                                <div class="my-3">
+                                    <span class="h1">Discounting box plot</span>
+                                </div>
+                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                    blanditiis
+                                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                    excepturi
+                                    sint occaecati.</p>
+                                <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                    deserunt
+                                    mollitia animi, id est laborum et dolorum fuga.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="row justify-content-center">
-                <div id="vis5" class="center"></div>
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                        <div id="vis3" class="center"></div>
+                    </div>
+                    <div class="col-md-6 col-xl-5">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11">
+                                <span class="badge badge-primary">Everyone's results</span>
+                                <div class="my-3">
+                                    <span class="h1">AUC histogram</span>
+                                </div>
+                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                    blanditiis
+                                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                    excepturi
+                                    sint occaecati.</p>
+                                <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                    deserunt
+                                    mollitia animi, id est laborum et dolorum fuga.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container pt-7">
+                    <div class="row align-items-center justify-content-around">
+                        <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                            <div id="vis4" class="center"></div>
+                        </div>
+                        <div class="col-md-6 col-xl-5">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-10 col-lg-11">
+                                    <span class="badge badge-primary">Everyone's results</span>
+                                    <div class="my-3">
+                                        <span class="h1">AUC density graph</span>
+                                    </div>
+                                    <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                        blanditiis
+                                        praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                        excepturi
+                                        sint occaecati.</p>
+                                    <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                        deserunt
+                                        mollitia animi, id est laborum et dolorum fuga.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container pt-7">
+                    <div class="row align-items-center justify-content-around">
+                        <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                            <div id="vis5" class="center"></div>
+                        </div>
+                        <div class="col-md-6 col-xl-5">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-10 col-lg-11">
+                                    <span class="badge badge-primary">Everyone's results</span>
+                                    <div class="my-3">
+                                        <span class="h1">Global data inputs</span>
+                                    </div>
+                                    <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                        blanditiis
+                                        praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                        excepturi
+                                        sint occaecati.</p>
+                                    <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                        deserunt
+                                        mollitia animi, id est laborum et dolorum fuga.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container pt-7">
+                    <div class="row align-items-center justify-content-around">
+                        <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                            <div id="vis6" class="center"></div>
+                        </div>
+                        <div class="col-md-6 col-xl-5">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-10 col-lg-11">
+                                    <span class="badge badge-primary">Everyone's results</span>
+                                    <div class="my-3">
+                                        <span class="h1">Median AUC per country</span>
+                                    </div>
+                                    <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                        blanditiis
+                                        praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                        excepturi
+                                        sint occaecati.</p>
+                                    <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                        deserunt
+                                        mollitia animi, id est laborum et dolorum fuga.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container pt-7">
+                    <div class="row align-items-center justify-content-around">
+                        <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                            <div id="vis7" class="center"></div>
+                        </div>
+                        <div class="col-md-6 col-xl-5">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-10 col-lg-11">
+                                    <span class="badge badge-primary">Everyone's results</span>
+                                    <div class="my-3">
+                                        <span class="h1">Global median AUC choropleth</span>
+                                    </div>
+                                    <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                        blanditiis
+                                        praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                        excepturi
+                                        sint occaecati.</p>
+                                    <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                        deserunt
+                                        mollitia animi, id est laborum et dolorum fuga.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
     </section>
     <section>
         <div class="container">
@@ -176,27 +329,22 @@
 
     <script type="text/javascript">
         // retrieve objects from sessionStorage
-        datasummary = sessionStorage.getObj("datasummary_delaydiscount_");
-        info = sessionStorage.getObj("info_");
-
-        var auc = datasummary.auc.toFixed(4);
-        var subject_id = info.subject;
+        const datasummary = sessionStorage.getObj("datasummary_delaydiscount_");
+        const info = sessionStorage.getObj("info_");
+        const auc = datasummary.auc.toFixed(4);
+        const subject_id = info.subject;
         var id_header = document.getElementById("subject");
         id_header.textContent += subject_id;
         var auc_header = document.getElementById("auc");
         auc_header.textContent += auc;
 
-        console.log('subject id: ' + subject_id);
-        console.log('datasummary_')
-        console.log(datasummary)
     </script>
 
     <!-- Individual discount curve -->
     <script type="text/javascript">
-        // console.log(datasummary.data);
         var indiff_curve = {
             // TODO Frank: change font to Inter-UI
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "monospace", titleFont: "monospace"}, title: { fontSize: 28, font: "monospace", subtitleFont: "monospace"}, legend: { labelFontSize: 30, labelFont: "monospace", titleFont: "monospace"}, header: { labelFont: "monospace", titleFont: "monospace" }, mark: { font: "monospace" }}, 
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28, font: "Inter-UI-upright", subtitleFont: "Inter-UI-upright" }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, header: { labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, mark: { font: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             data: {
                 // values: datasummary.data.filter(i => i.n_trial == (datasummary.trials_per_cost - 1))
@@ -206,76 +354,72 @@
                 { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
                 { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
             ],
-            mark: { type: "point", tooltip: true, filled: true , color: "#3755be"},
+            mark: { type: "point", tooltip: true, filled: true, color: "#3755be" },
             encoding: {
-                x: { field: "cost", type: "quantitative", axis: { "title": "Delay (days to reward)", labelAlign: "center" }},
+                x: { field: "cost", type: "quantitative", axis: { "title": "Delay (days to reward)", labelAlign: "center" } },
                 // color: {field: "cost", legend: null}, // color by variable
-                color: { field: "cost", scale: { scheme: "viridis" }, legend: null},
+                color: { field: "cost", scale: { scheme: "viridis" }, legend: null },
                 y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
                 size: { value: 233 },
-                tooltip: [{field: "indifference", format: ".3f", title: 'Subjective value'}, { field: "cost", format: ".0f", title: 'Delay' }] // format tooltip
+                tooltip: [{ field: "indifference", format: ".3f", title: 'Subjective value' }, { field: "cost", format: ".0f", title: 'Delay' }] // format tooltip
             },
             // title: "Individual discounting curve",
             width: 550,
             height: 400,
         };
-        vegaEmbed('#vis', indiff_curve, {actions: {source: false, compiled: false, editor: false}}); // https://github.com/vega/vega-embed#options
+        vegaEmbed('#vis', indiff_curve, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
     </script>
 
     <!-- Aggregate box plot -->
     <script type="text/javascript">
-        // console.log(datasummary.data);
-        console.log("Total Entries: " + <%= data.length %>);
-        console.log("Queried Data:");
-        data = <%- JSON.stringify(data) %>;
-        console.log(data);
-        data_array = <%- JSON.stringify(data_array) %>;
-        console.log(data_array);
+        const data_array = <%- JSON.stringify(data_array) %>;
+        const country_array = <%- JSON.stringify(country_array) %>;
 
         var aggregate_curve = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
-            data: { values: data_array },
-            transform: [
-                { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
-                { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
-            ],
             encoding: {
                 x: {
                     field: "cost",
-                    type: "nominal",
-                    axis: { "title": "Delay (days to reward)" }
+                    type: "quantitative",  // or nominal?
+                    axis: { "title": "Delay (days to reward)", tickMinStep: 20},
+                    scale: {domain: [0, 101]}
                 },
-                // color: {field: "cost", legend: null}, // color by cost
-                color: {field: "cost", legend: null, scale: { scheme: "viridis" }}, // color by cost, use viridis
             },
             layer: [
                 {
-                    mark: {
-                        type: "boxplot",
-                        extent: 1.5,
-                    },
+                    data: { values: data_array },
+                    transform: [
+                        { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
+                        { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
+                    ],
+                    mark: {type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: {color: "black"}},
                     encoding: {
                         y: {
                             field: "indifference",
                             type: "quantitative",
                             axis: { "title": "Subjective value" }
                         },
-                        size: { value: 20 }
-                    },
-
+                        size: { value: 18 },
+                        color: { field: "cost", legend: null, scale: { scheme: "viridis" } },
+                        tooltip: [
+                            { field: 'indifference', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean"}
+                        ]
+                    }
                 },
                 {
-                    mark: { type: "point", tooltip: true, filled: false, color: "black", opacity: 0.3 },
+                    data: {values: datasummary.data},
+                    transform: [
+                        { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
+                        { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
+                    ],
+                    mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
                     encoding: {
-                        y: {
-                            field: "indifference",
-                            type: "quantitative",
-                            scale: { domain: [0, 1] }
-                        },
-                        size: { value: 15 },
-                    }
+                        y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] } },
+                        size: { value: 150 },
+                        tooltip: [{ field: "indifference", format: ".3f", title: 'Subjective value' }, { field: "cost", format: ".0f", title: 'Delay' }] // format tooltip
+                    },
                 }],
             // title: "Aggregate discounting curve",
             width: 550,
@@ -287,78 +431,96 @@
     <!-- Aggregate AUC histogram -->
     <script type="text/javascript">
         var auc_histogram = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
-            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
-            data: { values: data_array },
-            transform: [
-                { filter: "datum.trial_index == 0" },
-            ],
-            mark: { type: "bar" , color: "#3755be"},
-            encoding: {
-                x: {
-                    type: "nominal",
-                    bin: true,
-                    field: "auc",
-                    title: "AUC",
-                },
-                y: {
-                    aggregate: "count",
-                    scale: {
-                        round: true
+            layer: [{
+                data: { values: data_array.filter(i => i.cost == 2) },
+                mark: { type: "bar", color: "#3755be" },
+                encoding: {
+                    x: {
+                        type: "quantitative",
+                        bin: true,
+                        field: "auc",
+                        title: "AUC",
                     },
-                    title: "Counts",
+                    y: {
+                        aggregate: "count",
+                        scale: {
+                            round: true
+                        },
+                        title: "Counts",
+                    }
                 }
             },
-            title: "Aggregate AUC histogram",
+            {
+                data: { values: "auc\n" + auc, format: { type: "csv" } },
+                mark: "rule",
+                encoding: {
+                    x: { field: "auc" },
+                    color: { value: "black" },
+                    size: { value: 3 }
+                },
+            }],
+            // title: "Aggregate AUC histogram",
             width: 550,
             height: 400,
         };
-        vegaEmbed('#vis3', auc_histogram, { theme: "vox" });
+        vegaEmbed('#vis3', auc_histogram, { actions: { source: false, compiled: false, editor: false }});
     </script>
 
     <!-- Aggregate AUC density -->
     <script type="text/javascript">
-        var density_array = data_array.filter(function (item) {
-            return item.trial_index == 0;
-        });
 
         var auc_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 } },
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
-            data: { values: density_array },
-            transform: [
-                { density: "auc" },
-            ],
-            mark: { type: "area", color: "#3755be"},
-            encoding: {
-                x: {
-                    type: "quantitative",
-                    field: "value",
-                    title: "Area under discounting curve",
+            layer: [
+                {
+                    data: { values: data_array.filter(i => i.cost == 2)},
+                    transform: [
+                        { density: "auc", counts: false, cumulative: false },
+                    ],
+                    mark: { type: "area", color: "#3755be", tooltip: true},
+                    encoding: {
+                        x: {
+                            type: "quantitative",
+                            field: "value",
+                            title: ["Area under curve (AUC)"],
+                        },
+                        y: {
+                            type: "quantitative",
+                            field: "density",
+                            title: "Frequency (density)",
+                        },
+                        tooltip: [{ field: 'value', format: ".3f", title: 'AUC' }, { field: 'density', format: ".2f", title: 'Density' }]
+                    }
                 },
-                y: {
-                    type: "quantitative",
-                    field: "density",
-                    title: "Counts",
+                {
+                    data: { values: "auc\n" + auc, format: { type: "csv" } },
+                    mark: "rule",
+                    encoding: {
+                        x: { field: "auc" },
+                        color: { value: "firebrick" },
+                        size: { value: 3 },
+                        tooltip: [{field: 'auc', format: ".3f", title: 'You'}]
+                    },
                 }
-            },
+            ],
             // title: "Aggregate AUC density",
             width: 550,
             height: 400,
         };
-        vegaEmbed('#vis4', auc_density, { theme: "vox" });
+        vegaEmbed('#vis4', auc_density, {actions: { source: false, compiled: false, editor: false }});
     </script>
 
     <script>
         var location_plot = {
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
-            title: "Global results",
-            config: { axis: { labelFontSize: 18, titleFontSize: 21 }, title: { fontSize: 28 }, legend: { labelFontSize: 30 }, view: {stroke: "transparent"}},
-            background: "#f3f5fb",
-            width: 850,
-            height: 500,
+            // title: "Global results",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, background: "#f3f5fb",
+            width: 600,
+            height: 400,
             layer: [
                 {
                     data: {
@@ -380,14 +542,12 @@
                 {
                     data: { values: data_array },
                     transform: [
-                        { filter: "datum.n_trial_overall == 0" },
-                        { calculate: "datum.info_.longitude", as: "longitude" },
-                        { calculate: "datum.info_.latitude", as: "latitude" }
+                        { filter: "datum.cost == 2" }
                     ],
                     projection: {
                         type: "equirectangular"
                     },
-                    mark: {type: "circle", tooltip: true},
+                    mark: { type: "circle", tooltip: true },
                     encoding: {
                         longitude: {
                             field: "longitude",
@@ -405,6 +565,181 @@
         };
         vegaEmbed('#vis5', location_plot, { theme: "vox" });
     </script>
+
+    <script>
+        var country_histogram = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            data: { values: country_array },
+            mark: { type: "bar", color: "#3755be" },
+            encoding: {
+                x: {
+                    type: "nominal",
+                    field: "country_name",
+                    title: "Country",
+                },
+                y: {
+                    field: "median_auc",
+                    title: "AUC",
+                },
+                color: {
+                    field: "median_auc",
+                    type: "quantitative",
+                    scale: { domain: [0, 1], scheme: "viridis" },
+                    legend: null
+                },
+                tooltip: [
+                    {
+                        field: "country_name",
+                        type: "nominal"
+                    },
+                    {
+                        field: "median_auc",
+                        type: "quantitative"
+                    }
+                ]
+            },
+            // title: "AUC per country",
+            width: 450,
+            height: 400,
+        };
+        vegaEmbed('#vis6', country_histogram, { actions: { source: false, compiled: false, editor: false }});
+    </script>
+
+    <!-- <script>
+
+        var global_auc_plot = {
+            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            // title: "Global results",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, background: "#f3f5fb",
+            width: 520,
+            height: 400,
+            data: {
+                url: "../../public/data/countries-110m.json",
+                format: {
+                    type: "topojson",
+                    feature: "countries"
+                }
+            },
+            transform: [
+                {
+                    lookup: "id",
+                    from: {
+                        // data: {values: [{country_id: 124, country_name: "Canada", median_auc: 0.5}, {country_id: 156, country_name: "China", median_auc: 0.9}]},
+                        // The above line is to see multiple countries on the choropleth. Each object in the array must have all three properties: country_id, country_name, median_auc.
+                        data: { values: country_array },
+                        key: "country_id",
+                        fields: ["median_auc", "country_name"]
+                    },
+                }
+            ],
+            projection: {
+                type: "equirectangular"
+            },
+            mark: {
+                type: "geoshape",
+            },
+            encoding: {
+                color: {
+                    field: "median_auc",
+                    type: "quantitative",
+                    scale: { domain: [0, 1], scheme: "viridis" }
+                },
+                tooltip: [
+                    {
+                        field: "country_name",
+                        type: "nominal"
+                    },
+                    {
+                        field: "median_auc",
+                        type: "quantitative"
+                    }
+                ]
+            }
+        };
+        vegaEmbed('#vis7', global_auc_plot, { theme: "vox" });
+    </script> -->
+
+    <script>
+
+        var global_auc_plot = {
+            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: {stroke: "transparent"}}, 
+            background: "#f3f5fb",
+            width: 600,
+            height: 400,
+            layer: [
+                {
+                    data: {
+                        url: "../../public/data/countries-110m.json",
+                        format: {
+                            type: "topojson",
+                            feature: "countries"
+                        }
+                    },
+                    projection: {
+                        type: "mercator", scale: 98, center: [0, 40]
+                    },
+                    mark: {
+                        type: "geoshape",
+                        fill: "#080808",
+                        stroke: "white"
+                    }, 
+                    encoding: {
+                        tooltip: {field: "properties.name", title: "Country"}
+                    }
+                },
+                {
+                    data: {
+                        url: "../../public/data/countries-110m.json",
+                        format: {
+                            type: "topojson",
+                            feature: "countries"
+                        }
+                    },
+                    transform: [
+                        {
+                            lookup: "id",
+                            from: {
+                                data: { values: country_array },
+                                key: "country_id",
+                                fields: ["median_auc", "country_name"]
+                            },
+                        }
+                    ],
+                    projection: {
+                        type: "mercator", scale: 98, center: [0, 40]
+                    },
+                    mark: {
+                        type: "geoshape",
+                    },
+                    encoding: {
+                        color: {
+                            field: "median_auc",
+                            type: "quantitative",
+                            scale: { domain: [0, 1], scheme: "viridis" },
+                            legend: {title: null, direction: "horizontal", orient: "bottom-left"}
+                        },
+                        tooltip: [
+                            {
+                                field: "country_name",
+                                title: "Country",
+                                type: "nominal"
+                            },
+                            {
+                                field: "median_auc",
+                                title: "AUC",
+                                type: "quantitative",
+                                format: ".3f"
+                            }, 
+                        ]
+                    }
+                }
+            ]
+        };
+        vegaEmbed('#vis7', global_auc_plot, { actions: { source: false, compiled: false, editor: false }});
+    </script>
+
 
     <!-- Required vendor scripts (Do not remove) -->
     <script type="text/javascript" src="../../public/assets/js/jquery.min.js"></script>

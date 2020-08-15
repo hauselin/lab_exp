@@ -7,25 +7,46 @@ const DataLibrary = require("../models/datalibrary");
 router.get('/delete1', function (req, res) {
     // Delete the most recent document (regardless of task)
     DataLibrary.findOne({}, {}, { sort: { time: -1 } })
-    .then(doc => {
-        DataLibrary.deleteOne({_id: doc._id}, function(err) {
-            if (err) {
-                console.log(err);
+        .then(doc => {
+            if (doc === null) {
+                msg = "No documents found to delete.";
             } else {
-                console.log("Record deleted successfully.")
+                DataLibrary.deleteOne({ _id: doc._id }, function (err) {
+                    if (err) {
+                        console.log(err);
+                        res.status(500).send(err);
+                    } else {
+                        msg = "Deleted document successfully.";
+                    }
+                })
             }
+            console.log(msg);
+            res.status(200).send(msg);
         })
-    })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
 });
 
 
-router.get('/:type/:uniquestudyid/ddelete' + '/:n', function (req, res) {
+router.get('/:type/:uniquestudyid/:deleten', function (req, res) {
     // Delete most recent n document(s) for a given task
     DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, {},
-        { sort: { time: -1 }, limit: Number(req.params.n) })
+        { sort: { time: -1 }, limit: Number(req.params.deleten.slice(6)) })
         .then(doc => {
-            helper.deleteData(DataLibrary, doc); 
-            console.log("Deleted " + req.params.n + " record(s) successfully.");
+            if (doc.length == 0) {
+                msg = "No documents found to delete.";
+            } else {
+                helper.deleteData(DataLibrary, doc);
+                msg = "Deleted " + req.params.n + " document(s) successfully.";
+            }
+            console.log(msg);
+            res.status(200).send(msg);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
         });
 });
 
@@ -41,11 +62,17 @@ router.get('/:type/:uniquestudyid/delete/:yyyy', function (req, res) {
         { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
-                console.log("No documents found for the year " + req.params.yyyy + " to delete.");
+                msg = "No documents found for the year " + req.params.yyyy + " to delete.";
             } else {
-                helper.deleteData(DataLibrary, doc); 
-                console.log("Deleted record(s) for " + req.params.yyyy + " successfully.");
+                helper.deleteData(DataLibrary, doc);
+                msg = "Deleted document(s) for " + req.params.yyyy + " successfully.";
             }
+            console.log(msg);
+            res.status(200).send(msg);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
         });
 });
 
@@ -62,12 +89,18 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm', function (req, res) {
         { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
-                console.log("No documents found to delete.");
+                msg = "No documents found to delete.";
             } else {
-                helper.deleteData(DataLibrary, doc); 
-                console.log("Deleted record(s) for " + req.params.yyyy + "/" + req.params.mm + " successfully.");
+                helper.deleteData(DataLibrary, doc);
+                msg = "Deleted document(s) for " + req.params.yyyy + "/" + req.params.mm + " successfully.";
             }
+            console.log(msg);
+            res.status(200).send(msg);
         })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
 });
 
 
@@ -84,13 +117,19 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm/:dd', function (req, res) {
         { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
-                console.log("No documents found to delete.");
+                msg = "No documents found to delete.";
             } else {
-                helper.deleteData(DataLibrary, doc); 
-                console.log("Deleted record(s) for " + req.params.yyyy + "/" + req.params.mm + 
-                "/" + req.params.dd + " successfully.");
+                helper.deleteData(DataLibrary, doc);
+                msg = "Deleted document(s) for " + req.params.yyyy + "/" + req.params.mm +
+                    "/" + req.params.dd + " successfully.";
             }
+            console.log(msg);
+            res.status(200).send(msg);
         })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
 });
 
 
@@ -105,12 +144,18 @@ router.get('/:type/:uniquestudyid/deletesub/:subject', function (req, res) {
         { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
-                console.log("No documents found to delete.");
+                msg = "No documents found to delete.";
             } else {
-                helper.deleteData(DataLibrary, doc); 
-                console.log("Deleted record(s) for subject: " + "'" + req.params.subject + "'" + " successfully.");
+                helper.deleteData(DataLibrary, doc);
+                msg = "Deleted document(s) for subject: " + "'" + req.params.subject + "'" + " successfully.";
             }
+            console.log(msg);
+            res.status(200).send(msg);
         })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
 });
 
 

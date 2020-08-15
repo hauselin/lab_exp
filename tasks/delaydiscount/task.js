@@ -22,6 +22,7 @@ const large_reward = 100; //Large reward after cost.
 var costs = [2, 10, 15, 50, 100];  //costs in days.
 // var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
 const trials_per_cost = 6; //Number of trials per cost/delays.
+const practice_trials = 3; //Number of practice trials.
 
 // parameters below typically don't need to be changed
 var small_reward = null;  //Small reward without cost.
@@ -60,11 +61,20 @@ var instructions = {
     pages: [
         generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("Click next or press the right arrow key to ontinue.", font_colour),
         generate_html("In this task, you'll have to decide which option you prefer.", font_colour) + generate_html("For example, you'll see two options: $30.00 in 3 days or $2.40 in 0 days (today).", font_colour) + generate_html("Choosing $30 days in 3 days means you'll wait 3 days so you can get $30. Choosing $2.40 means you will receive $2.40 today.", font_colour) + generate_html("You'll use the left/right arrow keys on the keyboard to indicate which option you prefer (left or right option, respectively).", font_colour),
-        generate_html("Click next or press the right arrow key to begin.", font_colour)
+        generate_html("Next up is a practice trial.", font_colour) + generate_html("Your data will NOT be recorded.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour)
     ],
     show_clickable_nav: true,
     show_page_number: true,
-}; timeline.push(instructions);
+};
+
+var instructions2 = {
+    type: "instructions",
+    pages: [
+        generate_html("That was the practice trial.", font_colour) + generate_html("Click next or press the right arrow key to begin the experiment.", font_colour) + generate_html("Your data WILL be recorded this time.", font_colour)
+    ],
+    show_clickable_nav: true,
+    show_page_number: false,
+};
 
 var trial = {
     type: "html-keyboard-response",
@@ -74,7 +84,8 @@ var trial = {
         stimulus: function () {
             var lower = (reward_window[1] - reward_window[0]) * quantile_range[0] + reward_window[0];
             var upper = (reward_window[1] - reward_window[0]) * quantile_range[1] + reward_window[0];
-            small_reward = math.random(lower, upper);
+            // small_reward = math.random(lower, upper);
+            small_reward = random_min_max(lower, upper);
 
             var text_left = "$" + large_reward.toFixed(2) + " in " + costs[n_cost] + " days";
             if (n_trial == 0) { // bold and change color of left option on first trial of each cost/delay
@@ -133,8 +144,29 @@ var trial = {
             console.log('next trial reward window: ' + reward_window);
         };
     }
-}; timeline.push(trial);
+};
 
+timeline.push(instructions);
+var practice_trial = jsPsych.utils.deepCopy(trial);
+delete practice_trial.on_finish;
+delete practice_trial.timeline;
+practice_trial.repetitions = practice_trials;
+practice_trial.timeline = [
+    {
+        stimulus: function () {
+            var large_reward = 100;
+            var small_reward = large_reward - Math.floor(Math.random() * large_reward);
+            var text_left = "<b><font color='#317EF3'>" + "$" + large_reward.toFixed(2) + " in " + Math.floor(Math.random() * 100) + " days" + "</font></b>";
+            var text_or = "&nbsp;&nbsp;&nbsp; or &nbsp;&nbsp;&nbsp;";
+            var text_right = "$" + small_reward.toFixed(2) + " in 0 days";
+            var text = generate_html(text_left + text_or + text_right, font_colour, 30);
+            return text;
+        }
+    }];
+practice_trial.on_finish = function (data) { data.event = 'practice'; };
+timeline.push(practice_trial);
+timeline.push(instructions2);
+timeline.push(trial);
 
 jsPsych.init({
     timeline: timeline,
@@ -167,7 +199,7 @@ function summarize_data() {
 }
 
 function get_auc() {    //note that this area is an underestimation of the hyperbolic curve, as the width of the histogram bars are bounded by the lower cost and the entry's cost.
-    var trial_data = jsPsych.data.get().filter({ n_trial: (trials_per_cost - 1) });
+    var trial_data = jsPsych.data.get().filter({ n_trial: (trials_per_cost - 1), event: "choice" });
     var indifference_data = trial_data.select('indifference').values;
     var delayed_reward_data = trial_data.select('large_reward').values;
     var cost_data = trial_data.select('cost').values;

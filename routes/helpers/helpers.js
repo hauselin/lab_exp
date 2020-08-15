@@ -33,22 +33,35 @@ function json2csv(objArray) {
     return result;
 }
 
-function doc2datastring(doc) {
-    var datastring = '';
-    for (var i = 0; i < doc.length; i++) {
-        if (i == 0) { // save header from csv
-            datastring += json2csv(doc[i].data);
-        } else { // if not the first document, remove header row from csv 
-            var temp_datastring = json2csv(doc[i].data);
-            datastring += temp_datastring.slice(temp_datastring.indexOf("\n") + 1);
-        }
+// function doc2datastring(doc) {
+//     var datastring = '';
+//     for (var i = 0; i < doc.length; i++) {
+//         if (i == 0) { // save header from csv
+//             datastring += json2csv(doc[i].data);
+//         } else { // if not the first document, remove header row from csv 
+//             var temp_datastring = json2csv(doc[i].data);
+//             datastring += temp_datastring.slice(temp_datastring.indexOf("\n"));
+//         }
 
-    } return datastring;
+//     } return datastring;
+// }
+
+// function for donwload routes
+function doc2datastring(doc) {
+    // get data from each document (so that each document's data objects will be in one array), then flatten the arrays, then convert flattend array to csv
+    return json2csv(doc.map(i => i.data).flat(1));
 }
 
+// pick/select object keys
+function pick(obj, keys) {
+    return keys.map(k => k in obj ? { [k]: obj[k] } : {})
+        .reduce((res, o) => Object.assign(res, o), {});
+}
+
+// delete data from mongodb
 function deleteData(datalibrary, doc) {
     for (var i = 0; i < doc.length; i++) {
-        datalibrary.findByIdAndDelete(doc[i]._id, function(err) {
+        datalibrary.findByIdAndDelete(doc[i]._id, function (err) {
             if (err) {
                 console.log(err);
             }
@@ -56,4 +69,4 @@ function deleteData(datalibrary, doc) {
     };
 }
 
-module.exports = { json2csv, doc2datastring, deleteData }
+module.exports = { json2csv, doc2datastring, deleteData, pick }

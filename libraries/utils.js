@@ -10,6 +10,10 @@ function range(start, end) {
     return ans;
 }
 
+function random_min_max(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
 // https://stackoverflow.com/questions/6137986/javascript-roundoff-number-to-nearest-0-5
 // round to any step
 function round(value, step = 1.0) {
@@ -340,6 +344,7 @@ function add_ip_info(info_) {
         info_.city = geoplugin_city();
         info_.region = geoplugin_region();
         info_.country_name = geoplugin_countryName();
+        info_.country_code = geoplugin_countryCode();
         info_.latitude = geoplugin_latitude();
         info_.longitude = geoplugin_longitude();
     } catch (err) {
@@ -351,7 +356,7 @@ function add_ip_info(info_) {
 // generate random string of specified length
 function random_ID(length) {
     var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
     for (var i = 0; i < length; i++) {
         result += characters.charAt(Math.floor(Math.random() * charactersLength));

@@ -3,25 +3,49 @@ var router = express.Router();
 var DataLibrary = require("../models/datalibrary")
 
 router.post('/submit-data', function (req, res) {
+    var rawdata = req.body;  // data from jspsych
+    var info = rawdata[0].info_; // just the first row/trial/object
+
+    // add columns/properties to each row/trial/object in data
+    rawdata.forEach(function (i) {
+        i.time = info.time;
+        i.utc_datetime = info.utc_datetime;
+        i.browser_info = info.browser_info;
+        i.ip = info.ip;
+        i.country = info.country_name;
+        i.region = info.region;
+        i.country_code = info.country_code;
+        i.latitude = info.latitude;
+        i.longitude = info.longitude;
+        i.type = info.type;
+        i.uniquestudyid = info.uniquestudyid;
+        i.desc = info.desc;
+        i.condition = info.condition;
+        i.redirect_url = info.redirect_url;
+        i.previous_uniquestudyid = info.previous_uniquestudyid;
+        i.previous_time = info.previous_time;
+        i.previous_mins_before = info.previous_mins_before;
+    })
+
     DataLibrary.create({
-        subject: req.body[0].subject, // body is the json data from jspsych
-        type: req.body[0].type,
-        uniquestudyid: req.body[0].uniquestudyid,
-        desc: req.body[0].desc,
-        condition: req.body[0].condition,
-        previous_uniquestudyid: req.body[0].info_.previous_uniquestudyid,
-        previous_time: req.body[0].info_.previous_time,
-        previous_mins_before: req.body[0].info_.previous_mins_before,
-        info_: req.body[0].info_,
-        datasummary_: req.body[0].datasummary_,
-        browser: req.body[0].browser,
-        time: req.body[0].info_.time,
-        utc_datetime: req.body[0].info_.utc_datetime,
-        utc_date: req.body[0].info_.utc_date,
-        utc_time: req.body[0].info_.utc_time,
-        user_date: req.body[0].info_.user_date,
-        user_time: req.body[0].info_.user_time,
-        data: req.body,
+        subject: info.subject, // body is the json data from jspsych
+        type: info.type,
+        uniquestudyid: info.uniquestudyid,
+        desc: info.desc,
+        condition: info.condition,
+        previous_uniquestudyid: info.previous_uniquestudyid,
+        previous_time: info.previous_time,
+        previous_mins_before: info.previous_mins_before,
+        info_: info,
+        datasummary_: info.datasummary_,
+        browser: info.browser,
+        time: info.time,
+        utc_datetime: info.utc_datetime,
+        utc_date: info.utc_date,
+        utc_time: info.utc_time,
+        user_date: info.user_date,
+        user_time: info.user_time,
+        data: rawdata
     }, function (err, data) {
         if (err) { // error
             console.log(err); // print error to nodejs console
