@@ -26,6 +26,12 @@ function median(array) {
     return isEven ? (numbers[middle] + numbers[middle - 1]) / 2 : numbers[middle];
 }
 
+function pick(obj, keys) {
+    return keys.map(k => k in obj ? { [k]: obj[k] } : {})
+        .reduce((res, o) => Object.assign(res, o), {});
+}
+
+
 router.get("/tasks/delaydiscount/viz", function (req, res) {
 
     // using d3-array
@@ -44,38 +50,51 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
     ];
 
     athletes_grouped = d3.group(athletes, d => d.sport)
-    console.log(athletes_grouped);
-    console.log("only basketball objects");
-    console.log(athletes_grouped.get("Basketball"));
+    // console.log(athletes_grouped);
+    // console.log("only basketball objects");
+    // console.log(athletes_grouped.get("Basketball"));
 
-    console.log("rollups: apply function by group");
+    // console.log("rollups: apply function by group");
     summed_earnings_by_sport = d3.rollup(athletes, v => d3.sum(v, d => d.earnings), by => by.sport);
-    console.log(summed_earnings_by_sport);
-    console.log(summed_earnings_by_sport.get('Boxing'))
-    console.log(summed_earnings_by_sport);
+    // console.log(summed_earnings_by_sport);
+    // console.log(summed_earnings_by_sport.get('Boxing'))
+    // console.log(summed_earnings_by_sport);
 
     // https://github.com/d3/d3-array#group
     obj = Array.from(summed_earnings_by_sport, ([sport, earnings_summed]) => ({ sport, earnings_summed }))
-    console.log(obj)
+    // console.log(obj)
 
     DataLibrary.find({ uniquestudyid: 'delaydiscount' }).lean()
         .then(data => {
+
+            // columns/keys to select
+            const keys2select = ['subject', 'uniquesubjectid', 'event', 'cost', 'large_reward', 'small_reward', 'n_trial', 'n_trial_overall', 'indifference', 'auc', 'country', 'country_code']
+            const n_trial_max = 5; // final indifference per cost
+
+            // get relevant data from each document
             var data_array = [];
-            var countries = [];
-            for (i = 0; i < data.length; i++) {
-                data_array.push.apply(data_array, data[i].data);
-                country_id = Number(iso_countries.alpha2ToNumeric(data[i].info_.country_code));
-                trial_auc = data[i].data[0].auc;
-                countries.push({ country_id: country_id, country_name: data[i].info_.country_name, auc: trial_auc });
-            }
-            var country_auc = d3.rollup(countries, v => d3.median(v, d => d.auc), by => by.country_id);
-            console.log(country_auc);
-            var country_array = Array.from(country_auc, ([country_id, median_auc]) => ({ country_id, median_auc }));
-            console.log(country_array);
+            data.map(function (i) {
+                const temp_data = i.data; // jspsych data
+                var data_subset = temp_data.filter(s => s.n_trial == n_trial_max && s.event == "choice");  // select relevant rows
+                var data_subset = data_subset.map(s => pick(s, keys2select));  // select relevant columns
+                data_subset.forEach(function (s) { // for each row in this document
+                    s.indifference_ratio = s.indifference / s.large_reward;  // rescale indifference
+                    s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))  // get country code
+                })
+                data_array.push(data_subset);
+            });
+            data_array = data_array.flat(1);  // flatten objects in array
+            console.log(data_array);  // no. of subjects/documents * 5
+            console.log(data_array.length); // no. of subjects/documents
 
-            // TODO Frank: now that we know which figures we want to plot, we know what variables we want to pass to the client, so we might want to do all the processing/filtering here instead? this way, we don't end up passing lots of identifying information too....
+            // prepare data for chloropleth auc
+            country_data = d3.rollup(data_array, v => d3.median(v, d => d.auc), by => by.country_id); // compute median for each country
+            var country_data = Array.from(country_data, ([country_id, median_auc]) => ({ country_id, median_auc })); // convert to object with key-val pair
+            console.log(country_data)
 
-            res.render('viz/delaydiscount.ejs', { data: data, data_array: data_array, country_array: country_array }); // render {uniquestudyid}.ejs in views directory
+            // render
+            // TODO: clean up code to avoid passing the entire data object to client! data_array is the trimmed/cleaned data and should have all we need?
+            res.render('viz/delaydiscount.ejs', { data: data, data_array: data_array, country_array: country_data }); // render {uniquestudyid}.ejs in views directory
         })
 });
 
