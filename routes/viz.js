@@ -43,7 +43,10 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
 
         // render
         res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_data });
-    })
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send(err);
+    });
 });
 
 module.exports = router;
