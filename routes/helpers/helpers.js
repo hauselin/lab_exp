@@ -52,11 +52,21 @@ function doc2datastring(doc) {
     return json2csv(doc.map(i => i.data).flat(1));
 }
 
-// to pick/select object keys
+// pick/select object keys
 function pick(obj, keys) {
     return keys.map(k => k in obj ? { [k]: obj[k] } : {})
         .reduce((res, o) => Object.assign(res, o), {});
 }
 
+// delete data from mongodb
+function deleteData(datalibrary, doc) {
+    for (var i = 0; i < doc.length; i++) {
+        datalibrary.findByIdAndDelete(doc[i]._id, function (err) {
+            if (err) {
+                console.log(err);
+            }
+        })
+    };
+}
 
-module.exports = { json2csv, doc2datastring, pick }
+module.exports = { json2csv, doc2datastring, deleteData, pick }

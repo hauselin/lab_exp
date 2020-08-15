@@ -11,6 +11,7 @@ router.get("/:type/:uniquestudyid/consent", function (req, res) {
     res.download(file, filename, function (err) {
         if (err) {
             console.log(err);
+            res.status(500).send(err);
         }
     });
 });
@@ -19,34 +20,44 @@ router.get('/d1', function (req, res) {
     // Download the most recent document (regardless of task)
     DataLibrary.findOne({}, {}, { sort: { time: -1 } }).lean()
         .then(doc => {
-            if (doc.data.length > 0) {
+            if (doc === null) {
+                res.status(200).send("No documents to download.");
+            } else {
                 const filename = doc.type + "_" + doc.uniquestudyid + "_" + doc.subject + '.csv';
                 var datastring = helper.json2csv(doc.data);
                 res.attachment(filename);
                 res.status(200).send(datastring);
-            } else {
-                res.status(200).end(); // empty page (use flash?)  
             }
         })
-        .catch(err => { console.log(err) });
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
 
 });
 
-router.get('/:type/:uniquestudyid/:dn', function (req, res) {
+router.get('/:type/:uniquestudyid/:dn', function (req, res, next) {
     // Download most recent n document(s) for a given task
-    DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, { data: 1, _id: 0 },
-        { sort: { time: -1 }, limit: Number(req.params.dn.slice(1, 2)) }).lean()
-        .then(doc => {
-            console.log(doc)
-            if (doc.length > 0) {
-                const filename = req.params.dn + "_" + req.params.type + "_" + req.params.uniquestudyid + ".csv";
-                var datastring = helper.doc2datastring(doc);
-                res.attachment(filename);
-                res.status(200).send(datastring);
-            } else {
-                res.status(200).end(); // empty page (use flash?) 
-            }
-        })
+    if (req.params.dn.slice(0, 6) == 'delete') {
+        next();  // next route (delete route)
+    } else {
+        DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, { data: 1, _id: 0 },
+            { sort: { time: -1 }, limit: Number(req.params.dn.slice(1)) }).lean()
+            .then(doc => {
+                if (doc.length > 0) {
+                    const filename = req.params.dn + "_" + req.params.type + "_" + req.params.uniquestudyid + ".csv";
+                    var datastring = helper.doc2datastring(doc);
+                    res.attachment(filename);
+                    res.status(200).send(datastring);
+                } else {
+                    res.status(200).end(); // empty page (use flash?) 
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).send(err);
+            });
+    }
 });
 
 router.get('/:type/:uniquestudyid/d/:yyyy', function (req, res) {
@@ -68,6 +79,10 @@ router.get('/:type/:uniquestudyid/d/:yyyy', function (req, res) {
                 res.status(200).end(); // empty page (use flash?) 
             }
         })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
 });
 
 router.get('/:type/:uniquestudyid/d/:yyyy/:mm', function (req, res) {
@@ -90,6 +105,10 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm', function (req, res) {
                 res.status(200).end(); // empty page (use flash?)
             }
         })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
 });
 
 router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function (req, res) {
@@ -113,7 +132,36 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function (req, res) {
                 res.status(200).end(); // empty page (use flash?) 
             }
         })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
 
+});
+
+router.get('/:type/:uniquestudyid/dsub/:subject', function (req, res) {
+    // Filter and download documents by subject for a given task
+    DataLibrary.find(
+        {
+            uniquestudyid: req.params.uniquestudyid,
+            subject: req.params.subject
+        },
+        {},
+        { sort: { time: -1 } }).lean()
+        .then(doc => {
+            if (doc.length > 0) {
+                const filename = "d" + req.params.subject + "_" + req.params.type + "_" + req.params.uniquestudyid + ".csv";
+                var datastring = helper.doc2datastring(doc);
+                res.attachment(filename);
+                res.status(200).send(datastring);
+            } else {
+                res.status(200).end();
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
 });
 
 module.exports = router;

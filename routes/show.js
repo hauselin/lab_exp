@@ -1,9 +1,8 @@
 // SHOW ROUTES (STUDIES, SURVEYS, TASKS)
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 const fs = require('fs');
 
-// TODO Maham: I think this single rotue is enough for all tasks/studies/surveys?
 router.get('/:type/:uniquestudyid', function (req, res, next) {
     const root = '../lab_exp/' + req.params.type + '/' + req.params.uniquestudyid;
     // check if file exists without opening it
