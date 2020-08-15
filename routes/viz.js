@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const DataLibrary = require("../models/datalibrary");
-const countries = require("i18n-iso-countries");
+const iso_countries = require("i18n-iso-countries");
 const d3 = require("d3-array");
 
 function merge_country(collector, type) {
@@ -60,18 +60,18 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
 
     DataLibrary.find({ uniquestudyid: 'delaydiscount' }).lean()
         .then(data => {
-            data_array = [];
-            country_trials = [];
+            var data_array = [];
+            var countries = [];
             for (i = 0; i < data.length; i++) {
                 data_array.push.apply(data_array, data[i].data);
-                country_id = Number(countries.alpha2ToNumeric(data[i].info_.country_code));
+                country_id = Number(iso_countries.alpha2ToNumeric(data[i].info_.country_code));
                 trial_auc = data[i].data[0].auc;
-                country_trials.push({ country_id: country_id, country_name: data[i].info_.country_name, trial_auc: [trial_auc] })
+                countries.push({ country_id: country_id, country_name: data[i].info_.country_name, auc: trial_auc });
             }
-            var country_array = country_trials.reduce(merge_country, { store: {}, list: [] }).list;
-            for (i = 0; i < country_array.length; i++) {
-                country_array[i].median_auc = median(country_array[i].trial_auc);
-            }
+            var country_auc = d3.rollup(countries, v => d3.median(v, d => d.auc), by => by.country_id);
+            console.log(country_auc);
+            var country_array = Array.from(country_auc, ([country_id, median_auc]) => ({ country_id, median_auc }));
+            console.log(country_array);
 
             // TODO Frank: now that we know which figures we want to plot, we know what variables we want to pass to the client, so we might want to do all the processing/filtering here instead? this way, we don't end up passing lots of identifying information too....
 
