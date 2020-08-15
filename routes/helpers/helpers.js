@@ -48,7 +48,7 @@ function doc2datastring(doc) {
 
 function deleteData(datalibrary, doc) {
     for (var i = 0; i < doc.length; i++) {
-        datalibrary.findOneAndDelete( {_id: doc[i]._id}, function(err) {
+        datalibrary.findByIdAndDelete(doc[i]._id, function(err) {
             if (err) {
                 console.log(err);
             }
