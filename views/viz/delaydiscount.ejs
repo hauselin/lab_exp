@@ -329,24 +329,19 @@
 
     <script type="text/javascript">
         // retrieve objects from sessionStorage
-        datasummary = sessionStorage.getObj("datasummary_delaydiscount_");
-        info = sessionStorage.getObj("info_");
-
-        var auc = datasummary.auc.toFixed(4);
-        var subject_id = info.subject;
+        const datasummary = sessionStorage.getObj("datasummary_delaydiscount_");
+        const info = sessionStorage.getObj("info_");
+        const auc = datasummary.auc.toFixed(4);
+        const subject_id = info.subject;
         var id_header = document.getElementById("subject");
         id_header.textContent += subject_id;
         var auc_header = document.getElementById("auc");
         auc_header.textContent += auc;
 
-        console.log('subject id: ' + subject_id);
-        console.log('datasummary_')
-        console.log(datasummary)
     </script>
 
     <!-- Individual discount curve -->
     <script type="text/javascript">
-        // console.log(datasummary.data);
         var indiff_curve = {
             // TODO Frank: change font to Inter-UI
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28, font: "Inter-UI-upright", subtitleFont: "Inter-UI-upright" }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, header: { labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, mark: { font: "Inter-UI-upright" } },
@@ -377,15 +372,8 @@
 
     <!-- Aggregate box plot -->
     <script type="text/javascript">
-        // console.log(datasummary.data);
-        console.log("Total Entries: " + <%= data.length %>);
-        console.log("Queried Data:");
-        data = <%- JSON.stringify(data) %>;
-        console.log(data);
-        data_array = <%- JSON.stringify(data_array) %>;
-        console.log(data_array);
-        country_array = <%- JSON.stringify(country_array) %>;
-        console.log(country_array);
+        const data_array = <%- JSON.stringify(data_array) %>;
+        const country_array = <%- JSON.stringify(country_array) %>;
 
         var aggregate_curve = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
@@ -394,8 +382,9 @@
             encoding: {
                 x: {
                     field: "cost",
-                    type: "nominal",
-                    axis: { "title": "Delay (days to reward)" }
+                    type: "quantitative",  // or nominal?
+                    axis: { "title": "Delay (days to reward)", tickMinStep: 20},
+                    scale: {domain: [0, 101]}
                 },
             },
             layer: [
@@ -405,52 +394,30 @@
                         { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
                         { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
                     ],
-                    mark: {
-                        type: "boxplot",
-                        extent: 1.5,
-                        opacity: 0.5
-                    },
+                    mark: {type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: {color: "black"}},
                     encoding: {
                         y: {
                             field: "indifference",
                             type: "quantitative",
                             axis: { "title": "Subjective value" }
                         },
-                        size: { value: 20 },
-                        color: { field: "cost", legend: null, scale: { scheme: "viridis" } }, // color by cost, use viridis
-                    },
-
-                },
-                {
-                    data: { values: data_array },
-                    transform: [
-                        { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
-                        { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
-                    ],
-                    mark: { type: "point", tooltip: true, filled: false, color: "black", opacity: 0.3 },
-                    encoding: {
-                        y: {
-                            field: "indifference",
-                            type: "quantitative",
-                            scale: { domain: [0, 1] }
-                        },
-                        size: { value: 15 },
-                        color: { field: "cost", legend: null, scale: { scheme: "viridis" } }, // color by cost, use viridis
+                        size: { value: 18 },
+                        color: { field: "cost", legend: null, scale: { scheme: "viridis" } },
+                        tooltip: [
+                            { field: 'indifference', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean"}
+                        ]
                     }
                 },
                 {
-                    data: {
-                        // values: datasummary.data.filter(i => i.n_trial == (datasummary.trials_per_cost - 1))
-                        values: datasummary.data
-                    },
+                    data: {values: datasummary.data},
                     transform: [
                         { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
                         { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
                     ],
-                    mark: { type: "point", tooltip: true, filled: true, color: "black" },
+                    mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
                     encoding: {
                         y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] } },
-                        size: { value: 233 },
+                        size: { value: 150 },
                         tooltip: [{ field: "indifference", format: ".3f", title: 'Subjective value' }, { field: "cost", format: ".0f", title: 'Delay' }] // format tooltip
                     },
                 }],
@@ -467,10 +434,7 @@
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             layer: [{
-                data: { values: data_array },
-                transform: [
-                    { filter: "datum.trial_index == 0" },
-                ],
+                data: { values: data_array.filter(i => i.cost == 2) },
                 mark: { type: "bar", color: "#3755be" },
                 encoding: {
                     x: {
@@ -501,36 +465,35 @@
             width: 550,
             height: 400,
         };
-        vegaEmbed('#vis3', auc_histogram, { theme: "vox" });
+        vegaEmbed('#vis3', auc_histogram, { actions: { source: false, compiled: false, editor: false }});
     </script>
 
     <!-- Aggregate AUC density -->
     <script type="text/javascript">
-        var density_array = data_array.filter(function (item) {
-            return item.trial_index == 0;
-        });
 
         var auc_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             layer: [
                 {
-                    data: { values: density_array},
+                    data: { values: data_array.filter(i => i.cost == 2)},
                     transform: [
                         { density: "auc", counts: false, cumulative: false },
                     ],
-                    mark: { type: "area", color: "#3755be" },
+                    mark: { type: "area", color: "#3755be", tooltip: true},
                     encoding: {
                         x: {
                             type: "quantitative",
                             field: "value",
-                            title: "Area under discounting curve",
+                            title: ["Area under curve (AUC)"],
                         },
                         y: {
                             type: "quantitative",
                             field: "density",
-                            title: "Counts",
+                            title: "Frequency (density)",
                         },
+                        tooltip: [{ field: 'value', format: ".3f", title: 'AUC' }, { field: 'density', format: ".2f", title: 'Density' }]
                     }
                 },
                 {
@@ -538,8 +501,9 @@
                     mark: "rule",
                     encoding: {
                         x: { field: "auc" },
-                        color: { value: "black" },
-                        size: { value: 3 }
+                        color: { value: "firebrick" },
+                        size: { value: 3 },
+                        tooltip: [{field: 'auc', format: ".3f", title: 'You'}]
                     },
                 }
             ],
@@ -547,7 +511,7 @@
             width: 550,
             height: 400,
         };
-        vegaEmbed('#vis4', auc_density, { theme: "vox" });
+        vegaEmbed('#vis4', auc_density, {actions: { source: false, compiled: false, editor: false }});
     </script>
 
     <script>
@@ -578,9 +542,7 @@
                 {
                     data: { values: data_array },
                     transform: [
-                        { filter: "datum.n_trial_overall == 0" },
-                        { calculate: "datum.info_.longitude", as: "longitude" },
-                        { calculate: "datum.info_.latitude", as: "latitude" }
+                        { filter: "datum.cost == 2" }
                     ],
                     projection: {
                         type: "equirectangular"
@@ -623,7 +585,8 @@
                 color: {
                     field: "median_auc",
                     type: "quantitative",
-                    scale: { domain: [0, 1], scheme: "viridis" }
+                    scale: { domain: [0, 1], scheme: "viridis" },
+                    legend: null
                 },
                 tooltip: [
                     {
@@ -640,7 +603,7 @@
             width: 450,
             height: 400,
         };
-        vegaEmbed('#vis6', country_histogram, { theme: "vox" });
+        vegaEmbed('#vis6', country_histogram, { actions: { source: false, compiled: false, editor: false }});
     </script>
 
     <!-- <script>
@@ -701,8 +664,8 @@
 
         var global_auc_plot = {
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
-            // title: "Global results",
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, background: "#f3f5fb",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: {stroke: "transparent"}}, 
+            background: "#f3f5fb",
             width: 600,
             height: 400,
             layer: [
@@ -715,12 +678,15 @@
                         }
                     },
                     projection: {
-                        type: "equirectangular"
+                        type: "mercator", scale: 98, center: [0, 40]
                     },
                     mark: {
                         type: "geoshape",
-                        fill: "lightgray",
+                        fill: "#080808",
                         stroke: "white"
+                    }, 
+                    encoding: {
+                        tooltip: {field: "properties.name", title: "Country"}
                     }
                 },
                 {
@@ -742,7 +708,7 @@
                         }
                     ],
                     projection: {
-                        type: "equirectangular"
+                        type: "mercator", scale: 98, center: [0, 40]
                     },
                     mark: {
                         type: "geoshape",
@@ -751,23 +717,27 @@
                         color: {
                             field: "median_auc",
                             type: "quantitative",
-                            scale: { domain: [0, 1], scheme: "viridis" }
+                            scale: { domain: [0, 1], scheme: "viridis" },
+                            legend: {title: null, direction: "horizontal", orient: "bottom-left"}
                         },
                         tooltip: [
                             {
                                 field: "country_name",
+                                title: "Country",
                                 type: "nominal"
                             },
                             {
                                 field: "median_auc",
-                                type: "quantitative"
-                            }
+                                title: "AUC",
+                                type: "quantitative",
+                                format: ".3f"
+                            }, 
                         ]
                     }
                 }
             ]
         };
-        vegaEmbed('#vis7', global_auc_plot, { theme: "vox" });
+        vegaEmbed('#vis7', global_auc_plot, { actions: { source: false, compiled: false, editor: false }});
     </script>
 
 

@@ -7,7 +7,7 @@ const helper = require('../routes/helpers/helpers');
 
 router.get("/tasks/delaydiscount/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'delaydiscount' }).lean().then(data => {
-        const keys2select = ['subject', 'uniquesubjectid', 'event', 'cost', 'large_reward', 'small_reward', 'n_trial', 'n_trial_overall', 'indifference', 'auc', 'country', 'country_code'];  // columns/keys to select
+        const keys2select = ['subject', 'uniquesubjectid', 'event', 'cost', 'large_reward', 'small_reward', 'n_trial', 'n_trial_overall', 'indifference', 'auc', 'country', 'country_code', 'longitude', 'latitude'];  // columns/keys to select
         const n_trial_max = 5; // final indifference per cost
 
         var data_array = [];
@@ -42,8 +42,7 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
         console.log(country_data);
 
         // render
-        // TODO Frank: clean up code in delaydiscount.ejs so we don't have to pass the entire data object to client! data_array is the trimmed/cleaned data and should have all we need now?
-        res.render('viz/delaydiscount.ejs', { data: data, data_array: data_array, country_array: country_data });
+        res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_data });
     })
 });
 
