@@ -50,6 +50,9 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
             console.log(country_auc);
             var country_array = Array.from(country_auc, ([country_id, median_auc]) => ({ country_id, median_auc }));
             console.log(country_array);
+            for (i=0; i<country_array.length; i++) {
+                country_array[i].country_name = iso_countries.getName(country_array[i].country_id.toString(), 'en');
+            }
 
             // TODO Frank: now that we know which figures we want to plot, we know what variables we want to pass to the client, so we might want to do all the processing/filtering here instead? this way, we don't end up passing lots of identifying information too....
 
