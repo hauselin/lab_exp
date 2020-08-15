@@ -6,9 +6,9 @@ const DataLibrary = require("../models/datalibrary");
 
 router.get('/delete1', function (req, res) {
     // Delete the most recent document (regardless of task)
-    DataLibrary.findOne({}, {}, { sort: { time: -1 } }).lean()
+    DataLibrary.findOne({}, {}, { sort: { time: -1 } })
     .then(doc => {
-        DataLibrary.deleteOne({user_time: doc.user_time}, function(err) {
+        DataLibrary.deleteOne({_id: doc._id}, function(err) {
             if (err) {
                 console.log(err);
             } else {
@@ -22,7 +22,7 @@ router.get('/delete1', function (req, res) {
 router.get('/:type/:uniquestudyid/ddelete' + '/:n', function (req, res) {
     // Delete most recent n document(s) for a given task
     DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, {},
-        { sort: { time: -1 }, limit: Number(req.params.n) }).lean()
+        { sort: { time: -1 }, limit: Number(req.params.n) })
         .then(doc => {
             helper.deleteData(DataLibrary, doc); 
             console.log("Deleted " + req.params.n + " record(s) successfully.");
@@ -38,7 +38,7 @@ router.get('/:type/:uniquestudyid/delete/:yyyy', function (req, res) {
             "utc_date.year": Number(req.params.yyyy)
         },
         {},
-        { sort: { time: -1 } }).lean()
+        { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
                 console.log("No documents found for the year " + req.params.yyyy + " to delete.");
@@ -59,7 +59,7 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm', function (req, res) {
             "utc_date.month": Number(req.params.mm)
         },
         {},
-        { sort: { time: -1 } }).lean()
+        { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
                 console.log("No documents found to delete.");
@@ -81,7 +81,7 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm/:dd', function (req, res) {
             "utc_date.day": Number(req.params.dd)
         },
         {},
-        { sort: { time: -1 } }).lean()
+        { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
                 console.log("No documents found to delete.");
@@ -102,7 +102,7 @@ router.get('/:type/:uniquestudyid/deletesub/:subject', function (req, res) {
             subject: req.params.subject
         },
         {},
-        { sort: { time: -1 } }).lean()
+        { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
                 console.log("No documents found to delete.");
