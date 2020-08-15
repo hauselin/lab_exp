@@ -49,8 +49,7 @@
                             <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
                                 praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
                                 sint occaecati.</p>
-                            <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia deserunt
-                                mollitia animi, id est laborum et dolorum fuga.</p>
+                            <p class="lead mb-0">Is the figure empty? If so, do the task first.</p>
                         </div>
                     </div>
                 </div>
@@ -406,7 +405,7 @@
                         if (subject_id) { 
                             return { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) };
                         } else {  // don't draw vertical rule
-                            return { values: [{ subject: null, indifference_ratio: null, cost: null }] };
+                            return {values: []};
                         }
                     }()),
                     mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
@@ -498,7 +497,7 @@
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
                             return { values: data_array.filter(i => i.subject == subject_id).slice(0, 1) };
                         } else {  // don't draw vertical rule
-                            return {values: [{auc: null}]};
+                            return {values: []};
                         }
                     }()),
                     mark: "rule",
