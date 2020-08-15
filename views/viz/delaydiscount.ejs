@@ -328,18 +328,19 @@
     </section>
 
     <script type="text/javascript">
-        // retrieve objects from sessionStorage
-        const info = sessionStorage.getObj("info_");
-        if (info === null) {
-            // do stuff; demo (use this ifelse to create layers for vegalite)
-            console.log("NOTHING!")
-        } else {
-            const subject_id = info.subject;
-        }
 
-        // TODO FRANK: query subject data from data_array using filter 
-        const datasummary = sessionStorage.getObj("datasummary_delaydiscount_");        
-        const auc = datasummary.auc.toFixed(3);
+        const info = sessionStorage.getObj("info_");  // retrieve objects from sessionStorage
+        // subject_id and time will be used to filter arrays for plotting subject data
+        if (info === null) {
+            subject_id = null;
+            time = null;
+        } else {
+            subject_id = info.subject;
+            start_time = info.time;
+        }
+        // data from database
+        const data_array = <%- JSON.stringify(data_array) %>;
+        const country_array = <%- JSON.stringify(country_array) %>;
 
     </script>
 
@@ -349,21 +350,16 @@
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28, font: "Inter-UI-upright", subtitleFont: "Inter-UI-upright" }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, header: { labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, mark: { font: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             data: {
-                // values: datasummary.data.filter(i => i.n_trial == (datasummary.trials_per_cost - 1))
-                values: datasummary.data
+                values: data_array.filter(i => i.subject == subject_id && i.time == start_time)
             },
-            transform: [
-                { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
-                { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
-            ],
             mark: { type: "point", tooltip: true, filled: true, color: "#3755be"},
             encoding: {
                 x: { field: "cost", type: "quantitative", axis: { "title": "Delay (days to reward)", labelAlign: "center" } },
                 // color: {field: "cost", legend: null}, // color by variable
                 color: { field: "cost", scale: { scheme: "viridis" }, legend: null },
-                y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
+                y: { field: "indifference_ratio", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
                 size: { value: 233 },
-                tooltip: [{ field: "indifference", format: ".3f", title: 'Subjective value', type: "quantitative"}, { field: "cost", format: ".0f", title: 'Delay', type: "nominal"}] // format tooltip
+                tooltip: [{ field: "indifference_ratio", format: ".3f", title: 'Subjective value', type: "quantitative"}, { field: "cost", format: ".0f", title: 'Delay', type: "nominal"}] // format tooltip
             },
             // title: "Individual discounting curve",
             width: 550,
@@ -374,8 +370,6 @@
 
     <!-- Aggregate box plot -->
     <script type="text/javascript" defer>
-        const data_array = <%- JSON.stringify(data_array) %>;
-        const country_array = <%- JSON.stringify(country_array) %>;
 
         var aggregate_curve = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
@@ -392,38 +386,37 @@
             layer: [
                 {
                     data: { values: data_array },
-                    transform: [
-                        { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
-                        { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
-                    ],
-                    mark: {type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: {color: "black"}},
+                    mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
                     encoding: {
                         y: {
-                            field: "indifference",
+                            field: "indifference_ratio",
                             type: "quantitative",
                             axis: { "title": "Subjective value" }
                         },
                         size: { value: 18 },
-                        color: { field: "cost", legend: null, scale: { scheme: "viridis" }, type: "nominal"},
+                        color: { field: "cost", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
                         tooltip: [
-                            { field: 'indifference', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean"}
+                            { field: 'indifference_ratio', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" }
                         ]
                     }
                 },
                 {
-                    data: {values: datasummary.data},
-                    transform: [
-                        { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
-                        { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
-                    ],
+                    // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
+                    data: (function () { // anonymous function
+                        if (subject_id) { 
+                            return { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) };
+                        } else {  // don't draw vertical rule
+                            return { values: [{ subject: null, indifference_ratio: null, cost: null }] };
+                        }
+                    }()),
                     mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
                     encoding: {
-                        y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] } },
+                        y: { field: "indifference_ratio", type: "quantitative", scale: { domain: [0, 1] } },
                         size: { value: 150 },
-                        tooltip: [{ field: "indifference", format: ".3f", title: 'Subjective value', type: "quantitative" }, { field: "cost", format: ".0f", title: 'Delay', type: "nominal"}] // format tooltip
+                        tooltip: [{ field: "indifference_ratio", format: ".3f", title: 'Subjective value', type: "quantitative" }, { field: "cost", format: ".0f", title: 'Delay', type: "nominal" }] // format tooltip
                     },
-                }],
-            // title: "Aggregate discounting curve",
+                }
+            ],
             width: 550,
             height: 400,
         };
@@ -456,7 +449,7 @@
                 }
             },
             {
-                data: { values: "auc\n" + auc, format: { type: "csv" } },
+                data: data_array.filter(i => i.cost == 2),
                 mark: "rule",
                 encoding: {
                     x: { field: "auc" },
@@ -501,7 +494,13 @@
                     }
                 },
                 {
-                    data: { values: "auc\n" + auc, format: { type: "csv" } },
+                    data: (function() { // anonymous function
+                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
+                            return { values: data_array.filter(i => i.subject == subject_id).slice(0, 1) };
+                        } else {  // don't draw vertical rule
+                            return {values: [{auc: null}]};
+                        }
+                    }()),
                     mark: "rule",
                     encoding: {
                         x: { field: "auc" },
@@ -544,10 +543,7 @@
                     }
                 },
                 {
-                    data: { values: data_array },
-                    transform: [
-                        { filter: "datum.cost == 2" }
-                    ],
+                    data: { values: data_array.filter(i => i.subject == subject_id).slice(0, 1) },
                     projection: {
                         type: "equirectangular"
                     },
@@ -666,7 +662,6 @@
     </script> -->
 
     <script defer>
-
         var global_auc_plot = {
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: {stroke: "transparent"}}, 
