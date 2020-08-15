@@ -4,28 +4,6 @@ const DataLibrary = require("../models/datalibrary");
 const iso_countries = require("i18n-iso-countries");
 const d3 = require("d3-array");
 
-function merge_country(collector, type) {
-    var key = (type.country_id); // identity key.
-    var store = collector.store;
-    var storedType = store[key];
-    if (storedType) { // merge trial_auc of identically named types.
-        storedType.trial_auc = storedType.trial_auc.concat(type.trial_auc);
-    } else {
-        store[key] = type;
-        collector.list.push(type);
-    }
-    return collector;
-}
-
-// median function adapted from jspsych
-function median(array) {
-    if (array.length == 0) { return undefined };
-    var numbers = array.slice(0).sort(function (a, b) { return a - b; }); // sort
-    var middle = Math.floor(numbers.length / 2);
-    var isEven = numbers.length % 2 === 0;
-    return isEven ? (numbers[middle] + numbers[middle - 1]) / 2 : numbers[middle];
-}
-
 router.get("/tasks/delaydiscount/viz", function (req, res) {
 
     // using d3-array
