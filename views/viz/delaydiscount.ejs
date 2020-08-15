@@ -327,24 +327,25 @@
         </div>
     </section>
 
-    <script type="text/javascript" defer>
+    <script type="text/javascript">
         // retrieve objects from sessionStorage
-        // TODO FRANK: query from database
-        const datasummary = sessionStorage.getObj("datasummary_delaydiscount_");
         const info = sessionStorage.getObj("info_");
-        const auc = datasummary.auc.toFixed(4);
-        const subject_id = info.subject;
-        var id_header = document.getElementById("subject");
-        id_header.textContent += subject_id;
-        var auc_header = document.getElementById("auc");
-        auc_header.textContent += auc;
+        if (info === null) {
+            // do stuff; demo (use this ifelse to create layers for vegalite)
+            console.log("NOTHING!")
+        } else {
+            const subject_id = info.subject;
+        }
+
+        // TODO FRANK: query subject data from data_array using filter 
+        const datasummary = sessionStorage.getObj("datasummary_delaydiscount_");        
+        const auc = datasummary.auc.toFixed(3);
 
     </script>
 
     <!-- Individual discount curve -->
     <script type="text/javascript" defer>
         var indiff_curve = {
-            // TODO Frank: change font to Inter-UI
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28, font: "Inter-UI-upright", subtitleFont: "Inter-UI-upright" }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, header: { labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, mark: { font: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             data: {
@@ -355,14 +356,14 @@
                 { filter: "datum.n_trial == " + (datasummary.trials_per_cost - 1).toString() + "" },
                 { calculate: "datum.indifference/datum.large_reward", as: "indifference" }
             ],
-            mark: { type: "point", tooltip: true, filled: true, color: "#3755be" },
+            mark: { type: "point", tooltip: true, filled: true, color: "#3755be"},
             encoding: {
                 x: { field: "cost", type: "quantitative", axis: { "title": "Delay (days to reward)", labelAlign: "center" } },
                 // color: {field: "cost", legend: null}, // color by variable
                 color: { field: "cost", scale: { scheme: "viridis" }, legend: null },
                 y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
                 size: { value: 233 },
-                tooltip: [{ field: "indifference", format: ".3f", title: 'Subjective value' }, { field: "cost", format: ".0f", title: 'Delay' }] // format tooltip
+                tooltip: [{ field: "indifference", format: ".3f", title: 'Subjective value', type: "quantitative"}, { field: "cost", format: ".0f", title: 'Delay', type: "nominal"}] // format tooltip
             },
             // title: "Individual discounting curve",
             width: 550,
@@ -403,7 +404,7 @@
                             axis: { "title": "Subjective value" }
                         },
                         size: { value: 18 },
-                        color: { field: "cost", legend: null, scale: { scheme: "viridis" } },
+                        color: { field: "cost", legend: null, scale: { scheme: "viridis" }, type: "nominal"},
                         tooltip: [
                             { field: 'indifference', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean"}
                         ]
@@ -419,7 +420,7 @@
                     encoding: {
                         y: { field: "indifference", type: "quantitative", scale: { domain: [0, 1] } },
                         size: { value: 150 },
-                        tooltip: [{ field: "indifference", format: ".3f", title: 'Subjective value' }, { field: "cost", format: ".0f", title: 'Delay' }] // format tooltip
+                        tooltip: [{ field: "indifference", format: ".3f", title: 'Subjective value', type: "quantitative" }, { field: "cost", format: ".0f", title: 'Delay', type: "nominal"}] // format tooltip
                     },
                 }],
             // title: "Aggregate discounting curve",
@@ -446,6 +447,7 @@
                     },
                     y: {
                         aggregate: "count",
+                        type: "nominal",
                         scale: {
                             round: true
                         },
@@ -458,7 +460,7 @@
                 mark: "rule",
                 encoding: {
                     x: { field: "auc" },
-                    color: { value: "black" },
+                    color: { value: "black", type: "quantitative"},
                     size: { value: 3 }
                 },
             }],
@@ -495,7 +497,7 @@
                             field: "density",
                             title: "Frequency (density)",
                         },
-                        tooltip: [{ field: 'value', format: ".3f", title: 'AUC' }, { field: 'density', format: ".2f", title: 'Density' }]
+                        tooltip: [{ field: 'value', format: ".3f", title: 'AUC', type: "quantitative"}, { field: 'density', format: ".2f", title: 'Density', type: "quantitative"}]
                     }
                 },
                 {
@@ -503,9 +505,9 @@
                     mark: "rule",
                     encoding: {
                         x: { field: "auc" },
-                        color: { value: "firebrick" },
+                        color: { value: "firebrick", type: "quantitative"},
                         size: { value: 3 },
-                        tooltip: [{field: 'auc', format: ".3f", title: 'You'}]
+                        tooltip: [{field: 'auc', format: ".3f", title: 'You', type: "quantitative"}]
                     },
                 }
             ],
@@ -560,7 +562,7 @@
                             type: "quantitative"
                         },
                         size: { "value": 80 },
-                        color: { "value": "red" }
+                        color: { "value": "red", type: "quantitative"}
                     }
                 }
             ]
@@ -583,6 +585,7 @@
                 y: {
                     field: "median_auc",
                     title: "AUC",
+                    type: "quantitative"
                 },
                 color: {
                     field: "median_auc",
@@ -688,7 +691,7 @@
                         stroke: "white"
                     }, 
                     encoding: {
-                        tooltip: {field: "properties.name", title: "Country"}
+                        tooltip: {field: "properties.name", title: "Country", type: "nominal"}
                     }
                 },
                 {
