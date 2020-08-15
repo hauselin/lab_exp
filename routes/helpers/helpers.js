@@ -46,9 +46,17 @@ function json2csv(objArray) {
 //     } return datastring;
 // }
 
+// function for donwload routes
 function doc2datastring(doc) {
     // get data from each document (so that each document's data objects will be in one array), then flatten the arrays, then convert flattend array to csv
     return json2csv(doc.map(i => i.data).flat(1));
 }
 
-module.exports = { json2csv, doc2datastring }
+// to pick/select object keys
+function pick(obj, keys) {
+    return keys.map(k => k in obj ? { [k]: obj[k] } : {})
+        .reduce((res, o) => Object.assign(res, o), {});
+}
+
+
+module.exports = { json2csv, doc2datastring, pick }

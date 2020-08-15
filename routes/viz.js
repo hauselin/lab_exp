@@ -3,6 +3,7 @@ const router = express.Router();
 const DataLibrary = require("../models/datalibrary");
 const iso_countries = require("i18n-iso-countries");
 const d3 = require("d3-array");
+const helper = require('../routes/helpers/helpers');
 
 function pick(obj, keys) {
     return keys.map(k => k in obj ? { [k]: obj[k] } : {})
@@ -43,17 +44,16 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
 
     DataLibrary.find({ uniquestudyid: 'delaydiscount' }).lean()
         .then(data => {
-
             // columns/keys to select
             const keys2select = ['subject', 'uniquesubjectid', 'event', 'cost', 'large_reward', 'small_reward', 'n_trial', 'n_trial_overall', 'indifference', 'auc', 'country', 'country_code']
             const n_trial_max = 5; // final indifference per cost
 
-            // get relevant data from each document
+            // map/loop through each document to get relevant data
             var data_array = [];
             data.map(function (i) {
-                const temp_data = i.data; // jspsych data
+                const temp_data = i.data; // get jspsych data
                 var data_subset = temp_data.filter(s => s.n_trial == n_trial_max && s.event == "choice");  // select relevant rows
-                var data_subset = data_subset.map(s => pick(s, keys2select));  // select relevant columns
+                var data_subset = data_subset.map(s => helper.pick(s, keys2select));  // select relevant columns
                 data_subset.forEach(function (s) { // for each row in this document
                     s.indifference_ratio = s.indifference / s.large_reward;  // rescale indifference
                     s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))  // get country code
@@ -65,7 +65,8 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
             console.log(data_array.length); // no. of subjects/documents
 
             // prepare data for chloropleth auc
-            country_data = d3.rollup(data_array, v => d3.median(v, d => d.auc), by => by.country_id); // compute median for each country
+            // each subject has 5 auc values (repeated) because we have 5 trials per subject, but that's fine for t
+            country_data = d3.rollups(data_array, v => d3.median(v, d => d.auc), d => d.country_id); // compute median for each country
             var country_data = Array.from(country_data, ([country_id, median_auc]) => ({ country_id, median_auc })); // convert to object with key-val pair
             console.log(country_data)
 
