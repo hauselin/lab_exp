@@ -5,45 +5,45 @@
 !(function (t, e) {
     "object" == typeof exports && "undefined" != typeof module
         ? e(
-              exports,
-              require("aos"),
-              require("jquery"),
-              require("jquery-countdown"),
-              require("scrollmonitor"),
-              require("flatpickr"),
-              require("flickity"),
-              require("ion-rangeslider"),
-              require("isotope-layout"),
-              require("jarallax"),
-              require("plyr"),
-              require("prismjs"),
-              require("smooth-scroll"),
-              require("@tanem/svg-injector"),
-              require("twitter-fetcher"),
-              require("typed.js"),
-              require("smartwizard")
-          )
+            exports,
+            require("aos"),
+            require("jquery"),
+            require("jquery-countdown"),
+            require("scrollmonitor"),
+            require("flatpickr"),
+            require("flickity"),
+            require("ion-rangeslider"),
+            require("isotope-layout"),
+            require("jarallax"),
+            require("plyr"),
+            require("prismjs"),
+            require("smooth-scroll"),
+            require("@tanem/svg-injector"),
+            require("twitter-fetcher"),
+            require("typed.js"),
+            require("smartwizard")
+        )
         : "function" == typeof define && define.amd
-        ? define([
-              "exports",
-              "aos",
-              "jquery",
-              "jquery-countdown",
-              "scrollmonitor",
-              "flatpickr",
-              "flickity",
-              "ion-rangeslider",
-              "isotope-layout",
-              "jarallax",
-              "plyr",
-              "prismjs",
-              "smooth-scroll",
-              "@tanem/svg-injector",
-              "twitter-fetcher",
-              "typed.js",
-              "smartwizard",
-          ], e)
-        : e(((t = t || self).theme = {}), t.AOS, t.jQuery, null, t.scrollMonitor, t.flatpickr, t.Flickity, null, t.Isotope, t.jarallax, t.Plyr, t.Prism, t.SmoothScroll, t.SVGInjector, t.twitterFetcher, t.Typed);
+            ? define([
+                "exports",
+                "aos",
+                "jquery",
+                "jquery-countdown",
+                "scrollmonitor",
+                "flatpickr",
+                "flickity",
+                "ion-rangeslider",
+                "isotope-layout",
+                "jarallax",
+                "plyr",
+                "prismjs",
+                "smooth-scroll",
+                "@tanem/svg-injector",
+                "twitter-fetcher",
+                "typed.js",
+                "smartwizard",
+            ], e)
+            : e(((t = t || self).theme = {}), t.AOS, t.jQuery, null, t.scrollMonitor, t.flatpickr, t.Flickity, null, t.Isotope, t.jarallax, t.Plyr, t.Prism, t.SmoothScroll, t.SVGInjector, t.twitterFetcher, t.Typed);
 })(this, function (t, e, O, n, b, s, E, i, j, r, o, a, l, u, A, c) {
     "use strict";
     var h;
@@ -71,12 +71,12 @@
         e.init({ once: !0 }),
         (h = O),
         "objectFit" in document.documentElement.style == 0 &&
-            h(".bg-image").each(function () {
-                var t = h(this),
-                    e = t.attr("src"),
-                    n = t.get(0).classList;
-                t.before(h('<div class="' + n + '" style="background: url(' + e + '); background-size: cover; background-position: 50% 50%;"></div>')), t.remove();
-            });
+        h(".bg-image").each(function () {
+            var t = h(this),
+                e = t.attr("src"),
+                n = t.get(0).classList;
+            t.before(h('<div class="' + n + '" style="background: url(' + e + '); background-size: cover; background-position: 50% 50%;"></div>')), t.remove();
+        });
     var d,
         m,
         p,
@@ -155,7 +155,7 @@
                             (this.fallback = e.attr(j) || a),
                             (this.detailed = null !== this.element.getAttribute("data-" + B)),
                             this.detailed &&
-                                ((this.years = { show: e.find(C).length, element: e.find(C), format: e.find(C).data(z) || s, label: { show: e.find(_).length, element: e.find(_), format: e.find(_).data(z) || m } }),
+                            ((this.years = { show: e.find(C).length, element: e.find(C), format: e.find(C).data(z) || s, label: { show: e.find(_).length, element: e.find(_), format: e.find(_).data(z) || m } }),
                                 (this.months = { show: e.find(P).length, element: e.find(P), format: e.find(P).data(z) || l, label: { show: e.find(R).length, element: e.find(R), format: e.find(R).data(z) || p } }),
                                 (this.weeks = { show: e.find(D).length, element: e.find(D), format: e.find(D).data(z) || u, label: { show: e.find(M).length, element: e.find(M), format: e.find(M).data(z) || g } }),
                                 (this.days = { show: e.find(F).length, element: e.find(F), format: e.find(F).data(z) || c, label: { show: e.find(N).length, element: e.find(N), format: e.find(N).data(z) || y } }),
@@ -170,9 +170,9 @@
                                 n = i(this.element);
                             this.detailed
                                 ? n.countdown(this.date, function (t) {
-                                      t.elapsed
-                                          ? (n.find(T).removeClass(E), n.find(S).addClass(E))
-                                          : (e.years.show && e.years.element.text(t.strftime(e.years.format)),
+                                    t.elapsed
+                                        ? (n.find(T).removeClass(E), n.find(S).addClass(E))
+                                        : (e.years.show && e.years.element.text(t.strftime(e.years.format)),
                                             e.years.label.show && e.years.label.element.text(t.strftime(e.years.label.format)),
                                             e.months.show && e.months.element.text(t.strftime(e.months.format)),
                                             e.months.label.show && e.months.label.element.text(t.strftime(e.months.label.format)),
@@ -186,10 +186,10 @@
                                             e.minutes.label.show && e.minutes.label.element.text(t.strftime(e.minutes.label.format)),
                                             e.seconds.show && e.seconds.element.text(t.strftime(e.seconds.format)),
                                             e.seconds.label.show && e.seconds.label.element.text(t.strftime(e.seconds.label.format)));
-                                  })
+                                })
                                 : i(this.element).countdown(this.date, function (t) {
-                                      t.elapsed ? n.text(e.fallback) : n.text(t.strftime(e.dateFormat));
-                                  });
+                                    t.elapsed ? n.text(e.fallback) : n.text(t.strftime(e.dateFormat));
+                                });
                         }),
                         (n.jQueryInterface = function () {
                             return this.each(function () {
@@ -211,7 +211,7 @@
                 })();
             return (
                 i(window).on(n.LOAD_DATA_API, function () {
-                    for (var t = i.makeArray(i(A)), e = t.length; e--; ) {
+                    for (var t = i.makeArray(i(A)), e = t.length; e--;) {
                         var n = i(t[e]);
                         W.jQueryInterface.call(n, n.data());
                     }
@@ -255,8 +255,8 @@
                                     ? (u.frameVal = u.startVal - u.easingFn(e, 0, u.startVal - u.endVal, u.duration))
                                     : (u.frameVal = u.easingFn(e, u.startVal, u.endVal - u.startVal, u.duration))
                                 : u.countDown
-                                ? (u.frameVal = u.startVal - (u.startVal - u.endVal) * (e / u.duration))
-                                : (u.frameVal = u.startVal + (u.endVal - u.startVal) * (e / u.duration)),
+                                    ? (u.frameVal = u.startVal - (u.startVal - u.endVal) * (e / u.duration))
+                                    : (u.frameVal = u.startVal + (u.endVal - u.startVal) * (e / u.duration)),
                             u.countDown ? (u.frameVal = u.frameVal < u.endVal ? u.endVal : u.frameVal) : (u.frameVal = u.frameVal > u.endVal ? u.endVal : u.frameVal),
                             (u.frameVal = Math.round(u.frameVal * u.decimalMult) / u.decimalMult),
                             u.printValue(u.frameVal),
@@ -276,10 +276,10 @@
                         }
                         return (
                             u.options.numerals &&
-                                u.options.numerals.length &&
-                                ((i = i.replace(/[0-9]/g, function (t) {
-                                    return u.options.numerals[+t];
-                                })),
+                            u.options.numerals.length &&
+                            ((i = i.replace(/[0-9]/g, function (t) {
+                                return u.options.numerals[+t];
+                            })),
                                 (r = r.replace(/[0-9]/g, function (t) {
                                     return u.options.numerals[+t];
                                 }))),
@@ -430,7 +430,7 @@
                 })();
             return (
                 i(window).on(p.LOAD_DATA_API, function () {
-                    for (var t = i.makeArray(i(g)), e = t.length; e--; ) {
+                    for (var t = i.makeArray(i(g)), e = t.length; e--;) {
                         var n = i(t[e]);
                         y.jQueryInterface.call(n, n.data());
                     }
@@ -445,9 +445,9 @@
         })(O),
         z =
             ((m = "script"),
-            (d = O)("body").tooltip({ selector: '[data-toggle="tooltip"]', container: "body" }),
-            d("body").popover({ selector: '[data-toggle="popover"]', container: "body" }),
-            d(".toast").toast(),
+                (d = O)("body").tooltip({ selector: '[data-toggle="tooltip"]', container: "body" }),
+                d("body").popover({ selector: '[data-toggle="popover"]', container: "body" }),
+                d(".toast").toast(),
             {
                 version: "1.2.0",
                 selector: { RECAPTCHA: "[data-recaptcha]" },
@@ -481,7 +481,7 @@
                     if ("function" == typeof n) return t;
                     if ("string" == typeof n) {
                         if (!n.length) return null;
-                        for (var i = e || window, r = n.split("."); r.length; ) {
+                        for (var i = e || window, r = n.split("."); r.length;) {
                             var o = r.shift();
                             if (void 0 === i[o]) return null;
                             i = i[o];
@@ -510,241 +510,241 @@
             }),
         B =
             ((g = "mrDropdownGrid"),
-            (v = "." + (y = "mr.dropdownGrid")),
-            (w = ".data-api"),
-            (S = (p = O).fn[g]),
-            (T = new RegExp("38|40|27")),
-            (I = { SHOW: "show" }),
-            (k = {
-                LOAD_DATA_API: "load" + v + w,
-                RESIZE: "resize" + v,
-                HIDE: "hide" + v,
-                HIDDEN: "hidden" + v,
-                SHOW: "show" + v,
-                SHOWN: "shown" + v,
-                CLICK: "click" + v,
-                MOUSE_ENTER: "mouseenter" + v,
-                MOUSE_LEAVE: "mouseleave" + v,
-                CLICK_DATA_API: "click" + v + w,
-                KEYDOWN_DATA_API: "keydown" + v + w,
-                KEYUP_DATA_API: "keyup" + v + w,
-            }),
-            (C = '[data-toggle="dropdown-grid"]'),
-            (P = ".dropdown form"),
-            (F = D = ".dropdown-menu"),
-            (V = "[data-dropdown-content]"),
-            (x = ".navbar-nav"),
-            (L = ".dropdown-menu .dropdown-item:not(.disabled):not(:disabled)"),
-            (_ = "data-hover"),
-            (R = "data-dropdown-grid-hover"),
-            (M = (function () {
-                function l(t) {
-                    (this.ticking = !1),
-                        (this.isActive = !1),
-                        (this.element = t),
-                        this.getOptions(),
-                        (this.parent = l.getParentFromElement(this.element)),
-                        (this.menu = this.getMenuElement()),
-                        (this.container = this.getContainerElement()),
-                        (this.content = this.getContentElement()),
-                        (this.isSubmenu = this.hasParentMenu()),
-                        this.isSubmenu && (this.siblingMenus = this.getSiblingMenus()),
-                        (this.submenus = this.getSubmenus()),
-                        (this.hover = this.options.hover),
-                        this.addEventListeners(),
-                        this.setResizeEvent();
-                }
-                var t = l.prototype;
-                return (
-                    (t.getOptions = function () {
-                        this.options || ((this.options = {}), (this.options.hover = ("true" === this.element.getAttribute(_) || "true" === document.body.getAttribute(R)) && "false" !== this.element.getAttribute(_)));
-                    }),
-                    (t.toggle = function (t) {
-                        if ((this.getParentMenu(), !this.element.disabled && !p(this.element).hasClass(I.DISABLED))) {
-                            this.isActive = p(this.menu).hasClass(I.SHOW);
-                            var e = this.isActive,
-                                n = !this.isActive;
-                            if ((this.isSubmenu || l.clearMenus(), (this.isSubmenu || !e) && (this.isSubmenu || !n || !t || t.type !== k.MOUSE_LEAVE))) {
-                                if (this.isSubmenu && this.isActive) return l.clearMenus(null, this.element), void l.clearMenus(null, this.submenus);
-                                this.isSubmenu && !this.isActive && l.clearMenus(null, this.siblingMenus);
-                                var i = { relatedTarget: this.element },
-                                    r = p.Event(k.SHOW, i);
-                                p(this.parent).trigger(r),
-                                    r.isDefaultPrevented() ||
-                                        ("ontouchstart" in document.documentElement && 0 === p(this.parent).closest(x).length && p(document.body).children().on("mouseover", null, p.noop),
-                                        this.element.focus(),
-                                        this.element.setAttribute("aria-expanded", !0),
-                                        p(this.menu).toggleClass(I.SHOW),
-                                        this.updatePosition(),
-                                        (this.isActive = !0),
-                                        p(this.parent).toggleClass(I.SHOW).trigger(p.Event(k.SHOWN, i)));
-                            }
-                        }
-                    }),
-                    (t.updatePosition = function (t) {
-                        var e = t || window.innerWidth,
-                            n = B.getDimensionsFromElement(this.element);
-                        this.positionContainer(n.offsetLeft), this.positionContent(e, n.offsetLeft);
-                    }),
-                    (t.positionContainer = function (t) {
-                        if (!this.container) throw new TypeError("No element matching .dropdown-menu.container found.");
-                        this.container.style.left = "-" + t + "px";
-                    }),
-                    (t.positionContent = function (t, e) {
-                        if (!this.content) throw new TypeError("No [data-dropdown-content] element was found.");
-                        var n,
-                            i = B.getDimensionsFromElement(this.content).width;
-                        if (this.isSubmenu) {
-                            this.getParentMenu();
-                            var r = B.getDimensionsFromElement(this.parentMenu.content);
-                            n = r.offsetLeft + r.width + i <= t ? r.offsetLeft + r.width : r.offsetLeft >= i ? r.offsetLeft - i : 0;
-                        } else n = t <= i + e ? t - i : e;
-                        var o = Math.round(n) + "px";
-                        this.content.style.left = o;
-                    }),
-                    (t.setResizeEvent = function () {
-                        var t = this;
-                        p(window).on(k.RESIZE, function () {
-                            t.ticking ||
-                                (window.requestAnimationFrame(function () {
-                                    t.updatePosition(), (t.ticking = !1);
-                                }),
-                                (t.ticking = !0));
-                        });
-                    }),
-                    (t.getMenuElement = function () {
-                        return this.menu || (this.parent && (this.menu = this.parent.querySelector(D))), this.menu;
-                    }),
-                    (t.getContainerElement = function () {
-                        return this.container || (this.parent && (this.container = this.parent.querySelector("" + D + F))), this.container;
-                    }),
-                    (t.getContentElement = function () {
-                        return this.content || (this.parent && (this.content = this.container.querySelector(V))), this.content;
-                    }),
-                    (t.hasParentMenu = function () {
-                        return 0 < p(this.element).closest(V).length;
-                    }),
-                    (t.getParentMenu = function () {
-                        this.isSubmenu && !this.parentMenu && (this.parentMenu = p(this.parent).closest(D).siblings(C).data(y));
-                    }),
-                    (t.getSiblingMenus = function () {
-                        return p(this.element).closest(V).get(0).querySelectorAll(C);
-                    }),
-                    (t.getSubmenus = function () {
-                        var t = this.content.querySelectorAll(C);
-                        return (this.isParent = 0 !== t.length), t;
-                    }),
-                    (t.addEventListeners = function () {
-                        var e = this;
-                        p(this.element).on(k.CLICK, function (t) {
-                            t.preventDefault(), t.stopPropagation(), e.toggle();
+                (v = "." + (y = "mr.dropdownGrid")),
+                (w = ".data-api"),
+                (S = (p = O).fn[g]),
+                (T = new RegExp("38|40|27")),
+                (I = { SHOW: "show" }),
+                (k = {
+                    LOAD_DATA_API: "load" + v + w,
+                    RESIZE: "resize" + v,
+                    HIDE: "hide" + v,
+                    HIDDEN: "hidden" + v,
+                    SHOW: "show" + v,
+                    SHOWN: "shown" + v,
+                    CLICK: "click" + v,
+                    MOUSE_ENTER: "mouseenter" + v,
+                    MOUSE_LEAVE: "mouseleave" + v,
+                    CLICK_DATA_API: "click" + v + w,
+                    KEYDOWN_DATA_API: "keydown" + v + w,
+                    KEYUP_DATA_API: "keyup" + v + w,
+                }),
+                (C = '[data-toggle="dropdown-grid"]'),
+                (P = ".dropdown form"),
+                (F = D = ".dropdown-menu"),
+                (V = "[data-dropdown-content]"),
+                (x = ".navbar-nav"),
+                (L = ".dropdown-menu .dropdown-item:not(.disabled):not(:disabled)"),
+                (_ = "data-hover"),
+                (R = "data-dropdown-grid-hover"),
+                (M = (function () {
+                    function l(t) {
+                        (this.ticking = !1),
+                            (this.isActive = !1),
+                            (this.element = t),
+                            this.getOptions(),
+                            (this.parent = l.getParentFromElement(this.element)),
+                            (this.menu = this.getMenuElement()),
+                            (this.container = this.getContainerElement()),
+                            (this.content = this.getContentElement()),
+                            (this.isSubmenu = this.hasParentMenu()),
+                            this.isSubmenu && (this.siblingMenus = this.getSiblingMenus()),
+                            (this.submenus = this.getSubmenus()),
+                            (this.hover = this.options.hover),
+                            this.addEventListeners(),
+                            this.setResizeEvent();
+                    }
+                    var t = l.prototype;
+                    return (
+                        (t.getOptions = function () {
+                            this.options || ((this.options = {}), (this.options.hover = ("true" === this.element.getAttribute(_) || "true" === document.body.getAttribute(R)) && "false" !== this.element.getAttribute(_)));
                         }),
-                            this.hover &&
+                        (t.toggle = function (t) {
+                            if ((this.getParentMenu(), !this.element.disabled && !p(this.element).hasClass(I.DISABLED))) {
+                                this.isActive = p(this.menu).hasClass(I.SHOW);
+                                var e = this.isActive,
+                                    n = !this.isActive;
+                                if ((this.isSubmenu || l.clearMenus(), (this.isSubmenu || !e) && (this.isSubmenu || !n || !t || t.type !== k.MOUSE_LEAVE))) {
+                                    if (this.isSubmenu && this.isActive) return l.clearMenus(null, this.element), void l.clearMenus(null, this.submenus);
+                                    this.isSubmenu && !this.isActive && l.clearMenus(null, this.siblingMenus);
+                                    var i = { relatedTarget: this.element },
+                                        r = p.Event(k.SHOW, i);
+                                    p(this.parent).trigger(r),
+                                        r.isDefaultPrevented() ||
+                                        ("ontouchstart" in document.documentElement && 0 === p(this.parent).closest(x).length && p(document.body).children().on("mouseover", null, p.noop),
+                                            this.element.focus(),
+                                            this.element.setAttribute("aria-expanded", !0),
+                                            p(this.menu).toggleClass(I.SHOW),
+                                            this.updatePosition(),
+                                            (this.isActive = !0),
+                                            p(this.parent).toggleClass(I.SHOW).trigger(p.Event(k.SHOWN, i)));
+                                }
+                            }
+                        }),
+                        (t.updatePosition = function (t) {
+                            var e = t || window.innerWidth,
+                                n = B.getDimensionsFromElement(this.element);
+                            this.positionContainer(n.offsetLeft), this.positionContent(e, n.offsetLeft);
+                        }),
+                        (t.positionContainer = function (t) {
+                            if (!this.container) throw new TypeError("No element matching .dropdown-menu.container found.");
+                            this.container.style.left = "-" + t + "px";
+                        }),
+                        (t.positionContent = function (t, e) {
+                            if (!this.content) throw new TypeError("No [data-dropdown-content] element was found.");
+                            var n,
+                                i = B.getDimensionsFromElement(this.content).width;
+                            if (this.isSubmenu) {
+                                this.getParentMenu();
+                                var r = B.getDimensionsFromElement(this.parentMenu.content);
+                                n = r.offsetLeft + r.width + i <= t ? r.offsetLeft + r.width : r.offsetLeft >= i ? r.offsetLeft - i : 0;
+                            } else n = t <= i + e ? t - i : e;
+                            var o = Math.round(n) + "px";
+                            this.content.style.left = o;
+                        }),
+                        (t.setResizeEvent = function () {
+                            var t = this;
+                            p(window).on(k.RESIZE, function () {
+                                t.ticking ||
+                                    (window.requestAnimationFrame(function () {
+                                        t.updatePosition(), (t.ticking = !1);
+                                    }),
+                                        (t.ticking = !0));
+                            });
+                        }),
+                        (t.getMenuElement = function () {
+                            return this.menu || (this.parent && (this.menu = this.parent.querySelector(D))), this.menu;
+                        }),
+                        (t.getContainerElement = function () {
+                            return this.container || (this.parent && (this.container = this.parent.querySelector("" + D + F))), this.container;
+                        }),
+                        (t.getContentElement = function () {
+                            return this.content || (this.parent && (this.content = this.container.querySelector(V))), this.content;
+                        }),
+                        (t.hasParentMenu = function () {
+                            return 0 < p(this.element).closest(V).length;
+                        }),
+                        (t.getParentMenu = function () {
+                            this.isSubmenu && !this.parentMenu && (this.parentMenu = p(this.parent).closest(D).siblings(C).data(y));
+                        }),
+                        (t.getSiblingMenus = function () {
+                            return p(this.element).closest(V).get(0).querySelectorAll(C);
+                        }),
+                        (t.getSubmenus = function () {
+                            var t = this.content.querySelectorAll(C);
+                            return (this.isParent = 0 !== t.length), t;
+                        }),
+                        (t.addEventListeners = function () {
+                            var e = this;
+                            p(this.element).on(k.CLICK, function (t) {
+                                t.preventDefault(), t.stopPropagation(), e.toggle();
+                            }),
+                                this.hover &&
                                 p(this.parent).on(k.MOUSE_ENTER + " " + k.MOUSE_LEAVE, function (t) {
                                     t.preventDefault(), t.stopPropagation(), (t.type + v === k.MOUSE_ENTER && e.isActive) || (t.type + v === k.MOUSE_LEAVE && !e.isActive) || e.toggle(t);
                                 });
-                    }),
-                    (l.getDimensionsFromElement = function (t) {
-                        if (t && z.isElement(t)) {
-                            var e = t.getBoundingClientRect();
-                            return (e.offsetLeft = Math.round(e.left + window.pageXOffset - document.documentElement.clientLeft)), e;
-                        }
-                        throw new TypeError("Can't get a measurement from a non-element");
-                    }),
-                    (l.getParentFromElement = function (t) {
-                        return t.parentNode;
-                    }),
-                    (l.clearMenus = function (s, t) {
-                        var e;
-                        (!s || (3 !== s.which && "keyup" !== s.type) || 9 === s.which) &&
-                            ((e = t && "object" == typeof t ? t : document.querySelectorAll(C)),
-                            z.forEach(e, function (t, e) {
-                                var n = l.getParentFromElement(e),
-                                    i = p(e).data(y),
-                                    r = { relatedTarget: e };
-                                if ((s && "click" === s.type && (r.clickEvent = s), i)) {
-                                    var o = i.menu;
-                                    if (
-                                        p(n).hasClass(I.SHOW) &&
-                                        !(
-                                            (s && (("click" === s.type && /input|textarea/i.test(s.target.tagName)) || ("keyup" === s.type && 9 === s.which)) && p.contains(n, s.target)) ||
-                                            (s && "click" === s.type && (p.contains(i.content, s.target) || i.content.isSameNode(s.target)))
-                                        )
-                                    ) {
-                                        var a = p.Event(k.HIDE, r);
-                                        p(n).trigger(a),
-                                            a.isDefaultPrevented() ||
-                                                ("ontouchstart" in document.documentElement && p(document.body).children().off("mouseover", null, p.noop),
-                                                e.setAttribute("aria-expanded", "false"),
-                                                (i.isActive = !1),
-                                                p(o).removeClass(I.SHOW),
-                                                p(n).removeClass(I.SHOW).trigger(p.Event(k.HIDDEN, r)));
+                        }),
+                        (l.getDimensionsFromElement = function (t) {
+                            if (t && z.isElement(t)) {
+                                var e = t.getBoundingClientRect();
+                                return (e.offsetLeft = Math.round(e.left + window.pageXOffset - document.documentElement.clientLeft)), e;
+                            }
+                            throw new TypeError("Can't get a measurement from a non-element");
+                        }),
+                        (l.getParentFromElement = function (t) {
+                            return t.parentNode;
+                        }),
+                        (l.clearMenus = function (s, t) {
+                            var e;
+                            (!s || (3 !== s.which && "keyup" !== s.type) || 9 === s.which) &&
+                                ((e = t && "object" == typeof t ? t : document.querySelectorAll(C)),
+                                    z.forEach(e, function (t, e) {
+                                        var n = l.getParentFromElement(e),
+                                            i = p(e).data(y),
+                                            r = { relatedTarget: e };
+                                        if ((s && "click" === s.type && (r.clickEvent = s), i)) {
+                                            var o = i.menu;
+                                            if (
+                                                p(n).hasClass(I.SHOW) &&
+                                                !(
+                                                    (s && (("click" === s.type && /input|textarea/i.test(s.target.tagName)) || ("keyup" === s.type && 9 === s.which)) && p.contains(n, s.target)) ||
+                                                    (s && "click" === s.type && (p.contains(i.content, s.target) || i.content.isSameNode(s.target)))
+                                                )
+                                            ) {
+                                                var a = p.Event(k.HIDE, r);
+                                                p(n).trigger(a),
+                                                    a.isDefaultPrevented() ||
+                                                    ("ontouchstart" in document.documentElement && p(document.body).children().off("mouseover", null, p.noop),
+                                                        e.setAttribute("aria-expanded", "false"),
+                                                        (i.isActive = !1),
+                                                        p(o).removeClass(I.SHOW),
+                                                        p(n).removeClass(I.SHOW).trigger(p.Event(k.HIDDEN, r)));
+                                            }
+                                        }
+                                    }));
+                        }),
+                        (l.jQueryInterface = function (n) {
+                            return this.each(function () {
+                                var t = p(this),
+                                    e = t.data(y);
+                                if ((e || ((e = new l(this)), t.data(y, e)), "string" == typeof n)) {
+                                    if (void 0 === e[n]) throw new TypeError('No method named "' + n + '"');
+                                    e[n]();
+                                }
+                            });
+                        }),
+                        (l.dataApiKeydownHandler = function (t) {
+                            if (
+                                (/input|textarea/i.test(t.target.tagName) ? (32 !== t.which && 27 === t.which) || !((40 !== t.which && 38 !== t.which) || p(t.target).closest(D).length) : T.test(t.which)) &&
+                                (t.preventDefault(), t.stopPropagation(), !this.disabled && !p(this).hasClass(I.DISABLED))
+                            ) {
+                                var e = l.getParentFromElement(this),
+                                    n = p(e).hasClass(I.SHOW);
+                                if ((n || (27 === t.which && 32 === t.which)) && (!n || (27 !== t.which && 32 !== t.which))) {
+                                    var i = [].slice.call(e.querySelectorAll(L));
+                                    if (0 !== i.length) {
+                                        var r = i.indexOf(t.target);
+                                        38 === t.which && 0 < r && (r -= 1), 40 === t.which && r < i.length - 1 && (r += 1), r < 0 && (r = 0), i[r].focus();
                                     }
+                                } else {
+                                    if (27 === t.which) {
+                                        var o = e.querySelector(C);
+                                        p(o).trigger("focus");
+                                    }
+                                    p(this).trigger("click");
                                 }
-                            }));
-                    }),
-                    (l.jQueryInterface = function (n) {
-                        return this.each(function () {
-                            var t = p(this),
-                                e = t.data(y);
-                            if ((e || ((e = new l(this)), t.data(y, e)), "string" == typeof n)) {
-                                if (void 0 === e[n]) throw new TypeError('No method named "' + n + '"');
-                                e[n]();
                             }
-                        });
-                    }),
-                    (l.dataApiKeydownHandler = function (t) {
-                        if (
-                            (/input|textarea/i.test(t.target.tagName) ? (32 !== t.which && 27 === t.which) || !((40 !== t.which && 38 !== t.which) || p(t.target).closest(D).length) : T.test(t.which)) &&
-                            (t.preventDefault(), t.stopPropagation(), !this.disabled && !p(this).hasClass(I.DISABLED))
-                        ) {
-                            var e = l.getParentFromElement(this),
-                                n = p(e).hasClass(I.SHOW);
-                            if ((n || (27 === t.which && 32 === t.which)) && (!n || (27 !== t.which && 32 !== t.which))) {
-                                var i = [].slice.call(e.querySelectorAll(L));
-                                if (0 !== i.length) {
-                                    var r = i.indexOf(t.target);
-                                    38 === t.which && 0 < r && (r -= 1), 40 === t.which && r < i.length - 1 && (r += 1), r < 0 && (r = 0), i[r].focus();
-                                }
-                            } else {
-                                if (27 === t.which) {
-                                    var o = e.querySelector(C);
-                                    p(o).trigger("focus");
-                                }
-                                p(this).trigger("click");
-                            }
-                        }
-                    }),
-                    U(l, null, [
-                        {
-                            key: "VERSION",
-                            get: function () {
-                                return "1.0.0";
+                        }),
+                        U(l, null, [
+                            {
+                                key: "VERSION",
+                                get: function () {
+                                    return "1.0.0";
+                                },
                             },
-                        },
-                    ]),
-                    l
-                );
-            })()),
-            p(document)
-                .on(k.KEYDOWN_DATA_API, C, M.dataApiKeydownHandler)
-                .on(k.KEYDOWN_DATA_API, D, M.dataApiKeydownHandler)
-                .on(k.CLICK_DATA_API + " " + k.KEYUP_DATA_API, M.clearMenus)
-                .on(k.CLICK_DATA_API, P, function (t) {
-                    t.stopPropagation();
+                        ]),
+                        l
+                    );
+                })()),
+                p(document)
+                    .on(k.KEYDOWN_DATA_API, C, M.dataApiKeydownHandler)
+                    .on(k.KEYDOWN_DATA_API, D, M.dataApiKeydownHandler)
+                    .on(k.CLICK_DATA_API + " " + k.KEYUP_DATA_API, M.clearMenus)
+                    .on(k.CLICK_DATA_API, P, function (t) {
+                        t.stopPropagation();
+                    }),
+                p(document).ready(function () {
+                    for (var t = p.makeArray(p(C)), e = t.length; e--;) {
+                        var n = p(t[e]);
+                        M.jQueryInterface.call(n, n.data());
+                    }
                 }),
-            p(document).ready(function () {
-                for (var t = p.makeArray(p(C)), e = t.length; e--; ) {
-                    var n = p(t[e]);
-                    M.jQueryInterface.call(n, n.data());
-                }
-            }),
-            (p.fn[g] = M.jQueryInterface),
-            (p.fn[g].Constructor = M),
-            (p.fn[g].noConflict = function () {
-                return (p.fn[g] = S), M.jQueryInterface;
-            }),
-            M);
+                (p.fn[g] = M.jQueryInterface),
+                (p.fn[g].Constructor = M),
+                (p.fn[g].noConflict = function () {
+                    return (p.fn[g] = S), M.jQueryInterface;
+                }),
+                M);
     !(function () {
         var n = "href",
             i = "fade-page",
@@ -797,7 +797,7 @@
             })();
         return (
             i(window).on(n.LOAD_DATA_API, function () {
-                for (var t = i.makeArray(i(o)), e = t.length; e--; ) {
+                for (var t = i.makeArray(i(o)), e = t.length; e--;) {
                     var n = i(t[e]);
                     a.jQueryInterface.call(n, n.data());
                 }
@@ -852,7 +852,7 @@
                                         t.invalidate();
                                     },
                                 })),
-                                (this.isReady = !0));
+                                    (this.isReady = !0));
                         }),
                         (t.validate = function () {
                             (this.isValid = !0), this.invisible && this.form && i(this.form).trigger("submit");
@@ -929,7 +929,7 @@
                     var t = i.makeArray(i(a));
                     if (0 < t.length) {
                         z.getScript(o.RECAPTCHAV2);
-                        for (var e = t.length; e--; ) {
+                        for (var e = t.length; e--;) {
                             var n = i(t[e]);
                             h.jQueryInterface.call(n, n.data());
                         }
@@ -1010,10 +1010,10 @@
                             n && i && "" !== i
                                 ? (window.location = i)
                                 : n &&
-                                  (this.form.reset(),
-                                  (this.feedbackTimeout = setTimeout(function () {
-                                      return e.hideAllFeedback();
-                                  }, this.feedbackDelay))),
+                                (this.form.reset(),
+                                    (this.feedbackTimeout = setTimeout(function () {
+                                        return e.hideAllFeedback();
+                                    }, this.feedbackDelay))),
                                 i || this.showFeedback(t.status, t.message),
                                 t.errorDetail && console.error(t.errorName || S, 0 === t.errorDetail.indexOf("{") ? JSON.parse(t.errorDetail) : t.errorDetail);
                         }),
@@ -1087,7 +1087,7 @@
                 })();
             return (
                 r(window).on(v.LOAD_DATA_API, function () {
-                    for (var t = r.makeArray(r(f)), e = t.length; e--; ) {
+                    for (var t = r.makeArray(r(f)), e = t.length; e--;) {
                         var n = r(t[e]);
                         k.jQueryInterface.call(n, n.data());
                     }
@@ -1136,8 +1136,8 @@
                         (t.handleChange = function (t) {
                             if (
                                 (this.fromElement && 0 < this.fromElement.length && Z.updateValue(this.fromElement, t.from_value || t.from),
-                                this.toElement && 0 < this.toElement.length && Z.updateValue(this.toElement, t.to_value || t.to),
-                                this.unitElement && 0 < this.unitElement.length)
+                                    this.toElement && 0 < this.toElement.length && Z.updateValue(this.toElement, t.to_value || t.to),
+                                    this.unitElement && 0 < this.unitElement.length)
                             ) {
                                 var e = parseInt(t.from_value, 10) || t.value;
                                 Z.updateValue(this.unitElement, 1 < e ? this.options.unitPlural : this.options.unitSingle);
@@ -1190,7 +1190,7 @@
                 })();
             return (
                 i(window).on(o.LOAD_DATA_API, function () {
-                    for (var t = i.makeArray(i(a)), e = t.length; e--; ) {
+                    for (var t = i.makeArray(i(a)), e = t.length; e--;) {
                         var n = i(t[e]);
                         c.jQueryInterface.call(n, n.data());
                     }
@@ -1338,7 +1338,7 @@
             })();
             return (
                 d(window).on(m.LOAD_DATA_API, function () {
-                    for (var t = d.makeArray(d(l)), e = t.length; e--; ) {
+                    for (var t = d.makeArray(d(l)), e = t.length; e--;) {
                         var n = d(t[e]);
                         k.jQueryInterface.call(n, n.data());
                     }
@@ -1353,9 +1353,9 @@
         })(O);
     (G = O),
         "function" == typeof r &&
-            (G(".alert-dismissible").on("closed.bs.alert", function () {
-                r(document.querySelectorAll("[data-jarallax]"), "onScroll");
-            }),
+        (G(".alert-dismissible").on("closed.bs.alert", function () {
+            r(document.querySelectorAll("[data-jarallax]"), "onScroll");
+        }),
             G(document).on("resized.mr.overlayNav", function () {
                 r(document.querySelectorAll("[data-jarallax]"), "onResize");
             }),
@@ -1439,7 +1439,7 @@
                         this.createMarkers();
                 }
                 h.init = function () {
-                    for (var t = f.makeArray(f(i)), e = t.length; e--; ) {
+                    for (var t = f.makeArray(f(i)), e = t.length; e--;) {
                         var n = f(t[e]);
                         h.jQueryInterface.call(n, n.data());
                     }
@@ -1465,15 +1465,15 @@
                         }
                         if (
                             ((c.zoom = i.attr("data-map-zoom") ? parseInt(i.attr("data-map-zoom"), 10) : void 0),
-                            (c.zoomControl = r),
-                            (c.zoomControlOptions = !1 !== o ? { position: google.maps.ControlPosition[o] } : void 0),
-                            (t = jQuery.extend({}, w.MAP, c)),
-                            (this.map = new google.maps.Map(n, t)),
-                            google.maps.event.addListenerOnce(this.map, "center_changed", function () {
-                                var t = f.Event(v.MAP_LOADED, { map: e.map });
-                                i.trigger(t);
-                            }),
-                            void 0 !== s && "" !== s && !1 !== s && void 0 !== l && "" !== l && !1 !== l)
+                                (c.zoomControl = r),
+                                (c.zoomControlOptions = !1 !== o ? { position: google.maps.ControlPosition[o] } : void 0),
+                                (t = jQuery.extend({}, w.MAP, c)),
+                                (this.map = new google.maps.Map(n, t)),
+                                google.maps.event.addListenerOnce(this.map, "center_changed", function () {
+                                    var t = f.Event(v.MAP_LOADED, { map: e.map });
+                                    i.trigger(t);
+                                }),
+                                void 0 !== s && "" !== s && !1 !== s && void 0 !== l && "" !== l && !1 !== l)
                         )
                             this.map.setCenter(new google.maps.LatLng(s, l));
                         else {
@@ -1554,105 +1554,105 @@
         })(jQuery),
         At =
             ((tt = "mrOverlayNav"),
-            (nt = "." + (et = "mr.overlayNav")),
-            (it = (X = O).fn[tt]),
-            (rt = { RESIZE: "resize" + nt, RESIZED: "resized" + nt, IMAGE_LOAD: "load", TOGGLE_SHOW: "show.bs.collapse", TOGGLE_HIDDEN: "hidden.bs.collapse", NOTIFICATION_CLOSE: "", ALERT_CLOSE: "close.bs.alert" }),
-            (ot = "body > div.navbar-container"),
-            (at = "body > div.navbar-container > nav[data-overlay]"),
-            (st = "nav"),
-            (lt = "[data-overlay]"),
-            (ut = "img"),
-            (ct = (function () {
-                function n(t) {
-                    (this.ticking = !1),
-                        (this.element = t),
-                        (this.navHeight = this.getNavHeight()),
-                        (this.navToggled = !1),
-                        (this.container = n.getContainerElement()),
-                        (this.overlayElement = n.getFirstOverlayElement()),
-                        this.setImageLoadEvent(),
-                        this.updateValues(),
-                        this.setResizeEvent(),
-                        this.setNavToggleEvents();
-                }
-                var t = n.prototype;
-                return (
-                    (t.getNavHeight = function () {
-                        this.navHeight = this.element.getBoundingClientRect().height;
-                    }),
-                    (t.updateValues = function () {
-                        this.getNavHeight(), this.updateContainer(), this.updateOverlayElement(), X(this.element).trigger(X.Event(rt.RESIZED));
-                    }),
-                    (t.updateContainer = function () {
-                        this.container && !this.navToggled && ((this.container.style.minHeight = this.navHeight + "px"), (this.container.style.marginBottom = "-" + this.navHeight + "px"));
-                    }),
-                    (t.updateOverlayElement = function () {
-                        this.overlayElement && !this.navToggled && this.overlayElement.style.setProperty("padding-top", this.navHeight + "px", "important");
-                    }),
-                    (t.setResizeEvent = function () {
-                        var t = this;
-                        X(window).on(rt.RESIZE + " " + rt.ALERT_CLOSE, function () {
-                            t.ticking ||
-                                (window.requestAnimationFrame(function () {
-                                    t.updateValues(), (t.ticking = !1);
-                                }),
-                                (t.ticking = !0));
-                        });
-                    }),
-                    (t.setNavToggleEvents = function () {
-                        var t = this;
-                        X(this.element).on("" + rt.TOGGLE_SHOW, function () {
-                            t.navToggled = !0;
+                (nt = "." + (et = "mr.overlayNav")),
+                (it = (X = O).fn[tt]),
+                (rt = { RESIZE: "resize" + nt, RESIZED: "resized" + nt, IMAGE_LOAD: "load", TOGGLE_SHOW: "show.bs.collapse", TOGGLE_HIDDEN: "hidden.bs.collapse", NOTIFICATION_CLOSE: "", ALERT_CLOSE: "close.bs.alert" }),
+                (ot = "body > div.navbar-container"),
+                (at = "body > div.navbar-container > nav[data-overlay]"),
+                (st = "nav"),
+                (lt = "[data-overlay]"),
+                (ut = "img"),
+                (ct = (function () {
+                    function n(t) {
+                        (this.ticking = !1),
+                            (this.element = t),
+                            (this.navHeight = this.getNavHeight()),
+                            (this.navToggled = !1),
+                            (this.container = n.getContainerElement()),
+                            (this.overlayElement = n.getFirstOverlayElement()),
+                            this.setImageLoadEvent(),
+                            this.updateValues(),
+                            this.setResizeEvent(),
+                            this.setNavToggleEvents();
+                    }
+                    var t = n.prototype;
+                    return (
+                        (t.getNavHeight = function () {
+                            this.navHeight = this.element.getBoundingClientRect().height;
                         }),
-                            X(this.element).on("" + rt.TOGGLE_HIDDEN, function () {
-                                t.navToggled = !1;
+                        (t.updateValues = function () {
+                            this.getNavHeight(), this.updateContainer(), this.updateOverlayElement(), X(this.element).trigger(X.Event(rt.RESIZED));
+                        }),
+                        (t.updateContainer = function () {
+                            this.container && !this.navToggled && ((this.container.style.minHeight = this.navHeight + "px"), (this.container.style.marginBottom = "-" + this.navHeight + "px"));
+                        }),
+                        (t.updateOverlayElement = function () {
+                            this.overlayElement && !this.navToggled && this.overlayElement.style.setProperty("padding-top", this.navHeight + "px", "important");
+                        }),
+                        (t.setResizeEvent = function () {
+                            var t = this;
+                            X(window).on(rt.RESIZE + " " + rt.ALERT_CLOSE, function () {
+                                t.ticking ||
+                                    (window.requestAnimationFrame(function () {
+                                        t.updateValues(), (t.ticking = !1);
+                                    }),
+                                        (t.ticking = !0));
                             });
-                    }),
-                    (t.setImageLoadEvent = function () {
-                        var n = this,
-                            t = this.container.querySelectorAll(ut);
-                        z.forEach(t, function (t, e) {
-                            e.addEventListener(rt.IMAGE_LOAD, function () {
-                                return n.updateValues();
+                        }),
+                        (t.setNavToggleEvents = function () {
+                            var t = this;
+                            X(this.element).on("" + rt.TOGGLE_SHOW, function () {
+                                t.navToggled = !0;
+                            }),
+                                X(this.element).on("" + rt.TOGGLE_HIDDEN, function () {
+                                    t.navToggled = !1;
+                                });
+                        }),
+                        (t.setImageLoadEvent = function () {
+                            var n = this,
+                                t = this.container.querySelectorAll(ut);
+                            z.forEach(t, function (t, e) {
+                                e.addEventListener(rt.IMAGE_LOAD, function () {
+                                    return n.updateValues();
+                                });
                             });
-                        });
-                    }),
-                    (n.getContainerElement = function () {
-                        return this.container || (this.container = document.querySelector(ot)), this.container;
-                    }),
-                    (n.getFirstOverlayElement = function () {
-                        return document.querySelector(lt + ":not(" + st + ")");
-                    }),
-                    (n.jQueryInterface = function () {
-                        return this.each(function () {
-                            var t = X(this),
-                                e = t.data(et);
-                            e || ((e = new n(this)), t.data(et, e));
-                        });
-                    }),
-                    U(n, null, [
-                        {
-                            key: "VERSION",
-                            get: function () {
-                                return "1.1.0";
+                        }),
+                        (n.getContainerElement = function () {
+                            return this.container || (this.container = document.querySelector(ot)), this.container;
+                        }),
+                        (n.getFirstOverlayElement = function () {
+                            return document.querySelector(lt + ":not(" + st + ")");
+                        }),
+                        (n.jQueryInterface = function () {
+                            return this.each(function () {
+                                var t = X(this),
+                                    e = t.data(et);
+                                e || ((e = new n(this)), t.data(et, e));
+                            });
+                        }),
+                        U(n, null, [
+                            {
+                                key: "VERSION",
+                                get: function () {
+                                    return "1.1.0";
+                                },
                             },
-                        },
-                    ]),
-                    n
-                );
-            })()),
-            X(document).ready(function () {
-                for (var t = X.makeArray(X(at)), e = t.length; e--; ) {
-                    var n = X(t[e]);
-                    ct.jQueryInterface.call(n, n.data());
-                }
-            }),
-            (X.fn[tt] = ct.jQueryInterface),
-            (X.fn[tt].Constructor = ct),
-            (X.fn[tt].noConflict = function () {
-                return (X.fn[tt] = it), ct.jQueryInterface;
-            }),
-            ct);
+                        ]),
+                        n
+                    );
+                })()),
+                X(document).ready(function () {
+                    for (var t = X.makeArray(X(at)), e = t.length; e--;) {
+                        var n = X(t[e]);
+                        ct.jQueryInterface.call(n, n.data());
+                    }
+                }),
+                (X.fn[tt] = ct.jQueryInterface),
+                (X.fn[tt].Constructor = ct),
+                (X.fn[tt].noConflict = function () {
+                    return (X.fn[tt] = it), ct.jQueryInterface;
+                }),
+                ct);
     (ht = O),
         (ft = "show.bs.collapse"),
         (dt = "hide.bs.collapse"),
@@ -1674,131 +1674,131 @@
         }),
         a.highlightAll();
     var St = (function (i) {
-            if (void 0 === b) throw new Error("mrReadingPosition requires scrollMonitor.js (https://github.com/stutrek/scrollMonitor)");
-            var t = "mrReadingPosition",
-                r = "mr.readingPosition",
-                e = i.fn[t],
-                o = "reading-position-hidden",
-                a = { LOAD_DATA_API: "load.mr.readingPosition.data-api", RESIZE: "resize", SCROLL: "scroll" },
-                n = "progress.reading-position",
-                s = "[data-reading-position]",
-                l = "value",
-                u = "max",
-                c = 100,
-                h = document.querySelectorAll(n),
-                f = function () {
-                    return (0 === document.documentElement.scrollTop ? document.body.scrollTop : document.documentElement.scrollTop) || 0;
-                },
-                d = (function () {
-                    function n(t) {
-                        (this.progressBars = h),
-                            (this.element = t),
-                            (this.top = 0),
-                            (this.bottom = 0),
-                            (this.height = 0),
-                            (this.scrollLength = 0),
-                            (this.articlePositionPercent = 0),
-                            (this.ticking = !1),
-                            (this.inView = !1),
-                            (this.reading = !1),
-                            this.initWatcher(t),
-                            this.initBarValues(),
-                            this.setValue(f()),
-                            this.setScrollEvent(),
-                            this.setResizeEvent();
-                    }
-                    var t = n.prototype;
-                    return (
-                        (t.initWatcher = function (t) {
-                            var e = this,
-                                n = b.create(t);
-                            (this.watcher = n),
-                                this.recalculateAll(),
-                                n.stateChange(function () {
-                                    (e.inView = n.isInViewport), (e.reading = n.isAboveViewport && n.isFullyInViewport), e.toggleBars(e.reading);
-                                });
-                        }),
-                        (t.initBarValues = function () {
-                            z.forEach(this.progressBars, function (t, e) {
-                                e.setAttribute(u, c);
+        if (void 0 === b) throw new Error("mrReadingPosition requires scrollMonitor.js (https://github.com/stutrek/scrollMonitor)");
+        var t = "mrReadingPosition",
+            r = "mr.readingPosition",
+            e = i.fn[t],
+            o = "reading-position-hidden",
+            a = { LOAD_DATA_API: "load.mr.readingPosition.data-api", RESIZE: "resize", SCROLL: "scroll" },
+            n = "progress.reading-position",
+            s = "[data-reading-position]",
+            l = "value",
+            u = "max",
+            c = 100,
+            h = document.querySelectorAll(n),
+            f = function () {
+                return (0 === document.documentElement.scrollTop ? document.body.scrollTop : document.documentElement.scrollTop) || 0;
+            },
+            d = (function () {
+                function n(t) {
+                    (this.progressBars = h),
+                        (this.element = t),
+                        (this.top = 0),
+                        (this.bottom = 0),
+                        (this.height = 0),
+                        (this.scrollLength = 0),
+                        (this.articlePositionPercent = 0),
+                        (this.ticking = !1),
+                        (this.inView = !1),
+                        (this.reading = !1),
+                        this.initWatcher(t),
+                        this.initBarValues(),
+                        this.setValue(f()),
+                        this.setScrollEvent(),
+                        this.setResizeEvent();
+                }
+                var t = n.prototype;
+                return (
+                    (t.initWatcher = function (t) {
+                        var e = this,
+                            n = b.create(t);
+                        (this.watcher = n),
+                            this.recalculateAll(),
+                            n.stateChange(function () {
+                                (e.inView = n.isInViewport), (e.reading = n.isAboveViewport && n.isFullyInViewport), e.toggleBars(e.reading);
                             });
-                        }),
-                        (t.setValue = function (t) {
-                            var n = this;
-                            this.recalculatePercentage(t),
-                                z.forEach(this.progressBars, function (t, e) {
-                                    e.setAttribute(l, n.articlePositionPercent);
-                                });
-                        }),
-                        (t.toggleBars = function (n) {
+                    }),
+                    (t.initBarValues = function () {
+                        z.forEach(this.progressBars, function (t, e) {
+                            e.setAttribute(u, c);
+                        });
+                    }),
+                    (t.setValue = function (t) {
+                        var n = this;
+                        this.recalculatePercentage(t),
                             z.forEach(this.progressBars, function (t, e) {
-                                n ? e.classList.remove(o) : e.classList.add(o);
+                                e.setAttribute(l, n.articlePositionPercent);
                             });
-                        }),
-                        (t.setScrollEvent = function () {
-                            var e = this;
-                            window.addEventListener(a.SCROLL, function () {
-                                var t = f();
-                                !e.ticking &&
-                                    e.inView &&
-                                    e.reading &&
-                                    (window.requestAnimationFrame(function () {
-                                        e.setValue(t), (e.ticking = !1);
-                                    }),
+                    }),
+                    (t.toggleBars = function (n) {
+                        z.forEach(this.progressBars, function (t, e) {
+                            n ? e.classList.remove(o) : e.classList.add(o);
+                        });
+                    }),
+                    (t.setScrollEvent = function () {
+                        var e = this;
+                        window.addEventListener(a.SCROLL, function () {
+                            var t = f();
+                            !e.ticking &&
+                                e.inView &&
+                                e.reading &&
+                                (window.requestAnimationFrame(function () {
+                                    e.setValue(t), (e.ticking = !1);
+                                }),
                                     (e.ticking = !0));
-                            });
-                        }),
-                        (t.setResizeEvent = function () {
-                            var t = this;
-                            window.addEventListener(a.RESIZE, function () {
-                                return t.recalculateAll();
-                            });
-                        }),
-                        (t.recalculateAll = function () {
-                            this.watcher.recalculateLocation(),
-                                (this.top = this.watcher.top),
-                                (this.bottom = this.watcher.bottom),
-                                (this.height = this.watcher.height),
-                                (this.scrollLength = this.height - Math.max(document.documentElement.clientHeight, window.innerHeight || 0)),
-                                this.recalculatePercentage(f());
-                        }),
-                        (t.recalculatePercentage = function (t) {
-                            this.articlePositionPercent = t ? ((t - this.top) / this.scrollLength) * 100 : 0;
-                        }),
-                        (n.jQueryInterface = function () {
-                            return this.each(function () {
-                                var t = i(this),
-                                    e = t.data(r);
-                                e || ((e = new n(this)), t.data(r, e));
-                            });
-                        }),
-                        U(n, null, [
-                            {
-                                key: "VERSION",
-                                get: function () {
-                                    return "1.0.0";
-                                },
+                        });
+                    }),
+                    (t.setResizeEvent = function () {
+                        var t = this;
+                        window.addEventListener(a.RESIZE, function () {
+                            return t.recalculateAll();
+                        });
+                    }),
+                    (t.recalculateAll = function () {
+                        this.watcher.recalculateLocation(),
+                            (this.top = this.watcher.top),
+                            (this.bottom = this.watcher.bottom),
+                            (this.height = this.watcher.height),
+                            (this.scrollLength = this.height - Math.max(document.documentElement.clientHeight, window.innerHeight || 0)),
+                            this.recalculatePercentage(f());
+                    }),
+                    (t.recalculatePercentage = function (t) {
+                        this.articlePositionPercent = t ? ((t - this.top) / this.scrollLength) * 100 : 0;
+                    }),
+                    (n.jQueryInterface = function () {
+                        return this.each(function () {
+                            var t = i(this),
+                                e = t.data(r);
+                            e || ((e = new n(this)), t.data(r, e));
+                        });
+                    }),
+                    U(n, null, [
+                        {
+                            key: "VERSION",
+                            get: function () {
+                                return "1.0.0";
                             },
-                        ]),
-                        n
-                    );
-                })();
-            return (
-                i(window).on(a.LOAD_DATA_API, function () {
-                    if (0 !== h.length)
-                        for (var t = i.makeArray(i(s)), e = t.length; e--; ) {
-                            var n = i(t[e]);
-                            d.jQueryInterface.call(n, n.data());
-                        }
-                }),
-                (i.fn[t] = d.jQueryInterface),
-                (i.fn[t].Constructor = d),
-                (i.fn[t].noConflict = function () {
-                    return (i.fn[t] = e), d.jQueryInterface;
-                }),
-                d
-            );
-        })(jQuery),
+                        },
+                    ]),
+                    n
+                );
+            })();
+        return (
+            i(window).on(a.LOAD_DATA_API, function () {
+                if (0 !== h.length)
+                    for (var t = i.makeArray(i(s)), e = t.length; e--;) {
+                        var n = i(t[e]);
+                        d.jQueryInterface.call(n, n.data());
+                    }
+            }),
+            (i.fn[t] = d.jQueryInterface),
+            (i.fn[t].Constructor = d),
+            (i.fn[t].noConflict = function () {
+                return (i.fn[t] = e), d.jQueryInterface;
+            }),
+            d
+        );
+    })(jQuery),
         Tt = new l("a[data-smooth-scroll]", { offset: O("body").attr("data-smooth-scroll-offset") || 0 }),
         It = (function (s) {
             if (void 0 === b) throw new Error("mrSticky requires scrollMonitor.js (https://github.com/stutrek/scrollMonitor)");
@@ -1857,9 +1857,9 @@
                                     e.onWatcherChange(n);
                                 }),
                                 null !== a &&
-                                    (a.exitViewport(function () {
-                                        n.addClass(u);
-                                    }),
+                                (a.exitViewport(function () {
+                                    n.addClass(u);
+                                }),
                                     a.enterViewport(function () {
                                         n.removeClass(u);
                                     }));
@@ -1885,7 +1885,7 @@
                                 (window.requestAnimationFrame(function () {
                                     t.updateCss(), (t.ticking = !1);
                                 }),
-                                (this.ticking = !0));
+                                    (this.ticking = !0));
                         }),
                         (t.setNavToggleEvents = function () {
                             var t = this;
@@ -1927,7 +1927,7 @@
                 })();
             return (
                 s(window).on(f.LOAD_DATA_API, function () {
-                    for (var t = s.makeArray(s(g)), e = t.length; e--; ) {
+                    for (var t = s.makeArray(s(g)), e = t.length; e--;) {
                         var n = s(t[e]);
                         w.jQueryInterface.call(n, n.data());
                     }
@@ -1961,12 +1961,12 @@
                         ? ""
                         : void 0
                     : (n = r.charCodeAt(o)) < 55296 || 56319 < n || o + 1 === a || (i = r.charCodeAt(o + 1)) < 56320 || 57343 < i
-                    ? s
-                        ? r.charAt(o)
-                        : n
-                    : s
-                    ? r.slice(o, o + 2)
-                    : i - 56320 + ((n - 55296) << 10) + 65536;
+                        ? s
+                            ? r.charAt(o)
+                            : n
+                        : s
+                            ? r.slice(o, o + 2)
+                            : i - 56320 + ((n - 55296) << 10) + 65536;
             };
         },
         Dt = { codeAt: Pt(!1), charAt: Pt(!0) },
@@ -2036,24 +2036,24 @@
             f: Qt
                 ? Yt
                 : function (t, e, n) {
-                      if ((Gt(t), (e = Kt(e, !0)), Gt(n), Ut))
-                          try {
-                              return Yt(t, e, n);
-                          } catch (t) {}
-                      if ("get" in n || "set" in n) throw TypeError("Accessors not supported");
-                      return "value" in n && (t[e] = n.value), t;
-                  },
+                    if ((Gt(t), (e = Kt(e, !0)), Gt(n), Ut))
+                        try {
+                            return Yt(t, e, n);
+                        } catch (t) { }
+                    if ("get" in n || "set" in n) throw TypeError("Accessors not supported");
+                    return "value" in n && (t[e] = n.value), t;
+                },
         },
         $t = function (t, e) {
             return { enumerable: !(1 & t), configurable: !(2 & t), writable: !(4 & t), value: e };
         },
         Jt = Qt
             ? function (t, e, n) {
-                  return Zt.f(t, e, $t(1, n));
-              }
+                return Zt.f(t, e, $t(1, n));
+            }
             : function (t, e, n) {
-                  return (t[e] = n), t;
-              },
+                return (t[e] = n), t;
+            },
         Xt = function (e, n) {
             try {
                 Jt(Nt, e, n);
@@ -2138,9 +2138,9 @@
             f:
                 Se && !Ae.call({ 1: 2 }, 1)
                     ? function (t) {
-                          var e = Se(this, t);
-                          return !!e && e.enumerable;
-                      }
+                        var e = Se(this, t);
+                        return !!e && e.enumerable;
+                    }
                     : Ae,
         },
         Ie = {}.toString,
@@ -2152,8 +2152,8 @@
             return !Object("z").propertyIsEnumerable(0);
         })
             ? function (t) {
-                  return "String" == ke(t) ? Oe.call(t, "") : Object(t);
-              }
+                return "String" == ke(t) ? Oe.call(t, "") : Object(t);
+            }
             : Object,
         Ce = function (t) {
             return je(Ct(t));
@@ -2163,12 +2163,12 @@
             f: Qt
                 ? Pe
                 : function (t, e) {
-                      if (((t = Ce(t)), (e = Kt(e, !0)), Ut))
-                          try {
-                              return Pe(t, e);
-                          } catch (t) {}
-                      if (oe(t, e)) return $t(!Te.f.call(t, e), t[e]);
-                  },
+                    if (((t = Ce(t)), (e = Kt(e, !0)), Ut))
+                        try {
+                            return Pe(t, e);
+                        } catch (t) { }
+                    if (oe(t, e)) return $t(!Te.f.call(t, e), t[e]);
+                },
         },
         Fe = Vt(function (t) {
             var e = Ee.get,
@@ -2210,7 +2210,7 @@
                         return n < 0 ? Me(n + e, 0) : Ne(n, e);
                     })(n, o);
                 if (s && e != e) {
-                    for (; a < o; ) if ((i = r[a++]) != i) return !0;
+                    for (; a < o;) if ((i = r[a++]) != i) return !0;
                 } else for (; a < o; a++) if ((s || a in r) && r[a] === e) return s || a || 0;
                 return !s && -1;
             };
@@ -2222,7 +2222,7 @@
                 r = 0,
                 o = [];
             for (n in i) !oe(he, n) && oe(i, n) && o.push(n);
-            for (; e.length > r; ) oe(i, (n = e[r++])) && (~Qe(o, n) || o.push(n));
+            for (; e.length > r;) oe(i, (n = e[r++])) && (~Qe(o, n) || o.push(n));
             return o;
         },
         ze = ["constructor", "hasOwnProperty", "isPrototypeOf", "propertyIsEnumerable", "toLocaleString", "toString", "valueOf"],
@@ -2283,7 +2283,7 @@
             return Object(Ct(t));
         },
         an = !qt(function () {
-            function t() {}
+            function t() { }
             return (t.prototype.constructor = null), Object.getPrototypeOf(new t()) !== t.prototype;
         }),
         sn = ce("IE_PROTO"),
@@ -2291,8 +2291,8 @@
         un = an
             ? Object.getPrototypeOf
             : function (t) {
-                  return (t = on(t)), oe(t, sn) ? t[sn] : "function" == typeof t.constructor && t instanceof t.constructor ? t.constructor.prototype : t instanceof Object ? ln : null;
-              },
+                return (t = on(t)), oe(t, sn) ? t[sn] : "function" == typeof t.constructor && t instanceof t.constructor ? t.constructor.prototype : t instanceof Object ? ln : null;
+            },
         cn =
             !!Object.getOwnPropertySymbols &&
             !qt(function () {
@@ -2308,9 +2308,9 @@
     [].keys && ("next" in (be = [].keys()) ? (we = un(un(be))) !== Object.prototype && (ve = we) : (pn = !0)),
         null == ve && (ve = {}),
         oe(ve, mn) ||
-            Jt(ve, mn, function () {
-                return this;
-            });
+        Jt(ve, mn, function () {
+            return this;
+        });
     var gn = { IteratorPrototype: ve, BUGGY_SAFARI_ITERATORS: pn },
         yn =
             Object.keys ||
@@ -2320,20 +2320,20 @@
         vn = Qt
             ? Object.defineProperties
             : function (t, e) {
-                  Gt(t);
-                  for (var n, i = yn(e), r = i.length, o = 0; o < r; ) Zt.f(t, (n = i[o++]), e[n]);
-                  return t;
-              },
+                Gt(t);
+                for (var n, i = yn(e), r = i.length, o = 0; o < r;) Zt.f(t, (n = i[o++]), e[n]);
+                return t;
+            },
         wn = Le("document", "documentElement"),
         bn = ce("IE_PROTO"),
         En = "prototype",
-        An = function () {},
+        An = function () { },
         Sn = function () {
             var t,
                 e = Wt("iframe"),
                 n = ze.length,
                 i = "script";
-            for (e.style.display = "none", wn.appendChild(e), e.src = String("javascript:"), (t = e.contentWindow.document).open(), t.write("<script>document.F=Object</" + i + ">"), t.close(), Sn = t.F; n--; ) delete Sn[En][ze[n]];
+            for (e.style.display = "none", wn.appendChild(e), e.src = String("javascript:"), (t = e.contentWindow.document).open(), t.write("<script>document.F=Object</" + i + ">"), t.close(), Sn = t.F; n--;) delete Sn[En][ze[n]];
             return Sn();
         },
         Tn =
@@ -2357,23 +2357,23 @@
             Object.setPrototypeOf ||
             ("__proto__" in {}
                 ? (function () {
-                      var n,
-                          i = !1,
-                          t = {};
-                      try {
-                          (n = Object.getOwnPropertyDescriptor(Object.prototype, "__proto__").set).call(t, []), (i = t instanceof Array);
-                      } catch (t) {}
-                      return function (t, e) {
-                          return (
-                              Gt(t),
-                              (function (t) {
-                                  if (!Ht(t) && null !== t) throw TypeError("Can't set " + String(t) + " as a prototype");
-                              })(e),
-                              i ? n.call(t, e) : (t.__proto__ = e),
-                              t
-                          );
-                      };
-                  })()
+                    var n,
+                        i = !1,
+                        t = {};
+                    try {
+                        (n = Object.getOwnPropertyDescriptor(Object.prototype, "__proto__").set).call(t, []), (i = t instanceof Array);
+                    } catch (t) { }
+                    return function (t, e) {
+                        return (
+                            Gt(t),
+                            (function (t) {
+                                if (!Ht(t) && null !== t) throw TypeError("Can't set " + String(t) + " as a prototype");
+                            })(e),
+                            i ? n.call(t, e) : (t.__proto__ = e),
+                            t
+                        );
+                    };
+                })()
                 : void 0),
         Fn = gn.IteratorPrototype,
         Vn = gn.BUGGY_SAFARI_ITERATORS,
@@ -2418,16 +2418,16 @@
             g = ("Array" == e && d.entries) || m;
         if (
             (g && ((s = un(g.call(new t()))), Fn !== Object.prototype && s.next && (un(s) !== Fn && (Dn ? Dn(s, Fn) : "function" != typeof s[xn] && Jt(s, xn, Rn)), On(s, h, !0))),
-            r == Ln &&
+                r == Ln &&
                 m &&
                 m.name !== Ln &&
                 ((f = !0),
-                (p = function () {
-                    return m.call(this);
-                })),
-            d[xn] !== p && Jt(d, xn, p),
-            (jn[e] = p),
-            r)
+                    (p = function () {
+                        return m.call(this);
+                    })),
+                d[xn] !== p && Jt(d, xn, p),
+                (jn[e] = p),
+                r)
         )
             if (((l = { values: c(Ln), keys: o ? p : c("keys"), entries: c(_n) }), a)) for (u in l) (!Vn && !f && u in d) || Fe(d, u, l[u]);
             else rn({ target: e, proto: !0, forced: Vn || f }, l);
@@ -2446,35 +2446,35 @@
         }
     );
     var Hn = function (i, r, t) {
-            if (
-                ((function (t) {
-                    if ("function" != typeof t) throw TypeError(String(t) + " is not a function");
-                })(i),
+        if (
+            ((function (t) {
+                if ("function" != typeof t) throw TypeError(String(t) + " is not a function");
+            })(i),
                 void 0 === r)
-            )
-                return i;
-            switch (t) {
-                case 0:
-                    return function () {
-                        return i.call(r);
-                    };
-                case 1:
-                    return function (t) {
-                        return i.call(r, t);
-                    };
-                case 2:
-                    return function (t, e) {
-                        return i.call(r, t, e);
-                    };
-                case 3:
-                    return function (t, e, n) {
-                        return i.call(r, t, e, n);
-                    };
-            }
-            return function () {
-                return i.apply(r, arguments);
-            };
-        },
+        )
+            return i;
+        switch (t) {
+            case 0:
+                return function () {
+                    return i.call(r);
+                };
+            case 1:
+                return function (t) {
+                    return i.call(r, t);
+                };
+            case 2:
+                return function (t, e) {
+                    return i.call(r, t, e);
+                };
+            case 3:
+                return function (t, e, n) {
+                    return i.call(r, t, e, n);
+                };
+        }
+        return function () {
+            return i.apply(r, arguments);
+        };
+    },
         zn = function (e, t, n, i) {
             try {
                 return i ? t(Gt(n)[0], n[1]) : t(n);
@@ -2504,25 +2504,25 @@
                     t[Yn] ||
                     t["@@iterator"] ||
                     jn[
-                        (function (t) {
-                            var e, n, i;
-                            return void 0 === t
-                                ? "Undefined"
-                                : null === t
+                    (function (t) {
+                        var e, n, i;
+                        return void 0 === t
+                            ? "Undefined"
+                            : null === t
                                 ? "Null"
                                 : "string" ==
-                                  typeof (n = (function (t, e) {
-                                      try {
-                                          return t[e];
-                                      } catch (t) {}
-                                  })((e = Object(t)), Gn))
-                                ? n
-                                : Kn
-                                ? ke(e)
-                                : "Object" == (i = ke(e)) && "function" == typeof e.callee
-                                ? "Arguments"
-                                : i;
-                        })(t)
+                                    typeof (n = (function (t, e) {
+                                        try {
+                                            return t[e];
+                                        } catch (t) { }
+                                    })((e = Object(t)), Gn))
+                                    ? n
+                                    : Kn
+                                        ? ke(e)
+                                        : "Object" == (i = ke(e)) && "function" == typeof e.callee
+                                            ? "Arguments"
+                                            : i;
+                    })(t)
                     ]
                 );
         },
@@ -2544,7 +2544,7 @@
             Array.from(ti, function () {
                 throw 2;
             });
-    } catch (t) {}
+    } catch (t) { }
     var ei = !(function (t, e) {
         if (!e && !Jn) return !1;
         var n = !1;
@@ -2558,7 +2558,7 @@
                 };
             }),
                 t(i);
-        } catch (t) {}
+        } catch (t) { }
         return n;
     })(function (t) {
         Array.from(t);
@@ -2580,7 +2580,7 @@
                     h = Zn(o);
                 if (
                     (u && (l = Hn(l, 2 < s ? arguments[2] : void 0, 2)),
-                    null == h ||
+                        null == h ||
                         (a == Array &&
                             (function (t) {
                                 return void 0 !== t && (jn.Array === t || Wn[Bn] === t);
@@ -2599,103 +2599,103 @@
         }),
         u.SVGInjector(document.querySelectorAll("[data-inject-svg]"));
     var ni = (function (c) {
-            if (void 0 === A) throw new Error("mrTwitterFetcher requires twitterFetcher.js (https://github.com/jasonmayes/Twitter-Post-Fetcher)");
-            var t = "mrTwitterFetcher",
-                i = "mr.twitterFetcher",
-                e = "." + i,
-                n = c.fn[t],
-                h = { LOAD_DATA_API: "load" + e + ".data-api", RESIZE: "resize" + e, READY: "ready" + e, APPEND: "tweetAppended" + e },
-                r = "[data-twitter-fetcher]",
-                o = "data-twitter",
-                f = ".user",
-                d = ".tweet",
-                m = ".timePosted",
-                p = ".interact",
-                a = "twitter",
-                s = 6,
-                l = "username",
-                u = "max-tweets",
-                g = "flickity",
-                y = "twitterFlickity",
-                v = "isotope",
-                w = (function () {
-                    function n(t) {
-                        var e = c(t);
-                        (this.element = t),
-                            (this.element.id = "tweets-" + new Date().getTime()),
-                            (this.username = e.data(l).replace("@", "") || a),
-                            (this.maxTweets = parseInt(e.data(u), 10) || s),
-                            (this.slider = null !== this.element.getAttribute(o + "-" + g)),
-                            (this.slider = this.slider && "object" == typeof e.data(y) ? e.data(y) : this.slider),
-                            (this.isotope = null !== this.element.getAttribute(o + "-" + v)),
-                            this.initTwitterFeed();
-                    }
-                    return (
-                        (n.prototype.initTwitterFeed = function () {
-                            var u = this;
-                            (this.config = {
-                                profile: { screenName: this.username },
-                                domId: this.element.id,
-                                maxTweets: this.maxTweets,
-                                enableLinks: !0,
-                                showUser: !0,
-                                showTime: !0,
-                                dateFunction: "",
-                                showRetweet: !1,
-                                customCallback: function (t) {
-                                    for (var e = c(u.element), n = e.children().first().detach(), i = t.length, r = 0; r < i; ) {
-                                        var o = c("<div>").append(c(t[r])),
-                                            a = n.clone();
-                                        a.find(d).html(o.find(d).html()), a.find(f).html(o.find(f).html()), a.find(m).html(o.find(m).html()), a.find(p).html(o.find(p).html()), e.append(a), (r += 1);
-                                        var s = c.Event(h.APPEND);
-                                        (s.appendedElement = a), (s.mrTwitterFetcher = u), c(u.element).trigger(s);
-                                    }
-                                    if (!0 === u.slider || "object" == typeof u.slider) {
-                                        if (void 0 === E) throw new Error("mrTwitterFetcher requires flickity.js (https://github.com/metafizzy/flickity)");
-                                        e.data("flickity", new E(u.element, u.slider));
-                                    } else if (!0 === u.isotope) {
-                                        if ("undefined" == typeof Isotope) throw new Error("mrTwitterFetcher requires isotope.js (https://github.com/metafizzy/isotope)");
-                                        c(u.element).mrIsotope();
-                                    }
-                                    var l = c.Event(h.READY);
-                                    (l.mrTwitterFetcher = u), c(u.element).trigger(l);
-                                },
-                            }),
-                                A.fetch(this.config);
-                        }),
-                        (n.jQueryInterface = function () {
-                            return this.each(function () {
-                                var t = c(this),
-                                    e = t.data(i);
-                                e || ((e = new n(this)), t.data(i, e));
-                            });
-                        }),
-                        U(n, null, [
-                            {
-                                key: "VERSION",
-                                get: function () {
-                                    return "1.0.0";
-                                },
+        if (void 0 === A) throw new Error("mrTwitterFetcher requires twitterFetcher.js (https://github.com/jasonmayes/Twitter-Post-Fetcher)");
+        var t = "mrTwitterFetcher",
+            i = "mr.twitterFetcher",
+            e = "." + i,
+            n = c.fn[t],
+            h = { LOAD_DATA_API: "load" + e + ".data-api", RESIZE: "resize" + e, READY: "ready" + e, APPEND: "tweetAppended" + e },
+            r = "[data-twitter-fetcher]",
+            o = "data-twitter",
+            f = ".user",
+            d = ".tweet",
+            m = ".timePosted",
+            p = ".interact",
+            a = "twitter",
+            s = 6,
+            l = "username",
+            u = "max-tweets",
+            g = "flickity",
+            y = "twitterFlickity",
+            v = "isotope",
+            w = (function () {
+                function n(t) {
+                    var e = c(t);
+                    (this.element = t),
+                        (this.element.id = "tweets-" + new Date().getTime()),
+                        (this.username = e.data(l).replace("@", "") || a),
+                        (this.maxTweets = parseInt(e.data(u), 10) || s),
+                        (this.slider = null !== this.element.getAttribute(o + "-" + g)),
+                        (this.slider = this.slider && "object" == typeof e.data(y) ? e.data(y) : this.slider),
+                        (this.isotope = null !== this.element.getAttribute(o + "-" + v)),
+                        this.initTwitterFeed();
+                }
+                return (
+                    (n.prototype.initTwitterFeed = function () {
+                        var u = this;
+                        (this.config = {
+                            profile: { screenName: this.username },
+                            domId: this.element.id,
+                            maxTweets: this.maxTweets,
+                            enableLinks: !0,
+                            showUser: !0,
+                            showTime: !0,
+                            dateFunction: "",
+                            showRetweet: !1,
+                            customCallback: function (t) {
+                                for (var e = c(u.element), n = e.children().first().detach(), i = t.length, r = 0; r < i;) {
+                                    var o = c("<div>").append(c(t[r])),
+                                        a = n.clone();
+                                    a.find(d).html(o.find(d).html()), a.find(f).html(o.find(f).html()), a.find(m).html(o.find(m).html()), a.find(p).html(o.find(p).html()), e.append(a), (r += 1);
+                                    var s = c.Event(h.APPEND);
+                                    (s.appendedElement = a), (s.mrTwitterFetcher = u), c(u.element).trigger(s);
+                                }
+                                if (!0 === u.slider || "object" == typeof u.slider) {
+                                    if (void 0 === E) throw new Error("mrTwitterFetcher requires flickity.js (https://github.com/metafizzy/flickity)");
+                                    e.data("flickity", new E(u.element, u.slider));
+                                } else if (!0 === u.isotope) {
+                                    if ("undefined" == typeof Isotope) throw new Error("mrTwitterFetcher requires isotope.js (https://github.com/metafizzy/isotope)");
+                                    c(u.element).mrIsotope();
+                                }
+                                var l = c.Event(h.READY);
+                                (l.mrTwitterFetcher = u), c(u.element).trigger(l);
                             },
-                        ]),
-                        n
-                    );
-                })();
-            return (
-                c(window).on(h.LOAD_DATA_API, function () {
-                    for (var t = c.makeArray(c(r)), e = t.length; e--; ) {
-                        var n = c(t[e]);
-                        w.jQueryInterface.call(n, n.data());
-                    }
-                }),
-                (c.fn[t] = w.jQueryInterface),
-                (c.fn[t].Constructor = w),
-                (c.fn[t].noConflict = function () {
-                    return (c.fn[t] = n), w.jQueryInterface;
-                }),
-                w
-            );
-        })(O),
+                        }),
+                            A.fetch(this.config);
+                    }),
+                    (n.jQueryInterface = function () {
+                        return this.each(function () {
+                            var t = c(this),
+                                e = t.data(i);
+                            e || ((e = new n(this)), t.data(i, e));
+                        });
+                    }),
+                    U(n, null, [
+                        {
+                            key: "VERSION",
+                            get: function () {
+                                return "1.0.0";
+                            },
+                        },
+                    ]),
+                    n
+                );
+            })();
+        return (
+            c(window).on(h.LOAD_DATA_API, function () {
+                for (var t = c.makeArray(c(r)), e = t.length; e--;) {
+                    var n = c(t[e]);
+                    w.jQueryInterface.call(n, n.data());
+                }
+            }),
+            (c.fn[t] = w.jQueryInterface),
+            (c.fn[t].Constructor = w),
+            (c.fn[t].noConflict = function () {
+                return (c.fn[t] = n), w.jQueryInterface;
+            }),
+            w
+        );
+    })(O),
         ii = (function (i) {
             if ("function" != typeof c) throw new Error("mrTypedText requires typed.js (https://github.com/mattboldt/typed.js/)");
             if (void 0 === b) throw new Error("mrTypedText requires scrollMonitor.js (https://github.com/stutrek/scrollMonitor)");
@@ -2738,7 +2738,7 @@
                 })();
             return (
                 i(window).on(n.LOAD_DATA_API, function () {
-                    for (var t = i.makeArray(i(o)), e = t.length; e--; ) {
+                    for (var t = i.makeArray(i(o)), e = t.length; e--;) {
                         var n = i(t[e]);
                         a.jQueryInterface.call(n, n.data());
                     }
