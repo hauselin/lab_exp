@@ -10,7 +10,8 @@ var showRoutes = require('./routes/show'),
     indexRoutes = require('./routes/index'),
     datalibraryRoutes = require('./routes/datalibrary'),
     vizRoutes = require('./routes/viz'),
-    downloadsRoutes = require('./routes/downloads')
+    downloadsRoutes = require('./routes/downloads'), 
+    deleteRoutes = require('./routes/delete')
 
 app.use(bodyParser.json());
 app.use(express.json());
@@ -37,6 +38,7 @@ app.use(datalibraryRoutes);
 app.use(showRoutes);
 app.use(vizRoutes);
 app.use(downloadsRoutes);
+app.use(deleteRoutes);
 
 // Handle 404
 app.use(function (req, res) {
