@@ -146,7 +146,6 @@ var trial = {
     }
 };
 
-timeline.push(instructions);
 var practice_trial = jsPsych.utils.deepCopy(trial);
 delete practice_trial.on_finish;
 delete practice_trial.timeline;
@@ -164,9 +163,8 @@ practice_trial.timeline = [
         }
     }];
 practice_trial.on_finish = function (data) { data.event = 'practice'; };
-timeline.push(practice_trial);
-timeline.push(instructions2);
-timeline.push(trial);
+
+timeline.push(instructions, practice_trial, instructions2, trial);
 
 jsPsych.init({
     timeline: timeline,
