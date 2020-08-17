@@ -3,7 +3,10 @@ var express = require("express"),
     app = express(),
     bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
+    passport = require('passport'),
+    LocalStrategy = require('passport-local'),
     path = require('path'),
+    User = require('./models/user'),
     DataLibrary = require('./models/datalibrary')
 
 var showRoutes = require('./routes/show'),
