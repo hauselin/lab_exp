@@ -28,6 +28,18 @@ mongoose.connect('mongodb://localhost/datalibrary',
     }
 );
 
+// PASSPORT CONFIGURATION
+app.use(require("express-session")({
+    secret: "Welcome to Anthrope.", 
+    resave: false, 
+    saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 // // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES
 app.use('/tasks', express.static(__dirname + "/tasks"));
 app.use('/surveys', express.static(__dirname + "/surveys"));
