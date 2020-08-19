@@ -7,7 +7,11 @@ var no_incongruent_neighbors = true;
 var show_feedback = true; // TODO: will explain this feature next time
 var adaptive = true; // TODO: if true, adapt task difficulty (reduce rt_deadline if correct; increase rt_deadlline if wrong; by 50 ms)
 var fullscreen = false;
-var dark_background = true;
+var dark_background = false;
+var practice_trials = 3; // restriction: the actual number of practice trials will only be multiples of 3, hence it might be smaller than the number defined here.
+if (practice_trials < 3) {
+    practice_trials = 3;
+}
 
 if (dark_background) {
     document.body.style.backgroundColor = "black";
@@ -44,12 +48,28 @@ var color_key = { 'red': 'r', 'green': 'g', 'yellow': 'y' }; // color-key mappin
 
 // parameters below typically don't need to be changed
 var stimuli_repetitions = [];
-// extract the value of the reps attribute in the stimuli_unique array
-for (i = 0; i < stimuli_unique.length; i++) {
-    stimuli_repetitions.push(stimuli_unique[i].data.reps);
-}
+var practice_stimuli_repetitions = [];
+var practice_stimuli_congruent = [];
+var practice_stimuli_incongruent = [];
+var practice_stimuli_neutral = [];
+
+// extract the value of the reps attribute in the stimuli_unique array & group stimuli of different trial types into different arrays
+stimuli_unique.forEach(function (item) {
+    stimuli_repetitions.push(item.data.reps);
+    if (item.data.trialtype == 'congruent') {
+        practice_stimuli_congruent.push(item);
+    } else if (item.data.trialtype == 'incongruent') {
+        practice_stimuli_incongruent.push(item);
+    } else if (item.data.trialtype == 'neutral') {
+        practice_stimuli_neutral.push(item);
+    }
+});
 if (debug) {
     console.log(stimuli_repetitions);
+    console.log(practice_stimuli_repetitions);
+    // console.log(practice_stimuli_congruent);
+    // console.log(practice_stimuli_incongruent);
+    // console.log(practice_stimuli_neutral);
 }
 
 // repeat each stimulus reps times
@@ -66,6 +86,20 @@ if (no_incongruent_neighbors) { // ensure incongruent stimuli aren't presented c
 }
 if (debug) { console.log(stimuli_shuffled); }
 
+// evenly add each type of trial to practice stimuli array
+var practice_stimuli_shuffled = [];
+for (i = 0; i < (Math.floor(practice_trials / 3)); i++) {
+    practice_stimuli_shuffled.push(practice_stimuli_congruent[i], practice_stimuli_incongruent[i], practice_stimuli_neutral[i]);
+}
+
+if (no_incongruent_neighbors) { // ensure incongruent stimuli aren't presented consecutively
+    var practice_stimuli_shuffled = jsPsych.randomization.shuffleNoRepeats(practice_stimuli_shuffled, equality_test);
+} else {
+    jsPsych.randomization.shuffleNoRepeats(practice_stimuli_shuffled);  // shuffle
+}
+
+if (debug) { console.log(practice_stimuli_shuffled); }
+
 // add data to all trials
 jsPsych.data.addProperties({
     subject: subject,
@@ -78,6 +112,7 @@ jsPsych.data.addProperties({
 });
 
 var timeline = [];
+var n_trial = 0; // stroop trial number counter
 
 if (fullscreen) {
     timeline.push({
@@ -94,14 +129,24 @@ var instructions = {
         generate_html("In this task, you'll have to select the correct font colour for each of the words shown.", font_colour) + generate_html("If you see red coloured text, press 'r'; if you see blue coloured text, press 'b'; if you see yellow coloured text, press 'y';", font_colour),
         generate_html("For example, you'll see:", font_colour) + generate_html("red", "red") + generate_html("And the correct response would be pressing 'r'.", font_colour),
         generate_html("You have a limited amount of time to respond to each prompted word, so react quickly!", font_colour),
-        generate_html("Click next or press the right arrow key to begin.", font_colour)
+        generate_html("Next up is a practice trial.", font_colour) + generate_html("Your data will NOT be recorded.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour)
     ],
     show_clickable_nav: true,
     show_page_number: true,
 };
-timeline.push(instructions);
 
-var n_trial = 0; // stroop trial number counter
+var instructions2 = {
+    type: "instructions",
+    pages: [
+        generate_html("That was the practice trial.", font_colour) + generate_html("Click next or press the right arrow key to begin the experiment.", font_colour) + generate_html("Your data WILL be recorded this time.", font_colour)
+    ],
+    show_clickable_nav: true,
+    show_page_number: false,
+    on_finish: function() {
+        n_trial = 0;
+    }
+};
+
 
 var fixation = {
     type: "image-keyboard-response",
@@ -124,6 +169,7 @@ var fixation = {
 
 var correct_key = ''; // correct key on each trial
 var current_iti = 0; // iti on each trial
+var stimulus_event = null; // the event of the trial
 var stimulus = {
     type: "html-keyboard-response",
     choices: Object.values(color_key), // get all the values (drop the keys) in the object color_key
@@ -140,8 +186,11 @@ var stimulus = {
     },
     trial_duration: function () { return rt_deadline; }, // function is needed to dynamically change value on each trial
     data: jsPsych.timelineVariable('data'),  // all data inside the 'data' attribute of our timeline variable (stimuli_shuffled) will be saved to the json file
+    on_start: function () {
+        stimulus_event = 'stimulus';
+    },
     on_finish: function (data) {
-        data.event = 'stimulus';
+        data.event = stimulus_event;
         data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press);
         data.n_trial = n_trial;
         data.rt_deadline = rt_deadline;
@@ -151,10 +200,11 @@ var stimulus = {
             data.acc = 0;
         };
         if (debug) {
-            console.log("Accuracies so far: " + jsPsych.data.get().filter({ "event": "stimulus" }).select('acc').values);
+            console.log("The event of this trial is: " + stimulus_event);
+            console.log("Accuracies so far: " + jsPsych.data.get().filterCustom(function(trial){return trial.event == stimulus_event}).select('acc').values);
         }
         if (adaptive && n_trial > 0) {
-            var previoustrials_acc = jsPsych.data.get().filter({ 'event': 'stimulus' }).last(2).select('acc').sum(); // get last two trials
+            var previoustrials_acc = jsPsych.data.get().filterCustom(function(trial){return trial.event == stimulus_event}).last(2).select('acc').sum(); // get last two trials
             if (debug) {
                 console.log("Previous trials' summed accuracy: " + previoustrials_acc);
             }
@@ -198,7 +248,19 @@ var trial_sequence = {
     timeline: [fixation, stimulus, feedback], // one timeline/trial has these objects
     timeline_variables: stimuli_shuffled, // the above timeline/trial is repeated stimuli_shuffled.length times
 };
-timeline.push(trial_sequence);
+
+var practice_stimulus = jsPsych.utils.deepCopy(stimulus);
+delete practice_stimulus.on_start;
+practice_stimulus.on_start = function () {
+    stimulus_event = "practice";
+}
+
+var practice_trial_sequence = {
+    timeline: [fixation, practice_stimulus, feedback], // one timeline/trial has these objects
+    timeline_variables: practice_stimuli_shuffled, // the above timeline/trial is repeated stimuli_shuffled.length times
+};
+
+timeline.push(instructions, practice_trial_sequence, instructions2, trial_sequence);
 
 jsPsych.init({
     timeline: timeline,
