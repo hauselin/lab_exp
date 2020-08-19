@@ -21,6 +21,8 @@ if (dark_background) {
     font_colour = "black";
 };
 
+const adaptive = true;
+const no_incongruent_neighbors = false;
 var rt_deadline = 1500;
 var fixation_duration = 300;
 var feedback_duration = 1500;
@@ -31,17 +33,17 @@ var itis = iti_exponential(low = 300, high = 800);
 // objects have the data field because that allows jsPsych to store all the data automatically
 var stimuli_unique = [  // unique stroop trials
     { data: { text: 'red', color: 'red', trialtype: 'congruent', reps: 2 } },
-    { data: { text: 'green', color: 'green', trialtype: 'congruent', reps: 3 } },
-    { data: { text: 'yellow', color: 'yellow', trialtype: 'congruent', reps: 4 } },
-    { data: { text: 'red', color: 'green', trialtype: 'incongruent', reps: 1 } },
-    { data: { text: 'red', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
-    { data: { text: 'green', color: 'red', trialtype: 'incongruent', reps: 1 } },
-    { data: { text: 'green', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
-    { data: { text: 'yellow', color: 'red', trialtype: 'incongruent', reps: 1 } },
-    { data: { text: 'yellow', color: 'green', trialtype: 'incongruent', reps: 1 } },
-    { data: { text: 'xxxx', color: 'red', trialtype: 'neutral', reps: 2 } },
-    { data: { text: 'xxxx', color: 'green', trialtype: 'neutral', reps: 2 } },
-    { data: { text: 'xxxx', color: 'yellow', trialtype: 'neutral', reps: 2 } }
+    // { data: { text: 'green', color: 'green', trialtype: 'congruent', reps: 3 } },
+    // { data: { text: 'yellow', color: 'yellow', trialtype: 'congruent', reps: 4 } },
+    // { data: { text: 'red', color: 'green', trialtype: 'incongruent', reps: 1 } },
+    // { data: { text: 'red', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
+    // { data: { text: 'green', color: 'red', trialtype: 'incongruent', reps: 1 } },
+    // { data: { text: 'green', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
+    // { data: { text: 'yellow', color: 'red', trialtype: 'incongruent', reps: 1 } },
+    // { data: { text: 'yellow', color: 'green', trialtype: 'incongruent', reps: 1 } },
+    // // { data: { text: 'xxxx', color: 'red', trialtype: 'neutral', reps: 2 } },
+    // { data: { text: 'xxxx', color: 'green', trialtype: 'neutral', reps: 2 } },
+    // { data: { text: 'xxxx', color: 'yellow', trialtype: 'neutral', reps: 2 } }
 ];
 
 var color_key = { 'red': 'r', 'green': 'g', 'yellow': 'y' }; // color-key mapping
@@ -152,7 +154,7 @@ var fixation = {
     type: "image-keyboard-response",
     choices: jsPsych.NO_KEYS,
     stimulus: function () {
-        if (dark_background) {
+        if (black_background) {
             return "../../tasks/stroop/fixation_black.png"
         } else {
             return "../../tasks/stroop/fixation_white.png"
@@ -265,14 +267,21 @@ timeline.push(instructions, practice_trial_sequence, instructions2, trial_sequen
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
+        document.body.style.backgroundColor = 'white';
         var data_subset = jsPsych.data.get().filter({ "event": "stimulus" });  // select stroop trials
         var ddm_params = fit_ezddm_to_jspsych_data(data_subset);  // fit model
+        jsPsych.data.get().addToAll({ // add objects to all trials
+            info_: info_,
+            datasummary_: {},
+            total_time: datasummary_.total_time,
+            ddm_params: ddm_params
+        });
         if (debug) {
+            jsPsych.data.displayData();
             console.log("ez-ddm parameters");
             console.log(ddm_params);
         }
-        jsPsych.data.get().addToAll({ total_time: jsPsych.totalTime(), ddm_params: ddm_params });
+        sessionStorage.setObj('info_', info_); // save to sessionStorage
         submit_data(jsPsych.data.get().json(), false);
-        jsPsych.data.displayData();
     }
 });
