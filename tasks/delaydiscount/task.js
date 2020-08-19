@@ -10,9 +10,9 @@ var info_ = create_info_(taskinfo);  // initialize subject id and task parameter
 var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 
 const debug = true;  // debug mode to print messages to console and display json data at the end
-const black_background = true; // if true, white text on black background
+const dark_background = true; // if true, white text on black background
 var font_colour = 'black';
-if (black_background) {
+if (dark_background) {
     document.body.style.backgroundColor = "black";
     var font_colour = 'white';
 }
