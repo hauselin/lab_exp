@@ -182,7 +182,7 @@ jsPsych.init({
             jsPsych.data.displayData();
         }
         sessionStorage.setObj('info_', info_); // save to sessionStorage
-        sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
+        // sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
     }
 });
