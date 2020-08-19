@@ -1,22 +1,23 @@
-var subject = jsPsych.randomization.randomID(15); // random character subject id
-var condition = 'control'; // experiment/task condition
-var task = 'stroop';
-var experiment = 'stroop';
-var debug = true;
-var no_incongruent_neighbors = true;
-var show_feedback = true; // TODO: will explain this feature next time
-var adaptive = true; // TODO: if true, adapt task difficulty (reduce rt_deadline if correct; increase rt_deadlline if wrong; by 50 ms)
-var fullscreen = false;
-var dark_background = true;
-
-if (dark_background) {
-    document.body.style.backgroundColor = "black";
-    font_colour = "white";
-} else if (!dark_background) {
-    document.body.style.backgroundColor = "white";
-    font_colour = "black";
+const taskinfo = {
+    type: 'task', // 'task', 'survey', or 'study'
+    uniquestudyid: 'stroop', // unique task id: must be IDENTICAL to directory name
+    desc: 'stroop', // brief description of task
+    condition: null, // experiment/task condition
+    redirect_url: false // set to false if no redirection required
 };
 
+var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
+var datasummary_ = create_datasummary_(info_); // initialize datasummary object
+
+const debug = true;  // debug mode to print messages to console and display json data at the end
+const black_background = true; // if true, white text on black background
+var font_colour = 'black';
+if (black_background) {
+    document.body.style.backgroundColor = "black";
+    var font_colour = 'white';
+}
+
+const no_incongruent_neighbors = false;
 var rt_deadline = 1500;
 var fixation_duration = 300;
 var feedback_duration = 1500;
@@ -68,24 +69,19 @@ if (debug) { console.log(stimuli_shuffled); }
 
 // add data to all trials
 jsPsych.data.addProperties({
-    subject: subject,
-    condition: condition,
-    task: task,
-    experiment: experiment,
-    adaptive: adaptive,
-    browser: navigator.userAgent, // browser info
-    datetime: Date(),
+    subject: info_.subject,
+    type: taskinfo.type,
+    uniquestudyid: taskinfo.uniquestudyid,
+    desc: taskinfo.desc,
+    condition: taskinfo.condition,
+    info_: info_,
+    datasummary_: datasummary_
 });
 
+// create experiment timeline
 var timeline = [];
-
-if (fullscreen) {
-    timeline.push({
-        type: "fullscreen",
-        fullscreen_mode: true,
-        message: generate_html("The experiment will switch to full screen mode when you press the button below", font_colour)
-    });
-}
+const html_path = "../../tasks/stroop/consent.html";
+timeline = create_consent(timeline, html_path);
 
 var instructions = {
     type: "instructions",
