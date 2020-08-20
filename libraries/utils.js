@@ -278,6 +278,7 @@ function create_info_(params) {
         city: null,
         region: null,
         country_name: null,
+        tasks_completed: [],
     };
     info_ = add_ip_info(info_); // add geolocation info if available
     info_ = { ...info_, ...params }; // spread operator to merge objects (second object will overwrite first one if both have same properties)
@@ -320,6 +321,7 @@ function get_previous_info(info_) {
             const time_current = info_.time;
             var time_diff = time_current - time_previous;
             info_.previous_mins_before = time_diff / 60000;
+            info_.tasks_completed = x.tasks_completed;
         } catch {
             console.log("info_ doesn't exist in sessionObject yet!")
         }

@@ -3,7 +3,7 @@ const taskinfo = {
     uniquestudyid: 'gritshort', // unique task id: must be IDENTICAL to directory name
     desc: 'Duckworth 2009 grit short scale', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: false // set to false if no redirection required
+    redirect_url: '/' // set to false if no redirection required
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
@@ -92,17 +92,15 @@ function run_survey(survey) {
         timeline: [procedure],
         on_finish: function () {
             document.body.style.backgroundColor = 'white';
-            datasummary_ = {}; // summarize data
+            info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
             jsPsych.data.get().addToAll({ // add objects to all trials
                 info_: info_,
-                datasummary_: {},
                 total_time: datasummary_.total_time,
             });
             if (debug) {
                 jsPsych.data.displayData();
             }
             sessionStorage.setObj('info_', info_); // save to sessionStorage
-            sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
             submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
         }
     });

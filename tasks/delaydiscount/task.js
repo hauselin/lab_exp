@@ -146,7 +146,7 @@ var trial = {
     }
 };
 
-timeline.push(instructions);
+// create practice trials
 var practice_trial = jsPsych.utils.deepCopy(trial);
 delete practice_trial.on_finish;
 delete practice_trial.timeline;
@@ -164,6 +164,9 @@ practice_trial.timeline = [
         }
     }];
 practice_trial.on_finish = function (data) { data.event = 'practice'; };
+
+// create task timeline
+timeline.push(instructions);
 timeline.push(practice_trial);
 timeline.push(instructions2);
 timeline.push(trial);
@@ -173,6 +176,7 @@ jsPsych.init({
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
         datasummary_ = summarize_data(); // summarize data
+        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
         jsPsych.data.get().addToAll({ // add objects to all trials
             info_: info_,
             datasummary_: {},
