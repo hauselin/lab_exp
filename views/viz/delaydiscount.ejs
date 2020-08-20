@@ -37,7 +37,7 @@
         <div class="container">
             <div class="row align-items-center justify-content-around">
                 <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
-                    <div id="vis" class="center"></div>
+                    <div id="vis1" class="center"></div>
                 </div>
                 <div class="col-md-6 col-xl-5">
                     <div class="row justify-content-center">
@@ -69,7 +69,7 @@
                     <div class="ml-3">
                         <h5>Self-control and impulsivity</h5>
                         <p>
-                            More info. Complete the self-control survey.
+                            More info. Complete these tasks.
                         </p>
                     </div>
                 </div>
@@ -162,7 +162,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-10">
-                    <h2 class="h1 mb-4">Want to learn more? Complete more tasks.</h2>
+                    <h2 class="h1 mb-4">Want to learn more? Complete these tasks.</h2>
                     <div class="row no-gutters mb-3 d-none d-md-flex">
                         <div class="col-xl-8 col-lg-7 col-md-6">
                             <span class="text-small text-muted">Task</span>
@@ -280,14 +280,6 @@
             height: 400,
         };
         
-        //https://github.com/smnh/FontLoader
-        var fontLoader = new FontLoader(['Inter-UI-upright'], {"fontLoaded": function(f) {
-            console.log("font loaded: " + f.family);
-        }, "complete": function(error) {
-            vegaEmbed('#vis', aggregate_curve, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
-        }
-        }, 3000);
-        fontLoader.loadFonts();
     </script>
 
     <!-- Aggregate AUC density -->
@@ -341,14 +333,6 @@
             height: 400,
         };
         
-        var fontLoader = new FontLoader(['Inter-UI-upright'], {
-            "fontLoaded": function (f) {
-                console.log("font loaded: " + f.family);
-            }, "complete": function (error) {
-                vegaEmbed('#vis2', auc_density, { actions: { source: false, compiled: false, editor: false } });
-            }
-        }, 3000);
-        fontLoader.loadFonts();
     </script>
 
     <!-- AUC choropleth -->
@@ -429,10 +413,17 @@
             ]
         };
 
+    </script>
+
+    <!--show vegalite figures-->
+    <script>
+        // show vegalite figures only after font is loaded
         var fontLoader = new FontLoader(['Inter-UI-upright'], {
             "fontLoaded": function (f) {
                 console.log("font loaded: " + f.family);
             }, "complete": function (error) {
+                vegaEmbed('#vis1', aggregate_curve, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+                vegaEmbed('#vis2', auc_density, { actions: { source: false, compiled: false, editor: false } });
                 vegaEmbed('#vis3', global_auc_plot, { actions: { source: false, compiled: false, editor: false } });
             }
         }, 3000);
