@@ -37,14 +37,17 @@ router.get('/d1', function (req, res) {
 });
 
 router.get('/:type/:uniquestudyid/:dn', function (req, res, next) {
+    // route is only d (without n), all documents will be downloaded
+    const n = Number(req.params.dn.slice(1));  // no. of docs requested
     // Download most recent n document(s) for a given task
     if (req.params.dn.slice(0, 6) == 'delete') {
         next();  // next route (delete route)
     } else {
         DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, { data: 1, _id: 0 },
-            { sort: { time: -1 }, limit: Number(req.params.dn.slice(1)) }).lean()
+            { sort: { time: -1 }, limit: n }).lean()
             .then(doc => {
                 if (doc.length > 0) {
+                    // console.log(doc.length)
                     const filename = req.params.dn + "_" + req.params.type + "_" + req.params.uniquestudyid + ".csv";
                     var datastring = helper.doc2datastring(doc);
                     res.attachment(filename);

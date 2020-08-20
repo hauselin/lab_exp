@@ -32,6 +32,7 @@ router.get('/delete1', function (req, res) {
 
 router.get('/:type/:uniquestudyid/:deleten', function (req, res) {
     // Delete most recent n document(s) for a given task
+    // if route is only delete (without n), all documents will be deleted
     DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, {},
         { sort: { time: -1 }, limit: Number(req.params.deleten.slice(6)) })
         .then(doc => {
