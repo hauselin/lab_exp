@@ -17,6 +17,7 @@ if (black_background) {
     var font_colour = 'white';
 }
 
+// TASK PARAMETERS
 const adaptive = true;
 const no_incongruent_neighbors = false;
 var rt_deadline = 1500;
@@ -207,7 +208,9 @@ jsPsych.init({
             info_: info_,
             datasummary_: {},
             total_time: datasummary_.total_time,
-            ddm_params: ddm_params
+            ddm_boundary: ddm_params.boundary,
+            ddm_drift: ddm_params.drift,
+            ddm_nondecisiontime: ddm_params.nondecisiontime
         });
         if (debug) {
             jsPsych.data.displayData();

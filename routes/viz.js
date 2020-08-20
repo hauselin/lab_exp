@@ -8,7 +8,7 @@ const helper = require('../routes/helpers/helpers');
 router.get("/tasks/delaydiscount/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'delaydiscount' }, {}, { sort: { time: -1 } }).lean().then(data => {
         const keys2select = ['subject', 'uniquesubjectid', 'event', 'cost', 'large_reward', 'small_reward', 'n_trial', 'n_trial_overall', 'indifference', 'auc', 'country', 'country_code', 'longitude', 'latitude', 'time'];  // columns/keys to select
-        const n_trial_max = 5; // final indifference per cost
+        const n_trial_max = 5; // final indifference per cost (depends on task parameters)
 
         var data_array = [];
         data.map(function (i) {  // map/loop through each document to get relevant data
