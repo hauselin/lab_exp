@@ -3,17 +3,18 @@
 
 <head>
     <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI.var.woff2" type="font/woff2" crossorigin="anonymous">
+    <!-- <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI.var.woff2" type="font/woff2" crossorigin="anonymous"> -->
     <link href="../../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
     <title>Results</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <script src="../../libraries/utils.js"></script>
+    <script src="../../libraries/FontLoader.js"></script>
+    <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
     <script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
-    <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
-    <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
 </head>
 
 <body class="is-preload">
@@ -278,7 +279,15 @@
             width: 550,
             height: 400,
         };
-        vegaEmbed('#vis', aggregate_curve, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+        
+        //https://github.com/smnh/FontLoader
+        var fontLoader = new FontLoader(['Inter-UI-upright'], {"fontLoaded": function(f) {
+            console.log("font loaded: " + f.family);
+        }, "complete": function(error) {
+            vegaEmbed('#vis', aggregate_curve, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+        }
+        }, 3000);
+        fontLoader.loadFonts();
     </script>
 
     <!-- Aggregate AUC density -->
@@ -320,7 +329,7 @@
                     }()),
                     mark: "rule",
                     encoding: {
-                        x: { field: "auc" },
+                        x: { field: "auc", type: "quantitative"},
                         color: { value: "firebrick", type: "quantitative" },
                         size: { value: 3 },
                         tooltip: [{ field: 'auc', format: ".3f", title: 'You', type: "quantitative" }]
@@ -331,7 +340,15 @@
             width: 550,
             height: 400,
         };
-        vegaEmbed('#vis2', auc_density, { actions: { source: false, compiled: false, editor: false } });
+        
+        var fontLoader = new FontLoader(['Inter-UI-upright'], {
+            "fontLoaded": function (f) {
+                console.log("font loaded: " + f.family);
+            }, "complete": function (error) {
+                vegaEmbed('#vis2', auc_density, { actions: { source: false, compiled: false, editor: false } });
+            }
+        }, 3000);
+        fontLoader.loadFonts();
     </script>
 
     <!-- AUC choropleth -->
@@ -411,7 +428,15 @@
                 }
             ]
         };
-        vegaEmbed('#vis3', global_auc_plot, { actions: { source: false, compiled: false, editor: false } });
+
+        var fontLoader = new FontLoader(['Inter-UI-upright'], {
+            "fontLoaded": function (f) {
+                console.log("font loaded: " + f.family);
+            }, "complete": function (error) {
+                vegaEmbed('#vis3', global_auc_plot, { actions: { source: false, compiled: false, editor: false } });
+            }
+        }, 3000);
+        fontLoader.loadFonts();
     </script>
 
 
