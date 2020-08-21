@@ -86,9 +86,9 @@ if (no_incongruent_neighbors) { // ensure incongruent stimuli aren't presented c
     }
     var stimuli_shuffled = jsPsych.randomization.shuffleNoRepeats(stimuli_shuffled, equality_test);
 }
-if (debug) { 
-    console.log('Shuffled trials:'); 
-    console.log(stimuli_shuffled); 
+if (debug) {
+    console.log('Shuffled trials:');
+    console.log(stimuli_shuffled);
 }
 
 // evenly add each type of trial to practice stimuli array
@@ -110,9 +110,9 @@ for (i = 0; i < (Math.floor(practice_trials / 3)); i++) {
         practice_stimuli_shuffled.push(practice_stimuli_neutral[i % practice_stimuli_neutral.length]);
     }
 }
-if (debug) { 
-    console.log('Shuffled practice trials:'); 
-    console.log(practice_stimuli_shuffled); 
+if (debug) {
+    console.log('Shuffled practice trials:');
+    console.log(practice_stimuli_shuffled);
 }
 
 if (no_incongruent_neighbors) { // ensure incongruent stimuli aren't presented consecutively
