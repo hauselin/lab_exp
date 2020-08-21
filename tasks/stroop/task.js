@@ -19,7 +19,7 @@ if (black_background) {
 
 // TASK PARAMETERS
 const adaptive = true;
-const no_incongruent_neighbors = true;
+const no_incongruent_neighbors = false;
 var rt_deadline = 1500;
 var fixation_duration = 300;
 var feedback_duration = 1500;
@@ -34,24 +34,23 @@ if (practice_trials < 3) {
 // objects have the data field because that allows jsPsych to store all the data automatically
 var stimuli_unique = [  // unique stroop trials
     { data: { text: 'red', color: 'red', trialtype: 'congruent', reps: 2 } },
-    { data: { text: 'green', color: 'green', trialtype: 'congruent', reps: 3 } },
-    { data: { text: 'yellow', color: 'yellow', trialtype: 'congruent', reps: 4 } },
+    // { data: { text: 'green', color: 'green', trialtype: 'congruent', reps: 3 } },
+    // { data: { text: 'yellow', color: 'yellow', trialtype: 'congruent', reps: 4 } },
     { data: { text: 'red', color: 'green', trialtype: 'incongruent', reps: 1 } },
-    { data: { text: 'red', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
-    { data: { text: 'green', color: 'red', trialtype: 'incongruent', reps: 1 } },
-    { data: { text: 'green', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
-    { data: { text: 'yellow', color: 'red', trialtype: 'incongruent', reps: 1 } },
-    { data: { text: 'yellow', color: 'green', trialtype: 'incongruent', reps: 1 } },
+    // { data: { text: 'red', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
+    // { data: { text: 'green', color: 'red', trialtype: 'incongruent', reps: 1 } },
+    // { data: { text: 'green', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
+    // { data: { text: 'yellow', color: 'red', trialtype: 'incongruent', reps: 1 } },
+    // { data: { text: 'yellow', color: 'green', trialtype: 'incongruent', reps: 1 } },
     { data: { text: 'xxxx', color: 'red', trialtype: 'neutral', reps: 2 } },
-    { data: { text: 'xxxx', color: 'green', trialtype: 'neutral', reps: 2 } },
-    { data: { text: 'xxxx', color: 'yellow', trialtype: 'neutral', reps: 2 } }
-];
+    // { data: { text: 'xxxx', color: 'green', trialtype: 'neutral', reps: 2 } },
+    // { data: { text: 'xxxx', color: 'yellow', trialtype: 'neutral', reps: 2 } }
+]; // precondition: there must be at least 1 stimulus of each trialtype
 
 var color_key = { 'red': 'r', 'green': 'g', 'yellow': 'y' }; // color-key mapping
 
 // parameters below typically don't need to be changed
 var stimuli_repetitions = [];
-var practice_stimuli_repetitions = [];
 var practice_stimuli_congruent = [];
 var practice_stimuli_incongruent = [];
 var practice_stimuli_neutral = [];
@@ -69,10 +68,10 @@ stimuli_unique.forEach(function (item) {
 });
 if (debug) {
     console.log(stimuli_repetitions);
-    console.log(practice_stimuli_repetitions);
-    // console.log(practice_stimuli_congruent);
-    // console.log(practice_stimuli_incongruent);
-    // console.log(practice_stimuli_neutral);
+    console.log('Practice trials per trial type:');
+    console.log(practice_stimuli_congruent);
+    console.log(practice_stimuli_incongruent);
+    console.log(practice_stimuli_neutral);
 }
 
 // repeat each stimulus reps times
@@ -87,12 +86,33 @@ if (no_incongruent_neighbors) { // ensure incongruent stimuli aren't presented c
     }
     var stimuli_shuffled = jsPsych.randomization.shuffleNoRepeats(stimuli_shuffled, equality_test);
 }
-if (debug) { console.log(stimuli_shuffled); }
+if (debug) { 
+    console.log('Shuffled trials:'); 
+    console.log(stimuli_shuffled); 
+}
 
 // evenly add each type of trial to practice stimuli array
 var practice_stimuli_shuffled = [];
 for (i = 0; i < (Math.floor(practice_trials / 3)); i++) {
-    practice_stimuli_shuffled.push(practice_stimuli_congruent[i], practice_stimuli_incongruent[i], practice_stimuli_neutral[i]);
+    if (practice_stimuli_congruent.length > i) {
+        practice_stimuli_shuffled.push(practice_stimuli_congruent[i]);
+    } else {
+        practice_stimuli_shuffled.push(practice_stimuli_congruent[i % practice_stimuli_congruent.length]);
+    }
+    if (practice_stimuli_incongruent.length > i) {
+        practice_stimuli_shuffled.push(practice_stimuli_incongruent[i]);
+    } else {
+        practice_stimuli_shuffled.push(practice_stimuli_incongruent[i % practice_stimuli_incongruent.length]);
+    }
+    if (practice_stimuli_neutral.length > i) {
+        practice_stimuli_shuffled.push(practice_stimuli_neutral[i]);
+    } else {
+        practice_stimuli_shuffled.push(practice_stimuli_neutral[i % practice_stimuli_neutral.length]);
+    }
+}
+if (debug) { 
+    console.log('Shuffled practice trials:'); 
+    console.log(practice_stimuli_shuffled); 
 }
 
 if (no_incongruent_neighbors) { // ensure incongruent stimuli aren't presented consecutively
