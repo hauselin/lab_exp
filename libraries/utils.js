@@ -400,6 +400,8 @@ function create_consent(timeline, html_path) {
         type: 'external-html',
         url: html_path,
         cont_btn: "agree_button",
+        execute_script: true,
+        force_refresh: true,
         on_finish: function () {
             if (black_background) {
                 document.body.style.backgroundColor = "black";

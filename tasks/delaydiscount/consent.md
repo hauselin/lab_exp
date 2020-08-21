@@ -1,6 +1,6 @@
 ## Information
 
-Euismod phasellus ultrices dapibus elit iacul
+DELAY DISCOUNT! Euismod phasellus ultrices dapibus elit iacul
 
 ## Just another section
 
