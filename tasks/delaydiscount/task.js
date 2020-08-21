@@ -10,9 +10,9 @@ var info_ = create_info_(taskinfo);  // initialize subject id and task parameter
 var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 
 const debug = true;  // debug mode to print messages to console and display json data at the end
-const dark_background = true; // if true, white text on black background
+const black_background = true; // if true, white text on black background
 var font_colour = 'black';
-if (dark_background) {
+if (black_background) {
     document.body.style.backgroundColor = "black";
     var font_colour = 'white';
 }
@@ -146,6 +146,7 @@ var trial = {
     }
 };
 
+timeline.push(instructions);
 var practice_trial = jsPsych.utils.deepCopy(trial);
 delete practice_trial.on_finish;
 delete practice_trial.timeline;
@@ -163,8 +164,9 @@ practice_trial.timeline = [
         }
     }];
 practice_trial.on_finish = function (data) { data.event = 'practice'; };
-
-timeline.push(instructions, practice_trial, instructions2, trial);
+timeline.push(practice_trial);
+timeline.push(instructions2);
+timeline.push(trial);
 
 jsPsych.init({
     timeline: timeline,
@@ -182,7 +184,7 @@ jsPsych.init({
             jsPsych.data.displayData();
         }
         sessionStorage.setObj('info_', info_); // save to sessionStorage
-        // sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
+        sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
     }
 });
