@@ -8,7 +8,7 @@ const helper = require('../routes/helpers/helpers');
 router.get("/tasks/delaydiscount/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'delaydiscount' }, {}, { sort: { time: -1 } }).lean().then(data => {
         const keys2select = ['subject', 'uniquesubjectid', 'event', 'cost', 'large_reward', 'small_reward', 'n_trial', 'n_trial_overall', 'indifference', 'auc', 'country', 'country_code', 'longitude', 'latitude', 'time'];  // columns/keys to select
-        const n_trial_max = 5; // final indifference per cost
+        const n_trial_max = 5; // final indifference per cost (depends on task parameters)
 
         var data_array = [];
         data.map(function (i) {  // map/loop through each document to get relevant data
@@ -22,8 +22,8 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
             data_array.push(data_subset);
         });
         data_array = data_array.flat(1);  // flatten objects in array
-        console.log(data_array);  // no. of subjects/documents * 5
-        console.log(data_array.length); // no. of subjects/documents
+        // console.log(data_array);  // no. of subjects/documents * 5
+        // console.log(data_array.length); // no. of subjects/documents
 
         // prepare data for chloropleth auc (each subject has 5 auc values (repeated) because we have 5 trials per subject, but that's fine)
         country_data = d3.rollups(data_array, // compute median for each country
@@ -35,11 +35,11 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
             },
             // v => d3.median(v, d => d.auc),
             d => d.country_id);  // by country id
-        console.log(country_data);  // nested data
+        // console.log(country_data);  // nested data
         country_data = Array.from(country_data, function (i) {  // unnest data
             return { country_id: i[0], country_name: i[1].country_name, median_auc: i[1].median_auc }
         })
-        console.log(country_data);
+        // console.log(country_data);
 
         // render
         res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_data });
