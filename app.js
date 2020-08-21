@@ -10,7 +10,7 @@ var showRoutes = require('./routes/show'),
     indexRoutes = require('./routes/index'),
     datalibraryRoutes = require('./routes/datalibrary'),
     vizRoutes = require('./routes/viz'),
-    downloadsRoutes = require('./routes/downloads'), 
+    downloadsRoutes = require('./routes/downloads'),
     deleteRoutes = require('./routes/delete')
 
 app.use(bodyParser.json());
@@ -42,15 +42,22 @@ app.use(deleteRoutes);
 
 // Handle 404
 app.use(function (req, res) {
-    res.redirect('/public/404.html');
-    // res.render("404.ejs");
+    // res.redirect('/public/404.html');
+    var c = req.originalUrl.split('/').length - 1;
+    var c = "../".repeat(c);
+    const c1 = c + "public/assets/css/loaders/loader-typing.css";
+    const c2 = c + "public/assets/css/theme.css";
+    res.status(404).render("404", { c1: c1, c2: c2 });
 });
 
 // Handle 500
 app.use(function (error, req, res, next) {
-    res.redirect('/public/500.html');
-    console.log(error);
-    // res.render('500.ejs');
+    // res.redirect('/public/500.html'); 
+    var c = req.originalUrl.split('/').length - 1;
+    var c = "../".repeat(c);
+    const c1 = c + "public/assets/css/loaders/loader-typing.css";
+    const c2 = c + "public/assets/css/theme.css";
+    res.status(500).render("500", { c1: c1, c2: c2 });
 });
 
 // START SERVER

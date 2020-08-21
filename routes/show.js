@@ -12,8 +12,8 @@ router.get('/:type/:uniquestudyid', function (req, res, next) {
             if (root.endsWith(".map")) { // to catch weird issue with consent forms
                 res.sendStatus(100);
             } else {
-                console.log(err);
                 console.log('Route not found. Moving to next route.')
+                console.log(err);
                 next(); // if file doesn't exist, go to next route
             }
         } else {
