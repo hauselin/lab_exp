@@ -14,7 +14,8 @@ var showRoutes = require('./routes/show'),
     datalibraryRoutes = require('./routes/datalibrary'),
     vizRoutes = require('./routes/viz'),
     downloadsRoutes = require('./routes/downloads'), 
-    deleteRoutes = require('./routes/delete')
+    deleteRoutes = require('./routes/delete'), 
+    authRoutes = require('./routes/auth')
 
 app.use(bodyParser.json());
 app.use(express.json());
@@ -54,6 +55,7 @@ app.use(showRoutes);
 app.use(vizRoutes);
 app.use(downloadsRoutes);
 app.use(deleteRoutes);
+app.use(authRoutes);
 
 // Handle 404
 app.use(function (req, res) {
