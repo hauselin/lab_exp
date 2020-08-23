@@ -31,15 +31,16 @@ mongoose.connect('mongodb://localhost/datalibrary',
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
-    secret: "Welcome to Anthrope.", 
+    secret: "Welcome to Anthrope.",  // USED TO DECODE INFO IN THE SESSION, STILL TRYING TO FIGURE IT OUT
     resave: false, 
     saveUninitialized: false
 }));
-app.use(passport.initialize());
-app.use(passport.session());
+
+app.use(passport.initialize()); // SET UP PASSPORT
+app.use(passport.session());    // SET UP PASSPORT
 passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(User.serializeUser()); // USED TO READING DATA FROM THE SESSION, WHAT DATA OF THE USER SHOULD BE STORED IN THE SESSION?
+passport.deserializeUser(User.deserializeUser()); // USED TO DECODE THE DATA FROM THE SESSION
 
 // // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES
 app.use('/tasks', express.static(__dirname + "/tasks"));
