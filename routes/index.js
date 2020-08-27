@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const DataLibrary = require("../models/datalibrary")
+const DataLibrary = require("../models/datalibrary");
+const page_elements = require("../public/page_elements");
 
 router.get('/', function (req, res) {
     if (false) {
@@ -86,10 +87,8 @@ router.get('/', function (req, res) {
             .catch(err => { console.log(err) });
 
         console.log('END OF QUERIES (note the asynchronous output!)\n\n')
-
     }
-
-    res.render("index.ejs");
+    res.render("index.ejs", { surveys: page_elements.surveys, tasks: page_elements.tasks, studies: page_elements.studies });
 });
 
 router.get('/tasks', function (req, res) {
