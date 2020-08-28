@@ -210,6 +210,12 @@ var stimulus = {
         data.event = stimulus_event;
         data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press);
         data.n_trial = n_trial;
+        if (data.rt == null) {
+            data.rt = rt_deadline;
+        }
+        if (debug) {
+            console.log('rt: ' + data.rt);
+        }
         data.rt_deadline = rt_deadline;
         if (data.key_press == correct_key) {
             data.acc = 1;
@@ -285,6 +291,15 @@ jsPsych.init({
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
         var data_subset = jsPsych.data.get().filter({ "event": "stimulus" });  // select stroop trials
+        var congruent_subset = data_subset.filter({ "trialtype": "congruent" });  // select congruent trials
+        var incongruent_subset = data_subset.filter({ "trialtype": "incongruent" });  // select incongruent trials
+        var neutral_subset = data_subset.filter({ "trialtype": "neutral" });  // select neutral trials
+
+        var congruent_rt = congruent_subset.select('rt').subset(function(x){ return x != null; }).mean();
+        var incongruent_rt = incongruent_subset.select('rt').subset(function(x){ return x != null; }).mean();
+        var congruent_acc = congruent_subset.select('acc').mean();
+        var incongruent_acc = incongruent_subset.select('acc').mean();
+
         var ddm_params = fit_ezddm_to_jspsych_data(data_subset);  // fit model
         jsPsych.data.get().addToAll({ // add objects to all trials
             info_: info_,
@@ -292,7 +307,15 @@ jsPsych.init({
             total_time: datasummary_.total_time,
             ddm_boundary: ddm_params.boundary,
             ddm_drift: ddm_params.drift,
-            ddm_nondecisiontime: ddm_params.nondecisiontime
+            ddm_nondecisiontime: ddm_params.nondecisiontime,
+            congruent_rt: congruent_rt,
+            incongruent_rt: incongruent_rt,
+            rt_interference: incongruent_rt - congruent_rt,
+            neutral_rt: neutral_subset.select('rt').subset(function(x){ return x != null; }).mean(),
+            congruent_acc: congruent_acc,
+            incongruent_acc: incongruent_acc,
+            acc_interference: congruent_acc - incongruent_acc,
+            neutral_acc: neutral_subset.select('acc').mean(),
         });
         if (debug) {
             jsPsych.data.displayData();
