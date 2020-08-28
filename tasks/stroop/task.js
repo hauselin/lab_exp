@@ -24,7 +24,7 @@ var rt_deadline = 1500;
 var fixation_duration = 300;
 var feedback_duration = 1500;
 var itis = iti_exponential(low = 300, high = 800);
-var practice_trials = 6; // restriction: the actual number of practice trials will only be multiples of 3, hence it might be smaller than the number defined here.
+var practice_trials = 3; // restriction: the actual number of practice trials will only be multiples of 3, hence it might be smaller than the number defined here.
 if (practice_trials < 3) {
     practice_trials = 3;
 }
@@ -290,6 +290,8 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
+        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
+
         var data_subset = jsPsych.data.get().filter({ "event": "stimulus" });  // select stroop trials
         var congruent_subset = data_subset.filter({ "trialtype": "congruent" });  // select congruent trials
         var incongruent_subset = data_subset.filter({ "trialtype": "incongruent" });  // select incongruent trials

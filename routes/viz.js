@@ -63,7 +63,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
             data_array.push(data_subset);
         });
         data_array = data_array.flat(1);  // flatten objects in array
-        // console.log(data_array);  // no. of subjects/documents
+        console.log(data_array);  // no. of subjects/documents
         // console.log(data_array.length); // no. of subjects/documents
 
         // prepare data for chloropleth auc (each subject has 5 auc values (repeated) because we have 5 trials per subject, but that's fine)
@@ -81,7 +81,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
         country_data = Array.from(country_data, function (i) {  // unnest data
             return { country_id: i[0], country_name: i[1].country_name, rt_interference: i[1].rt_interference, acc_interference: i[1].acc_interference }
         })
-        console.log(country_data);
+        // console.log(country_data);
 
         // render
         res.render('viz/stroop.ejs', { data_array: data_array, country_array: country_data });
