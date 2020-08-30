@@ -211,7 +211,7 @@ var stimulus = {
         data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press);
         data.n_trial = n_trial;
         if (data.rt == null) {
-            data.rt = rt_deadline;
+            data.rt = 'No response';
         }
         if (debug) {
             console.log('rt: ' + data.rt);

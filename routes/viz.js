@@ -51,15 +51,16 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
 
 router.get("/tasks/stroop/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'stroop' }, {}, { sort: { time: -1 } }).lean().then(data => {
-        const keys2select = ['subject', 'uniquesubjectid', 'congruent_rt', 'incongruent_rt', 'neutral_rt', 'rt_interference', 'congruent_acc', 'incongruent_acc', 'acc_interference', 'neutral_acc', 'country', 'country_code', 'longitude', 'latitude', 'time'];  // columns/keys to select
+        const keys2select = ['subject', 'uniquesubjectid', 'rt', 'trialtype', 'congruent_rt', 'incongruent_rt', 'neutral_rt', 'rt_interference', 'congruent_acc', 'incongruent_acc', 'acc_interference', 'neutral_acc', 'country', 'country_code', 'longitude', 'latitude', 'time'];  // columns/keys to select
         var data_array = [];
         data.map(function (i) {  // map/loop through each document to get relevant data
             const temp_data = i.data; // get jspsych data
-            var data_subset = temp_data.filter(s => s.trial_index == 0);  // select relevant rows
+            var data_subset = temp_data.filter(s => s.rt != null && s.trialtype != null);  // select relevant rows
             var data_subset = data_subset.map(s => helper.pick(s, keys2select));  // select relevant columns
             data_subset.forEach(function (s) { // for each row in this document
                 s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))  // get country code
             })
+            trials_by_type = d3.group(data_subset, d => d.trialtype);
             data_array.push(data_subset);
         });
         data_array = data_array.flat(1);  // flatten objects in array

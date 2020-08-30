@@ -246,116 +246,52 @@
             layer: [
                 {
                     data: { values: data_array },
+                    transform: [
+                        {
+                            aggregate: [{
+                                op: "mean",
+                                field: "rt",
+                                as: "mean_rt"
+                            }],
+                            groupby: ["subject", "trialtype"]
+                        }
+                    ],
                     mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
                     encoding: {
                         x: {
-                            datum: "Congruent",
+                            field: "trialtype",
                             type: "nominal",
                             axis: { title: "Trial type" }
                         },
                         y: {
-                            field: "congruent_rt",
+                            field: "mean_rt",
                             type: "quantitative",
                             title: "Average reaction time (ms)"
                         },
                         size: { value: 18 },
-                        color: { field: "congruent_rt", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
+                        color: { field: "mean_rt", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
                         tooltip: [
-                            { field: 'congruent_rt', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" },
+                            { field: 'mean_rt', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" },
                         ]
                     }
                 },
-                {
-                    data: { values: data_array },
-                    mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
-                    encoding: {
-                        x: {
-                            datum: "Incongruent",
-                            type: "nominal",
-                        },
-                        y: {
-                            field: "incongruent_rt",
-                            type: "quantitative",
-                            title: "Average reaction time (ms)"
-                        },
-                        size: { value: 18 },
-                        color: { field: "incongruent_rt", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
-                        tooltip: [
-                            { field: 'incongruent_rt', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" }
-                        ]
-                    }
-                },
-                {
-                    data: { values: data_array },
-                    mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
-                    encoding: {
-                        x: {
-                            datum: "Neutral",
-                            type: "nominal",
-                        },
-                        y: {
-                            field: "neutral_rt",
-                            type: "quantitative",
-                            title: "Average reaction time (ms)"
-                        },
-                        size: { value: 18 },
-                        color: { field: "neutral_rt", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
-                        tooltip: [
-                            { field: 'neutral_rt', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" }
-                        ]
-                    }
-                },
-                {
-                    // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
-                    data: (function () { // anonymous function
-                        if (subject_id) {
-                            return { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) };
-                        } else {  // don't draw points
-                            return { values: [] };
-                        }
-                    }()),
-                    mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
-                    encoding: {
-                        x: { datum: "Congruent", type: "nominal" },
-                        y: { field: "congruent_rt", type: "quantitative", scale: {} },
-                        size: { value: 150 },
-                        tooltip: [{ field: "congruent_rt", format: ".3f", title: 'You', type: "quantitative" }] // format tooltip
-                    },
-                },
-                {
-                    // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
-                    data: (function () { // anonymous function
-                        if (subject_id) {
-                            return { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) };
-                        } else {  // don't draw points
-                            return { values: [] };
-                        }
-                    }()),
-                    mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
-                    encoding: {
-                        x: { datum: "Incongruent", type: "nominal" },
-                        y: { field: "incongruent_rt", type: "quantitative", scale: {} },
-                        size: { value: 150 },
-                        tooltip: [{ field: "incongruent_rt", format: ".3f", title: 'You', type: "quantitative" }] // format tooltip
-                    },
-                },
-                {
-                    // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
-                    data: (function () { // anonymous function
-                        if (subject_id) {
-                            return { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) };
-                        } else {  // don't draw points
-                            return { values: [] };
-                        }
-                    }()),
-                    mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
-                    encoding: {
-                        x: { datum: "Neutral", type: "nominal" },
-                        y: { field: "neutral_rt", type: "quantitative", scale: {} },
-                        size: { value: 150 },
-                        tooltip: [{ field: "neutral_rt", format: ".3f", title: 'You', type: "quantitative" }] // format tooltip
-                    },
-                },
+                // {
+                //     // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
+                //     data: (function () { // anonymous function
+                //         if (subject_id) {
+                //             return { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) };
+                //         } else {  // don't draw points
+                //             return { values: [] };
+                //         }
+                //     }()),
+                //     mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
+                //     encoding: {
+                //         x: { datum: "Congruent", type: "nominal" },
+                //         y: { field: "congruent_rt", type: "quantitative", scale: {} },
+                //         size: { value: 150 },
+                //         tooltip: [{ field: "congruent_rt", format: ".3f", title: 'You', type: "quantitative" }] // format tooltip
+                //     },
+                // },
             ],
             width: 500,
             height: 400,
