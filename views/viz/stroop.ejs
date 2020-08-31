@@ -8,7 +8,8 @@
     <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
     <script src="../../libraries/utils.js"></script>
     <script src="../../libraries/FontLoader.js"></script>
-    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
+        crossorigin="anonymous">
     <link href="../../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
     <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
 
@@ -25,9 +26,8 @@
         <div class="container">
             <div class="row py-6 text-center justify-content-center align-items-center layer-2">
                 <div class="col-xl-8 col-lg-10">
-                    <h1 class="display-4">Delay discounting</h1>
-                    <p class="lead mb-0">How much do you discount rewards that are available only in the future? Check
-                        out the interactive figures and results below. Download figures. </p>
+                    <h1 class="display-4">Stroop color naming task</h1>
+                    <p class="lead mb-0">How quickly and accurately can you respond?</p>
                 </div>
             </div>
         </div>
@@ -67,7 +67,8 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg" alt="patch icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg"
+                        alt="patch icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Self-control and impulsivity</h5>
                         <p>
@@ -76,7 +77,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg" alt="miso-soup icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg"
+                        alt="miso-soup icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Other types of discounting behavior</h5>
                         <p>
@@ -85,7 +87,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg" alt="door-open icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg"
+                        alt="door-open icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Temporal preferences</h5>
                         <p>
@@ -96,7 +99,8 @@
             </div>
         </div>
         <div class="divider">
-            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic" data-inject-svg />
+            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
+                data-inject-svg />
         </div>
     </section>
     <section class="bg-primary-alt">
@@ -115,9 +119,35 @@
                     <div class="col-md-6 col-xl-5">
                         <div class="row justify-content-center">
                             <div class="col-xl-10 col-lg-11">
-                                <span class="badge badge-primary">Area-under-discounting curve</span>
+                                <span id="no-data-tag2" class="badge badge-primary"></span>
                                 <div class="my-3">
-                                    <span class="h1">Discounting box plot</span>
+                                    <span class="h1">Average reaction time density plot</span>
+                                </div>
+                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                    blanditiis
+                                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                    excepturi
+                                    sint occaecati.</p>
+                                <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                    deserunt
+                                    mollitia animi, id est laborum et dolorum fuga.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                        <div id="vis4" class="center"></div>
+                    </div>
+                    <div class="col-md-6 col-xl-5">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11">
+                                <span class="badge badge-primary">Reaction time plot</span>
+                                <div class="my-3">
+                                    <span class="h1">Reaction times</span>
                                 </div>
                                 <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
                                     blanditiis
@@ -182,9 +212,10 @@
                                 <span>3-4 min</span>
                             </div>
                         </a>
-                        <a href="/tasks/stroop" class="list-group-item list-group-item-action row no-gutters py-3">
+                        <a href="/tasks/delaydiscount"
+                            class="list-group-item list-group-item-action row no-gutters py-3">
                             <div class="col-xl-8 col-lg-7 col-md-6">
-                                <h5 class="mb-0">Stroop</h5>
+                                <h5 class="mb-0">Delay discount</h5>
                             </div>
                             <div class="col-md">
                                 <span>3-4 min</span>
@@ -210,12 +241,13 @@
 
         // data from database
         const data_array = <%- JSON.stringify(data_array) %>;
+        const subject_array = <%- JSON.stringify(subject_array) %>;
         const country_array = <%- JSON.stringify(country_array) %>;
-        const uniquestudyid = 'delaydiscount';
+        const uniquestudyid = 'stroop';
 
         // retrieve objects from sessionStorage
         // subject_id and time will be used to filter arrays for plotting subject data
-        const info = sessionStorage.getObj("info_");  
+        const info = sessionStorage.getObj("info_");
         if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
             subject_id = null;
             time = null;
@@ -225,111 +257,125 @@
         }
 
         if (!subject_id) {
-            document.getElementById('no-data-tag').innerHTML = "Other users' discounting behavior";
+            document.getElementById('no-data-tag').innerHTML = "Other users' stroop data";
+            document.getElementById('no-data-tag2').innerHTML = "Other users' stroop data";
             document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
+
         } else {
-            document.getElementById('no-data-tag').innerHTML = "Your discounting relative to others";
+            document.getElementById('no-data-tag').innerHTML = "Your data relative to others";
+            document.getElementById('no-data-tag2').innerHTML = "Your data relative to others";
         }
     </script>
 
-    <!-- Aggregate box plot -->
+    <!-- Average reaction time box plot -->
     <script type="text/javascript" defer>
 
-        var aggregate_curve = {
+        var reaction_time_box_plot = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-            encoding: {
-                x: {
-                    field: "cost",
-                    type: "quantitative",  // or nominal?
-                    axis: { "title": "Delay (days to reward)", tickMinStep: 20 },
-                    scale: { domain: [0, 101] }
-                },
-            },
             layer: [
                 {
                     data: { values: data_array },
+                    transform: [
+                        {
+                            aggregate: [{
+                                op: "median",
+                                field: "rt",
+                                as: "median_rt"
+                            }],
+                            groupby: ["subject", "trialtype"]
+                        }
+                    ],
                     mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
                     encoding: {
+                        x: {
+                            field: "trialtype",
+                            type: "nominal",
+                            axis: { title: "Trial type", labelAngle: 0 },
+                        },
                         y: {
-                            field: "indifference_ratio",
+                            field: "median_rt",
                             type: "quantitative",
-                            axis: { "title": "Subjective value" }
+                            title: "Median reaction time (ms)"
                         },
                         size: { value: 18 },
-                        color: { field: "cost", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
+                        color: { field: "median_rt", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
                         tooltip: [
-                            { field: 'indifference_ratio', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" }
+                            { field: 'median_rt', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" },
                         ]
                     }
                 },
                 {
-                    // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
                     data: (function () { // anonymous function
                         if (subject_id) {
                             return { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) };
-                        } else {  // don't draw vertical rule
+                        } else {  // don't draw points
                             return { values: [] };
                         }
                     }()),
                     mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
                     encoding: {
-                        y: { field: "indifference_ratio", type: "quantitative", scale: { domain: [0, 1] } },
+                        x: { field: "trialtype", type: "nominal" },
+                        y: { field: "rt", type: "quantitative", scale: {} },
                         size: { value: 150 },
-                        tooltip: [{ field: "indifference_ratio", format: ".3f", title: 'Subjective value', type: "quantitative" }, { field: "cost", format: ".0f", title: 'Delay', type: "nominal" }] // format tooltip
+                        tooltip: [{ field: "rt", format: ".3f", title: 'You', type: "quantitative" }] // format tooltip
                     },
-                }
+                },
             ],
             width: 500,
             height: 400,
         };
-        
+
     </script>
 
-    <!-- Aggregate AUC density -->
+    <!-- Reaction time density -->
     <script type="text/javascript" defer>
 
-        var auc_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+        var rt_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { title: null, labelFontSize: 15, labelFont: "Inter-UI-upright", orient: "bottom" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             layer: [
                 {
-                    data: { values: data_array.filter(i => i.cost == 2) },
-                    transform: [
-                        { density: "auc", counts: false, cumulative: false },
-                    ],
-                    mark: { type: "area", color: "#3755be", tooltip: true },
+                    data: { values: subject_array },
+                    transform: [{
+                        groupby: ["trialtype"],
+                        density: "mean_rt",
+                    }],
+                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
                     encoding: {
                         x: {
                             type: "quantitative",
                             field: "value",
-                            title: ["Area under curve (AUC)"],
-                            scale: { domain: [0, 1] }
+                            title: "Average reaction times (ms)",
+                            scale: {}
                         },
                         y: {
                             type: "quantitative",
                             field: "density",
                             title: "Frequency (density)",
+                            scale: {}
                         },
-                        color: { value: "#38405C", type: "quantitative" },
-                        tooltip: [{ field: 'value', format: ".3f", title: 'AUC', type: "quantitative" }, { field: 'density', format: ".2f", title: 'Density', type: "quantitative" }]
+                        color: { field: "trialtype", type: "nominal" },
+                        tooltip: [{ field: 'trialtype', title: 'Trial type', type: "nominal" }, { field: 'value', format: ".3f", title: 'Reaction time (ms)', type: "quantitative" }, { field: 'density', title: 'Density', type: "quantitative" }]
                     }
                 },
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: data_array.filter(i => i.subject == subject_id).slice(0, 1) };
+                            return { values: subject_array.filter(i => i.subject == subject_id && i.time == start_time) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
                     }()),
-                    mark: "rule",
+                    mark: { type: "rule", opacity: 0.7 },
                     encoding: {
-                        x: { field: "auc", type: "quantitative"},
-                        color: { value: "firebrick", type: "quantitative" },
+                        x: { field: "mean_rt", type: "quantitative" },
+                        color: { field: "trialtype", type: "nominal" },
                         size: { value: 3 },
-                        tooltip: [{ field: 'auc', format: ".3f", title: 'You', type: "quantitative" }]
+                        tooltip: [
+                            { field: 'trialtype', title: 'Trial type', type: "nominal" },
+                            { field: 'mean_rt', format: ".3f", title: 'Your reaction time (ms)', type: "quantitative" }]
                     },
                 }
             ],
@@ -337,12 +383,45 @@
             width: 550,
             height: 400,
         };
-        
+
     </script>
 
-    <!-- AUC choropleth -->
+    <!-- Response strip plot -->
+    <script type="text/javascript" defer>
+
+        var strip_plot = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            data: { values: data_array },
+            background: "#f3f5fb",
+            mark: { type: "tick", tooltip: true, thickness: 2.5 },
+            encoding: {
+                x: {
+                    field: "rt",
+                    type: "quantitative",
+                    title: "Reaction time (ms)"
+                },
+                y: {
+                    field: "trialtype",
+                    type: "nominal",
+                    axis: { title: "Trial type", labelAngle: -90 },
+                },
+                size: { value: 30 },
+                color: { field: "trialtype", legend: null, type: "nominal" },
+                tooltip: [
+                    { field: 'rt', type: "quantitative", format: '.2f', title: "Reaction time (ms)" },
+                    { field: 'trialtype', type: "nominal", title: "Trial type" }
+                ]
+            },
+            width: 500,
+            height: 400,
+        };
+
+    </script>
+
+    <!-- Reaction time interference choropleth -->
     <script defer>
-        var global_auc_plot = {
+        var global_interference_plot = {
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: { stroke: "transparent" } },
             background: "#f3f5fb",
@@ -383,7 +462,7 @@
                             from: {
                                 data: { values: country_array },
                                 key: "country_id",
-                                fields: ["median_auc", "country_name"]
+                                fields: ["rt_interference", "country_name"]
                             },
                         }
                     ],
@@ -395,9 +474,9 @@
                     },
                     encoding: {
                         color: {
-                            field: "median_auc",
+                            field: "rt_interference",
                             type: "quantitative",
-                            scale: { domain: [0, 1], scheme: "viridis" },
+                            scale: { scheme: "viridis" },
                             legend: { title: null, direction: "horizontal", orient: "bottom-left" }
                         },
                         tooltip: [
@@ -407,8 +486,8 @@
                                 type: "nominal"
                             },
                             {
-                                field: "median_auc",
-                                title: "AUC",
+                                field: "rt_interference",
+                                title: "Reaction time interference (ms)",
                                 type: "quantitative",
                                 format: ".3f"
                             },
@@ -427,9 +506,10 @@
             "fontLoaded": function (f) {
                 console.log("font loaded: " + f.family);
             }, "complete": function (error) {
-                vegaEmbed('#vis1', aggregate_curve, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
-                vegaEmbed('#vis2', auc_density, { actions: { source: false, compiled: false, editor: false } });
-                vegaEmbed('#vis3', global_auc_plot, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis1', reaction_time_box_plot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+                vegaEmbed('#vis2', rt_density, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis3', global_interference_plot, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis4', strip_plot, { actions: { source: false, compiled: false, editor: false } });
             }
         }, 3000);
         fontLoader.loadFonts();
