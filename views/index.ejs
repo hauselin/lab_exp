@@ -91,8 +91,8 @@
       <div class="row">
 
         <% for(var i = 0; i < tasks.length; i++) { %>
-        <% var image_link =  "../public/assets/img/tasks/" + tasks[i].uniquestudyid + ".jpg" %>
-        <% var study_link =  "/tasks/" + tasks[i].uniquestudyid + "/" %>
+        <% var image_link =  "../public/assets/img/tasks/" + shuffled_tasks[i].uniquestudyid + ".jpg" %>
+        <% var study_link =  "/tasks/" + shuffled_tasks[i].uniquestudyid + "/" %>
         <div class="col-md-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
           <div class="card">
             <a href=<%=study_link%>>
@@ -101,9 +101,9 @@
             </a>
             <div class="card-body align-items-start">
               <p>
-                <b><%=tasks[i].name%></b>
+                <b><%=shuffled_tasks[i].name%></b>
                 <br>
-                <%=tasks[i].description%>
+                <%=shuffled_tasks[i].description%>
               </p>
               <br>
               <a href=<%=study_link%>>Go to task</a>

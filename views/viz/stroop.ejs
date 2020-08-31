@@ -120,9 +120,35 @@
                     <div class="col-md-6 col-xl-5">
                         <div class="row justify-content-center">
                             <div class="col-xl-10 col-lg-11">
-                                <span class="badge badge-primary">Area-under-discounting curve</span>
+                                <span id="no-data-tag2" class="badge badge-primary"></span>
                                 <div class="my-3">
-                                    <span class="h1">Discounting box plot</span>
+                                    <span class="h1">Average reaction time density plot</span>
+                                </div>
+                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                    blanditiis
+                                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                    excepturi
+                                    sint occaecati.</p>
+                                <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                    deserunt
+                                    mollitia animi, id est laborum et dolorum fuga.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                        <div id="vis4" class="center"></div>
+                    </div>
+                    <div class="col-md-6 col-xl-5">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11">
+                                <span class="badge badge-primary">Reaction time plot</span>
+                                <div class="my-3">
+                                    <span class="h1">Response reaction time</span>
                                 </div>
                                 <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
                                     blanditiis
@@ -187,9 +213,10 @@
                                 <span>3-4 min</span>
                             </div>
                         </a>
-                        <a href="/tasks/stroop" class="list-group-item list-group-item-action row no-gutters py-3">
+                        <a href="/tasks/delaydiscount"
+                            class="list-group-item list-group-item-action row no-gutters py-3">
                             <div class="col-xl-8 col-lg-7 col-md-6">
-                                <h5 class="mb-0">Stroop</h5>
+                                <h5 class="mb-0">Delay discount</h5>
                             </div>
                             <div class="col-md">
                                 <span>3-4 min</span>
@@ -231,10 +258,13 @@
         }
 
         if (!subject_id) {
-            document.getElementById('no-data-tag').innerHTML = "Other users' discounting behavior";
+            document.getElementById('no-data-tag').innerHTML = "Other users' stroop data";
+            document.getElementById('no-data-tag2').innerHTML = "Other users' stroop data";
             document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
+
         } else {
-            document.getElementById('no-data-tag').innerHTML = "Your discounting relative to others";
+            document.getElementById('no-data-tag').innerHTML = "Your data relative to others";
+            document.getElementById('no-data-tag2').innerHTML = "Your data relative to others";
         }
     </script>
 
@@ -262,7 +292,7 @@
                         x: {
                             field: "trialtype",
                             type: "nominal",
-                            axis: { title: "Trial type" }
+                            axis: { title: "Trial type", labelAngle: 0 },
                         },
                         y: {
                             field: "median_rt",
@@ -352,6 +382,39 @@
             ],
             // title: "Aggregate AUC density",
             width: 550,
+            height: 400,
+        };
+
+    </script>
+
+    <!-- Response strip plot -->
+    <script type="text/javascript" defer>
+
+        var strip_plot = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            data: { values: data_array },
+            background: "#f3f5fb",
+            mark: { type: "tick", tooltip: true, thickness: 2.5 },
+            encoding: {
+                x: {
+                    field: "rt",
+                    type: "quantitative",
+                    title: "Reaction time (ms)"
+                },
+                y: {
+                    field: "trialtype",
+                    type: "nominal",
+                    axis: { title: "Trial type", labelAngle: -90 },
+                },
+                size: { value: 30 },
+                color: { field: "trialtype", legend: null, type: "nominal" },
+                tooltip: [
+                    { field: 'rt', type: "quantitative", format: '.2f', title: "Reaction time (ms)" },
+                    { field: 'trialtype', type: "nominal", title: "Trial type" }
+                ]
+            },
+            width: 500,
             height: 400,
         };
 
@@ -447,6 +510,8 @@
                 vegaEmbed('#vis1', reaction_time_box_plot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
                 vegaEmbed('#vis2', rt_density, { actions: { source: false, compiled: false, editor: false } });
                 vegaEmbed('#vis3', global_interference_plot, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis4', strip_plot, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis5', scatter_plot, { actions: { source: false, compiled: false, editor: false } });
             }
         }, 3000);
         fontLoader.loadFonts();

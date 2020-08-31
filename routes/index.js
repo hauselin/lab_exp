@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const DataLibrary = require("../models/datalibrary");
 const page_elements = require("../public/page_elements");
+const d3 = require("d3-array");
 
 router.get('/', function (req, res) {
     if (false) {
@@ -88,7 +89,7 @@ router.get('/', function (req, res) {
 
         console.log('END OF QUERIES (note the asynchronous output!)\n\n')
     }
-    res.render("index.ejs", { surveys: page_elements.surveys, tasks: page_elements.tasks, studies: page_elements.studies });
+    res.render("index.ejs", { surveys: page_elements.surveys, tasks: page_elements.tasks, studies: page_elements.studies, shuffled_tasks: d3.shuffle(page_elements.tasks) });
 });
 
 router.get('/tasks', function (req, res) {
