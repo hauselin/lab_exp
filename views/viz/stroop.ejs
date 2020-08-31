@@ -215,6 +215,7 @@
 
         // data from database
         const data_array = <%- JSON.stringify(data_array) %>;
+        const subject_array = <%- JSON.stringify(subject_array) %>;
         const country_array = <%- JSON.stringify(country_array) %>;
         const uniquestudyid = 'stroop';
 
@@ -249,9 +250,9 @@
                     transform: [
                         {
                             aggregate: [{
-                                op: "mean",
+                                op: "median",
                                 field: "rt",
-                                as: "mean_rt"
+                                as: "median_rt"
                             }],
                             groupby: ["subject", "trialtype"]
                         }
@@ -264,34 +265,33 @@
                             axis: { title: "Trial type" }
                         },
                         y: {
-                            field: "mean_rt",
+                            field: "median_rt",
                             type: "quantitative",
-                            title: "Average reaction time (ms)"
+                            title: "Median reaction time (ms)"
                         },
                         size: { value: 18 },
-                        color: { field: "mean_rt", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
+                        color: { field: "median_rt", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
                         tooltip: [
-                            { field: 'mean_rt', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" },
+                            { field: 'median_rt', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" },
                         ]
                     }
                 },
-                // {
-                //     // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
-                //     data: (function () { // anonymous function
-                //         if (subject_id) {
-                //             return { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) };
-                //         } else {  // don't draw points
-                //             return { values: [] };
-                //         }
-                //     }()),
-                //     mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
-                //     encoding: {
-                //         x: { datum: "Congruent", type: "nominal" },
-                //         y: { field: "congruent_rt", type: "quantitative", scale: {} },
-                //         size: { value: 150 },
-                //         tooltip: [{ field: "congruent_rt", format: ".3f", title: 'You', type: "quantitative" }] // format tooltip
-                //     },
-                // },
+                {
+                    data: (function () { // anonymous function
+                        if (subject_id) {
+                            return { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) };
+                        } else {  // don't draw points
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
+                    encoding: {
+                        x: { field: "trialtype", type: "nominal" },
+                        y: { field: "rt", type: "quantitative", scale: {} },
+                        size: { value: 150 },
+                        tooltip: [{ field: "rt", format: ".3f", title: 'You', type: "quantitative" }] // format tooltip
+                    },
+                },
             ],
             width: 500,
             height: 400,
@@ -302,22 +302,23 @@
     <!-- Reaction time density -->
     <script type="text/javascript" defer>
 
-    var rt_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+        var rt_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { title: null, labelFontSize: 15, labelFont: "Inter-UI-upright", orient: "bottom" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             layer: [
                 {
-                    data: { values: data_array },
-                    transform: [
-                        { density: "congruent_rt", counts: false, cumulative: false },
-                    ],
+                    data: { values: subject_array },
+                    transform: [{
+                        groupby: ["trialtype"],
+                        density: "mean_rt",
+                    }],
                     mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
                     encoding: {
                         x: {
                             type: "quantitative",
                             field: "value",
-                            title: "Reaction times (ms)",
+                            title: "Average reaction times (ms)",
                             scale: {}
                         },
                         y: {
@@ -326,104 +327,28 @@
                             title: "Frequency (density)",
                             scale: {}
                         },
-                        color: { field: "density", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
-                        tooltip: [{ field: 'value', format: ".3f", title: 'Reaction time (ms)', type: "quantitative" }, { field: 'density', title: 'Density', type: "quantitative" }]
+                        color: { field: "trialtype", type: "nominal" },
+                        tooltip: [{ field: 'trialtype', title: 'Trial type', type: "nominal" }, { field: 'value', format: ".3f", title: 'Reaction time (ms)', type: "quantitative" }, { field: 'density', title: 'Density', type: "quantitative" }]
                     }
                 },
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: data_array.filter(i => i.subject == subject_id).slice(0, 1) };
+                            return { values: subject_array.filter(i => i.subject == subject_id && i.time == start_time) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
                     }()),
-                    mark: "rule",
+                    mark: { type: "rule", opacity: 0.7 },
                     encoding: {
-                        x: { field: "congruent_rt", type: "quantitative" },
-                        color: { value: "firebrick", type: "quantitative" },
+                        x: { field: "mean_rt", type: "quantitative" },
+                        color: { field: "trialtype", type: "nominal" },
                         size: { value: 3 },
-                        tooltip: [{ field: 'congruent_rt', format: ".3f", title: 'You', type: "quantitative" }]
+                        tooltip: [
+                            { field: 'trialtype', title: 'Trial type', type: "nominal" },
+                            { field: 'mean_rt', format: ".3f", title: 'Your reaction time (ms)', type: "quantitative" }]
                     },
-                },
-                {
-                    data: { values: data_array },
-                    transform: [
-                        { density: "incongruent_rt", counts: false, cumulative: false },
-                    ],
-                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
-                    encoding: {
-                        x: {
-                            type: "quantitative",
-                            field: "value",
-                            title: "Reaction times (ms)",
-                            scale: {}
-                        },
-                        y: {
-                            type: "quantitative",
-                            field: "density",
-                            title: "Frequency (density)",
-                            scale: {}
-                        },
-                        color: { field: "density", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
-                        tooltip: [{ field: 'value', format: ".3f", title: 'Reaction time (ms)', type: "quantitative" }, { field: 'density', title: 'Density', type: "quantitative" }]
-                    }
-                },
-                {
-                    data: (function () { // anonymous function
-                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: data_array.filter(i => i.subject == subject_id).slice(0, 1) };
-                        } else {  // don't draw vertical rule
-                            return { values: [] };
-                        }
-                    }()),
-                    mark: "rule",
-                    encoding: {
-                        x: { field: "incongruent_rt", type: "quantitative" },
-                        color: { value: "firebrick", type: "quantitative" },
-                        size: { value: 3 },
-                        tooltip: [{ field: 'incongruent_rt', format: ".3f", title: 'You', type: "quantitative" }]
-                    },
-                },
-                {
-                    data: { values: data_array },
-                    transform: [
-                        { density: "neutral_rt", counts: false, cumulative: false },
-                    ],
-                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
-                    encoding: {
-                        x: {
-                            type: "quantitative",
-                            field: "value",
-                            title: "Reaction times (ms)",
-                            scale: {}
-                        },
-                        y: {
-                            type: "quantitative",
-                            field: "density",
-                            title: "Frequency (density)",
-                            scale: {}
-                        },
-                        color: { field: "density", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
-                        tooltip: [{ field: 'value', format: ".3f", title: 'Reaction time (ms)', type: "quantitative" }, { field: 'density', title: 'Density', type: "quantitative" }]
-                    }
-                },
-                {
-                    data: (function () { // anonymous function
-                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: data_array.filter(i => i.subject == subject_id).slice(0, 1) };
-                        } else {  // don't draw vertical rule
-                            return { values: [] };
-                        }
-                    }()),
-                    mark: "rule",
-                    encoding: {
-                        x: { field: "neutral_rt", type: "quantitative" },
-                        color: { value: "firebrick", type: "quantitative" },
-                        size: { value: 3 },
-                        tooltip: [{ field: 'neutral_rt', format: ".3f", title: 'You', type: "quantitative" }]
-                    },
-                },
+                }
             ],
             // title: "Aggregate AUC density",
             width: 550,

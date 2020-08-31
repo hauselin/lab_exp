@@ -51,24 +51,48 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
 
 router.get("/tasks/stroop/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'stroop' }, {}, { sort: { time: -1 } }).lean().then(data => {
-        const keys2select = ['subject', 'uniquesubjectid', 'rt', 'trialtype', 'congruent_rt', 'incongruent_rt', 'neutral_rt', 'rt_interference', 'congruent_acc', 'incongruent_acc', 'acc_interference', 'neutral_acc', 'country', 'country_code', 'longitude', 'latitude', 'time'];  // columns/keys to select
+        const keys2select = ['subject', 'uniquesubjectid', 'rt', 'acc', 'trialtype', 'trial_index', 'time'];  // columns/keys to select
+        const keys2select2 = ['subject', 'uniquesubjectid', 'rt_interference', 'acc_interference', 'congruent_rt', 'congruent_acc', 'incongruent_rt', 'incongruent_acc', 'neutral_rt', 'neutral_acc', 'country', 'country_code', 'longitude', 'latitude', 'time'];  // columns/keys to select
         var data_array = [];
+        var subject_array = [];
         data.map(function (i) {  // map/loop through each document to get relevant data
             const temp_data = i.data; // get jspsych data
-            var data_subset = temp_data.filter(s => s.rt != null && s.trialtype != null);  // select relevant rows
+            var subject_subset = temp_data.filter(s => s.trial_index < 3);  // select relevant rows
+            var subject_subset = subject_subset.map(s => helper.pick(s, keys2select2));  // select relevant columns
+            var data_subset = temp_data.filter(s => s.event == "stimulus" && s.rt != "No response" && s.trialtype != null);  // select relevant rows
             var data_subset = data_subset.map(s => helper.pick(s, keys2select));  // select relevant columns
-            data_subset.forEach(function (s) { // for each row in this document
+            var counter = 0;
+            subject_subset.forEach(function (s) { // for each row in this document
+                if (counter == 0) {
+                    s.trialtype = "Congruent";
+                    s.mean_rt = s.congruent_rt;
+                    s.mean_acc = s.congruent_acc;
+                    counter += 1;
+                } else if (counter == 1) {
+                    s.trialtype = "Incongruent";
+                    s.mean_rt = s.incongruent_rt;
+                    s.mean_acc = s.incongruent_acc;
+                    counter += 1;
+                } else {
+                    s.trialtype = "Neutral";
+                    s.mean_rt = s.neutral_rt;
+                    s.mean_acc = s.neutral_acc;
+                    counter = 0;
+                }
                 s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))  // get country code
             })
-            trials_by_type = d3.group(data_subset, d => d.trialtype);
             data_array.push(data_subset);
+            subject_array.push(subject_subset);
         });
         data_array = data_array.flat(1);  // flatten objects in array
-        console.log(data_array);  // no. of subjects/documents
-        // console.log(data_array.length); // no. of subjects/documents
+        subject_array = subject_array.flat(1);  // flatten objects in array
+        // console.log(data_array);
+        // console.log(subject_array);
+        // console.log(data_array.length);
+        // console.log(subject_array.length);
 
         // prepare data for chloropleth auc (each subject has 5 auc values (repeated) because we have 5 trials per subject, but that's fine)
-        country_data = d3.rollups(data_array, // compute median for each country
+        country_data = d3.rollups(subject_array, // compute median for each country
             function (v) {
                 return {
                     rt_interference: d3.median(v, d => d.rt_interference),  // median rt interference
@@ -85,7 +109,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
         // console.log(country_data);
 
         // render
-        res.render('viz/stroop.ejs', { data_array: data_array, country_array: country_data });
+        res.render('viz/stroop.ejs', { data_array: data_array, subject_array: subject_array, country_array: country_data });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);
