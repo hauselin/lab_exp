@@ -51,34 +51,30 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
 
 router.get("/tasks/stroop/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'stroop' }, {}, { sort: { time: -1 } }).lean().then(data => {
+        const n_trialtypes = 3; // number of different trial types, e.g. congruent, incongruent and neutral
         const keys2select = ['subject', 'uniquesubjectid', 'rt', 'acc', 'trialtype', 'trial_index', 'time'];  // columns/keys to select
         const keys2select2 = ['subject', 'uniquesubjectid', 'rt_interference', 'acc_interference', 'congruent_rt', 'congruent_acc', 'incongruent_rt', 'incongruent_acc', 'neutral_rt', 'neutral_acc', 'country', 'country_code', 'longitude', 'latitude', 'time'];  // columns/keys to select
         var data_array = [];
         var subject_array = [];
         data.map(function (i) {  // map/loop through each document to get relevant data
             const temp_data = i.data; // get jspsych data
-            var subject_subset = temp_data.filter(s => s.trial_index < 3);  // select relevant rows
+            var subject_subset = temp_data.filter(s => s.trial_index < n_trialtypes);  // select relevant rows
             var subject_subset = subject_subset.map(s => helper.pick(s, keys2select2));  // select relevant columns
             var data_subset = temp_data.filter(s => s.event == "stimulus" && s.rt != "No response" && s.trialtype != null);  // select relevant rows
             var data_subset = data_subset.map(s => helper.pick(s, keys2select));  // select relevant columns
-            var counter = 0;
+            subject_subset[0].trialtype = "Congruent";
+            subject_subset[1].trialtype = "Incongruent";
+            subject_subset[2].trialtype = "Neutral";
+
+            subject_subset[0].mean_rt = subject_subset[0].congruent_rt;
+            subject_subset[1].mean_rt = subject_subset[1].incongruent_rt;
+            subject_subset[2].mean_rt = subject_subset[2].neutral_rt;
+
+            subject_subset[0].mean_acc = subject_subset[0].congruent_acc;
+            subject_subset[1].mean_acc = subject_subset[1].incongruent_acc;
+            subject_subset[2].mean_acc = subject_subset[2].neutral_acc;
+
             subject_subset.forEach(function (s) { // for each row in this document
-                if (counter == 0) {
-                    s.trialtype = "Congruent";
-                    s.mean_rt = s.congruent_rt;
-                    s.mean_acc = s.congruent_acc;
-                    counter += 1;
-                } else if (counter == 1) {
-                    s.trialtype = "Incongruent";
-                    s.mean_rt = s.incongruent_rt;
-                    s.mean_acc = s.incongruent_acc;
-                    counter += 1;
-                } else {
-                    s.trialtype = "Neutral";
-                    s.mean_rt = s.neutral_rt;
-                    s.mean_acc = s.neutral_acc;
-                    counter = 0;
-                }
                 s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))  // get country code
             })
             data_array.push(data_subset);
@@ -87,6 +83,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
         data_array = data_array.flat(1);  // flatten objects in array
         subject_array = subject_array.flat(1);  // flatten objects in array
         // console.log(data_array);
+        // console.log(1);
         // console.log(subject_array);
         // console.log(data_array.length);
         // console.log(subject_array.length);

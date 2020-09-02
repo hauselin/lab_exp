@@ -297,8 +297,8 @@ jsPsych.init({
         var incongruent_subset = data_subset.filter({ "trialtype": "incongruent" });  // select incongruent trials
         var neutral_subset = data_subset.filter({ "trialtype": "neutral" });  // select neutral trials
 
-        var congruent_rt = congruent_subset.select('rt').subset(function(x){ return x != null; }).mean();
-        var incongruent_rt = incongruent_subset.select('rt').subset(function(x){ return x != null; }).mean();
+        var congruent_rt = congruent_subset.select('rt').subset(function(x){ return x > 0; }).median();
+        var incongruent_rt = incongruent_subset.select('rt').subset(function(x){ return x > 0; }).median();
         var congruent_acc = congruent_subset.select('acc').mean();
         var incongruent_acc = incongruent_subset.select('acc').mean();
 
@@ -313,7 +313,7 @@ jsPsych.init({
             congruent_rt: congruent_rt,
             incongruent_rt: incongruent_rt,
             rt_interference: incongruent_rt - congruent_rt,
-            neutral_rt: neutral_subset.select('rt').subset(function(x){ return x != null; }).mean(),
+            neutral_rt: neutral_subset.select('rt').subset(function(x){ return x > 0; }).mean(),
             congruent_acc: congruent_acc,
             incongruent_acc: incongruent_acc,
             acc_interference: congruent_acc - incongruent_acc,
