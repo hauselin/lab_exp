@@ -69,4 +69,11 @@ function deleteData(datalibrary, doc) {
     };
 }
 
-module.exports = { json2csv, doc2datastring, deleteData, pick }
+function isLoggedIn(req, res, next) { // //req.isAuthenticated() will return true if user is logged in
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect("/login");
+}
+
+module.exports = { json2csv, doc2datastring, deleteData, pick, isLoggedIn }

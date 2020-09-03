@@ -4,7 +4,7 @@ const helper = require('../routes/helpers/helpers');
 const DataLibrary = require("../models/datalibrary");
 
 // route for downloading consent forms
-router.get("/:type/:uniquestudyid/consent", function (req, res) {
+router.get("/:type/:uniquestudyid/consent", helper.isLoggedIn, function (req, res) {
     var filename = 'consent.md'; // download filename
     var file = '../lab_exp/' + req.params.type + '/' + req.params.uniquestudyid + '/' + filename;
     // console.log(file);
@@ -16,7 +16,7 @@ router.get("/:type/:uniquestudyid/consent", function (req, res) {
     });
 });
 
-router.get('/d1', function (req, res) {
+router.get('/d1', helper.isLoggedIn, function (req, res) {
     // Download the most recent document (regardless of task)
     DataLibrary.findOne({}, {}, { sort: { time: -1 } }).lean()
         .then(doc => {
@@ -36,7 +36,7 @@ router.get('/d1', function (req, res) {
 
 });
 
-router.get('/:type/:uniquestudyid/:dn', function (req, res, next) {
+router.get('/:type/:uniquestudyid/:dn', helper.isLoggedIn, function (req, res, next) {
     // Download most recent n document(s) for a given task
     if (req.params.dn.slice(0, 6) == 'delete') {
         next();  // next route (delete route)
@@ -60,7 +60,7 @@ router.get('/:type/:uniquestudyid/:dn', function (req, res, next) {
     }
 });
 
-router.get('/:type/:uniquestudyid/d/:yyyy', function (req, res) {
+router.get('/:type/:uniquestudyid/d/:yyyy', helper.isLoggedIn, function (req, res) {
     // Filter and download documents by year for a given task
     DataLibrary.find(
         {
@@ -85,7 +85,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy', function (req, res) {
         });
 });
 
-router.get('/:type/:uniquestudyid/d/:yyyy/:mm', function (req, res) {
+router.get('/:type/:uniquestudyid/d/:yyyy/:mm', helper.isLoggedIn, function (req, res) {
     // Filter and download documents by year and month for a given task
     DataLibrary.find(
         {
@@ -111,7 +111,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm', function (req, res) {
         });
 });
 
-router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function (req, res) {
+router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', helper.isLoggedIn, function (req, res) {
     // Filter and download documents by year, month, and day for a given task
     DataLibrary.find(
         {
@@ -139,7 +139,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', function (req, res) {
 
 });
 
-router.get('/:type/:uniquestudyid/dsub/:subject', function (req, res) {
+router.get('/:type/:uniquestudyid/dsub/:subject', helper.isLoggedIn, function (req, res) {
     // Filter and download documents by subject for a given task
     DataLibrary.find(
         {

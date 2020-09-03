@@ -18,6 +18,7 @@ var showRoutes = require('./routes/show'),
     authRoutes = require('./routes/auth')
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
 app.set("view engine", "ejs"); // use ejs template engine for rendering
 
