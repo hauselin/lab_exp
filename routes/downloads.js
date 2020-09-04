@@ -37,12 +37,14 @@ router.get('/d1', helper.isLoggedIn, function (req, res) {
 });
 
 router.get('/:type/:uniquestudyid/:dn', helper.isLoggedIn, function (req, res, next) {
+    // route is only d (without n), all documents will be downloaded
+    const n = Number(req.params.dn.slice(1));  // no. of docs requested
     // Download most recent n document(s) for a given task
-    if (req.params.dn.slice(0, 6) == 'delete') {
+    if (req.params.dn.slice(0, 6) == 'delete' || isNaN(n)) {
         next();  // next route (delete route)
     } else {
         DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, { data: 1, _id: 0 },
-            { sort: { time: -1 }, limit: Number(req.params.dn.slice(1)) }).lean()
+            { sort: { time: -1 }, limit: n }).lean()
             .then(doc => {
                 if (doc.length > 0) {
                     const filename = req.params.dn + "_" + req.params.type + "_" + req.params.uniquestudyid + ".csv";
@@ -50,7 +52,7 @@ router.get('/:type/:uniquestudyid/:dn', helper.isLoggedIn, function (req, res, n
                     res.attachment(filename);
                     res.status(200).send(datastring);
                 } else {
-                    res.status(200).end(); // empty page (use flash?) 
+                    res.status(200).send("Nothing's found!"); // empty page (use flash?) 
                 }
             })
             .catch(err => {
@@ -76,7 +78,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy', helper.isLoggedIn, function (req, re
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).end(); // empty page (use flash?) 
+                res.status(200).send("Nothing's found!"); // empty page (use flash?) 
             }
         })
         .catch(err => {
@@ -102,7 +104,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm', helper.isLoggedIn, function (req
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).end(); // empty page (use flash?)
+                res.status(200).send("Nothing's found!"); // empty page (use flash?)
             }
         })
         .catch(err => {
@@ -129,7 +131,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', helper.isLoggedIn, function 
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).end(); // empty page (use flash?) 
+                res.status(200).send("Nothing's found!"); // empty page (use flash?) 
             }
         })
         .catch(err => {
@@ -155,7 +157,7 @@ router.get('/:type/:uniquestudyid/dsub/:subject', helper.isLoggedIn, function (r
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).end();
+                res.status(200).send("Nothing's found!");
             }
         })
         .catch(err => {

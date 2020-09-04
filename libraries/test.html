@@ -9,35 +9,76 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
     <link href="test.css" rel="stylesheet" type="text/css">
+
+    <script src="https://d3js.org/d3-array.v2.min.js"></script>
 </head>
 
 <body>
-    <h1>My chart</h1>
-
-    <div id="vis" class='plot'></div>
-
-    <script>
-
-        var spec = {
-            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-            config: { axis: { labelFont: "monospace", labelFontSize: 20, titleFontSize: 35 }, title: { font: "Georgia", fontSize: 40 }, legend: { labelFontSize: 30 } },
-            // https://vega.github.io/vega/docs/title/
-            // https://vega.github.io/vega-lite/docs/legend.html
-            data: { url: "https://raw.githubusercontent.com/hauselin/datasets/master/iris.csv" },
-            mark: { type: "point", tooltip: true },
-            encoding: {
-                "x": { field: "sepal_length", axis: { "title": "Sepal length" } },
-                "y": { field: "petal_length" },
-                "color": { field: "species" },
-            },
-            title: "My pretty graph",
-            width: 300,
-            height: 300,
+<script>
+    console.log('hey')
+    // https://github.com/d3/d3-array
+    var a = [
+        {subj: 11, trialtype: 'congruent', acc: 1, rt: 100},
+        {subj: 11, trialtype: 'congruent', acc: 1, rt: 200},
+        {subj: 11, trialtype: 'incongruent', acc: 0, rt: 1000},
+        {subj: 11, trialtype: 'incongruent', acc: 1, rt: 2000},
+        {subj: 22, trialtype: 'congruent', acc: 1, rt: 10},
+        {subj: 22, trialtype: 'congruent', acc: 1, rt: 20},
+        {subj: 22, trialtype: 'incongruent', acc: 0, rt: 1},
+        {subj: 22, trialtype: 'incongruent', acc: 0, rt: 2},
+    ]
+    // console.log(a);
+    
+    // group by subject
+    var a_grp = d3.group(a, d => d.subj);
+    console.log(a_grp);
+    var a_avg = Array.from(a_grp, function(i) {
+        return {
+            subj: i[0], // get subject id
+            data: i[1]
         }
+    });
+    console.log(a_avg)
 
-        vegaEmbed('#vis', spec, { theme: "vox" });
-        // https://vega.github.io/vega-lite/usage/embed.html
-    </script>
+    // group by subject
+    // compute mean rt and acc
+    // https://observablehq.com/@d3/d3-group
+    a_grp = d3.rollups(a, 
+            function(v) { // variables to compute
+                return {
+                    rt_median: d3.median(v, d => d.rt),  
+                    acc_mean: d3.mean(v, d => d.acc) 
+                }
+            },
+            d => d.subj);  // by subject
+    console.log(a_grp)
+    // unnest results
+    a_grp = Array.from(a_grp, function(i) {  // unnest data
+            return { subj: i[0], rt_median: i[1].rt_median, acc_mean: i[1].acc_mean }
+    })
+    console.log(a_grp)
+
+
+    // group by subject and trialtype
+    // compute mean rt and acc
+    // https://observablehq.com/@d3/d3-group
+    a_grp = d3.rollups(a,
+        function(v) { // variables to compute
+            return {
+                rt_median: d3.median(v, d => d.rt),
+                acc_mean: d3.mean(v, d => d.acc)
+            }
+        },
+        d => d.subj, d => d.trialtype);  // by subject and trialtype
+    console.log(a_grp)
+    // unnest results
+    // a_grp = Array.from(a_grp, function (i) {  // unnest data
+    //     return { subj: i[0], trialtype: i[1][0][0] , rt_median: i[1][0].rt_median, acc_mean: i[1][0].acc_mean }
+    // })
+    // console.log(a_grp)
+
+
+</script>
 </body>
 
 </html>

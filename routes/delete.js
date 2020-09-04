@@ -32,22 +32,28 @@ router.get('/delete1', helper.isLoggedIn, function (req, res) {
 
 router.get('/:type/:uniquestudyid/:deleten', helper.isLoggedIn, function (req, res) {
     // Delete most recent n document(s) for a given task
-    DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, {},
-        { sort: { time: -1 }, limit: Number(req.params.deleten.slice(6)) })
-        .then(doc => {
-            if (doc.length == 0) {
-                msg = "No documents found to delete.";
-            } else {
-                helper.deleteData(DataLibrary, doc);
-                msg = "Deleted " + req.params.n + " document(s) successfully.";
-            }
-            console.log(msg);
-            res.status(200).send(msg);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).send(err);
-        });
+    // if route is only delete (without n), all documents will be deleted
+    const n = Number(req.params.dn.slice(6));  // no. of docs requested
+    if (isNaN(n)) {
+        next(); // next route
+    } else {
+        DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, {},
+            { sort: { time: -1 }, limit: Number(req.params.deleten.slice(6)) })
+            .then(doc => {
+                if (doc.length == 0) {
+                    msg = "No documents found to delete.";
+                } else {
+                    helper.deleteData(DataLibrary, doc);
+                    msg = "Deleted " + req.params.n + " document(s) successfully.";
+                }
+                console.log(msg);
+                res.status(200).send(msg);
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).send(err);
+            });
+    }
 });
 
 

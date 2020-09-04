@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
   <link href="../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
-  <link rel="preload" as="font" href="../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2">
-  <link rel="preload" as="font" href="../public/assets/fonts/Inter-UI.var.woff2" type="font/woff2">
+  <!-- <link rel="preload" as="font" href="../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"> -->
+  <!-- <link rel="preload" as="font" href="../public/assets/fonts/Inter-UI.var.woff2" type="font/woff2"> -->
 </head>
 
 <body style="overflow-x: hidden; " data-smooth-scroll-offset="73">
@@ -31,17 +31,22 @@
     <div class="container">
       <div class="row">
 
+        <% for(var i = 0; i < studies.length; i++) { %>
+        <% var image_link =  "../public/assets/img/studies/" + studies[i].uniquestudyid + ".svg" %>
+        <% var study_link =  "/studies/" + studies[i].uniquestudyid + "/" %>
+
         <div class="col-sm-6 col-lg-4" data-aos="fade-up" data-aos-delay="100">
-          <a href="/studies/studyA/task.html"
-            class="card card-sm card-body flex-row align-items-center fade-page hover-shadow-3d">
+          <a href=<%=study_link%> class="card card-sm card-body flex-row align-items-center fade-page hover-shadow-3d">
             <img class="icon icon-lg
-        bg-primary-2" src="../public/assets/img/icons/theme/general/thunder-move.svg" alt="icon" />
+        bg-primary-2" src=<%=image_link%> alt="icon" />
             <div class="ml-3">
-              <h5 class="mb-0">Study A</h5>
-              <span>Description...</span>
+              <h5 class="mb-0"><%=studies[i].name%></h5>
+              <span><%=studies[i].description%></span>
             </div>
           </a>
         </div>
+        <% } %>
+
 
       </div>
     </div>

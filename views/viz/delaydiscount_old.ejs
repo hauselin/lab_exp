@@ -1,0 +1,809 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Results</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <script src="../../libraries/utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
+    <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
+        crossorigin="anonymous">
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI.var.woff2" type="font/woff2"
+        crossorigin="anonymous">
+</head>
+
+<body class="is-preload">
+    <%- include('../partials/menu_bar_viz') %>
+    <section class="bg-primary-alt header-inner o-hidden pt-7">
+        <div class="container">
+            <div class="row py-6 text-center justify-content-center align-items-center layer-2">
+                <div class="col-xl-8 col-lg-10">
+                    <h1 class="display-4">Delay discounting</h1>
+                    <p class="lead mb-0">How much do you discount rewards that are available only in the future? Check
+                        out the interactive figures and results below. Download figures. </p>
+                </div>
+            </div>
+        </div>
+        <div class="divider layer-1">
+            <img src="../../public/assets/img/dividers/divider-2.svg" alt="graphical divider" data-inject-svg />
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row align-items-center justify-content-around">
+                <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                    <div id="vis" class="center"></div>
+                </div>
+                <div class="col-md-6 col-xl-5">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-10 col-lg-11">
+                            <span class="badge badge-primary">Your results</span>
+                            <div class="my-3">
+                                <span class="h3">How much do you discount future rewards?</span>
+                            </div>
+                            <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                                praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
+                                sint occaecati.</p>
+                            <p class="lead mb-0"><b>Frank, this figure should be the boxplot below. If there's no data
+                                    for the person viewing this page, this paragraph should simply tell the person to do
+                                    the task! If data already available, don't show this paragraph.</b></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="pt-0 has-divider">
+        <div class="container">
+            <div class="row mb-4" data-aos="fade-up">
+                <div class="col">
+                    <h2>What does this say about you?</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg"
+                        alt="patch icon" data-inject-svg />
+                    <div class="ml-3">
+                        <h5>Self-control and impulsivity</h5>
+                        <p>
+                            More info. Complete the self-control survey.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg"
+                        alt="miso-soup icon" data-inject-svg />
+                    <div class="ml-3">
+                        <h5>Other types of discounting behavior</h5>
+                        <p>
+                            More info. Link to effort discounting task.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg"
+                        alt="door-open icon" data-inject-svg />
+                    <div class="ml-3">
+                        <h5>Temporal preferences</h5>
+                        <p>
+                            More info. Complete the temporal preferences survey.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divider">
+            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
+                data-inject-svg />
+        </div>
+    </section>
+    <section class="bg-primary-alt">
+        <div class="container">
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10 col-xl-8 text-center">
+                    <h2 class="h1">Aggregate data</h2>
+                    <p class="lead">This is everyone's data.</p>
+                </div>
+            </div>
+            <!-- <div class="row justify-content-center">
+                <div class="col-lg-10 col-xl-8">
+                    <div data-flickity='{ "imagesLoaded": true, "wrapAround": true }' class="mb-5">
+                        <div class="carousel-cell mx-3">
+                            <div id="vis2" class="center"></div>
+                        </div>
+                        <div class="carousel-cell mx-3">
+                            <div id="vis3" class="center"></div>
+                        </div>
+                        <div class="carousel-cell mx-3">
+                            <div id="vis4" class="center"></div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="container">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                        <div id="vis2" class="center"></div>
+                    </div>
+                    <div class="col-md-6 col-xl-5">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11">
+                                <span class="badge badge-primary">Everyone</span>
+                                <div class="my-3">
+                                    <span class="h1">Discounting box plot</span>
+                                </div>
+                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                    blanditiis
+                                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                    excepturi
+                                    sint occaecati.</p>
+                                <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                    deserunt
+                                    mollitia animi, id est laborum et dolorum fuga.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                        <div id="vis3" class="center"></div>
+                    </div>
+                    <div class="col-md-6 col-xl-5">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11">
+                                <span class="badge badge-primary">Everyone</span>
+                                <div class="my-3">
+                                    <span class="h1">AUC histogram</span>
+                                </div>
+                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                    blanditiis
+                                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                    excepturi
+                                    sint occaecati.</p>
+                                <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                    deserunt
+                                    mollitia animi, id est laborum et dolorum fuga.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container pt-7">
+                    <div class="row align-items-center justify-content-around">
+                        <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                            <div id="vis4" class="center"></div>
+                        </div>
+                        <div class="col-md-6 col-xl-5">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-10 col-lg-11">
+                                    <span class="badge badge-primary">Everyone</span>
+                                    <div class="my-3">
+                                        <span class="h3">AUC density graph</span>
+                                    </div>
+                                    <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                        blanditiis
+                                        praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                        excepturi
+                                        sint occaecati.</p>
+                                    <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                        deserunt
+                                        mollitia animi, id est laborum et dolorum fuga.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container pt-7">
+                    <div class="row align-items-center justify-content-around">
+                        <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                            <div id="vis5" class="center"></div>
+                        </div>
+                        <div class="col-md-6 col-xl-5">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-10 col-lg-11">
+                                    <span class="badge badge-primary">Everyone</span>
+                                    <div class="my-3">
+                                        <span class="h1">Global data inputs</span>
+                                    </div>
+                                    <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                        blanditiis
+                                        praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                        excepturi
+                                        sint occaecati.</p>
+                                    <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                        deserunt
+                                        mollitia animi, id est laborum et dolorum fuga.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container pt-7">
+                    <div class="row align-items-center justify-content-around">
+                        <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                            <div id="vis6" class="center"></div>
+                        </div>
+                        <div class="col-md-6 col-xl-5">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-10 col-lg-11">
+                                    <span class="badge badge-primary">Everyone</span>
+                                    <div class="my-3">
+                                        <span class="h1">Median AUC per country</span>
+                                    </div>
+                                    <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                        blanditiis
+                                        praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                        excepturi
+                                        sint occaecati.</p>
+                                    <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                        deserunt
+                                        mollitia animi, id est laborum et dolorum fuga.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container pt-7">
+                    <div class="row align-items-center justify-content-around">
+                        <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                            <div id="vis7" class="center"></div>
+                        </div>
+                        <div class="col-md-6 col-xl-5">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-10 col-lg-11">
+                                    <span class="badge badge-primary">World choropleth</span>
+                                    <div class="my-3">
+                                        <span class="h3">Discounting around the world</span>
+                                    </div>
+                                    <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                        blanditiis
+                                        praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                        excepturi
+                                        sint occaecati.</p>
+                                    <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                        deserunt
+                                        mollitia animi, id est laborum et dolorum fuga.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-10">
+                    <h2 class="h1 mb-4">Want to learn more? Complete more tasks.</h2>
+                    <div class="row no-gutters mb-3 d-none d-md-flex">
+                        <div class="col-xl-8 col-lg-7 col-md-6">
+                            <span class="text-small text-muted">Task</span>
+                        </div>
+                        <div class="col">
+                            <span class="text-small text-muted">Estimated time</span>
+                        </div>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <a href="/tasks/symbolcount" class="list-group-item list-group-item-action row no-gutters py-3">
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <h5 class="mb-0">Symbol counting</h5>
+                            </div>
+                            <div class="col-md">
+                                <span>3-4 min</span>
+                            </div>
+                        </a>
+                        <a href="/tasks/stroop" class="list-group-item list-group-item-action row no-gutters py-3">
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <h5 class="mb-0">Stroop</h5>
+                            </div>
+                            <div class="col-md">
+                                <span>3-4 min</span>
+                            </div>
+                        </a>
+                        <a href="/tasks/mentalmath" class="list-group-item list-group-item-action row no-gutters py-3">
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <h5 class="mb-0">Mental math</h5>
+                            </div>
+                            <div class="col-md">
+                                <span>3-4 min</span>
+                            </div>
+                        </a>
+                    </div>
+                    <span class="d-block mt-4"><a href="/tasks" class="hover-arrow">See all tasks</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+
+        const info = sessionStorage.getObj("info_");  // retrieve objects from sessionStorage
+        // subject_id and time will be used to filter arrays for plotting subject data
+        if (info === null) {
+            subject_id = null;
+            time = null;
+        } else {
+            subject_id = info.subject;
+            start_time = info.time;
+        }
+        // data from database
+        const data_array = <%- JSON.stringify(data_array) %>;
+        const country_array = <%- JSON.stringify(country_array) %>;
+
+    </script>
+
+    <!-- Individual discount curve -->
+    <script type="text/javascript" defer>
+        var indiff_curve = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28, font: "Inter-UI-upright", subtitleFont: "Inter-UI-upright" }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, header: { labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, mark: { font: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            data: {
+                values: data_array.filter(i => i.subject == subject_id && i.time == start_time)
+            },
+            mark: { type: "point", tooltip: true, filled: true, color: "#3755be" },
+            encoding: {
+                x: { field: "cost", type: "quantitative", axis: { "title": "Delay (days to reward)", labelAlign: "center" } },
+                // color: {field: "cost", legend: null}, // color by variable
+                color: { field: "cost", scale: { scheme: "viridis" }, legend: null },
+                y: { field: "indifference_ratio", type: "quantitative", scale: { domain: [0, 1] }, axis: { "title": "Subjective value" } },
+                size: { value: 233 },
+                tooltip: [{ field: "indifference_ratio", format: ".3f", title: 'Subjective value', type: "quantitative" }, { field: "cost", format: ".0f", title: 'Delay', type: "nominal" }] // format tooltip
+            },
+            // title: "Individual discounting curve",
+            width: 550,
+            height: 400,
+        };
+        vegaEmbed('#vis', indiff_curve, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+    </script>
+
+    <!-- Aggregate box plot -->
+    <script type="text/javascript" defer>
+
+        var aggregate_curve = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            encoding: {
+                x: {
+                    field: "cost",
+                    type: "quantitative",  // or nominal?
+                    axis: { "title": "Delay (days to reward)", tickMinStep: 20 },
+                    scale: { domain: [0, 101] }
+                },
+            },
+            layer: [
+                {
+                    data: { values: data_array },
+                    mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
+                    encoding: {
+                        y: {
+                            field: "indifference_ratio",
+                            type: "quantitative",
+                            axis: { "title": "Subjective value" }
+                        },
+                        size: { value: 18 },
+                        color: { field: "cost", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
+                        tooltip: [
+                            { field: 'indifference_ratio', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" }
+                        ]
+                    }
+                },
+                {
+                    // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
+                    data: (function () { // anonymous function
+                        if (subject_id) {
+                            return { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) };
+                        } else {  // don't draw vertical rule
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
+                    encoding: {
+                        y: { field: "indifference_ratio", type: "quantitative", scale: { domain: [0, 1] } },
+                        size: { value: 150 },
+                        tooltip: [{ field: "indifference_ratio", format: ".3f", title: 'Subjective value', type: "quantitative" }, { field: "cost", format: ".0f", title: 'Delay', type: "nominal" }] // format tooltip
+                    },
+                }
+            ],
+            width: 550,
+            height: 400,
+        };
+        vegaEmbed('#vis2', aggregate_curve, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+    </script>
+
+    <!-- Aggregate AUC histogram -->
+    <script type="text/javascript" defer>
+        var auc_histogram = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            layer: [{
+                data: { values: data_array.filter(i => i.cost == 2) },
+                mark: { type: "bar", color: "#3755be" },
+                encoding: {
+                    x: {
+                        type: "quantitative",
+                        bin: true,
+                        field: "auc",
+                        title: "AUC",
+                    },
+                    y: {
+                        aggregate: "count",
+                        type: "nominal",
+                        scale: {
+                            round: true
+                        },
+                        title: "Counts",
+                    }
+                }
+            },
+            {
+                data: (function () { // anonymous function
+                    if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
+                        return { values: data_array.filter(i => i.subject == subject_id).slice(0, 1) };
+                    } else {  // don't draw vertical rule
+                        return { values: [] };
+                    }
+                }()),
+                mark: "rule",
+                encoding: {
+                    x: { field: "auc" },
+                    color: { value: "firebrick", type: "quantitative" },
+                    size: { value: 3 },
+                    tooltip: [{ field: 'auc', format: ".3f", title: 'You', type: "quantitative" }]
+                },
+            }],
+            // title: "Aggregate AUC histogram",
+            width: 550,
+            height: 400,
+        };
+        vegaEmbed('#vis3', auc_histogram, { actions: { source: false, compiled: false, editor: false } });
+    </script>
+
+    <!-- Aggregate AUC density -->
+    <script type="text/javascript" defer>
+
+        var auc_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            layer: [
+                {
+                    data: { values: data_array.filter(i => i.cost == 2) },
+                    transform: [
+                        { density: "auc", counts: false, cumulative: false },
+                    ],
+                    mark: { type: "area", color: "#3755be", tooltip: true },
+                    encoding: {
+                        x: {
+                            type: "quantitative",
+                            field: "value",
+                            title: ["Area under curve (AUC)"],
+                            scale: { domain: [0, 1] }
+                        },
+                        y: {
+                            type: "quantitative",
+                            field: "density",
+                            title: "Frequency (density)",
+                        },
+                        tooltip: [{ field: 'value', format: ".3f", title: 'AUC', type: "quantitative" }, { field: 'density', format: ".2f", title: 'Density', type: "quantitative" }]
+                    }
+                },
+                {
+                    data: (function () { // anonymous function
+                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
+                            return { values: data_array.filter(i => i.subject == subject_id).slice(0, 1) };
+                        } else {  // don't draw vertical rule
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: "rule",
+                    encoding: {
+                        x: { field: "auc" },
+                        color: { value: "firebrick", type: "quantitative" },
+                        size: { value: 3 },
+                        tooltip: [{ field: 'auc', format: ".3f", title: 'You', type: "quantitative" }]
+                    },
+                }
+            ],
+            // title: "Aggregate AUC density",
+            width: 550,
+            height: 400,
+        };
+        vegaEmbed('#vis4', auc_density, { actions: { source: false, compiled: false, editor: false } });
+    </script>
+
+    <!-- Location map -->
+    <script defer>
+        var location_plot = {
+            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            // title: "Global results",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, background: "#f3f5fb",
+            width: 600,
+            height: 400,
+            layer: [
+                {
+                    data: {
+                        url: "../../public/data/countries-110m.json",
+                        format: {
+                            type: "topojson",
+                            feature: "countries"
+                        }
+                    },
+                    projection: {
+                        type: "equirectangular"
+                    },
+                    mark: {
+                        type: "geoshape",
+                        fill: "lightgray",
+                        stroke: "white"
+                    }
+                },
+                {
+                    data: { values: data_array.filter(i => i.subject == subject_id).slice(0, 1) },
+                    projection: {
+                        type: "equirectangular"
+                    },
+                    mark: { type: "circle", tooltip: true },
+                    encoding: {
+                        longitude: {
+                            field: "longitude",
+                            type: "quantitative"
+                        },
+                        latitude: {
+                            field: "latitude",
+                            type: "quantitative"
+                        },
+                        size: { "value": 80 },
+                        color: { "value": "red", type: "quantitative" }
+                    }
+                }
+            ]
+        };
+        vegaEmbed('#vis5', location_plot, { theme: "vox" });
+    </script>
+
+    <!-- AUC histogram by country -->
+    <script defer>
+        var country_histogram = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            data: { values: country_array },
+            mark: { type: "bar", color: "#3755be" },
+            encoding: {
+                x: {
+                    type: "nominal",
+                    field: "country_name",
+                    title: "Country",
+                },
+                y: {
+                    field: "median_auc",
+                    title: "AUC",
+                    type: "quantitative"
+                },
+                color: {
+                    field: "median_auc",
+                    type: "quantitative",
+                    scale: { domain: [0, 1], scheme: "viridis" },
+                    legend: null
+                },
+                tooltip: [
+                    {
+                        field: "country_name",
+                        type: "nominal"
+                    },
+                    {
+                        field: "median_auc",
+                        type: "quantitative"
+                    }
+                ]
+            },
+            // title: "AUC per country",
+            width: 450,
+            height: 400,
+        };
+        vegaEmbed('#vis6', country_histogram, { actions: { source: false, compiled: false, editor: false } });
+    </script>
+
+    <!-- <script defer>
+
+        var global_auc_plot = {
+            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            // title: "Global results",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } }, background: "#f3f5fb",
+            width: 520,
+            height: 400,
+            data: {
+                url: "../../public/data/countries-110m.json",
+                format: {
+                    type: "topojson",
+                    feature: "countries"
+                }
+            },
+            transform: [
+                {
+                    lookup: "id",
+                    from: {
+                        // data: {values: [{country_id: 124, country_name: "Canada", median_auc: 0.5}, {country_id: 156, country_name: "China", median_auc: 0.9}]},
+                        // The above line is to see multiple countries on the choropleth. Each object in the array must have all three properties: country_id, country_name, median_auc.
+                        data: { values: country_array },
+                        key: "country_id",
+                        fields: ["median_auc", "country_name"]
+                    },
+                }
+            ],
+            projection: {
+                type: "equirectangular"
+            },
+            mark: {
+                type: "geoshape",
+            },
+            encoding: {
+                color: {
+                    field: "median_auc",
+                    type: "quantitative",
+                    scale: { domain: [0, 1], scheme: "viridis" }
+                },
+                tooltip: [
+                    {
+                        field: "country_name",
+                        type: "nominal"
+                    },
+                    {
+                        field: "median_auc",
+                        type: "quantitative"
+                    }
+                ]
+            }
+        };
+        vegaEmbed('#vis7', global_auc_plot, { theme: "vox" });
+    </script> -->
+
+    <!-- AUC choropleth -->
+    <script defer>
+        var global_auc_plot = {
+            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: { stroke: "transparent" } },
+            background: "#f3f5fb",
+            width: 600,
+            height: 400,
+            layer: [
+                {
+                    data: {
+                        url: "../../public/data/countries-110m.json",
+                        format: {
+                            type: "topojson",
+                            feature: "countries"
+                        }
+                    },
+                    projection: {
+                        type: "mercator", scale: 98, center: [0, 40]
+                    },
+                    mark: {
+                        type: "geoshape",
+                        fill: "#080808",
+                        stroke: "white"
+                    },
+                    encoding: {
+                        tooltip: { field: "properties.name", title: "Country", type: "nominal" }
+                    }
+                },
+                {
+                    data: {
+                        url: "../../public/data/countries-110m.json",
+                        format: {
+                            type: "topojson",
+                            feature: "countries"
+                        }
+                    },
+                    transform: [
+                        {
+                            lookup: "id",
+                            from: {
+                                data: { values: country_array },
+                                key: "country_id",
+                                fields: ["median_auc", "country_name"]
+                            },
+                        }
+                    ],
+                    projection: {
+                        type: "mercator", scale: 98, center: [0, 40]
+                    },
+                    mark: {
+                        type: "geoshape",
+                    },
+                    encoding: {
+                        color: {
+                            field: "median_auc",
+                            type: "quantitative",
+                            scale: { domain: [0, 1], scheme: "viridis" },
+                            legend: { title: null, direction: "horizontal", orient: "bottom-left" }
+                        },
+                        tooltip: [
+                            {
+                                field: "country_name",
+                                title: "Country",
+                                type: "nominal"
+                            },
+                            {
+                                field: "median_auc",
+                                title: "AUC",
+                                type: "quantitative",
+                                format: ".3f"
+                            },
+                        ]
+                    }
+                }
+            ]
+        };
+        vegaEmbed('#vis7', global_auc_plot, { actions: { source: false, compiled: false, editor: false } });
+    </script>
+
+
+    <!-- Required vendor scripts (Do not remove) -->
+    <script type="text/javascript" src="../../public/assets/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../../public/assets/js/popper.min.js"></script>
+    <script type="text/javascript" src="../../public/assets/js/bootstrap.js"></script>
+
+    <!-- Optional Vendor Scripts (Remove the plugin script here and comment initializer script out of index.js if site does not use that feature) -->
+
+    <!-- AOS (Animate On Scroll - animates elements into view while scrolling down) -->
+    <script type="text/javascript" src="../../public/assets/js/aos.js"></script>
+    <!-- Clipboard (copies content from browser into OS clipboard) -->
+    <script type="text/javascript" src="../../public/assets/js/clipboard.js"></script>
+    <!-- Fancybox (handles image and video lightbox and galleries) -->
+    <script type="text/javascript" src="../../public/assets/js/jquery.fancybox.min.js"></script>
+    <!-- Flatpickr (calendar/date/time picker UI) -->
+    <script type="text/javascript" src="../../public/assets/js/flatpickr.min.js"></script>
+    <!-- Flickity (handles touch enabled carousels and sliders) -->
+    <script type="text/javascript" src="../../public/assets/js/flickity.pkgd.min.js"></script>
+    <!-- Ion rangeSlider (flexible and pretty range slider elements) -->
+    <script type="text/javascript" src="../../public/assets/js/ion.rangeSlider.min.js"></script>
+    <!-- Isotope (masonry layouts and filtering) -->
+    <script type="text/javascript" src="../../public/assets/js/isotope.pkgd.min.js"></script>
+    <!-- jarallax (parallax effect and video backgrounds) -->
+    <script type="text/javascript" src="../../public/assets/js/jarallax.min.js"></script>
+    <script type="text/javascript" src="../../public/assets/js/jarallax-video.min.js"></script>
+    <script type="text/javascript" src="../../public/assets/js/jarallax-element.min.js"></script>
+    <!-- jQuery Countdown (displays countdown text to a specified date) -->
+    <script type="text/javascript" src="../../public/assets/js/jquery.countdown.min.js"></script>
+    <!-- jQuery smartWizard facilitates steppable wizard content -->
+    <script type="text/javascript" src="../../public/assets/js/jquery.smartWizard.min.js"></script>
+    <!-- Plyr (unified player for Video, Audio, Vimeo and Youtube) -->
+    <script type="text/javascript" src="../../public/assets/js/plyr.polyfilled.min.js"></script>
+    <!-- Prism (displays formatted code boxes) -->
+    <script type="text/javascript" src="../../public/assets/js/prism.js"></script>
+    <!-- ScrollMonitor (manages events for elements scrolling in and out of view) -->
+    <script type="text/javascript" src="../../public/assets/js/scrollMonitor.js"></script>
+    <!-- Smooth scroll (animation to links in-page)-->
+    <script type="text/javascript" src="../../public/assets/js/smooth-scroll.polyfills.min.js"></script>
+    <!-- SVGInjector (replaces img tags with SVG code to allow easy inclusion of SVGs with the benefit of inheriting colors and styles)-->
+    <script type="text/javascript" src="../../public/assets/js/svg-injector.umd.production.js"></script>
+    <!-- TwitterFetcher (displays a feed of tweets from a specified account)-->
+    <script type="text/javascript" src="../../public/assets/js/twitterFetcher_min.js"></script>
+    <!-- Typed text (animated typing effect)-->
+    <script type="text/javascript" src="../../public/assets/js/typed.min.js"></script>
+    <!-- Required theme scripts (Do not remove) -->
+    <script type="text/javascript" src="../../public/assets/js/theme.js"></script>
+    <!-- Removes page load animation when window is finished loading -->
+    <script type="text/javascript">
+        window.addEventListener("load", function () { document.querySelector('body').classList.add('loaded'); });
+    </script>
+
+</body>
+
+</html>
