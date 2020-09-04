@@ -11,6 +11,9 @@
 </head>
 
 <body>
+  <div class="loader">
+    <div class="loading-animation"></div>
+  </div>
 
   <section class="min-vh-100 bg-primary-3 text-light py-5 o-hidden">
     <div class="container">
@@ -28,6 +31,11 @@
       </div>
     </div>
   </section>
+
+  <!-- Removes page load animation when window is finished loading -->
+  <script type="text/javascript">
+    window.addEventListener("load", function () {    document.querySelector('body').classList.add('loaded');  });
+  </script>
 
 </body>
 
