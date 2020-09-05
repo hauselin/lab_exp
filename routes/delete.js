@@ -4,7 +4,7 @@ const helper = require('../routes/helpers/helpers');
 const DataLibrary = require("../models/datalibrary");
 
 
-router.get('/delete1', function (req, res) {
+router.get('/delete1', helper.isLoggedIn, function (req, res) {
     // Delete the most recent document (regardless of task)
     DataLibrary.findOne({}, {}, { sort: { time: -1 } })
         .then(doc => {
@@ -30,7 +30,7 @@ router.get('/delete1', function (req, res) {
 });
 
 
-router.get('/:type/:uniquestudyid/:deleten', function (req, res) {
+router.get('/:type/:uniquestudyid/:deleten', helper.isLoggedIn, function (req, res) {
     // Delete most recent n document(s) for a given task
     // if route is only delete (without n), all documents will be deleted
     const n = Number(req.params.dn.slice(6));  // no. of docs requested
@@ -57,7 +57,7 @@ router.get('/:type/:uniquestudyid/:deleten', function (req, res) {
 });
 
 
-router.get('/:type/:uniquestudyid/delete/:yyyy', function (req, res) {
+router.get('/:type/:uniquestudyid/delete/:yyyy', helper.isLoggedIn, function (req, res) {
     // Filter and delete documents by year for a given task
     DataLibrary.find(
         {
@@ -83,7 +83,7 @@ router.get('/:type/:uniquestudyid/delete/:yyyy', function (req, res) {
 });
 
 
-router.get('/:type/:uniquestudyid/delete/:yyyy/:mm', function (req, res) {
+router.get('/:type/:uniquestudyid/delete/:yyyy/:mm', helper.isLoggedIn, function (req, res) {
     // Filter and delete documents by year and month for a given task
     DataLibrary.find(
         {
@@ -110,7 +110,7 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm', function (req, res) {
 });
 
 
-router.get('/:type/:uniquestudyid/delete/:yyyy/:mm/:dd', function (req, res) {
+router.get('/:type/:uniquestudyid/delete/:yyyy/:mm/:dd', helper.isLoggedIn, function (req, res) {
     // Filter and delete documents by year, month, and day for a given task
     DataLibrary.find(
         {
@@ -139,7 +139,7 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm/:dd', function (req, res) {
 });
 
 
-router.get('/:type/:uniquestudyid/deletesub/:subject', function (req, res) {
+router.get('/:type/:uniquestudyid/deletesub/:subject', helper.isLoggedIn, function (req, res) {
     // Filter and delete documents by subject for a given task
     DataLibrary.find(
         {
