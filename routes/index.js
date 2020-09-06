@@ -89,7 +89,7 @@ router.get('/', function (req, res) {
 
         console.log('END OF QUERIES (note the asynchronous output!)\n\n')
     }
-    res.render("index.ejs", { surveys: page_elements.surveys, tasks: page_elements.tasks, studies: page_elements.studies, shuffled_tasks: d3.shuffle(page_elements.tasks) });
+    res.render("index.ejs", { surveys: d3.shuffle(page_elements.surveys), tasks: d3.shuffle(page_elements.tasks), studies: d3.shuffle(page_elements.studies) });
 });
 
 router.get('/tasks', function (req, res) {

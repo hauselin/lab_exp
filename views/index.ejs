@@ -91,8 +91,8 @@
       <div class="row">
 
         <% for(var i = 0; i < 6; i++) { %>
-        <% var image_link =  "../public/assets/img/tasks/" + shuffled_tasks[i].uniquestudyid + ".jpg" %>
-        <% var study_link =  "/tasks/" + shuffled_tasks[i].uniquestudyid + "/" %>
+        <% var image_link =  "../public/assets/img/tasks/" + tasks[i].uniquestudyid + ".jpg" %>
+        <% var study_link =  "/tasks/" + tasks[i].uniquestudyid + "/" %>
         <div class="col-md-6 col-lg-4">
           <div class="card" data-aos="fade-up" data-aos-delay="<%=(i%3+1)*200%>">
             <a href=<%=study_link%>>
@@ -100,8 +100,8 @@
                 class="card-img-top">
             </a>
             <div class="card-body align-items-start" style="height: 175px;">
-              <div class="card-title"><b><%=shuffled_tasks[i].name%></b></div>
-              <div class="card-text"><%=shuffled_tasks[i].description%></div>
+              <div class="card-title"><b><%=tasks[i].name%></b></div>
+              <div class="card-text"><%=tasks[i].description%></div>
             </div>
             <div class="card-footer" style="padding: 10px; padding-left: 20px;"><a style="color: #3366BB;" href=<%=study_link%>>Go to task</a></div>
           </div>
