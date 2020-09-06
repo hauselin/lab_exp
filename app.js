@@ -43,6 +43,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser()); // USED TO READING DATA FROM THE SESSION, WHAT DATA OF THE USER SHOULD BE STORED IN THE SESSION?
 passport.deserializeUser(User.deserializeUser()); // USED TO DECODE THE DATA FROM THE SESSION
 
+app.use(function(req, res, next){
+    res.locals.currentUser = req.user;
+    next();
+});
+
 // // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES
 app.use('/tasks', express.static(__dirname + "/tasks"));
 app.use('/surveys', express.static(__dirname + "/surveys"));

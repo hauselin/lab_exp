@@ -99,7 +99,7 @@ router.get('/tasks', function (req, res) {
         DataLibrary.find({ uniquestudyid: 'symbolcount' }),
         DataLibrary.find({ uniquestudyid: 'updatemath' })
     ]).then(([delaydiscount, stroop, symbolcount, updatemath]) => {
-        res.render("tasks.ejs", { entries: [delaydiscount.length, stroop.length, symbolcount.length, updatemath.length], tasks: page_elements.tasks });
+        res.render("tasks.ejs", { entries: [delaydiscount.length, stroop.length, symbolcount.length, updatemath.length], tasks: page_elements.tasks});
     })
 });
 
