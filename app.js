@@ -50,6 +50,7 @@ app.use('/studies', express.static(__dirname + "/studies"));
 app.use('/jsPsych', express.static(__dirname + "/jsPsych"));
 app.use('/libraries', express.static(__dirname + "/libraries"));
 app.use('/public', express.static(__dirname + "/public"));
+app.use('/views', express.static(__dirname + "/views"));
 
 app.use(indexRoutes);
 app.use(datalibraryRoutes);

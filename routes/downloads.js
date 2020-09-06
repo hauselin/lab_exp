@@ -31,7 +31,7 @@ router.get('/d1', helper.isLoggedIn, function (req, res) {
         })
         .catch(err => {
             console.log(err);
-            res.status(500).render("download");
+            res.status(200).send(err);
         });
 
 });
@@ -52,7 +52,7 @@ router.get('/:type/:uniquestudyid/:dn', helper.isLoggedIn, function (req, res, n
                     res.attachment(filename);
                     res.status(200).send(datastring);
                 } else {
-                    res.status(200).send("Nothing's found!"); // empty page (use flash?) 
+                    res.status(200).render("download");
                 }
             })
             .catch(err => {
@@ -78,7 +78,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy', helper.isLoggedIn, function (req, re
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).send("Nothing's found!"); // empty page (use flash?) 
+                res.status(200).render("download");
             }
         })
         .catch(err => {
@@ -104,7 +104,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm', helper.isLoggedIn, function (req
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).send("Nothing's found!"); // empty page (use flash?)
+                res.status(200).render("download");
             }
         })
         .catch(err => {
@@ -131,7 +131,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', helper.isLoggedIn, function 
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).send("Nothing's found!"); // empty page (use flash?) 
+                res.status(200).render("download");
             }
         })
         .catch(err => {
@@ -157,7 +157,7 @@ router.get('/:type/:uniquestudyid/dsub/:subject', helper.isLoggedIn, function (r
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).send("Nothing's found!");
+                res.status(200).render("download");
             }
         })
         .catch(err => {
