@@ -20,7 +20,6 @@ router.get('/delete1', helper.isLoggedIn, function (req, res) {
                     }
                 })
             }
-            console.log(msg);
             res.status(200).render(msg);
         })
         .catch(err => {
@@ -46,7 +45,6 @@ router.get('/:type/:uniquestudyid/:deleten', helper.isLoggedIn, function (req, r
                     helper.deleteData(DataLibrary, doc);
                     msg = "successDelete";
                 }
-                console.log(msg);
                 res.status(200).render(msg);
             })
             .catch(err => {
@@ -73,7 +71,6 @@ router.get('/:type/:uniquestudyid/delete/:yyyy', helper.isLoggedIn, function (re
                 helper.deleteData(DataLibrary, doc);
                 msg = "successDelete";
             }
-            console.log(msg);
             res.status(200).render(msg);
         })
         .catch(err => {
@@ -100,7 +97,6 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm', helper.isLoggedIn, function
                 helper.deleteData(DataLibrary, doc);
                 msg = "successDelete";
             }
-            console.log(msg);
             res.status(200).render(msg);
         })
         .catch(err => {
@@ -128,7 +124,6 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm/:dd', helper.isLoggedIn, func
                 helper.deleteData(DataLibrary, doc);
                 msg = "successDelete";
             }
-            console.log(msg);
             res.status(200).render(msg);
         })
         .catch(err => {
@@ -154,7 +149,6 @@ router.get('/:type/:uniquestudyid/deletesub/:subject', helper.isLoggedIn, functi
                 helper.deleteData(DataLibrary, doc);
                 msg = "successDelete";
             }
-            console.log(msg);
             res.status(200).render(msg);
         })
         .catch(err => {
