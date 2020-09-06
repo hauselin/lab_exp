@@ -20,8 +20,8 @@ router.get('/d1', helper.isLoggedIn, function (req, res) {
     // Download the most recent document (regardless of task)
     DataLibrary.findOne({}, {}, { sort: { time: -1 } }).lean()
         .then(doc => {
-            if (doc === null) {
-                res.status(200).send("No documents to download.");
+            if (doc == null) {
+                res.status(200).render("download");
             } else {
                 const filename = doc.type + "_" + doc.uniquestudyid + "_" + doc.subject + '.csv';
                 var datastring = helper.json2csv(doc.data);
@@ -31,7 +31,7 @@ router.get('/d1', helper.isLoggedIn, function (req, res) {
         })
         .catch(err => {
             console.log(err);
-            res.status(500).send(err);
+            res.status(500).render("download");
         });
 
 });
