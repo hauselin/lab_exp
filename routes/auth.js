@@ -14,15 +14,14 @@ router.post("/register", function(req, res) {
         User.register(newUser, req.body.password, function(err, user) {
             if (err) {
                 //console.log(err);
-                console.log("Looks like you already have an account with us. Login to continue.");
-                return res.render("register");
+                return res.render("returnUser");
             }
             passport.authenticate("local")(req, res, function() { // if this gets called, authentication was successful
                 res.redirect("/");
             })
         });
     } else {
-        console.log("Cannot register user.")
+        res.render("registerError");
     }
 });
 
