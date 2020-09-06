@@ -9,19 +9,19 @@ router.get('/delete1', helper.isLoggedIn, function (req, res) {
     DataLibrary.findOne({}, {}, { sort: { time: -1 } })
         .then(doc => {
             if (doc === null) {
-                msg = "No documents found to delete.";
+                msg = "delete";
             } else {
                 DataLibrary.deleteOne({ _id: doc._id }, function (err) {
                     if (err) {
                         console.log(err);
                         res.status(500).send(err);
                     } else {
-                        msg = "Deleted document successfully.";
+                        msg = "successDelete";
                     }
                 })
             }
             console.log(msg);
-            res.status(200).send(msg);
+            res.status(200).render(msg);
         })
         .catch(err => {
             console.log(err);
@@ -41,13 +41,13 @@ router.get('/:type/:uniquestudyid/:deleten', helper.isLoggedIn, function (req, r
             { sort: { time: -1 }, limit: Number(req.params.deleten.slice(6)) })
             .then(doc => {
                 if (doc.length == 0) {
-                    msg = "No documents found to delete.";
+                    msg = "delete";
                 } else {
                     helper.deleteData(DataLibrary, doc);
-                    msg = "Deleted " + req.params.n + " document(s) successfully.";
+                    msg = "successDelete";
                 }
                 console.log(msg);
-                res.status(200).send(msg);
+                res.status(200).render(msg);
             })
             .catch(err => {
                 console.log(err);
@@ -68,13 +68,13 @@ router.get('/:type/:uniquestudyid/delete/:yyyy', helper.isLoggedIn, function (re
         { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
-                msg = "No documents found for the year " + req.params.yyyy + " to delete.";
+                msg = "delete";
             } else {
                 helper.deleteData(DataLibrary, doc);
-                msg = "Deleted document(s) for " + req.params.yyyy + " successfully.";
+                msg = "successDelete";
             }
             console.log(msg);
-            res.status(200).send(msg);
+            res.status(200).render(msg);
         })
         .catch(err => {
             console.log(err);
@@ -95,13 +95,13 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm', helper.isLoggedIn, function
         { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
-                msg = "No documents found to delete.";
+                msg = "delete";
             } else {
                 helper.deleteData(DataLibrary, doc);
-                msg = "Deleted document(s) for " + req.params.yyyy + "/" + req.params.mm + " successfully.";
+                msg = "successDelete";
             }
             console.log(msg);
-            res.status(200).send(msg);
+            res.status(200).render(msg);
         })
         .catch(err => {
             console.log(err);
@@ -123,14 +123,13 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm/:dd', helper.isLoggedIn, func
         { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
-                msg = "No documents found to delete.";
+                msg = "delete";
             } else {
                 helper.deleteData(DataLibrary, doc);
-                msg = "Deleted document(s) for " + req.params.yyyy + "/" + req.params.mm +
-                    "/" + req.params.dd + " successfully.";
+                msg = "successDelete";
             }
             console.log(msg);
-            res.status(200).send(msg);
+            res.status(200).render(msg);
         })
         .catch(err => {
             console.log(err);
@@ -150,13 +149,13 @@ router.get('/:type/:uniquestudyid/deletesub/:subject', helper.isLoggedIn, functi
         { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
-                msg = "No documents found to delete.";
+                msg = "delete";
             } else {
                 helper.deleteData(DataLibrary, doc);
-                msg = "Deleted document(s) for subject: " + "'" + req.params.subject + "'" + " successfully.";
+                msg = "successDelete";
             }
             console.log(msg);
-            res.status(200).send(msg);
+            res.status(200).render(msg);
         })
         .catch(err => {
             console.log(err);
