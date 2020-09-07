@@ -308,7 +308,7 @@
                 {
                     data: (function () { // anonymous function
                         if (subject_id) {
-                            return { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) };
+                            return { values: subject_array.filter(i => i.subject == subject_id && i.time == start_time) };
                         } else {  // don't draw points
                             return { values: [] };
                         }
@@ -316,7 +316,7 @@
                     mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
                     encoding: {
                         x: { field: "trialtype", type: "nominal" },
-                        y: { field: "rt", type: "quantitative", scale: {} },
+                        y: { field: "median_rt", type: "quantitative", scale: {} },
                         size: { value: 150 },
                         tooltip: [{ field: "rt", format: ".3f", title: 'You', type: "quantitative" }] // format tooltip
                     },
