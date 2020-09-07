@@ -1,0 +1,522 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Anthrope</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
+    <script src="../../libraries/utils.js"></script>
+    <script src="../../libraries/FontLoader.js"></script>
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
+        crossorigin="anonymous">
+    <link href="../../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
+
+
+    <!-- load vegalite libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
+</head>
+
+<body class="is-preload">
+    <%- include('../partials/menu_bar_viz') %>
+    <section class="bg-primary-alt header-inner o-hidden pt-7">
+        <div class="container">
+            <div class="row py-6 text-center justify-content-center align-items-center layer-2">
+                <div class="col-xl-8 col-lg-10">
+                    <h1 class="display-4">Stroop color naming task</h1>
+                    <p class="lead mb-0">How quickly and accurately can you respond?</p>
+                </div>
+            </div>
+        </div>
+        <div class="divider layer-1">
+            <img src="../../public/assets/img/dividers/divider-2.svg" alt="graphical divider" data-inject-svg />
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row align-items-center justify-content-around">
+                <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                    <div id="vis1" class="center"></div>
+                </div>
+                <div class="col-md-6 col-xl-5">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-10 col-lg-11">
+                            <span id="no-data-tag" class="badge badge-primary"></span>
+                            <div class="my-3">
+                                <span class="h3">How much do you discount future rewards?</span>
+                            </div>
+                            <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
+                                praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
+                                sint occaecati.</p>
+                            <p id="no-data-text" class="lead mb-0"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="pt-0 has-divider">
+        <div class="container">
+            <div class="row mb-4" data-aos="fade-up">
+                <div class="col">
+                    <h2>What does this say about you?</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg"
+                        alt="patch icon" data-inject-svg />
+                    <div class="ml-3">
+                        <h5>Self-control and impulsivity</h5>
+                        <p>
+                            More info. Complete these tasks.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg"
+                        alt="miso-soup icon" data-inject-svg />
+                    <div class="ml-3">
+                        <h5>Other types of discounting behavior</h5>
+                        <p>
+                            More info. Link to effort discounting task.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg"
+                        alt="door-open icon" data-inject-svg />
+                    <div class="ml-3">
+                        <h5>Temporal preferences</h5>
+                        <p>
+                            More info. Complete the temporal preferences survey.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="divider">
+            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
+                data-inject-svg />
+        </div>
+    </section>
+    <section class="bg-primary-alt">
+        <div class="container">
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10 col-xl-8 text-center">
+                    <h2 class="h1">Aggregate data</h2>
+                    <p class="lead">This is everyone's data.</p>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                        <div id="vis2" class="center"></div>
+                    </div>
+                    <div class="col-md-6 col-xl-5">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11">
+                                <span id="no-data-tag2" class="badge badge-primary"></span>
+                                <div class="my-3">
+                                    <span class="h1">Average reaction time density plot</span>
+                                </div>
+                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                    blanditiis
+                                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                    excepturi
+                                    sint occaecati.</p>
+                                <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                    deserunt
+                                    mollitia animi, id est laborum et dolorum fuga.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                        <div id="vis4" class="center"></div>
+                    </div>
+                    <div class="col-md-6 col-xl-5">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11">
+                                <span class="badge badge-primary">Reaction time plot</span>
+                                <div class="my-3">
+                                    <span class="h1">Reaction times</span>
+                                </div>
+                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                    blanditiis
+                                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                    excepturi
+                                    sint occaecati.</p>
+                                <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                    deserunt
+                                    mollitia animi, id est laborum et dolorum fuga.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                        <div id="vis3" class="center"></div>
+                    </div>
+                    <div class="col-md-6 col-xl-5">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11">
+                                <span class="badge badge-primary">Global choropleth</span>
+                                <div class="my-3">
+                                    <span class="h1">Global </span>
+                                </div>
+                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
+                                    blanditiis
+                                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
+                                    excepturi
+                                    sint occaecati.</p>
+                                <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                    deserunt
+                                    mollitia animi, id est laborum et dolorum fuga.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-10">
+                    <h2 class="h1 mb-4">Want to learn more? Complete these tasks.</h2>
+                    <div class="row no-gutters mb-3 d-none d-md-flex">
+                        <div class="col-xl-8 col-lg-7 col-md-6">
+                            <span class="text-small text-muted">Task</span>
+                        </div>
+                        <div class="col">
+                            <span class="text-small text-muted">Estimated time</span>
+                        </div>
+                    </div>
+                    <div class="list-group list-group-flush">
+                        <a href="/tasks/symbolcount" class="list-group-item list-group-item-action row no-gutters py-3">
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <h5 class="mb-0">Symbol counting</h5>
+                            </div>
+                            <div class="col-md">
+                                <span>3-4 min</span>
+                            </div>
+                        </a>
+                        <a href="/tasks/delaydiscount"
+                            class="list-group-item list-group-item-action row no-gutters py-3">
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <h5 class="mb-0">Delay discount</h5>
+                            </div>
+                            <div class="col-md">
+                                <span>3-4 min</span>
+                            </div>
+                        </a>
+                        <a href="/tasks/mentalmath" class="list-group-item list-group-item-action row no-gutters py-3">
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <h5 class="mb-0">Mental math</h5>
+                            </div>
+                            <div class="col-md">
+                                <span>3-4 min</span>
+                            </div>
+                        </a>
+                    </div>
+                    <span class="d-block mt-4"><a href="/tasks" class="hover-arrow">See all tasks</a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript">
+
+        // data from database
+        const data_array = <%- JSON.stringify(data_array) %>;
+        const subject_array = <%- JSON.stringify(subject_array) %>;
+        const country_array = <%- JSON.stringify(country_array) %>;
+        const uniquestudyid = 'stroop';
+
+        // retrieve objects from sessionStorage
+        // subject_id and time will be used to filter arrays for plotting subject data
+        const info = sessionStorage.getObj("info_");
+        if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
+            subject_id = null;
+            time = null;
+        } else {
+            subject_id = info.subject;
+            start_time = info.time;
+        }
+
+        if (!subject_id) {
+            document.getElementById('no-data-tag').innerHTML = "Other users' stroop data";
+            document.getElementById('no-data-tag2').innerHTML = "Other users' stroop data";
+            document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
+
+        } else {
+            document.getElementById('no-data-tag').innerHTML = "Your data relative to others";
+            document.getElementById('no-data-tag2').innerHTML = "Your data relative to others";
+        }
+    </script>
+
+    <!-- Average reaction time box plot -->
+    <script type="text/javascript" defer>
+
+        var reaction_time_box_plot = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            layer: [
+                {
+                    data: { values: data_array },
+                    transform: [
+                        {
+                            aggregate: [{
+                                op: "median",
+                                field: "rt",
+                                as: "median_rt"
+                            }],
+                            groupby: ["subject", "trialtype"]
+                        }
+                    ],
+                    mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
+                    encoding: {
+                        x: {
+                            field: "trialtype",
+                            type: "nominal",
+                            axis: { title: "Trial type", labelAngle: 0 },
+                        },
+                        y: {
+                            field: "median_rt",
+                            type: "quantitative",
+                            title: "Median reaction time (ms)"
+                        },
+                        size: { value: 18 },
+                        color: { field: "median_rt", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
+                        tooltip: [
+                            { field: 'median_rt', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" },
+                        ]
+                    }
+                },
+                {
+                    data: (function () { // anonymous function
+                        if (subject_id) {
+                            return { values: subject_array.filter(i => i.subject == subject_id && i.time == start_time) };
+                        } else {  // don't draw points
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
+                    encoding: {
+                        x: { field: "trialtype", type: "nominal" },
+                        y: { field: "median_rt", type: "quantitative", scale: {} },
+                        size: { value: 150 },
+                        tooltip: [{ field: "rt", format: ".3f", title: 'You', type: "quantitative" }] // format tooltip
+                    },
+                },
+            ],
+            width: 500,
+            height: 400,
+        };
+
+    </script>
+
+    <!-- Reaction time density -->
+    <script type="text/javascript" defer>
+
+        var rt_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { title: null, labelFontSize: 15, labelFont: "Inter-UI-upright", orient: "bottom" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            layer: [
+                {
+                    data: { values: subject_array },
+                    transform: [{
+                        groupby: ["trialtype"],
+                        density: "median_rt",
+                    }],
+                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
+                    encoding: {
+                        x: {
+                            type: "quantitative",
+                            field: "value",
+                            title: "Average reaction times (ms)",
+                            scale: {}
+                        },
+                        y: {
+                            type: "quantitative",
+                            field: "density",
+                            title: "Frequency (density)",
+                            scale: {}
+                        },
+                        color: { field: "trialtype", type: "nominal" },
+                        tooltip: [{ field: 'trialtype', title: 'Trial type', type: "nominal" }, { field: 'value', format: ".3f", title: 'Reaction time (ms)', type: "quantitative" }, { field: 'density', title: 'Density', type: "quantitative" }]
+                    }
+                },
+                {
+                    data: (function () { // anonymous function
+                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
+                            return { values: subject_array.filter(i => i.subject == subject_id && i.time == start_time) };
+                        } else {  // don't draw vertical rule
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: { type: "rule", opacity: 0.7 },
+                    encoding: {
+                        x: { field: "median_rt", type: "quantitative" },
+                        color: { field: "trialtype", type: "nominal" },
+                        size: { value: 3 },
+                        tooltip: [
+                            { field: 'trialtype', title: 'Trial type', type: "nominal" },
+                            { field: 'median_rt', format: ".3f", title: 'Your reaction time (ms)', type: "quantitative" }]
+                    },
+                }
+            ],
+            // title: "Aggregate AUC density",
+            width: 550,
+            height: 400,
+        };
+
+    </script>
+
+    <!-- Response strip plot -->
+    <script type="text/javascript" defer>
+
+        var strip_plot = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            data: { values: data_array },
+            background: "#f3f5fb",
+            mark: { type: "tick", tooltip: true, thickness: 2.5 },
+            encoding: {
+                x: {
+                    field: "rt",
+                    type: "quantitative",
+                    title: "Reaction time (ms)"
+                },
+                y: {
+                    field: "trialtype",
+                    type: "nominal",
+                    axis: { title: "Trial type", labelAngle: -90 },
+                },
+                size: { value: 30 },
+                color: { field: "trialtype", legend: null, type: "nominal" },
+                tooltip: [
+                    { field: 'rt', type: "quantitative", format: '.2f', title: "Reaction time (ms)" },
+                    { field: 'trialtype', type: "nominal", title: "Trial type" }
+                ]
+            },
+            width: 500,
+            height: 400,
+        };
+
+    </script>
+
+    <!-- Reaction time interference choropleth -->
+    <script defer>
+        var global_interference_plot = {
+            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: { stroke: "transparent" } },
+            background: "#f3f5fb",
+            width: 600,
+            height: 400,
+            layer: [
+                {
+                    data: {
+                        url: "../../public/data/countries-110m.json",
+                        format: {
+                            type: "topojson",
+                            feature: "countries"
+                        }
+                    },
+                    projection: {
+                        type: "mercator", scale: 98, center: [0, 40]
+                    },
+                    mark: {
+                        type: "geoshape",
+                        fill: "#080808",
+                        stroke: "white"
+                    },
+                    encoding: {
+                        tooltip: { field: "properties.name", title: "Country", type: "nominal" }
+                    }
+                },
+                {
+                    data: {
+                        url: "../../public/data/countries-110m.json",
+                        format: {
+                            type: "topojson",
+                            feature: "countries"
+                        }
+                    },
+                    transform: [
+                        {
+                            lookup: "id",
+                            from: {
+                                data: { values: country_array },
+                                key: "country_id",
+                                fields: ["rt_interference", "country_name"]
+                            },
+                        }
+                    ],
+                    projection: {
+                        type: "mercator", scale: 98, center: [0, 40]
+                    },
+                    mark: {
+                        type: "geoshape",
+                    },
+                    encoding: {
+                        color: {
+                            field: "rt_interference",
+                            type: "quantitative",
+                            scale: { scheme: "viridis" },
+                            legend: { title: null, direction: "horizontal", orient: "bottom-left" }
+                        },
+                        tooltip: [
+                            {
+                                field: "country_name",
+                                title: "Country",
+                                type: "nominal"
+                            },
+                            {
+                                field: "rt_interference",
+                                title: "Reaction time interference (ms)",
+                                type: "quantitative",
+                                format: ".3f"
+                            },
+                        ]
+                    }
+                }
+            ]
+        };
+
+    </script>
+
+    <!--show vegalite figures-->
+    <script>
+        // show vegalite figures only after font is loaded
+        var fontLoader = new FontLoader(['Inter-UI-upright'], {
+            "fontLoaded": function (f) {
+                console.log("font loaded: " + f.family);
+            }, "complete": function (error) {
+                vegaEmbed('#vis1', reaction_time_box_plot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+                vegaEmbed('#vis2', rt_density, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis3', global_interference_plot, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis4', strip_plot, { actions: { source: false, compiled: false, editor: false } });
+            }
+        }, 3000);
+        fontLoader.loadFonts();
+    </script>
+
+    <%- include('../partials/footer_viz') %>
+
+</body>
+
+</html>
