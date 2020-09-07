@@ -340,7 +340,7 @@
                     data: { values: subject_array },
                     transform: [{
                         groupby: ["trialtype"],
-                        density: "mean_rt",
+                        density: "median_rt",
                     }],
                     mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
                     encoding: {
@@ -370,12 +370,12 @@
                     }()),
                     mark: { type: "rule", opacity: 0.7 },
                     encoding: {
-                        x: { field: "mean_rt", type: "quantitative" },
+                        x: { field: "median_rt", type: "quantitative" },
                         color: { field: "trialtype", type: "nominal" },
                         size: { value: 3 },
                         tooltip: [
                             { field: 'trialtype', title: 'Trial type', type: "nominal" },
-                            { field: 'mean_rt', format: ".3f", title: 'Your reaction time (ms)', type: "quantitative" }]
+                            { field: 'median_rt', format: ".3f", title: 'Your reaction time (ms)', type: "quantitative" }]
                     },
                 }
             ],

@@ -65,11 +65,9 @@ router.get("/tasks/stroop/viz", function (req, res) {
             subject_subset[0].trialtype = "Congruent";
             subject_subset[1].trialtype = "Incongruent";
             subject_subset[2].trialtype = "Neutral";
-
-            subject_subset[0].mean_rt = subject_subset[0].congruent_rt;
-            subject_subset[1].mean_rt = subject_subset[1].incongruent_rt;
-            subject_subset[2].mean_rt = subject_subset[2].neutral_rt;
-
+            subject_subset[0].median_rt = subject_subset[0].congruent_rt;
+            subject_subset[1].median_rt = subject_subset[1].incongruent_rt;
+            subject_subset[2].median_rt = subject_subset[2].neutral_rt;
             subject_subset[0].mean_acc = subject_subset[0].congruent_acc;
             subject_subset[1].mean_acc = subject_subset[1].incongruent_acc;
             subject_subset[2].mean_acc = subject_subset[2].neutral_acc;

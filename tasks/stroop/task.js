@@ -210,9 +210,6 @@ var stimulus = {
         data.event = stimulus_event;
         data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press);
         data.n_trial = n_trial;
-        if (data.rt == null) {
-            data.rt = 'No response';
-        }
         if (debug) {
             console.log('rt: ' + data.rt);
         }
@@ -291,8 +288,9 @@ jsPsych.init({
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
         info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
-
         var data_subset = jsPsych.data.get().filter({ "event": "stimulus" });  // select stroop trials
+        data_subset = filter_stroop(data_subset);
+
         var congruent_subset = data_subset.filter({ "trialtype": "congruent" });  // select congruent trials
         var incongruent_subset = data_subset.filter({ "trialtype": "incongruent" });  // select incongruent trials
         var neutral_subset = data_subset.filter({ "trialtype": "neutral" });  // select neutral trials
@@ -313,7 +311,7 @@ jsPsych.init({
             congruent_rt: congruent_rt,
             incongruent_rt: incongruent_rt,
             rt_interference: incongruent_rt - congruent_rt,
-            neutral_rt: neutral_subset.select('rt').subset(function(x){ return x > 0; }).mean(),
+            neutral_rt: neutral_subset.select('rt').subset(function(x){ return x > 0; }).median(),
             congruent_acc: congruent_acc,
             incongruent_acc: incongruent_acc,
             acc_interference: congruent_acc - incongruent_acc,

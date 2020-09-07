@@ -146,11 +146,16 @@ function generate_html(text, color = 'black', size = 20, location = [0, 0], bold
     }
 }
 
-function fit_ezddm_to_jspsych_data(filtered_trials) {
-    // get valid responses before computing ezddm parameters
-    var data_sub = filtered_trials.filterCustom(function (trial) { return trial.rt > 50 });
+function filter_stroop(filtered_trials) {
+    var data_sub = filtered_trials.filterCustom(function (trial) { return trial.rt > 100 });
     var cutoffs = mad_cutoffs(data_sub.select('rt').values);
     data_sub = data_sub.filterCustom(function (trial) { return trial.rt > cutoffs[0] }).filterCustom(function (trial) { return trial.rt < cutoffs[1] });
+    return data_sub;
+}
+
+function fit_ezddm_to_jspsych_data(filtered_trials) {
+    // get valid responses before computing ezddm parameters
+    data_sub = filter_stroop(filtered_trials);
     var prop_correct = data_sub.select('acc').mean();
     var correct_rt = data_sub.filter({ "acc": 1 }).select('rt').values;
     correct_rt = divide(correct_rt, 1000);
