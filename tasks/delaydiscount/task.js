@@ -179,7 +179,7 @@ jsPsych.init({
         info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
         jsPsych.data.get().addToAll({ // add objects to all trials
             info_: info_,
-            datasummary_: {},
+            datasummary_: datasummary_,
             total_time: datasummary_.total_time,
             auc: datasummary_.auc,
             stimuli_sides: stimuli_sides
@@ -188,7 +188,6 @@ jsPsych.init({
             jsPsych.data.displayData();
         }
         sessionStorage.setObj('info_', info_); // save to sessionStorage
-        // sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
     }
 });
@@ -198,7 +197,6 @@ function summarize_data() {
     datasummary_.trials_per_cost = trials_per_cost;
     datasummary_.auc = get_auc();
     datasummary_.total_time = jsPsych.totalTime() / 60000;
-    datasummary_.data = jsPsych.data.get().filter({ event: "choice" }).values();
     return datasummary_;
 }
 
@@ -208,7 +206,8 @@ function get_auc() {    //note that this area is an underestimation of the hyper
     var delayed_reward_data = trial_data.select('large_reward').values;
     var cost_data = trial_data.select('cost').values;
     var sorted_costs = cost_data.slice(0, cost_data.length).sort(function (a, b) { return a - b });  // sort a sliced copy of cost_data (try to keep things local as much as we can, so we avoid using the global costs variable) 
-    // save in sessionStorage
+    
+    // save values in datasummary_
     datasummary_.indifference = indifference_data;
     datasummary_.delayed_reward = delayed_reward_data;
     datasummary_.cost = cost_data;

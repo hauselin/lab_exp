@@ -1,10 +1,11 @@
-var express = require("express");
-var router = express.Router();
-var DataLibrary = require("../models/datalibrary")
+const express = require("express");
+const router = express.Router();
+const DataLibrary = require("../models/datalibrary")
 
 router.post('/submit-data', function (req, res) {
-    var rawdata = req.body;  // data from jspsych
-    var info = rawdata[0].info_; // just the first row/trial/object
+    const rawdata = req.body;  // data from jspsych
+    const info = rawdata[0].info_; // get info_ from object/trial 0
+    const datasummary = rawdata[0].datasummary_;  // get datasummary_ from object/trial 0
 
     // add columns/properties to each row/trial/object in data
     rawdata.forEach(function (i) {
@@ -37,7 +38,7 @@ router.post('/submit-data', function (req, res) {
         previous_time: info.previous_time,
         previous_mins_before: info.previous_mins_before,
         info_: info,
-        datasummary_: info.datasummary_,
+        datasummary_: datasummary,
         browser: info.browser,
         time: info.time,
         utc_datetime: info.utc_datetime,
