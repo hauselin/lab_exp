@@ -287,68 +287,72 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
-        var data_subset = jsPsych.data.get().filter({ "event": "stimulus" });  // select stroop trials
-        data_subset = filter_stroop(data_subset);
-        var congruent_subset = data_subset.filter({ "trialtype": "congruent" });  // select congruent trials
-        var incongruent_subset = data_subset.filter({ "trialtype": "incongruent" });  // select incongruent trials
-        var neutral_subset = data_subset.filter({ "trialtype": "neutral" });  // select neutral trials
-        var congruent_rt = congruent_subset.select('rt').subset(function(x){ return x > 0; }).median();
-        var incongruent_rt = incongruent_subset.select('rt').subset(function(x){ return x > 0; }).median();
-        var congruent_acc = congruent_subset.select('acc').mean();
-        var incongruent_acc = incongruent_subset.select('acc').mean();
-        var ddm_params = fit_ezddm_to_jspsych_data(data_subset);  // fit model
-
-        var ddm = {
-            subject: datasummary_.subject,
-            time: info_.time,
-            total_time: datasummary_.total_time,
-            ddm_boundary: ddm_params.boundary,
-            ddm_drift: ddm_params.drift,
-            ddm_nondecisiontime: ddm_params.nondecisiontime,
-            country_code: info_.country_code,
-            country_name: info_.country_name,
-        }
-        var behaviour = {
-            subject: datasummary_.subject,
-            time: info_.time,
-            total_time: datasummary_.total_time,
-            congruent_rt: congruent_rt,
-            incongruent_rt: incongruent_rt,
-            rt_interference: incongruent_rt - congruent_rt,
-            neutral_rt: neutral_subset.select('rt').subset(function(x){ return x > 0; }).median(),
-            congruent_acc: congruent_acc,
-            incongruent_acc: incongruent_acc,
-            acc_interference: congruent_acc - incongruent_acc,
-            neutral_acc: neutral_subset.select('acc').mean(),
-            country_code: info_.country_code,
-            country_name: info_.country_name,
-        }
-        datasummary_.ddm = ddm;
-        datasummary_.behaviour = behaviour;
-
+        var datasummary_ = create_datasummary_()
+        console.log(datasummary_);
         jsPsych.data.get().addToAll({ // add objects to all trials
             info_: info_,
             datasummary_: datasummary_,
             total_time: datasummary_.total_time,
-            ddm_boundary: ddm_params.boundary,
-            ddm_drift: ddm_params.drift,
-            ddm_nondecisiontime: ddm_params.nondecisiontime,
-            congruent_rt: congruent_rt,
-            incongruent_rt: incongruent_rt,
-            rt_interference: incongruent_rt - congruent_rt,
-            neutral_rt: neutral_subset.select('rt').subset(function(x){ return x > 0; }).median(),
-            congruent_acc: congruent_acc,
-            incongruent_acc: incongruent_acc,
-            acc_interference: congruent_acc - incongruent_acc,
-            neutral_acc: neutral_subset.select('acc').mean(),
         });
         if (debug) {
             jsPsych.data.displayData();
-            console.log("ez-ddm parameters");
-            console.log(ddm_params);
         }
         sessionStorage.setObj('info_', info_); // save to sessionStorage
         submit_data(jsPsych.data.get().json(), false);
     }
 });
+
+// functions to summarize data
+
+// remove trials with too fast/slow RT
+function preprocess_stroop() {  // 
+    var data_sub = jsPsych.data.get().filter({ "event": "stimulus" });  // select stroop trials
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 100 });
+    var cutoffs = mad_cutoffs(data_sub.select('rt').values);
+    data_sub = data_sub.filterCustom(function (trial) { return trial.rt > cutoffs[0] }).filterCustom(function (trial) { return trial.rt < cutoffs[1] });
+    return data_sub;
+}
+
+function create_datasummary_() {
+    var d = preprocess_stroop(); // preprocess/clean data
+    var ddm_params = fit_ezddm_to_jspsych_data(d);  // calculate ddm parameters
+
+    // select trials for each trialtype
+    var congruent = d.filter({ "trialtype": "congruent" });  
+    var incongruent = d.filter({ "trialtype": "incongruent" }); 
+    var neutral = d.filter({ "trialtype": "neutral" }); 
+    
+    // median rt
+    var congruent_rt = congruent.select('rt').median();
+    var incongruent_rt = incongruent.select('rt').median();
+    var neutral_rt = neutral.select('rt').median();
+    
+    // mean acc
+    var congruent_acc = congruent.select('acc').mean();
+    var incongruent_acc = incongruent.select('acc').mean();
+    var neutral_acc = neutral.select('acc').mean();
+
+    // store above info in array
+    var datasummary_ = [
+        { type: "congruent", param: "rt", value: congruent_rt },
+        { type: "incongruent", param: "rt", value: incongruent_rt },
+        { type: "neutral", param: "rt", value: neutral_rt },
+        { type: "congruent", param: "acc", value: congruent_acc },
+        { type: "incongruent", param: "acc", value: incongruent_acc },
+        { type: "neutral", param: "acc", value: neutral_acc },
+        { type: "interference", param: "rt", value: incongruent_rt - congruent_rt },
+        { type: "interference", param: "acc", value: incongruent_acc - congruent_acc },
+        { type: "ddm", param: "boundary", value: ddm_params.boundary },
+        { type: "ddm", param: "nondecisiontime", value: ddm_params.nondecisiontime },
+        { type: "ddm", param: "drift", value: ddm_params.drift },
+    ];
+
+    // add id/country information
+    datasummary_.forEach(function (s) {
+        s.subject = info_.subject;
+        s.country_code = info_.country_code;
+        s.country_name = info_.country_name;
+    })
+
+    return datasummary_
+}
