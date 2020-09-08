@@ -88,8 +88,11 @@ function run_survey(survey) {
         randomize_order: shuffle_items
     };
 
+    const html_path = "../../surveys/gritshort/consent.html";
+    var timeline = create_consent([procedure], html_path);
+    
     jsPsych.init({
-        timeline: [procedure],
+        timeline: timeline,
         on_finish: function () {
             document.body.style.backgroundColor = 'white';
             info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
