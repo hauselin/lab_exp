@@ -274,14 +274,14 @@
                 start_time = info.time;
             }
             if (!subject_id) {
-                document.getElementById('no-data-tag').innerHTML = "Other users' stroop data";
-                document.getElementById('no-data-tag2').innerHTML = "Other users' stroop data";
-                document.getElementById('no-data-tag3').innerHTML = "Other users' stroop data";
-                document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
+                document.getElementById('no-data-tag').innerHTML = "Other users' scores";
+                document.getElementById('no-data-tag2').innerHTML = "Other users' scores";
+                document.getElementById('no-data-tag3').innerHTML = "Other users' scores";
+                document.getElementById('no-data-text').innerHTML = "To see your own scores, complete the task <a href='/tasks/stroop'>here</a>.";
             } else {
-                document.getElementById('no-data-tag').innerHTML = "Your data relative to others";
-                document.getElementById('no-data-tag2').innerHTML = "Your data relative to others";
-                document.getElementById('no-data-tag3').innerHTML = "Your data relative to others";
+                document.getElementById('no-data-tag').innerHTML = "You relative to others";
+                document.getElementById('no-data-tag2').innerHTML = "You relative to others";
+                document.getElementById('no-data-tag3').innerHTML = "You relative to others";
             }
     </script>
 
@@ -295,7 +295,7 @@
         var temp_data = data_array.filter(i =>
                 i.type == "congruent" ||
                 i.type == "incongruent" ||
-                i.type == "neutral").filter(i => i.param == "rt") 
+                i.type == "neutral").filter(i => i.param == "rt");
         var rt_density = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { title: null, labelFontSize: 15, labelFont: "Inter-UI-upright", orient: "bottom" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
@@ -457,10 +457,10 @@
                     }()),
                     mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
                     encoding: {
-                        x: { field: "parameter", type: "nominal" },
-                        y: { field: "ddm_value", type: "quantitative", scale: {} },
+                        x: { field: "param", type: "nominal" },
+                        y: { field: "value", type: "quantitative", scale: {} },
                         size: { value: 150 },
-                        tooltip: [{ field: "ddm_value", format: ".3f", title: 'You', type: "quantitative" }] // format tooltip
+                        tooltip: [{ field: "value", format: ".4f", title: 'You', type: "quantitative" }] // format tooltip
                     },
                 },
             ],

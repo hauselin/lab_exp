@@ -287,7 +287,8 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        var datasummary_ = create_datasummary_()
+        var datasummary_ = create_datasummary_();
+        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
         console.log(datasummary_);
         jsPsych.data.get().addToAll({ // add objects to all trials
             info_: info_,
