@@ -73,6 +73,7 @@ function isLoggedIn(req, res, next) { // //req.isAuthenticated() will return tru
     if(req.isAuthenticated()){
         return next();
     }
+    req.session.returnTo = req.url;
     res.redirect("/login");
 }
 

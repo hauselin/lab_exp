@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var msg = "";
 const helper = require('../routes/helpers/helpers');
 const DataLibrary = require("../models/datalibrary");
 
