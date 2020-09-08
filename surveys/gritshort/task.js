@@ -35,7 +35,7 @@ Papa.parse(csvfile, {
     header: true,
     dynamicTyping: true,
     complete: function (results) {
-        run_survey(results.data);
+        run_survey(results.data)
     }
 });
 
@@ -88,14 +88,8 @@ function run_survey(survey) {
         randomize_order: shuffle_items
     };
 
-    // create timeline and add consent form to the start
-    var timeline = [];
-    html_path = "../../surveys/gritshort/consent.html";  // make it a global variable
-    timeline = create_consent(timeline, html_path);
-    timeline.push(procedure);
-
     jsPsych.init({
-        timeline: timeline,
+        timeline: [procedure],
         on_finish: function () {
             document.body.style.backgroundColor = 'white';
             info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
