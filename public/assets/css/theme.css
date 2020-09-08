@@ -14039,3 +14039,10 @@ article table {
 
 .docs-graphic:not(:hover) .btn {
   opacity: 0; }
+
+.index-background {
+  background-image: url('../img/starfield.svg');
+  background-position: 50% 180px;
+  background-size: 800px;
+  background-repeat: repeat-x;
+}
