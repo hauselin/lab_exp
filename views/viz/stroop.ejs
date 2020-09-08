@@ -438,7 +438,9 @@
                         x: {
                             field: "param",
                             type: "nominal",
-                            axis: { title: "Model parameter", labelAngle: 0 },
+                            // rename label: https://github.com/vega/vega-lite/issues/5122#issuecomment-517006921
+                            //  https://vega.github.io/vega/docs/expressions/
+                            axis: { title: "Model parameter", labelAngle: 0, labelExpr: "replace(datum.label, 'nondecisiontime', 'non-decision time')"},
                         },
                         y: {
                             field: "value",
