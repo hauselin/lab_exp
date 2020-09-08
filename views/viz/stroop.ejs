@@ -291,7 +291,7 @@
 
 
     <!-- Reaction time density -->
-    <script type="text/javascript" defer>
+    <script type="text/javascript">
         var temp_data = data_array.filter(i =>
                 i.type == "congruent" ||
                 i.type == "incongruent" ||
@@ -312,16 +312,19 @@
                             type: "quantitative",
                             field: "value",
                             title: "Reaction times (ms)",
-                            scale: {}
+                            // scale: {}
                         },
                         y: {
                             type: "quantitative",
                             field: "density",
                             title: "Frequency (density)",
-                            scale: {}
+                            // scale: {}
                         },
                         color: { field: "type", type: "nominal" },
-                        tooltip: [{ field: 'type', title: 'Trial type', type: "nominal" }, { field: 'value', format: ".3f", title: 'Reaction time (ms)', type: "quantitative" }, { field: 'density', title: 'Density', type: "quantitative" }]
+                        tooltip: [
+                            { field: 'type', title: 'Trial type', type: "nominal" },
+                            { field: 'value', format: ".0f", title: 'Reaction time (ms)', type: "quantitative" }, 
+                            { field: 'density', title: 'Density', type: "quantitative", format: ".4f"}]
                     }
                 },
                 {
@@ -339,7 +342,7 @@
                         size: { value: 3 },
                         tooltip: [
                             { field: 'type', title: 'Trial type', type: "nominal" },
-                            { field: 'value', format: ".3f", title: 'Your reaction time (ms)', type: "quantitative" }]
+                            { field: 'value', format: ".0f", title: 'Your reaction time (ms)', type: "quantitative" }]
                     },
                 }
             ],
@@ -352,7 +355,7 @@
 
 
     <!-- Reaction time interference density -->
-    <script type="text/javascript" defer>
+    <script type="text/javascript">
         var rt_interference_density = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
@@ -367,16 +370,18 @@
                             type: "quantitative",
                             field: "value",
                             title: "Incongruent minus congruent (ms)",
-                            scale: {}
+                            // scale: {}
                         },
                         y: {
                             type: "quantitative",
                             field: "density",
                             title: "Frequency (density)",
-                            scale: {}
+                            // scale: {}
                         },
                         color: { value: "#38405C", type: "quantitative" },
-                        tooltip: [{ field: 'value', format: ".3f", title: 'Reaction time interference (ms)', type: "quantitative" }, { field: 'density', title: 'Density', type: "quantitative" }]
+                        tooltip: [
+                            { field: 'value', format: ".0f", title: 'Interference (ms)', type: "quantitative" }, 
+                            { field: 'density', title: 'Density', type: "quantitative", format: ".4f"}]
                     }
                 },
                 {
@@ -393,7 +398,7 @@
                         color: { value: "#38405C", type: "quantitative" },
                         size: { value: 3 },
                         tooltip: [
-                            { field: 'value', format: ".3f", title: 'Your reaction time interference (ms)', type: "quantitative" }]
+                            { field: 'value', format: ".0f", title: 'Your interference (ms)', type: "quantitative" }]
                     },
                 }
             ],
@@ -420,7 +425,7 @@
 
 
     <!-- DDM parameters box plot -->
-    <script type="text/javascript" defer>
+    <script type="text/javascript">
         var ddm_box_plot = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
@@ -443,7 +448,7 @@
                         size: { value: 18 },
                         color: { field: "value", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
                         tooltip: [
-                            { field: 'value', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" },
+                            { field: 'value', type: "quantitative", format: '.3f', title: "abc", aggregate: "mean" },
                         ]
                     }
                 },
@@ -460,7 +465,9 @@
                         x: { field: "param", type: "nominal" },
                         y: { field: "value", type: "quantitative", scale: {} },
                         size: { value: 150 },
-                        tooltip: [{ field: "value", format: ".4f", title: 'You', type: "quantitative" }] // format tooltip
+                        tooltip: [
+                            { field: "value", format: ".3f", title: 'You', type: "quantitative" }
+                        ] // format tooltip
                     },
                 },
             ],
@@ -476,7 +483,7 @@
 
 
     <!-- Reaction time interference choropleth -->
-    <script defer>
+    <script>
         var global_interference_plot = {
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: { stroke: "transparent" } },
@@ -545,7 +552,7 @@
                                 field: "rt_interference",
                                 title: "Incongruent-congruent (ms)",
                                 type: "quantitative",
-                                format: ".3f"
+                                format: ".0f"
                             },
                         ]
                     }
