@@ -110,7 +110,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
         // console.log(behaviour_array.length);
         console.log(ddm_array.length);
 
-        // prepare data for chloropleth auc (each subject has 5 auc values (repeated) because we have 5 trials per subject, but that's fine)
+        // prepare data for chloropleth
         country_data = d3.rollups(behaviour_array, // compute median for each country
             function (v) {
                 return {
@@ -129,6 +129,62 @@ router.get("/tasks/stroop/viz", function (req, res) {
 
         // render
         res.render('viz/stroop.ejs', { data_array: data_array, behaviour_array: behaviour_array, ddm_array: ddm_array, country_array: country_data });
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send(err);
+    });
+});
+
+router.get("/surveys/gritshort/viz", function (req, res) {
+    DataLibrary.find({ uniquestudyid: 'gritshort' }, {}, { sort: { time: -1 } }).lean().then(data => {
+        const keys2select = ['subject', 'uniquesubjectid', 'trial_type', 'subscale', 'resp_reverse', 'country', 'country_code', 'longitude', 'latitude', 'time'];  // columns/keys to select
+
+        var data_array = [];
+        var subject_array = [];
+        data.map(function (i) {  // map/loop through each document to get relevant data
+            const temp_data = i.data; // get jspsych data
+            var data_subset = temp_data.filter(s => s.trial_type != 'external-html');  // select relevant rows
+            var data_subset = data_subset.map(s => helper.pick(s, keys2select));  // select relevant columns
+            data_subset.forEach(function (s) { // for each row in this document
+                s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))  // get country code
+            })
+            data_by_subscale = d3.rollup(data_subset, function (v) {
+                return {
+                    mean_resp: d3.mean(v, d => d.resp_reverse),  // mean response
+                    subject: d3.min(v, d => d.subject),  // get subject ID
+                    time: d3.min(v, d => d.time)  // get start time
+                }
+            }, d => d.subscale)
+            subscale_array = Array.from(data_by_subscale, function (i) {  // unnest data
+                return { subscale: i[0], resp_reverse: i[1].mean_resp, subject: i[1].subject, time: i[1].time }
+            })
+            subject_array.push(subscale_array);
+            data_array.push(data_subset);
+        });
+        data_array = data_array.flat(1);  // flatten objects in array
+        subject_array = subject_array.flat(1);  // flatten objects in array
+        // console.log(data_array);
+        // console.log(data_array.length);
+        console.log(subject_array);
+        console.log(subject_array.length);
+
+        // prepare data for chloropleth
+        country_data = d3.rollups(data_array, // compute median for each country
+            function (v) {
+                return {
+                    mean_resp: d3.mean(v, d => d.resp_reverse),  // mean response
+                    country_name: d3.min(v, d => d.country)  // get country name
+                }
+            },
+            d => d.country_id);  // by country id
+        // console.log(country_data);  // nested data
+        country_data = Array.from(country_data, function (i) {  // unnest data
+            return { country_id: i[0], country_name: i[1].country_name, mean_resp: i[1].mean_resp }
+        })
+        // console.log(country_data);
+
+        // render
+        res.render('viz/gritshort.ejs', { data_array: data_array, subject_array: subject_array, country_array: country_data });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);
