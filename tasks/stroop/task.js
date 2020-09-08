@@ -290,20 +290,46 @@ jsPsych.init({
         info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
         var data_subset = jsPsych.data.get().filter({ "event": "stimulus" });  // select stroop trials
         data_subset = filter_stroop(data_subset);
-
         var congruent_subset = data_subset.filter({ "trialtype": "congruent" });  // select congruent trials
         var incongruent_subset = data_subset.filter({ "trialtype": "incongruent" });  // select incongruent trials
         var neutral_subset = data_subset.filter({ "trialtype": "neutral" });  // select neutral trials
-
         var congruent_rt = congruent_subset.select('rt').subset(function(x){ return x > 0; }).median();
         var incongruent_rt = incongruent_subset.select('rt').subset(function(x){ return x > 0; }).median();
         var congruent_acc = congruent_subset.select('acc').mean();
         var incongruent_acc = incongruent_subset.select('acc').mean();
-
         var ddm_params = fit_ezddm_to_jspsych_data(data_subset);  // fit model
+
+        var ddm = {
+            subject: datasummary_.subject,
+            time: info_.time,
+            total_time: datasummary_.total_time,
+            ddm_boundary: ddm_params.boundary,
+            ddm_drift: ddm_params.drift,
+            ddm_nondecisiontime: ddm_params.nondecisiontime,
+            country_code: info_.country_code,
+            country_name: info_.country_name,
+        }
+        var behaviour = {
+            subject: datasummary_.subject,
+            time: info_.time,
+            total_time: datasummary_.total_time,
+            congruent_rt: congruent_rt,
+            incongruent_rt: incongruent_rt,
+            rt_interference: incongruent_rt - congruent_rt,
+            neutral_rt: neutral_subset.select('rt').subset(function(x){ return x > 0; }).median(),
+            congruent_acc: congruent_acc,
+            incongruent_acc: incongruent_acc,
+            acc_interference: congruent_acc - incongruent_acc,
+            neutral_acc: neutral_subset.select('acc').mean(),
+            country_code: info_.country_code,
+            country_name: info_.country_name,
+        }
+        datasummary_.ddm = ddm;
+        datasummary_.behaviour = behaviour;
+
         jsPsych.data.get().addToAll({ // add objects to all trials
             info_: info_,
-            datasummary_: {},
+            datasummary_: datasummary_,
             total_time: datasummary_.total_time,
             ddm_boundary: ddm_params.boundary,
             ddm_drift: ddm_params.drift,

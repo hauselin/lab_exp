@@ -39,7 +39,7 @@
         <div class="container">
             <div class="row align-items-center justify-content-around">
                 <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
-                    <div id="vis1" class="center"></div>
+                    <div id="vis2" class="center"></div>
                 </div>
                 <div class="col-md-6 col-xl-5">
                     <div class="row justify-content-center">
@@ -114,7 +114,7 @@
             <div class="container">
                 <div class="row align-items-center justify-content-around">
                     <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
-                        <div id="vis2" class="center"></div>
+                        <div id="vis1" class="center"></div>
                     </div>
                     <div class="col-md-6 col-xl-5">
                         <div class="row justify-content-center">
@@ -171,7 +171,7 @@
                     <div class="col-md-6 col-xl-5">
                         <div class="row justify-content-center">
                             <div class="col-xl-10 col-lg-11">
-                                <span class="badge badge-primary">Reaction time plot</span>
+                                <span id="no-data-tag3" class="badge badge-primary"></span>
                                 <div class="my-3">
                                     <span class="h1">Reaction times</span>
                                 </div>
@@ -267,7 +267,8 @@
 
         // data from database
         const data_array = <%- JSON.stringify(data_array) %>;
-        const subject_array = <%- JSON.stringify(subject_array) %>;
+        const behaviour_array = <%- JSON.stringify(behaviour_array) %>;
+        const ddm_array = <%- JSON.stringify(ddm_array) %>;
         const country_array = <%- JSON.stringify(country_array) %>;
         const uniquestudyid = 'stroop';
 
@@ -285,11 +286,13 @@
         if (!subject_id) {
             document.getElementById('no-data-tag').innerHTML = "Other users' stroop data";
             document.getElementById('no-data-tag2').innerHTML = "Other users' stroop data";
+            document.getElementById('no-data-tag3').innerHTML = "Other users' stroop data";
             document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
 
         } else {
             document.getElementById('no-data-tag').innerHTML = "Your data relative to others";
             document.getElementById('no-data-tag2').innerHTML = "Your data relative to others";
+            document.getElementById('no-data-tag3').innerHTML = "Your data relative to others";
         }
     </script>
 
@@ -299,9 +302,10 @@
         var rt_interference_density = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
             layer: [
                 {
-                    data: { values: subject_array },
+                    data: { values: behaviour_array },
                     transform: [{
                         density: "rt_interference",
                     }],
@@ -326,7 +330,7 @@
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: subject_array.filter(i => i.subject == subject_id && i.time == start_time) };
+                            return { values: behaviour_array.filter(i => i.subject == subject_id && i.time == start_time) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -353,10 +357,9 @@
         var rt_density = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { title: null, labelFontSize: 15, labelFont: "Inter-UI-upright", orient: "bottom" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-            background: "#f3f5fb",
             layer: [
                 {
-                    data: { values: subject_array },
+                    data: { values: behaviour_array },
                     transform: [{
                         groupby: ["trialtype"],
                         density: "median_rt",
@@ -382,7 +385,7 @@
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: subject_array.filter(i => i.subject == subject_id && i.time == start_time) };
+                            return { values: behaviour_array.filter(i => i.subject == subject_id && i.time == start_time) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -413,17 +416,17 @@
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             data: { values: data_array },
             background: "#f3f5fb",
-            mark: { type: "tick", tooltip: true, thickness: 2.5 },
+            mark: { type: "tick", tooltip: true, thickness: 2.5, opacity: 0.5 },
             encoding: {
-                x: {
+                y: {
                     field: "rt",
                     type: "quantitative",
                     title: "Reaction time (ms)"
                 },
-                y: {
+                x: {
                     field: "trialtype",
                     type: "nominal",
-                    axis: { title: "Trial type", labelAngle: -90 },
+                    axis: { title: "Trial type", labelAngle: 0 },
                 },
                 size: { value: 30 },
                 color: { field: "trialtype", legend: null, type: "nominal" },
@@ -524,42 +527,43 @@
         var ddm_box_plot = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
             layer: [
                 {
-                    data: { values: subject_array },
+                    data: { values: ddm_array },
                     mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
                     encoding: {
                         x: {
-                            field: "trialtype",
+                            field: "parameter",
                             type: "nominal",
-                            axis: { title: "Trial type", labelAngle: 0 },
+                            axis: { title: "DDM parameter", labelAngle: 0 },
                         },
                         y: {
-                            field: "median_rt",
+                            field: "ddm_value",
                             type: "quantitative",
-                            title: "Median reaction time (ms)"
+                            title: "DDM value"
                         },
                         size: { value: 18 },
-                        color: { field: "median_rt", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
+                        color: { field: "ddm_value", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
                         tooltip: [
-                            { field: 'median_rt', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" },
+                            { field: 'ddm_value', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" },
                         ]
                     }
                 },
                 {
                     data: (function () { // anonymous function
                         if (subject_id) {
-                            return { values: subject_array.filter(i => i.subject == subject_id && i.time == start_time) };
+                            return { values: ddm_array.filter(i => i.subject == subject_id && i.time == start_time) };
                         } else {  // don't draw points
                             return { values: [] };
                         }
                     }()),
                     mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
                     encoding: {
-                        x: { field: "trialtype", type: "nominal" },
-                        y: { field: "median_rt", type: "quantitative", scale: {} },
+                        x: { field: "parameter", type: "nominal" },
+                        y: { field: "ddm_value", type: "quantitative", scale: {} },
                         size: { value: 150 },
-                        tooltip: [{ field: "rt", format: ".3f", title: 'You', type: "quantitative" }] // format tooltip
+                        tooltip: [{ field: "ddm_value", format: ".3f", title: 'You', type: "quantitative" }] // format tooltip
                     },
                 },
             ],

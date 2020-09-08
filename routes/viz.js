@@ -52,47 +52,71 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
 router.get("/tasks/stroop/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'stroop' }, {}, { sort: { time: -1 } }).lean().then(data => {
         const n_trialtypes = 3; // number of different trial types, e.g. congruent, incongruent and neutral
+        const n_ddm_params = 3; // number of different ddm parameters, e.g. boundary, drift and nondecisiontime
         const keys2select = ['subject', 'uniquesubjectid', 'rt', 'acc', 'trialtype', 'trial_index', 'time'];  // columns/keys to select
         const keys2select2 = ['subject', 'uniquesubjectid', 'rt_interference', 'acc_interference', 'congruent_rt', 'congruent_acc', 'incongruent_rt', 'incongruent_acc', 'neutral_rt', 'neutral_acc', 'country', 'country_code', 'longitude', 'latitude', 'time'];  // columns/keys to select
         var data_array = [];
-        var subject_array = [];
+        var behaviour_array = [];
+        var ddm_array = [];
         data.map(function (i) {  // map/loop through each document to get relevant data
             const temp_data = i.data; // get jspsych data
-            var subject_subset = temp_data.filter(s => s.trial_index < n_trialtypes);  // select relevant rows
-            var subject_subset = subject_subset.map(s => helper.pick(s, keys2select2));  // select relevant columns
+            var subject_subset = i.datasummary_;  // select relevant rows
             var data_subset = temp_data.filter(s => s.event == "stimulus" && s.rt != "No response" && s.trialtype != null);  // select relevant rows
             var data_subset = data_subset.map(s => helper.pick(s, keys2select));  // select relevant columns
-            subject_subset[0].trialtype = "congruent";
-            subject_subset[1].trialtype = "incongruent";
-            subject_subset[2].trialtype = "neutral";
-            subject_subset[0].median_rt = subject_subset[0].congruent_rt;
-            subject_subset[1].median_rt = subject_subset[1].incongruent_rt;
-            subject_subset[2].median_rt = subject_subset[2].neutral_rt;
-            subject_subset[0].mean_acc = subject_subset[0].congruent_acc;
-            subject_subset[1].mean_acc = subject_subset[1].incongruent_acc;
-            subject_subset[2].mean_acc = subject_subset[2].neutral_acc;
 
-            subject_subset.forEach(function (s) { // for each row in this document
+            var behaviour_subset = [];
+            var ddm_subset = [];
+            // for (i = 0; i < n_trialtypes; i++) {
+            //     behaviour_subset.push(helper.deepCopy(subject_subset.behaviour));
+            // }
+            // for (i = 0; i < n_ddm_params; i++) {
+            //     ddm_array.push(helper.deepCopy(subject_subset.ddm));
+            // }
+            for (i = 0; i < 3; i++) {
+                behaviour_subset.push(helper.deepCopy(subject_subset.behaviour));
+                ddm_subset.push(helper.deepCopy(subject_subset.ddm));
+            }
+            behaviour_subset[0].trialtype = "congruent";
+            behaviour_subset[1].trialtype = "incongruent";
+            behaviour_subset[2].trialtype = "neutral";
+            behaviour_subset[0].median_rt = behaviour_subset[0].congruent_rt;
+            behaviour_subset[1].median_rt = behaviour_subset[1].incongruent_rt;
+            behaviour_subset[2].median_rt = behaviour_subset[2].neutral_rt;
+            behaviour_subset[0].mean_acc = behaviour_subset[0].congruent_acc;
+            behaviour_subset[1].mean_acc = behaviour_subset[1].incongruent_acc;
+            behaviour_subset[2].mean_acc = behaviour_subset[2].neutral_acc;
+            behaviour_subset.forEach(function (s) { // for each row in this document
                 s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))  // get country code
             })
+
+            ddm_subset[0].parameter = "boundary";
+            ddm_subset[1].parameter = "drift";
+            ddm_subset[2].parameter = "nondecisiontime";
+            ddm_subset[0].ddm_value = ddm_subset[0].ddm_boundary;
+            ddm_subset[1].ddm_value = ddm_subset[0].ddm_drift;
+            ddm_subset[2].ddm_value = ddm_subset[0].ddm_nondecisiontime;
+
             data_array.push(data_subset);
-            subject_array.push(subject_subset);
+            behaviour_array.push(behaviour_subset);
+            ddm_array.push(ddm_subset);
         });
         data_array = data_array.flat(1);  // flatten objects in array
-        subject_array = subject_array.flat(1);  // flatten objects in array
+        behaviour_array = behaviour_array.flat(1);  // flatten objects in array
+        ddm_array = ddm_array.flat(1);  // flatten objects in array
         // console.log(data_array);
-        // console.log(1);
-        // console.log(subject_array);
+        // console.log(behaviour_array);
+        console.log(ddm_array);
         // console.log(data_array.length);
-        // console.log(subject_array.length);
+        // console.log(behaviour_array.length);
+        console.log(ddm_array.length);
 
         // prepare data for chloropleth auc (each subject has 5 auc values (repeated) because we have 5 trials per subject, but that's fine)
-        country_data = d3.rollups(subject_array, // compute median for each country
+        country_data = d3.rollups(behaviour_array, // compute median for each country
             function (v) {
                 return {
                     rt_interference: d3.median(v, d => d.rt_interference),  // median rt interference
                     acc_interference: d3.median(v, d => d.acc_interference),  // median accuracy interference
-                    country_name: d3.min(v, d => d.country)  // get country name
+                    country_name: d3.min(v, d => d.country_name)  // get country name
                 }
             },
             // v => d3.median(v, d => d.auc),
@@ -104,7 +128,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
         // console.log(country_data);
 
         // render
-        res.render('viz/stroop.ejs', { data_array: data_array, subject_array: subject_array, country_array: country_data });
+        res.render('viz/stroop.ejs', { data_array: data_array, behaviour_array: behaviour_array, ddm_array: ddm_array, country_array: country_data });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);

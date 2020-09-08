@@ -70,10 +70,32 @@ function deleteData(datalibrary, doc) {
 }
 
 function isLoggedIn(req, res, next) { // //req.isAuthenticated() will return true if user is logged in
-    if(req.isAuthenticated()){
+    if (req.isAuthenticated()) {
         return next();
     }
     res.redirect("/login");
 }
 
-module.exports = { json2csv, doc2datastring, deleteData, pick, isLoggedIn }
+function deepCopy(obj) {
+    if (!obj) return obj;
+    var out;
+    if (Array.isArray(obj)) {
+        out = [];
+        for (var i = 0; i < obj.length; i++) {
+            out.push(deepCopy(obj[i]));
+        }
+        return out;
+    } else if (typeof obj === 'object') {
+        out = {};
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                out[key] = deepCopy(obj[key]);
+            }
+        }
+        return out;
+    } else {
+        return obj;
+    }
+}
+
+module.exports = { json2csv, doc2datastring, deleteData, pick, isLoggedIn, deepCopy }
