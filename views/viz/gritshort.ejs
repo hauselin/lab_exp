@@ -26,8 +26,8 @@
         <div class="container">
             <div class="row py-6 text-center justify-content-center align-items-center layer-2">
                 <div class="col-xl-8 col-lg-10">
-                    <h1 class="display-4">Delay discounting</h1>
-                    <p class="lead mb-0">How much do you discount rewards that are available only in the future? Check
+                    <h1 class="display-4">Grit</h1>
+                    <p class="lead mb-0">How gritty are you? Check
                         out the interactive figures and results below. Download figures. </p>
                 </div>
             </div>
@@ -40,14 +40,14 @@
         <div class="container">
             <div class="row align-items-center justify-content-around">
                 <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
-                    <div id="vis1" class="center"></div>
+                    <div id="vis2" class="center"></div>
                 </div>
                 <div class="col-md-6 col-xl-5">
                     <div class="row justify-content-center">
                         <div class="col-xl-10 col-lg-11">
                             <span id="no-data-tag" class="badge badge-primary"></span>
                             <div class="my-3">
-                                <span class="h3">How much do you discount future rewards?</span>
+                                <span class="h3">How much grit do you have?</span>
                             </div>
                             <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
                                 praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
@@ -115,14 +115,14 @@
             <div class="container">
                 <div class="row align-items-center justify-content-around">
                     <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
-                        <div id="vis2" class="center"></div>
+                        <div id="vis1" class="center"></div>
                     </div>
                     <div class="col-md-6 col-xl-5">
                         <div class="row justify-content-center">
                             <div class="col-xl-10 col-lg-11">
                                 <span id="no-data-tag2" class="badge badge-primary"></span>
                                 <div class="my-3">
-                                    <span class="h1">Discounting box plot</span>
+                                    <span class="h1">Subscale box plot</span>
                                 </div>
                                 <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
                                     blanditiis
@@ -199,7 +199,6 @@
 
         // data from database
         const data_array = <%- JSON.stringify(data_array) %>;
-        const subject_array = <%- JSON.stringify(subject_array) %>;
         const country_array = <%- JSON.stringify(country_array) %>;
         const uniquestudyid = 'gritshort';
 
@@ -224,31 +223,32 @@
         }
     </script>
 
-    <!-- Aggregate box plot -->
+    <!-- Subscale box plot -->
     <script type="text/javascript" defer>
 
-        var aggregate_curve = {
+        var subscale_boxplot = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
             layer: [
                 {
-                    data: { values: subject_array },
+                    data: { values: data_array },
                     mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
                     encoding: {
                         y: {
-                            field: "resp_reverse",
+                            field: "value",
                             type: "quantitative",
                             axis: { "title": "Response value" }
                         },
                         x: {
-                            field: "subscale",
+                            field: "type",
                             type: "nominal",
-                            axis: { "title": "Subscale", tickMinStep: 20, labelAngle: 0 },
+                            axis: { "title": "Subscale", tickMinStep: 20, labelAngle: 0, labelExpr: "replace(datum.label, '_', ' ')" },
                         },
                         size: { value: 18 },
-                        color: { field: "subscale", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
+                        color: { field: "type", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
                         tooltip: [
-                            { field: 'resp_reverse', type: "quantitative", format: '.2f', title: "Response value", aggregate: "mean" }
+                            { field: 'value', type: "quantitative", format: '.2f', title: "Response value", aggregate: "mean" }
                         ]
                     }
                 },
@@ -261,25 +261,15 @@
                             return { values: [] };
                         }
                     }()),
-                    transform: [
-                        {
-                            aggregate: [{
-                                op: "mean",
-                                field: "resp_reverse",
-                                as: "mean_resp"
-                            }],
-                            groupby: ["subscale"]
-                        }
-                    ],
                     mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
                     encoding: {
                         x: {
-                            field: "subscale",
+                            field: "type",
                             type: "nominal",
                         },
-                        y: { field: "mean_resp", type: "quantitative" },
+                        y: { field: "value", type: "quantitative" },
                         size: { value: 150 },
-                        tooltip: [{ field: "mean_resp", format: ".3f", title: 'Your response value', type: "quantitative" }, { field: "subscale", format: ".0f", title: 'Subscale', type: "nominal" }] // format tooltip
+                        tooltip: [{ field: "value", format: ".3f", title: 'Your response value', type: "quantitative" }] // format tooltip
                     },
                 }
             ],
@@ -289,19 +279,17 @@
 
     </script>
 
-    <!-- Aggregate AUC density -->
+    <!-- Mean response density -->
     <script type="text/javascript" defer>
 
-        var auc_density = {
+        var mean_density = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { title: null, labelFontSize: 15, labelFont: "Inter-UI-upright", orient: "bottom" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-            background: "#f3f5fb",
             layer: [
                 {
-                    data: { values: subject_array },
+                    data: { values: data_array.filter(i => i.type == "all") },
                     transform: [{
-                        groupby: ["subscale"],
-                        density: "resp_reverse",
+                        density: "value",
                     }],
                     mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
                     encoding: {
@@ -315,8 +303,8 @@
                             field: "density",
                             title: "Frequency (density)",
                         },
-                        color: { field: "subscale", type: "nominal" },
-                        tooltip: [{ field: 'subscale', title: 'Subscale', type: "nominal" }, { field: 'value', format: ".3f", title: 'Response value', type: "quantitative" }, { field: 'density', title: 'Density', type: "quantitative" }]
+                        color: { value: "#38405C", type: "nominal" },
+                        tooltip: [{ field: 'value', format: ".3f", title: 'Response value', type: "quantitative" }, { field: 'density', title: 'Density', type: "quantitative" }]
                     }
                 },
                 {
@@ -327,24 +315,13 @@
                             return { values: [] };
                         }
                     }()),
-                    transform: [
-                        {
-                            aggregate: [{
-                                op: "mean",
-                                field: "resp_reverse",
-                                as: "mean_resp"
-                            }],
-                            groupby: ["subscale"]
-                        }
-                    ],
                     mark: { type: "rule", opacity: 0.7 },
                     encoding: {
-                        x: { field: "mean_resp", type: "quantitative" },
-                        color: { field: "subscale", type: "nominal" },
+                        x: { field: "value", type: "quantitative" },
+                        color: { value: "#38405C", type: "nominal" },
                         size: { value: 3 },
                         tooltip: [
-                            { field: 'subscale', title: 'Subscale', type: "nominal" },
-                            { field: 'mean_resp', format: ".3f", title: 'Your response value', type: "quantitative" }]
+                            { field: 'value', format: ".3f", title: 'Your response value', type: "quantitative" }]
                     },
                 }
             ],
@@ -355,9 +332,9 @@
 
     </script>
 
-    <!-- AUC choropleth -->
+    <!-- Global response mean choropleth -->
     <script defer>
-        var global_auc_plot = {
+        var global_mean_plot = {
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: { stroke: "transparent" } },
             background: "#f3f5fb",
@@ -442,9 +419,9 @@
             "fontLoaded": function (f) {
                 console.log("font loaded: " + f.family);
             }, "complete": function (error) {
-                vegaEmbed('#vis1', aggregate_curve, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
-                vegaEmbed('#vis2', auc_density, { actions: { source: false, compiled: false, editor: false } });
-                vegaEmbed('#vis3', global_auc_plot, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis1', subscale_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+                vegaEmbed('#vis2', mean_density, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis3', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
             }
         }, 3000);
         fontLoader.loadFonts();
