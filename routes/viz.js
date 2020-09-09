@@ -24,7 +24,7 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
         data_array = data_array.flat(1);  // flatten objects in array
 
         // prepare data for chloropleth auc (each subject has 5 auc values (repeated) because we have 5 trials per subject, but that's fine)
-        country_data = d3.rollups(data_array, // compute median for each country
+        country_array = d3.rollups(data_array, // compute median for each country
             function (v) {
                 return {
                     median_auc: d3.median(v, d => d.auc),  // median auc
@@ -33,12 +33,12 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
             },
             // v => d3.median(v, d => d.auc),
             d => d.country_id);  // by country id
-        // console.log(country_data);  // nested data
-        country_data = Array.from(country_data, function (i) {  // unnest data
+        // console.log(country_array);  // nested data
+        country_array = Array.from(country_array, function (i) {  // unnest data
             return { country_id: i[0], country_name: i[1].country_name, median_auc: i[1].median_auc }
         })
 
-        res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_data });
+        res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_array });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);
@@ -62,8 +62,8 @@ router.get("/tasks/stroop/viz", function (req, res) {
         // prepare data for chloropleth
         // compute median rt interference for each country
         var temp_data = data_array.filter(x => x.type == "interference" && x.param == "rt");
-        // console.log(temp_data)
-        country_data = d3.rollups(temp_data,
+        console.log(temp_data)
+        country_array = d3.rollups(temp_data,
             function (v) {
                 return {
                     rt_interference: d3.median(v, d => d.value),  // median rt interference
@@ -71,12 +71,13 @@ router.get("/tasks/stroop/viz", function (req, res) {
                 }
             },
             d => d.country_id);  // by country id
-        // console.log(country_data);  // nested data
-        country_data = Array.from(country_data, function (i) {  // unnest data
+        // console.log(country_array);  // nested data
+        country_array = Array.from(country_array, function (i) {  // unnest data
             return { country_id: i[0], country_name: i[1].country_name, rt_interference: i[1].rt_interference }
         })
+        // console.log(country_array)
 
-        res.render('viz/stroop.ejs', { data_array: data_array, country_array: country_data });            
+        res.render('viz/stroop.ejs', { data_array: data_array, country_array: country_array });            
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);
@@ -87,37 +88,34 @@ router.get("/surveys/gritshort/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'gritshort' }, {}, { sort: { time: -1 } }).lean().then(data => {
 
         var data_array = [];
-        data.map(function (i) {  // map/loop through each document to get relevant data
-            var temp_data = i.datasummary_; // get datasummary_
-            // convert country code to country id
+        data.map(function (i) {
+            var temp_data = i.datasummary_;
             temp_data.forEach(function (s) {
                 s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))
             })
             data_array.push(temp_data);
         });
-        data_array = data_array.flat(1);  // flatten objects in array
+        data_array = data_array.flat(1);
         console.log(data_array)
 
-        // prepare data for chloropleth
-        // compute median rt interference for each country
         var temp_data = data_array.filter(x => x.type == "all");
         // console.log(temp_data)
-        country_data = d3.rollups(temp_data,
+        country_array = d3.rollups(temp_data,
             function (v) {
                 return {
-                    mean_resp: d3.mean(v, d => d.value),  // median rt interference
-                    country_name: d3.min(v, d => d.country_name)  // get country name
+                    mean_resp: d3.mean(v, d => d.value),
+                    country_name: d3.min(v, d => d.country_name)
                 }
             },
-            d => d.country_id);  // by country id
-        console.log(country_data);  // nested data
-        country_data = Array.from(country_data, function (i) {  // unnest data
+            d => d.country_id);
+        // console.log(country_array);
+        country_array = Array.from(country_array, function (i) {
             return { country_id: i[0], country_name: i[1].country_name, mean_resp: i[1].mean_resp }
         })
-        console.log(country_data);
+        // console.log(country_array);
 
         // render
-        res.render('viz/gritshort.ejs', { data_array: data_array, country_array: country_data });
+        res.render('viz/gritshort.ejs', { data_array: data_array, country_array: country_array });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);

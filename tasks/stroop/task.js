@@ -37,7 +37,7 @@ var stimuli_unique = [  // unique stroop trials
     // { data: { text: 'green', color: 'green', trialtype: 'congruent', reps: 3 } },
     // { data: { text: 'yellow', color: 'yellow', trialtype: 'congruent', reps: 4 } },
     { data: { text: 'red', color: 'green', trialtype: 'incongruent', reps: 1 } },
-    // { data: { text: 'red', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
+    { data: { text: 'red', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
     // { data: { text: 'green', color: 'red', trialtype: 'incongruent', reps: 1 } },
     // { data: { text: 'green', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
     // { data: { text: 'yellow', color: 'red', trialtype: 'incongruent', reps: 1 } },
@@ -323,15 +323,26 @@ function create_datasummary_() {
     var incongruent = d.filter({ "trialtype": "incongruent" }); 
     var neutral = d.filter({ "trialtype": "neutral" }); 
     
-    // median rt
+    // median rt and mean acc
     var congruent_rt = congruent.select('rt').median();
-    var incongruent_rt = incongruent.select('rt').median();
-    var neutral_rt = neutral.select('rt').median();
-    
-    // mean acc
     var congruent_acc = congruent.select('acc').mean();
+    var incongruent_rt = incongruent.select('rt').median();
     var incongruent_acc = incongruent.select('acc').mean();
+    var neutral_rt = neutral.select('rt').median();
     var neutral_acc = neutral.select('acc').mean();
+
+    if (congruent_rt === undefined) {
+        congruent_rt = null;
+        congruent_acc = null;
+    }
+    if (incongruent_rt === undefined) {
+        incongruent_rt = null;
+        incongruent_acc = null;
+    }
+    if (neutral_rt === undefined) {
+        neutral_rt = null;
+        neutral_acc = null;
+    }
 
     // store above info in array
     var datasummary_ = [

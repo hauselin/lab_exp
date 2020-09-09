@@ -330,7 +330,7 @@
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: temp_data.filter(i => i.subject == subject_id).slice(3) };
+                            return { values: temp_data.filter(i => i.subject == subject_id).slice(0,3) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -387,7 +387,7 @@
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: data_array.filter(i => i.subject == subject_id && i.type == "interference" && i.param == "rt").slice(1) };
+                            return { values: data_array.filter(i => i.subject == subject_id && i.type == "interference" && i.param == "rt").slice(0,1) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -457,7 +457,7 @@
                 {
                     data: (function () { // anonymous function
                         if (subject_id) {
-                            return { values: data_array.filter(i => i.type == 'ddm' && i.subject == subject_id).slice(3) };
+                            return { values: data_array.filter(i => i.type == 'ddm' && i.subject == subject_id).slice(0,3) };
                         } else {  // don't draw points
                             return { values: [] };
                         }
