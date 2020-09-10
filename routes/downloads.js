@@ -21,7 +21,11 @@ router.get('/d1', helper.isLoggedIn, function (req, res) {
     DataLibrary.findOne({}, {}, { sort: { time: -1 } }).lean()
         .then(doc => {
             if (doc == null) {
-                res.status(200).render("download");
+                var c = req.originalUrl.split('/').length - 1;
+                var c = "../".repeat(c);
+                const c1 = c + "public/assets/css/loaders/loader-typing.css";
+                const c2 = c + "public/assets/css/theme.css";                
+                res.status(200).render("download", { c1: c1, c2: c2 });
             } else {
                 const filename = doc.type + "_" + doc.uniquestudyid + "_" + doc.subject + '.csv';
                 var datastring = helper.json2csv(doc.data);
@@ -82,7 +86,11 @@ router.get('/:type/:uniquestudyid/d/:yyyy', helper.isLoggedIn, function (req, re
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).render("download");
+                var c = req.originalUrl.split('/').length - 1;
+                var c = "../".repeat(c);
+                const c1 = c + "public/assets/css/loaders/loader-typing.css";
+                const c2 = c + "public/assets/css/theme.css";                
+                res.status(200).render("download", { c1: c1, c2: c2 });
             }
         })
         .catch(err => {
@@ -108,7 +116,11 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm', helper.isLoggedIn, function (req
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).render("download");
+                var c = req.originalUrl.split('/').length - 1;
+                var c = "../".repeat(c);
+                const c1 = c + "public/assets/css/loaders/loader-typing.css";
+                const c2 = c + "public/assets/css/theme.css";                
+                res.status(200).render("download", { c1: c1, c2: c2 });
             }
         })
         .catch(err => {
@@ -135,7 +147,11 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', helper.isLoggedIn, function 
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).render("download");
+                var c = req.originalUrl.split('/').length - 1;
+                var c = "../".repeat(c);
+                const c1 = c + "public/assets/css/loaders/loader-typing.css";
+                const c2 = c + "public/assets/css/theme.css";                
+                res.status(200).render("download", { c1: c1, c2: c2 });
             }
         })
         .catch(err => {
@@ -161,7 +177,11 @@ router.get('/:type/:uniquestudyid/dsub/:subject', helper.isLoggedIn, function (r
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).render("download");
+                var c = req.originalUrl.split('/').length - 1;
+                var c = "../".repeat(c);
+                const c1 = c + "public/assets/css/loaders/loader-typing.css";
+                const c2 = c + "public/assets/css/theme.css";                
+                res.status(200).render("download", { c1: c1, c2: c2 });
             }
         })
         .catch(err => {
