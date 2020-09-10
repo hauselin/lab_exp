@@ -77,4 +77,12 @@ function isLoggedIn(req, res, next) { // //req.isAuthenticated() will return tru
     res.redirect("/login");
 }
 
-module.exports = { json2csv, doc2datastring, deleteData, pick, isLoggedIn }
+function cssFix(req, res, page) {
+    var c = req.originalUrl.split('/').length - 1;
+    var c = "../".repeat(c);
+    const c1 = c + "public/assets/css/loaders/loader-typing.css";
+    const c2 = c + "public/assets/css/theme.css";                
+    res.status(200).render(page, { c1: c1, c2: c2 });
+}
+
+module.exports = { json2csv, doc2datastring, deleteData, pick, isLoggedIn, cssFix }
