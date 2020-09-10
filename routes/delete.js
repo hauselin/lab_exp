@@ -9,8 +9,8 @@ router.get('/delete1', helper.isLoggedIn, function (req, res) {
     // Delete the most recent document (regardless of task)
     DataLibrary.findOne({}, {}, { sort: { time: -1 } })
         .then(doc => {
-            if (doc === null) {
-                msg = "delete";
+            if (doc == null) {
+                msg = "errorDelete";
             } else {
                 DataLibrary.deleteOne({ _id: doc._id }, function (err) {
                     if (err) {
@@ -21,7 +21,11 @@ router.get('/delete1', helper.isLoggedIn, function (req, res) {
                     }
                 })
             }
-            res.status(200).render(msg);
+            var c = req.originalUrl.split('/').length - 1;
+            var c = "../".repeat(c);
+            const c1 = c + "public/assets/css/loaders/loader-typing.css";
+            const c2 = c + "public/assets/css/theme.css";                
+            res.status(200).render(msg, { c1: c1, c2: c2 });
         })
         .catch(err => {
             console.log(err);
@@ -41,12 +45,16 @@ router.get('/:type/:uniquestudyid/:deleten', helper.isLoggedIn, function (req, r
             { sort: { time: -1 }, limit: Number(req.params.deleten.slice(6)) })
             .then(doc => {
                 if (doc.length == 0) {
-                    msg = "delete";
+                    msg = "errorDelete";
                 } else {
                     helper.deleteData(DataLibrary, doc);
                     msg = "successDelete";
                 }
-                res.status(200).render(msg);
+                var c = req.originalUrl.split('/').length - 1;
+                var c = "../".repeat(c);
+                const c1 = c + "public/assets/css/loaders/loader-typing.css";
+                const c2 = c + "public/assets/css/theme.css";                
+                res.status(200).render(msg, { c1: c1, c2: c2 });
             })
             .catch(err => {
                 console.log(err);
@@ -67,12 +75,16 @@ router.get('/:type/:uniquestudyid/delete/:yyyy', helper.isLoggedIn, function (re
         { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
-                msg = "delete";
+                msg = "errorDelete";
             } else {
                 helper.deleteData(DataLibrary, doc);
                 msg = "successDelete";
             }
-            res.status(200).render(msg);
+            var c = req.originalUrl.split('/').length - 1;
+            var c = "../".repeat(c);
+            const c1 = c + "public/assets/css/loaders/loader-typing.css";
+            const c2 = c + "public/assets/css/theme.css";                
+            res.status(200).render(msg, { c1: c1, c2: c2 });
         })
         .catch(err => {
             console.log(err);
@@ -93,12 +105,16 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm', helper.isLoggedIn, function
         { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
-                msg = "delete";
+                msg = "errorDelete";
             } else {
                 helper.deleteData(DataLibrary, doc);
                 msg = "successDelete";
             }
-            res.status(200).render(msg);
+            var c = req.originalUrl.split('/').length - 1;
+            var c = "../".repeat(c);
+            const c1 = c + "public/assets/css/loaders/loader-typing.css";
+            const c2 = c + "public/assets/css/theme.css";                
+            res.status(200).render(msg, { c1: c1, c2: c2 });
         })
         .catch(err => {
             console.log(err);
@@ -120,12 +136,16 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm/:dd', helper.isLoggedIn, func
         { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
-                msg = "delete";
+                msg = "errorDelete";
             } else {
                 helper.deleteData(DataLibrary, doc);
                 msg = "successDelete";
             }
-            res.status(200).render(msg);
+            var c = req.originalUrl.split('/').length - 1;
+            var c = "../".repeat(c);
+            const c1 = c + "public/assets/css/loaders/loader-typing.css";
+            const c2 = c + "public/assets/css/theme.css";                
+            res.status(200).render(msg, { c1: c1, c2: c2 });
         })
         .catch(err => {
             console.log(err);
@@ -145,12 +165,16 @@ router.get('/:type/:uniquestudyid/deletesub/:subject', helper.isLoggedIn, functi
         { sort: { time: -1 } })
         .then(doc => {
             if (doc.length == 0) {
-                msg = "delete";
+                msg = "errorDelete";
             } else {
                 helper.deleteData(DataLibrary, doc);
                 msg = "successDelete";
             }
-            res.status(200).render(msg);
+            var c = req.originalUrl.split('/').length - 1;
+            var c = "../".repeat(c);
+            const c1 = c + "public/assets/css/loaders/loader-typing.css";
+            const c2 = c + "public/assets/css/theme.css";                
+            res.status(200).render(msg, { c1: c1, c2: c2 });
         })
         .catch(err => {
             console.log(err);
