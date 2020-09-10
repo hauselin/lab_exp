@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const helper = require('../routes/helpers/helpers');
 const DataLibrary = require("../models/datalibrary");
+var middleware = require("../middleware");
 
 // route for downloading consent forms
-router.get("/:type/:uniquestudyid/consent", helper.isLoggedIn, function (req, res) {
+router.get("/:type/:uniquestudyid/consent", middleware.isLoggedIn, function (req, res) {
     var filename = 'consent.md'; // download filename
     var file = '../lab_exp/' + req.params.type + '/' + req.params.uniquestudyid + '/' + filename;
     // console.log(file);
@@ -16,7 +17,7 @@ router.get("/:type/:uniquestudyid/consent", helper.isLoggedIn, function (req, re
     });
 });
 
-router.get('/d1', helper.isLoggedIn, function (req, res) {
+router.get('/d1', middleware.isLoggedIn, function (req, res) {
     // Download the most recent document (regardless of task)
     DataLibrary.findOne({}, {}, { sort: { time: -1 } }).lean()
         .then(doc => {
@@ -36,7 +37,7 @@ router.get('/d1', helper.isLoggedIn, function (req, res) {
 
 });
 
-router.get('/:type/:uniquestudyid/:dn', helper.isLoggedIn, function (req, res, next) {
+router.get('/:type/:uniquestudyid/:dn', middleware.isLoggedIn, function (req, res, next) {
     // route is only d (without n), all documents will be downloaded
     const n = Number(req.params.dn.slice(1));  // no. of docs requested
     // Download most recent n document(s) for a given task
@@ -62,7 +63,7 @@ router.get('/:type/:uniquestudyid/:dn', helper.isLoggedIn, function (req, res, n
     }
 });
 
-router.get('/:type/:uniquestudyid/d/:yyyy', helper.isLoggedIn, function (req, res) {
+router.get('/:type/:uniquestudyid/d/:yyyy', middleware.isLoggedIn, function (req, res) {
     // Filter and download documents by year for a given task
     DataLibrary.find(
         {
@@ -87,7 +88,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy', helper.isLoggedIn, function (req, re
         });
 });
 
-router.get('/:type/:uniquestudyid/d/:yyyy/:mm', helper.isLoggedIn, function (req, res) {
+router.get('/:type/:uniquestudyid/d/:yyyy/:mm', middleware.isLoggedIn, function (req, res) {
     // Filter and download documents by year and month for a given task
     DataLibrary.find(
         {
@@ -113,7 +114,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm', helper.isLoggedIn, function (req
         });
 });
 
-router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', helper.isLoggedIn, function (req, res) {
+router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', middleware.isLoggedIn, function (req, res) {
     // Filter and download documents by year, month, and day for a given task
     DataLibrary.find(
         {
@@ -141,7 +142,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', helper.isLoggedIn, function 
 
 });
 
-router.get('/:type/:uniquestudyid/dsub/:subject', helper.isLoggedIn, function (req, res) {
+router.get('/:type/:uniquestudyid/dsub/:subject', middleware.isLoggedIn, function (req, res) {
     // Filter and download documents by subject for a given task
     DataLibrary.find(
         {
