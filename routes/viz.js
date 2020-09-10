@@ -22,11 +22,9 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
             data_array.push(data_subset);
         });
         data_array = data_array.flat(1);  // flatten objects in array
-        // console.log(data_array);  // no. of subjects/documents * 5
-        // console.log(data_array.length); // no. of subjects/documents
 
         // prepare data for chloropleth auc (each subject has 5 auc values (repeated) because we have 5 trials per subject, but that's fine)
-        country_data = d3.rollups(data_array, // compute median for each country
+        country_array = d3.rollups(data_array, // compute median for each country
             function (v) {
                 return {
                     median_auc: d3.median(v, d => d.auc),  // median auc
@@ -35,14 +33,12 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
             },
             // v => d3.median(v, d => d.auc),
             d => d.country_id);  // by country id
-        // console.log(country_data);  // nested data
-        country_data = Array.from(country_data, function (i) {  // unnest data
+        // console.log(country_array);  // nested data
+        country_array = Array.from(country_array, function (i) {  // unnest data
             return { country_id: i[0], country_name: i[1].country_name, median_auc: i[1].median_auc }
         })
-        // console.log(country_data);
 
-        // render
-        res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_data });
+        res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_array });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);
@@ -51,65 +47,75 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
 
 router.get("/tasks/stroop/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'stroop' }, {}, { sort: { time: -1 } }).lean().then(data => {
-        const keys2select = ['subject', 'uniquesubjectid', 'rt', 'acc', 'trialtype', 'trial_index', 'time'];  // columns/keys to select
-        const keys2select2 = ['subject', 'uniquesubjectid', 'rt_interference', 'acc_interference', 'congruent_rt', 'congruent_acc', 'incongruent_rt', 'incongruent_acc', 'neutral_rt', 'neutral_acc', 'country', 'country_code', 'longitude', 'latitude', 'time'];  // columns/keys to select
         var data_array = [];
-        var subject_array = [];
         data.map(function (i) {  // map/loop through each document to get relevant data
-            const temp_data = i.data; // get jspsych data
-            var subject_subset = temp_data.filter(s => s.trial_index < 3);  // select relevant rows
-            var subject_subset = subject_subset.map(s => helper.pick(s, keys2select2));  // select relevant columns
-            var data_subset = temp_data.filter(s => s.event == "stimulus" && s.rt != "No response" && s.trialtype != null);  // select relevant rows
-            var data_subset = data_subset.map(s => helper.pick(s, keys2select));  // select relevant columns
-            var counter = 0;
-            subject_subset.forEach(function (s) { // for each row in this document
-                if (counter == 0) {
-                    s.trialtype = "Congruent";
-                    s.mean_rt = s.congruent_rt;
-                    s.mean_acc = s.congruent_acc;
-                    counter += 1;
-                } else if (counter == 1) {
-                    s.trialtype = "Incongruent";
-                    s.mean_rt = s.incongruent_rt;
-                    s.mean_acc = s.incongruent_acc;
-                    counter += 1;
-                } else {
-                    s.trialtype = "Neutral";
-                    s.mean_rt = s.neutral_rt;
-                    s.mean_acc = s.neutral_acc;
-                    counter = 0;
-                }
-                s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))  // get country code
+            var temp_data = i.datasummary_; // get datasummary_
+            // convert country code to country id
+            temp_data.forEach(function (s) {
+                s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))
             })
-            data_array.push(data_subset);
-            subject_array.push(subject_subset);
+            data_array.push(temp_data);
         });
         data_array = data_array.flat(1);  // flatten objects in array
-        subject_array = subject_array.flat(1);  // flatten objects in array
-        // console.log(data_array);
-        // console.log(subject_array);
-        // console.log(data_array.length);
-        // console.log(subject_array.length);
+        // console.log(data_array)
 
-        // prepare data for chloropleth auc (each subject has 5 auc values (repeated) because we have 5 trials per subject, but that's fine)
-        country_data = d3.rollups(subject_array, // compute median for each country
+        // prepare data for chloropleth
+        // compute median rt interference for each country
+        var temp_data = data_array.filter(x => x.type == "interference" && x.param == "rt");
+        console.log(temp_data)
+        country_array = d3.rollups(temp_data,
             function (v) {
                 return {
-                    rt_interference: d3.median(v, d => d.rt_interference),  // median rt interference
-                    acc_interference: d3.median(v, d => d.acc_interference),  // median accuracy interference
-                    country_name: d3.min(v, d => d.country)  // get country name
+                    rt_interference: d3.median(v, d => d.value),  // median rt interference
+                    country_name: d3.min(v, d => d.country_name)  // get country name
                 }
             },
-            // v => d3.median(v, d => d.auc),
             d => d.country_id);  // by country id
-        // console.log(country_data);  // nested data
-        country_data = Array.from(country_data, function (i) {  // unnest data
-            return { country_id: i[0], country_name: i[1].country_name, rt_interference: i[1].rt_interference, acc_interference: i[1].acc_interference }
+        // console.log(country_array);  // nested data
+        country_array = Array.from(country_array, function (i) {  // unnest data
+            return { country_id: i[0], country_name: i[1].country_name, rt_interference: i[1].rt_interference }
         })
-        // console.log(country_data);
+        // console.log(country_array)
+
+        res.render('viz/stroop.ejs', { data_array: data_array, country_array: country_array });            
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send(err);
+    });
+})
+
+router.get("/surveys/gritshort/viz", function (req, res) {
+    DataLibrary.find({ uniquestudyid: 'gritshort' }, {}, { sort: { time: -1 } }).lean().then(data => {
+
+        var data_array = [];
+        data.map(function (i) {
+            var temp_data = i.datasummary_;
+            temp_data.forEach(function (s) {
+                s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))
+            })
+            data_array.push(temp_data);
+        });
+        data_array = data_array.flat(1);
+        console.log(data_array)
+
+        var temp_data = data_array.filter(x => x.type == "all");
+        // console.log(temp_data)
+        country_array = d3.rollups(temp_data,
+            function (v) {
+                return {
+                    mean_resp: d3.mean(v, d => d.value),
+                    country_name: d3.min(v, d => d.country_name)
+                }
+            },
+            d => d.country_id);
+        // console.log(country_array);
+        country_array = Array.from(country_array, function (i) {
+            return { country_id: i[0], country_name: i[1].country_name, mean_resp: i[1].mean_resp }
+        })
+        // console.log(country_array);
 
         // render
-        res.render('viz/stroop.ejs', { data_array: data_array, subject_array: subject_array, country_array: country_data });
+        res.render('viz/gritshort.ejs', { data_array: data_array, country_array: country_array });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);

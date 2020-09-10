@@ -37,7 +37,7 @@ var stimuli_unique = [  // unique stroop trials
     // { data: { text: 'green', color: 'green', trialtype: 'congruent', reps: 3 } },
     // { data: { text: 'yellow', color: 'yellow', trialtype: 'congruent', reps: 4 } },
     { data: { text: 'red', color: 'green', trialtype: 'incongruent', reps: 1 } },
-    // { data: { text: 'red', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
+    { data: { text: 'red', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
     // { data: { text: 'green', color: 'red', trialtype: 'incongruent', reps: 1 } },
     // { data: { text: 'green', color: 'yellow', trialtype: 'incongruent', reps: 1 } },
     // { data: { text: 'yellow', color: 'red', trialtype: 'incongruent', reps: 1 } },
@@ -210,9 +210,6 @@ var stimulus = {
         data.event = stimulus_event;
         data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press);
         data.n_trial = n_trial;
-        if (data.rt == null) {
-            data.rt = 'No response';
-        }
         if (debug) {
             console.log('rt: ' + data.rt);
         }
@@ -290,41 +287,84 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
+        var datasummary_ = create_datasummary_();
         info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
-
-        var data_subset = jsPsych.data.get().filter({ "event": "stimulus" });  // select stroop trials
-        var congruent_subset = data_subset.filter({ "trialtype": "congruent" });  // select congruent trials
-        var incongruent_subset = data_subset.filter({ "trialtype": "incongruent" });  // select incongruent trials
-        var neutral_subset = data_subset.filter({ "trialtype": "neutral" });  // select neutral trials
-
-        var congruent_rt = congruent_subset.select('rt').subset(function(x){ return x != null; }).mean();
-        var incongruent_rt = incongruent_subset.select('rt').subset(function(x){ return x != null; }).mean();
-        var congruent_acc = congruent_subset.select('acc').mean();
-        var incongruent_acc = incongruent_subset.select('acc').mean();
-
-        var ddm_params = fit_ezddm_to_jspsych_data(data_subset);  // fit model
+        console.log(datasummary_);
         jsPsych.data.get().addToAll({ // add objects to all trials
             info_: info_,
-            datasummary_: {},
+            datasummary_: datasummary_,
             total_time: datasummary_.total_time,
-            ddm_boundary: ddm_params.boundary,
-            ddm_drift: ddm_params.drift,
-            ddm_nondecisiontime: ddm_params.nondecisiontime,
-            congruent_rt: congruent_rt,
-            incongruent_rt: incongruent_rt,
-            rt_interference: incongruent_rt - congruent_rt,
-            neutral_rt: neutral_subset.select('rt').subset(function(x){ return x != null; }).mean(),
-            congruent_acc: congruent_acc,
-            incongruent_acc: incongruent_acc,
-            acc_interference: congruent_acc - incongruent_acc,
-            neutral_acc: neutral_subset.select('acc').mean(),
         });
         if (debug) {
             jsPsych.data.displayData();
-            console.log("ez-ddm parameters");
-            console.log(ddm_params);
         }
         sessionStorage.setObj('info_', info_); // save to sessionStorage
         submit_data(jsPsych.data.get().json(), false);
     }
 });
+
+// functions to summarize data
+
+// remove trials with too fast/slow RT
+function preprocess_stroop() {  // 
+    var data_sub = jsPsych.data.get().filter({ "event": "stimulus" });  // select stroop trials
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 100 });
+    var cutoffs = mad_cutoffs(data_sub.select('rt').values);
+    data_sub = data_sub.filterCustom(function (trial) { return trial.rt > cutoffs[0] }).filterCustom(function (trial) { return trial.rt < cutoffs[1] });
+    return data_sub;
+}
+
+function create_datasummary_() {
+    var d = preprocess_stroop(); // preprocess/clean data
+    var ddm_params = fit_ezddm_to_jspsych_data(d);  // calculate ddm parameters
+
+    // select trials for each trialtype
+    var congruent = d.filter({ "trialtype": "congruent" });  
+    var incongruent = d.filter({ "trialtype": "incongruent" }); 
+    var neutral = d.filter({ "trialtype": "neutral" }); 
+    
+    // median rt and mean acc
+    var congruent_rt = congruent.select('rt').median();
+    var congruent_acc = congruent.select('acc').mean();
+    var incongruent_rt = incongruent.select('rt').median();
+    var incongruent_acc = incongruent.select('acc').mean();
+    var neutral_rt = neutral.select('rt').median();
+    var neutral_acc = neutral.select('acc').mean();
+
+    if (congruent_rt === undefined) {
+        congruent_rt = null;
+        congruent_acc = null;
+    }
+    if (incongruent_rt === undefined) {
+        incongruent_rt = null;
+        incongruent_acc = null;
+    }
+    if (neutral_rt === undefined) {
+        neutral_rt = null;
+        neutral_acc = null;
+    }
+
+    // store above info in array
+    var datasummary_ = [
+        { type: "congruent", param: "rt", value: congruent_rt },
+        { type: "incongruent", param: "rt", value: incongruent_rt },
+        { type: "neutral", param: "rt", value: neutral_rt },
+        { type: "congruent", param: "acc", value: congruent_acc },
+        { type: "incongruent", param: "acc", value: incongruent_acc },
+        { type: "neutral", param: "acc", value: neutral_acc },
+        { type: "interference", param: "rt", value: incongruent_rt - congruent_rt },
+        { type: "interference", param: "acc", value: incongruent_acc - congruent_acc },
+        { type: "ddm", param: "boundary", value: ddm_params.boundary },
+        { type: "ddm", param: "nondecisiontime", value: ddm_params.nondecisiontime },
+        { type: "ddm", param: "drift", value: ddm_params.drift },
+    ];
+
+    // add id/country information
+    datasummary_.forEach(function (s) {
+        s.subject = info_.subject;
+        s.country_code = info_.country_code;
+        s.country_name = info_.country_name;
+    })
+
+    return datasummary_
+}

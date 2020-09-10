@@ -9,7 +9,7 @@ const taskinfo = {
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 
-const debug = true;  // debug mode to print messages to console and display json data at the end
+const debug = false;  // debug mode to print messages to console and display json data at the end
 // TODO Frank: black background doesn't work here... weird (has to do with the way the timelinevariable is nested within a function): stimulus: jsPsych.timelineVariable('desc'),
 const black_background = false; // if true, white text on black background
 var font_colour = 'black';
@@ -35,7 +35,7 @@ Papa.parse(csvfile, {
     header: true,
     dynamicTyping: true,
     complete: function (results) {
-        run_survey(results.data)
+        run_survey(results.data);
     }
 });
 
@@ -88,13 +88,22 @@ function run_survey(survey) {
         randomize_order: shuffle_items
     };
 
+    // create timeline and add consent form to the start
+    var timeline = [];
+    html_path = "../../surveys/gritshort/consent.html";  // make it a global variable
+    timeline = create_consent(timeline, html_path);
+    timeline.push(procedure);
+
     jsPsych.init({
-        timeline: [procedure],
+        timeline: timeline,
         on_finish: function () {
             document.body.style.backgroundColor = 'white';
+            var datasummary_ = create_datasummary_();
             info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
+            console.log(datasummary_);
             jsPsych.data.get().addToAll({ // add objects to all trials
                 info_: info_,
+                datasummary_: datasummary_,
                 total_time: datasummary_.total_time,
             });
             if (debug) {
@@ -105,3 +114,39 @@ function run_survey(survey) {
         }
     });
 };
+
+function preprocess_grit() {  // 
+    var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" });  // select stroop trials
+    // var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 100 });
+    return data_sub;
+}
+
+function create_datasummary_() {
+    var d = preprocess_grit(); // preprocess/clean data
+
+    // select trials for each subscale
+    var consistent_interest = d.filter({ "subscale": "consistentInterest" });  
+    var persevere_effort = d.filter({ "subscale": "persevereEffort" }); 
+    
+    // mean resp
+    var consistent_resp = consistent_interest.select('resp_reverse').mean();
+    var persevere_resp = persevere_effort.select('resp_reverse').mean();
+    var mean_resp = d.select('resp_reverse').mean();
+    
+    // store above info in array
+    var datasummary_ = [
+        { type: "consistent_interest", param: "resp_reverse", value: consistent_resp },
+        { type: "persevere_effort", param: "resp_reverse", value: persevere_resp },
+        { type: "all", param: "resp_reverse", value: mean_resp },
+    ];
+
+    // add id/country information
+    datasummary_.forEach(function (s) {
+        s.subject = info_.subject;
+        s.time = info_.time;
+        s.country_code = info_.country_code;
+        s.country_name = info_.country_name;
+    })
+
+    return datasummary_
+}

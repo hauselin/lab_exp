@@ -146,11 +146,8 @@ function generate_html(text, color = 'black', size = 20, location = [0, 0], bold
     }
 }
 
-function fit_ezddm_to_jspsych_data(filtered_trials) {
-    // get valid responses before computing ezddm parameters
-    var data_sub = filtered_trials.filterCustom(function (trial) { return trial.rt > 50 });
-    var cutoffs = mad_cutoffs(data_sub.select('rt').values);
-    data_sub = data_sub.filterCustom(function (trial) { return trial.rt > cutoffs[0] }).filterCustom(function (trial) { return trial.rt < cutoffs[1] });
+function fit_ezddm_to_jspsych_data(data_sub) {
+    // provide preprocessed/cleaned data to the function!!!
     var prop_correct = data_sub.select('acc').mean();
     var correct_rt = data_sub.filter({ "acc": 1 }).select('rt').values;
     correct_rt = divide(correct_rt, 1000);
@@ -160,7 +157,6 @@ function fit_ezddm_to_jspsych_data(filtered_trials) {
     var ezparams = ezddm(prop_correct, rt_correct_variance_s, rt_correct_mean_s, n_trials);
     return ezparams;
 }
-
 
 // median function adapted from jspsych
 function median(array) {

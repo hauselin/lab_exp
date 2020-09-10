@@ -8,9 +8,11 @@
     <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
     <script src="../../libraries/utils.js"></script>
     <script src="../../libraries/FontLoader.js"></script>
-    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
+        crossorigin="anonymous">
     <link href="../../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
     <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
+
 
     <!-- load vegalite libraries -->
     <script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
@@ -24,8 +26,9 @@
         <div class="container">
             <div class="row py-6 text-center justify-content-center align-items-center layer-2">
                 <div class="col-xl-8 col-lg-10">
-                    <h1 class="display-4">Stroop color naming task</h1>
-                    <p class="lead mb-0">How quickly and accurately can you respond?</p>
+                    <h1 class="display-4">Grit</h1>
+                    <p class="lead mb-0">How gritty are you? Check
+                        out the interactive figures and results below. Download figures. </p>
                 </div>
             </div>
         </div>
@@ -37,14 +40,14 @@
         <div class="container">
             <div class="row align-items-center justify-content-around">
                 <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
-                    <div id="vis1" class="center"></div>
+                    <div id="vis2" class="center"></div>
                 </div>
                 <div class="col-md-6 col-xl-5">
                     <div class="row justify-content-center">
                         <div class="col-xl-10 col-lg-11">
                             <span id="no-data-tag" class="badge badge-primary"></span>
                             <div class="my-3">
-                                <span class="h3">How fast are you?</span>
+                                <span class="h3">How much grit do you have?</span>
                             </div>
                             <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
                                 praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
@@ -65,7 +68,8 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg" alt="patch icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg"
+                        alt="patch icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Self-control and impulsivity</h5>
                         <p>
@@ -74,7 +78,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg" alt="miso-soup icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg"
+                        alt="miso-soup icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Other types of discounting behavior</h5>
                         <p>
@@ -83,7 +88,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg" alt="door-open icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg"
+                        alt="door-open icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Temporal preferences</h5>
                         <p>
@@ -94,7 +100,8 @@
             </div>
         </div>
         <div class="divider">
-            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic" data-inject-svg />
+            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
+                data-inject-svg />
         </div>
     </section>
     <section class="bg-primary-alt">
@@ -108,14 +115,14 @@
             <div class="container">
                 <div class="row align-items-center justify-content-around">
                     <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
-                        <div id="vis2" class="center"></div>
+                        <div id="vis1" class="center"></div>
                     </div>
                     <div class="col-md-6 col-xl-5">
                         <div class="row justify-content-center">
                             <div class="col-xl-10 col-lg-11">
                                 <span id="no-data-tag2" class="badge badge-primary"></span>
                                 <div class="my-3">
-                                    <span class="h1">Interference</span>
+                                    <span class="h1">Subscale box plot</span>
                                 </div>
                                 <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
                                     blanditiis
@@ -130,63 +137,11 @@
                     </div>
                 </div>
             </div>
-
-            <!-- <div class="container pt-7">
-                <div class="row align-items-center justify-content-around">
-                    <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
-                        <div id="vis4" class="center"></div>
-                    </div>
-                    <div class="col-md-6 col-xl-5">
-                        <div class="row justify-content-center">
-                            <div class="col-xl-10 col-lg-11">
-                                <span class="badge badge-primary">Reaction time plot</span>
-                                <div class="my-3">
-                                    <span class="h1">Reaction times</span>
-                                </div>
-                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                                    blanditiis
-                                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
-                                    excepturi
-                                    sint occaecati.</p>
-                                <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
-                                    deserunt
-                                    mollitia animi, id est laborum et dolorum fuga.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
 
             <div class="container pt-7">
                 <div class="row align-items-center justify-content-around">
                     <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
                         <div id="vis3" class="center"></div>
-                    </div>
-                    <div class="col-md-6 col-xl-5">
-                        <div class="row justify-content-center">
-                            <div class="col-xl-10 col-lg-11">
-                                <span id="no-data-tag3" class="badge badge-primary"></span>
-                                <div class="my-3">
-                                    <span class="h1">Drift diffusion model</span>
-                                </div>
-                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                                    blanditiis
-                                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
-                                    excepturi
-                                    sint occaecati.</p>
-                                <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
-                                    deserunt
-                                    mollitia animi, id est laborum et dolorum fuga.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container pt-7">
-                <div class="row align-items-center justify-content-around">
-                    <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
-                        <div id="vis4" class="center"></div>
                     </div>
                     <div class="col-md-6 col-xl-5">
                         <div class="row justify-content-center">
@@ -214,180 +169,92 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-10">
-                    <h2 class="h1 mb-4">Want to learn more? Complete these tasks.</h2>
+                    <h2 class="h1 mb-4">Want to learn more? Complete these surveys.</h2>
                     <div class="row no-gutters mb-3 d-none d-md-flex">
                         <div class="col-xl-8 col-lg-7 col-md-6">
-                            <span class="text-small text-muted">Task</span>
+                            <span class="text-small text-muted">Survey</span>
                         </div>
                         <div class="col">
                             <span class="text-small text-muted">Estimated time</span>
                         </div>
                     </div>
                     <div class="list-group list-group-flush">
-                        <a href="/tasks/symbolcount" class="list-group-item list-group-item-action row no-gutters py-3">
+                        <a href="/surveys/bigfiveaspect" class="list-group-item list-group-item-action row no-gutters py-3">
                             <div class="col-xl-8 col-lg-7 col-md-6">
-                                <h5 class="mb-0">Symbol counting</h5>
+                                <h5 class="mb-0">Big five aspects</h5>
                             </div>
                             <div class="col-md">
-                                <span>3-4 min</span>
-                            </div>
-                        </a>
-                        <a href="/tasks/delaydiscount" class="list-group-item list-group-item-action row no-gutters py-3">
-                            <div class="col-xl-8 col-lg-7 col-md-6">
-                                <h5 class="mb-0">Delay discount</h5>
-                            </div>
-                            <div class="col-md">
-                                <span>3-4 min</span>
-                            </div>
-                        </a>
-                        <a href="/tasks/mentalmath" class="list-group-item list-group-item-action row no-gutters py-3">
-                            <div class="col-xl-8 col-lg-7 col-md-6">
-                                <h5 class="mb-0">Mental math</h5>
-                            </div>
-                            <div class="col-md">
-                                <span>3-4 min</span>
+                                <span>1-2 min</span>
                             </div>
                         </a>
                     </div>
-                    <span class="d-block mt-4"><a href="/tasks" class="hover-arrow">See all tasks</a>
+                    <span class="d-block mt-4"><a href="/surveys" class="hover-arrow">See all surveys</a>
                     </span>
                 </div>
             </div>
         </div>
     </section>
 
-
     <script type="text/javascript">
+
         // data from database
         const data_array = <%- JSON.stringify(data_array) %>;
         const country_array = <%- JSON.stringify(country_array) %>;
-        const uniquestudyid = 'stroop';
+        const uniquestudyid = 'gritshort';
 
         // retrieve objects from sessionStorage
-            // subject_id and time will be used to filter arrays for plotting subject data
-            const info = sessionStorage.getObj("info_");
-            if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
-                subject_id = null;
-                time = null;
-            } else {
-                subject_id = info.subject;
-                start_time = info.time;
-            }
-            if (!subject_id) {
-                document.getElementById('no-data-tag').innerHTML = "Other users' scores";
-                document.getElementById('no-data-tag2').innerHTML = "Other users' scores";
-                document.getElementById('no-data-tag3').innerHTML = "Other users' scores";
-                document.getElementById('no-data-text').innerHTML = "To see your own scores, complete the task <a href='/tasks/stroop'>here</a>.";
-            } else {
-                document.getElementById('no-data-tag').innerHTML = "You relative to others";
-                document.getElementById('no-data-tag2').innerHTML = "You relative to others";
-                document.getElementById('no-data-tag3').innerHTML = "You relative to others";
-            }
+        // subject_id and time will be used to filter arrays for plotting subject data
+        const info = sessionStorage.getObj("info_");
+        if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
+            subject_id = null;
+            time = null;
+        } else {
+            subject_id = info.subject;
+            start_time = info.time;
+        }
+
+        if (!subject_id) {
+            document.getElementById('no-data-tag').innerHTML = "Other users' grit";
+            document.getElementById('no-data-tag2').innerHTML = "Other users' grit";
+            document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
+        } else {
+            document.getElementById('no-data-tag').innerHTML = "Your grit relative to others";
+            document.getElementById('no-data-tag2').innerHTML = "Your grit relative to others";
+        }
     </script>
 
+    <!-- Mean response density -->
+    <script type="text/javascript" defer>
 
-
-
-
-
-    <!-- Reaction time density -->
-    <script type="text/javascript">
-        var temp_data = data_array.filter(i =>
-                i.type == "congruent" ||
-                i.type == "incongruent" ||
-                i.type == "neutral").filter(i => i.param == "rt");
-        var rt_density = {
+        var mean_density = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { title: null, labelFontSize: 15, labelFont: "Inter-UI-upright", orient: "bottom" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             layer: [
                 {
-                    data: { values: temp_data},
+                    data: { values: data_array.filter(i => i.type == "all") },
                     transform: [{
-                        groupby: ["type"],
                         density: "value",
                     }],
-                    mark: { type: "area", color: "#3755be", opacity: 0.5, tooltip: true },
-                    encoding: {
-                        x: {
-                            type: "quantitative",
-                            field: "value",
-                            title: "Reaction times (ms)",
-                            // scale: {}
-                        },
-                        y: {
-                            type: "quantitative",
-                            field: "density",
-                            title: "Frequency (density)",
-                            // scale: {}
-                        },
-                        color: { field: "type", type: "nominal" },
-                        tooltip: [
-                            { field: 'type', title: 'Trial type', type: "nominal" },
-                            { field: 'value', format: ".0f", title: 'Reaction time (ms)', type: "quantitative" }, 
-                            { field: 'density', title: 'Density', type: "quantitative", format: ".4f"}]
-                    }
-                },
-                {
-                    data: (function () { // anonymous function
-                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: temp_data.filter(i => i.subject == subject_id).slice(0,3) };
-                        } else {  // don't draw vertical rule
-                            return { values: [] };
-                        }
-                    }()),
-                    mark: { type: "rule", opacity: 0.8 },
-                    encoding: {
-                        x: { field: "value", type: "quantitative" },
-                        color: { field: "type", type: "nominal" },
-                        size: { value: 3 },
-                        tooltip: [
-                            { field: 'type', title: 'Trial type', type: "nominal" },
-                            { field: 'value', format: ".0f", title: 'Your reaction time (ms)', type: "quantitative" }]
-                    },
-                }
-            ],
-            width: 550,
-            height: 400,
-        };
-    </script>
-
-
-
-
-    <!-- Reaction time interference density -->
-    <script type="text/javascript">
-        var rt_interference_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
-            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-            background: "#f3f5fb",
-            layer: [
-                {
-                    data: { values: data_array.filter(x => x.type == 'interference' && x.param == "rt") },
-                    transform: [{density: "value"}],
                     mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
                     encoding: {
                         x: {
                             type: "quantitative",
                             field: "value",
-                            title: "Incongruent minus congruent (ms)",
-                            // scale: {}
+                            title: "Response value",
                         },
                         y: {
                             type: "quantitative",
                             field: "density",
                             title: "Frequency (density)",
-                            // scale: {}
                         },
-                        color: { value: "#38405C", type: "quantitative" },
-                        tooltip: [
-                            { field: 'value', format: ".0f", title: 'Interference (ms)', type: "quantitative" }, 
-                            { field: 'density', title: 'Density', type: "quantitative", format: ".4f"}]
+                        color: { value: "#38405C", type: "nominal" },
+                        tooltip: [{ field: 'value', format: ".3f", title: 'Response value', type: "quantitative" }, { field: 'density', title: 'Density', type: "quantitative" }]
                     }
                 },
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: data_array.filter(i => i.subject == subject_id && i.type == "interference" && i.param == "rt").slice(0,1) };
+                            return { values: data_array.filter(i => i.subject == subject_id && i.type == "all").slice(0, 1) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -395,10 +262,72 @@
                     mark: { type: "rule", opacity: 0.7 },
                     encoding: {
                         x: { field: "value", type: "quantitative" },
-                        color: { value: "#38405C", type: "quantitative" },
+                        color: { value: "#38405C", type: "nominal" },
                         size: { value: 3 },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Your interference (ms)', type: "quantitative" }]
+                            { field: 'value', format: ".3f", title: 'Your response value', type: "quantitative" }]
+                    },
+                }
+            ],
+            // title: "Aggregate AUC density",
+            width: 540,
+            height: 400,
+        };
+
+    </script>
+
+
+
+
+
+
+    <!-- Subscale box plot -->
+    <script type="text/javascript" defer>
+
+        var subscale_boxplot = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            layer: [
+                {
+                    data: { values: data_array.filter(i => i.type != "all") },
+                    mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
+                    encoding: {
+                        y: {
+                            field: "value",
+                            type: "quantitative",
+                            axis: { "title": "Response value" }
+                        },
+                        x: {
+                            field: "type",
+                            type: "nominal",
+                            axis: { "title": "Subscale", tickMinStep: 20, labelAngle: 0, labelExpr: "replace(datum.label, '_', ' ')" },
+                        },
+                        size: { value: 18 },
+                        color: { field: "type", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
+                        tooltip: [
+                            { field: 'value', type: "quantitative", format: '.2f', title: "Response value", aggregate: "mean" }
+                        ]
+                    }
+                },
+                {
+                    // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
+                    data: (function () { // anonymous function
+                        if (subject_id) {
+                            return { values: data_array.filter(i => i.subject == subject_id && i.type != 'all').slice(0, 2) };
+                        } else {  // don't draw vertical rule
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
+                    encoding: {
+                        x: {
+                            field: "type",
+                            type: "nominal",
+                        },
+                        y: { field: "value", type: "quantitative" },
+                        size: { value: 150 },
+                        tooltip: [{ field: "value", format: ".3f", title: 'Your response value', type: "quantitative" }] // format tooltip
                     },
                 }
             ],
@@ -415,78 +344,9 @@
 
 
 
-
-
-
-
-    
-
-
-
-
-    <!-- DDM parameters box plot -->
-    <script type="text/javascript">
-        var ddm_box_plot = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
-            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-            background: "#f3f5fb",
-            layer: [
-                {
-                    data: { values: data_array.filter(i => i.type == 'ddm') },
-                    mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
-                    encoding: {
-                        x: {
-                            field: "param",
-                            type: "nominal",
-                            // rename label: https://github.com/vega/vega-lite/issues/5122#issuecomment-517006921
-                            //  https://vega.github.io/vega/docs/expressions/
-                            axis: { title: "Model parameter", labelAngle: 0, labelExpr: "replace(datum.label, 'nondecisiontime', 'non-decision time')"},
-                        },
-                        y: {
-                            field: "value",
-                            type: "quantitative",
-                            title: "Value"
-                        },
-                        size: { value: 18 },
-                        color: { field: "value", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
-                        tooltip: [
-                            { field: 'value', type: "quantitative", format: '.3f', title: "abc", aggregate: "mean" },
-                        ]
-                    }
-                },
-                {
-                    data: (function () { // anonymous function
-                        if (subject_id) {
-                            return { values: data_array.filter(i => i.type == 'ddm' && i.subject == subject_id).slice(0,3) };
-                        } else {  // don't draw points
-                            return { values: [] };
-                        }
-                    }()),
-                    mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
-                    encoding: {
-                        x: { field: "param", type: "nominal" },
-                        y: { field: "value", type: "quantitative", scale: {} },
-                        size: { value: 150 },
-                        tooltip: [
-                            { field: "value", format: ".3f", title: 'You', type: "quantitative" }
-                        ] // format tooltip
-                    },
-                },
-            ],
-            width: 500,
-            height: 400,
-        };
-    </script>
-
-
-
-
-
-
-
-    <!-- Reaction time interference choropleth -->
-    <script>
-        var global_interference_plot = {
+    <!-- Global response mean choropleth -->
+    <script defer>
+        var global_mean_plot = {
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: { stroke: "transparent" } },
             background: "#f3f5fb",
@@ -527,7 +387,7 @@
                             from: {
                                 data: { values: country_array },
                                 key: "country_id",
-                                fields: ["rt_interference", "country_name"]
+                                fields: ["mean_resp", "country_name"]
                             },
                         }
                     ],
@@ -539,7 +399,7 @@
                     },
                     encoding: {
                         color: {
-                            field: "rt_interference",
+                            field: "mean_resp",
                             type: "quantitative",
                             scale: { scheme: "viridis" },
                             legend: { title: null, direction: "horizontal", orient: "bottom-left" }
@@ -551,37 +411,18 @@
                                 type: "nominal"
                             },
                             {
-                                field: "rt_interference",
-                                title: "Incongruent-congruent (ms)",
+                                field: "mean_resp",
+                                title: "Mean response",
                                 type: "quantitative",
-                                format: ".0f"
+                                format: ".3f"
                             },
                         ]
                     }
                 }
             ]
         };
+
     </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     <!--show vegalite figures-->
     <script>
@@ -590,19 +431,16 @@
             "fontLoaded": function (f) {
                 console.log("font loaded: " + f.family);
             }, "complete": function (error) {
-                vegaEmbed('#vis1', rt_density, { actions: { source: false, compiled: false, editor: false } });
-                vegaEmbed('#vis2', rt_interference_density, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
-                vegaEmbed('#vis3', ddm_box_plot, { actions: { source: false, compiled: false, editor: false } });
-                vegaEmbed('#vis4', global_interference_plot, { actions: { source: false, compiled: false, editor: false } });
-                // vegaEmbed('#vis4', strip_plot, { actions: { source: false, compiled: false, editor: false } });
-                
+                vegaEmbed('#vis1', subscale_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+                vegaEmbed('#vis2', mean_density, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis3', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
             }
         }, 3000);
         fontLoader.loadFonts();
     </script>
 
     <%- include('../partials/footer_viz') %>
-    
 
+</body>
 
 </html>
