@@ -69,14 +69,6 @@ function deleteData(datalibrary, doc) {
     };
 }
 
-function isLoggedIn(req, res, next) { // //req.isAuthenticated() will return true if user is logged in
-    if(req.isAuthenticated()){
-        return next();
-    }
-    req.session.returnTo = req.url;
-    res.redirect("/login");
-}
-
 function cssFix(req, res, page) {
     var c = req.originalUrl.split('/').length - 1;
     var c = "../".repeat(c);
