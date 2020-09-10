@@ -3,8 +3,7 @@ var router = express.Router();
 var msg = "";
 const helper = require('../routes/helpers/helpers');
 const DataLibrary = require("../models/datalibrary");
-var middleware = require("../middleware");
-const middleware = require('../middleware');
+const middleware = require("../middleware");
 
 
 router.get('/delete1', middleware.isLoggedIn, function (req, res) {

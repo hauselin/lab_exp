@@ -77,4 +77,4 @@ function cssFix(req, res, page) {
     res.status(200).render(page, { c1: c1, c2: c2 });
 }
 
-module.exports = { json2csv, doc2datastring, deleteData, pick, isLoggedIn, cssFix }
+module.exports = { json2csv, doc2datastring, deleteData, pick, cssFix }
