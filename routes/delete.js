@@ -21,11 +21,7 @@ router.get('/delete1', helper.isLoggedIn, function (req, res) {
                     }
                 })
             }
-            var c = req.originalUrl.split('/').length - 1;
-            var c = "../".repeat(c);
-            const c1 = c + "public/assets/css/loaders/loader-typing.css";
-            const c2 = c + "public/assets/css/theme.css";                
-            res.status(200).render(msg, { c1: c1, c2: c2 });
+            helper.cssFix(req, res, msg);
         })
         .catch(err => {
             console.log(err);
@@ -50,11 +46,7 @@ router.get('/:type/:uniquestudyid/:deleten', helper.isLoggedIn, function (req, r
                     helper.deleteData(DataLibrary, doc);
                     msg = "successDelete";
                 }
-                var c = req.originalUrl.split('/').length - 1;
-                var c = "../".repeat(c);
-                const c1 = c + "public/assets/css/loaders/loader-typing.css";
-                const c2 = c + "public/assets/css/theme.css";                
-                res.status(200).render(msg, { c1: c1, c2: c2 });
+                helper.cssFix(req, res, msg);
             })
             .catch(err => {
                 console.log(err);
@@ -80,11 +72,7 @@ router.get('/:type/:uniquestudyid/delete/:yyyy', helper.isLoggedIn, function (re
                 helper.deleteData(DataLibrary, doc);
                 msg = "successDelete";
             }
-            var c = req.originalUrl.split('/').length - 1;
-            var c = "../".repeat(c);
-            const c1 = c + "public/assets/css/loaders/loader-typing.css";
-            const c2 = c + "public/assets/css/theme.css";                
-            res.status(200).render(msg, { c1: c1, c2: c2 });
+            helper.cssFix(req, res, msg);
         })
         .catch(err => {
             console.log(err);
@@ -110,11 +98,7 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm', helper.isLoggedIn, function
                 helper.deleteData(DataLibrary, doc);
                 msg = "successDelete";
             }
-            var c = req.originalUrl.split('/').length - 1;
-            var c = "../".repeat(c);
-            const c1 = c + "public/assets/css/loaders/loader-typing.css";
-            const c2 = c + "public/assets/css/theme.css";                
-            res.status(200).render(msg, { c1: c1, c2: c2 });
+            helper.cssFix(req, res, msg);
         })
         .catch(err => {
             console.log(err);
@@ -141,11 +125,7 @@ router.get('/:type/:uniquestudyid/delete/:yyyy/:mm/:dd', helper.isLoggedIn, func
                 helper.deleteData(DataLibrary, doc);
                 msg = "successDelete";
             }
-            var c = req.originalUrl.split('/').length - 1;
-            var c = "../".repeat(c);
-            const c1 = c + "public/assets/css/loaders/loader-typing.css";
-            const c2 = c + "public/assets/css/theme.css";                
-            res.status(200).render(msg, { c1: c1, c2: c2 });
+            helper.cssFix(req, res, msg);
         })
         .catch(err => {
             console.log(err);
@@ -170,11 +150,7 @@ router.get('/:type/:uniquestudyid/deletesub/:subject', helper.isLoggedIn, functi
                 helper.deleteData(DataLibrary, doc);
                 msg = "successDelete";
             }
-            var c = req.originalUrl.split('/').length - 1;
-            var c = "../".repeat(c);
-            const c1 = c + "public/assets/css/loaders/loader-typing.css";
-            const c2 = c + "public/assets/css/theme.css";                
-            res.status(200).render(msg, { c1: c1, c2: c2 });
+            helper.cssFix(req, res, msg);
         })
         .catch(err => {
             console.log(err);
