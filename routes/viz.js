@@ -77,7 +77,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
         })
         // console.log(country_array)
 
-        res.render('viz/stroop.ejs', { data_array: data_array, country_array: country_array });            
+        res.render('viz/stroop.ejs', { data_array: data_array, country_array: country_array });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);
@@ -87,6 +87,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
 router.get("/surveys/gritshort/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'gritshort' }, {}, { sort: { time: -1 } }).lean().then(data => {
 
+        var data_array2 = [];
         var data_array = [];
         data.map(function (i) {
             var temp_data = i.datasummary;
@@ -94,9 +95,42 @@ router.get("/surveys/gritshort/viz", function (req, res) {
                 s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))
             })
             data_array.push(temp_data);
+
+            var temp_data2 = i.data;
+            temp_data2 = temp_data2.filter(x => x.trial_type == 'html-slider-response')
+            // console.log(temp_data2);
+            subject_map = d3.rollups(temp_data2,
+                function (v) {
+                    return {
+                        subject: d3.min(v, d => d.subject),
+                        time: d3.min(v, d => d.time),
+                        value: d3.mean(v, d => d.resp_reverse),
+                        country_name: d3.min(v, d => d.country),
+                        country_code: d3.min(v, d => d.country_code),
+                        country_id: d3.min(v, d => Number(iso_countries.alpha2ToNumeric(d.country_code)))
+                    }
+                },
+                d => d.subscale);
+            all_subscales = [
+                'all',
+                {
+                    subject: subject_map[0][1].subject,
+                    time: subject_map[0][1].time,
+                    value: (subject_map[0][1].value + subject_map[1][1].value)/2,
+                    country_name: subject_map[0][1].country_name,
+                    country_code: subject_map[0][1].country_code,
+                    country_id: subject_map[0][1].country_id
+                }
+            ];
+            subject_map.push(all_subscales);
+            data_array2.push(subject_map);
         });
         data_array = data_array.flat(1);
-        // console.log(data_array)
+        data_array2 = data_array2.flat(1);
+
+        data_array2 = Array.from(data_array2, function (i) {
+            return { type: i[0], subject: i[1].subject, value: i[1].value, time: i[1].time, country_name: i[1].country_name, country_code: i[1].country_code, country_id: i[1].country_id, }
+        })
 
         var temp_data = data_array.filter(x => x.type == "all");
         // console.log(temp_data)
@@ -115,7 +149,7 @@ router.get("/surveys/gritshort/viz", function (req, res) {
         // console.log(country_array);
 
         // render
-        res.render('viz/gritshort.ejs', { data_array: data_array, country_array: country_array });
+        res.render('viz/gritshort.ejs', { data_array: data_array2, country_array: country_array });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);
