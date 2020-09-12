@@ -18,4 +18,9 @@ var studies = [
     { uniquestudyid: 'studyA', name: 'Study A', description: 'Description', time: '3-5 minutes' }
 ];
 
-module.exports = { surveys, tasks, studies };
+var tasks_to_try = [
+    { route: '/tasks/delaydiscount', uniquestudyid: 'delaydiscount', name: 'Delay discount', description: 'Choose your preferred reward.', time: '3-5 minutes' },
+    { route: '/tasks/stroop', uniquestudyid: 'stroop', name: 'Stroop', description: 'Respond to prompted texts with their colours.', time: '5-10 minutes' },
+];
+
+module.exports = { surveys, tasks, studies, tasks_to_try };
