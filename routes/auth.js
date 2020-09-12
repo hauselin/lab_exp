@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 const User = require("../models/user");
-const pass = "PH6u7U_ZJZn*CuE@w=e@";
+var password = require("../password");
+const pass = password;
 
 router.get("/register", function(req, res) {
     res.render("register");
