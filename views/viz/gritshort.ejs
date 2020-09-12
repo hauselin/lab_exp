@@ -301,7 +301,7 @@
                         x: {
                             field: "type",
                             type: "nominal",
-                            axis: { "title": "", tickMinStep: 20, labelAngle: 0, labelExpr: "replace(datum.label, '_', ' ')" },
+                            axis: { "title": "", tickMinStep: 20, labelAngle: 0, labelExpr: "if(datum.label=='consistent_interest', 'Interest consistency', 'Effort perseverence')" },
                         },
                         size: { value: 18 },
                         color: { field: "type", legend: null, scale: { scheme: "viridis" }, type: "nominal" },

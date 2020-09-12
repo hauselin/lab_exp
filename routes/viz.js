@@ -62,7 +62,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
         // prepare data for chloropleth
         // compute median rt interference for each country
         var temp_data = data_array.filter(x => x.type == "interference" && x.param == "rt");
-        console.log(temp_data)
+        // console.log(temp_data)
         country_array = d3.rollups(temp_data,
             function (v) {
                 return {
@@ -96,7 +96,7 @@ router.get("/surveys/gritshort/viz", function (req, res) {
             data_array.push(temp_data);
         });
         data_array = data_array.flat(1);
-        console.log(data_array)
+        // console.log(data_array)
 
         var temp_data = data_array.filter(x => x.type == "all");
         // console.log(temp_data)
