@@ -248,7 +248,7 @@
                             title: "Frequency (density)",
                         },
                         color: { value: "#38405C", type: "nominal" },
-                        tooltip: [{ field: 'value', format: ".3f", title: 'Response value', type: "quantitative" }, { field: 'density', title: 'Density', type: "quantitative" }]
+                        tooltip: [{ field: 'value', format: ".1f", title: 'Response value', type: "quantitative" }, { field: 'density', format: ".1f", title: 'Density', type: "quantitative" }]
                     }
                 },
                 {
@@ -265,7 +265,7 @@
                         color: { value: "#38405C", type: "nominal" },
                         size: { value: 3 },
                         tooltip: [
-                            { field: 'value', format: ".3f", title: 'Your response value', type: "quantitative" }]
+                            { field: 'value', format: ".1f", title: 'Your response value', type: "quantitative" }]
                     },
                 }
             ],
@@ -306,7 +306,7 @@
                         size: { value: 18 },
                         color: { field: "type", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
                         tooltip: [
-                            { field: 'value', type: "quantitative", format: '.2f', title: "Response value", aggregate: "mean" }
+                            { field: 'value', type: "quantitative", format: '.1f', title: "Response value", aggregate: "mean" }
                         ]
                     }
                 },
@@ -327,7 +327,7 @@
                         },
                         y: { field: "value", type: "quantitative" },
                         size: { value: 150 },
-                        tooltip: [{ field: "value", format: ".3f", title: 'Your response value', type: "quantitative" }] // format tooltip
+                        tooltip: [{ field: "value", format: ".1f", title: 'Your response value', type: "quantitative" }] // format tooltip
                     },
                 }
             ],
@@ -414,7 +414,7 @@
                                 field: "mean_resp",
                                 title: "Mean response",
                                 type: "quantitative",
-                                format: ".3f"
+                                format: ".1f"
                             },
                         ]
                     }
