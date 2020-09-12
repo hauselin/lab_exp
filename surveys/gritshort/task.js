@@ -7,7 +7,6 @@ const taskinfo = {
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 
 const debug = false;  // debug mode to print messages to console and display json data at the end
 // TODO Frank: black background doesn't work here... weird (has to do with the way the timelinevariable is nested within a function): stimulus: jsPsych.timelineVariable('desc'),
@@ -48,7 +47,6 @@ function run_survey(survey) {
         desc: taskinfo.desc,
         condition: taskinfo.condition,
         info_: info_,
-        datasummary_: datasummary_
     });
 
     var start_point;
@@ -98,13 +96,13 @@ function run_survey(survey) {
         timeline: timeline,
         on_finish: function () {
             document.body.style.backgroundColor = 'white';
-            var datasummary_ = create_datasummary_();
+            var datasummary = create_datasummary();
             info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
-            console.log(datasummary_);
+            console.log(datasummary);
             jsPsych.data.get().addToAll({ // add objects to all trials
                 info_: info_,
-                datasummary_: datasummary_,
-                total_time: datasummary_.total_time,
+                datasummary: datasummary,
+                total_time: datasummary.total_time,
             });
             if (debug) {
                 jsPsych.data.displayData();
@@ -121,7 +119,7 @@ function preprocess_grit() {  //
     return data_sub;
 }
 
-function create_datasummary_() {
+function create_datasummary() {
     var d = preprocess_grit(); // preprocess/clean data
 
     // select trials for each subscale
@@ -134,19 +132,19 @@ function create_datasummary_() {
     var mean_resp = d.select('resp_reverse').mean();
     
     // store above info in array
-    var datasummary_ = [
+    var datasummary = [
         { type: "consistent_interest", param: "resp_reverse", value: consistent_resp },
         { type: "persevere_effort", param: "resp_reverse", value: persevere_resp },
         { type: "all", param: "resp_reverse", value: mean_resp },
     ];
 
     // add id/country information
-    datasummary_.forEach(function (s) {
+    datasummary.forEach(function (s) {
         s.subject = info_.subject;
         s.time = info_.time;
         s.country_code = info_.country_code;
         s.country_name = info_.country_name;
     })
 
-    return datasummary_
+    return datasummary
 }

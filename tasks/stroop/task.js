@@ -7,7 +7,6 @@ const taskinfo = {
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 
 const debug = true;  // debug mode to print messages to console and display json data at the end
 const black_background = true; // if true, white text on black background
@@ -131,7 +130,6 @@ jsPsych.data.addProperties({
     desc: taskinfo.desc,
     condition: taskinfo.condition,
     info_: info_,
-    datasummary_: datasummary_
 });
 
 // create experiment timeline
@@ -287,13 +285,13 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        var datasummary_ = create_datasummary_();
+        var datasummary = create_datasummary();
         info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
-        console.log(datasummary_);
+        console.log(datasummary);
         jsPsych.data.get().addToAll({ // add objects to all trials
             info_: info_,
-            datasummary_: datasummary_,
-            total_time: datasummary_.total_time,
+            datasummary: datasummary,
+            total_time: datasummary.total_time,
         });
         if (debug) {
             jsPsych.data.displayData();
@@ -314,7 +312,7 @@ function preprocess_stroop() {  //
     return data_sub;
 }
 
-function create_datasummary_() {
+function create_datasummary() {
     var d = preprocess_stroop(); // preprocess/clean data
     var ddm_params = fit_ezddm_to_jspsych_data(d);  // calculate ddm parameters
 
@@ -345,7 +343,7 @@ function create_datasummary_() {
     }
 
     // store above info in array
-    var datasummary_ = [
+    var datasummary = [
         { type: "congruent", param: "rt", value: congruent_rt },
         { type: "incongruent", param: "rt", value: incongruent_rt },
         { type: "neutral", param: "rt", value: neutral_rt },
@@ -360,11 +358,11 @@ function create_datasummary_() {
     ];
 
     // add id/country information
-    datasummary_.forEach(function (s) {
+    datasummary.forEach(function (s) {
         s.subject = info_.subject;
         s.country_code = info_.country_code;
         s.country_name = info_.country_name;
     })
 
-    return datasummary_
+    return datasummary
 }

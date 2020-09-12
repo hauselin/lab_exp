@@ -5,7 +5,7 @@ const DataLibrary = require("../models/datalibrary")
 router.post('/submit-data', function (req, res) {
     const rawdata = req.body;  // data from jspsych
     const info = rawdata[0].info_; // get info_ from object/trial 0
-    const datasummary = rawdata[0].datasummary_;  // get datasummary_ from object/trial 0
+    const datasummary = rawdata[0].datasummary;  // get datasummary_ from object/trial 0
 
     // add columns/properties to each row/trial/object in data
     rawdata.forEach(function (i) {
@@ -38,7 +38,7 @@ router.post('/submit-data', function (req, res) {
         previous_time: info.previous_time,
         previous_mins_before: info.previous_mins_before,
         info_: info,
-        datasummary_: datasummary,
+        datasummary: datasummary,
         browser: info.browser,
         time: info.time,
         utc_datetime: info.utc_datetime,

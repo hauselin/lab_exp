@@ -281,7 +281,7 @@ function create_info_(params) {
     info_ = { ...info_, ...get_query_string() }; // add parameters from query string into info_
     // IMPORTANT: if url query parameters exist, they'll ALWAYS overwrite existing properties with the same name (url parameters take precedence!)
 
-    info_.datasummary_name = "datasummary_" + info_.uniquestudyid + "_";
+    // info_.datasummary_name = "datasummary_" + info_.uniquestudyid + "_";
 
     console.log("Friendly reminder: If URL query parameters exist, they'll overwrite properties with the same name in info_")
 

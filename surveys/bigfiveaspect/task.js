@@ -7,7 +7,6 @@ const taskinfo = {
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 
 const debug = true;  // debug mode to print messages to console and display json data at the end
 // TODO Frank: black background doesn't work here... weird (has to do with the way the timelinevariable is nested within a function): stimulus: jsPsych.timelineVariable('desc'),
@@ -53,7 +52,6 @@ function run_survey(survey) {
         desc: taskinfo.desc,
         condition: taskinfo.condition,
         info_: info_,
-        datasummary_: datasummary_
     });
 
     var start_point;
@@ -108,7 +106,6 @@ function run_survey(survey) {
                 jsPsych.data.displayData();
             }
             sessionStorage.setObj('info_', info_); // save to sessionStorage
-            sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
             submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
         }
     });

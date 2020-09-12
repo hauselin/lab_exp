@@ -1,6 +1,6 @@
 ## Information
 
-DELAY DISCOUNT! Euismod phasellus ultrices dapibus elit iacul
+GRIT SHORT CONSENT! Euismod phasellus ultrices dapibus elit iacul
 
 ## Just another section
 

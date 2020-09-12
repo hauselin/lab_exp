@@ -49,7 +49,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'stroop' }, {}, { sort: { time: -1 } }).lean().then(data => {
         var data_array = [];
         data.map(function (i) {  // map/loop through each document to get relevant data
-            var temp_data = i.datasummary_; // get datasummary_
+            var temp_data = i.datasummary; // get datasummary
             // convert country code to country id
             temp_data.forEach(function (s) {
                 s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))
@@ -89,7 +89,7 @@ router.get("/surveys/gritshort/viz", function (req, res) {
 
         var data_array = [];
         data.map(function (i) {
-            var temp_data = i.datasummary_;
+            var temp_data = i.datasummary;
             temp_data.forEach(function (s) {
                 s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))
             })

@@ -7,7 +7,6 @@ const taskinfo = {
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 
 const debug = false;  // debug mode to print messages to console and display json data at the end
 const black_background = true; // if true, white text on black background
@@ -48,7 +47,6 @@ jsPsych.data.addProperties({
     desc: taskinfo.desc,
     condition: taskinfo.condition,
     info_: info_,
-    datasummary_: datasummary_
 });
 
 // create experiment timeline
@@ -175,13 +173,13 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        datasummary_ = summarize_data(); // summarize data
+        var datasummary = summarize_data(); // summarize data
         info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
         jsPsych.data.get().addToAll({ // add objects to all trials
             info_: info_,
-            datasummary_: datasummary_,
-            total_time: datasummary_.total_time,
-            auc: datasummary_.auc,
+            datasummary: datasummary,
+            total_time: datasummary.total_time,
+            auc: datasummary.auc,
             stimuli_sides: stimuli_sides
         });
         if (debug) {
@@ -194,10 +192,11 @@ jsPsych.init({
 
 // functions to summarize data below
 function summarize_data() {
-    datasummary_.trials_per_cost = trials_per_cost;
-    datasummary_.auc = get_auc();
-    datasummary_.total_time = jsPsych.totalTime() / 60000;
-    return datasummary_;
+    datasummary = {};
+    datasummary.trials_per_cost = trials_per_cost;
+    datasummary.auc = get_auc();
+    datasummary.total_time = jsPsych.totalTime() / 60000;
+    return datasummary;
 }
 
 function get_auc() {    //note that this area is an underestimation of the hyperbolic curve, as the width of the histogram bars are bounded by the lower cost and the entry's cost.
@@ -207,10 +206,10 @@ function get_auc() {    //note that this area is an underestimation of the hyper
     var cost_data = trial_data.select('cost').values;
     var sorted_costs = cost_data.slice(0, cost_data.length).sort(function (a, b) { return a - b });  // sort a sliced copy of cost_data (try to keep things local as much as we can, so we avoid using the global costs variable) 
     
-    // save values in datasummary_
-    datasummary_.indifference = indifference_data;
-    datasummary_.delayed_reward = delayed_reward_data;
-    datasummary_.cost = cost_data;
+    // save values in datasummary
+    datasummary.indifference = indifference_data;
+    datasummary.delayed_reward = delayed_reward_data;
+    datasummary.cost = cost_data;
 
     // compute area for each cost
     var bar_areas = [];
