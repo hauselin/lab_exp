@@ -99,7 +99,7 @@ router.get('/tasks', function (req, res) {
         DataLibrary.find({ uniquestudyid: 'symbolcount' }),
         DataLibrary.find({ uniquestudyid: 'updatemath' })
     ]).then(([delaydiscount, stroop, symbolcount, updatemath]) => {
-        res.render("tasks.ejs", { entries: [delaydiscount.length, stroop.length, symbolcount.length, updatemath.length], tasks: page_elements.tasks});
+        res.render("tasks.ejs", { entries: {delaydiscount: delaydiscount.length, stroop: stroop.length, symbolcount: symbolcount.length, updatemath: updatemath.length}, tasks: page_elements.tasks});
     })
 });
 
@@ -108,7 +108,7 @@ router.get('/surveys', function (req, res) {
         DataLibrary.find({ uniquestudyid: 'bigfiveaspect' }),
         DataLibrary.find({ uniquestudyid: 'gritshort' }),
     ]).then(([bigfiveaspect, gritshort]) => {
-        res.render("surveys.ejs", { entries: [bigfiveaspect.length, gritshort.length, bigfiveaspect.length, gritshort.length], surveys: page_elements.surveys });
+        res.render("surveys.ejs", { entries: {gritshort: gritshort.length, bigfiveaspect: bigfiveaspect.length}, surveys: page_elements.surveys });
     })
 });
 

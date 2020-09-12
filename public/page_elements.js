@@ -11,7 +11,7 @@ var tasks = [
     { uniquestudyid: 'symbolcount', name: 'Symbol counting', description: 'Description...', time: '3-5 minutes' },
     { uniquestudyid: 'stroop', name: 'Stroop', description: 'Respond to prompted texts with their colours.', time: '3-5 minutes' },
     { uniquestudyid: 'symbolcount', name: 'Symbol counting', description: 'Description...', time: '3-5 minutes' },
-    { uniquestudyid: 'mentalmath', name: 'Mental math', description: 'Description...', time: '3-5 minutes' }
+    { uniquestudyid: 'updatemath', name: 'Mental math', description: 'Description...', time: '3-5 minutes' }
 ];
 
 var studies = [
