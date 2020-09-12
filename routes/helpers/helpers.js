@@ -33,19 +33,6 @@ function json2csv(objArray) {
     return result;
 }
 
-// function doc2datastring(doc) {
-//     var datastring = '';
-//     for (var i = 0; i < doc.length; i++) {
-//         if (i == 0) { // save header from csv
-//             datastring += json2csv(doc[i].data);
-//         } else { // if not the first document, remove header row from csv 
-//             var temp_datastring = json2csv(doc[i].data);
-//             datastring += temp_datastring.slice(temp_datastring.indexOf("\n"));
-//         }
-
-//     } return datastring;
-// }
-
 // function for donwload routes
 function doc2datastring(doc) {
     // get data from each document (so that each document's data objects will be in one array), then flatten the arrays, then convert flattend array to csv
@@ -69,11 +56,15 @@ function deleteData(datalibrary, doc) {
     };
 }
 
-function isLoggedIn(req, res, next) { // //req.isAuthenticated() will return true if user is logged in
-    if (req.isAuthenticated()) {
-        return next();
+function cssFix(req, res, page, code) {
+    if (code === undefined) {
+        var code = 200;
     }
-    res.redirect("/login");
+    var c = req.originalUrl.split('/').length - 1;
+    var c = "../".repeat(c);
+    const c1 = c + "public/assets/css/loaders/loader-typing.css";
+    const c2 = c + "public/assets/css/theme.css";                
+    res.status(code).render(page, { c1: c1, c2: c2 });
 }
 
 function deepCopy(obj) {
@@ -98,4 +89,4 @@ function deepCopy(obj) {
     }
 }
 
-module.exports = { json2csv, doc2datastring, deleteData, pick, isLoggedIn, deepCopy }
+module.exports = { json2csv, doc2datastring, deleteData, pick, deepCopy, cssFix }

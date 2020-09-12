@@ -8,6 +8,7 @@ var express = require("express"),
     path = require('path'),
     User = require('./models/user'),
     DataLibrary = require('./models/datalibrary')
+    helper = require('./routes/helpers/helpers');
 
 var showRoutes = require('./routes/show'),
     indexRoutes = require('./routes/index'),
@@ -43,6 +44,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser()); // USED TO READING DATA FROM THE SESSION, WHAT DATA OF THE USER SHOULD BE STORED IN THE SESSION?
 passport.deserializeUser(User.deserializeUser()); // USED TO DECODE THE DATA FROM THE SESSION
 
+app.use(function(req, res, next){
+    res.locals.currentUser = req.user;
+    next();
+});
+
 // // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES
 app.use('/tasks', express.static(__dirname + "/tasks"));
 app.use('/surveys', express.static(__dirname + "/surveys"));
@@ -61,22 +67,12 @@ app.use(authRoutes);
 
 // Handle 404
 app.use(function (req, res) {
-    // res.redirect('/public/404.html');
-    var c = req.originalUrl.split('/').length - 1;
-    var c = "../".repeat(c);
-    const c1 = c + "public/assets/css/loaders/loader-typing.css";
-    const c2 = c + "public/assets/css/theme.css";
-    res.status(404).render("404", { c1: c1, c2: c2 });
+    helper.cssFix(req, res, "404", 404)
 });
 
 // Handle 500
 app.use(function (error, req, res, next) {
-    // res.redirect('/public/500.html'); 
-    var c = req.originalUrl.split('/').length - 1;
-    var c = "../".repeat(c);
-    const c1 = c + "public/assets/css/loaders/loader-typing.css";
-    const c2 = c + "public/assets/css/theme.css";
-    res.status(500).render("500", { c1: c1, c2: c2 });
+    helper.cssFix(req, res, "500", 500)
 });
 
 // START SERVER

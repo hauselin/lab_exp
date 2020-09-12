@@ -2,9 +2,10 @@ const express = require('express');
 const router = express.Router();
 const helper = require('../routes/helpers/helpers');
 const DataLibrary = require("../models/datalibrary");
+var middleware = require("../middleware");
 
 // route for downloading consent forms
-router.get("/:type/:uniquestudyid/consent", helper.isLoggedIn, function (req, res) {
+router.get("/:type/:uniquestudyid/consent", middleware.isLoggedIn, function (req, res) {
     var filename = 'consent.md'; // download filename
     var file = '../lab_exp/' + req.params.type + '/' + req.params.uniquestudyid + '/' + filename;
     // console.log(file);
@@ -16,12 +17,12 @@ router.get("/:type/:uniquestudyid/consent", helper.isLoggedIn, function (req, re
     });
 });
 
-router.get('/d1', helper.isLoggedIn, function (req, res) {
+router.get('/d1', middleware.isLoggedIn, function (req, res) {
     // Download the most recent document (regardless of task)
     DataLibrary.findOne({}, {}, { sort: { time: -1 } }).lean()
         .then(doc => {
-            if (doc === null) {
-                res.status(200).send("No documents to download.");
+            if (doc == null) {
+                helper.cssFix(req, res, "download");
             } else {
                 const filename = doc.type + "_" + doc.uniquestudyid + "_" + doc.subject + '.csv';
                 var datastring = helper.json2csv(doc.data);
@@ -31,38 +32,32 @@ router.get('/d1', helper.isLoggedIn, function (req, res) {
         })
         .catch(err => {
             console.log(err);
-            res.status(500).send(err);
+            res.status(200).send(err);
         });
 
 });
 
-router.get('/:type/:uniquestudyid/:dn', helper.isLoggedIn, function (req, res, next) {
-    // route is only d (without n), all documents will be downloaded
-    const n = Number(req.params.dn.slice(1));  // no. of docs requested
-    // Download most recent n document(s) for a given task
-    if (req.params.dn.slice(0, 6) == 'delete' || isNaN(n)) {
-        next();  // next route (delete route)
-    } else {
-        DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, { data: 1, _id: 0 },
-            { sort: { time: -1 }, limit: n }).lean()
-            .then(doc => {
-                if (doc.length > 0) {
-                    const filename = req.params.dn + "_" + req.params.type + "_" + req.params.uniquestudyid + ".csv";
-                    var datastring = helper.doc2datastring(doc);
-                    res.attachment(filename);
-                    res.status(200).send(datastring);
-                } else {
-                    res.status(200).send("Nothing's found!"); // empty page (use flash?) 
-                }
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).send(err);
-            });
-    }
+router.get('/:type/:uniquestudyid/d/n/:n', middleware.isLoggedIn, function (req, res, next) {
+    // if n is 0, all documents will be downloaded
+    DataLibrary.find({ uniquestudyid: req.params.uniquestudyid }, { data: 1, _id: 0 },
+        { sort: { time: -1 }, limit: Number(req.params.n) }).lean()
+        .then(doc => {
+            if (doc.length > 0) {
+                const filename = "dn" + req.params.n + "_" + req.params.type + "_" + req.params.uniquestudyid + ".csv";
+                var datastring = helper.doc2datastring(doc);
+                res.attachment(filename);
+                res.status(200).send(datastring);
+            } else {
+                helper.cssFix(req, res, "download");
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).send(err);
+        });
 });
 
-router.get('/:type/:uniquestudyid/d/:yyyy', helper.isLoggedIn, function (req, res) {
+router.get('/:type/:uniquestudyid/d/:yyyy', middleware.isLoggedIn, function (req, res) {
     // Filter and download documents by year for a given task
     DataLibrary.find(
         {
@@ -78,7 +73,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy', helper.isLoggedIn, function (req, re
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).send("Nothing's found!"); // empty page (use flash?) 
+                helper.cssFix(req, res, "download");
             }
         })
         .catch(err => {
@@ -87,7 +82,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy', helper.isLoggedIn, function (req, re
         });
 });
 
-router.get('/:type/:uniquestudyid/d/:yyyy/:mm', helper.isLoggedIn, function (req, res) {
+router.get('/:type/:uniquestudyid/d/:yyyy/:mm', middleware.isLoggedIn, function (req, res) {
     // Filter and download documents by year and month for a given task
     DataLibrary.find(
         {
@@ -104,7 +99,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm', helper.isLoggedIn, function (req
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).send("Nothing's found!"); // empty page (use flash?)
+                helper.cssFix(req, res, "download");
             }
         })
         .catch(err => {
@@ -113,7 +108,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm', helper.isLoggedIn, function (req
         });
 });
 
-router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', helper.isLoggedIn, function (req, res) {
+router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', middleware.isLoggedIn, function (req, res) {
     // Filter and download documents by year, month, and day for a given task
     DataLibrary.find(
         {
@@ -131,7 +126,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', helper.isLoggedIn, function 
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).send("Nothing's found!"); // empty page (use flash?) 
+                helper.cssFix(req, res, "download");
             }
         })
         .catch(err => {
@@ -141,7 +136,7 @@ router.get('/:type/:uniquestudyid/d/:yyyy/:mm/:dd', helper.isLoggedIn, function 
 
 });
 
-router.get('/:type/:uniquestudyid/dsub/:subject', helper.isLoggedIn, function (req, res) {
+router.get('/:type/:uniquestudyid/dsub/:subject', middleware.isLoggedIn, function (req, res) {
     // Filter and download documents by subject for a given task
     DataLibrary.find(
         {
@@ -157,7 +152,7 @@ router.get('/:type/:uniquestudyid/dsub/:subject', helper.isLoggedIn, function (r
                 res.attachment(filename);
                 res.status(200).send(datastring);
             } else {
-                res.status(200).send("Nothing's found!");
+                helper.cssFix("download");
             }
         })
         .catch(err => {

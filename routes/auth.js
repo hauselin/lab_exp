@@ -14,15 +14,14 @@ router.post("/register", function(req, res) {
         User.register(newUser, req.body.password, function(err, user) {
             if (err) {
                 //console.log(err);
-                console.log("Looks like you already have an account with us. Login to continue.");
-                return res.render("register");
+                return res.render("returnUser");
             }
             passport.authenticate("local")(req, res, function() { // if this gets called, authentication was successful
                 res.redirect("/");
             })
         });
     } else {
-        console.log("Cannot register user.")
+        res.render("registerError");
     }
 });
 
@@ -30,13 +29,11 @@ router.get("/login", function(req, res) {
     res.render("login");
 })
 
-// TODO Maham: redirect back to previous page after logging in?
-// https://stackoverflow.com/questions/13335881/redirecting-to-previous-page-after-authentication-in-node-js-using-passport-js
 router.post("/login", passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login" 
+    failureRedirect: "/login",
+    successReturnToOrRedirect: '/'
 }), function (req, res) {
-    console.log(res);
+    res.redirect(req.session.returnTo);
 });
 
 router.get("/logout", function(req, res) {

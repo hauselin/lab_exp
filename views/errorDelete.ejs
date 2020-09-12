@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Error</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="No documents found to delete">
+  <link href=<%=c1 %> rel="stylesheet" type="text/css" media="all" />
+  <link href=<%=c2 %> rel="stylesheet" type="text/css" media="all" />
+</head>
+
+<body>
+  <div class="loader">
+    <div class="loading-animation"></div>
+  </div>
+
+  <section class="min-vh-100 bg-primary-3 text-light py-5 o-hidden">
+    <div class="container">
+      <div class="row justify-content-center mb-md-6">
+        <div class="col-auto">
+        </div>
+      </div>
+      <div class="row text-center py-6">
+        <div class="col layer-2">
+          <h1 class="display-1 mb-0">Sorry</h1>
+          <br>
+          <div class="lead mb-4">No documents found to delete</div>
+          <a class="btn btn-primary btn-lg" href="/">Go back to home</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Removes page load animation when window is finished loading -->
+  <script type="text/javascript">
+    window.addEventListener("load", function () {    document.querySelector('body').classList.add('loaded');  });
+  </script>
+
+</body>
+
+</html>

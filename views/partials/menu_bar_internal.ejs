@@ -26,6 +26,18 @@
             <li class="nav-item">
               <a href="/studies" class="nav-link">Studies</a>
             </li>
+            <% if(!currentUser) { %>
+            <!-- <li class="nav-item">
+              <a href="/register" data-smooth-scroll class="nav-link">Register</a>
+            </li>
+            <li class="nav-item">
+              <a href="/login" data-smooth-scroll class="nav-link">Login</a>
+            </li>  -->
+            <% } else { %>
+            <li class="nav-item">
+              <a href="/logout" data-smooth-scroll class="nav-link">Logout</a>
+            </li>
+            <% } %>
             <!-- <li class="nav-item">
               <a href="/about" class="nav-link">About</a>
             </li> -->
