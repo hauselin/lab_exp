@@ -1,0 +1,16 @@
+<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+ <title>Icon For Arrow-up</title>
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="602" width="802" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_1" fill-rule="evenodd" fill="none">
+   <polygon fill="#ffffff" id="svg_2" opacity="0" points="0 0 24 0 24 24 0 24"/>
+   <rect id="svg_3" rx="1" height="14" width="2" y="5" x="11" fill="#ffffff"/>
+   <path id="svg_4" fill-rule="nonzero" fill="#ffffff" d="m6.70711,12.70711c-0.39053,0.39052 -1.02369,0.39052 -1.41422,0c-0.39052,-0.39053 -0.39052,-1.02369 0,-1.41422l6,-6c0.37858,-0.37858 0.98817,-0.39182 1.38283,-0.03004l6,5.5c0.40712,0.37319 0.43463,1.00576 0.06143,1.41287c-0.37319,0.40712 -1.00576,0.43463 -1.41287,0.06143l-5.2942,-4.85301l-5.32297,5.32297z"/>
+  </g>
+ </g>
+</svg>
