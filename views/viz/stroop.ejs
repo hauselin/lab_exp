@@ -8,7 +8,8 @@
     <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
     <script src="../../libraries/utils.js"></script>
     <script src="../../libraries/FontLoader.js"></script>
-    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
+        crossorigin="anonymous">
     <link href="../../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
     <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
 
@@ -65,7 +66,8 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg" alt="patch icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg"
+                        alt="patch icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Self-control and impulsivity</h5>
                         <p>
@@ -74,7 +76,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg" alt="miso-soup icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg"
+                        alt="miso-soup icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Other types of discounting behavior</h5>
                         <p>
@@ -83,7 +86,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg" alt="door-open icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg"
+                        alt="door-open icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Temporal preferences</h5>
                         <p>
@@ -94,7 +98,8 @@
             </div>
         </div>
         <div class="divider">
-            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic" data-inject-svg />
+            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
+                data-inject-svg />
         </div>
     </section>
     <section class="bg-primary-alt">
@@ -122,9 +127,12 @@
                                     praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
                                     excepturi
                                     sint occaecati.</p>
-                                <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
+                                <p class="lead mb">Cupiditate non provident, similique sunt in culpa qui officia
                                     deserunt
                                     mollitia animi, id est laborum et dolorum fuga.</p>
+                                <hr>
+                                <p id="percentile" class="lead mb"></p>
+                                <p id="percentile2" class="lead mb"></p>
                             </div>
                         </div>
                     </div>
@@ -232,7 +240,8 @@
                                 <span>3-4 min</span>
                             </div>
                         </a>
-                        <a href="/tasks/delaydiscount" class="list-group-item list-group-item-action row no-gutters py-3">
+                        <a href="/tasks/delaydiscount"
+                            class="list-group-item list-group-item-action row no-gutters py-3">
                             <div class="col-xl-8 col-lg-7 col-md-6">
                                 <h5 class="mb-0">Delay discount</h5>
                             </div>
@@ -263,26 +272,50 @@
         const country_array = <%- JSON.stringify(country_array) %>;
         const uniquestudyid = 'stroop';
 
+        var interference_array = data_array.filter(x => x.type == 'interference' && x.param == 'rt');
+        interference_array.sort(function (a, b) {
+            return a.value - b.value;
+        });
+        var interference_array_length = interference_array.length;
+        console.log(interference_array);
+
         // retrieve objects from sessionStorage
-            // subject_id and time will be used to filter arrays for plotting subject data
-            const info = sessionStorage.getObj("info_");
-            if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
-                subject_id = null;
-                time = null;
-            } else {
-                subject_id = info.subject;
-                start_time = info.time;
-            }
-            if (!subject_id) {
-                document.getElementById('no-data-tag').innerHTML = "Other users' scores";
-                document.getElementById('no-data-tag2').innerHTML = "Other users' scores";
-                document.getElementById('no-data-tag3').innerHTML = "Other users' scores";
-                document.getElementById('no-data-text').innerHTML = "To see your own scores, complete the task <a href='/tasks/stroop'>here</a>.";
-            } else {
-                document.getElementById('no-data-tag').innerHTML = "You relative to others";
-                document.getElementById('no-data-tag2').innerHTML = "You relative to others";
-                document.getElementById('no-data-tag3').innerHTML = "You relative to others";
-            }
+        // subject_id and time will be used to filter arrays for plotting subject data
+        const info = sessionStorage.getObj("info_");
+        if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
+            subject_id = null;
+            time = null;
+        } else {
+            subject_id = info.subject;
+            time = info.time;
+        }
+        if (!subject_id) {
+            document.getElementById('no-data-tag').innerHTML = "Other users' scores";
+            document.getElementById('no-data-tag2').innerHTML = "Other users' scores";
+            document.getElementById('no-data-tag3').innerHTML = "Other users' scores";
+            document.getElementById('no-data-text').innerHTML = "To see your own scores, complete the task <a href='/tasks/stroop'>here</a>.";
+        } else {
+            document.getElementById('no-data-tag').innerHTML = "You relative to others";
+            document.getElementById('no-data-tag2').innerHTML = "You relative to others";
+            document.getElementById('no-data-tag3').innerHTML = "You relative to others";
+        }
+
+        subject_rank = interference_array.findIndex(x => x.subject == subject_id);
+        if (subject_rank != -1) {
+            var percentile = (subject_rank + 1) / interference_array_length;
+        }
+        document.getElementById('percentile').innerHTML = "Your interference is at the <b>" + (percentile * 100) + "th percentile</b>";
+        var people_higher = interference_array_length - (subject_rank + 1);
+        if (people_higher <= 1) {
+            var percentile2_is = 'is';
+            var percentile2_person = 'person';
+            var percentile2_has = 'has';
+        } else {
+            var percentile2_is = 'are';
+            var percentile2_person = 'people';
+            var percentile2_has = 'have';
+        }
+        document.getElementById('percentile2').innerHTML = "There " + percentile2_is + " <b>" + people_higher + ' ' + percentile2_person + "</b> who " + percentile2_has + " interferences higher than you";
     </script>
 
 
@@ -293,15 +326,15 @@
     <!-- Reaction time density -->
     <script type="text/javascript">
         var temp_data = data_array.filter(i =>
-                i.type == "congruent" ||
-                i.type == "incongruent" ||
-                i.type == "neutral").filter(i => i.param == "rt");
+            i.type == "congruent" ||
+            i.type == "incongruent" ||
+            i.type == "neutral").filter(i => i.param == "rt");
         var rt_density = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { title: null, labelFontSize: 15, labelFont: "Inter-UI-upright", orient: "bottom" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             layer: [
                 {
-                    data: { values: temp_data},
+                    data: { values: temp_data },
                     transform: [{
                         groupby: ["type"],
                         density: "value",
@@ -323,14 +356,14 @@
                         color: { field: "type", type: "nominal" },
                         tooltip: [
                             { field: 'type', title: 'Trial type', type: "nominal" },
-                            { field: 'value', format: ".0f", title: 'Reaction time (ms)', type: "quantitative" }, 
-                            { field: 'density', title: 'Density', type: "quantitative", format: ".4f"}]
+                            { field: 'value', format: ".0f", title: 'Reaction time (ms)', type: "quantitative" },
+                            { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
                     }
                 },
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: temp_data.filter(i => i.subject == subject_id).slice(0,3) };
+                            return { values: temp_data.filter(i => i.subject == subject_id).slice(0, 3) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -363,7 +396,7 @@
             layer: [
                 {
                     data: { values: data_array.filter(x => x.type == 'interference' && x.param == "rt") },
-                    transform: [{density: "value"}],
+                    transform: [{ density: "value" }],
                     mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
                     encoding: {
                         x: {
@@ -380,14 +413,14 @@
                         },
                         color: { value: "#38405C", type: "quantitative" },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Interference (ms)', type: "quantitative" }, 
-                            { field: 'density', title: 'Density', type: "quantitative", format: ".4f"}]
+                            { field: 'value', format: ".0f", title: 'Interference (ms)', type: "quantitative" },
+                            { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
                     }
                 },
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: data_array.filter(i => i.subject == subject_id && i.type == "interference" && i.param == "rt").slice(0,1) };
+                            return { values: data_array.filter(i => i.subject == subject_id && i.type == "interference" && i.param == "rt").slice(0, 1) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -419,7 +452,7 @@
 
 
 
-    
+
 
 
 
@@ -440,7 +473,7 @@
                             type: "nominal",
                             // rename label: https://github.com/vega/vega-lite/issues/5122#issuecomment-517006921
                             //  https://vega.github.io/vega/docs/expressions/
-                            axis: { title: "Model parameter", labelAngle: 0, labelExpr: "replace(datum.label, 'nondecisiontime', 'non-decision time')"},
+                            axis: { title: "Model parameter", labelAngle: 0, labelExpr: "replace(datum.label, 'nondecisiontime', 'non-decision time')" },
                         },
                         y: {
                             field: "value",
@@ -457,7 +490,7 @@
                 {
                     data: (function () { // anonymous function
                         if (subject_id) {
-                            return { values: data_array.filter(i => i.type == 'ddm' && i.subject == subject_id).slice(0,3) };
+                            return { values: data_array.filter(i => i.type == 'ddm' && i.subject == subject_id).slice(0, 3) };
                         } else {  // don't draw points
                             return { values: [] };
                         }
@@ -595,14 +628,14 @@
                 vegaEmbed('#vis3', ddm_box_plot, { actions: { source: false, compiled: false, editor: false } });
                 vegaEmbed('#vis4', global_interference_plot, { actions: { source: false, compiled: false, editor: false } });
                 // vegaEmbed('#vis4', strip_plot, { actions: { source: false, compiled: false, editor: false } });
-                
+
             }
         }, 3000);
         fontLoader.loadFonts();
     </script>
 
     <%- include('../partials/footer_viz') %>
-    
+
 
 
 </html>

@@ -50,6 +50,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
         var data_array = [];
         data.map(function (i) {  // map/loop through each document to get relevant data
             var temp_data = i.datasummary; // get datasummary
+            console.log(temp_data);
             // convert country code to country id
             temp_data.forEach(function (s) {
                 s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))
@@ -116,7 +117,7 @@ router.get("/surveys/gritshort/viz", function (req, res) {
                 {
                     subject: subject_map[0][1].subject,
                     time: subject_map[0][1].time,
-                    value: (subject_map[0][1].value + subject_map[1][1].value)/2,
+                    value: (subject_map[0][1].value + subject_map[1][1].value) / 2,
                     country_name: subject_map[0][1].country_name,
                     country_code: subject_map[0][1].country_code,
                     country_id: subject_map[0][1].country_id

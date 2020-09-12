@@ -360,6 +360,7 @@ function create_datasummary() {
     // add id/country information
     datasummary.forEach(function (s) {
         s.subject = info_.subject;
+        s.time = info_.time;
         s.country_code = info_.country_code;
         s.country_name = info_.country_name;
     })
