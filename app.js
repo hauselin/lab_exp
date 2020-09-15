@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
 app.set("view engine", "ejs"); // use ejs template engine for rendering
 
-mongoose.connect('mongodb://localhost/datalibrary',
+mongoose.connect('mongodb+srv://datalibrary:HLXE0xme6mSJ9hCR@datalibrary.wjesv.mongodb.net/datalibrary?retryWrites=true&w=majority',
     { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
         if (err) { console.log('Not connected to database!'); } else {
             console.log('Successfully connected to database.')
@@ -53,9 +53,6 @@ app.use(function(req, res, next){
 app.use('/tasks', express.static(__dirname + "/tasks"));
 app.use('/surveys', express.static(__dirname + "/surveys"));
 app.use('/studies', express.static(__dirname + "/studies"));
-app.use('/jsPsych', express.static(__dirname + "/jsPsych"));
-app.use('/libraries', express.static(__dirname + "/libraries"));
-app.use('/public', express.static(__dirname + "/public"));
 
 app.use(indexRoutes);
 app.use(datalibraryRoutes);
