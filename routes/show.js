@@ -4,7 +4,7 @@ const router = express.Router();
 const fs = require('fs');
 
 router.get('/:type/:uniquestudyid', function (req, res, next) {
-    const root = '../app/' + req.params.type + '/' + req.params.uniquestudyid;
+    const root = '../lab_exp/' + req.params.type + '/' + req.params.uniquestudyid;
     // check if file exists without opening it
     fs.access(root + '/' + 'task.html', fs.F_OK, (err) => {
         if (err) {
