@@ -260,7 +260,8 @@ function create_info_(params) {
     var utc_time = utc_datetime.split("T")[1].split(":");
     utc_time = { hour: Number(utc_time[0]), min: Number(utc_time[1]), sec: Number(utc_time[2].slice(0, 2)) };
     var info_ = {
-        subject: get_subject_ID(),
+        subject: get_subject_ID()[0],
+        local_subject: get_subject_ID()[1],
         utc_datetime: utc_datetime,
         time: date.getTime(), // milliseconds since January 01, 1970, 00:00:00 UTC
         utc_date: utc_date,
@@ -375,9 +376,18 @@ function get_subject_ID() {
         var subject = date.getTime() + "_" + random_ID(5);
         console.log('subject ID is randomly generated: ' + subject);
     }
+    if (localStorage.getItem('local_subject')) {
+        var local_subject = localStorage.getItem('local_subject');
+        console.log('subject ID found in localStorage: ' + local_subject);
+    } else {
+        var local_subject = subject;
+        console.log('localStorage subject ID is generated: ' + local_subject);
+    }
     sessionStorage.setObj("subject", subject);
+    localStorage.setItem("local_subject", local_subject);
     console.log("saved subject ID to sessionStorage: " + subject);
-    return subject;
+    console.log("saved subject ID to localStorage: " + local_subject);
+    return [subject, local_subject];
 }
 
 function white_on_black() {

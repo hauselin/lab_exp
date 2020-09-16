@@ -30,6 +30,7 @@ router.post('/submit-data', function (req, res) {
 
     DataLibrary.create({
         subject: info.subject, // body is the json data from jspsych
+        local_subject: info.local_subject,
         type: info.type,
         uniquestudyid: info.uniquestudyid,
         desc: info.desc,
