@@ -19,8 +19,9 @@ var studies = [
 ];
 
 var tasks_to_try = [
-    { route: '/tasks/delaydiscount', uniquestudyid: 'delaydiscount', name: 'Delay discount', description: 'Choose your preferred reward.', time: '3-5 minutes' },
-    { route: '/tasks/stroop', uniquestudyid: 'stroop', name: 'Stroop', description: 'Respond to prompted texts with their colours.', time: '5-10 minutes' },
+    { route: '/tasks/delaydiscount', uniquestudyid: 'delaydiscount', time: '3-5 mins' },
+    { route: '/surveys/gritshort', uniquestudyid: 'gritshort', time: '1-3 mins' },
+    { route: '/tasks/stroop', uniquestudyid: 'stroop', time: '5-8 mins' },
 ];
 
 module.exports = { surveys, tasks, studies, tasks_to_try };
