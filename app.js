@@ -49,7 +49,7 @@ app.use(function(req, res, next){
     next();
 });
 
-// // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES
+// // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES/folder
 app.use('/tasks', express.static(__dirname + "/tasks"));
 app.use('/surveys', express.static(__dirname + "/surveys"));
 app.use('/studies', express.static(__dirname + "/studies"));
