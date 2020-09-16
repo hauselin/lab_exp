@@ -53,7 +53,7 @@ app.use(function(req, res, next){
 app.use('/tasks', express.static(__dirname + "/tasks"));
 app.use('/surveys', express.static(__dirname + "/surveys"));
 app.use('/studies', express.static(__dirname + "/studies"));
-app.use('/jspsych', express.static(__dirname + "/jspsych"));
+app.use('/jspsych', express.static(__dirname + "/jspsych")); // lowercase p necessary for heroku deployment
 app.use('/libraries', express.static(__dirname + "/libraries"));
 app.use('/public', express.static(__dirname + "/public"));
 
