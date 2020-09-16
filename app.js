@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
 app.set("view engine", "ejs"); // use ejs template engine for rendering
 
+
 mongoose.connect('mongodb://localhost/datalibrary',
     { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
         if (err) { console.log('Not connected to database!'); } else {
@@ -53,7 +54,7 @@ app.use(function(req, res, next){
 app.use('/tasks', express.static(__dirname + "/tasks"));
 app.use('/surveys', express.static(__dirname + "/surveys"));
 app.use('/studies', express.static(__dirname + "/studies"));
-app.use('/jsPsych', express.static(__dirname + "/jsPsych"));
+app.use('/jspsych', express.static(__dirname + "/jspsych"));
 app.use('/libraries', express.static(__dirname + "/libraries"));
 app.use('/public', express.static(__dirname + "/public"));
 
