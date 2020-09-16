@@ -23,8 +23,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
 app.set("view engine", "ejs"); // use ejs template engine for rendering
 
-
-mongoose.connect('mongodb://localhost/datalibrary',
+var mongoDB = process.env.MONGODB_URI || "mongodb://localhost/datalibrary"; // TODO MAHAM (when deploying, simply set MONGODB_URI environment variable)
+mongoose.connect(mongoDB,
     { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
         if (err) { console.log('Not connected to database!'); } else {
             console.log('Successfully connected to database.')
@@ -77,5 +77,5 @@ app.use(function (error, req, res, next) {
 });
 
 // START SERVER
-app.listen(process.env.PORT || 8080);
+app.listen(process.env.PORT || 8080); // process.env.PORT is undefined by default
 console.log("Server started on port 8080");

@@ -7,7 +7,13 @@ var middleware = require("../middleware");
 // route for downloading consent forms
 router.get("/:type/:uniquestudyid/consent", middleware.isLoggedIn, function (req, res) {
     var filename = 'consent.md'; // download filename
-    var file = '../lab_exp/' + req.params.type + '/' + req.params.uniquestudyid + '/' + filename;
+
+    var home = "lab_exp";
+    if (process.env.NODE_ENV == 'production') {
+        home = "app";
+    }
+    var file = '../' + home + '/' + req.params.type + '/' + req.params.uniquestudyid + '/' + filename;
+
     // console.log(file);
     res.download(file, filename, function (err) {
         if (err) {
