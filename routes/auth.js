@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 const User = require("../models/user");
-const password = require("../password");
-const pass = password;
+const pass = process.env.ANTHROPE_KEY; // get password from environment variable
+console.log("auth.js: login password is " + pass);
 
 router.get("/register", function(req, res) {
     res.render("register");
