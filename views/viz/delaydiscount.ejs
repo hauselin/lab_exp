@@ -215,8 +215,12 @@
 
         // retrieve objects from sessionStorage
         // subject_id and time will be used to filter arrays for plotting subject data
-        const info = sessionStorage.getObj("info_");  
-        if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
+        const info = sessionStorage.getObj("info_");
+        if (get_query_string().hasOwnProperty('subject')) {
+            var subject = get_query_string().subject;
+            var start_time = get_query_string().start_time;
+            console.log('subject ID found in url parameter: ' + subject);
+        } else if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
             subject_id = null;
             time = null;
         } else {
