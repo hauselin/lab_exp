@@ -414,7 +414,7 @@ function create_consent(timeline, html_path) {
             }
         },
     };
-    timeline.push(consent);
+    timeline.unshift(consent);
     return timeline;
 }
 
