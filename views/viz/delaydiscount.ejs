@@ -269,6 +269,7 @@
                 console.log('jQuery is ready');
                 $('div.fb-share-button').attr('data-href', share_link);
             });
+
             // add percentile data
             var subject_array = data_array.filter(
                 x => x.cost == 2
@@ -288,11 +289,17 @@
             subject_index = subject_array.map(x => x.auc).indexOf(data_array.filter(i => i.subject == subject_id).slice(0, 1)[0].auc);
             percentile = subject_index / (subject_array.length - 1) * 100
             document.getElementById('percentile').innerHTML = "Your AUC is at the <b>" + percentile.toString() + "th percentile</b> of all subjects";
+
+            // query subject's data array ahead of time
+            subject_data = data_array.filter(i => i.subject == subject_id && i.time == start_time)
         } else {
             $(document).ready(function () {
                 console.log('jQuery is ready');
                 $('div.fb-share-button').attr('data-href', "https://anthrope.herokuapp.com/tasks/delaydiscount/viz");
             });
+            
+            // define empty array for subject's data
+            subject_data = []
         }
     </script>
 
@@ -328,10 +335,10 @@
                     }
                 },
                 {
-                    // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
+                    // data: { values: subject_data },
                     data: (function () { // anonymous function
                         if (subject_id) {
-                            return { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) };
+                            return { values: subject_data };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -383,7 +390,7 @@
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: data_array.filter(i => i.subject == subject_id).slice(0, 1) };
+                            return { values: subject_data.slice(0, 1) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
