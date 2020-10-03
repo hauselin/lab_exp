@@ -17,10 +17,29 @@
     <script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
+
+    <!-- facebook share button properties -->
+    <meta property="og:url" content="https://anthrope.herokuapp.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Your Website Title" />
+    <meta property="og:description" content="Your description" />
+    <meta property="og:image" content="https://www.your-domain.com/path/image.jpg" />
+
 </head>
 
 <body class="is-preload">
     <%- include('../partials/menu_bar_viz') %>
+
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
     <section class="bg-primary-alt header-inner o-hidden pt-7">
         <div class="container">
             <div class="row py-6 text-center justify-content-center align-items-center layer-2">
@@ -52,6 +71,7 @@
                                 praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
                                 sint occaecati.</p>
                             <p id="no-data-text" class="lead mb-0"></p>
+                            <div class="fb-share-button" data-href=# data-layout="button_count" data-size="large"></div>                        
                         </div>
                     </div>
                 </div>
