@@ -143,5 +143,9 @@ router.get('/terms', function (req, res) {
     res.render("terms.ejs");
 });
 
+router.get('/privacy', function (req, res) {
+    res.render("privacy.ejs");
+});
+
 
 module.exports = router;
