@@ -8,7 +8,8 @@
     <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
     <script src="../../libraries/utils.js"></script>
     <script src="../../libraries/FontLoader.js"></script>
-    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
+        crossorigin="anonymous">
     <link href="../../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
     <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
 
@@ -74,7 +75,7 @@
                                 praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
                                 sint occaecati.</p>
                             <p id="no-data-text" class="lead mb-0"></p>
-                            <div class="fb-share-button" data-href=# data-layout="button_count" data-size="large"></div>                        
+                            <div class="fb-share-button" data-href=# data-layout="button_count" data-size="large"></div>
                         </div>
                     </div>
                 </div>
@@ -90,7 +91,8 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg" alt="patch icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg"
+                        alt="patch icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Self-control and impulsivity</h5>
                         <p>
@@ -99,7 +101,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg" alt="miso-soup icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg"
+                        alt="miso-soup icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Other types of discounting behavior</h5>
                         <p>
@@ -108,7 +111,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg" alt="door-open icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg"
+                        alt="door-open icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Temporal preferences</h5>
                         <p>
@@ -119,7 +123,8 @@
             </div>
         </div>
         <div class="divider">
-            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic" data-inject-svg />
+            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
+                data-inject-svg />
         </div>
     </section>
     <section class="bg-primary-alt">
@@ -242,7 +247,9 @@
         if (get_query_string().hasOwnProperty('subject')) {
             subject_id = get_query_string().subject;
             start_time = get_query_string().time;
-            console.log('subject ID found in url parameter: ' + subject);
+            document.getElementById('no-data-tag').innerHTML = "Someone else's data shared to you";
+            document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
+            console.log('subject ID found in url parameter: ' + subject_id);
         } else if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
             subject_id = null;
             time = null;
@@ -251,17 +258,26 @@
             start_time = info.time;
         }
 
-        share_link = "https://anthrope.herokuapp.com/tasks/delaydiscount/viz?subject=" + subject_id + "&time=" + start_time.toString()
-        $(document).ready(function(){
-            console.log('hi');
-            $('div.fb-share-button').attr('data-href', share_link);
-        });
-
-        if (!subject_id) {
-            document.getElementById('no-data-tag').innerHTML = "Other users' discounting behavior";
-            document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
+        if (subject_id != null && start_time != null) {
+            share_link = "https://anthrope.herokuapp.com/tasks/delaydiscount/viz?subject=" + subject_id + "&time=" + start_time.toString()
+            $(document).ready(function () {
+                console.log('jQuery is ready');
+                $('div.fb-share-button').attr('data-href', share_link);
+            });
         } else {
-            document.getElementById('no-data-tag').innerHTML = "Your discounting relative to others";
+            $(document).ready(function () {
+                console.log('jQuery is ready');
+                $('div.fb-share-button').attr('data-href', "https://anthrope.herokuapp.com/tasks/delaydiscount/viz");
+            });
+        }
+        
+        if (!get_query_string().hasOwnProperty('subject')) {
+            if (!subject_id) {
+                document.getElementById('no-data-tag').innerHTML = "Other users' discounting behavior";
+                document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
+            } else {
+                document.getElementById('no-data-tag').innerHTML = "Your discounting relative to others";
+            }
         }
     </script>
 
@@ -316,7 +332,7 @@
             width: 500,
             height: 400,
         };
-        
+
     </script>
 
     <!-- Aggregate AUC density -->
@@ -359,7 +375,7 @@
                     }()),
                     mark: "rule",
                     encoding: {
-                        x: { field: "auc", type: "quantitative"},
+                        x: { field: "auc", type: "quantitative" },
                         color: { value: "firebrick", type: "quantitative" },
                         size: { value: 3 },
                         tooltip: [{ field: 'auc', format: ".3f", title: 'You', type: "quantitative" }]
@@ -370,7 +386,7 @@
             width: 550,
             height: 400,
         };
-        
+
     </script>
 
     <!-- AUC choropleth -->
