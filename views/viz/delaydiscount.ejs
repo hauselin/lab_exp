@@ -236,9 +236,12 @@
     </section>
 
     <script type="text/javascript">
+        // constants
+        const viz_num = 500; // number of most recent data points to visualize
 
         // data from database
         const data_array = <%- JSON.stringify(data_array) %>;
+        const small_data_array = data_array.slice(data_array.length - viz_num, data_array.length);
         const country_array = <%- JSON.stringify(country_array) %>;
         const uniquestudyid = 'delaydiscount';
 
@@ -319,7 +322,7 @@
             },
             layer: [
                 {
-                    data: { values: data_array },
+                    data: { values: small_data_array },
                     mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
                     encoding: {
                         y: {
@@ -366,7 +369,7 @@
             background: "#f3f5fb",
             layer: [
                 {
-                    data: { values: data_array.filter(i => i.cost == 2) },
+                    data: { values: small_data_array.filter(i => i.cost == 2) },
                     transform: [
                         { density: "auc", counts: false, cumulative: false },
                     ],
