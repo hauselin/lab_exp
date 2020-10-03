@@ -254,52 +254,46 @@
         } else if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
             subject_id = null;
             time = null;
+            document.getElementById('no-data-tag').innerHTML = "Other users' discounting behavior";
+            document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
         } else {
             subject_id = info.subject;
             start_time = info.time;
+            document.getElementById('no-data-tag').innerHTML = "Your discounting relative to others";
         }
 
-        if (subject_id != null && start_time != null) {
+        if (subject_id != null && start_time != null) { // perform actions that are done exclusively when there is a subject id specified
+            // put subject and start time data into share link
             share_link = "https://anthrope.herokuapp.com/tasks/delaydiscount/viz?subject=" + subject_id + "&time=" + start_time.toString()
             $(document).ready(function () {
                 console.log('jQuery is ready');
                 $('div.fb-share-button').attr('data-href', share_link);
             });
+            // add percentile data
+            var subject_array = data_array.filter(
+                x => x.cost == 2
+            );
+            subject_array.sort(function (a, b) {
+                if (a.auc < b.auc) {
+                    return -1;
+                } else if (a.auc > b.auc) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            })
+            // subject_array.forEach(element => {
+            //     console.log(element.auc);
+            // });
+            subject_index = subject_array.map(x => x.auc).indexOf(data_array.filter(i => i.subject == subject_id).slice(0, 1)[0].auc);
+            percentile = subject_index / (subject_array.length - 1) * 100
+            document.getElementById('percentile').innerHTML = "Your AUC is at the <b>" + percentile.toString() + "th percentile</b> of all subjects";
         } else {
             $(document).ready(function () {
                 console.log('jQuery is ready');
                 $('div.fb-share-button').attr('data-href', "https://anthrope.herokuapp.com/tasks/delaydiscount/viz");
             });
         }
-
-        if (!get_query_string().hasOwnProperty('subject')) {
-            if (!subject_id) {
-                document.getElementById('no-data-tag').innerHTML = "Other users' discounting behavior";
-                document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
-            } else {
-                document.getElementById('no-data-tag').innerHTML = "Your discounting relative to others";
-            }
-        }
-
-        var subject_array = data_array.filter(
-            x => x.cost == 2
-        );
-        subject_array.sort(function (a, b) {
-            if (a.auc < b.auc) {
-                return -1;
-            } else if (a.auc > b.auc) {
-                return 1;
-            } else {
-                return 0;
-            }
-        })
-        subject_array.forEach(element => {
-            console.log(element.auc);
-        });
-
-        subject_index = subject_array.map(x => x.auc).indexOf(data_array.filter(i => i.subject == subject_id).slice(0, 1)[0].auc);
-        percentile = subject_index / (subject_array.length - 1) * 100
-        document.getElementById('percentile').innerHTML = "Your AUC is at the <b>" + percentile.toString() + "th percentile</b> of all subjects";
     </script>
 
     <!-- Aggregate box plot -->
