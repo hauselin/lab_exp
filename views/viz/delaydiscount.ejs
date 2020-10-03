@@ -18,6 +18,9 @@
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
 
+    <!-- load jquery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
     <!-- facebook share button properties -->
     <meta property="og:url" content="https://anthrope.herokuapp.com/" />
     <meta property="og:type" content="website" />
@@ -237,8 +240,8 @@
         // subject_id and time will be used to filter arrays for plotting subject data
         const info = sessionStorage.getObj("info_");
         if (get_query_string().hasOwnProperty('subject')) {
-            var subject = get_query_string().subject;
-            var start_time = get_query_string().start_time;
+            subject_id = get_query_string().subject;
+            start_time = get_query_string().time;
             console.log('subject ID found in url parameter: ' + subject);
         } else if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
             subject_id = null;
@@ -247,6 +250,12 @@
             subject_id = info.subject;
             start_time = info.time;
         }
+
+        share_link = "https://anthrope.herokuapp.com/tasks/delaydiscount/viz?subject=" + subject_id + "&time=" + start_time.toString()
+        $(document).ready(function(){
+            console.log('hi');
+            $('div.fb-share-button').attr('data-href', share_link);
+        });
 
         if (!subject_id) {
             document.getElementById('no-data-tag').innerHTML = "Other users' discounting behavior";
