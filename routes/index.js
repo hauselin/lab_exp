@@ -139,4 +139,9 @@ router.get('/studies', function (req, res) {
     res.render("studies.ejs", { studies: page_elements.studies });
 });
 
+router.get('/terms', function (req, res) {
+    res.render("terms.ejs");
+});
+
+
 module.exports = router;
