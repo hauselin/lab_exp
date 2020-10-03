@@ -8,7 +8,8 @@
     <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
     <script src="../../libraries/utils.js"></script>
     <script src="../../libraries/FontLoader.js"></script>
-    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2" crossorigin="anonymous">
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
+        crossorigin="anonymous">
     <link href="../../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
     <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
 
@@ -17,10 +18,29 @@
     <script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
+
+    <!-- properties for facebook sharing button -->
+    <meta property="og:url" content="https://anthrope.herokuapp.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Your Website Title" />
+    <meta property="og:description" content="Your description" />
+    <meta property="og:image" content="https://www.your-domain.com/path/image.jpg" />
+
 </head>
 
 <body class="is-preload">
     <%- include('../partials/menu_bar_viz') %>
+
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script>(function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));</script>
+
     <section class="bg-primary-alt header-inner o-hidden pt-7">
         <div class="container">
             <div class="row py-6 text-center justify-content-center align-items-center layer-2">
@@ -28,6 +48,8 @@
                     <h1 class="display-4">Delay discounting</h1>
                     <p class="lead mb-0">How much do you discount rewards that are available only in the future? Check
                         out the interactive figures and results below. Download figures. </p>
+                    <!-- facebook share button  -->
+                    <div class="fb-share-button" data-href="/tasks/delaydiscount/viz?subject=<%- subject_id %>&time=<%- start_time %>" data-layout="button_count"></div>
                 </div>
             </div>
         </div>
@@ -67,7 +89,8 @@
             </div>
             <div class="row">
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg" alt="patch icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg"
+                        alt="patch icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Self-control and impulsivity</h5>
                         <p>
@@ -76,7 +99,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg" alt="miso-soup icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg"
+                        alt="miso-soup icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Other types of discounting behavior</h5>
                         <p>
@@ -85,7 +109,8 @@
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg" alt="door-open icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg"
+                        alt="door-open icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Temporal preferences</h5>
                         <p>
@@ -96,7 +121,8 @@
             </div>
         </div>
         <div class="divider">
-            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic" data-inject-svg />
+            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
+                data-inject-svg />
         </div>
     </section>
     <section class="bg-primary-alt">
@@ -215,8 +241,12 @@
 
         // retrieve objects from sessionStorage
         // subject_id and time will be used to filter arrays for plotting subject data
-        const info = sessionStorage.getObj("info_");  
-        if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
+        const info = sessionStorage.getObj("info_");
+        if (get_query_string().hasOwnProperty('subject')) {
+            subject_id = get_query_string().subject;
+            start_time = get_query_string().start_time;
+            console.log('subject ID found in url parameter: ' + subject);
+        } else if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
             subject_id = null;
             time = null;
         } else {
@@ -283,7 +313,7 @@
             width: 500,
             height: 400,
         };
-        
+
     </script>
 
     <!-- Aggregate AUC density -->
@@ -326,7 +356,7 @@
                     }()),
                     mark: "rule",
                     encoding: {
-                        x: { field: "auc", type: "quantitative"},
+                        x: { field: "auc", type: "quantitative" },
                         color: { value: "firebrick", type: "quantitative" },
                         size: { value: 3 },
                         tooltip: [{ field: 'auc', format: ".3f", title: 'You', type: "quantitative" }]
@@ -337,7 +367,7 @@
             width: 550,
             height: 400,
         };
-        
+
     </script>
 
     <!-- AUC choropleth -->
