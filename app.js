@@ -10,6 +10,7 @@ var express = require("express"),
     DataLibrary = require('./models/datalibrary')
     helper = require('./routes/helpers/helpers');
 
+const { url } = require("inspector");
 var showRoutes = require('./routes/show'),
     indexRoutes = require('./routes/index'),
     datalibraryRoutes = require('./routes/datalibrary'),
@@ -24,13 +25,21 @@ app.use(express.json());
 app.set("view engine", "ejs"); // use ejs template engine for rendering
 
 var mongoDB = process.env.MONGODB_URI || "mongodb://localhost/datalibrary"; // TODO MAHAM (when deploying, simply set MONGODB_URI environment variable)
-mongoose.connect(mongoDB,
-    { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
-        if (err) { console.log('Not connected to database!'); } else {
-            console.log('Successfully connected to database.')
-        }
+mongoose.connect(mongoDB, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
+    if (err) { console.log('Not connected to database!'); } else {
+        console.log('Successfully connected to database.')
     }
-);
+}
+)
+
+
+// mongoose.connect('mongodb+srv://datalibrary:HLXE0xme6mSJ9hCR@datalibrary.wjesv.mongodb.net/datalibrary?retryWrites=true&w=majority',
+//     { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
+//         if (err) { console.log('Not connected to database!'); } else {
+//             console.log('Successfully connected to database.')
+//         }
+//     }
+// )
 
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
@@ -50,7 +59,7 @@ app.use(function(req, res, next){
     next();
 });
 
-// // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES
+// // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES/folder
 app.use('/tasks', express.static(__dirname + "/tasks"));
 app.use('/surveys', express.static(__dirname + "/surveys"));
 app.use('/studies', express.static(__dirname + "/studies"));
@@ -79,3 +88,4 @@ app.use(function (error, req, res, next) {
 // START SERVER
 app.listen(process.env.PORT || 8080); // process.env.PORT is undefined by default
 console.log("Server started on port 8080");
+console.log(url);
