@@ -39,6 +39,10 @@ section {
     min-height: 600px; /* to ensure footer stays at the bottom and doesn't look weird */
 }
 
-#faq-text {
+#faq {
     text-align: center;
+}
+
+.main-title {
+    font-size: 7vw;
 }
