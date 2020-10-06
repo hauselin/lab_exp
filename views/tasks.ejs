@@ -45,24 +45,22 @@
         </div>
         <div class="col">
           <div class="row justify-content-left">
-            <div class="col-xl-9 col-lg-10" style="margin-left: 25px;">
+            <div class="col-xl-9 col-lg-10 pt-2">
               <a href=<%=study_link%> class="fade-up">
-                <h3 class="h2"><%=tasks[i].name%></h3>
+                <h5><%=tasks[i].name%></h5>
               </a>
-              <p class="lead">
-                <%=tasks[i].description%>
-              </p>
-              <ul class="list-unstyled my-3">
-                <li class="d-flex align-items-center my-2">
-                  <img class="icon icon-lg" src="../public/assets/img/icons/theme/home/clock.svg" alt="icon" />
-                  <span class="h6 mb-0 ml-2"><%=tasks[i].time%></span>
+              <p><%=tasks[i].description%></p>
+              <ul class="list-unstyled my-1">
+                <li class="d-flex align-items-center my-1">
+                  <img class="icon icon-md" src="../public/assets/img/icons/theme/home/clock.svg" alt="icon" />
+                  <span class="h6 mb-0 ml-1"><%=tasks[i].time%></span>
                 </li>
-                <li class="d-flex align-items-center my-2">
-                  <img class="icon icon-lg" src="../public/assets/img/icons/theme/communication/add-user.svg"
+                <li class="d-flex align-items-center my-1">
+                  <img class="icon icon-md" src="../public/assets/img/icons/theme/communication/add-user.svg"
                     alt="icon" />
-                  <span class="h6 mb-0 ml-2"><%=entries[tasks[i].uniquestudyid]%> Entries</span>
+                  <span class="h6 mb-0 ml-1"><%=entries[tasks[i].uniquestudyid]%> Entries</span>
                 </li>
-                <li class="d-flex align-items-center my-2">
+                <li class="d-flex align-items-center my-1">
                   <a class="btn btn-outline-primary" data-smooth-scroll href=<%=viz_link%>>Learn more</a>
                 </li>
               </ul>

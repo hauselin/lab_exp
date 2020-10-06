@@ -34,3 +34,7 @@ section {
     padding-top: 3rem;
     padding-bottom: 3rem;
 }
+
+#internal-page-studies {
+    min-height: 600px; /* to ensure footer stays at the bottom and doesn't look weird */
+}
