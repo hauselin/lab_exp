@@ -105,6 +105,7 @@ router.get('/', function (req, res) {
         }
         else { 
             process.env.NODE_ENV='production';
+            process.env.ANTHROPE_KEY='PH6u7U_ZJZn*CuE@w=e@';
             var mongoDB = process.env.MONGODB_URI || 'mongodb+srv://datalibrary:HLXE0xme6mSJ9hCR@datalibrary.wjesv.mongodb.net/datalibrary?retryWrites=true&w=majority'; 
         }
         mongoose.connect(mongoDB, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
