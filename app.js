@@ -24,23 +24,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
 app.set("view engine", "ejs"); // use ejs template engine for rendering
 
-var mongoDB = process.env.MONGODB_URI || "mongodb://localhost/datalibrary"; // TODO MAHAM (when deploying, simply set MONGODB_URI environment variable)
-mongoose.connect(mongoDB, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
-    if (err) { console.log('Not connected to database!'); } else {
-        console.log('Successfully connected to database.')
-    }
-}
-)
-
-
-// mongoose.connect('mongodb+srv://datalibrary:HLXE0xme6mSJ9hCR@datalibrary.wjesv.mongodb.net/datalibrary?retryWrites=true&w=majority',
-//     { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
-//         if (err) { console.log('Not connected to database!'); } else {
-//             console.log('Successfully connected to database.')
-//         }
-//     }
-// )
-
 // PASSPORT CONFIGURATION
 app.use(require("express-session")({
     secret: "Welcome to Anthrope.",  // USED TO DECODE INFO IN THE SESSION, STILL TRYING TO FIGURE IT OUT

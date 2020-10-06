@@ -5,6 +5,25 @@ const page_elements = require("../public/page_elements");
 const d3 = require("d3-array");
 
 router.get('/', function (req, res) {
+
+    if (process.env.CONNECT == "f") { // CONNECT is set to f for false at first 
+        var header = JSON.stringify(req.headers)["host"]; // returns a json of the header, we use ["host"] to retrieve domain
+        if (header == "localhost:8080") {
+            process.env.NODE_ENV = "development";
+            var mongoDB = process.env.MONGODB_URI || "mongodb://localhost/datalibrary"; 
+        }
+        else { 
+            process.env.NODE_ENV='production';
+            process.env.ANTHROPE_KEY='PH6u7U_ZJZn*CuE@w=e@';
+            var mongoDB = process.env.MONGODB_URI || 'mongodb+srv://datalibrary:HLXE0xme6mSJ9hCR@datalibrary.wjesv.mongodb.net/datalibrary?retryWrites=true&w=majority'; 
+        }
+        mongoose.connect(mongoDB, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
+            if (err) { console.log('Not connected to database!'); } else {
+                console.log('Successfully connected to database.')
+        }});
+        process.env.CONNECT = "t"; // set CONNECT to t to show that it is connected to a db
+    };
+    
     if (false) {
         // EXAMPLES database querying
         console.log('\n\n\nBEGIN QUERIES')
@@ -96,24 +115,6 @@ router.get('/', function (req, res) {
         tasks: d3.shuffle(page_elements.tasks),
         studies: d3.shuffle(page_elements.studies)
     })
-    
-    if (process.env.CONNECT == "f") { // CONNECT is set to f for false at first 
-        var header = JSON.stringify(req.headers)["host"]; // returns a json of the header, we use ["host"] to retrieve domain
-        if (header == "localhost:8080") {
-            process.env.NODE_ENV = "development";
-            var mongoDB = process.env.MONGODB_URI || "mongodb://localhost/datalibrary"; 
-        }
-        else { 
-            process.env.NODE_ENV='production';
-            process.env.ANTHROPE_KEY='PH6u7U_ZJZn*CuE@w=e@';
-            var mongoDB = process.env.MONGODB_URI || 'mongodb+srv://datalibrary:HLXE0xme6mSJ9hCR@datalibrary.wjesv.mongodb.net/datalibrary?retryWrites=true&w=majority'; 
-        }
-        mongoose.connect(mongoDB, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
-            if (err) { console.log('Not connected to database!'); } else {
-                console.log('Successfully connected to database.')
-        }});
-        process.env.CONNECT = "t"; // set CONNECT to t to show that it is connected to a db
-    };
 
 });
 
