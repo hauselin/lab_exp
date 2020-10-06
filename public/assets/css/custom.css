@@ -16,3 +16,21 @@
     font-family: Inter-UI;
     src: url(../fonts/Inter-UI.var.woff2);
 }
+
+.index-background {
+  background-image: url('../img/test.jpg');
+  background-position: 50% 50%;
+}
+
+.btn, .btn-lg, .btn-primary-3 {
+    border-radius: 10px;
+}
+
+#menubar-index, #menubar-internal, #menubar-viz {
+    max-height: 75px;
+}
+
+section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}

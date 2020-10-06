@@ -1,27 +1,98 @@
 var surveys = [
-    { uniquestudyid: 'gritshort', name: 'Grit short', description: 'How open, conscientious, extraverted, agreeable, and neurotic are you?', time: '3-5 minutes' },
-    { uniquestudyid: 'bigfiveaspect', name: 'Big five aspects', description: 'Just some text here', time: '3-5 minutes' },
-    { uniquestudyid: 'gritshort', name: 'Grit short', description: 'How open, conscientious, extraverted, agreeable, and neurotic are you?', time: '3-5 minutes' },
-    { uniquestudyid: 'bigfiveaspect', name: 'Big five aspects', description: 'Description...', time: '3-5 minutes' },
+    {
+        uniquestudyid: 'bigfiveaspect',
+        name: 'Big-five personality traits',
+        description: 'Are you open, conscientious, extraverted, agreeable, or neurotic?',
+        time: '3-5 mins'
+    },
+    {
+        uniquestudyid: 'gritshort',
+        name: 'How gritty are you?',
+        description: "Are you good at pursuing long-term goals?",
+        time: '3-5 mins'
+    },
+    {
+        uniquestudyid: 'bigfiveaspect',
+        name: 'Big-five personality traits',
+        description: 'Are you open, conscientious, extraverted, agreeable, or neurotic?',
+        time: '3-5 mins'
+    },
+    {
+        uniquestudyid: 'gritshort',
+        name: 'How gritty are you?',
+        description: "Are you good at pursuing long-term goals?",
+        time: '3-5 mins'
+    },
+    
 ];
 
 var tasks = [
-    { uniquestudyid: 'delaydiscount', name: 'Delay discount', description: 'Choose your preferred reward.', time: '3-5 minutes' },
-    { uniquestudyid: 'stroop', name: 'Stroop', description: 'Respond to prompted texts with their colours.', time: '3-5 minutes' },
-    { uniquestudyid: 'symbolcount', name: 'Symbol counting', description: 'Description...', time: '3-5 minutes' },
-    { uniquestudyid: 'stroop', name: 'Stroop', description: 'Respond to prompted texts with their colours.', time: '3-5 minutes' },
-    { uniquestudyid: 'symbolcount', name: 'Symbol counting', description: 'Description...', time: '3-5 minutes' },
-    { uniquestudyid: 'updatemath', name: 'Mental math', description: 'Description...', time: '3-5 minutes' }
+    {
+        uniquestudyid: 'delaydiscount',
+        name: 'Money now or money later?',
+        description: 'Do you prefer immediate or future, delayed rewards? Learn about how you delay instant gratification.',
+        time: '3-5 mins'
+    },
+    {
+        uniquestudyid: 'stroop',
+        name: 'Attention and cognitive control',
+        description: 'How good are you at controlling your attention? Try this simple Stroop color-word naming task to find out.',
+        time: '3-5 mins'
+    },
+    {
+        uniquestudyid: 'symbolcount',
+        name: 'Brain power and working memory',
+        description: 'How good is your working memory? Challenge yourself with this symbol counting task.',
+        time: '3-5 mins'
+    },
+    {
+        uniquestudyid: 'updatemath',
+        name: 'Working memory and mathematics abilities',
+        description: 'Coming soon',
+        time: '3-5 mins'
+    }
 ];
 
 var studies = [
-    { uniquestudyid: 'studyA', name: 'Study A', description: 'Description', time: '3-5 minutes' }
+    {
+        uniquestudyid: 'studyA',
+        name: 'Cognitive effort',
+        description: 'Coming soon',
+        time: '3-5 mins'
+    }
 ];
+
+
+var faq = [
+    {
+        q: "Why Anthrope?",
+        resp: "Because we're interested in you and us—<a href='https://www.urbandictionary.com/define.php?term=Anthrope' target='_blank'>humans</a>."
+    },
+    {
+        q: "Who are we?",
+        resp: "A team of behavioral and psychological researchers."
+    }
+
+]
 
 var tasks_to_try = [
-    { route: '/tasks/delaydiscount', uniquestudyid: 'delaydiscount', time: '3-5 mins' },
-    { route: '/surveys/gritshort', uniquestudyid: 'gritshort', time: '1-3 mins' },
-    { route: '/tasks/stroop', uniquestudyid: 'stroop', time: '5-8 mins' },
+    {
+        route: '/tasks/delaydiscount',
+        uniquestudyid: 'delaydiscount',
+        time: '3-5 mins'
+    },
+    {
+        route: '/surveys/gritshort',
+        uniquestudyid: 'gritshort',
+        time: '1-3 mins'
+    },
+    {
+        route: '/tasks/stroop',
+        uniquestudyid: 'stroop',
+        time: '5-8 mins'
+    },
 ];
 
-module.exports = { surveys, tasks, studies, tasks_to_try };
+
+
+module.exports = { surveys, tasks, studies, tasks_to_try, faq};

@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
   <link href="../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
   <!-- <link rel="preload" as="font" href="../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"> -->
   <!-- <link rel="preload" as="font" href="../public/assets/fonts/Inter-UI.var.woff2" type="font/woff2"> -->
 </head>
@@ -27,52 +28,12 @@
       </div>
     </section>
   </div>
-  <section class="pt-4 bg-primary-alt">
-    <div class="dropdown" style="text-align: center;">
-      <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown-grid" type="button" aria-expanded="false"
-        aria-haspopup="true">
-        <span>View all</span>
-        <!-- Arrow icon SVG in dropdown toggle -->
-        <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M14.4444 8.41358C14.7776 8.2281 15.1875 8.46907 15.1875 8.85048V15.1495C15.1875 15.5309 14.7776 15.7719 14.4444 15.5864L8.78505 12.4369C8.44258 12.2463 8.44258 11.7537 8.78505 11.5631L14.4444 8.41358Z"
-            fill="#212529"></path>
-        </svg>
-      </button>
-      <div class="justify-content-center dropdown-menu row">
-        <div class="col-xl-6 col-lg-7 col-md-8" data-dropdown-content>
-          <div class="card card-body shadow p-0">
-            <h6 class="mb-0 dropdown-content" style="padding: 5px;">Tasks</h6>
-            <hr class="m-0">
-            <div class="row no-gutters">
-
-              <% for(var i = 0; i < tasks.length; i++) { %>
-              <% var study_scroll_link =  "#" + tasks[i].uniquestudyid %>
-              <div class="col-md">
-                <a href=<%=study_scroll_link%> data-smooth-scroll class="d-flex m-3">
-                  <div class="ml-2">
-                    <span class="h6 mb-0"><%=tasks[i].name%></span>
-                    <div class="text-small text-muted"><%=tasks[i].description%></div>
-                  </div>
-                </a>
-              </div>
-              <% } %>
-
-            </div>
-            <hr class="m-0">
-            <div class="px-3 py-2 d-flex justify-content-between align-items-center">
-              <span class="text-small">Click on the task to scoll to that section.</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+  
   <% for(var i = 0; i < tasks.length; i++) { %>
   <% var image_link =  "../public/assets/img/tasks/" + tasks[i].uniquestudyid + ".jpg" %>
   <% var study_link =  "/tasks/" + tasks[i].uniquestudyid + "/" %>
   <% var viz_link =  "/tasks/" + tasks[i].uniquestudyid + "/viz" %>
-  <section class="pt-0 bg-primary-alt" id=<%=tasks[i].uniquestudyid%>>
+  <section class="pt-3 pb-3 bg-primary-alt" id=<%=tasks[i].uniquestudyid%>>
     <div class="container">
       <div class="row" data-aos="fade-up">
         <div class="col-md-6">
