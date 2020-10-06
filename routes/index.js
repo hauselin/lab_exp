@@ -3,7 +3,6 @@ const router = express.Router();
 const DataLibrary = require("../models/datalibrary");
 const page_elements = require("../public/page_elements");
 const d3 = require("d3-array");
-const state = False;
 
 router.get('/', function (req, res) {
     if (false) {
@@ -98,27 +97,23 @@ router.get('/', function (req, res) {
         studies: d3.shuffle(page_elements.studies)
     })
     
-    if (process.env.NODE_ENV) { // NODE_ENV is undefined
-        var header = JSON.stringify(req.headers)["host"];
+    if (process.env.CONNECT == "f") { // NODE_ENV is undefined
+        var header = JSON.stringify(req.headers)["host"]; 
         if (header == "localhost:8080") {
             process.env.NODE_ENV = "development";
             var mongoDB = process.env.MONGODB_URI || "mongodb://localhost/datalibrary"; 
-            mongoose.connect(mongoDB, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
-                if (err) { console.log('Not connected to database!'); } else {
-                    console.log('Successfully connected to database.')
-            }});
         }
-
         else { 
             process.env.NODE_ENV='production';
-            // var mongo
-
-
+            var mongoDB = process.env.MONGODB_URI || 'mongodb+srv://datalibrary:HLXE0xme6mSJ9hCR@datalibrary.wjesv.mongodb.net/datalibrary?retryWrites=true&w=majority'; 
         }
-
-
-
+        mongoose.connect(mongoDB, { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
+            if (err) { console.log('Not connected to database!'); } else {
+                console.log('Successfully connected to database.')
+        }});
+        process.env.CONNECT = "t";
     };
+
 });
 
 router.get('/tasks', function (req, res) {
