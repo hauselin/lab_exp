@@ -38,3 +38,7 @@ section {
 #internal-page-studies {
     min-height: 600px; /* to ensure footer stays at the bottom and doesn't look weird */
 }
+
+#faq-text {
+    text-align: center;
+}
