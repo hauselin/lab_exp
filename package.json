@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "serve": "nodemon app.js"
+    "serve": "set NODE_ENV=dev && nodemon app.js"
   },
   "repository": {
     "type": "git",
