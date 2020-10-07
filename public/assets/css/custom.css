@@ -43,6 +43,18 @@ section {
     text-align: center;
 }
 
+/* https://stackoverflow.com/questions/15649244/responsive-font-size-in-css */
 .main-title {
-    font-size: 7vw;
+    font-size: calc(80px + 0.4vw);
+    text-align: center;
+    line-height: 1.2;
+    font-weight: 500;
+}
+
+/* https://www.w3schools.com/howto/howto_css_responsive_text.asp */
+/* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
+@media screen and (max-width: 600px) {
+  .main-title {
+    font-size: 50px;
+  }
 }
