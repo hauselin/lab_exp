@@ -24,93 +24,81 @@ var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before they're allowed to click continue
 var shuffle_items = false; // randomize order of item presentation
 
-// read survey csv file
-// https://www.papaparse.com
-const csvfile = '../../surveys/gritshort/items.csv';
-console.log('Reading file: ' + csvfile);
-Papa.parse(csvfile, {
-    download: true,
-    header: true,
-    dynamicTyping: true,
-    complete: function (results) {
-        run_survey(results.data);
+jsPsych.data.addProperties({
+    subject: info_.subject,
+    type: taskinfo.type,
+    uniquestudyid: taskinfo.uniquestudyid,
+    desc: taskinfo.desc,
+    condition: taskinfo.condition,
+    info_: info_,
+});
+
+var start_point;
+var procedure = {
+    timeline: [{
+        type: 'html-slider-response',
+        stimulus: jsPsych.timelineVariable('desc'),
+        data: {
+            q: jsPsych.timelineVariable('q'),
+            subscale: jsPsych.timelineVariable('subscale'),
+            reverse: jsPsych.timelineVariable('reverse')
+        },
+        labels: scale_labels,
+        slider_width: slider_width,
+        min: scale_min_max[0],
+        max: scale_min_max[1],
+        start: function () {
+            start_point = jsPsych.randomization.sampleWithoutReplacement(scale_starting_points, 1)[0];
+            return start_point;
+        },
+        step: step,
+        require_movement: require_movement,
+        on_finish: function (data) {
+            data.start_point = start_point;
+            data.resp = Number(data.response);
+            data.resp_reverse = data.resp;
+            if (data.reverse) { // reverse code item if necessary
+                data.resp_reverse = scale_min_max[1] + 1 - data.resp;
+            }
+            if (debug) {
+                console.log("q" + data.q + " (reverse: " + data.reverse + "): " + data.stimulus);
+                console.log("resp: " + data.resp + ", resp_reverse: " + data.resp_reverse);
+            }
+        }
+    }],
+    timeline_variables: items,
+    randomize_order: shuffle_items
+};
+
+// create timeline and add consent form to the start
+var timeline = [];
+html_path = "../../surveys/gritshort/consent.html";  // make it a global variable
+timeline = create_consent(timeline, html_path);
+timeline.push(procedure);
+
+jsPsych.init({
+    timeline: timeline,
+    on_finish: function () {
+        document.body.style.backgroundColor = 'white';
+        var datasummary = create_datasummary();
+        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
+        console.log(datasummary);
+        jsPsych.data.get().addToAll({ // add objects to all trials
+            info_: info_,
+            datasummary: datasummary,
+            total_time: datasummary.total_time,
+        });
+        if (debug) {
+            jsPsych.data.displayData();
+        }
+        sessionStorage.setObj('info_', info_); // save to sessionStorage
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
     }
 });
 
-// entire task is a (callback) function called by Papa.parse
-function run_survey(survey) {
-    jsPsych.data.addProperties({
-        subject: info_.subject,
-        type: taskinfo.type,
-        uniquestudyid: taskinfo.uniquestudyid,
-        desc: taskinfo.desc,
-        condition: taskinfo.condition,
-        info_: info_,
-    });
 
-    var start_point;
-    var procedure = {
-        timeline: [{
-            type: 'html-slider-response',
-            stimulus: jsPsych.timelineVariable('desc'),
-            data: {
-                q: jsPsych.timelineVariable('q'),
-                subscale: jsPsych.timelineVariable('subscale'),
-                reverse: jsPsych.timelineVariable('reverse')
-            },
-            labels: scale_labels,
-            slider_width: slider_width,
-            min: scale_min_max[0],
-            max: scale_min_max[1],
-            start: function () {
-                start_point = jsPsych.randomization.sampleWithoutReplacement(scale_starting_points, 1)[0];
-                return start_point;
-            },
-            step: step,
-            require_movement: require_movement,
-            on_finish: function (data) {
-                data.start_point = start_point;
-                data.resp = Number(data.response);
-                data.resp_reverse = data.resp;
-                if (data.reverse) { // reverse code item if necessary
-                    data.resp_reverse = scale_min_max[1] + 1 - data.resp;
-                }
-                if (debug) {
-                    console.log("q" + data.q + " (reverse: " + data.reverse + "): " + data.stimulus);
-                    console.log("resp: " + data.resp + ", resp_reverse: " + data.resp_reverse);
-                }
-            }
-        }],
-        timeline_variables: survey,
-        randomize_order: shuffle_items
-    };
 
-    // create timeline and add consent form to the start
-    var timeline = [];
-    html_path = "../../surveys/gritshort/consent.html";  // make it a global variable
-    timeline = create_consent(timeline, html_path);
-    timeline.push(procedure);
 
-    jsPsych.init({
-        timeline: timeline,
-        on_finish: function () {
-            document.body.style.backgroundColor = 'white';
-            var datasummary = create_datasummary();
-            info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
-            console.log(datasummary);
-            jsPsych.data.get().addToAll({ // add objects to all trials
-                info_: info_,
-                datasummary: datasummary,
-                total_time: datasummary.total_time,
-            });
-            if (debug) {
-                jsPsych.data.displayData();
-            }
-            sessionStorage.setObj('info_', info_); // save to sessionStorage
-            submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
-        }
-    });
-};
 
 function preprocess_grit() {  // 
     var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" });  // select stroop trials
@@ -122,14 +110,14 @@ function create_datasummary() {
     var d = preprocess_grit(); // preprocess/clean data
 
     // select trials for each subscale
-    var consistent_interest = d.filter({ "subscale": "consistentInterest" });  
-    var persevere_effort = d.filter({ "subscale": "persevereEffort" }); 
-    
+    var consistent_interest = d.filter({ "subscale": "consistentInterest" });
+    var persevere_effort = d.filter({ "subscale": "persevereEffort" });
+
     // mean resp
     var consistent_resp = consistent_interest.select('resp_reverse').mean();
     var persevere_resp = persevere_effort.select('resp_reverse').mean();
     var mean_resp = d.select('resp_reverse').mean();
-    
+
     // store above info in array
     var datasummary = [
         { type: "consistent_interest", param: "resp_reverse", value: consistent_resp },
