@@ -17,6 +17,7 @@
     src: url(../fonts/Inter-UI.var.woff2);
 }
 
+/* https://www.w3schools.com/cssref/tryit.asp?filename=trycss3_background-size */
 .index-background {
   background-image: url('../img/people.jpg');
   background-position: 50% 43%;
