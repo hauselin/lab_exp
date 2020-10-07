@@ -57,8 +57,8 @@ function deleteData(datalibrary, doc) {
 }
 
 function cssFix(req, res, page, code) {
-    var referrer = req.get('Referer');
-    if (referrer === undefined) {
+    var referrer = req.get('Referer'); // referrer (click)
+    if (referrer === undefined) {  // keyboard entry
         referrer = "/";
     }
     console.log('Referring page: ' + referrer);
