@@ -150,7 +150,8 @@ router.get("/surveys/gritshort/viz", function (req, res) {
         // console.log(country_array);
 
         // render
-        res.render('viz/gritshort.ejs', { data_array: data_array2, country_array: country_array });
+        // res.render('viz/gritshort.ejs', { data_array: data_array2, country_array: country_array });
+       res.render('viz/gritshort.ejs', { data_array: [], country_array: [] });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);

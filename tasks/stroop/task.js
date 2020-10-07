@@ -297,7 +297,7 @@ jsPsych.init({
             jsPsych.data.displayData();
         }
         sessionStorage.setObj('info_', info_); // save to sessionStorage
-        submit_data(jsPsych.data.get().json(), false);
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url);
     }
 });
 
