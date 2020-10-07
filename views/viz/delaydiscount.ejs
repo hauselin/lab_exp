@@ -11,6 +11,7 @@
     <script src="../../libraries/FontLoader.js"></script>
     <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
         crossorigin="anonymous">
+        
     <link href="../../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
     <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
 
@@ -44,13 +45,14 @@
             fjs.parentNode.insertBefore(js, fjs);
         }(document, 'script', 'facebook-jssdk'));</script>
 
+    <!-- main section text  -->
     <section class="bg-primary-alt header-inner o-hidden pt-7">
         <div class="container">
             <div class="row py-6 text-center justify-content-center align-items-center layer-2">
                 <div class="col-xl-8 col-lg-10">
-                    <h1 class="display-4">Delay discounting</h1>
-                    <p class="lead mb-0">How much do you discount rewards that are available only in the future? Check
-                        out the interactive figures and results below. Download figures. </p>
+                    <h1 class="display-4">Money now or money later?</h1>
+                    <p class="lead mb-0">The delay discounting task measures your <a href="https://en.wikipedia.org/wiki/Time_preference" target="_blank">time preference</a>. It measures how much you value or devalue a good that is available only in the future. It's been associated with people's ability to delay gratification and save for the future.<br><br>
+                    Check out the interactive results. Feel free to download and save the figures.</p>
                 </div>
             </div>
         </div>
@@ -58,6 +60,8 @@
             <img src="../../public/assets/img/dividers/divider-2.svg" alt="graphical divider" data-inject-svg />
         </div>
     </section>
+
+    <!-- main/first figure id="vis1"  -->
     <section>
         <div class="container">
 
@@ -71,15 +75,12 @@
                     <div class="row justify-content-center">
                         <div class="col-xl-10 col-lg-11">
                             <span id="no-data-tag" class="badge badge-primary"></span>
-                            <div class="mt-2">
-                                <span class="h4">How much do you discount future rewards?</span>
+                            <div class="my-2">
+                                <span class="h4">Longer delays increase devaluation</span>
                             </div>
-                            <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
-                                praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
-                                sint occaecati.</p>
+                            <p class="lead">Assume you'll receive $1 the future—this value is the maximum value on the y-axis. This boxplot suggests that the more days you have to wait before you receive $1, the more you devalue or discount that $1. The longer you have to wait, the more its <a href="https://en.wikipedia.org/wiki/Subjective_theory_of_value" target="_blank">subjective value</a> drops.</p>
                             <p id="no-data-text" class="lead mb-1"></p>
-                            <p id="percentile" class="lead mb-2"></p>
-                            <div class="fb-share-button" data-href=# data-layout="button" data-size="large"></div>
+                            <!-- <div class="fb-share-button" data-href=# data-layout="button" data-size="large"></div> -->
                         </div>
                     </div>
                 </div>
@@ -88,41 +89,44 @@
 
         </div>
     </section>
+
+    <!-- next section -->
+    <!-- icons reference: https://leap.mediumra.re/elements-icons-reference.html -->
     <section class="pt-0 has-divider">
         <div class="container pt-1">
             <div class="row mb-4" data-aos="fade-up">
                 <div class="col">
-                    <h2>What does this say about you?</h2>
+                    <h2>What do these results mean?</h2>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg"
-                        alt="patch icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/zoom-plus.svg"
+                        alt="zoom-plus icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Self-control and impulsivity</h5>
                         <p>
-                            More info. Complete these tasks.
+                            Those who devalue future rewards more are likely to have less self-control and be more impulsive. Try the <a href="#">self-control</a> or <a href="/surveys/gritshort">grit</a> scale.
                         </p>
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg"
-                        alt="miso-soup icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/zoom-plus.svg"
+                        alt="zoom-plus icon" data-inject-svg />
                     <div class="ml-3">
-                        <h5>Other types of discounting behavior</h5>
+                        <h5>Other types of discounting</h5>
                         <p>
-                            More info. Link to effort discounting task.
+                            Discounting of future rewards is related to other kinds of discounting behavior. Try <a href="#"">another discounting task</a> now.
                         </p>
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg"
-                        alt="door-open icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/zoom-plus.svg"
+                        alt="zoom-plus icon" data-inject-svg />
                     <div class="ml-3">
-                        <h5>Temporal preferences</h5>
+                        <h5>Time preferences</h5>
                         <p>
-                            More info. Complete the temporal preferences survey.
+                            How much you devalue future rewards depends on your temporal or time preferences. Take the <a href="#">time preferences</a> survey to find out more.
                         </p>
                     </div>
                 </div>
@@ -133,60 +137,55 @@
                 data-inject-svg />
         </div>
     </section>
-    <section class="bg-primary-alt">
-        <div class="container pt-1">
+    
+    
+    <section class="bg-primary-alt viz-subsections">
+        <div class="container">
             <div class="row justify-content-center mb-4">
                 <div class="col-lg-10 col-xl-8 text-center">
-                    <h2 class="h1">Aggregate data</h2>
-                    <p class="lead">This is everyone's data.</p>
+                    <h2 class="h1">More visualizations</h2>
                 </div>
             </div>
+
             <div class="container">
                 <div class="row align-items-center justify-content-around">
-                    <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                    <div class="col-auto col-xl-6">
                         <div id="vis2" class="center"></div>
                     </div>
-                    <div class="col-md-6 col-xl-5">
+
+                    <div class="col-auto col-xl-6">
                         <div class="row justify-content-center">
-                            <div class="col-xl-10 col-lg-11">
-                                <span class="badge badge-primary">Area-under-discounting curve</span>
-                                <div class="my-3">
-                                    <span class="h1">Discounting box plot</span>
+                            <div class="col-xl-10 col-lg-11 ml-auto">
+                                <span class="badge badge-primary">Area-under-curve</span>
+                                <div class="my-2">
+                                    <span class="h4">Devaluation or discounting summary</span>
                                 </div>
-                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                                    blanditiis
-                                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
-                                    excepturi
-                                    sint occaecati.</p>
-                                <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
-                                    deserunt
-                                    mollitia animi, id est laborum et dolorum fuga.</p>
+                                <p id="percentile" class="lead mb-2"></p>
+                                <p class="lead">
+                                This area-under-curve (AUC) metric summarizes the results from the figure above as a single value. 1 implies no discounting at all, and 0 implies maximum discounting, where all future rewards are worthless.
+                                </p>
+                                <p class="lead">Larger AUC values are associated with better self-control and life outcomes.
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <div class="container pt-7">
                 <div class="row align-items-center justify-content-around">
-                    <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
+                    <div class="col-auto col-xl-6">
                         <div id="vis3" class="center"></div>
                     </div>
-                    <div class="col-md-6 col-xl-5">
+                    <div class="col-auto col-xl-6">
                         <div class="row justify-content-center">
-                            <div class="col-xl-10 col-lg-11">
+                            <div class="col-xl-10 col-lg-11 ml-auto">
                                 <span class="badge badge-primary">Global choropleth</span>
-                                <div class="my-3">
-                                    <span class="h1">Global </span>
+                                <div class="my-2">
+                                    <span class="h4">AUC across the globe</span>
                                 </div>
-                                <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
-                                    blanditiis
-                                    praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias
-                                    excepturi
-                                    sint occaecati.</p>
-                                <p class="lead mb-0">Cupiditate non provident, similique sunt in culpa qui officia
-                                    deserunt
-                                    mollitia animi, id est laborum et dolorum fuga.</p>
+                                <p class="lead">People in different countries and cultures differ in how much they care about or devalue future rewards. This choropleth shows the area-under-curve metric across the globe.</p>
                             </div>
                         </div>
                     </div>
@@ -194,6 +193,8 @@
 
             </div>
     </section>
+
+    <!-- final section: link to other tasks -->
     <section>
         <div class="container">
             <div class="row justify-content-center">
@@ -244,6 +245,18 @@
         </div>
     </section>
 
+
+
+
+
+
+
+
+
+
+
+    <!-- specify vegalite figures below -->
+
     <script type="text/javascript">
         // constants
         const viz_num = 500; // number of most recent data points to visualize
@@ -261,19 +274,21 @@
             subject_id = get_query_string().subject;
             start_time = get_query_string().time;
             document.getElementById('no-data-tag').innerHTML = "Someone else's data shared to you";
-            document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
+            document.getElementById('no-data-text').innerHTML = "To see your own results here, complete the task <a href='/tasks/delaydiscount'>here</a>.";
             console.log('subject ID found in url parameter: ' + subject_id);
         } else if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
             subject_id = null;
             time = null;
-            document.getElementById('no-data-tag').innerHTML = "Other users' discounting behavior";
-            document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
+            document.getElementById('no-data-tag').innerHTML = "Other users' behavior";
+            document.getElementById('no-data-text').innerHTML = "To see your own results here, complete the task <a href='/tasks/delaydiscount'>here</a>.";
         } else {
             subject_id = info.subject;
             start_time = info.time;
-            document.getElementById('no-data-tag').innerHTML = "Your discounting relative to others";
+            document.getElementById('no-data-tag').innerHTML = "You vs others";
+            document.getElementById('no-data-text').innerHTML = "The red dots are your subjective valuation.";
         }
 
+        // TODO: Frank again too much is going on here... let's see if we can come up with a better solution
         if (subject_id != null && start_time != null) { // perform actions that are done exclusively when there is a subject id specified
             // put subject and start time data into share link
             share_link = "https://anthrope.herokuapp.com/tasks/delaydiscount/viz?subject=" + subject_id + "&time=" + start_time.toString()
@@ -300,7 +315,7 @@
             // });
             subject_index = subject_array.map(x => x.auc).indexOf(data_array.filter(i => i.subject == subject_id).slice(0, 1)[0].auc);
             percentile = subject_index / (subject_array.length - 1) * 100
-            document.getElementById('percentile').innerHTML = "Your AUC is at the <b>" + percentile.toString() + "th percentile</b> of all subjects";
+            document.getElementById('percentile').innerHTML = "Your score (the red vertical line) is <strong>higher than " + percentile.toString() + "% of our users</strong>.";
 
             // query subject's data array ahead of time
             subject_data = data_array.filter(i => i.subject == subject_id && i.time == start_time)

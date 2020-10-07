@@ -61,3 +61,7 @@ section {
     font-size: 50px;
   }
 }
+
+.viz-subsections {
+    padding: 1rem;
+}
