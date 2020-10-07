@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.json());
 app.set("view engine", "ejs"); // use ejs template engine for rendering
 
-var mongoDB = process.env.MONGODB_URI || "mongodb://localhost/datalibrary"; // TODO MAHAM (when deploying, simply set MONGODB_URI environment variable)
+var mongoDB = process.env.MONGODB_URI || "mongodb://localhost/datalibrary"; 
 mongoose.connect(mongoDB,
     { useUnifiedTopology: true, useNewUrlParser: true }, function (err) {
         if (err) { console.log('Not connected to database!'); } else {
