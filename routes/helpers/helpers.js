@@ -57,6 +57,11 @@ function deleteData(datalibrary, doc) {
 }
 
 function cssFix(req, res, page, code) {
+    var referrer = req.get('Referer');
+    if (referrer === undefined) {
+        referrer = "/";
+    }
+    console.log('Referring page: ' + referrer);
     if (code === undefined) {
         var code = 200;
     }
@@ -64,7 +69,8 @@ function cssFix(req, res, page, code) {
     var c = "../".repeat(c);
     const c1 = c + "public/assets/css/loaders/loader-typing.css";
     const c2 = c + "public/assets/css/theme.css";                
-    res.status(code).render(page, { c1: c1, c2: c2 });
+    res.status(code).render(page, { c1: c1, c2: c2, referrer: referrer});
+    // res.redirect('back'); // redirects the request back to the referer, defaulting to / when the referer is missing
 }
 
 function deepCopy(obj) {
