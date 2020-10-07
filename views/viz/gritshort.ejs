@@ -20,17 +20,18 @@
 
     <!-- load jquery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 </head>
 
 <body class="is-preload">
     <%- include('../partials/menu_bar_viz') %>
+
     <section class="bg-primary-alt header-inner o-hidden pt-7">
         <div class="container">
             <div class="row py-6 text-center justify-content-center align-items-center layer-2">
                 <div class="col-xl-8 col-lg-10">
-                    <h1 class="display-4">Grit</h1>
-                    <p class="lead mb-0">How gritty are you? Check
-                        out the interactive figures and results below. Download figures. </p>
+                    <h1 class="display-4">How gritty are you?</h1>
+                    <p class="lead mb-0">The brief survey you just completed is...</p>
                 </div>
             </div>
         </div>
@@ -42,19 +43,21 @@
         <div class="container">
             <div class="row align-items-center justify-content-around">
                 <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
-                    <div id="vis2" class="center"></div>
+                    <div id="vis1" class="center"></div>
                 </div>
                 <div class="col-md-6 col-xl-5">
                     <div class="row justify-content-center">
                         <div class="col-xl-10 col-lg-11">
                             <span id="no-data-tag" class="badge badge-primary"></span>
                             <div class="my-3">
-                                <span class="h3">How much grit do you have?</span>
+                                <span class="h3">How much do you discount future rewards?</span>
                             </div>
                             <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis
                                 praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi
                                 sint occaecati.</p>
-                            <p id="no-data-text" class="lead mb-0"></p>
+                            <p id="no-data-text" class="lead mb-1"></p>
+                            <p id="percentile" class="lead mb-2"></p>
+                            <div class="fb-share-button" data-href=# data-layout="button" data-size="large"></div>
                         </div>
                     </div>
                 </div>
@@ -65,33 +68,30 @@
         <div class="container">
             <div class="row mb-4" data-aos="fade-up">
                 <div class="col">
-                    <h2>What does this say about you?</h2>
+                    <h2>What do these results mean?</h2>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg"
-                        alt="patch icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/patch.svg" alt="patch icon" data-inject-svg />
                     <div class="ml-3">
-                        <h5>Self-control and impulsivity</h5>
+                        <h5>Persistence and self-control</h5>
                         <p>
                             More info. Complete these tasks.
                         </p>
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg"
-                        alt="miso-soup icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/food/miso-soup.svg" alt="miso-soup icon" data-inject-svg />
                     <div class="ml-3">
-                        <h5>Other types of discounting behavior</h5>
+                        <h5>Consistency of interest</h5>
                         <p>
                             More info. Link to effort discounting task.
                         </p>
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg"
-                        alt="door-open icon" data-inject-svg />
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/home/door-open.svg" alt="door-open icon" data-inject-svg />
                     <div class="ml-3">
                         <h5>Temporal preferences</h5>
                         <p>
@@ -102,8 +102,7 @@
             </div>
         </div>
         <div class="divider">
-            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
-                data-inject-svg />
+            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic" data-inject-svg />
         </div>
     </section>
     <section class="bg-primary-alt">
@@ -117,14 +116,14 @@
             <div class="container">
                 <div class="row align-items-center justify-content-around">
                     <div class="col-md-5 col-lg-6 mb-3 mb-md-0">
-                        <div id="vis1" class="center"></div>
+                        <div id="vis2" class="center"></div>
                     </div>
                     <div class="col-md-6 col-xl-5">
                         <div class="row justify-content-center">
                             <div class="col-xl-10 col-lg-11">
-                                <span id="no-data-tag2" class="badge badge-primary"></span>
+                                <span class="badge badge-primary">Area-under-discounting curve</span>
                                 <div class="my-3">
-                                    <span class="h1">Subscale box plot</span>
+                                    <span class="h1">Discounting box plot</span>
                                 </div>
                                 <p class="lead">At vero eos et accusamus et iusto odio dignissimos ducimus qui
                                     blanditiis
@@ -181,7 +180,7 @@
                             <span class="text-small text-muted">Estimated time</span>
                         </div>
                     </div>
-                    
+
                     <div class="list-group list-group-flush">
                         <a href="/tasks/stroop" class="list-group-item list-group-item-action row no-gutters">
                             <div class="col-xl-8 col-lg-7 col-md-6">
@@ -209,7 +208,7 @@
                         </a>
                     </div>
 
-                    <span class="d-block mt-4"><a href="/surveys" class="hover-arrow">See more surveys</a>
+                    <span class="d-block mt-4"><a href="/tasks" class="hover-arrow">See more tasks</a>
                     </span>
 
                 </div>
@@ -218,138 +217,121 @@
     </section>
 
     <script type="text/javascript">
+        // constants
+        const viz_num = 500; // number of most recent data points to visualize
 
         // data from database
         const data_array = <%- JSON.stringify(data_array) %>;
+        const small_data_array = data_array.slice(data_array.length - viz_num, data_array.length);
         const country_array = <%- JSON.stringify(country_array) %>;
-        const uniquestudyid = 'gritshort';
+        const uniquestudyid = 'delaydiscount';
 
         // retrieve objects from sessionStorage
         // subject_id and time will be used to filter arrays for plotting subject data
         const info = sessionStorage.getObj("info_");
-        if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
+        if (get_query_string().hasOwnProperty('subject')) {
+            subject_id = get_query_string().subject;
+            start_time = get_query_string().time;
+            document.getElementById('no-data-tag').innerHTML = "Someone else's data shared to you";
+            document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
+            console.log('subject ID found in url parameter: ' + subject_id);
+        } else if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
             subject_id = null;
             time = null;
+            document.getElementById('no-data-tag').innerHTML = "Other users' discounting behavior";
+            document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
         } else {
             subject_id = info.subject;
             start_time = info.time;
+            document.getElementById('no-data-tag').innerHTML = "Your discounting relative to others";
         }
 
-        if (!subject_id) {
-            document.getElementById('no-data-tag').innerHTML = "Other users' grit";
-            document.getElementById('no-data-tag2').innerHTML = "Other users' grit";
-            document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
-        } else {
-            document.getElementById('no-data-tag').innerHTML = "Your grit relative to others";
-            document.getElementById('no-data-tag2').innerHTML = "Your grit relative to others";
-        }
-    </script>
+        if (subject_id != null && start_time != null) { // perform actions that are done exclusively when there is a subject id specified
+            // put subject and start time data into share link
+            share_link = "https://anthrope.herokuapp.com/tasks/delaydiscount/viz?subject=" + subject_id + "&time=" + start_time.toString()
+            $(document).ready(function () {
+                console.log('jQuery is ready');
+                $('div.fb-share-button').attr('data-href', share_link);
+            });
 
-    <!-- Mean response density -->
-    <script type="text/javascript" defer>
-
-        var mean_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { title: null, labelFontSize: 15, labelFont: "Inter-UI-upright", orient: "bottom" } },
-            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-            layer: [
-                {
-                    data: { values: data_array.filter(i => i.type == "all") },
-                    transform: [{
-                        density: "value",
-                    }],
-                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
-                    encoding: {
-                        x: {
-                            type: "quantitative",
-                            field: "value",
-                            title: "Response",
-                        },
-                        y: {
-                            type: "quantitative",
-                            field: "density",
-                            title: "Frequency (density)",
-                        },
-                        color: { value: "#38405C", type: "nominal" },
-                        tooltip: [{ field: 'value', format: ".1f", title: 'Response', type: "quantitative" }, { field: 'density', format: ".1f", title: 'Density', type: "quantitative" }]
-                    }
-                },
-                {
-                    data: (function () { // anonymous function
-                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: data_array.filter(i => i.subject == subject_id && i.type == "all").slice(0, 1) };
-                        } else {  // don't draw vertical rule
-                            return { values: [] };
-                        }
-                    }()),
-                    mark: { type: "rule", opacity: 0.7 },
-                    encoding: {
-                        x: { field: "value", type: "quantitative" },
-                        color: { value: "#38405C", type: "nominal" },
-                        size: { value: 3 },
-                        tooltip: [
-                            { field: 'value', format: ".1f", title: 'Your response', type: "quantitative" }]
-                    },
+            // add percentile data
+            var subject_array = data_array.filter(
+                x => x.cost == 2
+            );
+            subject_array.sort(function (a, b) {
+                if (a.auc < b.auc) {
+                    return -1;
+                } else if (a.auc > b.auc) {
+                    return 1;
+                } else {
+                    return 0;
                 }
-            ],
-            // title: "Aggregate AUC density",
-            width: 540,
-            height: 400,
-        };
+            })
+            // subject_array.forEach(element => {
+            //     console.log(element.auc);
+            // });
+            subject_index = subject_array.map(x => x.auc).indexOf(data_array.filter(i => i.subject == subject_id).slice(0, 1)[0].auc);
+            percentile = subject_index / (subject_array.length - 1) * 100
+            document.getElementById('percentile').innerHTML = "Your AUC is at the <b>" + percentile.toString() + "th percentile</b> of all subjects";
 
+            // query subject's data array ahead of time
+            subject_data = data_array.filter(i => i.subject == subject_id && i.time == start_time)
+        } else {
+            $(document).ready(function () {
+                console.log('jQuery is ready');
+                $('div.fb-share-button').attr('data-href', "https://anthrope.herokuapp.com/tasks/delaydiscount/viz");
+            });
+            
+            // define empty array for subject's data
+            subject_data = []
+        }
     </script>
 
-
-
-
-
-
-    <!-- Subscale box plot -->
+    <!-- Aggregate box plot -->
     <script type="text/javascript" defer>
 
-        var subscale_boxplot = {
+        var aggregate_curve = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-            background: "#f3f5fb",
+            encoding: {
+                x: {
+                    field: "cost",
+                    type: "quantitative",  // or nominal?
+                    axis: { "title": "Delay (days to reward)", tickMinStep: 20 },
+                    scale: { domain: [0, 101] }
+                },
+            },
             layer: [
                 {
-                    data: { values: data_array.filter(i => i.type != "all") },
+                    data: { values: small_data_array },
                     mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
                     encoding: {
                         y: {
-                            field: "value",
+                            field: "indifference_ratio",
                             type: "quantitative",
-                            axis: { "title": "Response" }
-                        },
-                        x: {
-                            field: "type",
-                            type: "nominal",
-                            axis: { "title": "Grit facets", tickMinStep: 20, labelAngle: 0, labelExpr: "if(datum.label=='consistentInterest', 'Interest consistency', 'Effort perseverence')" },
+                            axis: { "title": "Subjective value" }
                         },
                         size: { value: 18 },
-                        color: { field: "type", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
+                        color: { field: "cost", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
                         tooltip: [
-                            { field: 'value', type: "quantitative", format: '.1f', title: "Response", aggregate: "mean" }
+                            { field: 'indifference_ratio', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" }
                         ]
                     }
                 },
                 {
-                    // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
+                    // data: { values: subject_data },
                     data: (function () { // anonymous function
                         if (subject_id) {
-                            return { values: data_array.filter(i => i.subject == subject_id && i.type != 'all').slice(0, 2) };
+                            return { values: subject_data };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
                     }()),
                     mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
                     encoding: {
-                        x: {
-                            field: "type",
-                            type: "nominal",
-                        },
-                        y: { field: "value", type: "quantitative" },
+                        y: { field: "indifference_ratio", type: "quantitative", scale: { domain: [0, 1] } },
                         size: { value: 150 },
-                        tooltip: [{ field: "value", format: ".1f", title: 'Your response', type: "quantitative" }] // format tooltip
+                        tooltip: [{ field: "indifference_ratio", format: ".3f", title: 'Subjective value', type: "quantitative" }, { field: "cost", format: ".0f", title: 'Delay', type: "nominal" }] // format tooltip
                     },
                 }
             ],
@@ -359,16 +341,63 @@
 
     </script>
 
+    <!-- Aggregate AUC density -->
+    <script type="text/javascript" defer>
 
+        var auc_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            layer: [
+                {
+                    data: { values: small_data_array.filter(i => i.cost == 2) },
+                    transform: [
+                        { density: "auc", counts: false, cumulative: false },
+                    ],
+                    mark: { type: "area", color: "#3755be", tooltip: true },
+                    encoding: {
+                        x: {
+                            type: "quantitative",
+                            field: "value",
+                            title: ["Area under curve (AUC)"],
+                            scale: { domain: [0, 1] }
+                        },
+                        y: {
+                            type: "quantitative",
+                            field: "density",
+                            title: "Frequency (density)",
+                        },
+                        color: { value: "#38405C", type: "quantitative" },
+                        tooltip: [{ field: 'value', format: ".3f", title: 'AUC', type: "quantitative" }, { field: 'density', format: ".2f", title: 'Density', type: "quantitative" }]
+                    }
+                },
+                {
+                    data: (function () { // anonymous function
+                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
+                            return { values: subject_data.slice(0, 1) };
+                        } else {  // don't draw vertical rule
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: "rule",
+                    encoding: {
+                        x: { field: "auc", type: "quantitative" },
+                        color: { value: "firebrick", type: "quantitative" },
+                        size: { value: 3 },
+                        tooltip: [{ field: 'auc', format: ".3f", title: 'You', type: "quantitative" }]
+                    },
+                }
+            ],
+            // title: "Aggregate AUC density",
+            width: 550,
+            height: 400,
+        };
 
+    </script>
 
-
-
-
-
-    <!-- Global response mean choropleth -->
+    <!-- AUC choropleth -->
     <script defer>
-        var global_mean_plot = {
+        var global_auc_plot = {
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: { stroke: "transparent" } },
             background: "#f3f5fb",
@@ -409,7 +438,7 @@
                             from: {
                                 data: { values: country_array },
                                 key: "country_id",
-                                fields: ["mean_resp", "country_name"]
+                                fields: ["median_auc", "country_name"]
                             },
                         }
                     ],
@@ -421,9 +450,9 @@
                     },
                     encoding: {
                         color: {
-                            field: "mean_resp",
+                            field: "median_auc",
                             type: "quantitative",
-                            scale: { scheme: "viridis" },
+                            scale: { domain: [0, 1], scheme: "viridis" },
                             legend: { title: null, direction: "horizontal", orient: "bottom-left" }
                         },
                         tooltip: [
@@ -433,10 +462,10 @@
                                 type: "nominal"
                             },
                             {
-                                field: "mean_resp",
-                                title: "Mean response",
+                                field: "median_auc",
+                                title: "AUC",
                                 type: "quantitative",
-                                format: ".1f"
+                                format: ".3f"
                             },
                         ]
                     }
@@ -453,9 +482,9 @@
             "fontLoaded": function (f) {
                 console.log("font loaded: " + f.family);
             }, "complete": function (error) {
-                vegaEmbed('#vis1', subscale_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
-                vegaEmbed('#vis2', mean_density, { actions: { source: false, compiled: false, editor: false } });
-                vegaEmbed('#vis3', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis1', aggregate_curve, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+                vegaEmbed('#vis2', auc_density, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis3', global_auc_plot, { actions: { source: false, compiled: false, editor: false } });
             }
         }, 3000);
         fontLoader.loadFonts();

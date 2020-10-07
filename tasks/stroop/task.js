@@ -3,7 +3,7 @@ const taskinfo = {
     uniquestudyid: 'stroop', // unique task id: must be IDENTICAL to directory name
     desc: 'stroop', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: false // set to false if no redirection required
+    redirect_url: "/tasks/stroop/viz" // set to false if no redirection required
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
