@@ -20,6 +20,8 @@
 .index-background {
   background-image: url('../img/people.jpg');
   background-position: 50% 43%;
+  background-repeat: no-repeat;
+  background-size: 100%;
 }
 
 .btn, .btn-lg, .btn-primary-3 {
