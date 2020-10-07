@@ -61,7 +61,7 @@ function cssFix(req, res, page, code) {
     if (referrer === undefined) {  // keyboard entry
         referrer = "/";
     }
-    console.log('Referring page: ' + referrer);
+    console.log('helper.js cssFix - referring page: ' + referrer);
     if (code === undefined) {
         var code = 200;
     }

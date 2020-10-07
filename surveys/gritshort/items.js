@@ -47,4 +47,4 @@ var items = [
         "subscale": "persevereEffort",
         "reverse": 0
     }
-]
+];

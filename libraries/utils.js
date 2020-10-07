@@ -195,13 +195,14 @@ function mad_cutoffs(x, cutoff = 3.0) {
 }
 
 function submit_data(results, redirect_url) {
+    // console.log(results)
     try {
         $.ajax({
             type: "POST",
             url: "/submit-data",
             data: results,
-            contentType: "application/json",
-            timeout: 5000, // timeout after 5 seconds
+            contentType: "application/json;charset=utf-8",
+            timeout: 10000, // timeout after 10 seconds
             success: function (data) { // success only runs if html status code is 2xx (success)
                 console.log('SUCCESS: ' + data + ' data successfully saved in database'); // data is just the success status code sent from server (200)
             },

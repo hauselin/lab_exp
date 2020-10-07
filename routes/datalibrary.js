@@ -3,6 +3,7 @@ const router = express.Router();
 const DataLibrary = require("../models/datalibrary")
 
 router.post('/submit-data', function (req, res) {
+    console.log(req);
     const rawdata = req.body;  // data from jspsych
     const info = rawdata[0].info_; // get info_ from object/trial 0
     const datasummary = rawdata[0].datasummary;  // get datasummary_ from object/trial 0
