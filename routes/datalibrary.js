@@ -26,6 +26,8 @@ router.post('/submit-data', function (req, res) {
         i.previous_uniquestudyid = info.previous_uniquestudyid;
         i.previous_time = info.previous_time;
         i.previous_mins_before = info.previous_mins_before;
+        delete i.info_; // delete to save space
+        delete i.datasummary; // delete to save space
     })
 
     DataLibrary.create({
