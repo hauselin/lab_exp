@@ -195,7 +195,6 @@ function mad_cutoffs(x, cutoff = 3.0) {
 }
 
 function submit_data(results, redirect_url) {
-    // console.log(results)
     try {
         $.ajax({
             type: "POST",

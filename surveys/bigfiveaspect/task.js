@@ -16,8 +16,8 @@ if (black_background) {
     var font_colour = 'white';
 }
 
-if (true) {
-    items = items.slice(0, 60);
+if (debug) {
+    items = items.slice(0, 5);
 }
 
 // TASK PARAMETERS

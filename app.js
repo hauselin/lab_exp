@@ -18,8 +18,10 @@ var showRoutes = require('./routes/show'),
     downloadsRoutes = require('./routes/downloads'),
     deleteRoutes = require('./routes/delete')
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+// limit parameter required to send larger json files
+// https://stackoverflow.com/questions/19917401/error-request-entity-too-large
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(express.json());
 app.set("view engine", "ejs"); // use ejs template engine for rendering
 
