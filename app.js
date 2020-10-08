@@ -6,15 +6,16 @@ var express = require("express"),
     passport = require('passport'),
     LocalStrategy = require('passport-local'),
     path = require('path'),
+    favicon = require('serve-favicon'),
     User = require('./models/user'),
-    DataLibrary = require('./models/datalibrary')
-    helper = require('./routes/helpers/helpers');
+    DataLibrary = require('./models/datalibrary'),
+    helper = require('./routes/helpers/helpers')
 
 var showRoutes = require('./routes/show'),
     indexRoutes = require('./routes/index'),
     datalibraryRoutes = require('./routes/datalibrary'),
     vizRoutes = require('./routes/viz'),
-    authRoutes = require('./routes/auth')
+    authRoutes = require('./routes/auth'),
     downloadsRoutes = require('./routes/downloads'),
     deleteRoutes = require('./routes/delete')
 
@@ -53,6 +54,7 @@ app.use(function(req, res, next){
 });
 
 // // TELL EXPRESS TO USE THE FOLLOWING LIBRARIES/FILES
+app.use(favicon(__dirname + '/public/assets/img/favicon.ico')); // to show favicon
 app.use('/tasks', express.static(__dirname + "/tasks"));
 app.use('/surveys', express.static(__dirname + "/surveys"));
 app.use('/studies', express.static(__dirname + "/studies"));
