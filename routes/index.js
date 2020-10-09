@@ -94,7 +94,8 @@ router.get('/', function (req, res) {
         task_to_try: d3.shuffle(page_elements.tasks_to_try)[0],
         surveys: d3.shuffle(page_elements.surveys),
         tasks: d3.shuffle(page_elements.tasks),
-        studies: d3.shuffle(page_elements.studies)
+        studies: d3.shuffle(page_elements.studies),
+        faq: page_elements.faq
     });
 });
 
