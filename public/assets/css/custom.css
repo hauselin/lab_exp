@@ -72,9 +72,14 @@ section {
     float:right;
 }
 
-/* 100% width not working yet! */
-.navbar-collapse {
-    background-color: #141a24;
+/* 100% width not working yet!
+.collapse, .navbar-collapse {
+    background-color: #38405c;
     width: 100% !important; 
 }
+ */
 
+/* .nav-link {
+    background-color: #141a24;
+}
+ */
