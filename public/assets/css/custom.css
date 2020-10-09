@@ -65,3 +65,16 @@ section {
 .viz-subsections {
     padding: 1rem;
 }
+
+/* navigation float right instead of left */
+/* https://stackoverflow.com/questions/24942637/how-to-align-tabs-to-top-right-in-bootstrap-3/24943625 */
+.navbar-nav {
+    float:right;
+}
+
+/* 100% width not working yet! */
+.navbar-collapse {
+    background-color: #141a24;
+    width: 100% !important; 
+}
+

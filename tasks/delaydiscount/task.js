@@ -16,7 +16,7 @@ if (black_background) {
     var font_colour = 'white';
 }
 
-// TASK PARAMETERSs
+// TASK PARAMETERS
 const large_reward = 100; //Large reward after cost.
 var costs = [2, 10, 15, 50, 100];  //costs in days.
 // var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
