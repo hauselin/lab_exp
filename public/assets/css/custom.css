@@ -30,9 +30,9 @@
     border-radius: 10px;
 }
 
-#menubar-index, #menubar-internal, #menubar-viz {
+/* #menubar-index, #menubar-internal, #menubar-viz {
     max-height: 75px;
-}
+} */
 
 section {
     padding-top: 3rem;
@@ -77,6 +77,10 @@ section {
 
 .navbar-nav {
     float: right;
+}
+
+.navbar-expand-lg {
+    padding: 5px !important;
 }
 
 /* 100% width not working yet!
