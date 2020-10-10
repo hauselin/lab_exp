@@ -394,7 +394,117 @@ function create_consent(timeline, html_path) {
     return timeline;
 }
 
+function country_name_to_num(country_name) {
+    var index = country_info.findIndex(c => c.country.toLowerCase() === country_name.toLowerCase());
+    if (index < 0) {  // if no matching index found, index will be -1
+        return null
+    } else {
+        return Number(country_info[index].numeric)
+    }
+}
+
+function percentile(number, array) {
+    var greater_than = array.filter(i => i >= number);
+    return (1 - greater_than.length / array.length) * 100
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var country_info = [
+    {
+        country: 'United States of America',
+        alpha2: 'US',
+        alpha3: 'USA',
+        numeric: '840',
+    },
     {
         country: 'Afghanistan',
         alpha2: 'AF',
@@ -1806,12 +1916,6 @@ var country_info = [
         numeric: '826',
     },
     {
-        country: 'United States of America',
-        alpha2: 'US',
-        alpha3: 'USA',
-        numeric: '840',
-    },
-    {
         country: 'United States Minor Outlying Islands',
         alpha2: 'UM',
         alpha3: 'UMI',
@@ -1891,16 +1995,3 @@ var country_info = [
     },
 ];
 
-function country_name_to_iso(country_name) {
-    var index = country_info.findIndex(c => c.country.toLowerCase() === country_name.toLowerCase());
-    if (index < 0) {  // if no matching index found, index will be -1
-        return null
-    } else {
-        return Number(country_info[index].numeric)
-    }
-}
-
-function percentile(number, array) {
-    var greater_than = array.filter(i => i >= number);
-    return (1 - greater_than.length / array.length) * 100
-}

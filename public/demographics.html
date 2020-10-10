@@ -3,7 +3,7 @@
 
 <head>
 	<script src="../jspsych/jspsych.js"></script>
-	<script src="../jspsych/plugins/jspsych-survey-html-form.js"></script>
+	<script src="../jspsych/plugins/jspsych-survey-text-dropdown.js"></script>
 	<link rel="stylesheet" href="../jspsych/css/jspsych.css">
 	</script>
 	<script type="text/javascript" src="../libraries/utils.js"></script>
@@ -14,30 +14,21 @@
 </body>
 <script type="text/javascript">
 
-	// TODO FRANK: move this function to utils.js too; again, make it modular; this function should only create country options; it shouldn't do anything else (and remember to use var when defining variables to ensure they're not global variables)
-	// TODO Frank: try to always pass in parameter values and avoid using global variables
-	function create_country_options(country_info) { 
-		var options = '';
-		country_info.forEach(function(c) {
-			options += '<option value="' + c.country + '">';
-		})
-		return options
-	}
-
-	var form_country_now = {
-		type: 'survey-html-form',
-		preamble: '<p>Where are you living now?</p>',
-		html: '<p><input list="countries" name="countries"><datalist id="countries">' + create_country_options(country_info) + '</datalist></p>'
-	} 
-	// TODO Frank: map the country to alpha2 value; call this function at the end of the trial, and save the corresponding alpha2 value to jspsych's data (i.e., save both the country name and alpha2 value) currently, it's saved as in the weirdly formatted "responses" field; when saving country name, convert all to lowercase first...
-
-	// https://www.w3schools.com/html/tryit.asp?filename=tryhtml_elem_datalist
-	// https://www.w3schools.com/html/html_form_elements.asp
-	// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
-	// https://www.jspsych.org/plugins/jspsych-survey-html-form/
+	var select_country = {
+			type: 'survey-text-dropdown',
+			question: [{
+				prompt: 'Where are you living currently?',
+				options: country_info.map(i => i.country),
+				name: 'country'
+			}],
+			required: true,
+			on_finish: function (data) {
+				data.country_code = country_name_to_num(data.value);
+			}
+		};
 
 	jsPsych.init({
-		timeline: [form_country_now],
+		timeline: [select_country],
 		on_finish: function () { jsPsych.data.displayData(); }
 	});
 
