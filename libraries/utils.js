@@ -1891,9 +1891,13 @@ var country_info = [
     },
 ];
 
-function country_name_to_iso(country_name){
-    var index = country_info.findIndex(c => c.country === country_name);
-    return Number(country_info[index].numeric)
+function country_name_to_iso(country_name) {
+    var index = country_info.findIndex(c => c.country.toLowerCase() === country_name.toLowerCase());
+    if (index < 0) {  // if no matching index found, index will be -1
+        return null
+    } else {
+        return Number(country_info[index].numeric)
+    }
 }
 
 function percentile(number, array) {
