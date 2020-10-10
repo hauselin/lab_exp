@@ -13,6 +13,7 @@ router.post('/submit-data', function (req, res) {
         i.utc_datetime = info.utc_datetime;
         i.browser_info = info.browser_info;
         i.ip = info.ip;
+        i.ip_test = req.ip;
         i.country = info.country_name;
         i.region = info.region;
         i.country_code = info.country_code;
