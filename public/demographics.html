@@ -19,19 +19,17 @@
 	function create_country_options(country_info) { 
 		var options = '';
 		country_info.forEach(function(c) {
-			options = options.concat('<option value="');
-			options = options.concat(c.country);
-			options = options.concat('">');
+			options += '<option value="' + c.country + '">';
 		})
 		return options
 	}
 
-	var form_trial = {
+	var form_country_now = {
 		type: 'survey-html-form',
 		preamble: '<p>Where are you living now?</p>',
 		html: '<p><input list="countries" name="countries"><datalist id="countries">' + create_country_options(country_info) + '</datalist></p>'
 	} 
-	// TODO Frank: map the country to alpha2 value; call this function at the end of the trial, and save the corresponding alpha2 value to jspsych's data (i.e., save both the country name and alpha2 value)
+	// TODO Frank: map the country to alpha2 value; call this function at the end of the trial, and save the corresponding alpha2 value to jspsych's data (i.e., save both the country name and alpha2 value) currently, it's saved as in the weirdly formatted "responses" field; when saving country name, convert all to lowercase first...
 
 	// https://www.w3schools.com/html/tryit.asp?filename=tryhtml_elem_datalist
 	// https://www.w3schools.com/html/html_form_elements.asp
@@ -39,7 +37,7 @@
 	// https://www.jspsych.org/plugins/jspsych-survey-html-form/
 
 	jsPsych.init({
-		timeline: [form_trial],
+		timeline: [form_country_now],
 		on_finish: function () { jsPsych.data.displayData(); }
 	});
 
