@@ -7,18 +7,24 @@ router.post('/submit-data', function (req, res) {
     const info = rawdata[0].info_; // get info_ from object/trial 0
     const datasummary = rawdata[0].datasummary;  // get datasummary_ from object/trial 0
 
+    // get ip
+    // https://stackoverflow.com/questions/8107856/how-to-determine-a-users-ip-address-in-node
+    var ip = req.headers['x-forwarded-for'] ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        (req.connection.socket ? req.connection.socket.remoteAddress : null);
+
     // add columns/properties to each row/trial/object in data
     rawdata.forEach(function (i) {
         i.time = info.time;
         i.utc_datetime = info.utc_datetime;
         i.browser_info = info.browser_info;
-        i.ip = info.ip;
-        i.ip_test = req.headers['x-forwarded-for'];
-        i.country = info.country_name;
-        i.region = info.region;
+        i.ip = ip;
+        i.country = null;
+        i.region = null;
         i.country_code = info.country_code;
-        i.latitude = info.latitude;
-        i.longitude = info.longitude;
+        i.latitude = null;
+        i.longitude = null;
         i.type = info.type;
         i.uniquestudyid = info.uniquestudyid;
         i.desc = info.desc;
