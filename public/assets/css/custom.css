@@ -83,3 +83,24 @@ section {
     background-color: #141a24;
 }
  */
+
+
+ .fa {
+    width: 35px;
+    padding: 10px;
+    margin-right: 8px;
+    font-size: 30px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5%;
+  }
+  
+  .fa-facebook {
+    background: #3B5998;
+    color: white;
+  }
+
+  .fa-twitter {
+    background: #55ACEE;
+    color: white;
+  }
