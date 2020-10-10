@@ -14,7 +14,8 @@
 </body>
 <script type="text/javascript">
 
-	function create_country_options() { // TODO FRANK: move this function to utils.js too
+	// TODO FRANK: move this function to utils.js too
+	function create_country_options() { 
 		start = '<p> I am feeling <input list="countries" name="countries"><datalist id="countries">'
 		middle = ''
 		country_info.forEach(function(c) {
@@ -30,7 +31,8 @@
 		type: 'survey-html-form',
 		preamble: '<p> How are you feeling <b>right now?</b> </p>',
 		html: create_country_options()
-	} // TODO Frank: map the country to alpha2 value; call this function at the end of the trial, and save the corresponding alpha2 value to jspsych's data (i.e., save both the country name and alpha2 value)
+	} 
+	// TODO Frank: map the country to alpha2 value; call this function at the end of the trial, and save the corresponding alpha2 value to jspsych's data (i.e., save both the country name and alpha2 value)
 
 	// https://www.w3schools.com/html/tryit.asp?filename=tryhtml_elem_datalist
 	// https://www.w3schools.com/html/html_form_elements.asp
