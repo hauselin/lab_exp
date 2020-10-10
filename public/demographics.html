@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<script src="../jspsych/jspsych.js"></script>
+	<script src="../jspsych/plugins/jspsych-survey-html-form.js"></script>
+	<link rel="stylesheet" href="../jspsych/css/jspsych.css">
+	</script>
+	<script type="text/javascript" src="../libraries/utils.js"></script>
+</head>
+
+<body>
+
+</body>
+<script type="text/javascript">
+
+	function country_options() {
+		start = '<p> I am feeling <input list="countries" name="countries"><datalist id="countries">'
+		middle = ''
+		country_info.forEach(function(c) {
+			middle = middle.concat('<option value="');
+			middle = middle.concat(c.country);
+			middle = middle.concat('">');
+		})
+		end = '</datalist>.</p>'
+		return start + middle + end
+	}
+
+	var form_trial = {
+		type: 'survey-html-form',
+		preamble: '<p> How are you feeling <b>right now?</b> </p>',
+		html: country_options()
+	}
+
+	// https://www.w3schools.com/html/tryit.asp?filename=tryhtml_elem_datalist
+	// https://www.w3schools.com/html/html_form_elements.asp
+	// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input
+	// https://www.jspsych.org/plugins/jspsych-survey-html-form/
+
+	jsPsych.init({
+		timeline: [form_trial],
+		on_finish: function () { jsPsych.data.displayData(); }
+	});
+
+</script>
+
+</html>
