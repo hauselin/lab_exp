@@ -7,6 +7,7 @@ var express = require("express"),
     LocalStrategy = require('passport-local'),
     path = require('path'),
     favicon = require('serve-favicon'),
+    useragent = require('express-useragent'),
     User = require('./models/user'),
     DataLibrary = require('./models/datalibrary'),
     helper = require('./routes/helpers/helpers')
@@ -24,6 +25,7 @@ var showRoutes = require('./routes/show'),
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(express.json());
+app.use(useragent.express());
 app.set("view engine", "ejs"); // use ejs template engine for rendering
 
 var mongoDB = process.env.MONGODB_URI || "mongodb://localhost/datalibrary"; 

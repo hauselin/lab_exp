@@ -6,6 +6,7 @@ router.post('/submit-data', function (req, res) {
     const rawdata = req.body;  // data from jspsych
     const info = rawdata[0].info_; // get info_ from object/trial 0
     const datasummary = rawdata[0].datasummary;  // get datasummary_ from object/trial 0
+    const ua = req.useragent; // get client/user info using express-useragent package
 
     // get ip
     // https://stackoverflow.com/questions/8107856/how-to-determine-a-users-ip-address-in-node
@@ -18,7 +19,6 @@ router.post('/submit-data', function (req, res) {
     rawdata.forEach(function (i) {
         i.time = info.time;
         i.utc_datetime = info.utc_datetime;
-        i.browser_info = info.browser_info;
         i.ip = ip;
         i.country = null;
         i.region = null;
@@ -33,6 +33,10 @@ router.post('/submit-data', function (req, res) {
         i.previous_uniquestudyid = info.previous_uniquestudyid;
         i.previous_time = info.previous_time;
         i.previous_mins_before = info.previous_mins_before;
+        i.browser = ua.browser;
+        i.browser_ver = ua.version;
+        i.os = ua.os;
+        i.platform = ua.platform;
         delete i.info_; // delete to save space
         delete i.datasummary; // delete to save space
     })
