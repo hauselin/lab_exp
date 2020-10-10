@@ -14,23 +14,24 @@
 </body>
 <script type="text/javascript">
 
-	// TODO FRANK: move this function to utils.js too
-	function create_country_options() { 
-		start = '<p> I am feeling <input list="countries" name="countries"><datalist id="countries">'
-		middle = ''
+	// TODO FRANK: move this function to utils.js too; again, make it modular; this function should only create country options; it shouldn't do anything else (and remember to use var when defining variables to ensure they're not global variables)
+	// TODO Frank: try to always pass in parameter values and avoid using global variables
+	function create_country_options(country_info) { 
+		var start = '<p> I am feeling <input list="countries" name="countries"><datalist id="countries">'; // TODO FRANK doesn't belong to this function!
+		var middle = '' // TODO FRANK doesn't belong to this function!
 		country_info.forEach(function(c) {
 			middle = middle.concat('<option value="');
 			middle = middle.concat(c.country);
 			middle = middle.concat('">');
 		})
-		end = '</datalist>.</p>'
-		return start + middle + end
+		end = '</datalist>.</p>' // TODO FRANK doesn't belong to this function!
+		return start + middle + end // TODO FRANK doesn't belong to this function!
 	}
 
 	var form_trial = {
 		type: 'survey-html-form',
 		preamble: '<p> How are you feeling <b>right now?</b> </p>',
-		html: create_country_options()
+		html: create_country_options() // TODO Frank: do the concatenating here 
 	} 
 	// TODO Frank: map the country to alpha2 value; call this function at the end of the trial, and save the corresponding alpha2 value to jspsych's data (i.e., save both the country name and alpha2 value)
 

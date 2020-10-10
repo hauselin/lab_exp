@@ -394,7 +394,7 @@ function create_consent(timeline, html_path) {
     return timeline;
 }
 
-country_info = [
+var country_info = [
     {
         country: 'Afghanistan',
         alpha2: 'AF',
