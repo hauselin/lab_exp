@@ -18,20 +18,21 @@
 }
 
 /* https://www.w3schools.com/cssref/tryit.asp?filename=trycss3_background-size */
+
 .index-background {
-  background-image: url('../img/people.jpg');
-  background-position: 50% 43%;
-  background-repeat: no-repeat;
-  background-size: 100%;
+    background-image: url('../img/people.jpg');
+    background-position: 50% 43%;
+    background-repeat: no-repeat;
+    background-size: 100%;
 }
 
 .btn, .btn-lg, .btn-primary-3 {
     border-radius: 10px;
 }
 
-#menubar-index, #menubar-internal, #menubar-viz {
+/* #menubar-index, #menubar-internal, #menubar-viz {
     max-height: 75px;
-}
+} */
 
 section {
     padding-top: 3rem;
@@ -39,7 +40,8 @@ section {
 }
 
 #internal-page-studies {
-    min-height: 600px; /* to ensure footer stays at the bottom and doesn't look weird */
+    min-height: 600px;
+    /* to ensure footer stays at the bottom and doesn't look weird */
 }
 
 #faq {
@@ -47,6 +49,7 @@ section {
 }
 
 /* https://stackoverflow.com/questions/15649244/responsive-font-size-in-css */
+
 .main-title {
     font-size: calc(80px + 0.4vw);
     text-align: center;
@@ -55,11 +58,13 @@ section {
 }
 
 /* https://www.w3schools.com/howto/howto_css_responsive_text.asp */
+
 /* If the screen size is 600px wide or less, set the font-size of <div> to 30px */
+
 @media screen and (max-width: 600px) {
-  .main-title {
-    font-size: 50px;
-  }
+    .main-title {
+        font-size: 50px;
+    }
 }
 
 .viz-subsections {
@@ -67,9 +72,15 @@ section {
 }
 
 /* navigation float right instead of left */
+
 /* https://stackoverflow.com/questions/24942637/how-to-align-tabs-to-top-right-in-bootstrap-3/24943625 */
+
 .navbar-nav {
-    float:right;
+    float: right;
+}
+
+.navbar-expand-lg {
+    padding: 5px !important;
 }
 
 /* 100% width not working yet!
@@ -83,3 +94,33 @@ section {
     background-color: #141a24;
 }
  */
+
+.fa {
+    width: 35px;
+    padding: 10px;
+    margin-right: 8px;
+    font-size: 30px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5%;
+}
+
+.fa-facebook {
+    background: #3B5998;
+    color: white;
+}
+
+.fa-twitter {
+    background: #55ACEE;
+    color: white;
+}
+
+.fa-home {
+    background: white;
+    color: #38405c;
+}
+
+.fa-envelope {
+    background: white;
+    color: #38405c;
+}
