@@ -307,9 +307,9 @@
             // subject_array.forEach(element => {
             //     console.log(element.auc);
             // });
-            subject_index = subject_array.map(x => x.auc).indexOf(data_array.filter(i => i.subject == subject_id).slice(0, 1)[0].auc);
-            percentile = subject_index / (subject_array.length - 1) * 100
-            document.getElementById('percentile').innerHTML = "Your score (the red vertical line) is <strong>higher than " + Math.round(percentile) + "% of our users</strong>.";
+            auc_array = subject_array.map(x => x.auc);
+            subject_auc = data_array.filter(i => i.subject == subject_id).slice(0, 1)[0].auc;
+            document.getElementById('percentile').innerHTML = "Your score (the red vertical line) is <strong>higher than " + percentile(subject_auc, auc_array) + "% of our users</strong>.";
 
             // query subject's data array ahead of time
             subject_data = data_array.filter(i => i.subject == subject_id && i.time == start_time)

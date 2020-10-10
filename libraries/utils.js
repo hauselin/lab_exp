@@ -1919,3 +1919,9 @@ function country_name_to_iso(country_name){
     index = country_info.findIndex(c => c.country === country_name);
     return Number(country_info[index].numeric)
 }
+
+function percentile(number, array){
+    array.sort()
+    index = array.indexOf(number)
+    return index / (array.length - 1) * 100
+}
