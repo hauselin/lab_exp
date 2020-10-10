@@ -1915,3 +1915,7 @@ country_info = [
     },
 ];
 
+function country_name_to_iso(country_name){
+    index = country_info.findIndex(c => c.country === country_name);
+    return Number(country_info[index].numeric)
+}
