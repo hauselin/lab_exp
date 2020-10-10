@@ -9,7 +9,7 @@
   <body></body>
   <script>
 
-  var survey_page1 = {
+  var survey_select = {
     type: 'survey-text-dropdown',
     preamble: "hey",
     questions: [
@@ -18,7 +18,7 @@
   };
 
   jsPsych.init({
-    timeline: [survey_page1],
+    timeline: [survey_select],
     on_finish: function() { jsPsych.data.displayData(); }
   });
 
