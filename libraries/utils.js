@@ -269,20 +269,11 @@ function create_info_(params) {
         user_date: date.toLocaleDateString(),
         user_time: date.toLocaleTimeString(),
         user_timezone: date.getTimezoneOffset(),
-        platform: navigator.platform, // most browsers, including Chrome, Edge, and Firefox 63 and later, return "Win32" even if running on a 64-bit version of Windows. Internet Explorer and versions of Firefox prior to version 63 still report "Win64"
-        browser_info: navigator.userAgent, // browser info
-        ip: null,
-        city: null,
-        region: null,
-        country_name: null,
         tasks_completed: [],
     };
-    info_ = add_ip_info(info_); // add geolocation info if available
     info_ = { ...info_, ...params }; // spread operator to merge objects (second object will overwrite first one if both have same properties)
     info_ = { ...info_, ...get_query_string() }; // add parameters from query string into info_
     // IMPORTANT: if url query parameters exist, they'll ALWAYS overwrite existing properties with the same name (url parameters take precedence!)
-
-    // info_.datasummary_name = "datasummary_" + info_.uniquestudyid + "_";
 
     console.log("Friendly reminder: If URL query parameters exist, they'll overwrite properties with the same name in info_")
 
@@ -336,21 +327,6 @@ function create_datasummary_(info_) {
     return datasummary_;
 }
 
-// add ip address information onto object
-function add_ip_info(info_) {
-    try {
-        info_.ip = geoplugin_request();
-        info_.city = geoplugin_city();
-        info_.region = geoplugin_region();
-        info_.country_name = geoplugin_countryName();
-        info_.country_code = geoplugin_countryCode();
-        info_.latitude = geoplugin_latitude();
-        info_.longitude = geoplugin_longitude();
-    } catch (err) {
-        console.log(err);
-    }
-    return info_;
-}
 
 // generate random string of specified length
 function random_ID(length) {
