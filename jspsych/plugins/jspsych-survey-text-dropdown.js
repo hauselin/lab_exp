@@ -16,10 +16,10 @@ jsPsych.plugins['survey-text-dropdown'] = (function () {
     name: 'survey-text-dropdown',
     description: '',
     parameters: {
-      questions: {
+      question: {
         type: jsPsych.plugins.parameterType.COMPLEX,
         array: true,
-        pretty_name: 'Questions',
+        pretty_name: 'Question',
         default: undefined,
         nested: {
           prompt: {
@@ -34,12 +34,6 @@ jsPsych.plugins['survey-text-dropdown'] = (function () {
             default: undefined,
             description: 'Dropdown menu options'
           },
-          required: {
-            type: jsPsych.plugins.parameterType.BOOL,
-            pretty_name: 'Required',
-            default: false,
-            description: 'Require a response'
-          },
           name: {
             type: jsPsych.plugins.parameterType.STRING,
             pretty_name: 'Question Name',
@@ -52,14 +46,20 @@ jsPsych.plugins['survey-text-dropdown'] = (function () {
         type: jsPsych.plugins.parameterType.STRING,
         pretty_name: 'Preamble',
         default: null,
-        description: 'HTML formatted string to display at the top of the page above all the questions.'
+        description: 'HTML formatted string to display at the top of the page above the question.'
       },
       button_label: {
         type: jsPsych.plugins.parameterType.STRING,
         pretty_name: 'Button label',
         default: 'Continue',
         description: 'The text that appears on the button to finish the trial.'
-      }
+      },
+      required: {
+        type: jsPsych.plugins.parameterType.BOOL,
+        pretty_name: 'Required',
+        default: false,
+        description: 'Require a response'
+      },
     }
   }
 
@@ -76,13 +76,13 @@ jsPsych.plugins['survey-text-dropdown'] = (function () {
     // see https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_select_required
 
     // generate html
-    var question = trial.questions[0];
+    var question = trial.question[0];
     var question_index = 0;
     var question_options = question.options;
     // console.log(question_options)
     html += '<div id="jspsych-survey-text-dropdown-' + question_index + '" class="jspsych-survey-text-dropdown-question" style="margin: 2em 0em;">';
     html += '<p class="jspsych-survey-text-dropdown">' + question.prompt + '</p>';
-    var req = question.required ? "required" : "";
+    var req = trial.required ? "required" : ""; // require response or not
     html += '<select name="' + question.name + '" id="' + question.name + '" ' + req + '>';
     html += '<option value="">None</option>'
 
@@ -113,13 +113,17 @@ jsPsych.plugins['survey-text-dropdown'] = (function () {
       var q_element = document.querySelector('#jspsych-survey-text-dropdown-0').querySelector('select', 'option');
       // console.log(q_element.value)
 
-      var responses = { "prompt": question.prompt, "value": q_element.value };
+      var val = q_element.value;
+      if (val == "") {
+        val = null;
+      }
+      var responses = { "prompt": question.prompt, "value": val};
       // save data
       var trialdata = {
         "rt": response_time,
         "responses": JSON.stringify(responses),
         "prompt": question.prompt,
-        "value": q_element.value
+        "value": val
       };
 
       display_element.innerHTML = '';
