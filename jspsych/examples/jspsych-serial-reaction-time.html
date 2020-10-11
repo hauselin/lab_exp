@@ -2,7 +2,7 @@
 <html>
 
 <head>
-
+  <meta charset="utf-8" />
   <script src="../jspsych.js"></script>
   <script src="../plugins/jspsych-serial-reaction-time.js"></script>
   <link rel="stylesheet" href="../css/jspsych.css"></link>
@@ -11,7 +11,7 @@
 <script>
 
   var locations = [
-    [0,0],
+    [0,1],
     [0,1],
     [0,2],
     [0,3]
@@ -24,12 +24,16 @@
       {
         type: 'serial-reaction-time',
         target: jsPsych.timelineVariable('target1'),
+        target_text: "&#x1F479",
+        // grid: [[1, 1, 1, 1, 1]],
         grid_square_size: 80,
-        prompt: "<p>Press the key that corresponds to the dark box (use 3, 5, 7, 9)</p>"
+        prompt: "<p>Press the key that corresponds to the dark box (use 3, 5, 7, 9)</p>",
+        show_response_feedback: true
       },
       {
         type: 'serial-reaction-time',
         target: jsPsych.timelineVariable('target2'),
+        target_text: "&#11088",
         grid_square_size: 80,
         prompt: "<p>Press the key that corresponds to the dark box (use 3, 5, 7, 9)</p>"
       }

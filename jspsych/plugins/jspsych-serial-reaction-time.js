@@ -49,6 +49,12 @@ jsPsych.plugins["serial-reaction-time"] = (function() {
         default: "#999",
         description: 'The color of the target square.'
       },
+      target_text: { // added by Hause Lin
+        type: jsPsych.plugins.parameterType.STRING,
+        pretty_name: 'Target text',
+        default: "X",
+        description: 'The text in target square.'
+      },
       response_ends_trial: {
         type: jsPsych.plugins.parameterType.BOOL,
         pretty_name: 'Response ends trial',
@@ -135,6 +141,9 @@ jsPsych.plugins["serial-reaction-time"] = (function() {
         display_element.querySelector('#jspsych-serial-reaction-time-stimulus-cell-'+trial.target[0]+'-'+trial.target[1]).style.transition = "background-color "+trial.fade_duration;
         display_element.querySelector('#jspsych-serial-reaction-time-stimulus-cell-'+trial.target[0]+'-'+trial.target[1]).style.backgroundColor = trial.target_color;
       }
+
+      // added by Hause Lin
+      display_element.querySelector('#jspsych-serial-reaction-time-stimulus-cell-' + trial.target[0] + '-' + trial.target[1]).innerHTML = trial.target_text;
 
 			keyboardListener = jsPsych.pluginAPI.getKeyboardResponse({
         callback_function: after_response,
@@ -228,9 +237,10 @@ jsPsych.plugins["serial-reaction-time"] = (function() {
           stimulus += "border: 2px solid black;"
         }
         if(typeof target !== 'undefined' && target[0] == i && target[1] == j){
-          stimulus += "background-color: "+target_color+";"
-        }
+          stimulus += "background-color: " + target_color + ";"
+        } 
         stimulus += "'>";
+        // stimulus += "XXX";
         if(typeof labels !=='undefined' && labels[i][j] !== false){
           stimulus += labels[i][j]
         }
@@ -239,7 +249,7 @@ jsPsych.plugins["serial-reaction-time"] = (function() {
       stimulus += "</div>";
     }
     stimulus += "</div>";
-
+    console.log(stimulus)
     return stimulus
   }
 

@@ -83,18 +83,6 @@ section {
     padding: 5px !important;
 }
 
-/* 100% width not working yet!
-.collapse, .navbar-collapse {
-    background-color: #38405c;
-    width: 100% !important; 
-}
- */
-
-/* .nav-link {
-    background-color: #141a24;
-}
- */
-
 .fa {
     width: 35px;
     padding: 10px;
