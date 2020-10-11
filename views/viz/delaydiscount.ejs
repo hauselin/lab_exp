@@ -519,7 +519,8 @@
             "fontLoaded": function (f) {
                 console.log("font loaded: " + f.family);
             }, "complete": function (error) {
-                vegaEmbed('#vis1', aggregate_curve, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+                // https://github.com/vega/vega-embed#options
+                vegaEmbed('#vis1', aggregate_curve, { actions: { source: false, compiled: false, editor: false } }); 
                 vegaEmbed('#vis2', auc_density, { actions: { source: false, compiled: false, editor: false } });
                 vegaEmbed('#vis3', global_auc_plot, { actions: { source: false, compiled: false, editor: false } });
             }
