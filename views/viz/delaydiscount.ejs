@@ -18,31 +18,10 @@
     <script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
     <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
-
-    <!-- load jquery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-
-    <!-- facebook share button properties -->
-    <meta property="og:url" content="https://anthrope.herokuapp.com/" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="Anthrope" />
-    <meta property="og:description" content="Your description" />
-    <meta property="og:image" content="https://www.your-domain.com/path/image.jpg" />
-
 </head>
 
 <body class="is-preload">
     <%- include('../partials/menu_bar_viz') %>
-
-    <!-- Load Facebook SDK for JavaScript -->
-    <div id="fb-root"></div>
-    <script>(function (d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) return;
-            js = d.createElement(s); js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));</script>
 
     <!-- main section text  -->
     <section class="bg-primary-alt header-inner o-hidden pt-7">
@@ -249,15 +228,25 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <!-- specify vegalite figures below -->
 
     <script type="text/javascript">
-        // constants
-        const viz_num = 500; // number of most recent data points to visualize
-
         // data from database
         const data_array = <%- JSON.stringify(data_array) %>;
-        const small_data_array = data_array.slice(data_array.length - viz_num, data_array.length);
         const country_array = <%- JSON.stringify(country_array) %>;
         const uniquestudyid = 'delaydiscount';
 
@@ -281,48 +270,21 @@
             document.getElementById('no-data-tag').innerHTML = "You vs others";
             document.getElementById('no-data-text').innerHTML = "The red dots are your subjective valuation.";
         }
+    
+        // compute/add percentile
+        var subject_array = data_array.filter(x => x.cost == 2);
+        auc_array = subject_array.map(x => x.auc);
+        subject_auc = data_array.filter(i => i.subject == subject_id).slice(0, 1)[0].auc;
+        document.getElementById('percentile').innerHTML = "Your score (the red vertical line) is <strong>higher than " + percentile(subject_auc, auc_array).toFixed(0) + "% of our users</strong>.";
 
-        // TODO: Frank again too much is going on here... let's see if we can come up with a better solution
-        if (subject_id != null && start_time != null) { // perform actions that are done exclusively when there is a subject id specified
-            // put subject and start time data into share link
-            share_link = "https://anthrope.herokuapp.com/tasks/delaydiscount/viz?subject=" + subject_id + "&time=" + start_time.toString()
-            $(document).ready(function () {
-                console.log('jQuery is ready');
-                $('div.fb-share-button').attr('data-href', share_link);
-            });
+        // query subject's data array ahead of time
+        subject_data = data_array.filter(i => i.subject == subject_id && i.time == start_time)
 
-            // add percentile data
-            var subject_array = data_array.filter(
-                x => x.cost == 2
-            );
-            subject_array.sort(function (a, b) {
-                if (a.auc < b.auc) {
-                    return -1;
-                } else if (a.auc > b.auc) {
-                    return 1;
-                } else {
-                    return 0;
-                }
-            })
-            // subject_array.forEach(element => {
-            //     console.log(element.auc);
-            // });
-            auc_array = subject_array.map(x => x.auc);
-            subject_auc = data_array.filter(i => i.subject == subject_id).slice(0, 1)[0].auc;
-            document.getElementById('percentile').innerHTML = "Your score (the red vertical line) is <strong>higher than " + percentile(subject_auc, auc_array).toFixed(0) + "% of our users</strong>.";
-
-            // query subject's data array ahead of time
-            subject_data = data_array.filter(i => i.subject == subject_id && i.time == start_time)
-        } else {
-            $(document).ready(function () {
-                console.log('jQuery is ready');
-                $('div.fb-share-button').attr('data-href', "https://anthrope.herokuapp.com/tasks/delaydiscount/viz");
-            });
-            
-            // define empty array for subject's data
-            subject_data = []
-        }
     </script>
+
+
+
+
 
     <!-- Aggregate box plot -->
     <script type="text/javascript" defer>
@@ -340,7 +302,7 @@
             },
             layer: [
                 {
-                    data: { values: small_data_array },
+                    data: { values: data_array },
                     mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
                     encoding: {
                         y: {
@@ -378,6 +340,14 @@
 
     </script>
 
+
+
+
+
+
+
+
+
     <!-- Aggregate AUC density -->
     <script type="text/javascript" defer>
 
@@ -387,7 +357,7 @@
             background: "#f3f5fb",
             layer: [
                 {
-                    data: { values: small_data_array.filter(i => i.cost == 2) },
+                    data: { values: data_array.filter(i => i.cost == 2) },
                     transform: [
                         { density: "auc", counts: false, cumulative: false },
                     ],
@@ -431,6 +401,13 @@
         };
 
     </script>
+
+
+
+
+
+
+
 
     <!-- AUC choropleth -->
     <script defer>
@@ -511,6 +488,11 @@
         };
 
     </script>
+
+
+
+
+
 
     <!--show vegalite figures-->
     <script>

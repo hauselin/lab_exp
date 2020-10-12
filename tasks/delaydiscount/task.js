@@ -39,14 +39,13 @@ if (reverse_sides) {
     stimuli_sides = "left_small_right_large";
 }
 
-// add data to all trials
+// add subject id and task info to all trials
 jsPsych.data.addProperties({
     subject: info_.subject,
     type: taskinfo.type,
     uniquestudyid: taskinfo.uniquestudyid,
     desc: taskinfo.desc,
-    condition: taskinfo.condition,
-    info_: info_,
+    condition: taskinfo.condition,    
 });
 
 // create experiment timeline
@@ -175,12 +174,14 @@ jsPsych.init({
         document.body.style.backgroundColor = 'white';
         var datasummary = summarize_data(); // summarize data
         info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
-        jsPsych.data.get().addToAll({ // add objects to all trials
-            info_: info_,
-            datasummary: datasummary,
+        jsPsych.data.get().addToAll({ // add parameters to all trials
             total_time: datasummary.total_time,
             auc: datasummary.auc,
             stimuli_sides: stimuli_sides
+        });
+        jsPsych.data.get().first(1).addToAll({ // add objects to only first trial (to save space)
+            info_: info_,
+            datasummary: datasummary,
         });
         if (debug) {
             jsPsych.data.displayData();

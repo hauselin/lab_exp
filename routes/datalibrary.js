@@ -15,13 +15,14 @@ router.post('/submit-data', function (req, res) {
         req.socket.remoteAddress ||
         (req.connection.socket ? req.connection.socket.remoteAddress : null);
 
+    // TODO: use IP to get longitude/latitude; if no country in info, use IP to get country too
+
     // add columns/properties to each row/trial/object in data
     rawdata.forEach(function (i) {
         i.time = info.time;
         i.utc_datetime = info.utc_datetime;
         i.ip = ip;
         i.country = null;
-        i.region = null;
         i.country_code = info.country_code;
         i.latitude = null;
         i.longitude = null;
