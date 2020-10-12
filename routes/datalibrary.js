@@ -43,8 +43,10 @@ router.post('/submit-data', function (req, res) {
     })
 
     DataLibrary.create({
-        subject: info.subject, // body is the json data from jspsych
-        local_subject: info.local_subject,
+        data: rawdata,  // jspsych data
+        info_: info,
+        datasummary: datasummary,
+        subject: info.subject, 
         type: info.type,
         uniquestudyid: info.uniquestudyid,
         desc: info.desc,
@@ -52,8 +54,6 @@ router.post('/submit-data', function (req, res) {
         previous_uniquestudyid: info.previous_uniquestudyid,
         previous_time: info.previous_time,
         previous_mins_before: info.previous_mins_before,
-        info_: info,
-        datasummary: datasummary,
         browser: ua.browser,
         browser_ver: ua.version,
         os: ua.os,
@@ -63,8 +63,7 @@ router.post('/submit-data', function (req, res) {
         utc_date: info.utc_date,
         utc_time: info.utc_time,
         user_date: info.user_date,
-        user_time: info.user_time,
-        data: rawdata
+        user_time: info.user_time
     }, function (err, data) {
         if (err) { // error
             console.log(err); // print error to nodejs console

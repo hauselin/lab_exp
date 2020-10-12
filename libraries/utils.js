@@ -194,6 +194,7 @@ function mad_cutoffs(x, cutoff = 3.0) {
     // values < element 0 or values > element 1 are considered outliers
 }
 
+// post request to save data to mongodb
 function submit_data(results, redirect_url) {
     try {
         $.ajax({
@@ -253,6 +254,8 @@ function get_query_string() {
 // generate object that stores the user's metadata
 // also saves obj to sessionInfo as info_
 function create_info_(params) {
+    console.log("STARTING...\n  Friendly reminder: If URL query parameters exist, they'll overwrite properties in info_")
+
     var date = new Date();
     const utc_datetime = date.toISOString()
     var utc_date = utc_datetime.split("T")[0].split("-");
@@ -260,8 +263,7 @@ function create_info_(params) {
     var utc_time = utc_datetime.split("T")[1].split(":");
     utc_time = { hour: Number(utc_time[0]), min: Number(utc_time[1]), sec: Number(utc_time[2].slice(0, 2)) };
     var info_ = {
-        subject: get_subject_ID()[0],
-        local_subject: get_subject_ID()[1],
+        subject: get_subject_ID(),
         utc_datetime: utc_datetime,
         time: date.getTime(), // milliseconds since January 01, 1970, 00:00:00 UTC
         utc_date: utc_date,
@@ -275,24 +277,24 @@ function create_info_(params) {
     info_ = { ...info_, ...get_query_string() }; // add parameters from query string into info_
     // IMPORTANT: if url query parameters exist, they'll ALWAYS overwrite existing properties with the same name (url parameters take precedence!)
 
-    console.log("Friendly reminder: If URL query parameters exist, they'll overwrite properties with the same name in info_")
-
     // get previous time/uniquestudy info if it exists in sessionStorage
     info_ = get_previous_info(info_)
 
-    // save variables to sessionStorage
+    // save stuff to sessionStorage
     sessionStorage.setObj("info_", info_);
-    console.log('saved to sessionStorage: info_');
     sessionStorage.setObj("subject", info_.subject);
-    sessionStorage.setObj("type", info_.type);
-    console.log('type: ' + info_.type);
     sessionStorage.setObj("uniquestudyid", info_.uniquestudyid);
-    console.log('uniquestudyid: ' + info_.uniquestudyid);
+    sessionStorage.setObj("type", info_.type);
     sessionStorage.setObj("condition", info_.condition);
-    console.log('condition: ' + info_.condition);
-    console.log('utc_datetime: ' + info_.utc_datetime);
 
-    return info_;
+    var str2print = "CURRENT INFO\n" +
+        "  uniquestudyid: " + info_.uniquestudyid + "\n" +
+        "  type: " + info_.type + "\n" +
+        "  condition: " + info_.condition + "\n" +
+        "  utc_datetime: " + info_.utc_datetime;
+    console.log(str2print);
+
+    return info_
 }
 
 // add previous study info to info_ if it exists in sessionStorage
@@ -311,22 +313,23 @@ function get_previous_info(info_) {
             info_.previous_mins_before = time_diff / 60000;
             info_.tasks_completed = x.tasks_completed;
         } catch {
-            console.log("info_ doesn't exist in sessionObject yet!")
+            console.log("info_ doesn't exist in sessionObject yet")
         }
     }
-    console.log('previous_uniquestudyid: ', info_.previous_uniquestudyid);
-    console.log('previous_mins_before: ', info_.previous_mins_before);
-    return info_;
+    var str2print = "PREVIOUS INFO\n" +
+        '  previous_uniquestudyid: ' + info_.previous_uniquestudyid + "\n" +
+        '  previous_mins_before: ' + info_.previous_mins_before;
+    console.log(str2print);
+    return info_
 }
 
-function create_datasummary_(info_) {
-    const datasummary_ = {};
-    datasummary_.subject = info_.subject;
-    sessionStorage.setObj(info_.datasummary_name, datasummary_);
-    console.log('saved to sessionStorage: ' + info_.datasummary_name);
-    return datasummary_;
-}
-
+// function create_datasummary_(info_) {
+//     const datasummary_ = {};
+//     datasummary_.subject = info_.subject;
+//     sessionStorage.setObj(info_.datasummary_name, datasummary_);
+//     console.log('saved to sessionStorage: ' + info_.datasummary_name);
+//     return datasummary_;
+// }
 
 // generate random string of specified length
 function random_ID(length) {
@@ -343,27 +346,18 @@ function random_ID(length) {
 function get_subject_ID() {
     if (get_query_string().hasOwnProperty('subject')) {
         var subject = get_query_string().subject;
-        console.log('subject ID found in url parameter: ' + subject);
+        var where = 'FROM URL';
     } else if (sessionStorage.getItem('subject')) {
         var subject = sessionStorage.getObj('subject');
-        console.log('subject ID found in sessionStorage: ' + subject);
+        var where = "RETRIEVED FROM sessionStorage";
     } else {
-        const date = new Date();
+        var date = new Date();
         var subject = date.getTime() + "_" + random_ID(5);
-        console.log('subject ID is randomly generated: ' + subject);
+        var where = "NEWLY GENERATED";
     }
-    if (localStorage.getItem('local_subject')) {
-        var local_subject = localStorage.getItem('local_subject');
-        console.log('subject ID found in localStorage: ' + local_subject);
-    } else {
-        var local_subject = subject;
-        console.log('localStorage subject ID is generated: ' + local_subject);
-    }
-    sessionStorage.setObj("subject", subject);
-    localStorage.setItem("local_subject", local_subject);
-    console.log("saved subject ID to sessionStorage: " + subject);
-    console.log("saved subject ID to localStorage: " + local_subject);
-    return [subject, local_subject];
+    sessionStorage.setObj("subject", subject);     
+    console.log("subject id (" + where  + ") " + subject + " saved to sessionStorage");
+    return subject;
 }
 
 function white_on_black() {
