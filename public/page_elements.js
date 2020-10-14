@@ -31,7 +31,7 @@ var tasks = [
         uniquestudyid: 'delaydiscount',
         name: 'Money now or money later?',
         description: 'Do you prefer immediate or future, delayed rewards? Learn about how you delay instant gratification.',
-        time: '3-5 min'
+        time: '4-7 min'
     },
     {
         uniquestudyid: 'stroop',

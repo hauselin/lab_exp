@@ -112,3 +112,9 @@ section {
     background: white;
     color: #38405c;
 }
+
+
+#no-data-text {
+    color: #b22222;
+    font-weight: bold;
+}

@@ -30,7 +30,9 @@
                 <div class="col-xl-8 col-lg-10">
                     <h1 class="display-4">Money now or money later?</h1>
                     <p class="lead mb-0">The delay discounting task measures your <a href="https://en.wikipedia.org/wiki/Time_preference" target="_blank">time preference</a>. It measures how much you value or devalue a good that is available only in the future. It's associated with people's ability to delay gratification and save for the future.<br><br>
-                    Check out the interactive results below and help spread the word.</p>
+                    Check out the interactive results below and help spread the word.</p><br>
+                    TODO FRANK: Place the four sharing icons here.<br><br>
+                    <p id="no-data-text" class="lead mb-1"></p>
                 </div>
             </div>
         </div>
@@ -57,8 +59,6 @@
                                 <span class="h4">Longer delays increase devaluation</span>
                             </div>
                             <p class="lead">Assume you'll receive $1 the future—this value is the maximum value on the y-axis. This boxplot suggests that the more days you have to wait before you receive $1, the more you devalue or discount that $1. The longer you have to wait, the more its <a href="https://en.wikipedia.org/wiki/Subjective_theory_of_value" target="_blank">subjective value</a> drops.</p>
-                            <p id="no-data-text" class="lead mb-1"></p>
-                            <!-- <div class="fb-share-button" data-href=# data-layout="button" data-size="large"></div> -->
                         </div>
                     </div>
                 </div>
@@ -255,32 +255,27 @@
         // retrieve objects from sessionStorage
         // subject_id and time will be used to filter arrays for plotting subject data
         const info = sessionStorage.getObj("info_");
-        if (get_query_string().hasOwnProperty('subject')) {
-            subject_id = get_query_string().subject;
-            start_time = get_query_string().time;
-            document.getElementById('no-data-tag').innerHTML = "Someone else's data shared to you";
-            document.getElementById('no-data-text').innerHTML = "To see your own results here, complete the task <a href='/tasks/delaydiscount'>here</a>.";
-            console.log('subject ID found in url parameter: ' + subject_id);
-        } else if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
+        if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
             subject_id = null;
             time = null;
             document.getElementById('no-data-tag').innerHTML = "Other users' behavior";
-            document.getElementById('no-data-text').innerHTML = "To see your own results here, complete the task <a href='/tasks/delaydiscount'>here</a>.";
+            document.getElementById('no-data-text').innerHTML = "To see your own results below, <a href='/tasks/delaydiscount/'>complete the task</a> first.";
         } else {
             subject_id = info.subject;
             start_time = info.time;
             document.getElementById('no-data-tag').innerHTML = "You vs others";
-            document.getElementById('no-data-text').innerHTML = "The red dots are your subjective valuation.";
+            document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red data points are your results.';
         }
-    
-        // compute/add percentile
-        var subject_array = data_array.filter(x => x.cost == 2);
-        auc_array = subject_array.map(x => x.auc);
-        subject_auc = data_array.filter(i => i.subject == subject_id).slice(0, 1)[0].auc;
-        document.getElementById('percentile').innerHTML = "Your score (the red vertical line) is <strong>higher than " + percentile(subject_auc, auc_array).toFixed(0) + "% of our users</strong>.";
-
-        // query subject's data array ahead of time
-        subject_data = data_array.filter(i => i.subject == subject_id && i.time == start_time)
+        
+        if (subject_id) {
+            // compute/add percentile
+            var subject_array = data_array.filter(x => x.cost == 2);
+            auc_array = subject_array.map(x => x.auc);
+            subject_auc = data_array.filter(i => i.subject == subject_id).slice(0, 1)[0].auc;
+            document.getElementById('percentile').innerHTML = "Your score (the red vertical line) is <strong>higher than " + percentile(subject_auc, auc_array).toFixed(0) + "% of our users</strong>.";
+            // query subject's data array ahead of time
+            subject_data = data_array.filter(i => i.subject == subject_id && i.time == start_time)
+        }
 
     </script>
 
