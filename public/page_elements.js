@@ -71,9 +71,24 @@ var faq = [
     {
         q: "Who are we?",
         resp: "A team of behavioral and psychological researchers."
+    },
+    {
+        q: "Can I pause a task/survey so I can resume later?",
+        resp: "Unfortunately, no. But the estimated time required should help your planning."
+    },
+    {
+        q: "Can I suggest tasks/surveys to be added?",
+        resp: "Definitely! Email us."
+    },
+    {
+        q: "Can I create an account to keep track of my results?",
+        resp: "No. We want to keep the data anonymous and de-identified as much as possible."
+    },
+    {
+        q: "What frameworks and technologies power this cool site?",
+        resp: 'MongoDB, Express, Node.js, Bootstrap, Heroku, jsPsych, vegalite etc.'
     }
-
-]
+];
 
 var tasks_to_try = [
     {
