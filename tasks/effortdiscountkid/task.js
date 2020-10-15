@@ -16,6 +16,16 @@ if (black_background) {
     var font_colour = 'white';
 }
 
+var stars = 25;
+var dim = 5;
+const large_reward = gridCreator(stars, dim); //Large reward after cost.
+var costs = [1, 2, 3, 4, 5];  //costs in aliens.
+// var costs = [2, 5]; // I tend to use fewer when debugging (so the task finishes faster)
+const trials_per_cost = 6; //Number of trials per cost/delays.
+const practice_trials = 3; //Number of practice trials.
+
+
+
 function gridCreator(stars, dim) {
     var curr = 1;
         str = "";
