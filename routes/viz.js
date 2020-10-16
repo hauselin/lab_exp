@@ -6,7 +6,6 @@ const d3 = require("d3-array");
 const helper = require('../routes/helpers/helpers');
 
 router.get("/tasks/delaydiscount/viz", function (req, res) {
-    var route_referrer = req.get('Referer'); 
     DataLibrary.find({ uniquestudyid: 'delaydiscount' }, {}, { sort: { time: -1 } }).lean().then(data => {
         const keys2select = ['subject', 'uniquesubjectid', 'event', 'cost', 'large_reward', 'small_reward', 'n_trial', 'n_trial_overall', 'indifference', 'auc', 'country', 'country_code', 'longitude', 'latitude', 'time'];  // columns/keys to select
         const n_trial_max = 5; // final indifference per cost (depends on task parameters)
@@ -36,10 +35,10 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
             d => d.country_id);  // by country id
         // console.log(country_array);  // nested data
         country_array = Array.from(country_array, function (i) {  // unnest data
-            return { country_id: i[0], country_name: i[1].country_name, median_auc: i[1].median_auc }
+            return { country_id: i[0], country_name: i[1].country_name, median_auc: i[1].median_auc, parent_path: helper.getParentPath(req)}
         })
 
-        res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_array, route_referrer: route_referrer});
+        res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_array});
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);

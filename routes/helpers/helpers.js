@@ -95,4 +95,12 @@ function deepCopy(obj) {
     }
 }
 
-module.exports = { json2csv, doc2datastring, deleteData, pick, deepCopy, cssFix }
+function getParentPath(req) {
+    // https://stackoverflow.com/questions/12525928/how-to-get-request-path-with-express-req-object
+    var reqpath = req.baseUrl + req.path;
+    const strmatches = [...reqpath.matchAll("/")];
+    const idx = strmatches[strmatches.length - 1].index;
+    return reqpath.slice(0, idx);
+}
+
+module.exports = { json2csv, doc2datastring, deleteData, pick, deepCopy, cssFix, getParentPath }
