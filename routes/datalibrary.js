@@ -22,8 +22,8 @@ router.post('/submit-data', function (req, res) {
         i.time = info.time;
         i.utc_datetime = info.utc_datetime;
         i.ip = ip;
-        i.country = null;
-        i.country_code = info.country_code;
+        i.country = info.demographics.country;
+        i.country_code = info.demographics.country_code;
         i.latitude = null;
         i.longitude = null;
         i.type = info.type;
