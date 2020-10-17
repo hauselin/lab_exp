@@ -26,6 +26,7 @@
 		required: true,
 		on_finish: function (data) {
 			data.country_code = country_name_to_num(data.value);
+			data.demographic_type = 'country_resident';
 		}
 	};
 
@@ -41,6 +42,7 @@
 		required: true,
 		on_finish: function (data) {
 			data.country_code = country_name_to_num(data.value);
+			data.demographic_type = 'country_associated';
 		}
 	};
 
@@ -56,6 +58,7 @@
 		required: true,
 		on_finish: function (data) {
 			data.language_code = language_name_to_code(data.value);
+			data.demographic_type = 'language';
 		}
 	};
 
@@ -69,6 +72,9 @@
 			}
 		],
 		required: true,
+		on_finish: function (data) {
+			data.demographic_type = 'religion';
+		}
 	};
 
 	var select_ethnicity = {
@@ -81,6 +87,9 @@
 			}
 		],
 		required: true,
+		on_finish: function (data) {
+			data.demographic_type = 'race_and_ethnicity';
+		}
 	}
 
 	jsPsych.init({
