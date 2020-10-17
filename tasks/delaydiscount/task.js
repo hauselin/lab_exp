@@ -186,7 +186,7 @@ jsPsych.init({
         if (debug) {
             jsPsych.data.displayData();
         }
-        sessionStorage.setObj('info_', info_); // save to sessionStorage
+        localStorage.setObj('info_', info_); // save to localStorage
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
     }
 });
