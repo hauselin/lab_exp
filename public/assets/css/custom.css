@@ -113,8 +113,28 @@ section {
     color: #38405c;
 }
 
-
 #no-data-text {
     color: #b22222;
     font-weight: bold;
+}
+
+div.share-buttons {
+    width:25vw;
+    margin:0 auto;
+    text-align:center;
+}
+
+ul.share-buttons {
+    list-style: none;
+    padding: 0;
+}
+
+ul.share-buttons li {
+    display: inline;
+    padding: 10px;
+}
+
+.share-button {
+    max-width: 24px;
+    max-height: 24px;
 }

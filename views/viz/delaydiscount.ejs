@@ -31,7 +31,14 @@
                     <h1 class="display-4">Money now or money later?</h1>
                     <p class="lead mb-0">The delay discounting task measures your <a href="https://en.wikipedia.org/wiki/Time_preference" target="_blank">time preference</a>. It measures how much you value or devalue a good that is available only in the future. It's associated with people's ability to delay gratification and save for the future.<br><br>
                     Check out the interactive results below and help spread the word.</p><br>
-                    TODO FRANK: Place the four sharing icons here.<br><br>
+                    <div class="share-buttons">
+                        <ul class="share-buttons">
+                            <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fanthrope.herokuapp.com"><img class="share-button" src="../../public/assets/img/icons/theme/social/facebook.svg" data-inject-svg /></a></li>
+                            <li><a href="https://twitter.com/intent/tweet?text=Check%20out%20@anthrope_me%20https://www.anthrope.me"><img class="share-button" src="../../public/assets/img/icons/theme/social/twitter.svg" data-inject-svg /></a></li>
+                            <li><a href="mailto:"><img class="share-button" src="../../public/assets/img/icons/theme/communication/mail.svg" data-inject-svg /></a></li>
+                            <li><a href=# onclick="copyURI(event,link)"><img class="share-button" src="../../public/assets/img/icons/theme/general/clipboard.svg" data-inject-svg /></a></li>
+                        </ul>
+                    </div><br>
                     <p id="no-data-text" class="lead mb-1"></p>
                 </div>
             </div>
@@ -54,7 +61,7 @@
                 <div class="col-auto col-xl-6">
                     <div class="row justify-content-center">
                         <div class="col-xl-10 col-lg-11">
-                            <span id="no-data-tag" class="badge badge-primary"></span>
+                            <span id="no-data-tag0" class="badge badge-primary"></span>
                             <div class="my-2">
                                 <span class="h4">Longer delays increase devaluation</span>
                             </div>
@@ -251,21 +258,14 @@
         const data_array = <%- JSON.stringify(data_array) %>;
         const country_array = <%- JSON.stringify(country_array) %>;
         const uniquestudyid = 'delaydiscount';
+        const type = 'tasks';
+        const link = 'https://anthrope.herokuapp.com/' + type + '/' + uniquestudyid
 
         // retrieve objects from sessionStorage
         // subject_id and time will be used to filter arrays for plotting subject data
-        const info = sessionStorage.getObj("info_");
-        if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
-            subject_id = null;
-            time = null;
-            document.getElementById('no-data-tag').innerHTML = "Other users' behavior";
-            document.getElementById('no-data-text').innerHTML = "To see your own results below, <a href='/tasks/delaydiscount/'>complete the task</a> first.";
-        } else {
-            subject_id = info.subject;
-            start_time = info.time;
-            document.getElementById('no-data-tag').innerHTML = "You vs others";
-            document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red data points are your results.';
-        }
+        subject_info = get_viz_subject_info(uniquestudyid, type, 1)
+        var subject_id = subject_info[0]
+        var start_time = subject_info[1]
         
         if (subject_id) {
             // compute/add percentile
