@@ -278,8 +278,8 @@ function create_info_(params) {
     info_ = { ...info_, ...get_query_string() }; // add parameters from query string into info_
     // IMPORTANT: if url query parameters exist, they'll ALWAYS overwrite existing properties with the same name (url parameters take precedence!)
 
-    // get previous time/uniquestudy info if it exists in localStorage
-    info_ = get_previous_info(info_)
+    // get demographics if it exists
+    info_ = get_demographics(info_);
 
     // save stuff to localStorage
     localStorage.setObj("info_", info_);
@@ -287,6 +287,9 @@ function create_info_(params) {
     localStorage.setObj("uniquestudyid", info_.uniquestudyid);
     localStorage.setObj("type", info_.type);
     localStorage.setObj("condition", info_.condition);
+
+    // get previous time/uniquestudy info if it exists in localStorage
+    info_ = get_previous_info(info_);
 
     var str2print = "CURRENT INFO\n" +
         "  uniquestudyid: " + info_.uniquestudyid + "\n" +
@@ -2323,6 +2326,7 @@ function create_demographics(timeline) {
         required: true,
         on_finish: function (data) {
             data.demographic_type = 'religion';
+            info_.demographics.religion = data.value;
         }
     };
 
@@ -2338,10 +2342,24 @@ function create_demographics(timeline) {
         required: true,
         on_finish: function (data) {
             data.demographic_type = 'race_and_ethnicity';
+            info_.demographics.race_ethnicity = data.value;
         }
     }
 
-    timeline = timeline.concat([select_country, select_country_associated, select_language, select_religion, select_ethnicity])
+    if (!localStorage.getObj("info_").demographics.country) {
+        timeline = timeline.concat([select_country, select_country_associated, select_language, select_religion, select_ethnicity]);
+    }
     return timeline;
 }
 
+function get_demographics(info_) {
+    var x = localStorage.getObj('info_');
+    if (x) {
+        try {
+            info_.demographics = x.demographics;
+        } catch {
+            console.log("info_ doesn't exist in sessionObject yet")
+        }
+    }
+    return info_;
+}
