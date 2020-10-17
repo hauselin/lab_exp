@@ -167,7 +167,7 @@ timeline.push(instructions);
 timeline.push(practice_trial);
 timeline.push(instructions2);
 timeline.push(trial);
-timeline.concat(demographics);
+timeline = timeline.concat(demographics);
 console.log(timeline)
 
 jsPsych.init({
