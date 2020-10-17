@@ -411,7 +411,21 @@ function percentile(number, array) {
     return (1 - greater_than.length / array.length) * 100
 }
 
-
+function get_viz_subject_info(uniquestudyid, type) {
+    const info = sessionStorage.getObj("info_");
+    if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
+        var subject_id = null;
+        var start_time = null;
+        document.getElementById('no-data-tag').innerHTML = "Other users' behavior";
+        document.getElementById('no-data-text').innerHTML = "To see your own results below, <a href='/" + type + "/" + uniquestudyid + "/'>complete the task</a> first.";
+    } else {
+        var subject_id = info.subject;
+        var start_time = info.time;
+        document.getElementById('no-data-tag').innerHTML = "You vs others";
+        document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red data points are your results.';
+    }
+    return [subject_id, start_time]
+}
 
 
 

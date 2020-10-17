@@ -251,21 +251,13 @@
         const data_array = <%- JSON.stringify(data_array) %>;
         const country_array = <%- JSON.stringify(country_array) %>;
         const uniquestudyid = 'delaydiscount';
+        const type = 'tasks';
 
         // retrieve objects from sessionStorage
         // subject_id and time will be used to filter arrays for plotting subject data
-        const info = sessionStorage.getObj("info_");
-        if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
-            subject_id = null;
-            time = null;
-            document.getElementById('no-data-tag').innerHTML = "Other users' behavior";
-            document.getElementById('no-data-text').innerHTML = "To see your own results below, <a href='/tasks/delaydiscount/'>complete the task</a> first.";
-        } else {
-            subject_id = info.subject;
-            start_time = info.time;
-            document.getElementById('no-data-tag').innerHTML = "You vs others";
-            document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red data points are your results.';
-        }
+        subject_info = get_viz_subject_info(uniquestudyid, type)
+        var subject_id = subject_info[0]
+        var start_time = subject_info[1]
         
         if (subject_id) {
             // compute/add percentile
