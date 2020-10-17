@@ -518,15 +518,6 @@ function copyURI(evt, link) {
 
 
 
-
-
-
-
-
-
-
-
-
 var country_info = [
     {
         country: 'United States of America',
@@ -2253,3 +2244,45 @@ const race_and_ethnicities = [
     'Native Hawaiian or Other Pacific Islander',
     'White'
 ];
+
+
+
+
+
+
+
+
+var demographics = [
+    {
+        type: 'survey-text-dropdown',
+        question: [
+            {
+                prompt: 'Where are you living <strong>currently</strong>?',
+                options: country_info.map(i => i.country),
+                name: 'country'
+            }
+        ],
+        required: true,
+        on_finish: function (data) {
+            data.country_code = country_name_to_num(data.value);
+            data.demographic_type = 'country_resident';
+        }
+    },
+    {
+        type: 'survey-text-dropdown',
+        question: [
+            {
+                prompt: 'What <strong>nationality</strong> do you associate with the most?',
+                options: country_info.map(i => i.country),
+                name: 'country_associate'
+            }
+        ],
+        required: true,
+        on_finish: function (data) {
+            data.country_code = country_name_to_num(data.value);
+            data.demographic_type = 'country_associate';
+        }
+    }
+];
+
+
