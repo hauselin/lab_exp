@@ -35,10 +35,10 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
             d => d.country_id);  // by country id
         // console.log(country_array);  // nested data
         country_array = Array.from(country_array, function (i) {  // unnest data
-            return { country_id: i[0], country_name: i[1].country_name, median_auc: i[1].median_auc, parent_path: helper.getParentPath(req)}
+            return { country_id: i[0], country_name: i[1].country_name, median_auc: i[1].median_auc}
         })
 
-        res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_array});
+        res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req)});
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);

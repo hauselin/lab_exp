@@ -2218,6 +2218,7 @@ const languages = [
     { code: 'zu', name: 'Zulu' }
 ];
 
+// https://en.wikipedia.org/wiki/Demographics_of_the_world#Religion
 const religions = [
     'Christianity',
     'Prefer not to say',
@@ -2242,6 +2243,7 @@ const religions = [
     'Unitarian Universalism'
 ];
 
+// https://grants.nih.gov/grants/guide/notice-files/not-od-15-089.html
 const race_and_ethnicities = [
     'Prefer not to say',
     'American Indian or Alaskan Native',
