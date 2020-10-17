@@ -442,7 +442,89 @@ function copyURI(evt, link) {
 }
 
 
+function create_demographics(timeline) {
+    var select_country = {
+        type: 'survey-text-dropdown',
+        question: [
+            {
+                prompt: 'Where are you living <strong>currently</strong>?',
+                options: country_info.map(i => i.country),
+                name: 'country'
+            }
+        ],
+        required: true,
+        on_finish: function (data) {
+            data.country_code = country_name_to_num(data.value);
+            data.demographic_type = 'country_resident';
+        }
+    };
 
+    var select_country_associated = {
+        type: 'survey-text-dropdown',
+        question: [
+            {
+                prompt: 'What <strong>nationality</strong> do you associate with the most?',
+                options: country_info.map(i => i.country),
+                name: 'country_associate'
+            }
+        ],
+        required: true,
+        on_finish: function (data) {
+            data.country_code = country_name_to_num(data.value);
+            data.demographic_type = 'country_associate';
+        }
+    };
+
+    var select_language = {
+        type: 'survey-text-dropdown',
+        question: [
+            {
+                prompt: 'What language are you most fluent in?',
+                options: languages.map(i => i.name),
+                name: 'language'
+            }
+        ],
+        required: true,
+        on_finish: function (data) {
+            data.language_code = language_name_to_code(data.value);
+            data.demographic_type = 'language';
+        }
+    };
+
+    var select_religion = {
+        type: 'survey-text-dropdown',
+        question: [
+            {
+                prompt: 'What is your religion?',
+                options: religions,
+                name: 'religion'
+            }
+        ],
+        required: true,
+        on_finish: function (data) {
+            data.demographic_type = 'religion';
+        }
+    };
+
+    var select_ethnicity = {
+        type: 'survey-text-dropdown',
+        question: [
+            {
+                prompt: 'What is your race / ethnicity?',
+                options: race_and_ethnicities,
+                name: 'race_and_ethnicity'
+            }
+        ],
+        required: true,
+        on_finish: function (data) {
+            data.demographic_type = 'race_and_ethnicity';
+        }
+    };
+
+    var demographics = [select_country, select_country_associated, select_language, select_religion, select_ethnicity];
+    timeline = timeline.concat(demographics);
+    return timeline;
+}
 
 
 
