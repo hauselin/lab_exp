@@ -9,7 +9,7 @@ const taskinfo = {
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 
 const debug = false;  // debug mode to print messages to console and display json data at the end
-const black_background = true; // if true, white text on black background
+const black_background = false; // if true, white text on black background
 var font_colour = 'black';
 if (black_background) {
     document.body.style.backgroundColor = "black";
@@ -19,7 +19,7 @@ if (black_background) {
 // TASK PARAMETERS
 const large_reward = 100; //Large reward after cost.
 var costs = [2, 10, 15, 50, 100];  //costs in days.
-// var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
+var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
 const trials_per_cost = 6; //Number of trials per cost/delays.
 const practice_trials = 3; //Number of practice trials.
 
@@ -167,6 +167,8 @@ timeline.push(instructions);
 timeline.push(practice_trial);
 timeline.push(instructions2);
 timeline.push(trial);
+timeline.concat(demographics);
+console.log(timeline)
 
 jsPsych.init({
     timeline: timeline,
