@@ -17,7 +17,13 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
             var data_subset = data_subset.map(s => helper.pick(s, keys2select));  // select relevant columns
             data_subset.forEach(function (s) { // for each row in this document
                 s.indifference_ratio = s.indifference / s.large_reward;  // rescale indifference
-                s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))  // get country code
+                if (s.country_code.toString().length < 3) {
+                    var zeros = '0'
+                    if (s.country_code.toString().length == 1) {
+                        zeros = zeros.concat('0')
+                    }
+                    s.country_code = zeros + s.country_code.toString()
+                }
             })
             data_array.push(data_subset);
         });
@@ -32,10 +38,10 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
                 }
             },
             // v => d3.median(v, d => d.auc),
-            d => d.country_id);  // by country id
+            d => d.country_code);  // by country id
         // console.log(country_array);  // nested data
         country_array = Array.from(country_array, function (i) {  // unnest data
-            return { country_id: i[0], country_name: i[1].country_name, median_auc: i[1].median_auc}
+            return { country_code: i[0], country_name: i[1].country_name, median_auc: i[1].median_auc}
         })
 
         res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req)});
