@@ -272,6 +272,7 @@ function create_info_(params) {
         user_time: date.toLocaleTimeString(),
         user_timezone: date.getTimezoneOffset(),
         tasks_completed: [],
+        demographics: {}
     };
     info_ = { ...info_, ...params }; // spread operator to merge objects (second object will overwrite first one if both have same properties)
     info_ = { ...info_, ...get_query_string() }; // add parameters from query string into info_
@@ -371,7 +372,7 @@ function white_on_black() {
 function create_consent(timeline, html_path) {
     var consent = {
         on_start: function () {
-            document.body.style.backgroundColor = "white"; // always white background for consent page
+            document.body.style.backgroundColor = "white"; 
         },
         type: 'external-html',
         url: html_path,
@@ -2252,8 +2253,12 @@ const race_and_ethnicities = [
 
 
 
-var demographics = [
-    {
+
+function create_demographics(timeline) {
+    var country_resident = {
+        on_start: function () {
+            document.body.style.backgroundColor = "white";
+        },
         type: 'survey-text-dropdown',
         question: [
             {
@@ -2266,23 +2271,12 @@ var demographics = [
         on_finish: function (data) {
             data.country_code = country_name_to_num(data.value);
             data.demographic_type = 'country_resident';
+            info_.demographics.country = data.value;
+            info_.demographics.country_code = data.country_code;
         }
-    },
-    {
-        type: 'survey-text-dropdown',
-        question: [
-            {
-                prompt: 'What <strong>nationality</strong> do you associate with the most?',
-                options: country_info.map(i => i.country),
-                name: 'country_associate'
-            }
-        ],
-        required: true,
-        on_finish: function (data) {
-            data.country_code = country_name_to_num(data.value);
-            data.demographic_type = 'country_associate';
-        }
-    }
-];
+    };
 
+    timeline.push(country_resident);
+    return timeline;
+}
 

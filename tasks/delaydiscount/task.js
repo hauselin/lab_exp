@@ -3,12 +3,12 @@ const taskinfo = {
     uniquestudyid: 'delaydiscount', // unique task id: must be IDENTICAL to directory name
     desc: 'delay discounting task staircase with 6 delays', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: "/tasks/delaydiscount/viz" // set to false if no redirection required
+    redirect_url: false //"/tasks/delaydiscount/viz" // set to false if no redirection required
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 
-const debug = false;  // debug mode to print messages to console and display json data at the end
+const debug = true;  // debug mode to print messages to console and display json data at the end
 const black_background = false; // if true, white text on black background
 var font_colour = 'black';
 if (black_background) {
@@ -167,8 +167,7 @@ timeline.push(instructions);
 timeline.push(practice_trial);
 timeline.push(instructions2);
 timeline.push(trial);
-timeline.concat(demographics);
-console.log(timeline)
+timeline = create_demographics(timeline);
 
 jsPsych.init({
     timeline: timeline,
