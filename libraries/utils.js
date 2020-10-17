@@ -431,7 +431,14 @@ function get_viz_subject_info(uniquestudyid, type, num_subject_figures) {
     return [subject_id, start_time]
 }
 
-
+function copyURI(evt, link) {
+    evt.preventDefault();
+    navigator.clipboard.writeText(link).then(() => {
+        /* clipboard successfully set */
+    }, () => {
+        /* clipboard write failed */
+    });
+}
 
 
 
