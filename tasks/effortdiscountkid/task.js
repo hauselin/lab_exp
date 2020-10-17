@@ -119,12 +119,14 @@ function gridCreator(op_1_s, op_1_a, op_2_s, op_2_a, dim, s_em, a_em) {
     return "<div class='container'>" + 
                 "<div class='row'>" +
                     "<div class='col' style=column-gap:80px;>" +
+
                         "<div class='column' style=float:left;margin-right:150px;text-align:left;>"
                             + str_s_1 + "<br><br>" + str_a_1 +
                         "</div>" + 
                         "<div class='column' style=float:left;margin-left:150px;text-align:left;>"
-                            + str_s_2 + "<br><br>" + str_a_2 + "<br><br><br><br><br><br>"
+                            + str_s_2 + "<br><br>" + str_a_2 + "<br><br><br><br><br><br>" +
                         "</div>" +
+                        
                     "</div>" +
                 "</div>" +
             "</div>"
