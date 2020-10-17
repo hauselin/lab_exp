@@ -61,7 +61,7 @@ var instructions = {
 
     pages: [
         generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("Press the right arrow key.", font_colour),
-        generate_html("In this task, you'll have to decide which option you prefer.", font_colour) + generate_html("For example, you'll see two options:", font_colour) +  gridCreator(25, 1, 12, 0, 5, "&#11088", "&#x1F479"),
+        generate_html("In this task, you'll have to decide which option you prefer.", font_colour) + generate_html("For example, you'll see two options:", font_colour) +  "<br><br>" + gridCreator(25, 1, 12, 0, 5, "&#11088", "&#x1F479"),
         generate_html("If you want 25 stars, you must catch 1 alien. If you want 12 stars, you must catch 0 aliens.", font_colour) + generate_html("Use the left/right arrow keys on the keyboard to choose.", font_colour),
         generate_html("Next up is a practice trial.", font_colour) + generate_html("Your data will NOT be recorded.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour)
     ],
@@ -76,8 +76,9 @@ jsPsych.init({
 })
 
 function add_aliens(alien_count, alien_em) {
-    var al_count = 0;
+    var al_count = 1;
         str = "";
+        
     while (al_count <= alien_count) {
         str += "<span style=font-size:3rem>" + alien_em + "</span>";
         al_count += 1;
@@ -110,7 +111,7 @@ function add_stars(star_count, star_em, dim) {
 function gridCreator(op_1_s, op_1_a, op_2_s, op_2_a, dim, s_em, a_em) {
 
     var str_s_1 = add_stars(op_1_s, s_em, dim);
-        str_a_1 = add_aliens(op_2_a, a_em);
+        str_a_1 = add_aliens(op_1_a, a_em);
         str_s_2 = add_stars(op_2_s, s_em, dim);
         str_a_2 = add_aliens(op_2_a, a_em);
     
@@ -118,11 +119,11 @@ function gridCreator(op_1_s, op_1_a, op_2_s, op_2_a, dim, s_em, a_em) {
     return "<div class='container'>" + 
                 "<div class='row'>" +
                     "<div class='col' style=column-gap:80px;>" +
-                        "<div class='column' style=float:left;margin-right:150px;>"
+                        "<div class='column' style=float:left;margin-right:150px;text-align:left;>"
                             + str_s_1 + "<br><br>" + str_a_1 +
                         "</div>" + 
-                        "<div class='column' style=float:left;margin-left:150px;>"
-                            + str_s_2 + "<br><br>" + str_a_2 +
+                        "<div class='column' style=float:left;margin-left:150px;text-align:left;>"
+                            + str_s_2 + "<br><br>" + str_a_2 + "<br><br><br><br><br><br>"
                         "</div>" +
                     "</div>" +
                 "</div>" +
