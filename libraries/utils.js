@@ -412,7 +412,7 @@ function percentile(number, array) {
 }
 
 // TODO Frank: replace uniquestudyid and type with the variable passed from the backend
-function get_viz_subject_info(uniquestudyid, type, num_subject_figures) {
+function get_viz_subject_info(parent_path, num_subject_figures) {
     const info = localStorage.getObj("info_");
     if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
         var subject_id = null;
@@ -420,7 +420,7 @@ function get_viz_subject_info(uniquestudyid, type, num_subject_figures) {
         for (i = 0; i < num_subject_figures; i++) {
             document.getElementById('no-data-tag' + i.toString()).innerHTML = "Other users' behavior";
         }
-        document.getElementById('no-data-text').innerHTML = "To see your own results below, <a href='/" + type + "/" + uniquestudyid + "/'>complete the task</a> first.";
+        document.getElementById('no-data-text').innerHTML = "To see your own results below, <a href='" + parent_path + "/'>complete the task</a> first.";
     } else {
         var subject_id = info.subject;
         var start_time = info.time;

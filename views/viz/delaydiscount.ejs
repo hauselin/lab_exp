@@ -263,7 +263,7 @@
 
         // retrieve objects from sessionStorage
         // subject_id and time will be used to filter arrays for plotting subject data
-        subject_info = get_viz_subject_info(uniquestudyid, type, 1);
+        subject_info = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 1);
         var subject_id = subject_info[0]
         var start_time = subject_info[1]
         
