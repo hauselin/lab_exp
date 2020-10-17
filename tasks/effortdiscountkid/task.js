@@ -78,44 +78,33 @@ jsPsych.init({
 function add_aliens(alien_count, alien_em) {
     var al_count = 1;
         str = "";
-        
     while (al_count <= alien_count) {
         str += "<span style=font-size:3rem>" + alien_em + "</span>";
         al_count += 1;
-    }
-    return str;
+    } return str;
 }
 
 function add_stars(star_count, star_em, dim) {
     var dim_r = dim;
         curr_1 = 1;
         str = "";
-
     while (curr_1 <= star_count) {
         if (curr_1 <= dim_r) {
             str += "<span style=font-size:3rem>" + star_em + "</span>";
             curr_1 += 1;            
-        }
-
-        else {
+        } else {
             str += "<br> <br>";
             dim_r += 5;
         }
-    }
-
-    return str ;
-
+    } return str ;
 }
 
-
 function gridCreator(op_1_s, op_1_a, op_2_s, op_2_a, dim, s_em, a_em) {
-
     var str_s_1 = add_stars(op_1_s, s_em, dim);
         str_a_1 = add_aliens(op_1_a, a_em);
         str_s_2 = add_stars(op_2_s, s_em, dim);
         str_a_2 = add_aliens(op_2_a, a_em);
     
-
     return "<div class='container'>" + 
                 "<div class='row'>" +
                     "<div class='col' style=column-gap:80px;>" +
@@ -126,7 +115,7 @@ function gridCreator(op_1_s, op_1_a, op_2_s, op_2_a, dim, s_em, a_em) {
                         "<div class='column' style=float:left;margin-left:150px;text-align:left;>"
                             + str_s_2 + "<br><br>" + str_a_2 + "<br><br><br><br><br><br>" +
                         "</div>" +
-                        
+
                     "</div>" +
                 "</div>" +
             "</div>"
