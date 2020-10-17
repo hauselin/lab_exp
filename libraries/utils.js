@@ -412,7 +412,6 @@ function percentile(number, array) {
     return (1 - greater_than.length / array.length) * 100
 }
 
-// TODO Frank: replace uniquestudyid and type with the variable passed from the backend
 function get_viz_subject_info(parent_path, num_subject_figures) {
     const info = localStorage.getObj("info_");
     if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
@@ -2255,7 +2254,7 @@ const race_and_ethnicities = [
 
 
 function create_demographics(timeline) {
-    var country_resident = {
+    var select_country = {
         on_start: function () {
             document.body.style.backgroundColor = "white";
         },
@@ -2276,7 +2275,73 @@ function create_demographics(timeline) {
         }
     };
 
-    timeline.push(country_resident);
+	var select_country_associated = {
+		type: 'survey-text-dropdown',
+		question: [
+			{
+				prompt: 'What <strong>nationality</strong> do you associate with the most?',
+				options: country_info.map(i => i.country),
+				name: 'country_associate'
+			}
+		],
+		required: true,
+		on_finish: function (data) {
+			data.country_code = country_name_to_num(data.value);
+            data.demographic_type = 'country_associate';
+            info_.demographics.country_associate = data.value;
+            info_.demographics.country_associate_code = data.country_code;
+		}
+	};
+
+    var select_language = {
+        type: 'survey-text-dropdown',
+        question: [
+            {
+                prompt: 'What language are you most fluent in?',
+                options: languages.map(i => i.name),
+                name: 'language'
+            }
+        ],
+        required: true,
+        on_finish: function (data) {
+            data.language_code = language_name_to_code(data.value);
+            data.demographic_type = 'language';
+            info_.demographics.language = data.value;
+            info_.demographics.language_code = data.language_code;
+        }
+    };
+
+    var select_religion = {
+        type: 'survey-text-dropdown',
+        question: [
+            {
+                prompt: 'What is your religion?',
+                options: religions,
+                name: 'religion'
+            }
+        ],
+        required: true,
+        on_finish: function (data) {
+            data.demographic_type = 'religion';
+        }
+    };
+
+    var select_ethnicity = {
+        type: 'survey-text-dropdown',
+        question: [
+            {
+                prompt: 'What is your race / ethnicity?',
+                options: race_and_ethnicities,
+                name: 'race_and_ethnicity'
+            }
+        ],
+        required: true,
+        on_finish: function (data) {
+            data.demographic_type = 'race_and_ethnicity';
+        }
+    }
+
+    timeline = timeline.concat([select_country, select_country_associated, select_language, select_religion, select_ethnicity])
     return timeline;
 }
 
