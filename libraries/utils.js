@@ -426,7 +426,7 @@ function get_viz_subject_info(uniquestudyid, type, num_subject_figures) {
         for (i = 0; i < num_subject_figures; i++) {
             document.getElementById('no-data-tag' + i.toString()).innerHTML = "You vs others";
         }
-        document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red data points are your results.';
+        document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red dots / vertical lines are your results.';
     }
     return [subject_id, start_time]
 }
