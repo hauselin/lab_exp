@@ -228,7 +228,7 @@ function submit_data(results, redirect_url) {
     }
 }
 
-// allows sessionStorage to store arrays and objects using sessionStorage.setObj() and sessionStorage.getObj()
+// allows localStorage to store arrays and objects using localStorage.setObj() and localStorage.getObj()
 Storage.prototype.setObj = function (key, obj) {
     return this.setItem(key, JSON.stringify(obj))
 }
@@ -277,15 +277,15 @@ function create_info_(params) {
     info_ = { ...info_, ...get_query_string() }; // add parameters from query string into info_
     // IMPORTANT: if url query parameters exist, they'll ALWAYS overwrite existing properties with the same name (url parameters take precedence!)
 
-    // get previous time/uniquestudy info if it exists in sessionStorage
+    // get previous time/uniquestudy info if it exists in localStorage
     info_ = get_previous_info(info_)
 
-    // save stuff to sessionStorage
-    sessionStorage.setObj("info_", info_);
-    sessionStorage.setObj("subject", info_.subject);
-    sessionStorage.setObj("uniquestudyid", info_.uniquestudyid);
-    sessionStorage.setObj("type", info_.type);
-    sessionStorage.setObj("condition", info_.condition);
+    // save stuff to localStorage
+    localStorage.setObj("info_", info_);
+    localStorage.setObj("subject", info_.subject);
+    localStorage.setObj("uniquestudyid", info_.uniquestudyid);
+    localStorage.setObj("type", info_.type);
+    localStorage.setObj("condition", info_.condition);
 
     var str2print = "CURRENT INFO\n" +
         "  uniquestudyid: " + info_.uniquestudyid + "\n" +
@@ -297,9 +297,9 @@ function create_info_(params) {
     return info_
 }
 
-// add previous study info to info_ if it exists in sessionStorage
+// add previous study info to info_ if it exists in localStorage
 function get_previous_info(info_) {
-    var x = sessionStorage.getObj('info_');
+    var x = localStorage.getObj('info_');
     info_.previous_uniquestudyid = null;
     info_.previous_time = null;
     info_.previous_mins_before = null;
@@ -326,8 +326,8 @@ function get_previous_info(info_) {
 // function create_datasummary_(info_) {
 //     const datasummary_ = {};
 //     datasummary_.subject = info_.subject;
-//     sessionStorage.setObj(info_.datasummary_name, datasummary_);
-//     console.log('saved to sessionStorage: ' + info_.datasummary_name);
+//     localStorage.setObj(info_.datasummary_name, datasummary_);
+//     console.log('saved to localStorage: ' + info_.datasummary_name);
 //     return datasummary_;
 // }
 
@@ -342,21 +342,21 @@ function random_ID(length) {
     return result;
 }
 
-// get subject id from url or sessionStorage or generate subject ID
+// get subject id from url or localStorage or generate subject ID
 function get_subject_ID() {
     if (get_query_string().hasOwnProperty('subject')) {
         var subject = get_query_string().subject;
         var where = 'FROM URL';
-    } else if (sessionStorage.getItem('subject')) {
-        var subject = sessionStorage.getObj('subject');
-        var where = "RETRIEVED FROM sessionStorage";
+    } else if (localStorage.getItem('subject')) {
+        var subject = localStorage.getObj('subject');
+        var where = "RETRIEVED FROM localStorage";
     } else {
         var date = new Date();
         var subject = date.getTime() + "_" + random_ID(5);
         var where = "NEWLY GENERATED";
     }
-    sessionStorage.setObj("subject", subject);
-    console.log("subject id (" + where + ") " + subject + " saved to sessionStorage");
+    localStorage.setObj("subject", subject);
+    console.log("subject id (" + where + ") " + subject + " saved to localStorage");
     return subject;
 }
 
@@ -413,7 +413,7 @@ function percentile(number, array) {
 
 // TODO Frank: replace uniquestudyid and type with the variable passed from the backend
 function get_viz_subject_info(uniquestudyid, type, num_subject_figures) {
-    const info = sessionStorage.getObj("info_");
+    const info = localStorage.getObj("info_");
     if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
         var subject_id = null;
         var start_time = null;
