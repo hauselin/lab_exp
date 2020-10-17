@@ -84,7 +84,7 @@ jsPsych.plugins['survey-text-dropdown'] = (function () {
     html += '<p class="jspsych-survey-text-dropdown">' + question.prompt + '</p>';
     var req = trial.required ? "required" : ""; // require response or not
     html += '<select name="' + question.name + '" id="' + question.name + '" ' + req + '>';
-    html += '<option value="">None</option>'
+    html += '<option value="">Select an option</option>'
 
     // generate options for dropdown select menu
     question_options.forEach(function (o) {

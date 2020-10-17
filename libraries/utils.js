@@ -411,6 +411,7 @@ function percentile(number, array) {
     return (1 - greater_than.length / array.length) * 100
 }
 
+// TODO Frank: replace uniquestudyid and type with the variable passed from the backend
 function get_viz_subject_info(uniquestudyid, type, num_subject_figures) {
     const info = sessionStorage.getObj("info_");
     if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
@@ -426,7 +427,7 @@ function get_viz_subject_info(uniquestudyid, type, num_subject_figures) {
         for (i = 0; i < num_subject_figures; i++) {
             document.getElementById('no-data-tag' + i.toString()).innerHTML = "You vs others";
         }
-        document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red dots / vertical lines are your results.';
+        document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red dots/lines are your results.';
     }
     return [subject_id, start_time]
 }
@@ -528,16 +529,16 @@ function copyURI(evt, link) {
 
 var country_info = [
     {
-        country: 'Prefer not to say',
-        alpha2: 'NULL',
-        alpha3: 'NULL',
-        numeric: '0',
-    },
-    {
         country: 'United States of America',
         alpha2: 'US',
         alpha3: 'USA',
         numeric: '840',
+    },
+    {
+        country: 'Prefer not to say',
+        alpha2: 'NULL',
+        alpha3: 'NULL',
+        numeric: '0',
     },
     {
         country: 'Afghanistan',
@@ -2030,6 +2031,7 @@ var country_info = [
 ];
 
 const languages = [
+    { code: 'en', name: 'English' },
     { code: 'null', name: 'Prefer not to say' },
     { code: 'ab', name: 'Abkhazian' },
     { code: 'aa', name: 'Afar' },
@@ -2073,7 +2075,6 @@ const languages = [
     { code: 'dv', name: 'Divehi, Dhivehi, Maldivian' },
     { code: 'nl', name: 'Dutch, Flemish' },
     { code: 'dz', name: 'Dzongkha' },
-    { code: 'en', name: 'English' },
     { code: 'eo', name: 'Esperanto' },
     { code: 'et', name: 'Estonian' },
     { code: 'ee', name: 'Ewe' },
@@ -2218,17 +2219,17 @@ const languages = [
 ];
 
 const religions = [
-    'Prefer not to say',
-    'No religion',
     'Christianity',
+    'Prefer not to say',
     'Islam',
     'Hinduism',
     'Buddhism',
+    'Judaism',
+    'No religion',
     'Folk religions',
     'Chinese folk religions',
     'Shinto',
     'Sikhism',
-    'Judaism',
     'Jainism',
     'Baháʼí Faith',
     'Caodaism',
@@ -2249,4 +2250,4 @@ const race_and_ethnicities = [
     'Hispanic or Latino',
     'Native Hawaiian or Other Pacific Islander',
     'White'
-]
+];

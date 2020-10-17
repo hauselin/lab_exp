@@ -131,10 +131,10 @@ ul.share-buttons {
 
 ul.share-buttons li {
     display: inline;
-    padding: 10px;
+    padding: 5px;
 }
 
 .share-button {
-    max-width: 24px;
-    max-height: 24px;
+    max-width: 34px;
+    max-height: 34px;
 }
