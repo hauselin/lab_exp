@@ -327,14 +327,6 @@ function get_previous_info(info_) {
     return info_
 }
 
-// function create_datasummary_(info_) {
-//     const datasummary_ = {};
-//     datasummary_.subject = info_.subject;
-//     localStorage.setObj(info_.datasummary_name, datasummary_);
-//     console.log('saved to localStorage: ' + info_.datasummary_name);
-//     return datasummary_;
-// }
-
 // generate random string of specified length
 function random_ID(length) {
     var result = '';
@@ -432,7 +424,7 @@ function get_viz_subject_info(parent_path, num_subject_figures) {
         for (i = 0; i < num_subject_figures; i++) {
             document.getElementById('no-data-tag' + i.toString()).innerHTML = "You vs others";
         }
-        document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red dots/lines are your results.';
+        document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red dots and lines are your results.';
     }
     return [subject_id, start_time]
 }

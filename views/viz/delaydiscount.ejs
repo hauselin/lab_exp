@@ -35,7 +35,7 @@
                         <ul class="share-buttons">
                             <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fanthrope.herokuapp.com" target="_blank"><img class="share-button" src="../../public/assets/img/icons/theme/social/facebook.svg" data-inject-svg /></a></li>
                             <li><a href="https://twitter.com/intent/tweet?text=Check%20out%20@anthrope_me%20https://www.anthrope.me"  target="_blank"><img class="share-button" src="../../public/assets/img/icons/theme/social/twitter.svg" data-inject-svg /></a></li>
-                            <li><a href="mailto:" target="_blank"><img class="share-button" src="../../public/assets/img/icons/theme/communication/mail.svg" data-inject-svg /></a></li>
+                            <li><a href="mailto:" target="_blank"><img class="share-button" src="../../public/assets/img/icons/theme/communication/sending-mail.svg" data-inject-svg /></a></li>
                             <li><a href="" onclick="copyURI(event,link)"><img class="share-button" src="../../public/assets/img/icons/theme/general/clipboard.svg" data-inject-svg /></a></li>
                         </ul>
                     </div><br>
@@ -263,7 +263,7 @@
 
         // retrieve objects from sessionStorage
         // subject_id and time will be used to filter arrays for plotting subject data
-        subject_info = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 1);
+        var subject_info = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 1);
         var subject_id = subject_info[0]
         var start_time = subject_info[1]
         
