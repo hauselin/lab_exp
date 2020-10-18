@@ -137,4 +137,5 @@ ul.share-buttons li {
 .share-button {
     max-width: 34px;
     max-height: 30px;
+    /* pointer-events:none;  */
 }
