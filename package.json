@@ -26,7 +26,6 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "express-useragent": "^1.0.15",
-    "i18n-iso-countries": "^6.0.0",
     "mongoose": "^5.9.18",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
