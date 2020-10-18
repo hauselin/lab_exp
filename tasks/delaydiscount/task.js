@@ -130,6 +130,7 @@ var trial = {
         data.reward_window = [reward_window[0], reward_window[1]];
         indifference = (reward_window[0] + reward_window[1]) / 2;
         data.indifference = indifference;
+        data.indifference_ratio = indifference / large_reward;
         if (n_trial == trials_per_cost) { // after 5 trials, move to next cost/delay
             n_trial = 0; // reset trial counter
             n_cost += 1;

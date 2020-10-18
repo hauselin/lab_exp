@@ -259,7 +259,7 @@
         const country_array = <%- JSON.stringify(country_array) %>;
         const uniquestudyid = 'delaydiscount';
         const type = 'tasks';
-        const link = 'http://localhost:8080' + <%- JSON.stringify(parent_path) %> + '/viz';
+        const link = window.location.origin + "/" + <%- JSON.stringify(parent_path) %> + '/viz';
 
         // retrieve objects from sessionStorage
         // subject_id and time will be used to filter arrays for plotting subject data

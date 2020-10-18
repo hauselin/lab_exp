@@ -397,7 +397,9 @@ function country_name_to_num(country_name) {
     if (index < 0) {  // if no matching index found, index will be -1
         return null
     } else {
-        return Number(country_info[index].numeric)
+        var num = Number(country_info[index].numeric);
+        // make sure str is three characters long to work with geojson in backend
+        return num.toString().padStart(3, "0");  
     }
 }
 
@@ -532,7 +534,7 @@ var country_info = [
         country: 'Prefer not to say',
         alpha2: 'NULL',
         alpha3: 'NULL',
-        numeric: '0',
+        numeric: null,
     },
     {
         country: 'Afghanistan',
@@ -2215,11 +2217,11 @@ const languages = [
 // https://en.wikipedia.org/wiki/Demographics_of_the_world#Religion
 const religions = [
     'Christianity',
-    'Prefer not to say',
     'Islam',
     'Hinduism',
     'Buddhism',
     'Judaism',
+    'Prefer not to say',
     'No religion',
     'Folk religions',
     'Chinese folk religions',

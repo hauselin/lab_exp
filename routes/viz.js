@@ -15,16 +15,6 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
             const temp_data = i.data; // get jspsych data
             var data_subset = temp_data.filter(s => s.n_trial == n_trial_max && s.event == "choice");  // select relevant rows
             var data_subset = data_subset.map(s => helper.pick(s, keys2select));  // select relevant columns
-            data_subset.forEach(function (s) { // for each row in this document
-                s.indifference_ratio = s.indifference / s.large_reward;  // rescale indifference
-                if (s.country_code.toString().length < 3) {
-                    var zeros = '0'
-                    if (s.country_code.toString().length == 1) {
-                        zeros = zeros.concat('0')
-                    }
-                    s.country_code = zeros + s.country_code.toString()
-                }
-            })
             data_array.push(data_subset);
         });
         data_array = data_array.flat(1);  // flatten objects in array
