@@ -257,7 +257,7 @@
         // data from database
         const data_array = <%- JSON.stringify(data_array) %>;
         const country_array = <%- JSON.stringify(country_array) %>;
-        const link = window.location.origin + "/" + <%- JSON.stringify(parent_path) %> + '/viz';
+        const link = window.location.origin + <%- JSON.stringify(parent_path) %> + '/viz';
 
         // retrieve objects from sessionStorage
         // subject_id and time will be used to filter arrays for plotting subject data
