@@ -1,3 +1,4 @@
+// DEFINE TASK (required)
 const taskinfo = {
     type: 'task', // 'task', 'survey', or 'study'
     uniquestudyid: 'delaydiscount', // unique task id: must be IDENTICAL to directory name
@@ -8,22 +9,19 @@ const taskinfo = {
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 
-const debug = false;  // debug mode to print messages to console and display json data at the end
-const black_background = false; // if true, white text on black background
-var font_colour = 'black';
-if (black_background) {
-    document.body.style.backgroundColor = "black";
-    var font_colour = 'white';
-}
+const debug = false;  // true to print messages to console and display json results
+var font_colour = "black";
+var background_colour = "white";
+set_colour(font_colour, background_colour);
 
-// TASK PARAMETERS
+// DEFINE TASK PARAMETERS (required)
 const large_reward = 100; //Large reward after cost.
 var costs = [2, 10, 15, 50, 100];  //costs in days.
 // var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
 const trials_per_cost = 6; //Number of trials per cost/delays.
 const practice_trials = 3; //Number of practice trials.
 
-// parameters below typically don't need to be changed
+// DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING 
 var small_reward = null;  //Small reward without cost.
 const quantile_range = [0.40, 0.60] //Quantiles within window to draw values from.
 costs = jsPsych.randomization.shuffle(costs);
@@ -39,7 +37,6 @@ if (reverse_sides) {
     stimuli_sides = "left_small_right_large";
 }
 
-// add subject id and task info to all trials
 jsPsych.data.addProperties({
     subject: info_.subject,
     type: taskinfo.type,
@@ -48,7 +45,7 @@ jsPsych.data.addProperties({
     condition: taskinfo.condition,    
 });
 
-// create experiment timeline
+// create experiment objects and timeline
 var timeline = [];
 const html_path = "../../tasks/delaydiscount/consent.html";
 timeline = create_consent(timeline, html_path);
@@ -174,20 +171,22 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        var datasummary = summarize_data(); // summarize data
-        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
+        var datasummary = summarize_data(); 
+
         jsPsych.data.get().addToAll({ // add parameters to all trials
             total_time: datasummary.total_time,
             auc: datasummary.auc,
             stimuli_sides: stimuli_sides
         });
-        jsPsych.data.get().first(1).addToAll({ // add objects to only first trial (to save space)
+        jsPsych.data.get().first(1).addToAll({ 
             info_: info_,
             datasummary: datasummary,
         });
         if (debug) {
             jsPsych.data.displayData();
         }
+        
+        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
         localStorage.setObj('info_', info_); // save to localStorage
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
     }

@@ -1,3 +1,4 @@
+// DEFINE TASK (required)
 const taskinfo = {
     type: 'survey', // 'task', 'survey', or 'study'
     uniquestudyid: 'gritshort', // unique task id: must be IDENTICAL to directory name
@@ -8,36 +9,37 @@ const taskinfo = {
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 
-const debug = false;  // debug mode to print messages to console and display json data at the end
-const black_background = false; // if true, white text on black background
-var font_colour = 'black';
-if (black_background) {
-    document.body.style.backgroundColor = "black";
-    var font_colour = 'white';
-}
+const debug = false;  // true to print messages to console and display json results
+var font_colour = "black";
+var background_colour = "white";
+set_colour(font_colour, background_colour);
 
+// DEFINE TASK PARAMETERS (required)
 var slider_width = 500; // width of slider in pixels
 var scale_min_max = [1, 5]; // slider min max values
 var scale_starting_points = [2, 3, 4]; // starting point of scale; if length > 1, randomly pick one for each scale item
 var scale_labels = ['not at all like me', 'very much like me']
 var step = 0.01; // step size of scale
-var require_movement = false; // whether subject must move slider before they're allowed to click continue
+var require_movement = false; // whether subject must move slider before continuig
 var shuffle_items = false; // randomize order of item presentation
 
+// DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING 
 jsPsych.data.addProperties({
     subject: info_.subject,
     type: taskinfo.type,
     uniquestudyid: taskinfo.uniquestudyid,
     desc: taskinfo.desc,
     condition: taskinfo.condition,
-    info_: info_,
 });
 
+// create experiment objects and timeline
 var start_point;
 var procedure = {
     timeline: [{
         type: 'html-slider-response',
-        stimulus: jsPsych.timelineVariable('desc'),
+        stimulus: function () {
+            return generate_html(jsPsych.timelineVariable('desc', true), font_colour);
+        },   
         data: {
             q: jsPsych.timelineVariable('q'),
             subscale: jsPsych.timelineVariable('subscale'),
@@ -80,9 +82,9 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        var datasummary = create_datasummary();
-        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
-        jsPsych.data.get().addToAll({ // add parameters to all trials
+        var datasummary = summarize_data();
+
+        jsPsych.data.get().addToAll({ 
             total_time: datasummary.total_time,
         });
         jsPsych.data.get().first(1).addToAll({ 
@@ -92,6 +94,8 @@ jsPsych.init({
         if (debug) {
             jsPsych.data.displayData();
         }
+
+        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
         localStorage.setObj('info_', info_); 
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); 
     }
@@ -107,7 +111,7 @@ function preprocess_grit() {
     return data_sub;
 }
 
-function create_datasummary() {
+function summarize_data() {
     var d = preprocess_grit(); // get preprocess/clean data
 
     // select trials for each subscale

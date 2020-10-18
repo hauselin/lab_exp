@@ -368,6 +368,7 @@ function create_consent(timeline, html_path) {
     var consent = {
         on_start: function () {
             document.body.style.backgroundColor = "white"; 
+            document.body.style.color = "black";
         },
         type: 'external-html',
         url: html_path,
@@ -375,9 +376,8 @@ function create_consent(timeline, html_path) {
         execute_script: true,
         force_refresh: true,
         on_finish: function () {
-            if (black_background) {
-                document.body.style.backgroundColor = "black";
-            }
+            document.body.style.backgroundColor = background_colour;
+            document.body.style.color = font_colour;
         },
     };
     timeline.unshift(consent);
@@ -447,8 +447,15 @@ function copyURI(evt, link) {
 }
 
 
-
-
+function set_colour(fore, back) {
+    // default black text on white background
+    if (!fore || !back) {
+        var fore = "black";
+        var back = "white";
+    };
+    document.body.style.backgroundColor = back; // background
+    document.body.style.color = fore; // foreground/font-text
+}
 
 
 
@@ -2262,6 +2269,7 @@ function create_demographics(timeline) {
     var select_country = {
         on_start: function () {
             document.body.style.backgroundColor = "white";
+            document.body.style.color = "black";
         },
         type: 'survey-text-dropdown',
         question: [
