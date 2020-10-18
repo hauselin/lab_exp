@@ -118,24 +118,10 @@ section {
     font-weight: bold;
 }
 
-div.share-buttons {
-    width:25vw;
-    margin:0 auto;
-    text-align:center;
-}
-
-ul.share-buttons {
-    list-style: none;
-    padding: 0;
-}
-
-ul.share-buttons li {
-    display: inline;
-    padding: 5px;
-}
 
 .share-button {
     max-width: 34px;
     max-height: 30px;
+    margin-left: 8px;
     /* pointer-events:none;  */
 }
