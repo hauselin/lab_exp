@@ -410,6 +410,7 @@ function percentile(number, array) {
 }
 
 function get_viz_subject_info(parent_path, num_subject_figures) {
+    var uniquestudyid = get_uniquestudyid_from_parent_path(parent_path);
     const info = localStorage.getObj("info_");
     if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
         var subject_id = null;
@@ -427,6 +428,13 @@ function get_viz_subject_info(parent_path, num_subject_figures) {
         document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red dots and lines are your results.';
     }
     return [subject_id, start_time]
+}
+
+// removes /X/ in this (example) route: /X/uniquestudyid (e.g., /X/delaydiscount
+function get_uniquestudyid_from_parent_path(parent_path) {
+    const strmatches = [...parent_path.matchAll("/")];
+    const idx_start = strmatches[1].index;
+    return parent_path.slice(idx_start+1, parent_path.length);
 }
 
 function copyURI(evt, link) {
