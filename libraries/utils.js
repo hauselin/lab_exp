@@ -3,7 +3,7 @@
  **/
 
 function range(start, end) {
-    let ans = [];
+    var ans = [];
     for (let i = start; i < end; i++) {
         ans.push(i);
     }
@@ -2026,7 +2026,7 @@ var country_info = [
     },
 ];
 
-const languages = [
+var languages = [
     { code: 'en', name: 'English' },
     { code: 'null', name: 'Prefer not to say' },
     { code: 'ab', name: 'Abkhazian' },
@@ -2215,7 +2215,7 @@ const languages = [
 ];
 
 // https://en.wikipedia.org/wiki/Demographics_of_the_world#Religion
-const religions = [
+var religions = [
     'Christianity',
     'Islam',
     'Hinduism',
@@ -2240,7 +2240,7 @@ const religions = [
 ];
 
 // https://grants.nih.gov/grants/guide/notice-files/not-od-15-089.html
-const race_and_ethnicities = [
+var race_and_ethnicities = [
     'Prefer not to say',
     'American Indian or Alaskan Native',
     'Asian',

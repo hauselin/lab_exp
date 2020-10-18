@@ -82,17 +82,18 @@ jsPsych.init({
         document.body.style.backgroundColor = 'white';
         var datasummary = create_datasummary();
         info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
-        console.log(datasummary);
-        jsPsych.data.get().addToAll({ // add objects to all trials
+        jsPsych.data.get().addToAll({ // add parameters to all trials
+            total_time: datasummary.total_time,
+        });
+        jsPsych.data.get().first(1).addToAll({ 
             info_: info_,
             datasummary: datasummary,
-            total_time: datasummary.total_time,
         });
         if (debug) {
             jsPsych.data.displayData();
         }
-        sessionStorage.setObj('info_', info_); // save to sessionStorage
-        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
+        localStorage.setObj('info_', info_); 
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); 
     }
 });
 
@@ -100,14 +101,14 @@ jsPsych.init({
 
 
 
-function preprocess_grit() {  // 
-    var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" });  // select stroop trials
-    // var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 100 });
+function preprocess_grit() {  
+    var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" }); 
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 200 });
     return data_sub;
 }
 
 function create_datasummary() {
-    var d = preprocess_grit(); // preprocess/clean data
+    var d = preprocess_grit(); // get preprocess/clean data
 
     // select trials for each subscale
     var consistent_interest = d.filter({ "subscale": "consistentInterest" });
@@ -120,18 +121,19 @@ function create_datasummary() {
 
     // store above info in array
     var datasummary = [
-        { type: "consistent_interest", param: "resp_reverse", value: consistent_resp },
-        { type: "persevere_effort", param: "resp_reverse", value: persevere_resp },
-        { type: "all", param: "resp_reverse", value: mean_resp },
+        { type: "consistent_interest", param: "resp", value: consistent_resp },
+        { type: "persevere_effort", param: "resp", value: persevere_resp },
+        { type: "all", param: "resp", value: mean_resp },
     ];
 
     // add id/country information
     datasummary.forEach(function (s) {
         s.subject = info_.subject;
         s.time = info_.time;
-        s.country_code = info_.country_code;
-        s.country_name = info_.country_name;
+        s.country = info_.demographics.country;
+        s.country_code = info_.demographics.country_code;
+        s.total_time = jsPsych.totalTime() / 60000;
     })
-
+    console.log(datasummary);
     return datasummary
 }

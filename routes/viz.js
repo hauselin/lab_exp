@@ -82,7 +82,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
 })
 
 router.get("/surveys/gritshort/viz", function (req, res) {
-    DataLibrary.find({ uniquestudyid: 'gritshort' }, {}, { sort: { time: -1 } }).lean().then(data => {
+    DataLibrary.find({ uniquestudyid: 'gritshort' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
 
         // var data_array2 = [];
         // var data_array = [];
