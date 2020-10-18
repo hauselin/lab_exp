@@ -15,17 +15,12 @@ router.post('/submit-data', function (req, res) {
         req.socket.remoteAddress ||
         (req.connection.socket ? req.connection.socket.remoteAddress : null);
 
-    // TODO: use IP to get longitude/latitude; if no country in info, use IP to get country too
-
-    // add columns/properties to each row/trial/object in data
+    // add columns/properties to each row/trial/object in jspsych data (eventually 2D tables/csv)
     rawdata.forEach(function (i) {
-        i.time = info.time;
-        i.utc_datetime = info.utc_datetime;
-        i.ip = ip;
-        i.country = info.demographics.country;
-        i.country_code = info.demographics.country_code;
-        i.latitude = null;
-        i.longitude = null;
+        delete i.info_; // delete to save space
+        delete i.datasummary; // delete to save space
+
+        // task info
         i.type = info.type;
         i.uniquestudyid = info.uniquestudyid;
         i.desc = info.desc;
@@ -34,14 +29,32 @@ router.post('/submit-data', function (req, res) {
         i.previous_uniquestudyid = info.previous_uniquestudyid;
         i.previous_time = info.previous_time;
         i.previous_mins_before = info.previous_mins_before;
+
+        // geo/time info
+        i.time = info.time;
+        i.utc_datetime = info.utc_datetime;
+        i.country = info.demographics.country;
+        i.country_code = info.demographics.country_code;
+        i.latitude = null; // TODO fix in the future
+        i.longitude = null; // TODO fix in the future
+        
+        // client info
         i.browser = ua.browser;
         i.browser_ver = ua.version;
         i.os = ua.os;
         i.platform = ua.platform;
-        delete i.info_; // delete to save space
-        delete i.datasummary; // delete to save space
+        i.ip = ip;
+
+        // demographics
+        i.nationality = info.demographics.country_associate;
+        i.nationality_code = info.demographics.country_associate_code;
+        i.language = info.demographics.language;
+        i.language_code = info.demographics.language_code;
+        i.religion = info.demographics.religion;
+        i.race_ethnicity = info.demographics.race_ethnicity;
     })
 
+    // add fields to this document
     DataLibrary.create({
         data: rawdata,  // jspsych data
         info_: info,

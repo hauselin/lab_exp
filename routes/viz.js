@@ -7,28 +7,29 @@ const helper = require('../routes/helpers/helpers');
 
 router.get("/tasks/delaydiscount/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'delaydiscount' }, {}, { sort: { time: -1 } }).lean().then(data => {
-        const keys2select = ['subject', 'uniquesubjectid', 'event', 'cost', 'large_reward', 'small_reward', 'n_trial', 'n_trial_overall', 'indifference', 'auc', 'country', 'country_code', 'longitude', 'latitude', 'time'];  // columns/keys to select
+
+        const keys2select = ['subject', 'uniquesubjectid', 'event', 'cost', 'large_reward', 'small_reward', 'n_trial', 'n_trial_overall', 'indifference', 'indifference_ratio', 'auc', 'country', 'country_code', 'time'];  
         const n_trial_max = 5; // final indifference per cost (depends on task parameters)
 
         var data_array = [];
-        data.map(function (i) {  // map/loop through each document to get relevant data
-            const temp_data = i.data; // get jspsych data
-            var data_subset = temp_data.filter(s => s.n_trial == n_trial_max && s.event == "choice");  // select relevant rows
-            var data_subset = data_subset.map(s => helper.pick(s, keys2select));  // select relevant columns
+        data.map(function (i) {  // loop through each document to select rows/cols
+            const temp_data = i.data; // .data is jspsych's json data
+            var data_subset = temp_data.filter(s => s.n_trial == n_trial_max && s.event == "choice"); // filter rows
+            var data_subset = data_subset.map(s => helper.pick(s, keys2select));  // pick columns
             data_array.push(data_subset);
         });
         data_array = data_array.flat(1);  // flatten objects in array
 
-        // prepare data for chloropleth auc (each subject has 5 auc values (repeated) because we have 5 trials per subject, but that's fine)
-        country_array = d3.rollups(data_array, // compute median for each country
+        // average values per country (for choropleth)
+        country_array = d3.rollups(data_array, 
             function (v) {
                 return {
                     median_auc: d3.median(v, d => d.auc),  // median auc
-                    country_name: d3.min(v, d => d.country)  // get country name
+                    country_name: d3.min(v, d => d.country)  // unique country name
                 }
             },
             // v => d3.median(v, d => d.auc),
-            d => d.country_code);  // by country id
+            d => d.country_code);  // by country code
         // console.log(country_array);  // nested data
         country_array = Array.from(country_array, function (i) {  // unnest data
             return { country_code: i[0], country_name: i[1].country_name, median_auc: i[1].median_auc}

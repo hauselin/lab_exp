@@ -2274,7 +2274,6 @@ function create_demographics(timeline) {
         required: true,
         on_finish: function (data) {
             data.country_code = country_name_to_num(data.value);
-            data.demographic_type = 'country_resident';
             info_.demographics.country = data.value;
             info_.demographics.country_code = data.country_code;
         }
@@ -2292,7 +2291,6 @@ function create_demographics(timeline) {
 		required: true,
 		on_finish: function (data) {
 			data.country_code = country_name_to_num(data.value);
-            data.demographic_type = 'country_associate';
             info_.demographics.country_associate = data.value;
             info_.demographics.country_associate_code = data.country_code;
 		}
@@ -2310,7 +2308,6 @@ function create_demographics(timeline) {
         required: true,
         on_finish: function (data) {
             data.language_code = language_name_to_code(data.value);
-            data.demographic_type = 'language';
             info_.demographics.language = data.value;
             info_.demographics.language_code = data.language_code;
         }
@@ -2327,7 +2324,6 @@ function create_demographics(timeline) {
         ],
         required: true,
         on_finish: function (data) {
-            data.demographic_type = 'religion';
             info_.demographics.religion = data.value;
         }
     };
@@ -2343,7 +2339,6 @@ function create_demographics(timeline) {
         ],
         required: true,
         on_finish: function (data) {
-            data.demographic_type = 'race_and_ethnicity';
             info_.demographics.race_ethnicity = data.value;
         }
     }

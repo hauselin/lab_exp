@@ -19,7 +19,7 @@ if (black_background) {
 // TASK PARAMETERS
 const large_reward = 100; //Large reward after cost.
 var costs = [2, 10, 15, 50, 100];  //costs in days.
-var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
+// var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
 const trials_per_cost = 6; //Number of trials per cost/delays.
 const practice_trials = 3; //Number of practice trials.
 
