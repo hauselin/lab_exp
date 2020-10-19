@@ -29,14 +29,15 @@ router.post('/submit-data', function (req, res) {
         i.previous_uniquestudyid = info.previous_uniquestudyid;
         i.previous_time = info.previous_time;
         i.previous_mins_before = info.previous_mins_before;
+        i.previous_task_completed = info.previous_task_completed;
 
         // geo/time info
         i.time = info.time;
         i.utc_datetime = info.utc_datetime;
         i.country = info.demographics.country;
         i.country_code = info.demographics.country_code;
-        i.latitude = null; // TODO fix in the future
-        i.longitude = null; // TODO fix in the future
+        i.latitude = null; // TODO add in the future
+        i.longitude = null; // TODO add in the future
         
         // client info
         i.browser = ua.browser;

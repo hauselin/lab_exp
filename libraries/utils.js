@@ -272,6 +272,7 @@ function create_info_(params) {
         user_time: date.toLocaleTimeString(),
         user_timezone: date.getTimezoneOffset(),
         tasks_completed: [],
+        current_task_completed: 0,
         demographics: {}
     };
     info_ = { ...info_, ...params }; // spread operator to merge objects (second object will overwrite first one if both have same properties)
@@ -307,6 +308,7 @@ function get_previous_info(info_) {
     info_.previous_uniquestudyid = null;
     info_.previous_time = null;
     info_.previous_mins_before = null;
+    info_.previous_task_completed = null;
     if (x) {
         try {
             info_.previous_uniquestudyid = x.uniquestudyid;
@@ -316,6 +318,7 @@ function get_previous_info(info_) {
             var time_diff = time_current - time_previous;
             info_.previous_mins_before = time_diff / 60000;
             info_.tasks_completed = x.tasks_completed;
+            info_.previous_task_completed = x.current_task_completed;
         } catch {
             console.log("info_ doesn't exist in sessionObject yet")
         }

@@ -96,6 +96,7 @@ jsPsych.init({
         }
 
         info_.tasks_completed.push(taskinfo.uniquestudyid); // add uniquestudyid to info_
+        info_.current_task_completed = 1;
         localStorage.setObj('info_', info_); 
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); 
     }
