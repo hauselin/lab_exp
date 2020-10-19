@@ -545,12 +545,6 @@ var country_info = [
         numeric: '840',
     },
     {
-        country: 'Prefer not to say',
-        alpha2: 'NULL',
-        alpha3: 'NULL',
-        numeric: null,
-    },
-    {
         country: 'Afghanistan',
         alpha2: 'AF',
         alpha3: 'AFG',
@@ -851,13 +845,13 @@ var country_info = [
         numeric: '174',
     },
     {
-        country: 'Congo',
+        country: 'Congo or Republic of the Congo',
         alpha2: 'CG',
         alpha3: 'COG',
         numeric: '178',
     },
     {
-        country: 'Congo',
+        country: 'Congo or Democratic Republic of the Congo',
         alpha2: 'CD',
         alpha3: 'COD',
         numeric: '180',
@@ -2038,11 +2032,16 @@ var country_info = [
         alpha3: 'ZWE',
         numeric: '716',
     },
+    {
+        country: 'Other',
+        alpha2: null,
+        alpha3: null,
+        numeric: null,
+    },
 ];
 
 var languages = [
     { code: 'en', name: 'English' },
-    { code: 'null', name: 'Prefer not to say' },
     { code: 'ab', name: 'Abkhazian' },
     { code: 'aa', name: 'Afar' },
     { code: 'af', name: 'Afrikaans' },
@@ -2225,7 +2224,8 @@ var languages = [
     { code: 'yi', name: 'Yiddish' },
     { code: 'yo', name: 'Yoruba' },
     { code: 'za', name: 'Zhuang, Chuang' },
-    { code: 'zu', name: 'Zulu' }
+    { code: 'zu', name: 'Zulu' },
+    { code: null, name: 'Other' }
 ];
 
 // https://en.wikipedia.org/wiki/Demographics_of_the_world#Religion
@@ -2250,18 +2250,20 @@ var religions = [
     'Church of World Messianity',
     'Seicho-no-le',
     'Rastafari movement',
-    'Unitarian Universalism'
+    'Unitarian Universalism',
+    'Other'
 ];
 
 // https://grants.nih.gov/grants/guide/notice-files/not-od-15-089.html
 var race_and_ethnicities = [
-    'Prefer not to say',
     'American Indian or Alaskan Native',
     'Asian',
     'Black or African American',
     'Hispanic or Latino',
     'Native Hawaiian or Other Pacific Islander',
-    'White'
+    'White',
+    'Prefer not to say',
+    'Other'
 ];
 
 
@@ -2376,6 +2378,7 @@ function get_demographics(info_) {
     return info_;
 };
 
+// check object size
 Object.size = function (obj) {
     var size = 0, key;
     for (key in obj) {
@@ -2384,7 +2387,7 @@ Object.size = function (obj) {
     return size;
 };
 
-
+// ask if same or different person
 function check_same_different_person(timeline) {
     var check = {
         type: 'html-button-response',
@@ -2394,13 +2397,13 @@ function check_same_different_person(timeline) {
             if (data.button_pressed == "1") {
                 // different person, clear localStorage and reload page
                 localStorage.clear();
-                localStorage.setObj("show_consent", 0); // don't show consent
+                localStorage.setObj("show_consent", 0); // don't show consent again
                 window.location.replace(window.location.href);
             };
         }
     };
     
-    // if demographics exists in localStorage, ask if same/different person
+    // ask if same/different person only if demographics exists in localStorage
     var x = localStorage.getObj('info_');
     if (Object.size(x.demographics) > 0) {
         timeline.push(check);
