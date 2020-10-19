@@ -410,13 +410,10 @@ function percentile(number, array) {
 }
 
 function get_viz_subject_info(parent_path, num_subject_figures) {
+    console.log("parent_path: " + parent_path);
     var uniquestudyid = get_uniquestudyid_from_parent_path(parent_path);
     var info = localStorage.getObj("info_");
     if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
-        console.log("info");
-        console.log(info);
-        console.log("info.tasks_completed.includes(uniquestudyid)");
-        console.log(info.tasks_completed.includes(uniquestudyid));
         var subject_id = null;
         var start_time = null;
         for (i = 0; i < num_subject_figures; i++) {
@@ -425,13 +422,12 @@ function get_viz_subject_info(parent_path, num_subject_figures) {
         document.getElementById('no-data-text').innerHTML = "To see your own results below, <a href='" + parent_path + "/'>complete the task</a> first.";
     } else {
         var subject_id = info.subject;
-        var start_time = info.time;
         for (i = 0; i < num_subject_figures; i++) {
             document.getElementById('no-data-tag' + i.toString()).innerHTML = "You vs others";
         }
         document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red dots and lines are your results.';
     }
-    return [subject_id, start_time]
+    return subject_id;
 }
 
 // removes /X/ in this (example) route: /X/uniquestudyid (e.g., /X/delaydiscount

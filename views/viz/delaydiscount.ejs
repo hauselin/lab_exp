@@ -255,11 +255,8 @@
         const country_array = <%- JSON.stringify(country_array) %>;
         const link = window.location.origin + <%- JSON.stringify(parent_path) %> + '/viz';
 
-        // retrieve objects from sessionStorage
-        // subject_id and time will be used to filter arrays for plotting subject data
-        var subject_info = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 1);
-        var subject_id = subject_info[0]
-        var start_time = subject_info[1]
+        // get subject_id from localStorage (null if doesn't exist)
+        var subject_id = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 1);
         
         if (subject_id) {
             // compute/add percentile
@@ -267,7 +264,9 @@
             var auc_array = subject_array.map(x => x.auc);
             var subject_auc = data_array.filter(i => i.subject == subject_id).slice(0, 1)[0].auc;
             document.getElementById('percentile').innerHTML = "Your score (the red vertical line) is <strong>higher than " + percentile(subject_auc, auc_array).toFixed(0) + "% of our users</strong>.";
-            subject_data = data_array.filter(i => i.subject == subject_id && i.time == start_time)
+            subject_data = data_array.filter(i => i.subject == subject_id);
+            var latest_entry_time = Math.max(...subject_data.map(i => i.time));
+            subject_data = subject_data.filter(i => i.time == latest_entry_time);
         }
 
     </script>
