@@ -186,7 +186,7 @@ jsPsych.init({
             jsPsych.data.displayData();
         }
         
-        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
+        info_.tasks_completed.push(taskinfo.uniquestudyid); // add uniquestudyid to info_
         localStorage.setObj('info_', info_); // save to localStorage
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
     }

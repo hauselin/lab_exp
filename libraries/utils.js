@@ -281,15 +281,15 @@ function create_info_(params) {
     // get demographics if it exists
     info_ = get_demographics(info_);
 
+    // get previous time/uniquestudy info if it exists in localStorage
+    info_ = get_previous_info(info_);
+
     // save stuff to localStorage
     localStorage.setObj("info_", info_);
     localStorage.setObj("subject", info_.subject);
     localStorage.setObj("uniquestudyid", info_.uniquestudyid);
     localStorage.setObj("type", info_.type);
     localStorage.setObj("condition", info_.condition);
-
-    // get previous time/uniquestudy info if it exists in localStorage
-    info_ = get_previous_info(info_);
 
     var str2print = "CURRENT INFO\n" +
         "  uniquestudyid: " + info_.uniquestudyid + "\n" +
