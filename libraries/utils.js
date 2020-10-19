@@ -411,8 +411,12 @@ function percentile(number, array) {
 
 function get_viz_subject_info(parent_path, num_subject_figures) {
     var uniquestudyid = get_uniquestudyid_from_parent_path(parent_path);
-    const info = localStorage.getObj("info_");
+    var info = localStorage.getObj("info_");
     if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
+        console.log("info");
+        console.log(info);
+        console.log("info.tasks_completed.includes(uniquestudyid)");
+        console.log(info.tasks_completed.includes(uniquestudyid));
         var subject_id = null;
         var start_time = null;
         for (i = 0; i < num_subject_figures; i++) {
