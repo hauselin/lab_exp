@@ -383,7 +383,11 @@ function create_consent(timeline, html_path) {
             document.body.style.color = font_colour;
         },
     };
-    timeline.unshift(consent);
+    // show_consent variable in localStorage is being set to 0 by check_same_different_person function (if different user clicked, it's set to 0 so consent form doesn't show again)
+    if (localStorage.getObj("show_consent") != 0) {
+        timeline.unshift(consent);
+    };     
+    localStorage.setObj("show_consent", 1); // reset to show consent
     return timeline;
 }
 
@@ -2372,26 +2376,35 @@ function get_demographics(info_) {
     return info_;
 };
 
-
+Object.size = function (obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
 
 
 function check_same_different_person(timeline) {
     var check = {
         type: 'html-button-response',
-        stimulus: "It looks like you've completed a task or survey on Anthrope before.<br>Are you the <strong>same</strong> or a <strong>different</strong> person?<br><br>",
+        stimulus: "It looks like you've visited Anthrope before.<br>Are you the <strong>same</strong> or a <strong>different</strong> person?<br><br>",
         choices: ['Same person', "Different person"],
         on_finish: function (data) {
             if (data.button_pressed == "1") {
                 // different person, clear localStorage and reload page
                 localStorage.clear();
+                localStorage.setObj("show_consent", 0); // don't show consent
                 window.location.replace(window.location.href);
             };
         }
     };
+    
+    // if demographics exists in localStorage, ask if same/different person
     var x = localStorage.getObj('info_');
-    if (x) {
+    if (Object.size(x.demographics) > 0) {
         timeline.push(check);
-    }
+    };
     return timeline;
 };
 
