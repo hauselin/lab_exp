@@ -370,7 +370,7 @@ function white_on_black() {
 function create_consent(timeline, html_path) {
     var consent = {
         on_start: function () {
-            document.body.style.backgroundColor = "white"; 
+            document.body.style.backgroundColor = "white";
             document.body.style.color = "black";
         },
         type: 'external-html',
@@ -394,7 +394,7 @@ function country_name_to_num(country_name) {
     } else {
         var num = Number(country_info[index].numeric);
         // make sure str is three characters long to work with geojson in backend
-        return num.toString().padStart(3, "0");  
+        return num.toString().padStart(3, "0");
     }
 }
 
@@ -428,7 +428,7 @@ function get_viz_subject_info(parent_path, num_subject_figures) {
         for (i = 0; i < num_subject_figures; i++) {
             document.getElementById('no-data-tag' + i.toString()).innerHTML = "You vs others";
         }
-        document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red dots and lines are your results.';
+        document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red dots or lines are your results.';
     }
     return subject_id;
 }
@@ -437,7 +437,7 @@ function get_viz_subject_info(parent_path, num_subject_figures) {
 function get_uniquestudyid_from_parent_path(parent_path) {
     const strmatches = [...parent_path.matchAll("/")];
     const idx_start = strmatches[1].index;
-    return parent_path.slice(idx_start+1, parent_path.length);
+    return parent_path.slice(idx_start + 1, parent_path.length);
 }
 
 function copyURI(evt, link) {
@@ -2290,22 +2290,22 @@ function create_demographics(timeline) {
         }
     };
 
-	var select_country_associated = {
-		type: 'survey-text-dropdown',
-		question: [
-			{
-				prompt: 'What <strong>nationality</strong> do you associate with the most?',
-				options: country_info.map(i => i.country),
-				name: 'country_associate'
-			}
-		],
-		required: true,
-		on_finish: function (data) {
-			data.country_code = country_name_to_num(data.value);
+    var select_country_associated = {
+        type: 'survey-text-dropdown',
+        question: [
+            {
+                prompt: 'What <strong>nationality</strong> do you associate with the most?',
+                options: country_info.map(i => i.country),
+                name: 'country_associate'
+            }
+        ],
+        required: true,
+        on_finish: function (data) {
+            data.country_code = country_name_to_num(data.value);
             info_.demographics.country_associate = data.value;
             info_.demographics.country_associate_code = data.country_code;
-		}
-	};
+        }
+    };
 
     var select_language = {
         type: 'survey-text-dropdown',
@@ -2370,4 +2370,30 @@ function get_demographics(info_) {
         }
     }
     return info_;
-}
+};
+
+
+
+
+function check_same_different_person(timeline) {
+    var check = {
+        type: 'html-button-response',
+        stimulus: "It looks like you've completed a task or survey on Anthrope before.<br>Are you the <strong>same</strong> or a <strong>different</strong> person?<br><br>",
+        choices: ['Same person', "Different person"],
+        on_finish: function (data) {
+            if (data.button_pressed == "1") {
+                // different person, clear localStorage and reload page
+                localStorage.clear();
+                window.location.replace(window.location.href);
+            };
+        }
+    };
+    var x = localStorage.getObj('info_');
+    if (x) {
+        timeline.push(check);
+    }
+    return timeline;
+};
+
+
+

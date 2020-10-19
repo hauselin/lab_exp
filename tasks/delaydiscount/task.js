@@ -45,10 +45,6 @@ jsPsych.data.addProperties({
     condition: taskinfo.condition,    
 });
 
-// create experiment objects and timeline
-var timeline = [];
-const html_path = "../../tasks/delaydiscount/consent.html";
-timeline = create_consent(timeline, html_path);
 
 var instructions = {
     type: "instructions",
@@ -161,6 +157,11 @@ practice_trial.timeline = [
 practice_trial.on_finish = function (data) { data.event = 'practice'; };
 
 // create task timeline
+// create timeline
+var timeline = [];
+const html_path = "../../tasks/delaydiscount/consent.html";
+timeline = create_consent(timeline, html_path);
+timeline = check_same_different_person(timeline);
 timeline.push(instructions);
 timeline.push(practice_trial);
 timeline.push(instructions2);

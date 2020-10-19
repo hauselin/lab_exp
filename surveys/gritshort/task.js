@@ -72,9 +72,10 @@ var procedure = {
     randomize_order: shuffle_items
 };
 
-// create timeline and add consent form to the start
+// create timeline
 var timeline = [];
-html_path = "../../surveys/gritshort/consent.html";  // make it a global variable
+var html_path = "../../surveys/gritshort/consent.html";  // make it a global variable
+timeline = check_same_different_person(timeline);
 timeline = create_consent(timeline, html_path);
 timeline.push(procedure);
 
