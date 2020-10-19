@@ -2391,19 +2391,18 @@ Object.size = function (obj) {
 function check_same_different_person(timeline) {
     var check = {
         type: 'html-button-response',
-        stimulus: "It looks like you've visited Anthrope before.<br>Are you the <strong>same</strong> or a <strong>different</strong> person?<br><br>",
+        stimulus: "It looks like you've visited Anthrope recently.<br>Are you the <strong>same</strong> or a <strong>different</strong> person?<br><br>",
         choices: ['Same person', "Different person"],
         on_finish: function (data) {
             if (data.button_pressed == "1") {
-                // different person, clear localStorage and reload page
-                localStorage.clear();
-                localStorage.setObj("show_consent", 0); // don't show consent again
+                localStorage.clear();  // because user indicated they're a different person, clear localStorage so create_info_ function will re-run to create new info_ after page refresh
+                localStorage.setObj("show_consent", 0); // user has already read consent, so set a variable in localStorage to not include consent object after page refresh
                 window.location.replace(window.location.href);
             };
         }
     };
     
-    // ask if same/different person only if demographics exists in localStorage
+    // check same/different person with object above only if demographics has contents
     var x = localStorage.getObj('info_');
     if (Object.size(x.demographics) > 0) {
         timeline.push(check);
