@@ -78,6 +78,7 @@ var html_path = "../../surveys/gritshort/consent.html";  // make it a global var
 timeline = check_same_different_person(timeline);
 timeline = create_consent(timeline, html_path);
 timeline.push(procedure);
+timeline = create_demographics(timeline);
 
 jsPsych.init({
     timeline: timeline,
