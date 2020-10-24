@@ -4,7 +4,7 @@ const taskinfo = {
     uniquestudyid: 'gritshort', // unique task id: must be IDENTICAL to directory name
     desc: 'Duckworth 2009 grit short scale', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: false // "/surveys/gritshort/viz" // set to false if no redirection required
+    redirect_url: "/surveys/gritshort/viz" // set to false if no redirection required
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
