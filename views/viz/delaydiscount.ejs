@@ -259,8 +259,9 @@
         var subject_id = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 1);
         
         if (subject_id) {
-            // compute/add percentile
+            // query subject array ahead to reduce later runtimes
             var subject_array = data_array.filter(x => x.cost == 2);
+            // compute/add percentile
             var auc_array = subject_array.map(x => x.auc);
             var subject_auc = data_array.filter(i => i.subject == subject_id).slice(0, 1)[0].auc;
             document.getElementById('percentile').innerHTML = "Your score (the red vertical line) is <strong>higher than " + percentile(subject_auc, auc_array).toFixed(0) + "% of our users</strong>.";
