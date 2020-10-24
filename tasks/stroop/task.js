@@ -1,9 +1,10 @@
+// DEFINE TASK (REQUIRED)
 const taskinfo = {
     type: 'task', // 'task', 'survey', or 'study'
     uniquestudyid: 'stroop', // unique task id: must be IDENTICAL to directory name
     desc: 'stroop', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: "/tasks/stroop/viz" // set to false if no redirection required
+    redirect_url: false //"/tasks/stroop/viz" // set to false if no redirection required
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
@@ -14,7 +15,7 @@ var font_colour = "white";
 var background_colour = "black";
 set_colour(font_colour, background_colour);
 
-// TASK PARAMETERS
+// DEFINE TASK PARAMETERS (required)
 const adaptive = true;
 const no_incongruent_neighbors = false;
 var rt_deadline = 1500;
@@ -132,10 +133,10 @@ jsPsych.data.addProperties({
 
 // create experiment timeline
 var timeline = [];
-var n_trial = 0; // stroop trial number counter
 const html_path = "../../tasks/stroop/consent.html";
 timeline = create_consent(timeline, html_path);
 
+var n_trial = 0; // stroop trial number counter
 var instructions = {
     type: "instructions",
     pages: [
@@ -277,7 +278,9 @@ var practice_trial_sequence = {
 };
 
 // create task timeline
+timeline = check_same_different_person(timeline);
 timeline.push(instructions, practice_trial_sequence, instructions2, trial_sequence);
+timeline = create_demographics(timeline);
 
 jsPsych.init({
     timeline: timeline,
@@ -360,7 +363,7 @@ function create_datasummary() {
         s.subject = info_.subject;
         s.time = info_.time;
         s.country_code = info_.demographics.country_code;
-        s.country_name = info_.demographics.country;
+        s.country = info_.demographics.country;
     })
 
     return datasummary
