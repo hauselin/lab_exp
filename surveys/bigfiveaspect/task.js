@@ -1,3 +1,4 @@
+// DEFINE TASK (required)
 const taskinfo = {
     type: 'survey', // 'task', 'survey', or 'study'
     uniquestudyid: 'bigfiveaspect', // unique task id: must be IDENTICAL to directory name
@@ -8,19 +9,16 @@ const taskinfo = {
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 
-const debug = false;  // debug mode to print messages to console and display json data at the end
-const black_background = false; // if true, white text on black background
-var font_colour = 'black';
-if (black_background) {
-    document.body.style.backgroundColor = "black";
-    var font_colour = 'white';
-}
+const debug = true;  // true to print messages to console and display json results
+var font_colour = "black";
+var background_colour = "white";
+set_colour(font_colour, background_colour);
 
 if (debug) {
     items = items.slice(0, 5);
 }
 
-// TASK PARAMETERS
+// DEFINE TASK PARAMETERS (required)
 var slider_width = 500; // width of slider in pixels
 var scale_min_max = [1, 5]; // slider min max values
 var scale_starting_points = [2, 3, 4]; // starting point of scale; if length > 1, randomly pick one for each scale item
@@ -29,14 +27,13 @@ var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before they're allowed to click continue
 var shuffle_items = false; // randomize order of item presentation
 
-// add data to all trials
+// DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING 
 jsPsych.data.addProperties({
     subject: info_.subject,
     type: taskinfo.type,
     uniquestudyid: taskinfo.uniquestudyid,
     desc: taskinfo.desc,
     condition: taskinfo.condition,
-    info_: info_,
 });
 
 var start_point;
@@ -79,26 +76,71 @@ var procedure = {
 
 // create timeline and add consent form to the start
 var timeline = [];
+var html_path = "../../surveys/bigfiveaspect/consent.html";  // make it a global variable
+timeline = check_same_different_person(timeline);
+timeline = create_consent(timeline, html_path);
 timeline.push(procedure);
+timeline = create_demographics(timeline);
 
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
-        jsPsych.data.get().addToAll({ // add objects to all trials
+        var datasummary = summarize_data();
+
+        jsPsych.data.get().addToAll({
+            total_time: datasummary.total_time,
+        });
+        jsPsych.data.get().first(1).addToAll({
             info_: info_,
+            datasummary: datasummary,
         });
         if (debug) {
             jsPsych.data.displayData();
         }
-        sessionStorage.setObj('info_', info_); // save to sessionStorage
-        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
+
+        info_.tasks_completed.push(taskinfo.uniquestudyid); // add uniquestudyid to info_
+        info_.current_task_completed = 1;
+        localStorage.setObj('info_', info_);
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url);
     }
 });
 
+function preprocess_data() {
+    var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" });
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 200 });
+    return data_sub;
+}
 
+function summarize_data() {
+    var d = preprocess_data(); // get preprocess/clean data
 
+    // select trials for each subscale
+    var consistent_interest = d.filter({ "subscale": "consistentInterest" });
+    var persevere_effort = d.filter({ "subscale": "persevereEffort" });
+
+    // mean resp
+    var consistent_resp = consistent_interest.select('resp_reverse').mean();
+    var persevere_resp = persevere_effort.select('resp_reverse').mean();
+    var mean_resp = d.select('resp_reverse').mean();
+
+    // store above info in array
+    var datasummary = [
+        { type: "consistent_interest", param: "resp", value: consistent_resp },
+        { type: "persevere_effort", param: "resp", value: persevere_resp },
+        { type: "all", param: "resp", value: mean_resp },
+    ];
+
+    // add id/country information
+    datasummary.forEach(function (s) {
+        s.subject = info_.subject;
+        s.country = info_.demographics.country;
+        s.country_code = info_.demographics.country_code;
+        s.total_time = jsPsych.totalTime() / 60000;
+    })
+    console.log(datasummary);
+    return datasummary
+}
 
 
 

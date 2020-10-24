@@ -108,14 +108,14 @@ jsPsych.init({
 
 
 
-function preprocess_grit() {  
+function preprocess_data() {  
     var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" }); 
     var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 200 });
     return data_sub;
 }
 
 function summarize_data() {
-    var d = preprocess_grit(); // get preprocess/clean data
+    var d = preprocess_data(); // get preprocess/clean data
 
     // select trials for each subscale
     var consistent_interest = d.filter({ "subscale": "consistentInterest" });
