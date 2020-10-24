@@ -94,7 +94,7 @@ router.get("/surveys/gritshort/viz", function (req, res) {
             return { country_code: i[0], country: i[1].country, value: i[1].value }
         });
         
-        res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req)});
+        res.render('viz/gritshort.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req)});
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);
