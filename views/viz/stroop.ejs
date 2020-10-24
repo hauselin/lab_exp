@@ -272,19 +272,19 @@
         // data from database
         const data_array = <%- JSON.stringify(data_array) %>;
         const country_array = <%- JSON.stringify(country_array) %>;
-        const uniquestudyid = 'stroop';
-        const type = 'tasks';
-        // retrieve objects from sessionStorage
+        const link = window.location.origin + <%- JSON.stringify(parent_path) %> + '/viz';
+        
+        // get subject_id from localStorage (null if doesn't exist)
         // subject_id and time will be used to filter arrays for plotting subject data
-        subject_info = get_viz_subject_info(uniquestudyid, type, 3)
-        var subject_id = subject_info[0]
-        var start_time = subject_info[1]
+        var subject_id = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 3);
 
         if (subject_id) {
             // compute/add percentile
             var interference_array = data_array.filter(x => x.type == 'interference' && x.param == 'rt').map(x => x.value);
-            subject_interference = data_array.filter(x => x.type == 'interference' && x.param == 'rt' && x.subject == subject_id)[0].value;
-            document.getElementById('percentile').innerHTML = "Your score (the red vertical line) is <strong>higher than " + percentile(subject_interference, interference_array).toFixed(0) + "% of our users</strong>.";
+            var subject_interference = data_array.filter(x => x.type == 'interference' && x.param == 'rt' && x.subject == subject_id)[0].value;
+            document.getElementById('percentile').innerHTML = "Your score (the dark vertical line) is <strong>higher than " + percentile(subject_interference, interference_array).toFixed(0) + "% of our users</strong>.";
+            subject_data = data_array.filter(i => i.subject == subject_id);
+            var latest_entry_time = Math.max(...subject_data.map(i => i.time));
         }
     </script>
 
@@ -333,7 +333,7 @@
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: temp_data.filter(i => i.subject == subject_id).slice(0, 3) };
+                            return { values: temp_data.filter(i => i.subject == subject_id && i.time == latest_entry_time).slice(0, 3) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }

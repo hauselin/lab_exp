@@ -69,7 +69,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
         })
         // console.log(country_array)
 
-        res.render('viz/stroop.ejs', { data_array: data_array, country_array: country_array });
+        res.render('viz/stroop.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req)} );
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);
