@@ -301,7 +301,7 @@
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: data_array.filter(i => i.subject == subject_id && i.type == "all").slice(0, 1) };
+                            return { values: data_array.filter(i => i.subject == subject_id && i.time == latest_entry_time && i.type == "all").slice(0, 1) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -361,7 +361,7 @@
                     // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
                     data: (function () { // anonymous function
                         if (subject_id) {
-                            return { values: data_array.filter(i => i.subject == subject_id && i.type != 'all').slice(0, 2) };
+                            return { values: data_array.filter(i => i.subject == subject_id && i.time == latest_entry_time && i.type != 'all').slice(0, 2) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }

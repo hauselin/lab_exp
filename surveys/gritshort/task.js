@@ -139,6 +139,7 @@ function summarize_data() {
         s.country = info_.demographics.country;
         s.country_code = info_.demographics.country_code;
         s.total_time = jsPsych.totalTime() / 60000;
+        s.time = info_.time;
     })
     console.log(datasummary);
     return datasummary
