@@ -247,33 +247,28 @@
 
 
 
-    <script type="text/javascript">
+    <!-- specify vegalite figures below -->
 
+    <script type="text/javascript">
         // data from database
         const data_array = <%- JSON.stringify(data_array) %>;
         const country_array = <%- JSON.stringify(country_array) %>;
-        const uniquestudyid = 'gritshort';
-
-        // retrieve objects from sessionStorage
+        const link = window.location.origin + <%- JSON.stringify(parent_path) %> + '/viz';
+        
+        // get subject_id from localStorage (null if doesn't exist)
         // subject_id and time will be used to filter arrays for plotting subject data
-        const info = sessionStorage.getObj("info_");
-        if (info === null || !info.tasks_completed.includes(uniquestudyid)) {
-            subject_id = null;
-            time = null;
-        } else {
-            subject_id = info.subject;
-            start_time = info.time;
-        }
+        var subject_id = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 0);
 
-        if (!subject_id) {
-            document.getElementById('no-data-tag').innerHTML = "Other users' grit";
-            document.getElementById('no-data-tag2').innerHTML = "Other users' grit";
-            document.getElementById('no-data-text').innerHTML = "To see your own results on this figure, complete the task <a href='/tasks/delaydiscount'>here</a>.";
-        } else {
-            document.getElementById('no-data-tag').innerHTML = "Your grit relative to others";
-            document.getElementById('no-data-tag2').innerHTML = "Your grit relative to others";
+        if (subject_id) {
+            // compute/add percentile
+            var response_array = data_array.filter(x => x.type == 'all').map(x => x.value);
+            var subject_response = data_array.filter(x => x.type == 'all' && x.subject == subject_id)[0].value;
+            document.getElementById('percentile').innerHTML = "Your score (the dark vertical line) is <strong>higher than " + percentile(subject_response, response_array).toFixed(0) + "% of our users</strong>.";
+            subject_data = data_array.filter(i => i.subject == subject_id);
+            var latest_entry_time = Math.max(...subject_data.map(i => i.time));
         }
     </script>
+
 
     <!-- Mean response density -->
     <script type="text/javascript" defer>
