@@ -10,11 +10,9 @@ var info_ = create_info_(taskinfo);  // initialize subject id and task parameter
 
 const debug = false;  // debug mode to print messages to console and display json data at the end
 const black_background = true; // if true, white text on black background
-var font_colour = 'black';
-if (black_background) {
-    document.body.style.backgroundColor = "black";
-    var font_colour = 'white';
-}
+var font_colour = "white";
+var background_colour = "black";
+set_colour(font_colour, background_colour);
 
 // TASK PARAMETERS
 const adaptive = true;
@@ -361,8 +359,8 @@ function create_datasummary() {
     datasummary.forEach(function (s) {
         s.subject = info_.subject;
         s.time = info_.time;
-        s.country_code = info_.country_code;
-        s.country_name = info_.country_name;
+        s.country_code = info_.demographics.country_code;
+        s.country_name = info_.demographics.country;
     })
 
     return datasummary

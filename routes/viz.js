@@ -46,11 +46,6 @@ router.get("/tasks/stroop/viz", function (req, res) {
         var data_array = [];
         data.map(function (i) {  // map/loop through each document to get relevant data
             var temp_data = i.datasummary; // get datasummary
-            console.log(temp_data);
-            // convert country code to country id
-            temp_data.forEach(function (s) {
-                s.country_id = Number(iso_countries.alpha2ToNumeric(s.country_code))
-            })
             data_array.push(temp_data);
         });
         data_array = data_array.flat(1);  // flatten objects in array
@@ -58,23 +53,23 @@ router.get("/tasks/stroop/viz", function (req, res) {
 
         // prepare data for chloropleth
         // compute median rt interference for each country
-        var temp_data = data_array.filter(x => x.type == "interference" && x.param == "rt");
-        // console.log(temp_data)
-        country_array = d3.rollups(temp_data,
+        var choropleth_data = data_array.filter(x => x.type == "interference" && x.param == "rt");
+        // console.log(choropleth_data)
+        country_array = d3.rollups(choropleth_data,
             function (v) {
                 return {
                     rt_interference: d3.median(v, d => d.value),  // median rt interference
                     country_name: d3.min(v, d => d.country_name)  // get country name
                 }
             },
-            d => d.country_id);  // by country id
+            d => d.country_code);  // by country id
         // console.log(country_array);  // nested data
         country_array = Array.from(country_array, function (i) {  // unnest data
-            return { country_id: i[0], country_name: i[1].country_name, rt_interference: i[1].rt_interference }
+            return { country_code: i[0], country_name: i[1].country_name, rt_interference: i[1].rt_interference }
         })
         // console.log(country_array)
 
-        res.render('viz/stroop.ejs', { data_array: data_array, country_array: country_array });
+        res.render('viz/stroop.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req)} );
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);
