@@ -61,7 +61,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
                     country: d3.min(v, d => d.country)  // get country name
                 }
             },
-            d => d.country_code);  // by country id
+            d => d.country_code);  // group by country_code
         // console.log(country_array);  // nested data
         country_array = Array.from(country_array, function (i) {  // unnest data
             return { country_code: i[0], country: i[1].country, rt_interference: i[1].rt_interference }
@@ -89,7 +89,7 @@ router.get("/surveys/gritshort/viz", function (req, res) {
                     country: d3.min(v, d => d.country)
                 }
             },
-            d => d.country_code);  // by country id
+            d => d.country_code); 
         country_array = Array.from(country_array, function (i) {  // unnest data
             return { country_code: i[0], country: i[1].country, value: i[1].value }
         });

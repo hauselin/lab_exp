@@ -28,9 +28,9 @@
         <div class="container">
             <div class="row py-6 text-center justify-content-center align-items-center layer-2">
                 <div class="col-xl-8 col-lg-10">
-                    <h1 class="display-4">Money now or money later?</h1>
+                    <h1 class="display-4">Attention & cognitive control</h1>
                     <p id="no-data-text" class="lead mb-1"></p><br>
-                    <p class="lead mb-0">The delay discounting task measures your <a href="https://en.wikipedia.org/wiki/Time_preference" target="_blank">time preference</a>. It measures how much you value or devalue a good that is available only in the future. It's associated with people's ability to delay gratification and save for the future.<br><br>
+                    <p class="lead mb-0">The <a href="https://en.wikipedia.org/wiki/Stroop_effect" target="_blank">Stroop task</a> measures how well you can control your attention and inhibit information and responses that are unrelated to your goals. <br><br>
                     Check out the interactive results below and help spread the word.</p><br>
                     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.anthrope.me" target="_blank"><img class="share-button" src="../../public/assets/img/icons/social/facebook.svg" data-inject-svg /></a>
                     <a href="https://twitter.com/intent/tweet?text=Check%20out%20@anthrope_me%20https://www.anthrope.me"  target="_blank"><img class="share-button" src="../../public/assets/img/icons/social/twitter.svg" data-inject-svg /></a>
@@ -333,13 +333,12 @@
                             type: "quantitative",
                             field: "value",
                             title: "Reaction times (ms)",
-                            // scale: {}
+                            // scale: {domain: [0, 2000]}
                         },
                         y: {
                             type: "quantitative",
                             field: "density",
                             title: "Frequency (density)",
-                            // scale: {}
                         },
                         color: { field: "type", type: "nominal" },
                         tooltip: [
@@ -391,13 +390,12 @@
                             type: "quantitative",
                             field: "value",
                             title: "Incongruent minus congruent (ms)",
-                            // scale: {}
+                            scale: {}
                         },
                         y: {
                             type: "quantitative",
                             field: "density",
                             title: "Frequency (density)",
-                            // scale: {}
                         },
                         color: { value: "#38405C", type: "quantitative" },
                         tooltip: [
@@ -486,7 +484,7 @@
                     mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
                     encoding: {
                         x: { field: "param", type: "nominal" },
-                        y: { field: "value", type: "quantitative", scale: {} },
+                        y: { field: "value", type: "quantitative" },
                         size: { value: 150 },
                         tooltip: [
                             { field: "value", format: ".3f", title: 'You', type: "quantitative" }
