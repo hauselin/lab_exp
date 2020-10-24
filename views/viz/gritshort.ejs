@@ -257,7 +257,7 @@
         
         // get subject_id from localStorage (null if doesn't exist)
         // subject_id and time will be used to filter arrays for plotting subject data
-        var subject_id = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 0);
+        var subject_id = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 1);
 
         if (subject_id) {
             // compute/add percentile
