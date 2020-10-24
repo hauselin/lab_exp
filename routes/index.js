@@ -148,5 +148,9 @@ router.get('/privacy', function (req, res) {
     res.render("privacy.ejs");
 });
 
+router.get('/comingsoon', function (req, res) {
+    res.render("comingSoon.ejs");
+});
+
 
 module.exports = router;
