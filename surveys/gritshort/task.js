@@ -4,7 +4,7 @@ const taskinfo = {
     uniquestudyid: 'gritshort', // unique task id: must be IDENTICAL to directory name
     desc: 'Duckworth 2009 grit short scale', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: "/surveys/gritshort/viz" // set to false if no redirection required
+    redirect_url: false // "/surveys/gritshort/viz" // set to false if no redirection required
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
@@ -78,6 +78,7 @@ var html_path = "../../surveys/gritshort/consent.html";  // make it a global var
 timeline = check_same_different_person(timeline);
 timeline = create_consent(timeline, html_path);
 timeline.push(procedure);
+timeline = create_demographics(timeline);
 
 jsPsych.init({
     timeline: timeline,
@@ -135,7 +136,6 @@ function summarize_data() {
     // add id/country information
     datasummary.forEach(function (s) {
         s.subject = info_.subject;
-        s.time = info_.time;
         s.country = info_.demographics.country;
         s.country_code = info_.demographics.country_code;
         s.total_time = jsPsych.totalTime() / 60000;
