@@ -49,7 +49,6 @@ router.get("/tasks/stroop/viz", function (req, res) {
             data_array.push(temp_data);
         });
         data_array = data_array.flat(1);  // flatten objects in array
-        // console.log(data_array)
 
         // prepare data for chloropleth
         // compute median rt interference for each country
@@ -59,15 +58,14 @@ router.get("/tasks/stroop/viz", function (req, res) {
             function (v) {
                 return {
                     rt_interference: d3.median(v, d => d.value),  // median rt interference
-                    country_name: d3.min(v, d => d.country_name)  // get country name
+                    country: d3.min(v, d => d.country)  // get country name
                 }
             },
             d => d.country_code);  // by country id
         // console.log(country_array);  // nested data
         country_array = Array.from(country_array, function (i) {  // unnest data
-            return { country_code: i[0], country_name: i[1].country_name, rt_interference: i[1].rt_interference }
+            return { country_code: i[0], country: i[1].country, rt_interference: i[1].rt_interference }
         })
-        // console.log(country_array)
 
         res.render('viz/stroop.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req)} );
     }).catch(err => {
