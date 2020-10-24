@@ -433,8 +433,8 @@
                             lookup: "id",
                             from: {
                                 data: { values: country_array },
-                                key: "country_id",
-                                fields: ["mean_resp", "country_name"]
+                                key: "country_code",
+                                fields: ["value", "country"]
                             },
                         }
                     ],
@@ -446,19 +446,19 @@
                     },
                     encoding: {
                         color: {
-                            field: "mean_resp",
+                            field: "value",
                             type: "quantitative",
                             scale: { scheme: "viridis" },
                             legend: { title: null, direction: "horizontal", orient: "bottom-left" }
                         },
                         tooltip: [
                             {
-                                field: "country_name",
+                                field: "country",
                                 title: "Country",
                                 type: "nominal"
                             },
                             {
-                                field: "mean_resp",
+                                field: "value",
                                 title: "Mean response",
                                 type: "quantitative",
                                 format: ".1f"
