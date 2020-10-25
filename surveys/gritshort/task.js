@@ -110,6 +110,7 @@ jsPsych.init({
 
 function preprocess_data() {  
     var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" }); 
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.q > 0 });
     var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 200 });
     return data_sub;
 }

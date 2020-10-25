@@ -44,6 +44,7 @@ var procedure = {
         data: {
             q: jsPsych.timelineVariable('q'),
             subscale: jsPsych.timelineVariable('subscale'),
+            subscale2: jsPsych.timelineVariable('subscale2'),
             reverse: jsPsych.timelineVariable('reverse')
         },
         labels: scale_labels,
@@ -108,29 +109,39 @@ jsPsych.init({
 
 function preprocess_data() {
     var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" });
-    var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 200 });
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.q > 0 });
+    // var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 200 });
     return data_sub;
 }
 
 function summarize_data() {
     var d = preprocess_data(); // get preprocess/clean data
+    var dat = JSON.parse(d.json());
 
-    // select trials for each subscale
-    var consistent_interest = d.filter({ "subscale": "consistentInterest" });
-    var persevere_effort = d.filter({ "subscale": "persevereEffort" });
+    var subscale = d3.rollups(dat,
+        function (v) {
+            return {
+                value: d3.mean(v, d => d.resp_reverse),
+            }
+        },
+        d => d.subscale);
+    subscale = Array.from(subscale, function (i) {  // unnest data
+        return { subscale: i[0], value: i[1].value }
+    });
 
-    // mean resp
-    var consistent_resp = consistent_interest.select('resp_reverse').mean();
-    var persevere_resp = persevere_effort.select('resp_reverse').mean();
-    var mean_resp = d.select('resp_reverse').mean();
-
-    // store above info in array
-    var datasummary = [
-        { type: "consistent_interest", param: "resp", value: consistent_resp },
-        { type: "persevere_effort", param: "resp", value: persevere_resp },
-        { type: "all", param: "resp", value: mean_resp },
-    ];
-
+    var subscale2 = d3.rollups(dat,
+        function (v) {
+            return {
+                value: d3.mean(v, d => d.resp_reverse),
+            }
+        },
+        d => d.subscale2);
+    subscale2 = Array.from(subscale2, function (i) {  // unnest data
+        return { type: i[0], value: i[1].value }
+    });
+    
+    var datasummary = subscale.concat(subscale2);
+    
     // add id/country information
     datasummary.forEach(function (s) {
         s.subject = info_.subject;

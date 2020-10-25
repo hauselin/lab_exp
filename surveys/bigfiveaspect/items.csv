@@ -1,101 +1,101 @@
-q,desc,subscale,reverse
-1,Seldom feel blue.,neuroWithdraw,1
-2,Am not interested in other people's problems.,agreeCompassion,1
-3,Carry out my plans.,conscIndustr,0
-4,Make friends easily.,extraEnthu,0
-5,Am quick to understand things.,openIntellect,0
-6,Get angry easily.,neuroVolat,0
-7,Respect authority.,agreePolite,0
-8,Leave my belongings around.,conscOrder,1
-9,Take charge.,extraAssert,0
-10,Enjoy the beauty of nature.,openOpen,0
-11,Am filled with doubts about things.,neuroWithdraw,0
-12,Feel others' emotions.,agreeCompassion,0
-13,Waste my time.,conscIndustr,1
-14,Am hard to get to know.,extraEnthu,1
-15,Have difficulty understanding abstract ideas.,openIntellect,1
-16,Rarely get irritated.,neuroVolat,1
-17,Believe that I am better than others.,agreePolite,1
-18,Like order.,conscOrder,0
-19,Have a strong personality.,extraAssert,0
-20,Believe in the importance of art.,openOpen,0
-21,Feel comfortable with myself.,neuroWithdraw,1
-22,Inquire about others' well-being.,agreeCompassion,0
-23,Find it difficult to get down to work.,conscIndustr,1
-24,Keep others at a distance.,extraEnthu,1
-25,Can handle a lot of information.,openIntellect,0
-26,Get upset easily.,neuroVolat,0
-27,Hate to seem pushy.,agreePolite,0
-28,Keep things tidy.,conscOrder,0
-29,Lack the talent for influencing people.,extraAssert,1
-30,Love to reflect on things.,openOpen,0
-31,Feel threatened easily.,neuroWithdraw,0
-32,Can't be bothered with other's needs.,agreeCompassion,1
-33,Mess things up.,conscIndustr,1
-34,Reveal little about myself.,extraEnthu,1
-35,Like to solve complex problems.,openIntellect,0
-36,Keep my emotions under control.,neuroVolat,1
-37,Take advantage of others.,agreePolite,1
-38,Follow a schedule.,conscOrder,0
-39,Know how to captivate people.,extraAssert,0
-40,Get deeply immersed in music.,openOpen,0
-41,Rarely feel depressed.,neuroWithdraw,1
-42,Sympathize with others' feelings.,agreeCompassion,0
-43,Finish what I start.,conscIndustr,0
-44,Warm up quickly to others.,extraEnthu,0
-45,Avoid philosophical discussions.,openIntellect,1
-46,Change my mood a lot.,neuroVolat,0
-47,Avoid imposing my will on others.,agreePolite,0
-48,Am not bothered by messy people.,conscOrder,1
-49,Wait for others to lead the way.,extraAssert,1
-50,Do not like poetry.,openOpen,1
-51,Worry about things.,neuroWithdraw,0
-52,Am indifferent to the feelings of others.,agreeCompassion,1
-53,Don't put my mind on the task at hand.,conscIndustr,1
-54,Rarely get caught up in the excitement.,extraEnthu,1
-55,Avoid difficult reading material.,openIntellect,1
-56,Rarely lose my composure.,neuroVolat,1
-57,Rarely put people under pressure.,agreePolite,0
-58,Want everything to be 'just right',conscOrder,0
-59,See myself as a good leader.,extraAssert,0
-60,Seldom notice the emotional aspects of paintings and pictures.,openOpen,1
-61,Am easily discouraged.,neuroWithdraw,0
-62,Take no time for others.,agreeCompassion,1
-63,Get things done quickly.,conscIndustr,0
-64,Am not a very enthusiastic person.,extraEnthu,1
-65,Have a rich vocabulary.,openIntellect,0
-66,Am a person whose moods go up and down easily.,neuroVolat,0
-67,Insult people.,agreePolite,1
-68,Am not bothered by disorder.,conscOrder,1
-69,Can talk others into doing things.,extraAssert,0
-70,Need a creative outlet.,openOpen,0
-71,Am not embarrassed easily.,neuroWithdraw,1
-72,Take an interest in other people's lives.,agreeCompassion,0
-73,Always know what I am doing.,conscIndustr,0
-74,Show my feelings when I'm happy.,extraEnthu,0
-75,Think quickly.,openIntellect,0
-76,Am not easily annoyed.,neuroVolat,1
-77,Seek conflict.,agreePolite,1
-78,Dislike routine.,conscOrder,1
-79,Hold back my opinions.,extraAssert,1
-80,Seldom get lost in thought.,openOpen,1
-81,Become overwhelmed by events.,neuroWithdraw,0
-82,Don't have a soft side.,agreeCompassion,1
-83,Postpone decisions.,conscIndustr,1
-84,Have a lot of fun.,extraEnthu,0
-85,Learn things slowly.,openIntellect,1
-86,Get easily agitated.,neuroVolat,0
-87,Love a good fight.,agreePolite,1
-88,See that rules are observed.,conscOrder,0
-89,Am the first to act.,extraAssert,0
-90,Seldom daydream.,openOpen,1
-91,Am afraid of many things.,neuroWithdraw,0
-92,Like to do things for others.,agreeCompassion,0
-93,Am easily distracted.,conscIndustr,1
-94,Laugh a lot.,extraEnthu,0
-95,Formulate ideas clearly.,openIntellect,0
-96,Can be stirred up easily.,neuroVolat,0
-97,Am out for my own personal gain.,agreePolite,1
-98,Want every detail taken care of.,conscOrder,0
-99,Do not have an assertive personality.,extraAssert,1
-100,See beauty in things that others might not notice.,openOpen,0
+q,desc,subscale,subscale2,reverse
+1,Seldom feel blue.,neuroWithdraw,neuro,1
+2,Am not interested in other people's problems.,agreeCompassion,agree,1
+3,Carry out my plans.,conscIndustr,consc,0
+4,Make friends easily.,extraEnthu,extra,0
+5,Am quick to understand things.,openIntellect,open,0
+6,Get angry easily.,neuroVolat,neuro,0
+7,Respect authority.,agreePolite,agree,0
+8,Leave my belongings around.,conscOrder,consc,1
+9,Take charge.,extraAssert,extra,0
+10,Enjoy the beauty of nature.,openOpen,open,0
+11,Am filled with doubts about things.,neuroWithdraw,neuro,0
+12,Feel others' emotions.,agreeCompassion,agree,0
+13,Waste my time.,conscIndustr,consc,1
+14,Am hard to get to know.,extraEnthu,extra,1
+15,Have difficulty understanding abstract ideas.,openIntellect,open,1
+16,Rarely get irritated.,neuroVolat,neuro,1
+17,Believe that I am better than others.,agreePolite,agree,1
+18,Like order.,conscOrder,consc,0
+19,Have a strong personality.,extraAssert,extra,0
+20,Believe in the importance of art.,openOpen,open,0
+21,Feel comfortable with myself.,neuroWithdraw,neuro,1
+22,Inquire about others' well-being.,agreeCompassion,agree,0
+23,Find it difficult to get down to work.,conscIndustr,consc,1
+24,Keep others at a distance.,extraEnthu,extra,1
+25,Can handle a lot of information.,openIntellect,open,0
+26,Get upset easily.,neuroVolat,neuro,0
+27,Hate to seem pushy.,agreePolite,agree,0
+28,Keep things tidy.,conscOrder,consc,0
+29,Lack the talent for influencing people.,extraAssert,extra,1
+30,Love to reflect on things.,openOpen,open,0
+31,Feel threatened easily.,neuroWithdraw,neuro,0
+32,Can't be bothered with other's needs.,agreeCompassion,agree,1
+33,Mess things up.,conscIndustr,consc,1
+34,Reveal little about myself.,extraEnthu,extra,1
+35,Like to solve complex problems.,openIntellect,open,0
+36,Keep my emotions under control.,neuroVolat,neuro,1
+37,Take advantage of others.,agreePolite,agree,1
+38,Follow a schedule.,conscOrder,consc,0
+39,Know how to captivate people.,extraAssert,extra,0
+40,Get deeply immersed in music.,openOpen,open,0
+41,Rarely feel depressed.,neuroWithdraw,neuro,1
+42,Sympathize with others' feelings.,agreeCompassion,agree,0
+43,Finish what I start.,conscIndustr,consc,0
+44,Warm up quickly to others.,extraEnthu,extra,0
+45,Avoid philosophical discussions.,openIntellect,open,1
+46,Change my mood a lot.,neuroVolat,neuro,0
+47,Avoid imposing my will on others.,agreePolite,agree,0
+48,Am not bothered by messy people.,conscOrder,consc,1
+49,Wait for others to lead the way.,extraAssert,extra,1
+50,Do not like poetry.,openOpen,open,1
+51,Worry about things.,neuroWithdraw,neuro,0
+52,Am indifferent to the feelings of others.,agreeCompassion,agree,1
+53,Don't put my mind on the task at hand.,conscIndustr,consc,1
+54,Rarely get caught up in the excitement.,extraEnthu,extra,1
+55,Avoid difficult reading material.,openIntellect,open,1
+56,Rarely lose my composure.,neuroVolat,neuro,1
+57,Rarely put people under pressure.,agreePolite,agree,0
+58,Want everything to be 'just right',conscOrder,consc,0
+59,See myself as a good leader.,extraAssert,extra,0
+60,Seldom notice the emotional aspects of paintings and pictures.,openOpen,open,1
+61,Am easily discouraged.,neuroWithdraw,neuro,0
+62,Take no time for others.,agreeCompassion,agree,1
+63,Get things done quickly.,conscIndustr,consc,0
+64,Am not a very enthusiastic person.,extraEnthu,extra,1
+65,Have a rich vocabulary.,openIntellect,open,0
+66,Am a person whose moods go up and down easily.,neuroVolat,neuro,0
+67,Insult people.,agreePolite,agree,1
+68,Am not bothered by disorder.,conscOrder,consc,1
+69,Can talk others into doing things.,extraAssert,extra,0
+70,Need a creative outlet.,openOpen,open,0
+71,Am not embarrassed easily.,neuroWithdraw,neuro,1
+72,Take an interest in other people's lives.,agreeCompassion,agree,0
+73,Always know what I am doing.,conscIndustr,consc,0
+74,Show my feelings when I'm happy.,extraEnthu,extra,0
+75,Think quickly.,openIntellect,open,0
+76,Am not easily annoyed.,neuroVolat,neuro,1
+77,Seek conflict.,agreePolite,agree,1
+78,Dislike routine.,conscOrder,consc,1
+79,Hold back my opinions.,extraAssert,extra,1
+80,Seldom get lost in thought.,openOpen,open,1
+81,Become overwhelmed by events.,neuroWithdraw,neuro,0
+82,Don't have a soft side.,agreeCompassion,agree,1
+83,Postpone decisions.,conscIndustr,consc,1
+84,Have a lot of fun.,extraEnthu,extra,0
+85,Learn things slowly.,openIntellect,open,1
+86,Get easily agitated.,neuroVolat,neuro,0
+87,Love a good fight.,agreePolite,agree,1
+88,See that rules are observed.,conscOrder,consc,0
+89,Am the first to act.,extraAssert,extra,0
+90,Seldom daydream.,openOpen,open,1
+91,Am afraid of many things.,neuroWithdraw,neuro,0
+92,Like to do things for others.,agreeCompassion,agree,0
+93,Am easily distracted.,conscIndustr,consc,1
+94,Laugh a lot.,extraEnthu,extra,0
+95,Formulate ideas clearly.,openIntellect,open,0
+96,Can be stirred up easily.,neuroVolat,neuro,0
+97,Am out for my own personal gain.,agreePolite,agree,1
+98,Want every detail taken care of.,conscOrder,consc,0
+99,Do not have an assertive personality.,extraAssert,extra,1
+100,See beauty in things that others might not notice.,openOpen,open,0
