@@ -11,13 +11,26 @@ router.post('/submit-data', function (req, res) {
 
     // get ip
     // https://stackoverflow.com/questions/8107856/how-to-determine-a-users-ip-address-in-node
-    // var ip = req.headers['x-forwarded-for'] ||
-    //     req.connection.remoteAddress ||
-    //     req.socket.remoteAddress ||
-    //     (req.connection.socket ? req.connection.socket.remoteAddress : null);
-    var ip = "2001:569:7530:8100:719d:bd86:de7a:797b"
-    
+    var ip = req.headers['x-forwarded-for'] ||
+        req.connection.remoteAddress ||
+        req.socket.remoteAddress ||
+        (req.connection.socket ? req.connection.socket.remoteAddress : null);
+    // var ip = "2001:569:7530:8100:719d:bd86:de7a:797b"
+
     var geoinfo = geoip.lookup(ip)
+    if (!geoinfo) {
+        var geoinfo = {
+            range: [null, null],
+            country: null,
+            region: null,
+            eu: null,
+            timezone: null,
+            city: null,
+            ll: [null, null],
+            metro: null,
+            area: null
+        }
+    }
 
     // add columns/properties to each row/trial/object in jspsych data (eventually 2D tables/csv)
     rawdata.forEach(function (i) {
@@ -34,6 +47,11 @@ router.post('/submit-data', function (req, res) {
         i.previous_time = info.previous_time;
         i.previous_mins_before = info.previous_mins_before;
         i.previous_task_completed = info.previous_task_completed;
+
+        // geo/time info
+        i.utc_datetime = info.utc_datetime,
+        i.country = info.demographics.country,
+        i.country_code = info.demographics.country_code,
         i.time = info.time,
 
         // client info
@@ -57,10 +75,6 @@ router.post('/submit-data', function (req, res) {
         data: rawdata,  // jspsych data
         info_: info,
         geoinfo: {
-            // geo/time info
-            utc_datetime: info.utc_datetime,
-            country: info.demographics.country,
-            country_code: info.demographics.country_code,
             country_ip: geoinfo.country,
             region_ip: geoinfo.region,
             city_ip: geoinfo.city,
@@ -69,7 +83,7 @@ router.post('/submit-data', function (req, res) {
             timezone: geoinfo.timezone,
         },
         datasummary: datasummary,
-        subject: info.subject, 
+        subject: info.subject,
         type: info.type,
         uniquestudyid: info.uniquestudyid,
         desc: info.desc,
