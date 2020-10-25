@@ -2359,9 +2359,31 @@ function create_demographics(timeline) {
             info_.demographics.race_ethnicity = data.value;
         }
     }
+    
+    var gender_choices = ['Female', 'Male', 'Other', 'Prefer not to say'];
+    var select_gender = {
+        type: 'html-button-response',
+        stimulus: "What is your gender?",
+        choices: gender_choices,
+        required: true,
+        on_finish: function (data) {
+            info_.demographics.gender = gender_choices[Number(data.button_pressed)];
+        }
+    }
+
+    var handedness_choices = ['Left', 'Right', 'Ambidextrous', 'Prefer not to say'];
+    var select_handedness = {
+        type: 'html-button-response',
+        stimulus: "What is your gender?",
+        choices: handedness_choices,
+        required: true,
+        on_finish: function (data) {
+            info_.demographics.handedness = handedness_choices[Number(data.button_pressed)];
+        }
+    }
 
     if (!localStorage.getObj("info_").demographics.country) {
-        timeline = timeline.concat([select_country, select_country_associated, select_language, select_religion, select_ethnicity]);
+        timeline = timeline.concat([select_country, select_country_associated, select_language, select_religion, select_ethnicity, select_gender, select_handedness]);
     }
     return timeline;
 }

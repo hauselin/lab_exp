@@ -68,6 +68,8 @@ router.post('/submit-data', function (req, res) {
         i.language_code = info.demographics.language_code;
         i.religion = info.demographics.religion;
         i.race_ethnicity = info.demographics.race_ethnicity;
+        i.gender = info.demographics.gender;
+        i.handedness = info.demographics.handedness;
     })
 
     // add fields to this document
