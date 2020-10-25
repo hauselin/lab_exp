@@ -28,9 +28,9 @@
         <div class="container">
             <div class="row py-6 text-center justify-content-center align-items-center layer-2">
                 <div class="col-xl-8 col-lg-10">
-                    <h1 class="display-4">Money now or money later?</h1>
+                    <h1 class="display-4">How gritty are you?</h1>
                     <p id="no-data-text" class="lead mb-1"></p><br>
-                    <p class="lead mb-0">The delay discounting task measures your <a href="https://en.wikipedia.org/wiki/Time_preference" target="_blank">time preference</a>. It measures how much you value or devalue a good that is available only in the future. It's associated with people's ability to delay gratification and save for the future.<br><br>
+                    <p class="lead mb-0">The grit questionnaire measures your <a href="https://en.wikipedia.org/wiki/Time_preference" target="_blank">time preference</a>. It measures how much you value or devalue a good that is available only in the future. It's associated with people's ability to delay gratification and save for the future.<br><br>
                     Check out the interactive results below and help spread the word.</p><br>
                     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.anthrope.me" target="_blank"><img class="share-button" src="../../public/assets/img/icons/social/facebook.svg" data-inject-svg /></a>
                     <a href="https://twitter.com/intent/tweet?text=Check%20out%20@anthrope_me%20https://www.anthrope.me"  target="_blank"><img class="share-button" src="../../public/assets/img/icons/social/twitter.svg" data-inject-svg /></a>
@@ -317,7 +317,7 @@
                 }
             ],
             // title: "Aggregate AUC density",
-            width: 540,
+            width: 500,
             height: 400,
         };
 
@@ -343,7 +343,8 @@
                         y: {
                             field: "value",
                             type: "quantitative",
-                            axis: { "title": "Response" }
+                            axis: { "title": "Response" },
+                            // scale: { domain: [0, 7] }
                         },
                         x: {
                             field: "type",

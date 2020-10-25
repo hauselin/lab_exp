@@ -4,7 +4,7 @@ const taskinfo = {
     uniquestudyid: 'gritshort', // unique task id: must be IDENTICAL to directory name
     desc: 'Duckworth 2009 grit short scale', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: false // "/surveys/gritshort/viz" // set to false if no redirection required
+    redirect_url: "/surveys/gritshort/viz" // set to false if no redirection required
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
@@ -108,14 +108,14 @@ jsPsych.init({
 
 
 
-function preprocess_grit() {  
+function preprocess_data() {  
     var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" }); 
     var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 200 });
     return data_sub;
 }
 
 function summarize_data() {
-    var d = preprocess_grit(); // get preprocess/clean data
+    var d = preprocess_data(); // get preprocess/clean data
 
     // select trials for each subscale
     var consistent_interest = d.filter({ "subscale": "consistentInterest" });

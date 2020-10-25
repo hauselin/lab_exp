@@ -4,7 +4,7 @@ const taskinfo = {
     uniquestudyid: 'stroop', // unique task id: must be IDENTICAL to directory name
     desc: 'stroop', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: false //"/tasks/stroop/viz" // set to false if no redirection required
+    redirect_url: "/tasks/stroop/viz" // set to false if no redirection required
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
@@ -287,8 +287,7 @@ jsPsych.init({
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
         var datasummary = create_datasummary();
-        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
-        console.log(datasummary);
+        
         jsPsych.data.get().addToAll({ // add objects to all trials
             info_: info_,
             datasummary: datasummary,
@@ -297,6 +296,9 @@ jsPsych.init({
         if (debug) {
             jsPsych.data.displayData();
         }
+
+        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
+        info_.current_task_completed = 1;
         localStorage.setObj('info_', info_); // save to localStorage
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url);
     }

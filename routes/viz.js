@@ -42,7 +42,7 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
 });
 
 router.get("/tasks/stroop/viz", function (req, res) {
-    DataLibrary.find({ uniquestudyid: 'stroop' }, {}, { sort: { time: -1 } }).lean().then(data => {
+    DataLibrary.find({ uniquestudyid: 'stroop' }, {}, { sort: { time: -1 }, limit: 1000}).lean().then(data => {
         var data_array = [];
         data.map(function (i) {  // map/loop through each document to get relevant data
             var temp_data = i.datasummary; // get datasummary
