@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const DataLibrary = require("../models/datalibrary")
+const geoip = require('geoip-lite');
 
 router.post('/submit-data', function (req, res) {
     const rawdata = req.body;  // data from jspsych
@@ -14,6 +15,22 @@ router.post('/submit-data', function (req, res) {
         req.connection.remoteAddress ||
         req.socket.remoteAddress ||
         (req.connection.socket ? req.connection.socket.remoteAddress : null);
+    // var ip = "2001:569:7530:8100:719d:bd86:de7a:797b"
+
+    var geoinfo = geoip.lookup(ip)
+    if (!geoinfo) {
+        var geoinfo = {
+            range: [null, null],
+            country: null,
+            region: null,
+            eu: null,
+            timezone: null,
+            city: null,
+            ll: [null, null],
+            metro: null,
+            area: null
+        }
+    }
 
     // add columns/properties to each row/trial/object in jspsych data (eventually 2D tables/csv)
     rawdata.forEach(function (i) {
@@ -32,13 +49,11 @@ router.post('/submit-data', function (req, res) {
         i.previous_task_completed = info.previous_task_completed;
 
         // geo/time info
-        i.time = info.time;
-        i.utc_datetime = info.utc_datetime;
-        i.country = info.demographics.country;
-        i.country_code = info.demographics.country_code;
-        i.latitude = null; // TODO add in the future
-        i.longitude = null; // TODO add in the future
-        
+        i.utc_datetime = info.utc_datetime,
+        i.country = info.demographics.country,
+        i.country_code = info.demographics.country_code,
+        i.time = info.time,
+
         // client info
         i.browser = ua.browser;
         i.browser_ver = ua.version;
@@ -59,8 +74,16 @@ router.post('/submit-data', function (req, res) {
     DataLibrary.create({
         data: rawdata,  // jspsych data
         info_: info,
+        geoinfo: {
+            country_ip: geoinfo.country,
+            region_ip: geoinfo.region,
+            city_ip: geoinfo.city,
+            latitude: geoinfo.ll[0],
+            longitude: geoinfo.ll[1],
+            timezone: geoinfo.timezone,
+        },
         datasummary: datasummary,
-        subject: info.subject, 
+        subject: info.subject,
         type: info.type,
         uniquestudyid: info.uniquestudyid,
         desc: info.desc,
