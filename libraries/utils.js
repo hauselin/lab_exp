@@ -2374,7 +2374,7 @@ function create_demographics(timeline) {
     var handedness_choices = ['Left', 'Right', 'Ambidextrous', 'Prefer not to say'];
     var select_handedness = {
         type: 'html-button-response',
-        stimulus: "What is your gender?<br><br>",
+        stimulus: "Are you left or right-handed?<br><br>",
         choices: handedness_choices,
         required: true,
         on_finish: function (data) {
