@@ -15,7 +15,7 @@ var background_colour = "white";
 set_colour(font_colour, background_colour);
 
 if (debug) {
-    items = items.slice(0, 5);
+    items = items.slice(0, 10);
 }
 
 // DEFINE TASK PARAMETERS (required)
@@ -110,7 +110,7 @@ jsPsych.init({
 function preprocess_data() {
     var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" });
     var data_sub = data_sub.filterCustom(function (trial) { return trial.q > 0 });
-    // var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 200 });
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 200 });
     return data_sub;
 }
 
@@ -126,7 +126,7 @@ function summarize_data() {
         },
         d => d.subscale);
     subscale = Array.from(subscale, function (i) {  // unnest data
-        return { subscale: i[0], value: i[1].value }
+        return { subscale: i[0], value: i[1].value, param: "subscale"}
     });
 
     var subscale2 = d3.rollups(dat,
@@ -137,7 +137,7 @@ function summarize_data() {
         },
         d => d.subscale2);
     subscale2 = Array.from(subscale2, function (i) {  // unnest data
-        return { type: i[0], value: i[1].value }
+        return { subscale: i[0], value: i[1].value, param: "subscale2"}
     });
     
     var datasummary = subscale.concat(subscale2);
