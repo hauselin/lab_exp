@@ -15,8 +15,8 @@ router.post('/submit-data', function (req, res) {
     //     req.connection.remoteAddress ||
     //     req.socket.remoteAddress ||
     //     (req.connection.socket ? req.connection.socket.remoteAddress : null);
-    
     var ip = "2001:569:7530:8100:719d:bd86:de7a:797b"
+    
     var geoinfo = geoip.lookup(ip)
 
     // add columns/properties to each row/trial/object in jspsych data (eventually 2D tables/csv)
@@ -34,19 +34,8 @@ router.post('/submit-data', function (req, res) {
         i.previous_time = info.previous_time;
         i.previous_mins_before = info.previous_mins_before;
         i.previous_task_completed = info.previous_task_completed;
+        i.time = info.time,
 
-        // geo/time info
-        i.time = info.time;
-        i.utc_datetime = info.utc_datetime;
-        i.country = info.demographics.country;
-        i.country_code = info.demographics.country_code;
-        i.country_ip = geoinfo.country;
-        i.region_ip = geoinfo.region;
-        i.city_ip = geoinfo.city;
-        i.latitude = geoinfo.ll[0];
-        i.longitude = geoinfo.ll[1];
-        i.timezone = geoinfo.timezone;
-        
         // client info
         i.browser = ua.browser;
         i.browser_ver = ua.version;
@@ -67,6 +56,18 @@ router.post('/submit-data', function (req, res) {
     DataLibrary.create({
         data: rawdata,  // jspsych data
         info_: info,
+        geoinfo: {
+            // geo/time info
+            utc_datetime: info.utc_datetime,
+            country: info.demographics.country,
+            country_code: info.demographics.country_code,
+            country_ip: geoinfo.country,
+            region_ip: geoinfo.region,
+            city_ip: geoinfo.city,
+            latitude: geoinfo.ll[0],
+            longitude: geoinfo.ll[1],
+            timezone: geoinfo.timezone,
+        },
         datasummary: datasummary,
         subject: info.subject, 
         type: info.type,
