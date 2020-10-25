@@ -2363,7 +2363,7 @@ function create_demographics(timeline) {
     var gender_choices = ['Female', 'Male', 'Other', 'Prefer not to say'];
     var select_gender = {
         type: 'html-button-response',
-        stimulus: "What is your gender?",
+        stimulus: "What is your gender?<br><br>",
         choices: gender_choices,
         required: true,
         on_finish: function (data) {
@@ -2374,7 +2374,7 @@ function create_demographics(timeline) {
     var handedness_choices = ['Left', 'Right', 'Ambidextrous', 'Prefer not to say'];
     var select_handedness = {
         type: 'html-button-response',
-        stimulus: "What is your gender?",
+        stimulus: "What is your gender?<br><br>",
         choices: handedness_choices,
         required: true,
         on_finish: function (data) {
