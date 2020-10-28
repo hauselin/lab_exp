@@ -18,7 +18,8 @@ if (black_background) {
 
 // TASK PARAMETERS
 var stars = 25;
-var dim = 5;
+var star = "&#11088";
+var alien = "&#x1F479";
 const large_reward = 25; //Large reward after cost.
 var costs = [1, 2, 3, 4, 5];  //costs in aliens.
 // var costs = [2, 5]; // I tend to use fewer when debugging (so the task finishes faster)
@@ -60,7 +61,7 @@ var instructions = {
 
     pages: [
         generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("Press the right arrow key.", font_colour),
-        generate_html("In this task, you'll have to decide which option you prefer.", font_colour) + generate_html("For example, you'll see two options:", font_colour) +  "<br><br>" + gridCreator(25, 1, 12, 0, 5, "&#11088", "&#x1F479"),
+        generate_html("In this task, you'll have to decide which option you prefer.", font_colour) + generate_html("For example, you'll see two options:", font_colour) + gridCreator(25, 1, 12, 0, star, alien),
         generate_html("Catching more aliens means you get more stars!", font_colour) + generate_html("Use the left/right arrow keys on the keyboard to choose.", font_colour),
         generate_html("Next up is a practice trial.", font_colour) + generate_html("Your data will NOT be recorded.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour)
     ],
@@ -79,20 +80,14 @@ var instructions2 = {
 
 var trial = {
     type: "html-keyboard-response",
-    prompt: generate_html("Press the <b>left</b> or <b>right</b> arrow key to indicate whether <br>you prefer the option on the left or right, respectively.", font_colour, 18, [0, -160]),
+    //prompt: generate_html("Press the <b>left</b> or <b>right</b> arrow key to indicate whether <br>you prefer the option on the left or right, respectively.", font_colour, 18, [0, -160]),
     choices: [37, 39],
     timeline: [{
         stimulus: function () {
             var lower = (reward_window[1] - reward_window[0]) * quantile_range[0] + reward_window[0];
             var upper = (reward_window[1] - reward_window[0]) * quantile_range[1] + reward_window[0];
             small_reward = random_min_max(lower, upper);
-            var options = gridCreator(large_reward, costs[n_cost], small_reward, 0, 5, "&#11088", "&#x1F479");
-            if (n_trial == 0) { // bold and change color of left option on first trial of each cost/delay
-                options = "<b><font color='#317EF3'>" + options + "</font></b>"
-            };
-            if (reverse_sides) { // switch left text to right and vice versa
-                options = generate_html(options, font_colour);
-            }
+            var options = gridCreator(large_reward, costs[n_cost], small_reward, 0, star, alien);
             return options;
         },
     }],
@@ -132,7 +127,7 @@ var trial = {
         if (n_trial == trials_per_cost) { // after 5 trials, move to next cost/delay
             n_trial = 0; // reset trial counter
             n_cost += 1;
-            reward_window = [0, large_reward]; // reset reward window
+            reward_window = [1, large_reward]; // reset reward window
         };
         if (debug) {
             console.log('this trial indifference: ' + indifference);
@@ -142,51 +137,109 @@ var trial = {
     }
 };
 
+// create practice trials
+var practice_trial = jsPsych.utils.deepCopy(trial);
+delete practice_trial.on_finish;
+delete practice_trial.timeline;
+practice_trial.repetitions = practice_trials;
 
-
-
-function add_aliens(alien_count, alien_em) {
-    var al_count = 1;
-        str = "";
-    while (al_count <= alien_count) {
-        str += "<span style=font-size:3rem>" + alien_em + "</span>";
-        al_count += 1;
-    } return str;
-}
-
-function add_stars(star_count, star_em, dim) {
-    var dim_r = dim;
-        curr_1 = 1;
-        str = "";
-    while (curr_1 <= star_count) {
-        if (curr_1 <= dim_r) {
-            str += "<span style=font-size:3rem>" + star_em + "</span>";
-            curr_1 += 1;            
-        } else {
-            str += "<br> <br>";
-            dim_r += 5;
+practice_trial.timeline = [
+    {
+        stimulus: function () {
+            var large_reward = 25;
+            var small_reward = large_reward - Math.floor(Math.random() * large_reward);
+            var text = gridCreator(large_reward, costs[Math.floor(Math.random() * 5)], small_reward.toFixed(2), 0, 
+                                    star, alien);
+            return text;
         }
-    } return str ;
+    }];
+
+practice_trial.on_finish = function (data) { data.event = 'practice'; };
+
+// create task timeline
+timeline.push(instructions);
+timeline.push(practice_trial);
+timeline.push(instructions2);
+timeline.push(trial);
+
+jsPsych.init({
+    timeline: timeline,
+    on_finish: function () {
+        document.body.style.backgroundColor = 'white';
+        var datasummary = summarize_data(); // summarize data
+        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
+        jsPsych.data.get().addToAll({ // add parameters to all trials
+            total_time: datasummary.total_time,
+            auc: datasummary.auc,
+            stimuli_sides: stimuli_sides
+        });
+        jsPsych.data.get().first(1).addToAll({ // add objects to only first trial (to save space)
+            info_: info_,
+            datasummary: datasummary,
+        });
+        if (debug) {
+            jsPsych.data.displayData();
+        }
+        sessionStorage.setObj('info_', info_); // save to sessionStorage
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
+    }
+});
+
+// functions to summarize data below
+function summarize_data() {
+    datasummary = {};
+    datasummary.trials_per_cost = trials_per_cost;
+    datasummary.auc = get_auc();
+    datasummary.total_time = jsPsych.totalTime() / 60000;
+    return datasummary;
 }
 
-function gridCreator(op_1_s, op_1_a, op_2_s, op_2_a, dim, s_em, a_em) {
-    var str_s_1 = add_stars(op_1_s, s_em, dim);
-        str_a_1 = add_aliens(op_1_a, a_em);
-        str_s_2 = add_stars(op_2_s, s_em, dim);
-        str_a_2 = add_aliens(op_2_a, a_em);
+function get_auc() {    //note that this area is an underestimation of the hyperbolic curve, as the width of the histogram bars are bounded by the lower cost and the entry's cost.
+    var trial_data = jsPsych.data.get().filter({ n_trial: (trials_per_cost - 1), event: "choice" });
+    var indifference_data = trial_data.select('indifference').values;
+    var delayed_reward_data = trial_data.select('large_reward').values;
+    var cost_data = trial_data.select('cost').values;
+    var sorted_costs = cost_data.slice(0, cost_data.length).sort(function (a, b) { return a - b });  // sort a sliced copy of cost_data (try to keep things local as much as we can, so we avoid using the global costs variable) 
     
-    return "<div class='container'>" + 
-                "<div class='row'>" +
-                    "<div class='col' style=column-gap:80px;>" +
+    // save values in datasummary
+    datasummary.indifference = indifference_data;
+    datasummary.delayed_reward = delayed_reward_data;
+    datasummary.cost = cost_data;
 
-                        "<div class='column' style=float:left;margin-right:150px;text-align:left;>"
-                            + str_s_1 + "<br><br>" + str_a_1 +
-                        "</div>" + 
-                        "<div class='column' style=float:left;margin-left:150px;text-align:left;>"
-                            + str_s_2 + "<br><br>" + str_a_2 + "<br><br><br><br><br><br>" +
-                        "</div>" +
+    // compute area for each cost
+    var bar_areas = [];
+    for (i = 0; i < sorted_costs.length; i++) {
+        var height = indifference_data[i] / delayed_reward_data[i]; // in this task, elements in delay_reward_data have the same value
+        if (sorted_costs.indexOf(cost_data[i]) == 0) { // width of first (leftmost) bar
+            var width = cost_data[i] / Math.max(...sorted_costs);
+        } else {  // width of the second bar onwards 
+            var width = (cost_data[i] - sorted_costs[sorted_costs.indexOf(cost_data[i]) - 1]) / Math.max(...sorted_costs);
+        }
+        bar_areas.push(width * height);
+    }
+    if (debug) {
+        console.log(bar_areas);
+    }
+    return bar_areas.reduce(function (a, b) { // sum values in array
+        return a + b;
+    }, 0);
+}
 
-                    "</div>" +
-                "</div>" +
-            "</div>"
+function helperfunction(obj_count, emoji) {
+    var curr = 0;
+    var val = "";
+    while (curr != obj_count) {
+        val += "<div class=obj style=border-radius:5px;padding:20px;font-size:150%;>" + emoji + "</div>";
+        curr += 1;
+    } return val ;
+}
+
+function gridCreator(stars_1, aliens_1, stars_2, aliens_2, star, alien) {
+    
+    return "<div class=options style=display:grid;grid-template-columns:repeat(2,300px);>" + 
+                "<div class=option_1 style=display:grid;grid-gap:1px;grid-template-columns:repeat(5,30px);grid-template-rows:repeat(5,30px);>" + 
+                helperfunction(stars_1, star) + helperfunction(aliens_1, alien) + "</div>" +
+                "<div class=option_2 style=display:grid;grid-gap:1px;grid-template-columns:repeat(5,30px);grid-template-rows:repeat(5,30px);>" +
+                helperfunction(stars_2, star)  + helperfunction(aliens_2, alien) + "</div> </div>"
+
 }
