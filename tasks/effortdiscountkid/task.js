@@ -226,20 +226,21 @@ function get_auc() {    //note that this area is an underestimation of the hyper
 }
 
 function helperfunction(obj_count, emoji) {
-    var curr = 0;
     var val = "";
-    while (curr != obj_count) {
-        val += "<div class=obj style=border-radius:5px;padding:20px;font-size:150%;>" + emoji + "</div>";
-        curr += 1;
-    } return val ;
+    for (i=0; i<obj_count; i++) {
+        val += "<div class=obj style=border-radius:10px;padding:20px;font-size:150%;>" + emoji + "</div>";
+        // val += "<div>" + emoji + "</div>";
+        console.log(val.length);
+    }
+    return val ;
 }
 
 function gridCreator(stars_1, aliens_1, stars_2, aliens_2, star, alien) {
     
     return "<div class=options style=display:grid;grid-template-columns:repeat(2,300px);>" + 
-                "<div class=option_1 style=display:grid;grid-gap:1px;grid-template-columns:repeat(5,30px);grid-template-rows:repeat(5,30px);>" + 
+                "<div class=option_1 style=display:grid;grid-gap:1px;grid-template-columns:repeat(5,30px);grid-template-rows:repeat(5,30px);margin:auto;>" + 
                 helperfunction(stars_1, star) + helperfunction(aliens_1, alien) + "</div>" +
-                "<div class=option_2 style=display:grid;grid-gap:1px;grid-template-columns:repeat(5,30px);grid-template-rows:repeat(5,30px);>" +
-                helperfunction(stars_2, star)  + helperfunction(aliens_2, alien) + "</div> </div>"
+                "<div class=option_2 style=display:grid;grid-gap:1px;grid-template-columns:repeat(5,30px);grid-template-rows:repeat(5,30px);margin:auto;>" + // TODO: Frank pls fix this!! :)
+                helperfunction(stars_2, star) + helperfunction(aliens_2, alien) + "</div> </div>"
 
 }
