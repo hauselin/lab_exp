@@ -316,13 +316,13 @@
     </script>
 
 
-    <!-- Subscale response density -->
+    <!-- Subscale response radial graph -->
     <script type="text/javascript" defer>
         if (!subject_data) {
             var pie_data = data_array
         }
 
-        var subscale_density = {
+        var subscale_radial = {
             config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 14, labelFont: "Inter-UI-upright" } },
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             width: 480,
@@ -551,7 +551,7 @@
             "fontLoaded": function (f) {
                 console.log("font loaded: " + f.family);
             }, "complete": function (error) {
-                vegaEmbed('#vis1', subscale_density, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis1', subscale_radial, { actions: { source: false, compiled: false, editor: false } });
                 vegaEmbed('#vis2', subscale_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
                 vegaEmbed('#vis3', subscale_matrix, { actions: { source: false, compiled: false, editor: false } });
                 vegaEmbed('#vis4', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
