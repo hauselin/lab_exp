@@ -182,7 +182,7 @@
                     <div class="col-auto col-xl-6">
                         <div class="row justify-content-center">
                             <div class="col-xl-10 col-lg-11 ml-auto">
-                                <span class="badge badge-primary">Response matrix</span>
+                                <span class="badge badge-primary">Response density</span>
                                 <div class="my-2">
                                     <span class="h4">Discounting across the globe</span>
                                 </div>
@@ -202,6 +202,102 @@
                 <div class="row align-items-center justify-content-around">
                     <div class="col-auto col-xl-6">
                         <div id="vis4" class="center"></div>
+                    </div>
+                    <div class="col-auto col-xl-6">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11 ml-auto">
+                                <span class="badge badge-primary">Response density</span>
+                                <div class="my-2">
+                                    <span class="h4">Discounting across the globe</span>
+                                </div>
+                                <p class="lead">People in different countries and cultures differ in how much they care
+                                    about or devalue future rewards. Brighter regions indicate less discounting or
+                                    impulsivity.</p>
+                                <p class="lead">If you find the results interesting, tell your friends from other
+                                    countries to complete this task.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-auto col-xl-6">
+                        <div id="vis5" class="center"></div>
+                    </div>
+                    <div class="col-auto col-xl-6">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11 ml-auto">
+                                <span class="badge badge-primary">Response density</span>
+                                <div class="my-2">
+                                    <span class="h4">Discounting across the globe</span>
+                                </div>
+                                <p class="lead">People in different countries and cultures differ in how much they care
+                                    about or devalue future rewards. Brighter regions indicate less discounting or
+                                    impulsivity.</p>
+                                <p class="lead">If you find the results interesting, tell your friends from other
+                                    countries to complete this task.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-auto col-xl-6">
+                        <div id="vis6" class="center"></div>
+                    </div>
+                    <div class="col-auto col-xl-6">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11 ml-auto">
+                                <span class="badge badge-primary">Response density</span>
+                                <div class="my-2">
+                                    <span class="h4">Discounting across the globe</span>
+                                </div>
+                                <p class="lead">People in different countries and cultures differ in how much they care
+                                    about or devalue future rewards. Brighter regions indicate less discounting or
+                                    impulsivity.</p>
+                                <p class="lead">If you find the results interesting, tell your friends from other
+                                    countries to complete this task.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-auto col-xl-6">
+                        <div id="vis7" class="center"></div>
+                    </div>
+                    <div class="col-auto col-xl-6">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11 ml-auto">
+                                <span class="badge badge-primary">Response density</span>
+                                <div class="my-2">
+                                    <span class="h4">Discounting across the globe</span>
+                                </div>
+                                <p class="lead">People in different countries and cultures differ in how much they care
+                                    about or devalue future rewards. Brighter regions indicate less discounting or
+                                    impulsivity.</p>
+                                <p class="lead">If you find the results interesting, tell your friends from other
+                                    countries to complete this task.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-auto col-xl-6">
+                        <div id="vis8" class="center"></div>
                     </div>
                     <div class="col-auto col-xl-6">
                         <div class="row justify-content-center">
@@ -311,31 +407,44 @@
             // compute/add percentile
             var subject_data = data_array.filter(i => i.subject == subject_id);
             var latest_entry_time = Math.max(...subject_data.map(i => i.time));
+            var pie_data = subject_data;
         }
     </script>
 
 
-    <!-- Subscale response density -->
+    <!-- Subscale response radial graph -->
     <script type="text/javascript" defer>
+        if (!subject_data) {
+            var pie_data = data_array
+        }
 
-        var subscale_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+        var subscale_radial = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 14, labelFont: "Inter-UI-upright" } },
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             width: 480,
-            height: 80,
-            data: { values: data_array.filter(i => i.param == "subscale2") },
-            mark: "area",
-            transform: [
+            height: 480,
+            data: {
+                values: pie_data.filter(i => i.param == 'subscale2')
+            },
+            layer: [
                 {
-                    density: "value",
-                    groupby: ['subscale'],
+                    mark: { type: "arc", innerRadius: 20, stroke: "#fff" }
+                },
+                {
+                    mark: { type: "text", radiusOffset: 10 },
+                    encoding:
+                    {
+                        text: { aggregate: "median", field: "value", type: "quantitative" }
+                        // text: { field: "subscale", type: "nominal" }
+                    }
                 }
             ],
             encoding: {
-                x: { field: "value", type: "quantitative", title: "Value" },
-                y: { field: "density", type: "quantitative", stack: "zero", title: "Density" },
-                row: { field: 'subscale' }
-            }
+                theta: { aggregate: "median", field: "value", type: "quantitative", stack: true },
+                radius: { aggregate: "median", field: "value", scale: { type: "sqrt", zero: true, rangeMin: 20 } },
+                color: { field: "subscale", type: "nominal", legend: {} }
+            },
+            view: { stroke: null },
         };
 
     </script>
@@ -405,49 +514,279 @@
 
 
 
-    <!-- Subscale matrix -->
+    <!-- Openness density -->
     <script type="text/javascript" defer>
 
-        var subscale_matrix = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
-            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+        var openness_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
-            repeat: {
-                row: ["openness", "conscientiousness", "extroversion", "agreeableness", "neuroticism"],
-                column: ["openness", "conscientiousness", "extroversion", "agreeableness", "neuroticism"]
-            },
-            spec: {
-                data: { values: matrix_array },
-                mark: "point",
-                selection: {
-                    brush: {
-                        type: "interval",
-                        resolve: "union",
-                        on: "[mousedown[event.shiftKey], window:mouseup] > window:mousemove!",
-                        translate: "[mousedown[event.shiftKey], window:mouseup] > window:mousemove!",
-                        zoom: "wheel![event.shiftKey]"
-                    },
-                    grid: {
-                        type: "interval",
-                        resolve: "global",
-                        bind: "scales",
-                        translate: "[mousedown[!event.shiftKey], window:mouseup] > window:mousemove!",
-                        zoom: "wheel![!event.shiftKey]"
+            layer: [
+                {
+                    data: { values: data_array.filter(x => x.subscale == 'openness') },
+                    transform: [{ density: "value" }],
+                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
+                    encoding: {
+                        x: {
+                            type: "quantitative",
+                            field: "value",
+                            title: "Openness",
+                            scale: {}
+                        },
+                        y: {
+                            type: "quantitative",
+                            field: "density",
+                            title: "Frequency (density)",
+                        },
+                        color: { value: "#38405C", type: "quantitative" },
+                        tooltip: [
+                            { field: 'value', format: ".0f", title: 'Openness', type: "quantitative" },
+                            { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
                     }
                 },
-                encoding: {
-                    x: { "field": { "repeat": "column" }, "type": "quantitative" },
-                    y: {
-                        field: { "repeat": "row" },
-                        type: "quantitative",
-                        axis: { "minExtent": 30 }
+                {
+                    data: (function () { // anonymous function
+                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
+                            return { values: subject_data.filter(i => i.subscale == "openness") };
+                        } else {  // don't draw vertical rule
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: { type: "rule", opacity: 0.7 },
+                    encoding: {
+                        x: { aggregate: "mean", field: "value", type: "quantitative" },
+                        color: { value: "#38405C", type: "quantitative" },
+                        size: { value: 3 },
+                        tooltip: [
+                            { field: 'value', format: ".0f", title: 'Your openness', type: "quantitative" }]
                     },
                 }
-            }
+            ],
+            width: 500,
+            height: 400,
         };
 
     </script>
 
+
+    <!-- Conscientiousness density -->
+    <script type="text/javascript" defer>
+
+        var conscientiousness_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            layer: [
+                {
+                    data: { values: data_array.filter(x => x.subscale == 'conscientiousness') },
+                    transform: [{ density: "value" }],
+                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
+                    encoding: {
+                        x: {
+                            type: "quantitative",
+                            field: "value",
+                            title: "Conscientiousness",
+                            scale: {}
+                        },
+                        y: {
+                            type: "quantitative",
+                            field: "density",
+                            title: "Frequency (density)",
+                        },
+                        color: { value: "#38405C", type: "quantitative" },
+                        tooltip: [
+                            { field: 'value', format: ".0f", title: 'Conscientiousness', type: "quantitative" },
+                            { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
+                    }
+                },
+                {
+                    data: (function () { // anonymous function
+                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
+                            return { values: subject_data.filter(i => i.subscale == "conscientiousness") };
+                        } else {  // don't draw vertical rule
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: { type: "rule", opacity: 0.7 },
+                    encoding: {
+                        x: { aggregate: "mean", field: "value", type: "quantitative" },
+                        color: { value: "#38405C", type: "quantitative" },
+                        size: { value: 3 },
+                        tooltip: [
+                            { field: 'value', format: ".0f", title: 'Your conscientiousness', type: "quantitative" }]
+                    },
+                }
+            ],
+            width: 500,
+            height: 400,
+        };
+
+    </script>
+
+
+    <!-- Extraversion density -->
+    <script type="text/javascript" defer>
+
+        var extraversion_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            layer: [
+                {
+                    data: { values: data_array.filter(x => x.subscale == 'extraversion') },
+                    transform: [{ density: "value" }],
+                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
+                    encoding: {
+                        x: {
+                            type: "quantitative",
+                            field: "value",
+                            title: "Extraversion",
+                            scale: {}
+                        },
+                        y: {
+                            type: "quantitative",
+                            field: "density",
+                            title: "Frequency (density)",
+                        },
+                        color: { value: "#38405C", type: "quantitative" },
+                        tooltip: [
+                            { field: 'value', format: ".0f", title: 'Extraversion', type: "quantitative" },
+                            { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
+                    }
+                },
+                {
+                    data: (function () { // anonymous function
+                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
+                            return { values: subject_data.filter(i => i.subscale == "extraversion") };
+                        } else {  // don't draw vertical rule
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: { type: "rule", opacity: 0.7 },
+                    encoding: {
+                        x: { aggregate: "mean", field: "value", type: "quantitative" },
+                        color: { value: "#38405C", type: "quantitative" },
+                        size: { value: 3 },
+                        tooltip: [
+                            { field: 'value', format: ".0f", title: 'Your extraversion', type: "quantitative" }]
+                    },
+                }
+            ],
+            width: 500,
+            height: 400,
+        };
+
+    </script>
+
+
+    <!-- Agreeableness density -->
+    <script type="text/javascript" defer>
+
+        var agreeableness_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            layer: [
+                {
+                    data: { values: data_array.filter(x => x.subscale == 'agreeableness') },
+                    transform: [{ density: "value" }],
+                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
+                    encoding: {
+                        x: {
+                            type: "quantitative",
+                            field: "value",
+                            title: "Agreeableness",
+                            scale: {}
+                        },
+                        y: {
+                            type: "quantitative",
+                            field: "density",
+                            title: "Frequency (density)",
+                        },
+                        color: { value: "#38405C", type: "quantitative" },
+                        tooltip: [
+                            { field: 'value', format: ".0f", title: 'Agreeableness', type: "quantitative" },
+                            { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
+                    }
+                },
+                {
+                    data: (function () { // anonymous function
+                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
+                            return { values: subject_data.filter(i => i.subscale == "agreeableness") };
+                        } else {  // don't draw vertical rule
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: { type: "rule", opacity: 0.7 },
+                    encoding: {
+                        x: { aggregate: "mean", field: "value", type: "quantitative" },
+                        color: { value: "#38405C", type: "quantitative" },
+                        size: { value: 3 },
+                        tooltip: [
+                            { field: 'value', format: ".0f", title: 'Your agreeableness', type: "quantitative" }]
+                    },
+                }
+            ],
+            width: 500,
+            height: 400,
+        };
+
+    </script>
+
+
+    <!-- Neuroticism density -->
+    <script type="text/javascript" defer>
+
+        var neuroticism_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            layer: [
+                {
+                    data: { values: data_array.filter(x => x.subscale == 'neuroticism') },
+                    transform: [{ density: "value" }],
+                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
+                    encoding: {
+                        x: {
+                            type: "quantitative",
+                            field: "value",
+                            title: "Neuroticism",
+                            scale: {}
+                        },
+                        y: {
+                            type: "quantitative",
+                            field: "density",
+                            title: "Frequency (density)",
+                        },
+                        color: { value: "#38405C", type: "quantitative" },
+                        tooltip: [
+                            { field: 'value', format: ".0f", title: 'Neuroticism', type: "quantitative" },
+                            { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
+                    }
+                },
+                {
+                    data: (function () { // anonymous function
+                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
+                            return { values: subject_data.filter(i => i.subscale == "neuroticism") };
+                        } else {  // don't draw vertical rule
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: { type: "rule", opacity: 0.7 },
+                    encoding: {
+                        x: { aggregate: "mean", field: "value", type: "quantitative" },
+                        color: { value: "#38405C", type: "quantitative" },
+                        size: { value: 3 },
+                        tooltip: [
+                            { field: 'value', format: ".0f", title: 'Your neuroticism', type: "quantitative" }]
+                    },
+                }
+            ],
+            width: 500,
+            height: 400,
+        };
+
+    </script>
 
 
 
@@ -538,10 +877,14 @@
             "fontLoaded": function (f) {
                 console.log("font loaded: " + f.family);
             }, "complete": function (error) {
-                vegaEmbed('#vis1', subscale_density, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis1', subscale_radial, { actions: { source: false, compiled: false, editor: false } });
                 vegaEmbed('#vis2', subscale_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
-                vegaEmbed('#vis3', subscale_matrix, { actions: { source: false, compiled: false, editor: false } });
-                vegaEmbed('#vis4', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis3', openness_density, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis4', conscientiousness_density, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis5', extraversion_density, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis6', agreeableness_density, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis7', neuroticism_density, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis8', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
             }
         }, 3000);
         fontLoader.loadFonts();
