@@ -311,31 +311,44 @@
             // compute/add percentile
             var subject_data = data_array.filter(i => i.subject == subject_id);
             var latest_entry_time = Math.max(...subject_data.map(i => i.time));
+            var pie_data = subject_data;
         }
     </script>
 
 
     <!-- Subscale response density -->
     <script type="text/javascript" defer>
+        if (!subject_data) {
+            var pie_data = data_array
+        }
 
         var subscale_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 14, labelFont: "Inter-UI-upright" } },
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             width: 480,
-            height: 80,
-            data: { values: data_array.filter(i => i.param == "subscale2") },
-            mark: "area",
-            transform: [
+            height: 480,
+            data: {
+                values: pie_data.filter(i => i.param == 'subscale2')
+            },
+            layer: [
                 {
-                    density: "value",
-                    groupby: ['subscale'],
+                    mark: { type: "arc", innerRadius: 20, stroke: "#fff" }
+                },
+                {
+                    mark: { type: "text", radiusOffset: 10 },
+                    encoding:
+                    {
+                        text: { aggregate: "median", field: "value", type: "quantitative" }
+                        // text: { field: "subscale", type: "nominal" }
+                    }
                 }
             ],
             encoding: {
-                x: { field: "value", type: "quantitative", title: "Value" },
-                y: { field: "density", type: "quantitative", stack: "zero", title: "Density" },
-                row: { field: 'subscale' }
-            }
+                theta: { aggregate: "median", field: "value", type: "quantitative", stack: true },
+                radius: { aggregate: "median", field: "value", scale: { type: "sqrt", zero: true, rangeMin: 20 } },
+                color: { field: "subscale", type: "nominal", legend: {} }
+            },
+            view: { stroke: null },
         };
 
     </script>
