@@ -276,7 +276,7 @@
         var mean_density = {
             config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
-            width: 400,
+            width: 500,
             height: 80,
             data: { values: data_array.filter(i => ['neuroticism', 'openness', 'conscientiousness', 'agreeableness', 'extraversion'].includes(i.subscale)) },
             mark: "area",
@@ -284,7 +284,6 @@
                 {
                 density: "value",
                 groupby: ['subscale'],
-                // extent: [2500, 6500]
                 }
             ],
             encoding: {
@@ -310,7 +309,7 @@
             background: "#f3f5fb",
             layer: [
                 {
-                    data: { values: data_array.filter(i => i.type != "all") },
+                    data: { values: data_array },
                     mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
                     encoding: {
                         y: {
@@ -320,12 +319,12 @@
                             // scale: { domain: [0, 7] }
                         },
                         x: {
-                            field: "type",
+                            field: "subscale",
                             type: "nominal",
-                            axis: { "title": "Grit facets", tickMinStep: 20, labelAngle: 0, labelExpr: "if(datum.label=='consistentInterest', 'Interest consistency', 'Effort perseverence')" },
+                            axis: null,
                         },
                         size: { value: 18 },
-                        color: { field: "type", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
+                        color: { field: "subscale", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
                         tooltip: [
                             { field: 'value', type: "quantitative", format: '.1f', title: "Response", aggregate: "mean" }
                         ]
@@ -335,7 +334,7 @@
                     // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
                     data: (function () { // anonymous function
                         if (subject_id) {
-                            return { values: data_array.filter(i => i.subject == subject_id && i.time == latest_entry_time && i.type != 'all').slice(0, 2) };
+                            return { values: data_array.filter(i => i.subject == subject_id && ['neuroticism', 'openness', 'conscientiousness', 'agreeableness', 'extraversion'].includes(i.subscale)).slice(0, 5) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -343,7 +342,7 @@
                     mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
                     encoding: {
                         x: {
-                            field: "type",
+                            field: "subscale",
                             type: "nominal",
                         },
                         y: { field: "value", type: "quantitative" },
