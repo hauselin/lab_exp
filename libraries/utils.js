@@ -2383,7 +2383,7 @@ function create_demographics(timeline, section=null) {
     }
 
     var ages = Array.from(Array(100).keys());
-    ages.shift();
+    ages.shift(); // remove 0 from the array
     var select_age = {
         type: 'survey-text-dropdown',
         question: [

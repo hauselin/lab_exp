@@ -148,7 +148,7 @@ router.get('/privacy', function (req, res) {
     res.render("privacy.ejs");
 });
 
-router.get('/comingsoon', function (req, res) {
+router.get('/coming', function (req, res) {
     res.render("comingSoon.ejs");
 });
 

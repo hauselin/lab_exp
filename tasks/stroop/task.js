@@ -238,6 +238,7 @@ var stimulus = {
         current_iti = random_choice(itis);  // select an iti for this trial (to be presented later)
         data.iti = current_iti; // save iti in data
     },
+    post_trial_gap: function () { return current_iti },  // present iti after one timeline/trial
 }
 
 var feedback = { // if correct (acc > 0), "correct, 456 ms"; if wrong (acc < 1), "wrong, 600 ms"; if no response (rt === null && acc < 1), "respond faster"
@@ -258,7 +259,7 @@ var feedback = { // if correct (acc > 0), "correct, 456 ms"; if wrong (acc < 1),
     choices: jsPsych.NO_KEYS,
     trial_duration: feedback_duration,
     data: { event: "feedback" },
-    post_trial_gap: function () { return current_iti },  // present iti after one timeline/trial
+    post_trial_gap: 500
 }
 
 var trial_sequence = {
@@ -288,10 +289,12 @@ jsPsych.init({
         document.body.style.backgroundColor = 'white';
         var datasummary = create_datasummary();
         
-        jsPsych.data.get().addToAll({ // add objects to all trials
+        jsPsych.data.get().addToAll({
+            total_time: jsPsych.totalTime() / 60000,
+        });
+        jsPsych.data.get().first(1).addToAll({
             info_: info_,
             datasummary: datasummary,
-            total_time: datasummary.total_time,
         });
         if (debug) {
             jsPsych.data.displayData();
@@ -366,6 +369,7 @@ function create_datasummary() {
         s.time = info_.time;
         s.country_code = info_.demographics.country_code;
         s.country = info_.demographics.country;
+        s.total_time = jsPsych.totalTime() / 60000;
     })
 
     return datasummary
