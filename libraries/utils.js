@@ -2274,7 +2274,7 @@ var race_and_ethnicities = [
 
 
 
-function create_demographics(timeline) {
+function create_demographics(timeline, section=null) {
     var select_country = {
         on_start: function () {
             document.body.style.backgroundColor = "white";
@@ -2400,7 +2400,12 @@ function create_demographics(timeline) {
     }
 
     if (!localStorage.getObj("info_").demographics.country) {
-        timeline = timeline.concat([select_country, select_country_associated, select_language, select_religion, select_ethnicity, select_gender, select_handedness, select_age]);
+        demographics_timeline = [select_country, select_country_associated, select_language, select_religion, select_ethnicity, select_gender, select_handedness, select_age]
+        if (!section) {
+            timeline = timeline.concat(demographics_timeline);
+        } else {
+            timeline = timeline.concat(demographics_timeline.slice(section[0], section[1]));
+        }
     }
     return timeline;
 }
