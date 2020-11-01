@@ -136,4 +136,9 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
     });
 });
 
+// render comingSoon.ejs for all routes that don't yet have a viz
+router.get("/:type/:uniquestudyid/viz", function (req, res) {
+    helper.cssFix(req, res, "comingSoon", 200);
+})
+
 module.exports = router;
