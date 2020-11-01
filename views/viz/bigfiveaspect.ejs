@@ -322,7 +322,7 @@
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             width: 480,
             height: 80,
-            data: { values: data_array.filter(i => ['neuroticism', 'openness', 'conscientiousness', 'agreeableness', 'extraversion'].includes(i.subscale)) },
+            data: { values: data_array.filter(i => i.param == "subscale2") },
             mark: "area",
             transform: [
                 {
