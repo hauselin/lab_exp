@@ -182,6 +182,30 @@
                     <div class="col-auto col-xl-6">
                         <div class="row justify-content-center">
                             <div class="col-xl-10 col-lg-11 ml-auto">
+                                <span class="badge badge-primary">Response matrix</span>
+                                <div class="my-2">
+                                    <span class="h4">Discounting across the globe</span>
+                                </div>
+                                <p class="lead">People in different countries and cultures differ in how much they care
+                                    about or devalue future rewards. Brighter regions indicate less discounting or
+                                    impulsivity.</p>
+                                <p class="lead">If you find the results interesting, tell your friends from other
+                                    countries to complete this task.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-auto col-xl-6">
+                        <div id="vis4" class="center"></div>
+                    </div>
+                    <div class="col-auto col-xl-6">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11 ml-auto">
                                 <span class="badge badge-primary">Global choropleth</span>
                                 <div class="my-2">
                                     <span class="h4">Discounting across the globe</span>
@@ -196,7 +220,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
     </section>
 
@@ -381,6 +404,55 @@
 
 
 
+    <!-- Subscale matrix -->
+    <script type="text/javascript" defer>
+
+        var subscale_matrix = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            repeat: {
+                row: ["Openness", "Conscientiousness", "Extroversion", "Agreeableness", "Neuroticism"],
+                column: ["Openness", "Conscientiousness", "Extroversion", "Agreeableness", "Neuroticism"]
+            },
+            spec: {
+                data: { values: data_array },
+                mark: "point",
+                selection: {
+                    brush: {
+                        type: "interval",
+                        resolve: "union",
+                        // on: "[mousedown[event.shiftKey], window:mouseup] > window:mousemove!",
+                        // translate: "[mousedown[event.shiftKey], window:mouseup] > window:mousemove!",
+                        // zoom: "wheel![event.shiftKey]"
+                    },
+                    grid: {
+                        type: "interval",
+                        resolve: "global",
+                        bind: "scales",
+                        // translate: "[mousedown[!event.shiftKey], window:mouseup] > window:mousemove!",
+                        // zoom: "wheel![!event.shiftKey]"
+                    }
+                },
+                encoding: {
+                    x: { "field": { "repeat": "column" }, "type": "quantitative" },
+                    y: {
+                        field: { "repeat": "row" },
+                        type: "quantitative",
+                        axis: { "minExtent": 30 }
+                    },
+                    // color: {
+                    //     condition: {
+                    //         selection: "brush",
+                    //         field: "Origin",
+                    //         type: "nominal"
+                    //     },
+                    //     value: "grey"
+                    // }
+                }
+            }
+        };
+
+    </script>
 
 
 
@@ -474,7 +546,8 @@
             }, "complete": function (error) {
                 vegaEmbed('#vis1', subscale_density, { actions: { source: false, compiled: false, editor: false } });
                 vegaEmbed('#vis2', subscale_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
-                vegaEmbed('#vis3', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis3', subscale_matrix, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis4', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
             }
         }, 3000);
         fontLoader.loadFonts();
