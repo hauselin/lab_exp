@@ -4,20 +4,23 @@ const taskinfo = {
     uniquestudyid: 'flanker', // unique task id: must be IDENTICAL to directory name
     desc: 'flanker task', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: "/tasks/flanker/viz" // set to false if no redirection required
+    redirect_url: false // set to false if no redirection required
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 
-const debug = false;
+const debug = true;
 var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
 
 // DEFINE TASK PARAMETERS (required)
+const adaptive = true;
+const no_incongruent_neighbors = true;
 var rt_deadline = 1500;
 var feedback_duration = 1500;
 var itis = iti_exponential(low = 300, high = 800);
+var n_trial = 0;  // trial counter
 
 jsPsych.data.addProperties({
     subject: info_.subject,
@@ -26,11 +29,6 @@ jsPsych.data.addProperties({
     desc: taskinfo.desc,
     condition: taskinfo.condition,
 });
-
-// create experiment timeline
-var timeline = [];
-
-var n_trial = 0;
 
 var instructions = {
     type: "instructions",
@@ -42,14 +40,30 @@ var instructions = {
 };
 
 var stimuli_unique = [  // unique flanker trials
-    { data: { prompt: '>>>>>', answer: 'rightarrow', n_right: 4, n_left: 0, reps: 2 } },
-    { data: { prompt: '<<<<<', answer: 'leftarrow', n_right: 0, n_left: 4, reps: 2 } },
+    { data: { stimulus: '>>>>>', answer: 'rightarrow', trialtype: "congruent", reps: 2 } },
+    { data: { stimulus: '<<<<<', answer: 'leftarrow', trialtype: "congruent", reps: 2 } },
+    { data: { stimulus: '<<><<', answer: 'rightarrow', trialtype: "incongruent", reps: 1 } },
+    { data: { stimulus: '>><>>', answer: 'leftarrow', trialtype: "incongruent", reps: 1 } },
 ];
 
 var stimuli_repetitions = [];
 stimuli_unique.forEach(function (item) {
     stimuli_repetitions.push(item.data.reps);})
 var stimuli_shuffled = jsPsych.randomization.repeat(stimuli_unique, stimuli_repetitions);  // repeat and shuffle
+if (no_incongruent_neighbors) { // ensure incongruent stimuli aren't presented consecutively
+    function equality_test(a, b) {
+        if (a.trialtype != 'incongruent') {
+            return false;  // ignore if it's not incongruent trialtype
+        } else {
+            return a.trialtype === b.trialtype;  // return true if neighbors are both incongruent
+        }
+    }
+    var stimuli_shuffled = jsPsych.randomization.shuffleNoRepeats(stimuli_shuffled, equality_test);
+}
+if (debug) {
+    console.log('Shuffled trials:');
+    console.log(stimuli_shuffled);
+}
 
 var correct_key = ''; // correct key on each trial
 var current_iti = 0; // iti on each trial
@@ -57,9 +71,9 @@ var stimulus = {
     type: "html-keyboard-response",
     choices: [37, 39],
     stimulus: function () {
-        var prompt = jsPsych.timelineVariable('data', true).prompt;
+        var stimulus = jsPsych.timelineVariable('data', true).stimulus;
         correct_key = jsPsych.timelineVariable('data', true).answer;
-        text_html = generate_html(prompt, 100);
+        text_html = generate_html(stimulus, font_colour, 120);
         return text_html;
     },
     trial_duration: function () { return rt_deadline; },
@@ -81,7 +95,8 @@ var stimulus = {
         n_trial += 1;
         current_iti = random_choice(itis);
         data.iti = current_iti;
-    }
+    },
+    post_trial_gap: function () { return current_iti }
 }
 
 var feedback = {
@@ -89,20 +104,20 @@ var feedback = {
     stimulus: function () {
         last_trial_data = jsPsych.data.getLastTrialData();
         if (last_trial_data.select('acc').values[0] > 0) {
-            var prompt = "correct, your reaction time was " + Math.round(last_trial_data.select('rt').values[0]) + " ms";
+            var stimulus = "correct, your reaction time was " + Math.round(last_trial_data.select('rt').values[0]) + " ms";
         } else {
             if (last_trial_data.select('key_press').values[0]) {
-                var prompt = "wrong";
+                var stimulus = "wrong";
             } else {
-                var prompt = "respond faster";
+                var stimulus = "respond faster";
             }
         }
-        return generate_html(prompt, font_colour, 25);
+        return generate_html(stimulus, font_colour, 25);
     },
     choices: jsPsych.NO_KEYS,
     trial_duration: feedback_duration,
     data: { event: "feedback" },
-    post_trial_gap: function () { return current_iti },
+    post_trial_gap: 500
 }
 
 var trial_sequence = {
@@ -110,11 +125,35 @@ var trial_sequence = {
     timeline_variables: stimuli_shuffled,
 };
 
-
+// create experiment timeline
+var timeline = [];
+const html_path = "../../tasks/flanker/consent.html";
+timeline = create_consent(timeline, html_path);
+timeline = check_same_different_person(timeline);
 timeline.push(instructions, trial_sequence);
+timeline = create_demographics(timeline);
+
+// run experiment
 jsPsych.init({
     timeline: timeline,
-    on_finish: function() {
-        jsPsych.data.displayData();
+    on_finish: function () {
+        document.body.style.backgroundColor = 'white';
+        // var datasummary = create_datasummary();
+
+        jsPsych.data.get().addToAll({
+            total_time: jsPsych.totalTime() / 60000,
+        });
+        jsPsych.data.get().first(1).addToAll({
+            info_: info_,
+            // datasummary: datasummary,
+        });
+        if (debug) {
+            jsPsych.data.displayData();
+        }
+
+        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
+        info_.current_task_completed = 1;
+        localStorage.setObj('info_', info_); // save to localStorage
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url);
     }
 });

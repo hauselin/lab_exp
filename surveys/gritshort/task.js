@@ -87,7 +87,7 @@ jsPsych.init({
         var datasummary = summarize_data();
 
         jsPsych.data.get().addToAll({ 
-            total_time: datasummary.total_time,
+            total_time: jsPsych.totalTime() / 60000,
         });
         jsPsych.data.get().first(1).addToAll({ 
             info_: info_,

@@ -175,7 +175,7 @@ jsPsych.init({
         var datasummary = summarize_data(); 
 
         jsPsych.data.get().addToAll({ // add parameters to all trials
-            total_time: datasummary.total_time,
+            total_time: jsPsych.totalTime() / 60000,
             auc: datasummary.auc,
             stimuli_sides: stimuli_sides
         });
