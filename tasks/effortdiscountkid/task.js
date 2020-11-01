@@ -9,12 +9,9 @@ const taskinfo = {
 var info_ = create_info_(taskinfo);
 
 const debug = false;  // debug mode to print messages to console and display json data at the end
-const black_background = false; // if true, white text on black background
-var font_colour = 'black';
-if (black_background) {
-    document.body.style.backgroundColor = "black";
-    var font_colour = 'white';
-}
+var font_colour = "black";
+var background_colour = "white";
+set_colour(font_colour, background_colour);
 
 // TASK PARAMETERS
 var stars = 25;
@@ -228,8 +225,8 @@ function get_auc() {    //note that this area is an underestimation of the hyper
 function helperfunction(obj_count, emoji) {
     var val = "";
     for (i=0; i<obj_count; i++) {
-        val += "<div class=obj style=border-radius:10px;padding:20px;font-size:150%;>" + emoji + "</div>";
-        // val += "<div>" + emoji + "</div>";
+        // val += "<div class=obj style=border-radius:10px;padding:20px;font-size:150%;>" + emoji + "</div>";
+        val += "<div>" + emoji + "</div>";
         console.log(val.length);
     }
     return val ;
@@ -240,7 +237,7 @@ function gridCreator(stars_1, aliens_1, stars_2, aliens_2, star, alien) {
     return "<div class=options style=display:grid;grid-template-columns:repeat(2,300px);>" + 
                 "<div class=option_1 style=display:grid;grid-gap:1px;grid-template-columns:repeat(5,30px);grid-template-rows:repeat(5,30px);margin:auto;>" + 
                 helperfunction(stars_1, star) + helperfunction(aliens_1, alien) + "</div>" +
-                "<div class=option_2 style=display:grid;grid-gap:1px;grid-template-columns:repeat(5,30px);grid-template-rows:repeat(5,30px);margin:auto;>" + // TODO: Frank pls fix this!! :)
+                "<div class=option_2 style=display:grid;grid-gap:1px;grid-template-columns:repeat(5,30px);grid-template-rows:repeat(5,30px);margin:auto;margin-top:0>" + // TODO: Frank pls fix this!! :)
                 helperfunction(stars_2, star) + helperfunction(aliens_2, alien) + "</div> </div>"
 
 }

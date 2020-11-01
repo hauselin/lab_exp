@@ -42,8 +42,8 @@ var instructions = {
 };
 
 var stimuli_unique = [  // unique flanker trials
-    { data: { prompt: '>><b>></b>>>', answer: 'rightarrow', n_right: 4, n_left: 0, reps: 2 } },
-    { data: { prompt: '<<<b><</b><<', answer: 'leftarrow', n_right: 0, n_left: 4, reps: 2 } },
+    { data: { prompt: '>>>>>', answer: 'rightarrow', n_right: 4, n_left: 0, reps: 2 } },
+    { data: { prompt: '<<<<<', answer: 'leftarrow', n_right: 0, n_left: 4, reps: 2 } },
 ];
 
 var stimuli_repetitions = [];
