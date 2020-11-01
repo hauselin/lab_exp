@@ -10,8 +10,8 @@ const taskinfo = {
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 
 const debug = false;
-var font_colour = "white";
-var background_colour = "black";
+var font_colour = "black";
+var background_colour = "white";
 set_colour(font_colour, background_colour);
 
 // DEFINE TASK PARAMETERS (required)
