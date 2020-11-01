@@ -105,8 +105,15 @@ router.get("/surveys/gritshort/viz", function (req, res) {
 router.get("/surveys/bigfiveaspect/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'bigfiveaspect' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
         var data_array = [];
+        var matrix_array = [];
         data.map(function (i) {
             data_array.push(i.datasummary);
+            temp_data = i.datasummary.filter(i => i.param == 'subscale2');
+            temp_matrix = {};
+            for (i = 0; i < temp_data.length; i++) {
+                temp_matrix[temp_data[i].subscale] = temp_data[i].value;
+            }
+            matrix_array.push(temp_matrix);
         });
         data_array = data_array.flat(1);  // flatten objects in array
 
@@ -122,7 +129,7 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
             return { country_code: i[0], country: i[1].country, value: i[1].value }
         });
 
-        res.render('viz/bigfiveaspect.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req) });
+        res.render('viz/bigfiveaspect.ejs', { data_array: data_array, matrix_array: matrix_array, country_array: country_array, parent_path: helper.getParentPath(req) });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);

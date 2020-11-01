@@ -300,6 +300,7 @@
         // data from database
         const data_array = <%- JSON.stringify(data_array) %>;
         const country_array = <%- JSON.stringify(country_array) %>;
+        const matrix_array = <%- JSON.stringify(matrix_array) %>;
         const link = window.location.origin + <%- JSON.stringify(parent_path) %> + '/viz';
 
         // get subject_id from localStorage (null if doesn't exist)
@@ -411,11 +412,11 @@
             config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
             repeat: {
-                row: ["Openness", "Conscientiousness", "Extroversion", "Agreeableness", "Neuroticism"],
-                column: ["Openness", "Conscientiousness", "Extroversion", "Agreeableness", "Neuroticism"]
+                row: ["openness", "conscientiousness", "extroversion", "agreeableness", "neuroticism"],
+                column: ["openness", "conscientiousness", "extroversion", "agreeableness", "neuroticism"]
             },
             spec: {
-                data: { values: data_array },
+                data: { values: matrix_array },
                 mark: "point",
                 selection: {
                     brush: {
