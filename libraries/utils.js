@@ -2382,8 +2382,25 @@ function create_demographics(timeline) {
         }
     }
 
+    var ages = Array.from(Array(100).keys());
+    ages.shift();
+    var select_age = {
+        type: 'survey-text-dropdown',
+        question: [
+            {
+                prompt: 'What is your age?',
+                options: ages,
+                name: 'age'
+            }
+        ],
+        required: true,
+        on_finish: function (data) {
+            info_.demographics.age = data.value;
+        }
+    }
+
     if (!localStorage.getObj("info_").demographics.country) {
-        timeline = timeline.concat([select_country, select_country_associated, select_language, select_religion, select_ethnicity, select_gender, select_handedness]);
+        timeline = timeline.concat([select_country, select_country_associated, select_language, select_religion, select_ethnicity, select_gender, select_handedness, select_age]);
     }
     return timeline;
 }
