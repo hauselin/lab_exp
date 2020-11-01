@@ -418,45 +418,56 @@
 
 
 
-    <!-- Subscale matrix -->
+    <!-- Openness density -->
     <script type="text/javascript" defer>
 
-        var subscale_matrix = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
-            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+        var openness_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
-            repeat: {
-                row: ["openness", "conscientiousness", "extroversion", "agreeableness", "neuroticism"],
-                column: ["openness", "conscientiousness", "extroversion", "agreeableness", "neuroticism"]
-            },
-            spec: {
-                data: { values: matrix_array },
-                mark: "point",
-                selection: {
-                    brush: {
-                        type: "interval",
-                        resolve: "union",
-                        on: "[mousedown[event.shiftKey], window:mouseup] > window:mousemove!",
-                        translate: "[mousedown[event.shiftKey], window:mouseup] > window:mousemove!",
-                        zoom: "wheel![event.shiftKey]"
-                    },
-                    grid: {
-                        type: "interval",
-                        resolve: "global",
-                        bind: "scales",
-                        translate: "[mousedown[!event.shiftKey], window:mouseup] > window:mousemove!",
-                        zoom: "wheel![!event.shiftKey]"
+            layer: [
+                {
+                    data: { values: data_array.filter(x => x.subscale == 'openness') },
+                    transform: [{ density: "value" }],
+                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
+                    encoding: {
+                        x: {
+                            type: "quantitative",
+                            field: "value",
+                            title: "Openness",
+                            scale: {}
+                        },
+                        y: {
+                            type: "quantitative",
+                            field: "density",
+                            title: "Frequency (density)",
+                        },
+                        color: { value: "#38405C", type: "quantitative" },
+                        tooltip: [
+                            { field: 'value', format: ".0f", title: 'Openness', type: "quantitative" },
+                            { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
                     }
                 },
-                encoding: {
-                    x: { "field": { "repeat": "column" }, "type": "quantitative" },
-                    y: {
-                        field: { "repeat": "row" },
-                        type: "quantitative",
-                        axis: { "minExtent": 30 }
+                {
+                    data: (function () { // anonymous function
+                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
+                            return { values: subject_data.filter(i => i.subscale == "openness") };
+                        } else {  // don't draw vertical rule
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: { type: "rule", opacity: 0.7 },
+                    encoding: {
+                        x: { aggregate: "mean", field: "value", type: "quantitative" },
+                        color: { value: "#38405C", type: "quantitative" },
+                        size: { value: 3 },
+                        tooltip: [
+                            { field: 'value', format: ".0f", title: 'Your openness', type: "quantitative" }]
                     },
                 }
-            }
+            ],
+            width: 500,
+            height: 400,
         };
 
     </script>
@@ -553,7 +564,7 @@
             }, "complete": function (error) {
                 vegaEmbed('#vis1', subscale_radial, { actions: { source: false, compiled: false, editor: false } });
                 vegaEmbed('#vis2', subscale_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
-                vegaEmbed('#vis3', subscale_matrix, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis3', openness_density, { actions: { source: false, compiled: false, editor: false } });
                 vegaEmbed('#vis4', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
             }
         }, 3000);
