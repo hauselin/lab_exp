@@ -442,7 +442,7 @@
             encoding: {
                 theta: { aggregate: "median", field: "value", type: "quantitative", stack: true },
                 radius: { aggregate: "median", field: "value", scale: { type: "sqrt", zero: true, rangeMin: 20 } },
-                color: { field: "subscale", type: "nominal", legend: {} }
+                color: { field: "subscale", type: "nominal", legend: {title: null} }
             },
             view: { stroke: null },
         };
