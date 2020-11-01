@@ -411,6 +411,7 @@
         var subscale_matrix = {
             config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
             repeat: {
                 row: ["openness", "conscientiousness", "extroversion", "agreeableness", "neuroticism"],
                 column: ["openness", "conscientiousness", "extroversion", "agreeableness", "neuroticism"]
@@ -422,16 +423,16 @@
                     brush: {
                         type: "interval",
                         resolve: "union",
-                        // on: "[mousedown[event.shiftKey], window:mouseup] > window:mousemove!",
-                        // translate: "[mousedown[event.shiftKey], window:mouseup] > window:mousemove!",
-                        // zoom: "wheel![event.shiftKey]"
+                        on: "[mousedown[event.shiftKey], window:mouseup] > window:mousemove!",
+                        translate: "[mousedown[event.shiftKey], window:mouseup] > window:mousemove!",
+                        zoom: "wheel![event.shiftKey]"
                     },
                     grid: {
                         type: "interval",
                         resolve: "global",
                         bind: "scales",
-                        // translate: "[mousedown[!event.shiftKey], window:mouseup] > window:mousemove!",
-                        // zoom: "wheel![!event.shiftKey]"
+                        translate: "[mousedown[!event.shiftKey], window:mouseup] > window:mousemove!",
+                        zoom: "wheel![!event.shiftKey]"
                     }
                 },
                 encoding: {
@@ -441,14 +442,6 @@
                         type: "quantitative",
                         axis: { "minExtent": 30 }
                     },
-                    // color: {
-                    //     condition: {
-                    //         selection: "brush",
-                    //         field: "Origin",
-                    //         type: "nominal"
-                    //     },
-                    //     value: "grey"
-                    // }
                 }
             }
         };
