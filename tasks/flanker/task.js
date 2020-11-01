@@ -9,6 +9,16 @@ const taskinfo = {
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 
+const debug = false;
+var font_colour = "white";
+var background_colour = "black";
+set_colour(font_colour, background_colour);
+
+// DEFINE TASK PARAMETERS (required)
+var rt_deadline = 1500;
+var feedback_duration = 1500;
+var itis = iti_exponential(low = 300, high = 800);
+
 jsPsych.data.addProperties({
     subject: info_.subject,
     type: taskinfo.type,
@@ -20,15 +30,7 @@ jsPsych.data.addProperties({
 // create experiment timeline
 var timeline = [];
 
-const debug = false;
-var font_colour = "white";
-var background_colour = "black";
-set_colour(font_colour, background_colour);
-
-// DEFINE TASK PARAMETERS (required)
-var rt_deadline = 1500;
-var feedback_duration = 1500;
-var itis = iti_exponential(low = 300, high = 800);
+var n_trial = 0;
 
 var instructions = {
     type: "instructions",
@@ -68,6 +70,7 @@ var stimulus = {
     on_finish: function (data) {
         data.event = stimulus_event;
         data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press);
+        data.n_trial = n_trial;
         data.n_right = jsPsych.timelineVariable('data', true).n_right;
         data.n_left = jsPsych.timelineVariable('data', true).n_left;
         if (data.key_press == correct_key) {
@@ -75,7 +78,9 @@ var stimulus = {
         } else {
             data.acc = 0;
         };
+        n_trial += 1;
         current_iti = random_choice(itis);
+        data.iti = current_iti;
     }
 }
 
@@ -97,12 +102,12 @@ var feedback = {
     choices: jsPsych.NO_KEYS,
     trial_duration: feedback_duration,
     data: { event: "feedback" },
-    post_trial_gap: function () { return current_iti },  // present iti after one timeline/trial
+    post_trial_gap: function () { return current_iti },
 }
 
 var trial_sequence = {
-    timeline: [stimulus, feedback], // one timeline/trial has these objects
-    timeline_variables: stimuli_shuffled, // the above timeline/trial is repeated stimuli_shuffled.length times
+    timeline: [stimulus, feedback],
+    timeline_variables: stimuli_shuffled,
 };
 
 
