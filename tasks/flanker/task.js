@@ -40,8 +40,8 @@ var instructions = {
 };
 
 var stimuli_unique = [  // unique flanker trials
-    { data: { prompt: '>>>>>', answer: 'rightarrow', n_right: 4, n_left: 0, reps: 2 } },
-    { data: { prompt: '<<<<<', answer: 'leftarrow', n_right: 0, n_left: 4, reps: 2 } },
+    { data: { prompt: '>><b>></b>>>', answer: 'rightarrow', n_right: 4, n_left: 0, reps: 2 } },
+    { data: { prompt: '<<<b><</b><<', answer: 'leftarrow', n_right: 0, n_left: 4, reps: 2 } },
 ];
 
 var stimuli_repetitions = [];
@@ -49,11 +49,11 @@ stimuli_unique.forEach(function (item) {
     stimuli_repetitions.push(item.data.reps);})
 var stimuli_shuffled = jsPsych.randomization.repeat(stimuli_unique, stimuli_repetitions);  // repeat and shuffle
 
-var correct_key = '';
+var correct_key = ''; // correct key on each trial
 var current_iti = 0; // iti on each trial
 var stimulus = {
     type: "html-keyboard-response",
-    // choices: [37, 39],
+    choices: [37, 39],
     stimulus: function () {
         var prompt = jsPsych.timelineVariable('data', true).prompt;
         correct_key = jsPsych.timelineVariable('data', true).answer;
@@ -62,8 +62,14 @@ var stimulus = {
     },
     trial_duration: function () { return rt_deadline; },
     data: jsPsych.timelineVariable('data'),
+    on_start: function () {
+        stimulus_event = 'stimulus';
+    },
     on_finish: function (data) {
+        data.event = stimulus_event;
         data.key_press = jsPsych.pluginAPI.convertKeyCodeToKeyCharacter(data.key_press);
+        data.n_right = jsPsych.timelineVariable('data', true).n_right;
+        data.n_left = jsPsych.timelineVariable('data', true).n_left;
         if (data.key_press == correct_key) {
             data.acc = 1;
         } else {
