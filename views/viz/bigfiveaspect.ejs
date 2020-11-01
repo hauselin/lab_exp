@@ -137,7 +137,7 @@
                     <div class="col-auto col-xl-6">
                         <div class="row justify-content-center">
                             <div class="col-xl-10 col-lg-11 ml-auto">
-                                <span class="badge badge-primary">Area-under-curve</span>
+                                <span id="no-data-tag1" class="badge badge-primary"></span>
                                 <div class="my-2">
                                     <span class="h4">Devaluation or discounting summary</span>
                                 </div>
@@ -257,7 +257,7 @@
         
         // get subject_id from localStorage (null if doesn't exist)
         // subject_id and time will be used to filter arrays for plotting subject data
-        var subject_id = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 1);
+        var subject_id = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 2);
 
         if (subject_id) {
             // compute/add percentile
@@ -267,13 +267,13 @@
     </script>
 
 
-    <!-- Mean response density -->
+    <!-- Subscale response density -->
     <script type="text/javascript" defer>
 
-        var mean_density = {
+        var subscale_density = {
             config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
-            width: 500,
+            width: 480,
             height: 80,
             data: { values: data_array.filter(i => ['neuroticism', 'openness', 'conscientiousness', 'agreeableness', 'extraversion'].includes(i.subscale)) },
             mark: "area",
@@ -448,7 +448,7 @@
             "fontLoaded": function (f) {
                 console.log("font loaded: " + f.family);
             }, "complete": function (error) {
-                vegaEmbed('#vis1', mean_density, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis1', subscale_density, { actions: { source: false, compiled: false, editor: false } });
                 vegaEmbed('#vis2', subscale_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
                 vegaEmbed('#vis3', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
             }
