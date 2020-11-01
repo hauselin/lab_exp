@@ -5,9 +5,9 @@ const d3 = require("d3-array");
 const helper = require('../routes/helpers/helpers');
 
 router.get("/tasks/delaydiscount/viz", function (req, res) {
-    DataLibrary.find({ uniquestudyid: 'delaydiscount' }, {}, { sort: { time: -1 }, limit: 1000}).lean().then(data => {
+    DataLibrary.find({ uniquestudyid: 'delaydiscount' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
 
-        const keys2select = ['subject', 'uniquesubjectid', 'event', 'cost', 'large_reward', 'small_reward', 'n_trial', 'n_trial_overall', 'indifference', 'indifference_ratio', 'auc', 'country', 'country_code', 'time'];  
+        const keys2select = ['subject', 'uniquesubjectid', 'event', 'cost', 'large_reward', 'small_reward', 'n_trial', 'n_trial_overall', 'indifference', 'indifference_ratio', 'auc', 'country', 'country_code', 'time'];
         const n_trial_max = 5; // final indifference per cost (depends on task parameters)
 
         var data_array = [];
@@ -20,7 +20,7 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
         data_array = data_array.flat(1);  // flatten objects in array
 
         // average values per country (for choropleth)
-        country_array = d3.rollups(data_array, 
+        country_array = d3.rollups(data_array,
             function (v) {
                 return {
                     median_auc: d3.median(v, d => d.auc),  // median auc
@@ -31,10 +31,10 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
             d => d.country_code);  // by country code
         // console.log(country_array);  // nested data
         country_array = Array.from(country_array, function (i) {  // unnest data
-            return { country_code: i[0], country_name: i[1].country_name, median_auc: i[1].median_auc}
+            return { country_code: i[0], country_name: i[1].country_name, median_auc: i[1].median_auc }
         })
 
-        res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req)});
+        res.render('viz/delaydiscount.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req) });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);
@@ -42,7 +42,7 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
 });
 
 router.get("/tasks/stroop/viz", function (req, res) {
-    DataLibrary.find({ uniquestudyid: 'stroop' }, {}, { sort: { time: -1 }, limit: 1000}).lean().then(data => {
+    DataLibrary.find({ uniquestudyid: 'stroop' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
         var data_array = [];
         data.map(function (i) {  // map/loop through each document to get relevant data
             var temp_data = i.datasummary; // get datasummary
@@ -67,7 +67,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
             return { country_code: i[0], country: i[1].country, rt_interference: i[1].rt_interference }
         })
 
-        res.render('viz/stroop.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req)} );
+        res.render('viz/stroop.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req) });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);
@@ -89,12 +89,47 @@ router.get("/surveys/gritshort/viz", function (req, res) {
                     country: d3.min(v, d => d.country)
                 }
             },
-            d => d.country_code); 
+            d => d.country_code);
         country_array = Array.from(country_array, function (i) {  // unnest data
             return { country_code: i[0], country: i[1].country, value: i[1].value }
         });
-        
-        res.render('viz/gritshort.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req)});
+
+        res.render('viz/gritshort.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req) });
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send(err);
+    });
+});
+
+
+router.get("/surveys/bigfiveaspect/viz", function (req, res) {
+    DataLibrary.find({ uniquestudyid: 'bigfiveaspect' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
+        var data_array = [];
+        var matrix_array = [];
+        data.map(function (i) {
+            data_array.push(i.datasummary);
+            temp_data = i.datasummary.filter(i => i.param == 'subscale2');
+            temp_matrix = {};
+            for (i = 0; i < temp_data.length; i++) {
+                temp_matrix[temp_data[i].subscale] = temp_data[i].value;
+            }
+            matrix_array.push(temp_matrix);
+        });
+        data_array = data_array.flat(1);  // flatten objects in array
+
+        country_array = d3.rollups(data_array,
+            function (v) {
+                return {
+                    value: d3.median(v, d => d.value),
+                    country: d3.min(v, d => d.country)
+                }
+            },
+            d => d.country_code);
+        country_array = Array.from(country_array, function (i) {  // unnest data
+            return { country_code: i[0], country: i[1].country, value: i[1].value }
+        });
+
+        res.render('viz/bigfiveaspect.ejs', { data_array: data_array, matrix_array: matrix_array, country_array: country_array, parent_path: helper.getParentPath(req) });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);

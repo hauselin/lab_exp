@@ -166,7 +166,7 @@ timeline.push(instructions);
 timeline.push(practice_trial);
 timeline.push(instructions2);
 timeline.push(trial);
-timeline = create_demographics(timeline);
+timeline = create_demographics(timeline, [7,8]);
 
 jsPsych.init({
     timeline: timeline,

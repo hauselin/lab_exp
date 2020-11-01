@@ -2274,7 +2274,7 @@ var race_and_ethnicities = [
 
 
 
-function create_demographics(timeline) {
+function create_demographics(timeline, section=null) {
     var select_country = {
         on_start: function () {
             document.body.style.backgroundColor = "white";
@@ -2382,8 +2382,30 @@ function create_demographics(timeline) {
         }
     }
 
+    var ages = Array.from(Array(100).keys());
+    ages.shift();
+    var select_age = {
+        type: 'survey-text-dropdown',
+        question: [
+            {
+                prompt: 'What is your age?',
+                options: ages,
+                name: 'age'
+            }
+        ],
+        required: true,
+        on_finish: function (data) {
+            info_.demographics.age = data.value;
+        }
+    }
+
     if (!localStorage.getObj("info_").demographics.country) {
-        timeline = timeline.concat([select_country, select_country_associated, select_language, select_religion, select_ethnicity, select_gender, select_handedness]);
+        demographics_timeline = [select_country, select_country_associated, select_language, select_religion, select_ethnicity, select_gender, select_handedness, select_age]
+        if (!section) {
+            timeline = timeline.concat(demographics_timeline);
+        } else {
+            timeline = timeline.concat(demographics_timeline.slice(section[0], section[1]));
+        }
     }
     return timeline;
 }

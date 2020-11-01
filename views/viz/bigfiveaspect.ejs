@@ -1,0 +1,555 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Anthrope</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../../public/assets/css/loaders/loader-typing.css" rel="stylesheet" type="text/css" media="all" />
+    <script src="../../libraries/utils.js"></script>
+    <script src="../../libraries/FontLoader.js"></script>
+    <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
+        crossorigin="anonymous">
+
+    <link href="../../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
+
+    <!-- load vegalite libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/vega@5.12.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.13.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.8.0"></script>
+</head>
+
+<body class="is-preload">
+    <%- include('../partials/menu_bar_viz') %>
+
+    <!-- main section text  -->
+    <section class="bg-primary-alt header-inner o-hidden pt-7">
+        <div class="container">
+            <div class="row py-6 text-center justify-content-center align-items-center layer-2">
+                <div class="col-xl-8 col-lg-10">
+                    <h1 class="display-4">How gritty are you?</h1>
+                    <p id="no-data-text" class="lead mb-1"></p><br>
+                    <p class="lead mb-0">The grit questionnaire measures your <a
+                            href="https://en.wikipedia.org/wiki/Time_preference" target="_blank">time preference</a>. It
+                        measures how much you value or devalue a good that is available only in the future. It's
+                        associated with people's ability to delay gratification and save for the future.<br><br>
+                        Check out the interactive results below and help spread the word.</p><br>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.anthrope.me"
+                        target="_blank"><img class="share-button"
+                            src="../../public/assets/img/icons/social/facebook.svg" data-inject-svg /></a>
+                    <a href="https://twitter.com/intent/tweet?text=Check%20out%20@anthrope_me%20https://www.anthrope.me"
+                        target="_blank"><img class="share-button" src="../../public/assets/img/icons/social/twitter.svg"
+                            data-inject-svg /></a>
+                    <a href="" onclick="copyURI(event,link)"><img class="share-button"
+                            src="../../public/assets/img/icons/theme/general/clipboard.svg" data-inject-svg /></a>
+                    <br><br>
+                </div>
+            </div>
+        </div>
+        <div class="divider layer-1">
+            <img src="../../public/assets/img/dividers/divider-2.svg" alt="graphical divider" data-inject-svg />
+        </div>
+    </section>
+
+    <!-- main/first figure id="vis1"  -->
+    <section>
+        <div class="container">
+
+            <div class="row align-items-center justify-content-around">
+
+                <div class="col-auto col-xl-6">
+                    <div id="vis1" class="center"></div>
+                </div>
+
+                <div class="col-auto col-xl-6">
+                    <div class="row justify-content-center">
+                        <div class="col-xl-10 col-lg-11">
+                            <span id="no-data-tag0" class="badge badge-primary"></span>
+                            <div class="my-2">
+                                <span class="h4">Response value distribution of the big five personality traits</span>
+                            </div>
+                            <p class="lead">Assume you'll receive $1 the future—this value is the maximum value on the
+                                y-axis. This boxplot suggests that the more days you have to wait before you receive $1,
+                                the more you devalue or discount that $1. The longer you have to wait, the more its <a
+                                    href="https://en.wikipedia.org/wiki/Subjective_theory_of_value"
+                                    target="_blank">subjective value</a> drops.</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- next section -->
+    <!-- icons reference: https://leap.mediumra.re/elements-icons-reference.html -->
+    <section class="pt-0 has-divider">
+        <div class="container pt-1">
+            <div class="row mb-4" data-aos="fade-up">
+                <div class="col">
+                    <h2>What do these results mean?</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/zoom-plus.svg"
+                        alt="zoom-plus icon" data-inject-svg />
+                    <div class="ml-3">
+                        <h5>Self-control and impulsivity</h5>
+                        <p>
+                            Those who devalue future rewards more are likely to have less self-control and be more
+                            impulsive. Try the <a href="#">self-control</a> or <a href="/surveys/gritshort">grit</a>
+                            scale.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
+                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/zoom-plus.svg"
+                        alt="zoom-plus icon" data-inject-svg />
+                    <div class="ml-3">
+                        <h5>Other types of discounting</h5>
+                        <p>
+                            Discounting of future rewards is related to other kinds of discounting behavior. Try <a
+                                href="#"">another discounting task</a> now.
+                        </p>
+                    </div>
+                </div>
+                <div class=" col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
+                                <img class="icon icon-md bg-primary"
+                                    src="../../public/assets/img/icons/theme/design/zoom-plus.svg" alt="zoom-plus icon"
+                                    data-inject-svg />
+                                <div class="ml-3">
+                                    <h5>Time preferences</h5>
+                                    <p>
+                                        How much you devalue future rewards depends on your temporal or time
+                                        preferences. Take the <a href="#">time preferences</a> survey to find out more.
+                                    </p>
+                                </div>
+                    </div>
+                </div>
+            </div>
+            <div class="divider">
+                <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
+                    data-inject-svg />
+            </div>
+    </section>
+
+
+    <section class="bg-primary-alt viz-subsections">
+        <div class="container">
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-10 col-xl-8 text-center">
+                    <h2 class="h1">More visualizations</h2>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-auto col-xl-6">
+                        <div id="vis2" class="center"></div>
+                    </div>
+
+                    <div class="col-auto col-xl-6">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11 ml-auto">
+                                <span id="no-data-tag1" class="badge badge-primary"></span>
+                                <div class="my-2">
+                                    <span class="h4">Devaluation or discounting summary</span>
+                                </div>
+                                <p id="percentile" class="lead mb-2"></p>
+                                <p class="lead">
+                                    This area-under-curve (AUC) metric summarizes the results from the figure above as a
+                                    single value. 1 implies no discounting at all, and 0 implies maximum discounting,
+                                    where all future rewards are worthless.
+                                </p>
+                                <p class="lead">Larger AUC values are associated with better self-control and life
+                                    outcomes.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-auto col-xl-6">
+                        <div id="vis3" class="center"></div>
+                    </div>
+                    <div class="col-auto col-xl-6">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11 ml-auto">
+                                <span class="badge badge-primary">Response matrix</span>
+                                <div class="my-2">
+                                    <span class="h4">Discounting across the globe</span>
+                                </div>
+                                <p class="lead">People in different countries and cultures differ in how much they care
+                                    about or devalue future rewards. Brighter regions indicate less discounting or
+                                    impulsivity.</p>
+                                <p class="lead">If you find the results interesting, tell your friends from other
+                                    countries to complete this task.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-auto col-xl-6">
+                        <div id="vis4" class="center"></div>
+                    </div>
+                    <div class="col-auto col-xl-6">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11 ml-auto">
+                                <span class="badge badge-primary">Global choropleth</span>
+                                <div class="my-2">
+                                    <span class="h4">Discounting across the globe</span>
+                                </div>
+                                <p class="lead">People in different countries and cultures differ in how much they care
+                                    about or devalue future rewards. Brighter regions indicate less discounting or
+                                    impulsivity.</p>
+                                <p class="lead">If you find the results interesting, tell your friends from other
+                                    countries to complete this task.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+
+    <!-- final section: link to other tasks -->
+    <section>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-10">
+
+                    <h2 class="mb-4">Curious? Complete another one.</h2>
+                    <div class="row no-gutters mb-3 d-none d-md-flex py-0">
+                        <div class="col-xl-8 col-lg-7 col-md-6">
+                            <span class="text-small text-muted"></span>
+                        </div>
+                        <div class="col">
+                            <span class="text-small text-muted">Estimated time</span>
+                        </div>
+                    </div>
+
+                    <div class="list-group list-group-flush">
+                        <a href="/tasks/stroop" class="list-group-item list-group-item-action row no-gutters">
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <h5 class="mb-0">Attention and cognitive control</h5>
+                            </div>
+                            <div class="col-md">
+                                <span>5-8 min</span>
+                            </div>
+                        </a>
+                        <a href="/surveys/gritshort" class="list-group-item list-group-item-action row no-gutters py-2">
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <h5 class="mb-0">How gritty are you?</h5>
+                            </div>
+                            <div class="col-md">
+                                <span>1-3 min</span>
+                            </div>
+                        </a>
+                        <a href="/surveys/bigfiveaspect/"
+                            class="list-group-item list-group-item-action row no-gutters py-2">
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <h5 class="mb-0">Big-five personality traits</h5>
+                            </div>
+                            <div class="col-md">
+                                <span>5-10 min</span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <span class="d-block mt-4"><a href="/tasks" class="hover-arrow">See more tasks</a>
+                    </span>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- specify vegalite figures below -->
+
+    <script type="text/javascript">
+        // data from database
+        const data_array = <%- JSON.stringify(data_array) %>;
+        const country_array = <%- JSON.stringify(country_array) %>;
+        const matrix_array = <%- JSON.stringify(matrix_array) %>;
+        const link = window.location.origin + <%- JSON.stringify(parent_path) %> + '/viz';
+
+        // get subject_id from localStorage (null if doesn't exist)
+        // subject_id and time will be used to filter arrays for plotting subject data
+        var subject_id = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 2);
+
+        if (subject_id) {
+            // compute/add percentile
+            var subject_data = data_array.filter(i => i.subject == subject_id);
+            var latest_entry_time = Math.max(...subject_data.map(i => i.time));
+        }
+    </script>
+
+
+    <!-- Subscale response density -->
+    <script type="text/javascript" defer>
+
+        var subscale_density = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            width: 480,
+            height: 80,
+            data: { values: data_array.filter(i => i.param == "subscale2") },
+            mark: "area",
+            transform: [
+                {
+                    density: "value",
+                    groupby: ['subscale'],
+                }
+            ],
+            encoding: {
+                x: { field: "value", type: "quantitative", title: "Value" },
+                y: { field: "density", type: "quantitative", stack: "zero", title: "Density" },
+                row: { field: 'subscale' }
+            }
+        };
+
+    </script>
+
+
+
+
+
+
+    <!-- Subscale box plot -->
+    <script type="text/javascript" defer>
+
+        var subscale_boxplot = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            layer: [
+                {
+                    data: { values: data_array },
+                    mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
+                    encoding: {
+                        y: {
+                            field: "value",
+                            type: "quantitative",
+                            axis: { "title": "Response" },
+                            // scale: { domain: [0, 7] }
+                        },
+                        x: {
+                            field: "subscale",
+                            type: "nominal",
+                            axis: null,
+                        },
+                        size: { value: 18 },
+                        color: { field: "subscale", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
+                        tooltip: [
+                            { field: 'value', type: "quantitative", format: '.1f', title: "Response", aggregate: "mean" }
+                        ]
+                    }
+                },
+                {
+                    // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
+                    data: (function () { // anonymous function
+                        if (subject_id) {
+                            return { values: data_array.filter(i => i.subject == subject_id && i.time == latest_entry_time) };
+                        } else {  // don't draw vertical rule
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
+                    encoding: {
+                        x: {
+                            field: "subscale",
+                            type: "nominal",
+                        },
+                        y: { field: "value", type: "quantitative" },
+                        size: { value: 150 },
+                        tooltip: [{ field: "value", format: ".1f", title: 'Your response', type: "quantitative" }] // format tooltip
+                    },
+                }
+            ],
+            width: 500,
+            height: 400,
+        };
+
+    </script>
+
+
+
+
+    <!-- Subscale matrix -->
+    <script type="text/javascript" defer>
+
+        var subscale_matrix = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            repeat: {
+                row: ["openness", "conscientiousness", "extroversion", "agreeableness", "neuroticism"],
+                column: ["openness", "conscientiousness", "extroversion", "agreeableness", "neuroticism"]
+            },
+            spec: {
+                data: { values: matrix_array },
+                mark: "point",
+                selection: {
+                    brush: {
+                        type: "interval",
+                        resolve: "union",
+                        on: "[mousedown[event.shiftKey], window:mouseup] > window:mousemove!",
+                        translate: "[mousedown[event.shiftKey], window:mouseup] > window:mousemove!",
+                        zoom: "wheel![event.shiftKey]"
+                    },
+                    grid: {
+                        type: "interval",
+                        resolve: "global",
+                        bind: "scales",
+                        translate: "[mousedown[!event.shiftKey], window:mouseup] > window:mousemove!",
+                        zoom: "wheel![!event.shiftKey]"
+                    }
+                },
+                encoding: {
+                    x: { "field": { "repeat": "column" }, "type": "quantitative" },
+                    y: {
+                        field: { "repeat": "row" },
+                        type: "quantitative",
+                        axis: { "minExtent": 30 }
+                    },
+                }
+            }
+        };
+
+    </script>
+
+
+
+
+    <!-- Global response mean choropleth -->
+    <script defer>
+        var global_mean_plot = {
+            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: { stroke: "transparent" } },
+            background: "#f3f5fb",
+            width: 600,
+            height: 400,
+            layer: [
+                {
+                    data: {
+                        url: "../../public/data/countries-110m.json",
+                        format: {
+                            type: "topojson",
+                            feature: "countries"
+                        }
+                    },
+                    projection: {
+                        type: "mercator", scale: 98, center: [0, 40]
+                    },
+                    mark: {
+                        type: "geoshape",
+                        fill: "#080808",
+                        stroke: "white"
+                    },
+                    encoding: {
+                        tooltip: { field: "properties.name", title: "Country", type: "nominal" }
+                    }
+                },
+                {
+                    data: {
+                        url: "../../public/data/countries-110m.json",
+                        format: {
+                            type: "topojson",
+                            feature: "countries"
+                        }
+                    },
+                    transform: [
+                        {
+                            lookup: "id",
+                            from: {
+                                data: { values: country_array },
+                                key: "country_code",
+                                fields: ["value", "country"]
+                            },
+                        }
+                    ],
+                    projection: {
+                        type: "mercator", scale: 98, center: [0, 40]
+                    },
+                    mark: {
+                        type: "geoshape",
+                    },
+                    encoding: {
+                        color: {
+                            field: "value",
+                            type: "quantitative",
+                            scale: { scheme: "viridis" },
+                            legend: { title: null, direction: "horizontal", orient: "bottom-left" }
+                        },
+                        tooltip: [
+                            {
+                                field: "country",
+                                title: "Country",
+                                type: "nominal"
+                            },
+                            {
+                                field: "value",
+                                title: "Mean response",
+                                type: "quantitative",
+                                format: ".1f"
+                            },
+                        ]
+                    }
+                }
+            ]
+        };
+
+    </script>
+
+    <!--show vegalite figures-->
+    <script>
+        // show vegalite figures only after font is loaded
+        var fontLoader = new FontLoader(['Inter-UI-upright'], {
+            "fontLoaded": function (f) {
+                console.log("font loaded: " + f.family);
+            }, "complete": function (error) {
+                vegaEmbed('#vis1', subscale_density, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis2', subscale_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+                vegaEmbed('#vis3', subscale_matrix, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis4', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
+            }
+        }, 3000);
+        fontLoader.loadFonts();
+    </script>
+
+
+    <%- include('../partials/footer_viz') %>
+
+</body>
+
+</html>
