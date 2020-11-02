@@ -50,7 +50,13 @@ var tasks = [
         name: 'Working memory and mathematics abilities',
         description: 'Coming soon',
         time: '3-5 min'
-    }
+    },
+    {
+        uniquestudyid: 'flanker',
+        name: 'Distractibility and attention',
+        description: 'How good are you at ignoring distractions? try this simple flanker task to find out.',
+        time: '5-8 min'
+    },
 ];
 
 var studies = [
@@ -59,9 +65,14 @@ var studies = [
         name: 'Cognitive effort',
         description: 'Coming soon',
         time: '3-5 min'
+    },
+    {
+        uniquestudyid: 'effortdiscountkid',
+        name: 'Effort & reward',
+        description: 'Beta testing',
+        time: '5-8 min'
     }
 ];
-
 
 var faq = [
     {
