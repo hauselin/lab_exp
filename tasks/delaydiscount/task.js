@@ -35,7 +35,7 @@ if (reverse_sides) {
     stimuli_sides = "left_small_right_large";
 }
 
-jsPsych.data.addProperties({
+jsPsych.data.addProperties({  // do not edit this section unnecessarily!
     subject: info_.subject,
     type: taskinfo.type,
     uniquestudyid: taskinfo.uniquestudyid,

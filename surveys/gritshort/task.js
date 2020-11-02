@@ -6,9 +6,7 @@ const taskinfo = {
     condition: null, // experiment/task condition
     redirect_url: "/surveys/gritshort/viz" // set to false if no redirection required
 };
-
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-
 const debug = false;  // true to print messages to console and display json results
 var font_colour = "black";
 var background_colour = "white";
@@ -23,8 +21,7 @@ var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before continuig
 var shuffle_items = false; // randomize order of item presentation
 
-// DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING 
-jsPsych.data.addProperties({
+jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     subject: info_.subject,
     type: taskinfo.type,
     uniquestudyid: taskinfo.uniquestudyid,
@@ -33,6 +30,15 @@ jsPsych.data.addProperties({
 });
 
 // create experiment objects and timeline
+var instructions = {
+    type: "instructions",
+    pages: [
+        generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("You're going to read several statements. Please indicate how well each one describes you.", font_colour),
+    ],
+    show_clickable_nav: true,
+    show_page_number: false,
+};
+
 var start_point;
 var procedure = {
     timeline: [{
@@ -72,14 +78,33 @@ var procedure = {
     randomize_order: shuffle_items
 };
 
-// create timeline
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// create timeline (order of events)
 var timeline = [];
 var html_path = "../../surveys/gritshort/consent.html";  // make it a global variable
-timeline = check_same_different_person(timeline);
 timeline = create_consent(timeline, html_path);
+timeline = check_same_different_person(timeline);
+timeline.push(instructions);
 timeline.push(procedure);
 timeline = create_demographics(timeline);
 
+// run task
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
@@ -108,6 +133,21 @@ jsPsych.init({
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// functions to summarize data below
 function preprocess_data() {  
     var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" }); 
     var data_sub = data_sub.filterCustom(function (trial) { return trial.q > 0 });
