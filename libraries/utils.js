@@ -2358,6 +2358,22 @@ function create_demographics(timeline, section=null) {
         on_finish: function (data) {
             info_.demographics.race_ethnicity = data.value;
         }
+    };
+
+    var life_satisfaction = {
+        type: "html-slider-response",  // Cheung & Lucas 2014
+        stimulus: "In general, how satisfied are you with your life?",
+        labels: ['very satisfied', 'very dissatisfied'],
+        slider_width: 300,
+        min: 1,
+        max: 4,
+        step: 0.01,
+        start: 2.5,
+        require_movement: true,
+        on_finish: function (data) {
+            data.resp = 5 - Number(data.response);
+            info_.demographics.life_satisfaction = data.resp;
+        }
     }
     
     var gender_choices = ['Female', 'Male', 'Other', 'Prefer not to say'];
@@ -2400,13 +2416,13 @@ function create_demographics(timeline, section=null) {
     }
 
     if (!localStorage.getObj("info_").demographics.country) {
-        demographics_timeline = [select_country, select_country_associated, select_language, select_religion, select_ethnicity, select_gender, select_handedness, select_age]
+        demographics_timeline = [select_age, select_country, select_country_associated, select_language, select_religion, select_ethnicity, life_satisfaction, select_gender, select_handedness]
         if (!section) {
             timeline = timeline.concat(demographics_timeline);
         } else {
             timeline = timeline.concat(demographics_timeline.slice(section[0], section[1]));
         }
-    }
+    };
     return timeline;
 }
 
