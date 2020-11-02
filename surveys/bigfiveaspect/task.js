@@ -196,7 +196,7 @@ function summarize_data() {
 
     // add variance
     var variance = { "subscale": "variance", "value": variance, "param": "variance" };
-    var datasummary = subscale.concat(variance); 
+    var datasummary = datasummary.concat(variance); 
     
     // add id/country information
     datasummary.forEach(function (s) {
