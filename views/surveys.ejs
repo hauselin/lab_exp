@@ -31,7 +31,7 @@
     </section>
   </div>
   
-  <% for(var i = 0; i < 2; i++) { %>
+  <% for(var i = 0; i < surveys.length; i++) { %>
   <% var image_link =  "../public/assets/img/surveys/" + surveys[i].uniquestudyid + ".jpg" %>
   <% var study_link =  "/surveys/" + surveys[i].uniquestudyid + "/" %>
   <% var viz_link =  "/surveys/" + surveys[i].uniquestudyid + "/viz" %>

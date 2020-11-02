@@ -1,16 +1,4 @@
-var surveys = [
-    {
-        uniquestudyid: 'bigfiveaspect',
-        name: 'Big-five personality traits',
-        description: 'Are you open, conscientious, extraverted, agreeable, or neurotic?',
-        time: '3-5 min'
-    },
-    {
-        uniquestudyid: 'gritshort',
-        name: 'How gritty are you?',
-        description: "Are you good at pursuing long-term goals?",
-        time: '3-5 min'
-    },
+var surveys = [    
     {
         uniquestudyid: 'bigfiveaspect',
         name: 'Big-five personality traits',
@@ -27,7 +15,7 @@ var surveys = [
         uniquestudyid: 'bullshitreceptive1',
         name: 'Are you receptive to BS?',
         description: "How receptive are you to bullshit?",
-        time: '1-3 min'
+        time: '3-5 min'
     },
     
 ];
