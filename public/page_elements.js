@@ -23,6 +23,12 @@ var surveys = [
         description: "Are you good at pursuing long-term goals?",
         time: '3-5 min'
     },
+    {
+        uniquestudyid: 'bullshitreceptive1',
+        name: 'Are you receptive to BS?',
+        description: "How receptive are you to bullshit?",
+        time: '1-3 min'
+    },
     
 ];
 
