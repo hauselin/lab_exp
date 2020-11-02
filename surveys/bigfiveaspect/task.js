@@ -22,7 +22,7 @@ var scale_starting_points = [2, 3, 4]; // starting point of scale; if length > 1
 var scale_labels = ['strongly disagree', 'neither agree nor disagree', 'strongly agree'];
 var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before they're allowed to click continue
-var shuffle_items = true; // randomize order of item presentation
+var shuffle_items = false; // randomize order of item presentation
 
 jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     subject: info_.subject,
