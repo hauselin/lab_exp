@@ -37,7 +37,7 @@ var items = [
     },
     {
         "q": 7,
-        "desc": "Consciousness consists of frequencies of quantum energy. Quantum means an unveiling of the unrestricted.",
+        "desc": "Consciousness consists of frequencies of quantum energy. 'Quantum' means an unveiling of the unrestricted.",
         "subscale": "brs",
         "reverse": 0
     },

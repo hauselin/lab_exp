@@ -1,10 +1,10 @@
 // DEFINE TASK (required)
 const taskinfo = {
     type: 'survey', // 'task', 'survey', or 'study'
-    uniquestudyid: 'bullshitreceptive1', // unique task id: must be IDENTICAL to directory name
+    uniquestudyid: 'brs1', // unique task id: must be IDENTICAL to directory name
     desc: 'Pennycook 2015 bullshit reception detection study 1', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: "/surveys/bullshitreceptive1/viz" // set to false if no redirection required
+    redirect_url: "/surveys/brs1/viz" // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 const debug = false;  // true to print messages to console and display json results
@@ -102,7 +102,7 @@ var procedure = {
 
 // create timeline (order of events)
 var timeline = [];
-var html_path = "../../surveys/bullshitreceptive1/consent.html";  // make it a global variable
+var html_path = "../../surveys/brs1/consent.html";  // make it a global variable
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
 timeline.push(instructions);
@@ -114,14 +114,14 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        var datasummary = summarize_data();
+        // var datasummary = summarize_data();
 
         jsPsych.data.get().addToAll({ 
             total_time: jsPsych.totalTime() / 60000,
         });
         jsPsych.data.get().first(1).addToAll({ 
             info_: info_,
-            datasummary: datasummary,
+            // datasummary: datasummary,
         });
         if (debug) {
             jsPsych.data.displayData();

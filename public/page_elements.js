@@ -1,9 +1,42 @@
+var tasks_to_try = [
+    {
+        route: '/tasks/delaydiscount',
+        uniquestudyid: 'delaydiscount',
+        time: '3-5 min'
+    },
+    {
+        route: '/surveys/gritshort',
+        uniquestudyid: 'gritshort',
+        time: '3-5 min'
+    },
+    {
+        route: '/tasks/stroop',
+        uniquestudyid: 'stroop',
+        time: '5-8 min'
+    },
+    {
+        route: '/surveys/brs1',
+        uniquestudyid: 'brs1',
+        time: '3-5 min'
+    },
+    {
+        route: '/surveys/brs2',
+        uniquestudyid: 'brs2',
+        time: '4-7 min'
+    },
+    {
+        route: '/surveys/bigfiveaspect',
+        uniquestudyid: 'bigfiveaspect',
+        time: '7-10 min'
+    },
+];
+
 var surveys = [    
     {
         uniquestudyid: 'bigfiveaspect',
         name: 'Big-five personality traits',
         description: 'Are you open, conscientious, extraverted, agreeable, or neurotic?',
-        time: '3-5 min'
+        time: '7-10 min'
     },
     {
         uniquestudyid: 'gritshort',
@@ -12,11 +45,17 @@ var surveys = [
         time: '3-5 min'
     },
     {
-        uniquestudyid: 'bullshitreceptive1',
-        name: 'Are you receptive to BS?',
-        description: "How receptive are you to bullshit?",
+        uniquestudyid: 'brs1',
+        name: 'Are you receptive to profoundness?',
+        description: "Do you find the mundane 'profound'?",
         time: '3-5 min'
     },
+    {
+        uniquestudyid: 'brs2',
+        name: 'Do you like profoundness?',
+        description: "Are you sensitive to the 'profound'?",
+        time: '4-7 min'
+    }
     
 ];
 
@@ -94,25 +133,5 @@ var faq = [
         resp: 'MongoDB, Express, Node.js, Bootstrap, Heroku, jsPsych, vegalite etc.'
     }
 ];
-
-var tasks_to_try = [
-    {
-        route: '/tasks/delaydiscount',
-        uniquestudyid: 'delaydiscount',
-        time: '3-5 min'
-    },
-    {
-        route: '/surveys/gritshort',
-        uniquestudyid: 'gritshort',
-        time: '1-3 min'
-    },
-    {
-        route: '/tasks/stroop',
-        uniquestudyid: 'stroop',
-        time: '5-8 min'
-    },
-];
-
-
 
 module.exports = { surveys, tasks, studies, tasks_to_try, faq};
