@@ -11,7 +11,7 @@ const debug = true;  // true to print messages to console and display json resul
 var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
-if (debug) {
+if (debug) {  // show fewer items when debugging
     items = items.slice(0, 10);
 };
 
@@ -22,7 +22,7 @@ var scale_starting_points = [2, 3, 4]; // starting point of scale; if length > 1
 var scale_labels = ['strongly disagree', 'neither agree nor disagree', 'strongly agree'];
 var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before they're allowed to click continue
-var shuffle_items = false; // randomize order of item presentation
+var shuffle_items = true; // randomize order of item presentation
 
 jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     subject: info_.subject,
@@ -77,7 +77,7 @@ var procedure = {
         }
     }],
 
-    timeline_variables: items,
+    timeline_variables: items,  // items come from environment variable in items.js
     randomize_order: shuffle_items
 };
 
@@ -104,7 +104,7 @@ var procedure = {
 
 // create timeline (order of events)
 var timeline = [];
-var html_path = "../../surveys/gritshort/consent.html";  // make it a global variable
+var html_path = "../../surveys/bigfiveaspect/consent.html";  // make it a global variable
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
 timeline.push(instructions);
