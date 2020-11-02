@@ -4,19 +4,16 @@ const taskinfo = {
     uniquestudyid: 'bigfiveaspect', // unique task id: must be IDENTICAL to directory name
     desc: 'DeYoung 2007 big five aspects scale', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: false // set to false if no redirection required
+    redirect_url: false// '/surveys/bigfiveaspect/viz' // set to false if no redirection required
 };
-
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-
 const debug = true;  // true to print messages to console and display json results
 var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
-
 if (debug) {
     items = items.slice(0, 10);
-}
+};
 
 // DEFINE TASK PARAMETERS (required)
 var slider_width = 500; // width of slider in pixels
@@ -27,8 +24,7 @@ var step = 0.01; // step size of scale
 var require_movement = false; // whether subject must move slider before they're allowed to click continue
 var shuffle_items = false; // randomize order of item presentation
 
-// DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING 
-jsPsych.data.addProperties({
+jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     subject: info_.subject,
     type: taskinfo.type,
     uniquestudyid: taskinfo.uniquestudyid,
@@ -36,7 +32,17 @@ jsPsych.data.addProperties({
     condition: taskinfo.condition,
 });
 
-var start_point;
+// create experiment objects and timeline
+var instructions = {
+    type: "instructions",
+    pages: [
+        generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("You're going to read several statements. Please indicate how well each one describes you.", font_colour),
+    ],
+    show_clickable_nav: true,
+    show_page_number: false,
+};
+
+var start_point;  // to specify scale starting point on each trial
 var procedure = {
     timeline: [{
         type: 'html-slider-response',
@@ -75,14 +81,37 @@ var procedure = {
     randomize_order: shuffle_items
 };
 
-// create timeline and add consent form to the start
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// create timeline (order of events)
 var timeline = [];
-var html_path = "../../surveys/bigfiveaspect/consent.html";  // make it a global variable
-timeline = check_same_different_person(timeline);
+var html_path = "../../surveys/gritshort/consent.html";  // make it a global variable
 timeline = create_consent(timeline, html_path);
+timeline = check_same_different_person(timeline);
+timeline.push(instructions);
 timeline.push(procedure);
 timeline = create_demographics(timeline);
 
+// run task
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
@@ -90,7 +119,7 @@ jsPsych.init({
         var datasummary = summarize_data();
 
         jsPsych.data.get().addToAll({
-            total_time: datasummary.total_time,
+            total_time: jsPsych.totalTime() / 60000,
         });
         jsPsych.data.get().first(1).addToAll({
             info_: info_,
@@ -107,6 +136,28 @@ jsPsych.init({
     }
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// functions to summarize data below
 function preprocess_data() {
     var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" });
     var data_sub = data_sub.filterCustom(function (trial) { return trial.q > 0 });
@@ -117,6 +168,7 @@ function preprocess_data() {
 function summarize_data() {
     var d = preprocess_data(); // get preprocess/clean data
     var dat = JSON.parse(d.json());
+    var variance = d.select("resp_reverse").variance();
 
     var subscale = d3.rollups(dat,
         function (v) {
@@ -141,6 +193,10 @@ function summarize_data() {
     });
     
     var datasummary = subscale.concat(subscale2);
+
+    // add variance
+    var variance = { "subscale": "variance", "value": variance, "param": "variance" };
+    var datasummary = subscale.concat(variance); 
     
     // add id/country information
     datasummary.forEach(function (s) {

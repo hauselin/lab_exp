@@ -39,7 +39,7 @@ var instructions = {
     show_page_number: false,
 };
 
-var start_point;
+var start_point;  // to specify scale starting point on each trial
 var procedure = {
     timeline: [{
         type: 'html-slider-response',
