@@ -80,7 +80,18 @@ var prompt = {
         return generate_html("Please add the number below to each of the following numbers prompted: <br>", font_colour, 20) + generate_html(random_number.toString(), font_colour, 30);
     },
     choices: jsPsych.NO_KEYS,
-    trial_duration: 10000,
+    trial_duration: 2000,
+    data: { event: "feedback" },
+    post_trial_gap: 500
+}
+
+var sequence = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        return generate_html(jsPsych.timelineVariable('data', true), font_colour, 30);
+    },
+    choices: jsPsych.NO_KEYS,
+    trial_duration: 2000,
     data: { event: "feedback" },
     post_trial_gap: 500
 }
@@ -88,12 +99,12 @@ var prompt = {
 var sequence_variables = Array.from(random_sequence, x => Object({data: x}));
 
 var trial_sequence = {
-    timeline: [prompt],
-    // timeline_variables: stimuli_shuffled,
+    timeline: [sequence],
+    timeline_variables: sequence_variables,
 };
 
 var timeline = [];
-timeline.push(trial_sequence);
+timeline.push(prompt, trial_sequence);
 
 jsPsych.init({
     timeline: timeline,
