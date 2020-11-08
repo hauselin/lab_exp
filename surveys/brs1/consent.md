@@ -8,7 +8,7 @@ There are no foreseeable risks involved in participating in this study.
 
 **Benefits**
 
-You will have the opportunity to observe the methods that researchers use to study the factors related to people&#39;s psychology and personality.By participating you will also contribute to the body of behavioral science knowledge.
+You will have the opportunity to observe the methods that researchers use to study the factors related to people&#39;s psychology and personality. By participating you will also contribute to the body of behavioral science knowledge.
 
 **Confidentiality**
 
