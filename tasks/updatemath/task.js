@@ -67,10 +67,16 @@ function generate_similar_numbers(array, n_distractors) {
     return [array].concat(shuffle(result.slice(0, n_distractors))); // [array + distractors]
 }
 
+var random_sequence = [
+    Math.floor(Math.random() * 10),
+    Math.floor(Math.random() * 10),
+    Math.floor(Math.random() * 10)
+];
+var random_number = Math.floor(Math.random() * 10); // generate random number between 0 and 9 to be added to random sequence
+var answer = number_update(random_sequence, [random_number])
 var prompt = {
     type: "html-keyboard-response",
     stimulus: function () {
-        var random_number = Math.floor(Math.random() * 10) + 1; // generate random number to add between 1 and 10
         return generate_html("Please add the number below to each of the following numbers prompted: <br>", font_colour, 20) + generate_html(random_number.toString(), font_colour, 30);
     },
     choices: jsPsych.NO_KEYS,
