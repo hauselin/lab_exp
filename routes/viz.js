@@ -3,6 +3,7 @@ const router = express.Router();
 const DataLibrary = require("../models/datalibrary");
 const d3 = require("d3-array");
 const helper = require('../routes/helpers/helpers');
+const jStat = require('jstat');
 
 router.get("/tasks/delaydiscount/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'delaydiscount' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
@@ -141,15 +142,13 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
         var matrix_array = [];
         for (i = 0; i < Object.keys(corr_matrix).length; i++) {
             for (j = 0; j < Object.keys(corr_matrix).length; j++) {
-                if (i != j) {
-                    matrix_array.push(
-                        {
-                            x: Object.keys(corr_matrix)[i],
-                            y: Object.keys(corr_matrix)[j],
-                            value: 0
-                        }
-                    )
-                }
+                matrix_array.push(
+                    {
+                        x: Object.keys(corr_matrix)[i],
+                        y: Object.keys(corr_matrix)[j],
+                        value: jStat.corrcoeff(Object.values(corr_matrix)[i], Object.values(corr_matrix)[j]),
+                    }
+                )
             }
         }
 
