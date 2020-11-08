@@ -128,7 +128,7 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
         data_array = data_array.flat(1);  // flatten objects in array
 
         choropleth_filters = [
-            'SD',
+            'variance',
             'neuroticism',
             'agreeableness',
             'conscientiousness',
