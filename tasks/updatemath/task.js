@@ -73,32 +73,12 @@ function generate_similar_numbers(array, n_distractors) {
 
 function generate_sequence(n_digits) {
     var sequence = [];
-    for (i=0; i<n_digits; i++) {
+    for (i = 0; i < n_digits; i++) {
         sequence.push(Math.floor(Math.random() * 10))
     }
     return sequence
 }
 
-var temp_digits = ''
-var number_sequence = {
-    timeline: [
-        {
-            type: "html-keyboard-response",
-            stimulus: function () {
-                return generate_html(jsPsych.timelineVariable('digit', true), font_colour, 30);
-            },
-            choices: jsPsych.NO_KEYS,
-            trial_duration: 1000,
-            data: { event: "stimulus" },
-            post_trial_gap: 500,
-            on_finish: function(data) {
-                data.digit = jsPsych.timelineVariable('digit', true);
-                temp_digits = temp_digits.concat(data.digit);
-            }
-        }
-    ],
-    timeline_variables: Array.from(generate_sequence(n_digits), x => Object({digit: x})),
-}
 var prompt = {
     type: "html-keyboard-response",
     stimulus: function () {
@@ -110,8 +90,44 @@ var prompt = {
     post_trial_gap: 500
 }
 
+var temp_digits = []
+var number_sequence = {
+    timeline: [
+        {
+            type: "html-keyboard-response",
+            stimulus: function () {
+                return generate_html(jsPsych.timelineVariable('digit', true), font_colour, 30);
+            },
+            choices: jsPsych.NO_KEYS,
+            trial_duration: 1000,
+            data: { event: "stimulus" },
+            post_trial_gap: 500,
+            on_finish: function (data) {
+                data.digit = jsPsych.timelineVariable('digit', true);
+                temp_digits.push(data.digit);
+            }
+        }
+    ],
+    timeline_variables: Array.from(generate_sequence(n_digits), x => Object({ digit: x })),
+}
+
+var response = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        options_key = [];
+        options = generate_similar_numbers(temp_digits, n_distract_response);
+        options.map(x => options_key.push(x))
+        return generate_html(options_key, font_colour, 30);
+    },
+    choices: [49, 50, 51, 52],
+    trial_duration: 10000,
+    data: { event: "stimulus" },
+    post_trial_gap: 500,
+}
+
 var timeline = [];
 timeline.push(number_sequence);
+timeline.push(response);
 
 jsPsych.init({
     timeline: timeline,
