@@ -127,11 +127,27 @@ var number_sequence = {
 
 var response = {
     type: "html-keyboard-response",
-    stimulus: function () {
-        options_key = [];
+    on_start: function() {
+        shuffled_options = [];
         options = generate_similar_numbers(temp_digits, n_distract_response);
-        options.map(x => options_key.push(x))
-        return generate_html(options_key, font_colour, 30);
+        for (i=0; i<n_distract_response+1; i++) {
+            if (i == 0) {
+                shuffled_options.push(
+                    {prompt: options[i], correct: true}
+                );
+            } else {
+                shuffled_options.push(
+                    {prompt: options[i], correct: false}
+                );
+            }
+        }
+        shuffled_options = d3.shuffle(shuffled_options)
+        for (i=0; i<n_distract_response+1; i++) {
+            choices[i] = Object.assign(choices[i], shuffled_options[i]);
+        }
+    },
+    stimulus: function () {
+        return generate_html(choices, font_colour, 30);
     },
     choices: choices.map(x => x.keycode),
     trial_duration: 10000,
