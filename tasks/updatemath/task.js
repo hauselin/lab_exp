@@ -79,6 +79,7 @@ function generate_sequence(n_digits) {
     return sequence
 }
 
+var temp_digits = ''
 var number_sequence = {
     timeline: [
         {
@@ -87,18 +88,17 @@ var number_sequence = {
                 return generate_html(jsPsych.timelineVariable('digit', true), font_colour, 30);
             },
             choices: jsPsych.NO_KEYS,
-            trial_duration: 2000,
+            trial_duration: 1000,
             data: { event: "stimulus" },
             post_trial_gap: 500,
             on_finish: function(data) {
                 data.digit = jsPsych.timelineVariable('digit', true);
+                temp_digits = temp_digits.concat(data.digit);
             }
         }
     ],
     timeline_variables: Array.from(generate_sequence(n_digits), x => Object({digit: x})),
 }
-// var random_number = Math.floor(Math.random() * 10); // generate random number between 0 and 9 to be added to random sequence
-// var answer = number_update(random_sequence, [random_number])
 var prompt = {
     type: "html-keyboard-response",
     stimulus: function () {
