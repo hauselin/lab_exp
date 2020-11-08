@@ -136,8 +136,9 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
             'openness'
         ];
         random_filter = choropleth_filters[Math.floor(Math.random() * choropleth_filters.length)];
+        choropleth_array = data_array.filter(i => i.subscale == random_filter)
 
-        country_array = d3.rollups(data_array,
+        country_array = d3.rollups(choropleth_array,
             function (v) {
                 return {
                     value: d3.median(v, d => d.value),
@@ -162,7 +163,7 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
             }
         }
 
-        res.render('viz/bigfiveaspect.ejs', { data_array: data_array, matrix_array: matrix_array, country_array: country_array, parent_path: helper.getParentPath(req) });
+        res.render('viz/bigfiveaspect.ejs', { data_array: data_array, matrix_array: matrix_array, country_array: country_array, choropleth_filter: random_filter, parent_path: helper.getParentPath(req) });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);
