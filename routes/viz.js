@@ -127,6 +127,16 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
         });
         data_array = data_array.flat(1);  // flatten objects in array
 
+        choropleth_filters = [
+            'SD',
+            'neuroticism',
+            'agreeableness',
+            'conscientiousness',
+            'extraversion',
+            'openness'
+        ];
+        random_filter = choropleth_filters[Math.floor(Math.random() * choropleth_filters.length)];
+
         country_array = d3.rollups(data_array,
             function (v) {
                 return {
