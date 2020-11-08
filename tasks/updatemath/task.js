@@ -14,6 +14,10 @@ var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
 
+var num_to_update = 1; // number to add to every digit
+var n_digits = 2; // amount of numbers to show
+var n_distract_response = 3; // amount of distractors
+var n_trial = 2; // number of trials and the amount of sequences to show
 
 // generate mental math updating array
 // determine correct response
@@ -67,7 +71,7 @@ function generate_similar_numbers(array, n_distractors) {
     return [array].concat(shuffle(result.slice(0, n_distractors))); // [array + distractors]
 }
 
-var random_sequence = [
+var random_sequence = [ //TODO: use function
     Math.floor(Math.random() * 10),
     Math.floor(Math.random() * 10),
     Math.floor(Math.random() * 10)
@@ -81,7 +85,7 @@ var prompt = {
     },
     choices: jsPsych.NO_KEYS,
     trial_duration: 2000,
-    data: { event: "feedback" },
+    data: { event: "stimulus" },
     post_trial_gap: 500
 }
 
@@ -92,7 +96,7 @@ var sequence = {
     },
     choices: jsPsych.NO_KEYS,
     trial_duration: 2000,
-    data: { event: "feedback" },
+    data: { event: "stimulus" },
     post_trial_gap: 500
 }
 
