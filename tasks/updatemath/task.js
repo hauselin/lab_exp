@@ -91,6 +91,7 @@ var number_sequence = {
             data: { event: "stimulus" },
             post_trial_gap: 500,
             on_finish: function(data) {
+                data.digit = jsPsych.timelineVariable('digit', true);
             }
         }
     ],
