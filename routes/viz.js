@@ -138,7 +138,22 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
             return { country_code: i[0], country: i[1].country, value: i[1].value }
         });
 
-        res.render('viz/bigfiveaspect.ejs', { data_array: data_array, matrix_array: corr_matrix, country_array: country_array, parent_path: helper.getParentPath(req) });
+        var matrix_array = [];
+        for (i = 0; i < Object.keys(corr_matrix).length; i++) {
+            for (j = 0; j < Object.keys(corr_matrix).length; j++) {
+                if (i != j) {
+                    matrix_array.push(
+                        {
+                            x: Object.keys(corr_matrix)[i],
+                            y: Object.keys(corr_matrix)[j],
+                            value: 0
+                        }
+                    )
+                }
+            }
+        }
+
+        res.render('viz/bigfiveaspect.ejs', { data_array: data_array, matrix_array: matrix_array, country_array: country_array, parent_path: helper.getParentPath(req) });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);
