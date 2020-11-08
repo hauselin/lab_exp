@@ -846,11 +846,12 @@
                     encoding: {
                         text: { field: "value", type: "quantitative" },
                         color: {
-                            condition: {test: "datum['value'] < 0", "value": "black"},
+                            condition: { test: "datum['value'] < 0", "value": "black" },
                             value: "white"
                         }
                     }
-                }],
+                }
+            ],
             width: 500,
             height: 400,
         };
