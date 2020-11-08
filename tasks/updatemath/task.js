@@ -21,15 +21,15 @@ var n_trial = 2; // number of trials and the amount of sequences to show
 
 if (n_distract_response == 3) {
     choices = [
-        {keycode: 37},
-        {keycode: 38},
-        {keycode: 39},
-        {keycode: 40}
+        { keycode: 37 },
+        { keycode: 38 },
+        { keycode: 39 },
+        { keycode: 40 }
     ];
 } else if (n_distract_response == 1) {
     choices = [
-        {keycode: 37},
-        {keycode: 39},
+        { keycode: 37 },
+        { keycode: 39 },
     ];
 }
 
@@ -127,22 +127,19 @@ var number_sequence = {
 
 var response = {
     type: "html-keyboard-response",
-    on_start: function() {
+    on_start: function () {
         shuffled_options = [];
         options = generate_similar_numbers(temp_digits, n_distract_response);
-        for (i=0; i<n_distract_response+1; i++) {
-            if (i == 0) {
-                shuffled_options.push(
-                    {prompt: options[i], correct: true}
-                );
-            } else {
-                shuffled_options.push(
-                    {prompt: options[i], correct: false}
-                );
-            }
+        shuffled_options.push(
+            { prompt: options[0], correct: true }
+        );
+        for (i = 1; i < n_distract_response + 1; i++) {
+            shuffled_options.push(
+                { prompt: options[i], correct: false }
+            )
         }
         shuffled_options = d3.shuffle(shuffled_options)
-        for (i=0; i<n_distract_response+1; i++) {
+        for (i = 0; i < n_distract_response + 1; i++) {
             choices[i] = Object.assign(choices[i], shuffled_options[i]);
         }
     },
