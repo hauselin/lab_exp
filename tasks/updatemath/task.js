@@ -66,3 +66,32 @@ function generate_similar_numbers(array, n_distractors) {
     };
     return [array].concat(shuffle(result.slice(0, n_distractors))); // [array + distractors]
 }
+
+var prompt = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        var random_number = Math.floor(Math.random() * 10) + 1; // generate random number to add between 1 and 10
+        return generate_html("Please add the number below to each of the following numbers prompted: <br>", font_colour, 20) + generate_html(random_number.toString(), font_colour, 30);
+    },
+    choices: jsPsych.NO_KEYS,
+    trial_duration: 10000,
+    data: { event: "feedback" },
+    post_trial_gap: 500
+}
+
+var trial_sequence = {
+    timeline: [prompt],
+    // timeline_variables: stimuli_shuffled,
+};
+
+var timeline = [];
+timeline.push(trial_sequence);
+
+jsPsych.init({
+    timeline: timeline,
+    on_finish: function () {
+        if (debug) {
+            jsPsych.data.displayData();
+        }
+    }
+});
