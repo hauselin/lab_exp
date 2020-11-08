@@ -106,6 +106,18 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'bigfiveaspect' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
         var data_array = [];
         var matrix_array = [];
+        const subscales = [
+            'neuroticism-withdrawal',
+            'neuroticism-volatility',
+            'agreeableness-compassion',
+            'agreeableness-politeness',
+            'conscientiousness-inudstriousness',
+            'conscientiousness-orderliness',
+            'extraversion-enthusiasm',
+            'extraversion-assertiveness',
+            'openness-intellect',
+            'openness-openness'
+        ];
         data.map(function (i) {
             data_array.push(i.datasummary);
             temp_data = i.datasummary.filter(i => i.param == 'subscale2');
