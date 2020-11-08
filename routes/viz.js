@@ -147,7 +147,7 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
             },
             d => d.country_code);
         country_array = Array.from(country_array, function (i) {  // unnest data
-            return { country_code: i[0], country: i[1].country, value: i[1].value }
+            return { country_code: i[0], country: i[1].country, value: i[1].value, subscale: random_filter }
         });
 
         var matrix_array = [];
@@ -163,7 +163,7 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
             }
         }
 
-        res.render('viz/bigfiveaspect.ejs', { data_array: data_array, matrix_array: matrix_array, country_array: country_array, choropleth_filter: random_filter, parent_path: helper.getParentPath(req) });
+        res.render('viz/bigfiveaspect.ejs', { data_array: data_array, matrix_array: matrix_array, country_array: country_array, parent_path: helper.getParentPath(req) });
     }).catch(err => {
         console.log(err);
         res.status(500).send(err);

@@ -421,7 +421,7 @@
         const data_array = <%- JSON.stringify(data_array) %>;
         const country_array = <%- JSON.stringify(country_array) %>;
         const matrix_array = <%- JSON.stringify(matrix_array) %>;
-        const choropleth_filter = <%- JSON.stringify(choropleth_filter) %>;
+        const choropleth_filter = country_array[0].subscale;
         const link = window.location.origin + <%- JSON.stringify(parent_path) %> + '/viz';
 
         // get subject_id from localStorage (null if doesn't exist)
@@ -904,7 +904,7 @@
                             from: {
                                 data: { values: country_array },
                                 key: "country_code",
-                                fields: ["value", "country"]
+                                fields: ["value", "country", "subscale"]
                             },
                         }
                     ],
@@ -932,6 +932,11 @@
                                 title: "Mean response",
                                 type: "quantitative",
                                 format: ".1f"
+                            },
+                            {
+                                field: "subscale",
+                                title: "Choropleth filter",
+                                type: "nominal",
                             },
                         ]
                     }
