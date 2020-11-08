@@ -71,11 +71,14 @@ function generate_similar_numbers(array, n_distractors) {
     return [array].concat(shuffle(result.slice(0, n_distractors))); // [array + distractors]
 }
 
-var random_sequence = [ //TODO: use function
-    Math.floor(Math.random() * 10),
-    Math.floor(Math.random() * 10),
-    Math.floor(Math.random() * 10)
-];
+function generate_sequence(num_digits) {
+    var sequence = [];
+    for (i=0; i<num_digits; i++) {
+        sequence.push(Math.random() * 10)
+    }
+    return sequence
+}
+
 var random_number = Math.floor(Math.random() * 10); // generate random number between 0 and 9 to be added to random sequence
 var answer = number_update(random_sequence, [random_number])
 var prompt = {
