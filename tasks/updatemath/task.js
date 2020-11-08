@@ -1,3 +1,20 @@
+// DEFINE TASK (required)
+const taskinfo = {
+    type: 'task', // 'task', 'survey', or 'study'
+    uniquestudyid: 'updatemath', // unique task id: must be IDENTICAL to directory name
+    desc: 'Mental math', // brief description of task
+    condition: null, // experiment/task condition
+    redirect_url: false // set to false if no redirection required
+};
+
+var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
+
+const debug = true;
+var font_colour = "black";
+var background_colour = "white";
+set_colour(font_colour, background_colour);
+
+
 // generate mental math updating array
 // determine correct response
 function number_update(array1, array2) {
