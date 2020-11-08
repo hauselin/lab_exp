@@ -119,7 +119,7 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
         };
         data.map(function (i) {
             data_array.push(i.datasummary);
-            temp_data = i.datasummary.filter(i => i.param == 'subscale2');
+            temp_data = i.datasummary.filter(i => i.param == 'subscale');
             for (i = 0; i < temp_data.length; i++) {
                 corr_matrix[temp_data[i].subscale].push(temp_data[i].value);
             }
