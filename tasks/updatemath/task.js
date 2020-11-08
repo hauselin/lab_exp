@@ -71,16 +71,33 @@ function generate_similar_numbers(array, n_distractors) {
     return [array].concat(shuffle(result.slice(0, n_distractors))); // [array + distractors]
 }
 
-function generate_sequence(num_digits) {
+function generate_sequence(n_digits) {
     var sequence = [];
-    for (i=0; i<num_digits; i++) {
-        sequence.push(Math.random() * 10)
+    for (i=0; i<n_digits; i++) {
+        sequence.push(Math.floor(Math.random() * 10))
     }
     return sequence
 }
 
-var random_number = Math.floor(Math.random() * 10); // generate random number between 0 and 9 to be added to random sequence
-var answer = number_update(random_sequence, [random_number])
+var number_sequence = {
+    timeline: [
+        {
+            type: "html-keyboard-response",
+            stimulus: function () {
+                return generate_html(jsPsych.timelineVariable('digit', true), font_colour, 30);
+            },
+            choices: jsPsych.NO_KEYS,
+            trial_duration: 2000,
+            data: { event: "stimulus" },
+            post_trial_gap: 500,
+            on_finish: function(data) {
+            }
+        }
+    ],
+    timeline_variables: Array.from(generate_sequence(n_digits), x => Object({digit: x})),
+}
+// var random_number = Math.floor(Math.random() * 10); // generate random number between 0 and 9 to be added to random sequence
+// var answer = number_update(random_sequence, [random_number])
 var prompt = {
     type: "html-keyboard-response",
     stimulus: function () {
@@ -92,26 +109,8 @@ var prompt = {
     post_trial_gap: 500
 }
 
-var sequence = {
-    type: "html-keyboard-response",
-    stimulus: function () {
-        return generate_html(jsPsych.timelineVariable('data', true), font_colour, 30);
-    },
-    choices: jsPsych.NO_KEYS,
-    trial_duration: 2000,
-    data: { event: "stimulus" },
-    post_trial_gap: 500
-}
-
-var sequence_variables = Array.from(random_sequence, x => Object({data: x}));
-
-var trial_sequence = {
-    timeline: [sequence],
-    timeline_variables: sequence_variables,
-};
-
 var timeline = [];
-timeline.push(prompt, trial_sequence);
+timeline.push(number_sequence);
 
 jsPsych.init({
     timeline: timeline,
