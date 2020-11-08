@@ -1,23 +1,19 @@
+// DEFINE TASK (required)
 const taskinfo = {
     type: 'task', // 'task', 'survey', or 'study'
     uniquestudyid: 'symbolcount', // unique task id: must be IDENTICAL to directory name
     desc: 'symbol counting task', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: false // set to false if no redirection required
+    redirect_url: "/tasks/symbolcount/viz" // set to false if no redirection required
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-var datasummary_ = create_datasummary_(info_); // initialize datasummary object
+const debug = true;  // true to print messages to console and display json results
+var font_colour = "black";
+var background_colour = "white";
+set_colour(font_colour, background_colour);
 
-const debug = true;  // debug mode to print messages to console and display json data at the end
-const black_background = false; // if true, white text on black background
-var font_colour = 'black';
-if (black_background) {
-    document.body.style.backgroundColor = "black";
-    var font_colour = 'white';
-}
-
-// TASK PARAMETERS
+// DEFINE TASK PARAMETERS (required)
 const trials = 2;               // the total number of trials 
 const max_tasktime_minutes = 5;   // maximum task time in minutes (task ends after this amount of time regardless of how many trials have been completed)
 var reps = 12;                  // the number of symbols per trial
@@ -54,17 +50,13 @@ if (adaptive) {
     console.log("initial reps: " + reps);
 }
 
-// add data to all trials
-jsPsych.data.addProperties({
+jsPsych.data.addProperties({  // do not edit this section unnecessarily!
     subject: info_.subject,
     type: taskinfo.type,
     uniquestudyid: taskinfo.uniquestudyid,
     desc: taskinfo.desc,
     condition: taskinfo.condition,
-    info_: info_,
-    datasummary_: datasummary_
 });
-
 
 // function to determine switch reps on each trial; returns an array of length reps, with integers (0, 1) indicating which symbol to present
 function determine_sequence(reps, symbols, trial_difficulty, verbose) {
@@ -127,14 +119,12 @@ function update_difficulty(overall_acc) {
     }
 }
 
-var timeline = [];
-
 var instructions = {
     type: "instructions",
     pages: ["Weclome!<p>Click next or press the right arrow key to proceed.</p>", "<p>In this task, you'll see sequences of " + "dollar signs ($) and hash/pound symbols (#). <p>Your goal is to keep a count of " + "each of the two types of symbols.</p>", "Click next or press the right arrow key to begin."],
     show_clickable_nav: true,
     show_page_number: true,
-}; timeline.push(instructions);
+}; 
 
 var symbols = [ // define symbols
     { symbol: "<div style='font-size:80px;'>$</div>" },
@@ -278,7 +268,7 @@ var trial = { // events in a trial
             return true;
         }
     }
-}; timeline.push(trial);
+}; 
 
 var debrief_block = {
     type: "html-button-response",
@@ -293,23 +283,50 @@ var debrief_block = {
         }
         return html;
     }
-}; timeline.push(debrief_block)
+}; 
 
+
+
+
+
+
+
+
+
+
+
+
+// create timeline (order of events)
+var timeline = [];
+const html_path = "../../tasks/delaydiscount/consent.html";
+timeline = create_consent(timeline, html_path);
+timeline = check_same_different_person(timeline);
+timeline.push(instructions);
+timeline.push(trial);
+timeline.push(debrief_block);
+timeline = create_demographics(timeline);
+
+// run task
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        datasummary_ = {}; // summarize data
-        jsPsych.data.get().addToAll({ // add objects to all trials
+        // var datasummary = summarize_data();
+
+        jsPsych.data.get().addToAll({ // add parameters to all trials
+            total_time: jsPsych.totalTime() / 60000,
+        });
+        jsPsych.data.get().first(1).addToAll({
             info_: info_,
-            datasummary_: {},
-            total_time: datasummary_.total_time,
+            // datasummary: datasummary,
         });
         if (debug) {
             jsPsych.data.displayData();
         }
-        sessionStorage.setObj('info_', info_); // save to sessionStorage
-        sessionStorage.setObj(info_.datasummary_name, datasummary_); // save to sessionStorage
-        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
+
+        info_.tasks_completed.push(taskinfo.uniquestudyid);
+        info_.current_task_completed = 1;
+        localStorage.setObj('info_', info_);
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url);
     }
 });
