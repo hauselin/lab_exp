@@ -70,6 +70,7 @@ router.post('/submit-data', function (req, res) {
         i.race_ethnicity = info.demographics.race_ethnicity;
         i.gender = info.demographics.gender;
         i.handedness = info.demographics.handedness;
+        i.life_satisfaction = info.demographics.life_satisfaction;
     })
 
     // add fields to this document

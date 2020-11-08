@@ -1,22 +1,22 @@
+// DEFINE TASK (required)
 const taskinfo = {
-    type: 'task', // 'task', 'survey', or 'study'
+    type: 'study', // 'task', 'survey', or 'study'
     uniquestudyid: 'effortdiscountkid', // unique task id: must be IDENTICAL to directory name
     desc: 'effort discounting task for kids', // brief description of task
     condition: null, // experiment/task condition
     redirect_url: false //"/tasks/effortdiscountkid/viz" // set to false if no redirection required
 };
-
 var info_ = create_info_(taskinfo);
-
-const debug = false;  // debug mode to print messages to console and display json data at the end
+const debug = true;  // debug mode to print messages to console and display json data at the end
 var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
 
-// TASK PARAMETERS
+// DEFINE TASK PARAMETERS (required)
 var stars = 25;
 var star = "&#11088";
 var alien = "&#x1F479";
+var emoji_size = "130%";  // size or star/alien
 const large_reward = 25; //Large reward after cost.
 var costs = [1, 2, 3, 4, 5];  //costs in aliens.
 // var costs = [2, 5]; // I tend to use fewer when debugging (so the task finishes faster)
@@ -48,10 +48,6 @@ jsPsych.data.addProperties({
     condition: taskinfo.condition,    
 });
 
-// create experiment timeline
-var timeline = [];
-const html_path = "../../tasks/effortdiscountkid/consent.html";
-timeline = create_consent(timeline, html_path);
 
 var instructions = {
     type: "instructions",
@@ -153,34 +149,65 @@ practice_trial.timeline = [
 
 practice_trial.on_finish = function (data) { data.event = 'practice'; };
 
-// create task timeline
+// create timeline (order of events)
+var timeline = [];
+const html_path = "../../studies/effortdiscountkid/consent.html";
+timeline = create_consent(timeline, html_path);
+timeline = check_same_different_person(timeline);
 timeline.push(instructions);
 timeline.push(practice_trial);
 timeline.push(instructions2);
 timeline.push(trial);
+timeline = create_demographics(timeline);
 
+// run task
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        var datasummary = summarize_data(); // summarize data
-        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
+        var datasummary = summarize_data(); 
+
         jsPsych.data.get().addToAll({ // add parameters to all trials
-            total_time: datasummary.total_time,
+            total_time: jsPsych.totalTime() / 60000,
             auc: datasummary.auc,
             stimuli_sides: stimuli_sides
         });
-        jsPsych.data.get().first(1).addToAll({ // add objects to only first trial (to save space)
+        jsPsych.data.get().first(1).addToAll({ // add objects to only first trial 
             info_: info_,
             datasummary: datasummary,
         });
         if (debug) {
             jsPsych.data.displayData();
         }
-        sessionStorage.setObj('info_', info_); // save to sessionStorage
-        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); // save data to database and redirect
+
+        info_.tasks_completed.push(info_.uniquestudyid); // add uniquestudyid to info_
+        info_.current_task_completed = 1;
+        sessionStorage.setObj('info_', info_); 
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); 
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // functions to summarize data below
 function summarize_data() {
@@ -225,9 +252,10 @@ function get_auc() {    //note that this area is an underestimation of the hyper
 function helperfunction(obj_count, emoji) {
     var val = "";
     for (i=0; i<obj_count; i++) {
-        // val += "<div class=obj style=border-radius:10px;padding:20px;font-size:150%;>" + emoji + "</div>";
-        val += "<div>" + emoji + "</div>";
-        console.log(val.length);
+        val += "<div style=font-size:" + emoji_size + ";>" + emoji + "</div>";
+        if (debug) {
+            console.log(val.length);
+        };
     }
     return val ;
 }

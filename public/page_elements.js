@@ -1,9 +1,42 @@
-var surveys = [
+var tasks_to_try = [
+    {
+        route: '/tasks/delaydiscount',
+        uniquestudyid: 'delaydiscount',
+        time: '3-5 min'
+    },
+    {
+        route: '/surveys/gritshort',
+        uniquestudyid: 'gritshort',
+        time: '3-5 min'
+    },
+    {
+        route: '/tasks/stroop',
+        uniquestudyid: 'stroop',
+        time: '5-8 min'
+    },
+    {
+        route: '/surveys/brs1',
+        uniquestudyid: 'brs1',
+        time: '3-5 min'
+    },
+    {
+        route: '/surveys/brs2',
+        uniquestudyid: 'brs2',
+        time: '4-7 min'
+    },
+    {
+        route: '/surveys/bigfiveaspect',
+        uniquestudyid: 'bigfiveaspect',
+        time: '7-10 min'
+    },
+];
+
+var surveys = [    
     {
         uniquestudyid: 'bigfiveaspect',
         name: 'Big-five personality traits',
         description: 'Are you open, conscientious, extraverted, agreeable, or neurotic?',
-        time: '3-5 min'
+        time: '7-10 min'
     },
     {
         uniquestudyid: 'gritshort',
@@ -12,17 +45,17 @@ var surveys = [
         time: '3-5 min'
     },
     {
-        uniquestudyid: 'bigfiveaspect',
-        name: 'Big-five personality traits',
-        description: 'Are you open, conscientious, extraverted, agreeable, or neurotic?',
+        uniquestudyid: 'brs1',
+        name: 'Are you receptive to profoundness?',
+        description: "Do you find the mundane 'profound'?",
         time: '3-5 min'
     },
     {
-        uniquestudyid: 'gritshort',
-        name: 'How gritty are you?',
-        description: "Are you good at pursuing long-term goals?",
-        time: '3-5 min'
-    },
+        uniquestudyid: 'brs2',
+        name: 'Do you like profoundness?',
+        description: "Are you sensitive to the 'profound'?",
+        time: '4-7 min'
+    }
     
 ];
 
@@ -50,7 +83,13 @@ var tasks = [
         name: 'Working memory and mathematics abilities',
         description: 'Coming soon',
         time: '3-5 min'
-    }
+    },
+    {
+        uniquestudyid: 'flanker',
+        name: 'Distractibility and attention',
+        description: 'How good are you at ignoring distractions? try this simple flanker task to find out.',
+        time: '5-8 min'
+    },
 ];
 
 var studies = [
@@ -59,9 +98,14 @@ var studies = [
         name: 'Cognitive effort',
         description: 'Coming soon',
         time: '3-5 min'
+    },
+    {
+        uniquestudyid: 'effortdiscountkid',
+        name: 'Effort & reward',
+        description: 'Beta testing',
+        time: '5-8 min'
     }
 ];
-
 
 var faq = [
     {
@@ -89,25 +133,5 @@ var faq = [
         resp: 'MongoDB, Express, Node.js, Bootstrap, Heroku, jsPsych, vegalite etc.'
     }
 ];
-
-var tasks_to_try = [
-    {
-        route: '/tasks/delaydiscount',
-        uniquestudyid: 'delaydiscount',
-        time: '3-5 min'
-    },
-    {
-        route: '/surveys/gritshort',
-        uniquestudyid: 'gritshort',
-        time: '1-3 min'
-    },
-    {
-        route: '/tasks/stroop',
-        uniquestudyid: 'stroop',
-        time: '5-8 min'
-    },
-];
-
-
 
 module.exports = { surveys, tasks, studies, tasks_to_try, faq};

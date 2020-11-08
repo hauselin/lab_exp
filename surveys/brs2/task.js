@@ -1,28 +1,25 @@
 // DEFINE TASK (required)
 const taskinfo = {
     type: 'survey', // 'task', 'survey', or 'study'
-    uniquestudyid: 'bigfiveaspect', // unique task id: must be IDENTICAL to directory name
-    desc: 'DeYoung 2007 big five aspects scale', // brief description of task
+    uniquestudyid: 'brs2', // unique task id: must be IDENTICAL to directory name
+    desc: 'Pennycook 2015 bullshit reception detection study 2', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: false// '/surveys/bigfiveaspect/viz' // set to false if no redirection required
+    redirect_url: "/surveys/brs2/viz" // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-const debug = true;  // true to print messages to console and display json results
+const debug = false;  // true to print messages to console and display json results
 var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
-if (debug) {  // show fewer items when debugging
-    items = items.slice(0, 10);
-};
 
 // DEFINE TASK PARAMETERS (required)
 var slider_width = 500; // width of slider in pixels
 var scale_min_max = [1, 5]; // slider min max values
 var scale_starting_points = [2, 3, 4]; // starting point of scale; if length > 1, randomly pick one for each scale item
-var scale_labels = ['strongly disagree', 'neither agree nor disagree', 'strongly agree'];
+var scale_labels = ['not at all profound', 'very profound'];
 var step = 0.01; // step size of scale
-var require_movement = false; // whether subject must move slider before they're allowed to click continue
-var shuffle_items = false; // randomize order of item presentation
+var require_movement = false; // whether subject must move slider before continuig
+var shuffle_items = true; // randomize order of item presentation
 
 jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     subject: info_.subject,
@@ -36,7 +33,12 @@ jsPsych.data.addProperties({ // do not edit this section unnecessarily!
 var instructions = {
     type: "instructions",
     pages: [
-        generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("You're going to read several statements. Please indicate how well each one describes you.", font_colour),
+        generate_html("Welcome!", font_colour, 25, [0, 0]) +
+        generate_html("We are interested in how people experience the profound.", font_colour) +
+        generate_html("Below are a series of statements taken from relevant websites. ", font_colour) +
+        generate_html("Please read each statement and take a moment to think about what it might mean.", font_colour) +
+        generate_html("Then please rate how <strong>profound</strong> you think it is.", font_colour) +
+        generate_html("Profound means 'of deep meaning, of great and broadly inclusive significance.'", font_colour),
     ],
     show_clickable_nav: true,
     show_page_number: false,
@@ -46,11 +48,12 @@ var start_point;  // to specify scale starting point on each trial
 var procedure = {
     timeline: [{
         type: 'html-slider-response',
-        stimulus: jsPsych.timelineVariable('desc'),
+        stimulus: function () {
+            return generate_html(jsPsych.timelineVariable('desc', true), font_colour);
+        },   
         data: {
             q: jsPsych.timelineVariable('q'),
             subscale: jsPsych.timelineVariable('subscale'),
-            subscale2: jsPsych.timelineVariable('subscale2'),
             reverse: jsPsych.timelineVariable('reverse')
         },
         labels: scale_labels,
@@ -76,8 +79,7 @@ var procedure = {
             }
         }
     }],
-
-    timeline_variables: items,  // items come from environment variable in items.js
+    timeline_variables: items, // items come from environment variable in items.js
     randomize_order: shuffle_items
 };
 
@@ -98,13 +100,9 @@ var procedure = {
 
 
 
-
-
-
-
 // create timeline (order of events)
 var timeline = [];
-var html_path = "../../surveys/bigfiveaspect/consent.html";  // make it a global variable
+var html_path = "../../surveys/brs2/consent.html";  // make it a global variable
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
 timeline.push(instructions);
@@ -116,14 +114,14 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        var datasummary = summarize_data();
+        // var datasummary = summarize_data();
 
-        jsPsych.data.get().addToAll({
+        jsPsych.data.get().addToAll({ 
             total_time: jsPsych.totalTime() / 60000,
         });
-        jsPsych.data.get().first(1).addToAll({
+        jsPsych.data.get().first(1).addToAll({ 
             info_: info_,
-            datasummary: datasummary,
+            // datasummary: datasummary,
         });
         if (debug) {
             jsPsych.data.displayData();
@@ -131,8 +129,8 @@ jsPsych.init({
 
         info_.tasks_completed.push(taskinfo.uniquestudyid); // add uniquestudyid to info_
         info_.current_task_completed = 1;
-        localStorage.setObj('info_', info_);
-        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url);
+        localStorage.setObj('info_', info_); 
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); 
     }
 });
 
@@ -154,12 +152,9 @@ jsPsych.init({
 
 
 
-
-
-
 // functions to summarize data below
-function preprocess_data() {
-    var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" });
+function preprocess_data() {  
+    var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" }); 
     var data_sub = data_sub.filterCustom(function (trial) { return trial.q > 0 });
     var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 200 });
     return data_sub;
@@ -167,37 +162,23 @@ function preprocess_data() {
 
 function summarize_data() {
     var d = preprocess_data(); // get preprocess/clean data
-    var dat = JSON.parse(d.json());
-    var variance = d.select("resp_reverse").variance();
 
-    var subscale = d3.rollups(dat,
-        function (v) {
-            return {
-                value: d3.mean(v, d => d.resp_reverse),
-            }
-        },
-        d => d.subscale);
-    subscale = Array.from(subscale, function (i) {  // unnest data
-        return { subscale: i[0], value: i[1].value, param: "subscale"}
-    });
+    // select trials for each subscale
+    var consistent_interest = d.filter({ "subscale": "consistentInterest" });
+    var persevere_effort = d.filter({ "subscale": "persevereEffort" });
 
-    var subscale2 = d3.rollups(dat,
-        function (v) {
-            return {
-                value: d3.mean(v, d => d.resp_reverse),
-            }
-        },
-        d => d.subscale2);
-    subscale2 = Array.from(subscale2, function (i) {  // unnest data
-        return { subscale: i[0], value: i[1].value, param: "subscale2"}
-    });
-    
-    var datasummary = subscale.concat(subscale2);
+    // mean resp
+    var consistent_resp = consistent_interest.select('resp_reverse').mean();
+    var persevere_resp = persevere_effort.select('resp_reverse').mean();
+    var mean_resp = d.select('resp_reverse').mean();
 
-    // add variance
-    var variance = { "subscale": "variance", "value": variance, "param": "variance" };
-    var datasummary = datasummary.concat(variance); 
-    
+    // store above info in array
+    var datasummary = [
+        { type: "consistent_interest", param: "resp", value: consistent_resp },
+        { type: "persevere_effort", param: "resp", value: persevere_resp },
+        { type: "all", param: "resp", value: mean_resp },
+    ];
+
     // add id/country information
     datasummary.forEach(function (s) {
         s.subject = info_.subject;
@@ -209,6 +190,3 @@ function summarize_data() {
     console.log(datasummary);
     return datasummary
 }
-
-
-

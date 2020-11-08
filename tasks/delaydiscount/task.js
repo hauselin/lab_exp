@@ -2,13 +2,11 @@
 const taskinfo = {
     type: 'task', // 'task', 'survey', or 'study'
     uniquestudyid: 'delaydiscount', // unique task id: must be IDENTICAL to directory name
-    desc: 'delay discounting task staircase with 6 delays', // brief description of task
+    desc: 'delay discounting task staircase with 5 delays', // brief description of task
     condition: null, // experiment/task condition
     redirect_url: "/tasks/delaydiscount/viz" // set to false if no redirection required
 };
-
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-
 const debug = false;  // true to print messages to console and display json results
 var font_colour = "black";
 var background_colour = "white";
@@ -19,7 +17,7 @@ const large_reward = 100; //Large reward after cost.
 var costs = [2, 10, 15, 50, 100];  //costs in days.
 // var costs = [2, 10]; // I tend to use fewer when debugging (so the task finishes faster)
 const trials_per_cost = 6; //Number of trials per cost/delays.
-const practice_trials = 3; //Number of practice trials.
+const n_practice_trials = 5; //Number of practice trials.
 
 // DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING 
 var small_reward = null;  //Small reward without cost.
@@ -37,7 +35,7 @@ if (reverse_sides) {
     stimuli_sides = "left_small_right_large";
 }
 
-jsPsych.data.addProperties({
+jsPsych.data.addProperties({  // do not edit this section unnecessarily!
     subject: info_.subject,
     type: taskinfo.type,
     uniquestudyid: taskinfo.uniquestudyid,
@@ -45,25 +43,15 @@ jsPsych.data.addProperties({
     condition: taskinfo.condition,    
 });
 
-
 var instructions = {
     type: "instructions",
     pages: [
         generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("Click next or press the right arrow key to ontinue.", font_colour),
-        generate_html("In this task, you'll have to decide which option you prefer.", font_colour) + generate_html("For example, you'll see two options: $30.00 in 3 days or $2.40 in 0 days (today).", font_colour) + generate_html("Choosing $30 days in 3 days means you'll wait 3 days so you can get $30. Choosing $2.40 means you will receive $2.40 today.", font_colour) + generate_html("You'll use the left/right arrow keys on the keyboard to indicate which option you prefer (left or right option, respectively).", font_colour),
-        generate_html("Next up is a practice trial.", font_colour) + generate_html("Your data will NOT be recorded.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour)
+        generate_html("In this task, you'll have to decide which option you prefer.", font_colour) + generate_html("For example, you'll see two options: <strong>$30.00 in 3 days</strong> or <strong>$2.40 in 0 days (today)</strong>.", font_colour) + generate_html("Choosing $30 days in 3 days means you'll wait 3 days so you can get $30. Choosing $2.40 means you will receive $2.40 today.", font_colour) + generate_html("You'll use the left/right arrow keys on the keyboard to indicate which option you prefer (left or right option, respectively).", font_colour),
+        generate_html("You'll now practice making these decisions.", font_colour) + generate_html("Because it's practice, your data will NOT be recorded, so feel free to explore the options.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour)
     ],
     show_clickable_nav: true,
     show_page_number: true,
-};
-
-var instructions2 = {
-    type: "instructions",
-    pages: [
-        generate_html("That was the practice trial.", font_colour) + generate_html("Click next or press the right arrow key to begin the experiment.", font_colour) + generate_html("Your data WILL be recorded this time.", font_colour)
-    ],
-    show_clickable_nav: true,
-    show_page_number: false,
 };
 
 var trial = {
@@ -139,9 +127,7 @@ var trial = {
 
 // create practice trials
 var practice_trial = jsPsych.utils.deepCopy(trial);
-delete practice_trial.on_finish;
-delete practice_trial.timeline;
-practice_trial.repetitions = practice_trials;
+practice_trial.repetitions = n_practice_trials;
 practice_trial.timeline = [
     {
         stimulus: function () {
@@ -156,18 +142,41 @@ practice_trial.timeline = [
     }];
 practice_trial.on_finish = function (data) { data.event = 'practice'; };
 
-// create task timeline
-// create timeline
+var practice_end_instructions = {
+    type: "instructions",
+    pages: [
+        generate_html("That's the end of the practice session.", font_colour) + generate_html("Click next or press the right arrow key to begin the actual session.", font_colour) + generate_html("Your data WILL be recorded from now on.", font_colour)
+    ],
+    show_clickable_nav: true,
+    show_page_number: false,
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// create timeline (order of events)
 var timeline = [];
 const html_path = "../../tasks/delaydiscount/consent.html";
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
 timeline.push(instructions);
 timeline.push(practice_trial);
-timeline.push(instructions2);
+timeline.push(practice_end_instructions);
 timeline.push(trial);
-timeline = create_demographics(timeline, [7,8]);
+timeline = create_demographics(timeline);
 
+// run task
 jsPsych.init({
     timeline: timeline,
     on_finish: function () {
@@ -193,6 +202,24 @@ jsPsych.init({
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); 
     }
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // functions to summarize data below
 function summarize_data() {
