@@ -302,6 +302,30 @@
                     <div class="col-auto col-xl-6">
                         <div class="row justify-content-center">
                             <div class="col-xl-10 col-lg-11 ml-auto">
+                                <span class="badge badge-primary">Correlation heatmap</span>
+                                <div class="my-2">
+                                    <span class="h4">Discounting across the globe</span>
+                                </div>
+                                <p class="lead">People in different countries and cultures differ in how much they care
+                                    about or devalue future rewards. Brighter regions indicate less discounting or
+                                    impulsivity.</p>
+                                <p class="lead">If you find the results interesting, tell your friends from other
+                                    countries to complete this task.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-auto col-xl-6">
+                        <div id="vis9" class="center"></div>
+                    </div>
+                    <div class="col-auto col-xl-6">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11 ml-auto">
                                 <span class="badge badge-primary">Global choropleth</span>
                                 <div class="my-2">
                                     <span class="h4">Discounting across the globe</span>
@@ -789,6 +813,52 @@
     </script>
 
 
+    <!-- Correlation heatmap -->
+    <script type="text/javascript" defer>
+
+        var correlation_heatmap = {
+            config: { axis: { grid: true, tickBand: "extent", labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            width: 500,
+            height: 400,
+            layer: [
+                {
+                    data: { values: matrix_array },
+                    mark: { type: "rect", tooltip: true },
+                    encoding: {
+                        x: {
+                            type: "ordinal",
+                            field: "x",
+                        },
+                        y: {
+                            type: "ordinal",
+                            field: "y",
+                        },
+                        color: { field: "value", type: "quantitative", title: "Correlation", legend: { gradientLength: 100 } },
+                        tooltip: [
+                            { field: 'value', format: ".0f", title: 'Correlation', type: "quantitative" },
+                        ]
+                    }
+                },
+                {
+                    mark: { type: "text", fontSize: 18 },
+                    encoding: {
+                        text: { field: "value", type: "quantitative" },
+                        color: {
+                            condition: { test: "datum['value'] < 0", "value": "black" },
+                            value: "white"
+                        }
+                    }
+                }
+            ],
+            width: 500,
+            height: 400,
+        };
+
+    </script>
+
+
 
     <!-- Global response mean choropleth -->
     <script defer>
@@ -884,7 +954,8 @@
                 vegaEmbed('#vis5', extraversion_density, { actions: { source: false, compiled: false, editor: false } });
                 vegaEmbed('#vis6', agreeableness_density, { actions: { source: false, compiled: false, editor: false } });
                 vegaEmbed('#vis7', neuroticism_density, { actions: { source: false, compiled: false, editor: false } });
-                vegaEmbed('#vis8', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis8', correlation_heatmap, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis9', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
             }
         }, 3000);
         fontLoader.loadFonts();

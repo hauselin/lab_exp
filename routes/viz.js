@@ -3,6 +3,7 @@ const router = express.Router();
 const DataLibrary = require("../models/datalibrary");
 const d3 = require("d3-array");
 const helper = require('../routes/helpers/helpers');
+const jStat = require('jstat');
 
 router.get("/tasks/delaydiscount/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'delaydiscount' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
@@ -105,15 +106,24 @@ router.get("/surveys/gritshort/viz", function (req, res) {
 router.get("/surveys/bigfiveaspect/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'bigfiveaspect' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
         var data_array = [];
-        var matrix_array = [];
+        const corr_matrix = {
+            'neuroticism-withdrawal': [],
+            'neuroticism-volatility': [],
+            'agreeableness-compassion': [],
+            'agreeableness-politeness': [],
+            'conscientiousness-inudstriousness': [],
+            'conscientiousness-orderliness': [],
+            'extraversion-enthusiasm': [],
+            'extraversion-assertiveness': [],
+            'openness-intellect': [],
+            'openness-openness': []
+        };
         data.map(function (i) {
             data_array.push(i.datasummary);
-            temp_data = i.datasummary.filter(i => i.param == 'subscale2');
-            temp_matrix = {};
+            temp_data = i.datasummary.filter(i => i.param == 'subscale');
             for (i = 0; i < temp_data.length; i++) {
-                temp_matrix[temp_data[i].subscale] = temp_data[i].value;
+                corr_matrix[temp_data[i].subscale].push(temp_data[i].value);
             }
-            matrix_array.push(temp_matrix);
         });
         data_array = data_array.flat(1);  // flatten objects in array
 
@@ -128,6 +138,19 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
         country_array = Array.from(country_array, function (i) {  // unnest data
             return { country_code: i[0], country: i[1].country, value: i[1].value }
         });
+
+        var matrix_array = [];
+        for (i = 0; i < Object.keys(corr_matrix).length; i++) {
+            for (j = 0; j < Object.keys(corr_matrix).length; j++) {
+                matrix_array.push(
+                    {
+                        x: Object.keys(corr_matrix)[i],
+                        y: Object.keys(corr_matrix)[j],
+                        value: jStat.corrcoeff(Object.values(corr_matrix)[i], Object.values(corr_matrix)[j]),
+                    }
+                )
+            }
+        }
 
         res.render('viz/bigfiveaspect.ejs', { data_array: data_array, matrix_array: matrix_array, country_array: country_array, parent_path: helper.getParentPath(req) });
     }).catch(err => {
