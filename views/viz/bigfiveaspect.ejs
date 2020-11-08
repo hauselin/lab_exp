@@ -817,7 +817,7 @@
     <script type="text/javascript" defer>
 
         var correlation_heatmap = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            config: { axis: { grid: true, tickBand: "extent", labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             width: 500,
@@ -835,30 +835,22 @@
                             type: "ordinal",
                             field: "y",
                         },
-                        color: { field: "value", type: "quantitative", title: "Correlation", legend: {gradientLength: 100} },
+                        color: { field: "value", type: "quantitative", title: "Correlation", legend: { gradientLength: 100 } },
                         tooltip: [
                             { field: 'value', format: ".0f", title: 'Correlation', type: "quantitative" },
                         ]
                     }
                 },
-                // {
-                //     data: (function () { // anonymous function
-                //         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                //             return { values: subject_data.filter(i => i.subscale == "neuroticism") };
-                //         } else {  // don't draw vertical rule
-                //             return { values: [] };
-                //         }
-                //     }()),
-                //     mark: { type: "rule", opacity: 0.7 },
-                //     encoding: {
-                //         x: { aggregate: "mean", field: "value", type: "quantitative" },
-                //         color: { value: "#38405C", type: "quantitative" },
-                //         size: { value: 3 },
-                //         tooltip: [
-                //             { field: 'value', format: ".0f", title: 'Your neuroticism', type: "quantitative" }]
-                //     },
-                // }
-            ],
+                {
+                    mark: { type: "text", fontSize: 18 },
+                    encoding: {
+                        text: { field: "value", type: "quantitative" },
+                        color: {
+                            condition: {test: "datum['value'] < 0", "value": "black"},
+                            value: "white"
+                        }
+                    }
+                }],
             width: 500,
             height: 400,
         };
