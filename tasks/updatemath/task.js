@@ -19,6 +19,12 @@ var n_digits = 2; // amount of numbers to show
 var n_distract_response = 3; // amount of distractors
 var n_trial = 2; // number of trials and the amount of sequences to show
 
+if (n_distract_response == 3) {
+    arrow_choices = [37, 38, 39, 40]
+} else if (n_distract_response == 1) {
+    arrow_choices = [37, 39]
+}
+
 // generate mental math updating array
 // determine correct response
 function number_update(array1, array2) {
@@ -119,7 +125,7 @@ var response = {
         options.map(x => options_key.push(x))
         return generate_html(options_key, font_colour, 30);
     },
-    choices: [49, 50, 51, 52],
+    choices: arrow_choices,
     trial_duration: 10000,
     data: { event: "stimulus" },
     post_trial_gap: 500,
