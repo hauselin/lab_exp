@@ -20,9 +20,17 @@ var n_distract_response = 3; // amount of distractors
 var n_trial = 2; // number of trials and the amount of sequences to show
 
 if (n_distract_response == 3) {
-    arrow_choices = [37, 38, 39, 40]
+    choices = [
+        {keycode: 37},
+        {keycode: 38},
+        {keycode: 39},
+        {keycode: 40}
+    ];
 } else if (n_distract_response == 1) {
-    arrow_choices = [37, 39]
+    choices = [
+        {keycode: 37},
+        {keycode: 39},
+    ];
 }
 
 // generate mental math updating array
@@ -125,7 +133,7 @@ var response = {
         options.map(x => options_key.push(x))
         return generate_html(options_key, font_colour, 30);
     },
-    choices: arrow_choices,
+    choices: choices.map(x => x.keycode),
     trial_duration: 10000,
     data: { event: "stimulus" },
     post_trial_gap: 500,
