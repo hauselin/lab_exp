@@ -105,7 +105,7 @@ router.get("/surveys/gritshort/viz", function (req, res) {
 router.get("/surveys/bigfiveaspect/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'bigfiveaspect' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
         var data_array = [];
-        var matrix_array = [];
+        var matrix_array = [[],[],[],[],[],[],[],[],[],[]];
         const subscales = [
             'neuroticism-withdrawal',
             'neuroticism-volatility',
