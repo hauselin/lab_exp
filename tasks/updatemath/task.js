@@ -85,6 +85,8 @@ var prompt = {
     post_trial_gap: 500
 }
 
+var sequence_variables = Array.from(random_sequence, x => Object({data: x}));
+
 var trial_sequence = {
     timeline: [prompt],
     // timeline_variables: stimuli_shuffled,
