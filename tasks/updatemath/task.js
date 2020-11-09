@@ -1,3 +1,38 @@
+// DEFINE TASK (required)
+const taskinfo = {
+    type: 'task', // 'task', 'survey', or 'study'
+    uniquestudyid: 'updatemath', // unique task id: must be IDENTICAL to directory name
+    desc: 'Mental math', // brief description of task
+    condition: null, // experiment/task condition
+    redirect_url: false // set to false if no redirection required
+};
+
+var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
+
+const debug = true;
+var font_colour = "black";
+var background_colour = "white";
+set_colour(font_colour, background_colour);
+
+var num_to_update = 1; // number to add to every digit
+var n_digits = 2; // amount of numbers to show
+var n_distract_response = 3; // amount of distractors
+var n_trial = 2; // number of trials and the amount of sequences to show
+
+if (n_distract_response == 3) {
+    choices = [
+        { keycode: 37 },
+        { keycode: 38 },
+        { keycode: 39 },
+        { keycode: 40 }
+    ];
+} else if (n_distract_response == 1) {
+    choices = [
+        { keycode: 37 },
+        { keycode: 39 },
+    ];
+}
+
 // generate mental math updating array
 // determine correct response
 function number_update(array1, array2) {
@@ -49,3 +84,83 @@ function generate_similar_numbers(array, n_distractors) {
     };
     return [array].concat(shuffle(result.slice(0, n_distractors))); // [array + distractors]
 }
+
+function generate_sequence(n_digits) {
+    var sequence = [];
+    for (i = 0; i < n_digits; i++) {
+        sequence.push(Math.floor(Math.random() * 10))
+    }
+    return sequence
+}
+
+var prompt = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        return generate_html("Please add the number below to each of the following numbers prompted: <br>", font_colour, 20) + generate_html(random_number.toString(), font_colour, 30);
+    },
+    choices: jsPsych.NO_KEYS,
+    trial_duration: 2000,
+    data: { event: "stimulus" },
+    post_trial_gap: 500
+}
+
+var temp_digits = []
+var number_sequence = {
+    timeline: [
+        {
+            type: "html-keyboard-response",
+            stimulus: function () {
+                return generate_html(jsPsych.timelineVariable('digit', true), font_colour, 30);
+            },
+            choices: jsPsych.NO_KEYS,
+            trial_duration: 1000,
+            data: { event: "stimulus" },
+            post_trial_gap: 500,
+            on_finish: function (data) {
+                data.digit = jsPsych.timelineVariable('digit', true);
+                temp_digits.push(data.digit);
+            }
+        }
+    ],
+    timeline_variables: Array.from(generate_sequence(n_digits), x => Object({ digit: x })),
+}
+
+var response = {
+    type: "html-keyboard-response",
+    on_start: function () {
+        shuffled_options = [];
+        options = generate_similar_numbers(temp_digits, n_distract_response);
+        shuffled_options.push(
+            { prompt: options[0], correct: true }
+        );
+        for (i = 1; i < n_distract_response + 1; i++) {
+            shuffled_options.push(
+                { prompt: options[i], correct: false }
+            )
+        }
+        shuffled_options = d3.shuffle(shuffled_options)
+        for (i = 0; i < n_distract_response + 1; i++) {
+            choices[i] = Object.assign(choices[i], shuffled_options[i]);
+        }
+    },
+    stimulus: function () {
+        return generate_html(choices, font_colour, 30);
+    },
+    choices: choices.map(x => x.keycode),
+    trial_duration: 10000,
+    data: { event: "stimulus" },
+    post_trial_gap: 500,
+}
+
+var timeline = [];
+timeline.push(number_sequence);
+timeline.push(response);
+
+jsPsych.init({
+    timeline: timeline,
+    on_finish: function () {
+        if (debug) {
+            jsPsych.data.displayData();
+        }
+    }
+});
