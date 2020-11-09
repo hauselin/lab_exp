@@ -1,0 +1,26 @@
+q,desc,subscale,subscale,reverse,min,max,min_label,max_label
+1,It is very important to me to help people around me. I want to care for other people.,benevolence,None,1,1,6,very much like me,not at all like me
+2,It is important to me to be loyal to my friends. I want to devote myself to people close to me.,benevolence,None,1,1,6,very much like me,not at all like me
+3,"I think it is important that every person in the world be treated equally. I wants justice for everybody, even for people I don't know.",universalism,None,1,1,6,very much like me,not at all like me
+4,"It is important to me to listen to people who are different from me. Even when I disagree with them, I still want to understand them.",universalism,None,1,1,6,very much like me,not at all like me
+5,I strongly believe that people should care for nature. Looking after the environment is important to me.,universalism,None,1,1,6,very much like me,not at all like me
+6,Thinking up new ideas and being creative is important to me. I like to do things in my own original way.,self-direction,individualism-independence,1,1,6,very much like me,not at all like me
+7,It is important to me to make my own decisions about what I do. I like to be free and not depend on others.,self-direction,individualism-independence,1,1,6,very much like me,not at all like me
+8,I like surprises and am always looking for new things to do. I think it is important to do lots of different things in life.,stimulation,None,1,1,6,very much like me,not at all like me
+9,I look for adventures and like to take risks. I want to have an exciting life.,stimulation,None,1,1,6,very much like me,not at all like me
+10,"Having a good time is important to me. I like to ""spoil"" myself.",hedonism,None,1,1,6,very much like me,not at all like me
+11,I seek every chance I can to have fun. It is important to me to do things that give me pleasure.,hedonism,None,1,1,6,very much like me,not at all like me
+12,It is very important to me to show my abilities. I want people to admire what I do.,achievement,None,1,1,6,very much like me,not at all like me
+13,Being very successful is important to me. I like to impress other people.,achievement,None,1,1,6,very much like me,not at all like me
+14,It is important to me to be rich. I want to have a lot of money and expensive things.,power,None,1,1,6,very much like me,not at all like me
+15,It is important to me to be in charge and tell others what to do. I want people to do what I say.,power,None,1,1,6,very much like me,not at all like me
+16,It is important to me to live in secure surroundings. I avoid anything that might endanger my safety.,security,None,1,1,6,very much like me,not at all like me
+17,It is very important to me that my country be safe from threats from within and without. I am concerned that social order be protected.,security,None,1,1,6,very much like me,not at all like me
+18,"I believe that people should do what they're told. I think people should follow rules at all times, even when no-one is watching.",conformity-obedience,conformity-obedience,1,1,6,very much like me,not at all like me
+19,It is important to me always to behave properly. I want to avoid doing anything people would say is wrong.,conformity-obedience,conformity-obedience,1,1,6,very much like me,not at all like me
+20,It is important to me to be humble and modest. I try not to draw attention to myself.,conformity-obedience,conformity-obedience,1,1,6,very much like me,not at all like me
+21,Tradition is important to me. I try to follow the customs handed down by my religion or my family.,conformity-obedience,conformity-obedience,1,1,6,very much like me,not at all like me
+22,Generally speaking would you say that most people can be trusted or that you can't be too careful in dealing with people?,trust,trust,0,0,10,you can't be too careful,most people can be trusted
+23,"Do you think that most people would try to take advantage of you if they got the chance, or would they try to be fair?",fairness,fairness,0,0,10,most people would try to take advantage of me,most people would try to be fair
+24,I think it's important not to ask for more than what you have. I believe that people should be satisfied with what they have.,tradition,None,1,1,6,very much like me,not at all like me
+25,Religious belief is important to me. I try hard to do what my religion requires.,tradition,None,1,1,6,very much like me,not at all like me

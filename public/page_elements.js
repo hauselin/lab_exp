@@ -29,6 +29,12 @@ var tasks_to_try = [
         uniquestudyid: 'bigfiveaspect',
         time: '7-10 min'
     },
+    {
+        uniquestudyid: 'schulzvalues2019',
+        name: 'What are your values?',
+        description: "What do you care about",
+        time: '5-6 min'
+    }
 ];
 
 var surveys = [    
@@ -55,8 +61,19 @@ var surveys = [
         name: 'Do you like profoundness?',
         description: "Are you sensitive to the 'profound'?",
         time: '4-7 min'
+    },
+    {
+        uniquestudyid: 'schwartzvalues21',
+        name: 'What do you value?',
+        description: "What values do you care most about?",
+        time: '4-6 min'
+    },
+    {
+        uniquestudyid: 'schulzvalues2019',
+        name: 'What are your values?',
+        description: "What do you care about",
+        time: '5-6 min'
     }
-    
 ];
 
 var tasks = [
@@ -114,7 +131,7 @@ var faq = [
     },
     {
         q: "Who are we?",
-        resp: "A team of behavioral and psychological researchers."
+        resp: "Behavioral scientists and psychological researchers."
     },
     {
         q: "Can I pause a task/survey so I can resume later?",

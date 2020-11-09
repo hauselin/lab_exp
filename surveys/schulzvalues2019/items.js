@@ -1,0 +1,278 @@
+
+var items = [
+    {
+        "q": 1,
+        "desc": "It is very important to me to help people around me. I want to care for other people.",
+        "subscale": "benevolence",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 2,
+        "desc": "It is important to me to be loyal to my friends. I want to devote myself to people close to me.",
+        "subscale": "benevolence",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 3,
+        "desc": "I think it is important that every person in the world be treated equally. I wants justice for everybody, even for people I don't know.",
+        "subscale": "universalism",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 4,
+        "desc": "It is important to me to listen to people who are different from me. Even when I disagree with them, I still want to understand them.",
+        "subscale": "universalism",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 5,
+        "desc": "I strongly believe that people should care for nature. Looking after the environment is important to me.",
+        "subscale": "universalism",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 6,
+        "desc": "Thinking up new ideas and being creative is important to me. I like to do things in my own original way.",
+        "subscale": "self-direction",
+        "subscale": "individualism-independence",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 7,
+        "desc": "It is important to me to make my own decisions about what I do. I like to be free and not depend on others.",
+        "subscale": "self-direction",
+        "subscale": "individualism-independence",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 8,
+        "desc": "I like surprises and am always looking for new things to do. I think it is important to do lots of different things in life.",
+        "subscale": "stimulation",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 9,
+        "desc": "I look for adventures and like to take risks. I want to have an exciting life.",
+        "subscale": "stimulation",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 10,
+        "desc": "Having a good time is important to me. I like to \"spoil\" myself.",
+        "subscale": "hedonism",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 11,
+        "desc": "I seek every chance I can to have fun. It is important to me to do things that give me pleasure.",
+        "subscale": "hedonism",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 12,
+        "desc": "It is very important to me to show my abilities. I want people to admire what I do.",
+        "subscale": "achievement",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 13,
+        "desc": "Being very successful is important to me. I like to impress other people.",
+        "subscale": "achievement",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 14,
+        "desc": "It is important to me to be rich. I want to have a lot of money and expensive things.",
+        "subscale": "power",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 15,
+        "desc": "It is important to me to be in charge and tell others what to do. I want people to do what I say.",
+        "subscale": "power",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 16,
+        "desc": "It is important to me to live in secure surroundings. I avoid anything that might endanger my safety.",
+        "subscale": "security",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 17,
+        "desc": "It is very important to me that my country be safe from threats from within and without. I am concerned that social order be protected.",
+        "subscale": "security",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 18,
+        "desc": "I believe that people should do what they're told. I think people should follow rules at all times, even when no-one is watching.",
+        "subscale": "conformity-obedience",
+        "subscale": "conformity-obedience",
+        "reverse": 0,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 19,
+        "desc": "It is important to me always to behave properly. I want to avoid doing anything people would say is wrong.",
+        "subscale": "conformity-obedience",
+        "subscale": "conformity-obedience",
+        "reverse": 0,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 20,
+        "desc": "It is important to me to be humble and modest. I try not to draw attention to myself.",
+        "subscale": "conformity-obedience",
+        "subscale": "conformity-obedience",
+        "reverse": 0,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 21,
+        "desc": "Tradition is important to me. I try to follow the customs handed down by my religion or my family.",
+        "subscale": "conformity-obedience",
+        "subscale": "conformity-obedience",
+        "reverse": 0,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 22,
+        "desc": "Generally speaking would you say that most people can be trusted or that you can't be too careful in dealing with people?",
+        "subscale": "trust",
+        "subscale": "trust",
+        "reverse": 1,
+        "min": 0,
+        "max": 10,
+        "min_label": "you can't be too careful",
+        "max_label": "most people can be trusted"
+    },
+    {
+        "q": 23,
+        "desc": "Do you think that most people would try to take advantage of you if they got the chance, or would they try to be fair?",
+        "subscale": "fairness",
+        "subscale": "fairness",
+        "reverse": 1,
+        "min": 0,
+        "max": 10,
+        "min_label": "most people would try to take advantage of me",
+        "max_label": "most people would try to be fair"
+    },
+    {
+        "q": 24,
+        "desc": "I think it's important not to ask for more than what you have. I believe that people should be satisfied with what they have.",
+        "subscale": "tradition",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    },
+    {
+        "q": 25,
+        "desc": "Religious belief is important to me. I try hard to do what my religion requires.",
+        "subscale": "tradition",
+        "subscale": "None",
+        "reverse": 1,
+        "min": 1,
+        "max": 6,
+        "min_label": "very much like me",
+        "max_label": "not at all like me"
+    }
+];
