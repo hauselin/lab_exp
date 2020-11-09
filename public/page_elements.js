@@ -30,9 +30,8 @@ var tasks_to_try = [
         time: '7-10 min'
     },
     {
+        route: '/surveys/schulzvalues2019',
         uniquestudyid: 'schulzvalues2019',
-        name: 'What are your values?',
-        description: "What do you care about",
         time: '5-6 min'
     }
 ];
@@ -71,7 +70,7 @@ var surveys = [
     {
         uniquestudyid: 'schulzvalues2019',
         name: 'What are your values?',
-        description: "What do you care about",
+        description: "What values do you care about?",
         time: '5-6 min'
     }
 ];
