@@ -6,28 +6,40 @@ const taskinfo = {
     condition: null, // experiment/task condition
     redirect_url: false // set to false if no redirection required
 };
-
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-
 const debug = true;
 var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
 
-var num_to_update = 1; // number to add to every digit
-var n_digits = 2; // amount of numbers to show
-var n_distract_response = 3; // amount of distractors
+// DEFINE TASK PARAMETERS (required)
+var num_to_update = -7; // number to add to every digit
+var n_digits = 3; // amount of numbers to show (must be > 1)
+var n_distract_response = 1; // amount of distractors
 var n_trial = 2; // number of trials and the amount of sequences to show
+var duration_digit = 500; // how long to show each digit (ms)
+var duration_post_digit = 200;  // pause duration after each digit
+var rt_update_deadline = 3000; 
 
-if (n_distract_response == 3) {
-    choices = [
+// DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING 
+jsPsych.data.addProperties({  // do not edit this section unnecessarily!
+    subject: info_.subject,
+    type: taskinfo.type,
+    uniquestudyid: taskinfo.uniquestudyid,
+    desc: taskinfo.desc,
+    condition: taskinfo.condition,
+});
+
+// keycode for responses
+if (n_distract_response == 3) { 
+    choices = [  // 3 distractors + 1 correct
         { keycode: 37 },
         { keycode: 38 },
         { keycode: 39 },
         { keycode: 40 }
     ];
 } else if (n_distract_response == 1) {
-    choices = [
+    choices = [  // 1 distractor + 1 correct
         { keycode: 37 },
         { keycode: 39 },
     ];
@@ -85,6 +97,7 @@ function generate_similar_numbers(array, n_distractors) {
     return [array].concat(shuffle(result.slice(0, n_distractors))); // [array + distractors]
 }
 
+// generate random digits
 function generate_sequence(n_digits) {
     var sequence = [];
     for (i = 0; i < n_digits; i++) {
@@ -93,29 +106,45 @@ function generate_sequence(n_digits) {
     return sequence
 }
 
-var prompt = {
-    type: "html-keyboard-response",
-    stimulus: function () {
-        return generate_html("Please add the number below to each of the following numbers prompted: <br>", font_colour, 20) + generate_html(random_number.toString(), font_colour, 30);
-    },
-    choices: jsPsych.NO_KEYS,
-    trial_duration: 2000,
-    data: { event: "stimulus" },
-    post_trial_gap: 500
+// cue/prompt above each digit (string) (e.g., +3, -2)
+function update_prompt(digit) {
+    var s; 
+    if (digit >= 0) {
+        s = "+" + digit; 
+    } else {
+        s = "&#x2212;" + Math.abs(digit);  // minus sign
+    }
+    return s;
 }
 
-var temp_digits = []
+var prompt_digit = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        var remind = update_prompt(num_to_update) + " to each digit";
+        remind = generate_html(remind, font_colour, 30);
+        return remind
+    },
+    choices: jsPsych.NO_KEYS,
+    trial_duration: 1000,
+    data: { event: "digit_prompt" },
+    post_trial_gap: 750
+};
+
+var temp_digits = [];
 var number_sequence = {
     timeline: [
         {
             type: "html-keyboard-response",
             stimulus: function () {
-                return generate_html(jsPsych.timelineVariable('digit', true), font_colour, 30);
+                var remind = update_prompt(num_to_update); 
+                remind = generate_html(remind, font_colour, 30) + "<br>";
+                var d = generate_html(jsPsych.timelineVariable('digit', true), font_colour, 80)
+                return remind + d;
             },
             choices: jsPsych.NO_KEYS,
-            trial_duration: 1000,
-            data: { event: "stimulus" },
-            post_trial_gap: 500,
+            trial_duration: duration_digit,
+            data: { event: "digit" },
+            post_trial_gap: duration_post_digit,
             on_finish: function (data) {
                 data.digit = jsPsych.timelineVariable('digit', true);
                 temp_digits.push(data.digit);
@@ -138,7 +167,7 @@ var response = {
                 { prompt: options[i], correct: false }
             )
         }
-        shuffled_options = d3.shuffle(shuffled_options)
+        shuffled_options = shuffle(shuffled_options)
         for (i = 0; i < n_distract_response + 1; i++) {
             choices[i] = Object.assign(choices[i], shuffled_options[i]);
         }
@@ -147,12 +176,13 @@ var response = {
         return generate_html(choices, font_colour, 30);
     },
     choices: choices.map(x => x.keycode),
-    trial_duration: 10000,
-    data: { event: "stimulus" },
+    trial_duration: rt_update_deadline,
+    data: { event: "response" },
     post_trial_gap: 500,
 }
 
 var timeline = [];
+timeline.push(prompt_digit);
 timeline.push(number_sequence);
 timeline.push(response);
 
