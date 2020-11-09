@@ -122,7 +122,7 @@ var faq = [
     },
     {
         q: "Can I suggest tasks/surveys to be added?",
-        resp: "Definitely! Email us."
+        resp: "Definitely! <a href='mailto:anthrope.me@gmail.com'>Email us</a>."
     },
     {
         q: "Can I create an account to keep track of my results?",
