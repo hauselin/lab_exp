@@ -87,7 +87,7 @@ var tasks = [
     {
         uniquestudyid: 'flanker',
         name: 'Distractibility and attention',
-        description: 'How good are you at ignoring distractions? try this simple flanker task to find out.',
+        description: 'How good are you at ignoring distractions? Try this simple flanker task to find out.',
         time: '5-8 min'
     },
 ];
