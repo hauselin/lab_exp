@@ -36,7 +36,7 @@ jsPsych.data.addProperties({  // do not edit this section unnecessarily!
 });
 
 // keycode for responses
-choices = [
+var choices = [
     { keycode: 37, response: 'left'}, 
     { keycode: 39, response: 'right'},
 ];
@@ -95,15 +95,6 @@ function generate_similar_numbers(array, n_distractors) {
         v += 1;
     };
     return [array].concat(shuffle(result.slice(0, n_distractors))); // [array + distractors]
-}
-
-// generate random digits
-function generate_sequence(n_digits) {
-    var sequence = [];
-    for (i = 0; i < n_digits; i++) {
-        sequence.push(Math.floor(Math.random() * 10))
-    }
-    return sequence
 }
 
 // cue/prompt above each digit (string) (e.g., +3, -2)
@@ -171,7 +162,11 @@ var number_sequence = {
             }
         }
     ],
-    timeline_variables: Array.from(generate_sequence(n_digits), x => Object({ digit: x })),
+    timeline_variables: Array.from(range(0, 10), x => Object({ digit: x })),
+    sample: { // pick different n_digits to present on each trial/sequence
+        type: 'with-replacement',
+        size: n_digits
+    }
 }
 
 var choices_shuffle;
@@ -211,8 +206,11 @@ var feedback = {
     type: "html-keyboard-response",
     stimulus: function () {
         last_trial_data = jsPsych.data.getLastTrialData();
-        if (last_trial_data.select('acc').values[0] > 0) {
+        last_trial_value = last_trial_data.select('acc').values[0];
+        if (last_trial_value > 0) {
             var prompt = "correct, your reaction time was " + Math.round(last_trial_data.select('rt').values[0]) + " ms";
+        } else if (last_trial_value === null) {
+            var prompt = "respond faster";
         } else {
             var prompt = "wrong";
         }
