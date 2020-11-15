@@ -35,19 +35,29 @@ jsPsych.data.addProperties({  // do not edit this section unnecessarily!
 });
 
 // keycode for responses
+keycodes = [  // 1 distractor + 1 correct
+    { keycode: 37 },
+    { keycode: 39 },
+];
+if (n_distract_response == 3) {
+    keycodes = keycodes.concat([{ keycode: 38 }, { keycode: 40 }]) // 3 distractors + 1 correct
+}
+
+// will be used to store information about the choices
 if (n_distract_response == 3) {
     choices = [  // 3 distractors + 1 correct
-        { keycode: 37 },
-        { keycode: 38 },
-        { keycode: 39 },
-        { keycode: 40 }
+        {},
+        {},
+        {},
+        {}
     ];
 } else if (n_distract_response == 1) {
     choices = [  // 1 distractor + 1 correct
-        { keycode: 37 },
-        { keycode: 39 },
+        {},
+        {},
     ];
 }
+
 
 // generate mental math updating array
 // determine correct response
