@@ -543,13 +543,13 @@
     <script type="text/javascript" defer>
 
         var openness_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 14, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             layer: [
                 {
                     data: { values: data_array.filter(x => x.subscale == 'openness') },
-                    transform: [{ density: "value" }],
+                    transform: [{ groupby: ["gender"], density: "value" }],
                     mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
                     encoding: {
                         x: {
@@ -563,7 +563,7 @@
                             field: "density",
                             title: "Frequency (density)",
                         },
-                        color: { value: "#38405C", type: "quantitative" },
+                        color: { field: "gender", type: "nominal", legend: {title: null} },
                         tooltip: [
                             { field: 'value', format: ".0f", title: 'Openness', type: "quantitative" },
                             { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
@@ -598,19 +598,19 @@
     <script type="text/javascript" defer>
 
         var conscientiousness_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 14, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             layer: [
                 {
                     data: { values: data_array.filter(x => x.subscale == 'conscientiousness') },
-                    transform: [{ density: "value" }],
+                    transform: [{ groupby: ["gender"], density: "value" }],
                     mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
                     encoding: {
                         x: {
                             type: "quantitative",
                             field: "value",
-                            title: "Conscientiousness",
+                            title: "Openness",
                             scale: {}
                         },
                         y: {
@@ -618,16 +618,16 @@
                             field: "density",
                             title: "Frequency (density)",
                         },
-                        color: { value: "#38405C", type: "quantitative" },
+                        color: { field: "gender", type: "nominal", legend: {title: null} },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Conscientiousness', type: "quantitative" },
+                            { field: 'value', format: ".0f", title: 'Openness', type: "quantitative" },
                             { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
                     }
                 },
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: subject_data.filter(i => i.subscale == "conscientiousness") };
+                            return { values: subject_data.filter(i => i.subscale == "openness") };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -638,7 +638,7 @@
                         color: { value: "#38405C", type: "quantitative" },
                         size: { value: 3 },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Your conscientiousness', type: "quantitative" }]
+                            { field: 'value', format: ".0f", title: 'Your openness', type: "quantitative" }]
                     },
                 }
             ],
@@ -653,19 +653,19 @@
     <script type="text/javascript" defer>
 
         var extraversion_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 14, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             layer: [
                 {
                     data: { values: data_array.filter(x => x.subscale == 'extraversion') },
-                    transform: [{ density: "value" }],
+                    transform: [{ groupby: ["gender"], density: "value" }],
                     mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
                     encoding: {
                         x: {
                             type: "quantitative",
                             field: "value",
-                            title: "Extraversion",
+                            title: "Openness",
                             scale: {}
                         },
                         y: {
@@ -673,16 +673,16 @@
                             field: "density",
                             title: "Frequency (density)",
                         },
-                        color: { value: "#38405C", type: "quantitative" },
+                        color: { field: "gender", type: "nominal", legend: {title: null} },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Extraversion', type: "quantitative" },
+                            { field: 'value', format: ".0f", title: 'Openness', type: "quantitative" },
                             { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
                     }
                 },
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: subject_data.filter(i => i.subscale == "extraversion") };
+                            return { values: subject_data.filter(i => i.subscale == "openness") };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -693,7 +693,7 @@
                         color: { value: "#38405C", type: "quantitative" },
                         size: { value: 3 },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Your extraversion', type: "quantitative" }]
+                            { field: 'value', format: ".0f", title: 'Your openness', type: "quantitative" }]
                     },
                 }
             ],
@@ -708,19 +708,19 @@
     <script type="text/javascript" defer>
 
         var agreeableness_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 14, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             layer: [
                 {
                     data: { values: data_array.filter(x => x.subscale == 'agreeableness') },
-                    transform: [{ density: "value" }],
+                    transform: [{ groupby: ["gender"], density: "value" }],
                     mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
                     encoding: {
                         x: {
                             type: "quantitative",
                             field: "value",
-                            title: "Agreeableness",
+                            title: "Openness",
                             scale: {}
                         },
                         y: {
@@ -728,16 +728,16 @@
                             field: "density",
                             title: "Frequency (density)",
                         },
-                        color: { value: "#38405C", type: "quantitative" },
+                        color: { field: "gender", type: "nominal", legend: {title: null} },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Agreeableness', type: "quantitative" },
+                            { field: 'value', format: ".0f", title: 'Openness', type: "quantitative" },
                             { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
                     }
                 },
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: subject_data.filter(i => i.subscale == "agreeableness") };
+                            return { values: subject_data.filter(i => i.subscale == "openness") };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -748,7 +748,7 @@
                         color: { value: "#38405C", type: "quantitative" },
                         size: { value: 3 },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Your agreeableness', type: "quantitative" }]
+                            { field: 'value', format: ".0f", title: 'Your openness', type: "quantitative" }]
                     },
                 }
             ],
@@ -763,19 +763,19 @@
     <script type="text/javascript" defer>
 
         var neuroticism_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 14, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             layer: [
                 {
                     data: { values: data_array.filter(x => x.subscale == 'neuroticism') },
-                    transform: [{ density: "value" }],
+                    transform: [{ groupby: ["gender"], density: "value" }],
                     mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
                     encoding: {
                         x: {
                             type: "quantitative",
                             field: "value",
-                            title: "Neuroticism",
+                            title: "Openness",
                             scale: {}
                         },
                         y: {
@@ -783,16 +783,16 @@
                             field: "density",
                             title: "Frequency (density)",
                         },
-                        color: { value: "#38405C", type: "quantitative" },
+                        color: { field: "gender", type: "nominal", legend: {title: null} },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Neuroticism', type: "quantitative" },
+                            { field: 'value', format: ".0f", title: 'Openness', type: "quantitative" },
                             { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
                     }
                 },
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: subject_data.filter(i => i.subscale == "neuroticism") };
+                            return { values: subject_data.filter(i => i.subscale == "openness") };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -803,7 +803,7 @@
                         color: { value: "#38405C", type: "quantitative" },
                         size: { value: 3 },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Your neuroticism', type: "quantitative" }]
+                            { field: 'value', format: ".0f", title: 'Your openness', type: "quantitative" }]
                     },
                 }
             ],
