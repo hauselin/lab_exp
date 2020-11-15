@@ -120,6 +120,7 @@ function update_prompt(digit) {
 function process_choices(choices) {
     shuffled_options = [];
     options = generate_similar_numbers(temp_digits, n_distract_response);
+    options = options.map(x => x.join(''));
     shuffled_options.push(
         { prompt: options[0], correct: true }
     );
