@@ -107,34 +107,23 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'bigfiveaspect' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
         var data_array = [];
         const corr_matrix = {
-            'neuroticism-withdrawal': [],
-            'neuroticism-volatility': [],
-            'agreeableness-compassion': [],
-            'agreeableness-politeness': [],
-            'conscientiousness-inudstriousness': [],
-            'conscientiousness-orderliness': [],
-            'extraversion-enthusiasm': [],
-            'extraversion-assertiveness': [],
-            'openness-intellect': [],
-            'openness-openness': []
+            'neuroticism': [],
+            'agreeableness': [],
+            'conscientiousness': [],
+            'extraversion': [],
+            'openness': [],
         };
         data.map(function (i) {
             data_array.push(i.datasummary);
-            temp_data = i.datasummary.filter(i => i.param == 'subscale');
+            temp_data = i.datasummary.filter(i => i.param == 'subscale2');
             for (i = 0; i < temp_data.length; i++) {
                 corr_matrix[temp_data[i].subscale].push(temp_data[i].value);
             }
         });
         data_array = data_array.flat(1);  // flatten objects in array
 
-        choropleth_filters = [
-            'variance',
-            'neuroticism',
-            'agreeableness',
-            'conscientiousness',
-            'extraversion',
-            'openness'
-        ];
+        choropleth_filters = Object.keys(corr_matrix);
+        choropleth_filters.push('variance');
         random_filter = choropleth_filters[Math.floor(Math.random() * choropleth_filters.length)];
         choropleth_array = data_array.filter(i => i.subscale == random_filter)
 
