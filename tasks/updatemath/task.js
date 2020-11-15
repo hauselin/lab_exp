@@ -23,7 +23,7 @@ var feedback_duration = 1500;
 var rt_update_deadline = 3000;
 
 if (debug) {
-    rt_update_deadline = 60000;
+    // rt_update_deadline = 60000;
 }
 
 // DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING 
@@ -188,10 +188,10 @@ var response = {
     post_trial_gap: 500,
     on_finish: function(data) {
         chosen = choices.filter(x => x.keycode == data.key_press)[0]
-        if (chosen.correct) {
-            data.acc = 1;
-        } else {
+        if (!chosen || !chosen.correct) {
             data.acc = 0;
+        } else {
+            data.acc = 1;
         }
         data.choices = choices;
     }
