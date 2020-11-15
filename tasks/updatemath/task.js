@@ -118,8 +118,9 @@ function update_prompt(digit) {
 }
 
 function process_choices(choices) {
-    shuffled_options = [];
-    options = generate_similar_numbers(temp_digits, n_distract_response);
+    var choices_copy = jsPsych.utils.deepCopy(choices);
+    var shuffled_options = [];
+    var options = generate_similar_numbers(temp_digits, n_distract_response);
     options = options.map(x => x.join(''));
     shuffled_options.push(
         { prompt: options[0], correct: true }
@@ -131,9 +132,9 @@ function process_choices(choices) {
     }
     shuffled_options = shuffle(shuffled_options)
     for (i = 0; i < n_distract_response + 1; i++) {
-        choices[i] = Object.assign(choices[i], shuffled_options[i]);
+        choices_copy[i] = Object.assign(choices_copy[i], shuffled_options[i]);
     }
-    return choices
+    return choices_copy
 }
 
 var prompt_digit = {
@@ -173,13 +174,14 @@ var number_sequence = {
     timeline_variables: Array.from(generate_sequence(n_digits), x => Object({ digit: x })),
 }
 
+var choices_shuffle;
 var response = {
     type: "html-keyboard-response",
     stimulus: function () {
-        process_choices(choices);
-        prompt_html = generate_html(choices[0].prompt, font_colour, 30, [-100, 25]) + generate_html(choices[1].prompt, font_colour, 30, [100, -25]);
+        choices_shuffle = process_choices(choices);
+        prompt_html = generate_html(choices_shuffle[0].prompt, font_colour, 30, [-100, 25]) + generate_html(choices_shuffle[1].prompt, font_colour, 30, [100, -25]);
         if (n_distract_response == 3) {
-            prompt_html = prompt_html.concat(generate_html(choices[2].prompt, font_colour, 30, [0, -125]) + generate_html(choices[3].prompt, font_colour, 30, [0, -70]));
+            prompt_html = prompt_html.concat(generate_html(choices_shuffle[2].prompt, font_colour, 30, [0, -125]) + generate_html(choices_shuffle[3].prompt, font_colour, 30, [0, -70]));
         }
         return prompt_html;
     },
@@ -188,7 +190,7 @@ var response = {
     data: { event: "response" },
     post_trial_gap: 500,
     on_finish: function(data) {
-        chosen = choices.filter(x => x.keycode == data.key_press)[0]
+        chosen = choices_shuffle.filter(x => x.keycode == data.key_press)[0]
         if (!chosen || !chosen.correct) {
             data.acc = 0;
         } else {
