@@ -217,14 +217,13 @@ var feedback = {
     post_trial_gap: 500
 }
 
-var timeline = [];
-timeline.push(prompt_digit);
-timeline.push(number_sequence);
-timeline.push(response);
-timeline.push(feedback);
+var trial_sequence = {
+    timeline: [prompt_digit, number_sequence, response, feedback],
+    repetitions: 2,
+}
 
 jsPsych.init({
-    timeline: timeline,
+    timeline: [trial_sequence],
     on_finish: function () {
         if (debug) {
             jsPsych.data.displayData();
