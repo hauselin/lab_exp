@@ -21,6 +21,10 @@ var duration_digit = 500; // how long to show each digit (ms)
 var duration_post_digit = 200;  // pause duration after each digit
 var rt_update_deadline = 3000;
 
+if (debug) {
+    rt_update_deadline = 60000;
+}
+
 // DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING 
 jsPsych.data.addProperties({  // do not edit this section unnecessarily!
     subject: info_.subject,
@@ -176,16 +180,9 @@ var response = {
     type: "html-keyboard-response",
     stimulus: function () {
         process_choices(choices);
-        var prompt_html = '';
-        for (i = 0; i < choices.length; i++) {
-            prompt_html = prompt_html.concat(generate_html(choices[i].prompt, font_colour, 30, [0, 0]))
-            // if (i < 2) {
-            //     const x_offset = 100;
-            //     prompt_html = prompt_html.concat(generate_html(choices[i].prompt, font_colour, 30, [i * x_offset * 2 - x_offset, 0]))
-            // } else if (i < 4) {
-            //     const y_offset = 100;
-            //     prompt_html = prompt_html.concat(generate_html(choices[i].prompt, font_colour, 30, [0, (i - 2) * y_offset * 2 - y_offset]))
-            // }
+        prompt_html = generate_html(choices[0].prompt, font_colour, 30, [-100, 25]) + generate_html(choices[1].prompt, font_colour, 30, [100, -25]);
+        if (n_distract_response == 3) {
+            prompt_html = prompt_html.concat(generate_html(choices[2].prompt, font_colour, 30, [0, -125]) + generate_html(choices[3].prompt, font_colour, 30, [0, -70]));
         }
         return prompt_html;
     },
