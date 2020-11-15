@@ -21,7 +21,7 @@ var duration_digit = 500; // how long to show each digit (ms)
 var duration_post_digit = 200;  // pause duration after each digit
 var feedback_duration = 1500;
 var rt_update_deadline = 3000;
-var options_deadline = 10000;
+var options_deadline = 3000; 
 
 if (debug) {
     rt_update_deadline = 60000;
@@ -44,7 +44,6 @@ var choices = [
 if (n_distract_response == 3) {
     choices = choices.concat([{ keycode: 38, response: 'up'}, { keycode: 40, response: 'down'}]) // 3 distractors + 1 correct
 }
-
 
 // generate mental math updating array
 // determine correct response
@@ -136,18 +135,19 @@ var options = {
     },
     choices: [37, 39],
     trial_duration: options_deadline,
-    data: { event: "update" },
+    data: { event: "choice_options" },
     post_trial_gap: 500,
-    on_finish: function(data) {
+    on_finish: function (data) {
         if (data.key_press == 37) { // pressed left
             num_to_update = 0;
         } else if (data.key_press == 39) { // pressed right
             num_to_update = 3;
         } else { // no response
-            num_to_update = 0;
-        }
+            num_to_update = null;
+        };
+        data.choice = num_to_update;
     }
-}
+};
 
 var prompt_digit = {
     type: "html-keyboard-response",
@@ -246,8 +246,8 @@ var feedback = {
 
 var trial_sequence = {
     timeline: [options, prompt_digit, number_sequence, response, feedback],
-    repetitions: 2,
-}
+    repetitions: n_trial,
+};
 
 jsPsych.init({
     timeline: [trial_sequence],
