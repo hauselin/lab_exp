@@ -207,7 +207,8 @@ var response = {
     data: { event: "response" },
     post_trial_gap: 500,
     on_finish: function(data) {
-        var chosen = choices_shuffle.filter(x => x.keycode == data.key_press)[0]
+        var chosen = choices_shuffle.filter(x => x.keycode == data.key_press)[0];
+        data.num_to_update = num_to_update;
         if (!chosen) { // no response
             data.acc = null;
             data.response = null;
