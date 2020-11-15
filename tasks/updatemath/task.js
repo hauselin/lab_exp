@@ -36,7 +36,7 @@ jsPsych.data.addProperties({  // do not edit this section unnecessarily!
 });
 
 // keycode for responses
-choices = [
+var choices = [
     { keycode: 37, response: 'left'}, 
     { keycode: 39, response: 'right'},
 ];
@@ -97,15 +97,6 @@ function generate_similar_numbers(array, n_distractors) {
     return [array].concat(shuffle(result.slice(0, n_distractors))); // [array + distractors]
 }
 
-// generate random digits
-function generate_sequence(n_digits) {
-    var sequence = [];
-    for (i = 0; i < n_digits; i++) {
-        sequence.push(Math.floor(Math.random() * 10))
-    }
-    return sequence
-}
-
 // cue/prompt above each digit (string) (e.g., +3, -2)
 function update_prompt(digit) {
     var s;
@@ -136,6 +127,10 @@ function process_choices(choices) {
     }
     return choices_copy
 }
+
+
+
+
 
 var prompt_digit = {
     type: "html-keyboard-response",
@@ -171,7 +166,11 @@ var number_sequence = {
             }
         }
     ],
-    timeline_variables: Array.from(generate_sequence(n_digits), x => Object({ digit: x })),
+    timeline_variables: Array.from([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], x => Object({ digit: x })),
+    sample: {
+        type: 'with-replacement',
+        size: n_digits
+    }
 }
 
 var choices_shuffle;
