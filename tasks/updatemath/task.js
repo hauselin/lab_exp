@@ -39,23 +39,14 @@ keycodes = [  // 1 distractor + 1 correct
     { keycode: 37 },
     { keycode: 39 },
 ];
+// will be used to store information about the choices
+choices = [
+    {},
+    {},
+];
 if (n_distract_response == 3) {
     keycodes = keycodes.concat([{ keycode: 38 }, { keycode: 40 }]) // 3 distractors + 1 correct
-}
-
-// will be used to store information about the choices
-if (n_distract_response == 3) {
-    choices = [  // 3 distractors + 1 correct
-        {},
-        {},
-        {},
-        {}
-    ];
-} else if (n_distract_response == 1) {
-    choices = [  // 1 distractor + 1 correct
-        {},
-        {},
-    ];
+    choices = choices.concat([{}, {}])
 }
 
 
