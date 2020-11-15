@@ -185,6 +185,14 @@ var response = {
     trial_duration: rt_update_deadline,
     data: { event: "response" },
     post_trial_gap: 500,
+    on_finish: function(data) {
+        chosen = choices.filter(x => x.keycode == data.key_press)[0]
+        if (chosen.correct) {
+            data.acc = 1;
+        } else {
+            data.acc = 0;
+        }
+    }
 }
 
 var timeline = [];
