@@ -203,6 +203,7 @@ var response = {
                 data.acc = 0;
             }
         }
+        temp_digits = []; // clear digit sequences for next trial
     }
 }
 
