@@ -818,7 +818,7 @@
     <script type="text/javascript" defer>
 
         var correlation_heatmap = {
-            config: { axis: { grid: true, tickBand: "extent", labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            config: { axis: { labelExpr: "datum.label[0]", title: null, grid: true, tickBand: "extent", labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             width: 500,
