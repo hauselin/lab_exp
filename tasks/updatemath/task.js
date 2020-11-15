@@ -13,7 +13,7 @@ var background_colour = "white";
 set_colour(font_colour, background_colour);
 
 // DEFINE TASK PARAMETERS (required)
-var num_to_update = -7; // number to add to every digit
+var num_to_update = null; // number to add to every digit
 var n_digits = 3; // amount of numbers to show (must be > 1)
 var n_distract_response = 3; // amount of distractors
 var n_trial = 2; // number of trials and the amount of sequences to show
@@ -21,6 +21,7 @@ var duration_digit = 500; // how long to show each digit (ms)
 var duration_post_digit = 200;  // pause duration after each digit
 var feedback_duration = 1500;
 var rt_update_deadline = 3000;
+var options_deadline = 10000;
 
 if (debug) {
     // rt_update_deadline = 60000;
@@ -128,6 +129,26 @@ function process_choices(choices) {
     return choices_copy
 }
 
+var options = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        return generate_html("0", font_colour, 30, [-100, 25]) + generate_html("+3", font_colour, 30, [100, -25]);
+    },
+    choices: [37, 39],
+    trial_duration: options_deadline,
+    data: { event: "update" },
+    post_trial_gap: 500,
+    on_finish: function(data) {
+        if (data.key_press == 37) { // pressed left
+            num_to_update = 0;
+        } else if (data.key_press == 39) { // pressed right
+            num_to_update = 3;
+        } else { // no response
+            num_to_update = 0;
+        }
+    }
+}
+
 var prompt_digit = {
     type: "html-keyboard-response",
     stimulus: function () {
@@ -223,7 +244,7 @@ var feedback = {
 }
 
 var trial_sequence = {
-    timeline: [prompt_digit, number_sequence, response, feedback],
+    timeline: [options, prompt_digit, number_sequence, response, feedback],
     repetitions: 2,
 }
 
