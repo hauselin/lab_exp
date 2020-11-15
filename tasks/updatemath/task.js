@@ -35,18 +35,12 @@ jsPsych.data.addProperties({  // do not edit this section unnecessarily!
 });
 
 // keycode for responses
-keycodes = [  // 1 distractor + 1 correct
+choices = [
     { keycode: 37 },
     { keycode: 39 },
 ];
-// will be used to store information about the choices
-choices = [
-    {},
-    {},
-];
 if (n_distract_response == 3) {
-    keycodes = keycodes.concat([{ keycode: 38 }, { keycode: 40 }]) // 3 distractors + 1 correct
-    choices = choices.concat([{}, {}])
+    choices = choices.concat([{ keycode: 38 }, { keycode: 40 }]) // 3 distractors + 1 correct
 }
 
 
