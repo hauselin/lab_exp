@@ -19,6 +19,7 @@ var n_distract_response = 3; // amount of distractors
 var n_trial = 2; // number of trials and the amount of sequences to show
 var duration_digit = 500; // how long to show each digit (ms)
 var duration_post_digit = 200;  // pause duration after each digit
+var feedback_duration = 1500;
 var rt_update_deadline = 3000;
 
 if (debug) {
@@ -192,13 +193,32 @@ var response = {
         } else {
             data.acc = 0;
         }
+        data.choices = choices;
     }
+}
+
+var feedback = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        last_trial_data = jsPsych.data.getLastTrialData();
+        if (last_trial_data.select('acc').values[0] > 0) {
+            var prompt = "correct, your reaction time was " + Math.round(last_trial_data.select('rt').values[0]) + " ms";
+        } else {
+            var prompt = "wrong";
+        }
+        return generate_html(prompt, font_colour, 25);
+    },
+    choices: jsPsych.NO_KEYS,
+    trial_duration: feedback_duration,
+    data: { event: "feedback" },
+    post_trial_gap: 500
 }
 
 var timeline = [];
 timeline.push(prompt_digit);
 timeline.push(number_sequence);
 timeline.push(response);
+timeline.push(feedback);
 
 jsPsych.init({
     timeline: timeline,
@@ -206,5 +226,5 @@ jsPsych.init({
         if (debug) {
             jsPsych.data.displayData();
         }
-    }
+    },
 });
