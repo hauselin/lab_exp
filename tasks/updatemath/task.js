@@ -2,7 +2,7 @@
 const taskinfo = {
     type: 'task', // 'task', 'survey', or 'study'
     uniquestudyid: 'updatemath', // unique task id: must be IDENTICAL to directory name
-    desc: 'Mental math', // brief description of task
+    desc: 'mental math', // brief description of task
     condition: null, // experiment/task condition
     redirect_url: false // set to false if no redirection required
 };
@@ -37,11 +37,11 @@ jsPsych.data.addProperties({  // do not edit this section unnecessarily!
 
 // keycode for responses
 choices = [
-    { keycode: 37 },
-    { keycode: 39 },
+    { keycode: 37, response: 'left'}, 
+    { keycode: 39, response: 'right'},
 ];
 if (n_distract_response == 3) {
-    choices = choices.concat([{ keycode: 38 }, { keycode: 40 }]) // 3 distractors + 1 correct
+    choices = choices.concat([{ keycode: 38, response: 'up'}, { keycode: 40, response: 'down'}]) // 3 distractors + 1 correct
 }
 
 
@@ -183,6 +183,7 @@ var response = {
         if (n_distract_response == 3) {
             prompt_html = prompt_html.concat(generate_html(choices_shuffle[2].prompt, font_colour, 30, [0, -125]) + generate_html(choices_shuffle[3].prompt, font_colour, 30, [0, -70]));
         }
+        console.log(choices_shuffle);
         return prompt_html;
     },
     choices: choices.map(x => x.keycode),
@@ -190,13 +191,18 @@ var response = {
     data: { event: "response" },
     post_trial_gap: 500,
     on_finish: function(data) {
-        chosen = choices_shuffle.filter(x => x.keycode == data.key_press)[0]
-        if (!chosen || !chosen.correct) {
-            data.acc = 0;
-        } else {
-            data.acc = 1;
+        var chosen = choices_shuffle.filter(x => x.keycode == data.key_press)[0]
+        if (!chosen) { // no response
+            data.acc = null;
+            data.response = null;
+        } else {  // response made
+            data.response = chosen.response;
+            if (chosen.correct) {
+                data.acc = 1;
+            } else {
+                data.acc = 0;
+            }
         }
-        data.choices = choices;
     }
 }
 
