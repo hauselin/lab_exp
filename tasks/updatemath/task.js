@@ -15,11 +15,11 @@ set_colour(font_colour, background_colour);
 // DEFINE TASK PARAMETERS (required)
 var num_to_update = -7; // number to add to every digit
 var n_digits = 3; // amount of numbers to show (must be > 1)
-var n_distract_response = 1; // amount of distractors
+var n_distract_response = 3; // amount of distractors
 var n_trial = 2; // number of trials and the amount of sequences to show
 var duration_digit = 500; // how long to show each digit (ms)
 var duration_post_digit = 200;  // pause duration after each digit
-var rt_update_deadline = 3000; 
+var rt_update_deadline = 3000;
 
 // DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING 
 jsPsych.data.addProperties({  // do not edit this section unnecessarily!
@@ -31,7 +31,7 @@ jsPsych.data.addProperties({  // do not edit this section unnecessarily!
 });
 
 // keycode for responses
-if (n_distract_response == 3) { 
+if (n_distract_response == 3) {
     choices = [  // 3 distractors + 1 correct
         { keycode: 37 },
         { keycode: 38 },
@@ -108,13 +108,31 @@ function generate_sequence(n_digits) {
 
 // cue/prompt above each digit (string) (e.g., +3, -2)
 function update_prompt(digit) {
-    var s; 
+    var s;
     if (digit >= 0) {
-        s = "+" + digit; 
+        s = "+" + digit;
     } else {
         s = "&#x2212;" + Math.abs(digit);  // minus sign
     }
     return s;
+}
+
+function process_choices(choices) {
+    shuffled_options = [];
+    options = generate_similar_numbers(temp_digits, n_distract_response);
+    shuffled_options.push(
+        { prompt: options[0], correct: true }
+    );
+    for (i = 1; i < n_distract_response + 1; i++) {
+        shuffled_options.push(
+            { prompt: options[i], correct: false }
+        )
+    }
+    shuffled_options = shuffle(shuffled_options)
+    for (i = 0; i < n_distract_response + 1; i++) {
+        choices[i] = Object.assign(choices[i], shuffled_options[i]);
+    }
+    return choices
 }
 
 var prompt_digit = {
@@ -136,7 +154,7 @@ var number_sequence = {
         {
             type: "html-keyboard-response",
             stimulus: function () {
-                var remind = update_prompt(num_to_update); 
+                var remind = update_prompt(num_to_update);
                 remind = generate_html(remind, font_colour, 30) + "<br>";
                 var d = generate_html(jsPsych.timelineVariable('digit', true), font_colour, 80)
                 return remind + d;
@@ -156,24 +174,20 @@ var number_sequence = {
 
 var response = {
     type: "html-keyboard-response",
-    on_start: function () {
-        shuffled_options = [];
-        options = generate_similar_numbers(temp_digits, n_distract_response);
-        shuffled_options.push(
-            { prompt: options[0], correct: true }
-        );
-        for (i = 1; i < n_distract_response + 1; i++) {
-            shuffled_options.push(
-                { prompt: options[i], correct: false }
-            )
-        }
-        shuffled_options = shuffle(shuffled_options)
-        for (i = 0; i < n_distract_response + 1; i++) {
-            choices[i] = Object.assign(choices[i], shuffled_options[i]);
-        }
-    },
     stimulus: function () {
-        return generate_html(choices, font_colour, 30);
+        process_choices(choices);
+        var prompt_html = '';
+        for (i = 0; i < choices.length; i++) {
+            prompt_html = prompt_html.concat(generate_html(choices[i].prompt, font_colour, 30, [0, 0]))
+            // if (i < 2) {
+            //     const x_offset = 100;
+            //     prompt_html = prompt_html.concat(generate_html(choices[i].prompt, font_colour, 30, [i * x_offset * 2 - x_offset, 0]))
+            // } else if (i < 4) {
+            //     const y_offset = 100;
+            //     prompt_html = prompt_html.concat(generate_html(choices[i].prompt, font_colour, 30, [0, (i - 2) * y_offset * 2 - y_offset]))
+            // }
+        }
+        return prompt_html;
     },
     choices: choices.map(x => x.keycode),
     trial_duration: rt_update_deadline,
