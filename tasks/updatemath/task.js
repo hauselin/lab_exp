@@ -23,7 +23,7 @@ var feedback_duration = 1500;
 var rt_update_deadline = 3000;
 
 if (debug) {
-    // rt_update_deadline = 60000;
+    rt_update_deadline = 60000;
 }
 
 // DO NOT EDIT BELOW UNLESS YOU KNOW WHAT YOU'RE DOING 
