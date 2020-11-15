@@ -128,10 +128,6 @@ function process_choices(choices) {
     return choices_copy
 }
 
-
-
-
-
 var prompt_digit = {
     type: "html-keyboard-response",
     stimulus: function () {
@@ -166,8 +162,8 @@ var number_sequence = {
             }
         }
     ],
-    timeline_variables: Array.from([0, 1, 2, 3, 4, 5, 6, 7, 8, 9], x => Object({ digit: x })),
-    sample: {
+    timeline_variables: Array.from(range(0, 10), x => Object({ digit: x })),
+    sample: { // pick different n_digits to present on each trial/sequence
         type: 'with-replacement',
         size: n_digits
     }
