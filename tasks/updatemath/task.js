@@ -211,8 +211,11 @@ var feedback = {
     type: "html-keyboard-response",
     stimulus: function () {
         last_trial_data = jsPsych.data.getLastTrialData();
-        if (last_trial_data.select('acc').values[0] > 0) {
+        last_trial_value = last_trial_data.select('acc').values[0];
+        if (last_trial_value > 0) {
             var prompt = "correct, your reaction time was " + Math.round(last_trial_data.select('rt').values[0]) + " ms";
+        } else if (last_trial_value === null) {
+            var prompt = "respond faster";
         } else {
             var prompt = "wrong";
         }
