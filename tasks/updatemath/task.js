@@ -112,7 +112,7 @@ function update_prompt(digit) {
 function process_choices(choices) {
     var choices_copy = jsPsych.utils.deepCopy(choices);
     var shuffled_options = [];
-    var options = generate_similar_numbers(temp_digits, n_distract_response);
+    var options = generate_similar_numbers(number_update(temp_digits, [num_to_update])[0], n_distract_response);
     options = options.map(x => x.join(''));
     shuffled_options.push(
         { prompt: options[0], correct: true }
