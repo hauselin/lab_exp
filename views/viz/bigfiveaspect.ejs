@@ -456,7 +456,7 @@
                     mark: { type: "arc", innerRadius: 20, stroke: "#fff" }
                 },
                 {
-                    mark: { type: "text", radiusOffset: 10, fontSize: 24 },
+                    mark: { type: "text", radiusOffset: 20, fontSize: 24 },
                     encoding:
                     {
                         text: { aggregate: "median", field: "value", type: "quantitative" }
@@ -466,7 +466,7 @@
             ],
             encoding: {
                 theta: { aggregate: "median", field: "value", type: "quantitative", stack: true },
-                radius: { aggregate: "median", field: "value", scale: { type: "sqrt", zero: true, rangeMin: 20 } },
+                radius: { aggregate: "median", field: "value", type: "quantitative", scale: { type: "sqrt", zero: true, rangeMin: 20 } },
                 color: { field: "subscale", type: "nominal", legend: {title: null} }
             },
             view: { stroke: null },
@@ -818,7 +818,7 @@
     <script type="text/javascript" defer>
 
         var correlation_heatmap = {
-            config: { axis: { labelExpr: "datum.label[0]", title: null, grid: true, tickBand: "extent", labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            config: { axis: { labelExpr: "datum.label[0]", title: null, grid: true, tickBand: "extent", labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 13, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             width: 500,
@@ -831,10 +831,12 @@
                         x: {
                             type: "ordinal",
                             field: "x",
+                            sort: ["openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism"]
                         },
                         y: {
                             type: "ordinal",
                             field: "y",
+                            sort: ["openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism"]
                         },
                         color: { field: "value", type: "quantitative", title: "Correlation", legend: { gradientLength: 100 } },
                         tooltip: [
