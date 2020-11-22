@@ -284,6 +284,15 @@ jsPsych.init({
         if (debug) {
             jsPsych.data.displayData();
         }
-        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url);
+        document.body.style.backgroundColor = 'white';
+
+        jsPsych.data.get().first(1).addToAll({ 
+            info_: info_,
+        });
+        
+        info_.tasks_completed.push(taskinfo.uniquestudyid);
+        info_.current_task_completed = 1;
+        localStorage.setObj('info_', info_); 
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); 
     },
 });
