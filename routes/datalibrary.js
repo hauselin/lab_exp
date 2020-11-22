@@ -6,6 +6,7 @@ const geoip = require('geoip-lite');
 router.post('/submit-data', function (req, res) {
     const rawdata = req.body;  // data from jspsych
     const info = rawdata[0].info_; // get info_ from object/trial 0
+    console.assert(info != null, 'No info stored in data, please add to jsPsych data.')
     const datasummary = rawdata[0].datasummary;  // get datasummary_ from object/trial 0
     const ua = req.useragent; // get client/user info using express-useragent package
 
@@ -53,7 +54,7 @@ router.post('/submit-data', function (req, res) {
         i.country = info.demographics.country,
         i.country_code = info.demographics.country_code,
         i.time = info.time,
-
+        
         // client info
         i.browser = ua.browser;
         i.browser_ver = ua.version;
