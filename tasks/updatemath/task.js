@@ -17,6 +17,7 @@ var num_to_update = null; // number to add to every digit
 var n_digits = 3; // amount of numbers to show (must be > 1)
 var n_distract_response = 3; // amount of distractors
 var n_trial = 2; // number of trials and the amount of sequences to show
+var n_practice_trial = 1; // number of practice trials and the amount of sequences to show
 var duration_digit = 500; // how long to show each digit (ms)
 var duration_post_digit = 200;  // pause duration after each digit
 var feedback_duration = 1500;
@@ -271,8 +272,14 @@ var trial_sequence = {
     repetitions: n_trial,
 };
 
+var practice_sequence = jsPsych.utils.deepCopy(trial_sequence);
+practice_sequence.repetitions = n_practice_trial
+for (i=0; i<practice_sequence.timeline.length; i++) {
+    practice_sequence.timeline[i].data = { event: "practice" }
+}
+
 jsPsych.init({
-    timeline: [instructions, instructions2, trial_sequence],
+    timeline: [instructions, practice_sequence, instructions2, trial_sequence],
     on_finish: function () {
         if (debug) {
             jsPsych.data.displayData();
