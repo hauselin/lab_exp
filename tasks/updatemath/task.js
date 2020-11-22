@@ -278,8 +278,14 @@ for (i=0; i<practice_sequence.timeline.length; i++) {
     practice_sequence.timeline[i].data = { event: "practice" }
 }
 
+var timeline = [instructions];
+if (n_practice_trial > 0) {
+    timeline.push(practice_sequence, instructions2);
+}
+timeline.push(trial_sequence);
+
 jsPsych.init({
-    timeline: [instructions, practice_sequence, instructions2, trial_sequence],
+    timeline: timeline,
     on_finish: function () {
         if (debug) {
             jsPsych.data.displayData();
