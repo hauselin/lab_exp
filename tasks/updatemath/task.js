@@ -279,6 +279,9 @@ for (i=0; i<practice_sequence.timeline.length; i++) {
 }
 
 var timeline = [instructions];
+const html_path = "../../tasks/updatemath/consent.html";
+timeline = create_consent(timeline, html_path);
+timeline = check_same_different_person(timeline);
 if (n_practice_trial > 0) {
     timeline.push(practice_sequence, instructions2);
 }
