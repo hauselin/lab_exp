@@ -21,7 +21,7 @@ var duration_digit = 500; // how long to show each digit (ms)
 var duration_post_digit = 200;  // pause duration after each digit
 var feedback_duration = 1500;
 var rt_update_deadline = 3000;
-var options_deadline = 3000; 
+var options_deadline = 3000;
 
 if (debug) {
     rt_update_deadline = 60000;
@@ -38,11 +38,11 @@ jsPsych.data.addProperties({  // do not edit this section unnecessarily!
 
 // keycode for responses
 var choices = [
-    { keycode: 37, response: 'left'}, 
-    { keycode: 39, response: 'right'},
+    { keycode: 37, response: 'left' },
+    { keycode: 39, response: 'right' },
 ];
 if (n_distract_response == 3) {
-    choices = choices.concat([{ keycode: 38, response: 'up'}, { keycode: 40, response: 'down'}]) // 3 distractors + 1 correct
+    choices = choices.concat([{ keycode: 38, response: 'up' }, { keycode: 40, response: 'down' }]) // 3 distractors + 1 correct
 }
 
 // generate mental math updating array
@@ -128,6 +128,28 @@ function process_choices(choices) {
     return choices_copy
 }
 
+var instructions = {
+    type: "instructions",
+    pages: [
+        generate_html("Welcome!", font_colour) + generate_html("Click next or press the right arrow key to proceed.", font_colour),
+        generate_html("You have a limited amount of time to see each number, so react quickly!", font_colour),
+        generate_html("Next up is a practice trial.", font_colour) + generate_html("Your data will NOT be recorded.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour)
+    ],
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
+
+var instructions2 = {
+    type: "instructions",
+    pages: [
+        generate_html("That was the practice trial.", font_colour) + generate_html("Click next or press the right arrow key to begin the experiment.", font_colour) + generate_html("Your data WILL be recorded this time.", font_colour)
+    ],
+    show_clickable_nav: true,
+    show_page_number: false,
+};
+
+
 var options = {
     type: "html-keyboard-response",
     stimulus: function () {
@@ -206,7 +228,7 @@ var response = {
     trial_duration: rt_update_deadline,
     data: { event: "response" },
     post_trial_gap: 500,
-    on_finish: function(data) {
+    on_finish: function (data) {
         var chosen = choices_shuffle.filter(x => x.keycode == data.key_press)[0];
         data.num_to_update = num_to_update;
         if (!chosen) { // no response
@@ -250,7 +272,7 @@ var trial_sequence = {
 };
 
 jsPsych.init({
-    timeline: [trial_sequence],
+    timeline: [instructions, instructions2, trial_sequence],
     on_finish: function () {
         if (debug) {
             jsPsych.data.displayData();
