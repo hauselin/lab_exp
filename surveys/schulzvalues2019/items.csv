@@ -1,26 +1,26 @@
-q,desc,subscale,subscale2,reverse,min,max,min_label,max_label
-1,It is very important to her/him to help people around her/him. She/he wants to care for other people.,benevolence,None,1,1,6,very much like me,not at all like me
-2,It is important to her/him to be loyal to her/his friends. She/he wants to devote herself/himself to people close to her/him.,benevolence,None,1,1,6,very much like me,not at all like me
-3,"She/he think it is important that every person in the world be treated equally. She/he wants justice for everybody, even for people She/he don't know.",universalism,None,1,1,6,very much like me,not at all like me
-4,"It is important to her/him to listen to people who are different from her/him. Even when she/he disagrees with them, she/he still wants to understand them.",universalism,None,1,1,6,very much like me,not at all like me
-5,She/he strongly believes that people should care for nature. Looking after the environment is important to her/him.,universalism,None,1,1,6,very much like me,not at all like me
-6,Thinking up new ideas and being creative is important to her/him. She/he likes to do things in her/his own original way.,self-direction,individualism-independence,1,1,6,very much like me,not at all like me
-7,It is important to her/him to make her/his own decisions about what She/he do. She/he likes to be free and not depend on others.,self-direction,individualism-independence,1,1,6,very much like me,not at all like me
-8,She/he likes surprises and is always looking for new things to do. She/he thinks it is important to do lots of different things in life.,stimulation,None,1,1,6,very much like me,not at all like me
-9,She/he looks for adventures and likes to take risks. She/he wants to have an exciting life.,stimulation,None,1,1,6,very much like me,not at all like me
-10,"Having a good time is important to her/him. She/he likes to ""spoil"" herself/himself.",hedonism,None,1,1,6,very much like me,not at all like me
-11,She/he seeks every chance she/he can to have fun. It is important to her/him to do things that give her/him pleasure.,hedonism,None,1,1,6,very much like me,not at all like me
-12,It is very important to her/him to show her/his abilities. She/he wants people to admire what she/he do.,achievement,None,1,1,6,very much like me,not at all like me
-13,Being very successful is important to her/him. She/he likes to impress other people.,achievement,None,1,1,6,very much like me,not at all like me
-14,It is important to her/him to be rich. She/he wants to have a lot of money and expensive things.,power,None,1,1,6,very much like me,not at all like me
-15,It is important to her/him to be in charge and tell others what to do. She/he wants people to do what she/he says.,power,None,1,1,6,very much like me,not at all like me
-16,It is important to her/him to live in secure surroundings. She/he avoids anything that might endanger her/his safety.,security,None,1,1,6,very much like me,not at all like me
-17,It is very important to her/him that her/his country be safe from threats from within and without. She/he is concerned that social order be protected.,security,None,1,1,6,very much like me,not at all like me
-18,"She/he believe that people should do what they're told. She/he think people should follow rules at all tiher/hims, even when no-one is watching.",conformity-obedience,conformity-obedience,1,1,6,very much like me,not at all like me
-19,It is important to her/him always to behave properly. She/he want to avoid doing anything people would say is wrong.,conformity-obedience,conformity-obedience,1,1,6,very much like me,not at all like me
-20,It is important to her/him to be humble and modest. She/he try not to draw attention to herself/himself.,conformity-obedience,conformity-obedience,1,1,6,very much like me,not at all like me
-21,Tradition is important to her/him. She/he tries to follow the customs handed down by her/his religion or her/his family.,conformity-obedience,conformity-obedience,1,1,6,very much like me,not at all like me
-22,Generally speaking would you say that most people can be trusted or that you can't be too careful in dealing with people?,trust,trust,0,0,10,you can't be too careful,most people can be trusted
-23,"Do you think that most people would try to take advantage of you if they got the chance, or would they try to be fair?",fairness,fairness,0,0,10,most people would try to take advantage of me,most people would try to be fair
-24,She/he think it's important not to ask for more than what you have. She/he believes that people should be satisfied with what they have.,tradition,None,1,1,6,very much like me,not at all like me
-25,Religious belief is important to her/him. She/he tries hard to do what her/his religion requires.,tradition,None,1,1,6,very much like me,not at all like me
+q,desc,subscale_schwartz21,subscale,subscale2,reverse,min,max,min_label,max_label
+1,It is very important to her/him to help people around her/him. She/he wants to care for other people.,benevolence,benevolence,None,1,1,6,very much like me,not at all like me
+2,It is important to her/him to be loyal to her/his friends. She/he wants to devote herself/himself to people close to her/him.,benevolence,benevolence,None,1,1,6,very much like me,not at all like me
+3,"She/he thinks it is important that every person in the world be treated equally. She/he wants justice for everybody, even for people she/he don't know.",universalism,universalism,None,1,1,6,very much like me,not at all like me
+4,"It is important to her/him to listen to people who are different from her/him. Even when she/he disagrees with them, she/he still wants to understand them.",universalism,universalism,None,1,1,6,very much like me,not at all like me
+5,She/he strongly believes that people should care for nature. Looking after the environment is important to her/him.,universalism,universalism,None,1,1,6,very much like me,not at all like me
+6,Thinking up new ideas and being creative is important to her/him. She/he likes to do things in her/his own original way.,self-direction,self-direction,individualism-independence,1,1,6,very much like me,not at all like me
+7,It is important to her/him to make her/his own decisions about what she/he does. She/he likes to be free and not depend on others.,self-direction,self-direction,individualism-independence,1,1,6,very much like me,not at all like me
+8,She/he likes surprises and is always looking for new things to do. She/he thinks it is important to do lots of different things in life.,stimulation,stimulation,None,1,1,6,very much like me,not at all like me
+9,She/he looks for adventures and likes to take risks. She/he wants to have an exciting life.,stimulation,stimulation,None,1,1,6,very much like me,not at all like me
+10,"Having a good time is important to her/him. She/he likes to ""spoil"" herself/himself.",hedonism,hedonism,None,1,1,6,very much like me,not at all like me
+11,She/he seeks every chance she/he can to have fun. It is important to her/him to do things that give her/him pleasure.,hedonism,hedonism,None,1,1,6,very much like me,not at all like me
+12,It is very important to her/him to show her/his abilities. She/he wants people to admire what she/he do.,achievement,achievement,None,1,1,6,very much like me,not at all like me
+13,Being very successful is important to her/him. She/he likes to impress other people.,achievement,achievement,None,1,1,6,very much like me,not at all like me
+14,It is important to her/him to be rich. She/he wants to have a lot of money and expensive things.,power,power,None,1,1,6,very much like me,not at all like me
+15,It is important to her/him to be in charge and tell others what to do. She/he wants people to do what she/he says.,power,power,None,1,1,6,very much like me,not at all like me
+16,It is important to her/him to live in secure surroundings. She/he avoids anything that might endanger her/his safety.,security,security,None,1,1,6,very much like me,not at all like me
+17,It is very important to her/him that her/his country be safe from threats from within and without. She/he is concerned that social order be protected.,security,security,None,1,1,6,very much like me,not at all like me
+18,"She/he believes that people should do what they're told. She/he thinks people should follow rules at all times, even when no-one is watching.",conformity,conformity-obedience,conformity-obedience,1,1,6,very much like me,not at all like me
+19,It is important to her/him always to behave properly. She/he wants to avoid doing anything people would say is wrong.,conformity,conformity-obedience,conformity-obedience,1,1,6,very much like me,not at all like me
+20,It is important to her/him to be humble and modest. She/he tries not to draw attention to herself/himself.,None,conformity-obedience,conformity-obedience,1,1,6,very much like me,not at all like me
+21,Tradition is important to her/him. She/he tries to follow the customs handed down by her/his religion or her/his family.,None,conformity-obedience,conformity-obedience,1,1,6,very much like me,not at all like me
+22,Generally speaking would you say that most people can be trusted or that you can't be too careful in dealing with people?,None,trust,trust,0,0,10,you can't be too careful,most people can be trusted
+23,"Do you think that most people would try to take advantage of you if they got the chance, or would they try to be fair?",None,fairness,fairness,0,0,10,most people would try to take advantage of me,most people would try to be fair
+24,She/he think it's important not to ask for more than what you have. She/he believes that people should be satisfied with what they have.,tradition,tradition,None,1,1,6,very much like me,not at all like me
+25,Religious belief is important to her/him. She/he tries hard to do what her/his religion requires.,tradition,tradition,None,1,1,6,very much like me,not at all like me

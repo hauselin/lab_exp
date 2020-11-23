@@ -7,7 +7,7 @@ const taskinfo = {
     redirect_url: "/surveys/schulzvalues2019/viz" // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-const debug = true;  // true to print messages to console and display json results
+const debug = false;  // true to print messages to console and display json results
 var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
