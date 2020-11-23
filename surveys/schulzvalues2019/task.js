@@ -35,7 +35,7 @@ var instructions = {
     pages: [
         generate_html("Welcome!", font_colour, 25, [0, 0]) +
         generate_html("You'll read several descriptions. For each one, please answer the following question(s).", font_colour) +
-        generate_html("<strong>How much like you is this person? What do you think of the statement?</strong>", font_colour)
+        generate_html('<strong>"How much like you is this person? What do you think of the statement?"</strong>', font_colour)
     ],
     show_clickable_nav: true,
     show_page_number: false,
