@@ -29,6 +29,11 @@ var tasks_to_try = [
         uniquestudyid: 'bigfiveaspect',
         time: '7-10 min'
     },
+    {
+        route: '/surveys/schulzvalues2019',
+        uniquestudyid: 'schulzvalues2019',
+        time: '5-6 min'
+    }
 ];
 
 var surveys = [    
@@ -55,8 +60,13 @@ var surveys = [
         name: 'Do you like profoundness?',
         description: "Are you sensitive to the 'profound'?",
         time: '4-7 min'
+    },
+    {
+        uniquestudyid: 'schulzvalues2019',
+        name: 'What are your values?',
+        description: "What values do you care about?",
+        time: '5-6 min'
     }
-    
 ];
 
 var tasks = [
@@ -87,7 +97,7 @@ var tasks = [
     {
         uniquestudyid: 'flanker',
         name: 'Distractibility and attention',
-        description: 'How good are you at ignoring distractions? try this simple flanker task to find out.',
+        description: 'How good are you at ignoring distractions? Try this simple flanker task to find out.',
         time: '5-8 min'
     },
 ];
@@ -114,7 +124,7 @@ var faq = [
     },
     {
         q: "Who are we?",
-        resp: "A team of behavioral and psychological researchers."
+        resp: "Behavioral scientists and psychological researchers."
     },
     {
         q: "Can I pause a task/survey so I can resume later?",
@@ -122,7 +132,7 @@ var faq = [
     },
     {
         q: "Can I suggest tasks/surveys to be added?",
-        resp: "Definitely! Email us."
+        resp: "Definitely! <a href='mailto:anthrope.me@gmail.com'>Email us</a>."
     },
     {
         q: "Can I create an account to keep track of my results?",

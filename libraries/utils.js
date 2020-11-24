@@ -137,8 +137,8 @@ function ezddm(prop_correct, rt_correct_variance_s, rt_correct_mean_s, n_trials)
     return { boundary: a, drift: v, nondecisiontime: ndt };
 }
 
-function generate_html(text, color = 'black', size = 20, location = [0, 0], bold = false) {
-    var div = "<p><div style='font-size:" + size + "px;color:" + color + ";transform: translate(" + location[0] + "px," + location[1] + "px)'>" + text + "</div></p>";
+function generate_html(text, color = 'black', size = 20, location = [0, 0], bold = false, border_color = 'white') {
+    var div = "<p><div style='font-size:" + size + "px;color:" + color + ";transform: translate(" + location[0] + "px," + location[1] + "px);'>" + text + "</div></p>";
     if (bold) {
         return "<b>" + div + "</b>";
     } else {
@@ -2274,12 +2274,30 @@ var race_and_ethnicities = [
 
 
 
-function create_demographics(timeline, section=null) {
-    var select_country = {
+function create_demographics(timeline, section = null) {
+
+    var ages = Array.from(Array(100).keys());
+    ages.shift(); // remove 0 from the array
+    var select_age = {
         on_start: function () {
             document.body.style.backgroundColor = "white";
             document.body.style.color = "black";
         },
+        type: 'survey-text-dropdown',
+        question: [
+            {
+                prompt: 'What is your age?',
+                options: ages,
+                name: 'age'
+            }
+        ],
+        required: true,
+        on_finish: function (data) {
+            info_.demographics.age = data.value;
+        }
+    };
+
+    var select_country = {
         type: 'survey-text-dropdown',
         question: [
             {
@@ -2395,23 +2413,6 @@ function create_demographics(timeline, section=null) {
         required: true,
         on_finish: function (data) {
             info_.demographics.handedness = handedness_choices[Number(data.button_pressed)];
-        }
-    }
-
-    var ages = Array.from(Array(100).keys());
-    ages.shift(); // remove 0 from the array
-    var select_age = {
-        type: 'survey-text-dropdown',
-        question: [
-            {
-                prompt: 'What is your age?',
-                options: ages,
-                name: 'age'
-            }
-        ],
-        required: true,
-        on_finish: function (data) {
-            info_.demographics.age = data.value;
         }
     }
 
