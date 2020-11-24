@@ -8,19 +8,18 @@ const taskinfo = {
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 //var datasummary_ = create_datasummary_(info_); // initialize datasummary object
-
+const debug = false;
 var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
 
 // TASK PARAMETERS
-const vowels = ["A", "E", "I", "O", "U"];
+const vowels = ["A", "E", "U"];
 const consonants = ["C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z"];
-const nums = [0, 1, 2, 3, 4, 6, 7, 8, 9];
+const nums = [1, 2, 3, 4, 6, 7, 8, 9];
 const trials = 10;               // the total number of trials 
 const max_tasktime_minutes = 5;   // maximum task time in minutes (task ends after this amount of time regardless of how many trials have been completed)
 var adaptive = true;  // adjust difficulty based on accuracy (true/false) (if true, reps and difficulty will be overwritten by difficulty_reps_steps[current_idx])
-var show_performance = true;  // if true, also show subject counts on feedback page
 var show_overall_performance = true; // whether to show overall performance at the end
 
 // add data to all trials
@@ -30,7 +29,7 @@ jsPsych.data.addProperties({
     uniquestudyid: taskinfo.uniquestudyid,
     desc: taskinfo.desc,
     condition: taskinfo.condition,
-    info_: info_,
+    values: {'c': jsPsych.pluginAPI.convertKeyCharacterToKeyCode('c'), 'v': jsPsych.pluginAPI.convertKeyCharacterToKeyCode('v')}
     // datasummary_: datasummary_
 });
 
@@ -41,6 +40,7 @@ var trial = {
     timeline: [{
         stimulus: function () {
             var lst = shuffle(vowels.concat(consonants));
+            // is this the right way to get the consonant/vowel and number?
             var str1 = random_choice(lst);
             var str2 = random_choice(nums)
             var ans = str1 + str2
@@ -51,14 +51,11 @@ var trial = {
     repetitions: trials
 };
 
-
 // create timeline (order of events)
 var timeline = [];
 const html_path = "../../tasks/letternumber/consent.html";
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
-timeline.push(trial);
-timeline.push(trial);
 timeline.push(trial);
 timeline = create_demographics(timeline);
 
@@ -72,7 +69,6 @@ jsPsych.init({
         jsPsych.data.get().addToAll({ // add parameters to all trials
             total_time: jsPsych.totalTime() / 60000,
             auc: datasummary.auc,
-            stimuli_sides: stimuli_sides
         });
         jsPsych.data.get().first(1).addToAll({ 
             info_: info_,
@@ -92,8 +88,6 @@ jsPsych.init({
 // functions to summarize data below
 function summarize_data() {
     datasummary = {};
-    datasummary.trials_per_cost = trials_per_cost;
-    datasummary.auc = get_auc();
     datasummary.total_time = jsPsych.totalTime() / 60000;
     return datasummary;
 }
