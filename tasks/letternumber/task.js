@@ -33,7 +33,14 @@ jsPsych.data.addProperties({
     // datasummary_: datasummary_
 });
 
-var trial = {
+var instructions = {
+    type: "instructions",
+    pages: ["Welcome!<p>Click next or press the right arrow key to proceed.</p>", "<p>In this task, you'll see combinations of letters and numbers. <p>Your goal is to identify if a letter is a vowel, or if a number is less than or greater than 5.</p>", "Click next or press the right arrow key to begin."],
+    show_clickable_nav: true,
+    show_page_number: true,
+}; 
+
+var trial_vowel = {
     type: "html-keyboard-response",
     prompt: generate_html("Press the <b>c</b> or <b>v</b> letter keys to indicate your choice of a consonant or vowel, respectively.", font_colour, 18, [0, -160]),
     choices: ['c', 'v'],
