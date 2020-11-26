@@ -40,7 +40,7 @@ var instructions = {
     show_page_number: true,
 }; 
 
-var trial_vowel = {
+var vowel = {
     type: "html-keyboard-response",
     prompt: generate_html("Press the <b>c</b> or <b>v</b> letter keys to indicate your choice of a consonant or vowel, respectively.", font_colour, 18, [0, -160]),
     choices: ['c', 'v'],
@@ -54,8 +54,24 @@ var trial_vowel = {
             var text = generate_html(ans, font_colour, 30);
             return text;
         },
-    }],
-    repetitions: trials
+    }]
+};
+
+var consonant = {
+    type: "html-keyboard-response",
+    prompt: generate_html("This is a switch. Press the <b>c</b> or <b>v</b> letter keys to indicate if the number is less than or greater than 5, respectively.", font_colour, 18, [0, -160]),
+    choices: ['c', 'v'],
+    timeline: [{
+        stimulus: function () {
+            var lst = shuffle(vowels.concat(consonants));
+            // is this the right way to get the consonant/vowel and number?
+            var str1 = random_choice(lst);
+            var str2 = random_choice(nums)
+            var ans = str1 + str2
+            var text = generate_html(ans, font_colour, 30);
+            return text;
+        },
+    }]
 };
 
 // create timeline (order of events)
