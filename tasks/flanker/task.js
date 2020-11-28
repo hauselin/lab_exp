@@ -157,3 +157,13 @@ jsPsych.init({
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url);
     }
 });
+
+// remove trials with too fast/slow RT
+function preprocess_flanker() {  // 
+    var data_sub = jsPsych.data.get().filter({ "event": "stimulus" });  // select stroop trials
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 100 });
+    var cutoffs = mad_cutoffs(data_sub.select('rt').values);
+    data_sub = data_sub.filterCustom(function (trial) { return trial.rt > cutoffs[0] }).filterCustom(function (trial) { return trial.rt < cutoffs[1] });
+    return data_sub;
+}
+
