@@ -62,12 +62,6 @@ var surveys = [
         time: '4-7 min'
     },
     {
-        uniquestudyid: 'schwartzvalues21',
-        name: 'What do you value?',
-        description: "What values do you care most about?",
-        time: '4-6 min'
-    },
-    {
         uniquestudyid: 'schulzvalues2019',
         name: 'What are your values?',
         description: "What values do you care about?",
