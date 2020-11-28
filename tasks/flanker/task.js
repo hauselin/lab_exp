@@ -43,6 +43,18 @@ var instructions = {
     show_page_number: true,
 };
 
+var instructions2 = {
+    type: "instructions",
+    pages: [
+        generate_html("That was the practice trial.", font_colour) + generate_html("Click next or press the right arrow key to begin the experiment.", font_colour) + generate_html("Your data WILL be recorded this time.", font_colour)
+    ],
+    show_clickable_nav: true,
+    show_page_number: false,
+    on_finish: function () {
+        n_trial = 0; // stroop trial number counter
+    }
+};
+
 var stimuli_unique = [  // unique flanker trials
     { data: { stimulus: '>>>>>', answer: 'rightarrow', trialtype: "congruent", reps: 2 } },
     { data: { stimulus: '<<<<<', answer: 'leftarrow', trialtype: "congruent", reps: 2 } },
@@ -188,8 +200,7 @@ var timeline = [];
 const html_path = "../../tasks/flanker/consent.html";
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
-// timeline.push(instructions, trial_sequence);
-timeline.push(instructions, practice_trial_sequence);
+timeline.push(instructions, practice_trial_sequence, instructions2, trial_sequence);
 timeline = create_demographics(timeline);
 
 // run experiment
