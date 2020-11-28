@@ -28,6 +28,23 @@ var responses = [];  // subject's response on each trial $ and #
 var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task difficulty parameters
 var difficulty = 1; 
 
+var arr = [];
+var sequence = []
+for (var i=0;i<=reps;i++) {
+    arr.push(Math.round(Math.random()))
+}
+for (i=0;i<=reps;i++){
+    if (arr[i] == 1) {
+        sequence.push({obj: random_choice(shuffle(vowels.concat(consonants)))+random_choice(nums), 'desc': 'Letter'})
+    }
+    else {
+        sequence.push({obj: random_choice(shuffle(vowels.concat(consonants)))+random_choice(nums), desc: 'Number'})
+    }
+}
+
+console.log(arr);
+console.log(sequence);
+
 // add data to all trials
 jsPsych.data.addProperties({
     subject: info_.subject,
@@ -46,39 +63,18 @@ var instructions = {
     show_page_number: true,
 }; 
 
-var letter = {
-    type: "html-keyboard-response",
-    prompt: generate_html("Letter", font_colour, 18, [0, -160]),
-    choices: ['c', 'v'],
+var trial = {
     timeline: [{
-        stimulus: function () {
-            var lst = shuffle(vowels.concat(consonants));
-            // is this the right way to get the consonant/vowel and number?
-            var str1 = random_choice(lst);
-            var str2 = random_choice(nums)
-            var ans = str1 + str2
-            var text = generate_html(ans, font_colour, 30);
-            return text;
+        type: 'html-keyboard-response', 
+        stimulus: function(){
+            var html="<p>" + jsPsych.timelineVariable('desc', true) +"</p>";
+            html += "<p>" + jsPsych.timelineVariable('obj', true) +"</p>";
+            return html;
         },
-    }]
-};
-
-var number = {
-    type: "html-keyboard-response",
-    prompt: generate_html("Number", font_colour, 18, [0, -160]),
-    choices: ['c', 'v'],
-    timeline: [{
-        stimulus: function () {
-            var lst = shuffle(vowels.concat(consonants));
-            // is this the right way to get the consonant/vowel and number?
-            var str1 = random_choice(lst);
-            var str2 = random_choice(nums)
-            var ans = str1 + str2
-            var text = generate_html(ans, font_colour, 30);
-            return text;
-        },
-    }]
-};
+        choices: ['c', 'v']
+    }],
+    timeline_variables: sequence
+}
 
 // create timeline (order of events)
 var timeline = [];
@@ -86,7 +82,7 @@ const html_path = "../../tasks/letternumber/consent.html";
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
 timeline.push(trial);
-timeline = create_demographics(timeline);
+//timeline = create_demographics(timeline);
 
 // run task
 jsPsych.init({
@@ -121,10 +117,4 @@ function summarize_data() {
     return datasummary;
 }
 
-function get_sequence() {
-    var arr = [];
-    for (var i=0;i<reps;i++) {
-        arr.push(Math.round(Math.random()))
-    }
-    return arr;
-}
+
