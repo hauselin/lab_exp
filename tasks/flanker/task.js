@@ -21,6 +21,10 @@ var rt_deadline = 1500;
 var feedback_duration = 1500;
 var itis = iti_exponential(low = 300, high = 800);
 var n_trial = 0;  // trial counter
+var practice_trials = 2;
+if (practice_trials < 2) {
+    practice_trials = 2;
+}
 
 jsPsych.data.addProperties({
     subject: info_.subject,
@@ -47,8 +51,26 @@ var stimuli_unique = [  // unique flanker trials
 ];
 
 var stimuli_repetitions = [];
+var practice_stimuli_congruent = [];
+var practice_stimuli_incongruent = [];
+
+// extract the value of the reps attribute in the stimuli_unique array
 stimuli_unique.forEach(function (item) {
-    stimuli_repetitions.push(item.data.reps);})
+    stimuli_repetitions.push(item.data.reps);
+    if (item.data.trialtype == 'congruent') {
+        practice_stimuli_congruent.push(item);
+    } else if (item.data.trialtype == 'incongruent') {
+        practice_stimuli_incongruent.push(item);
+    }
+})
+if (debug) {
+    console.log(stimuli_repetitions);
+    console.log('Practice trials per trial type:');
+    console.log(practice_stimuli_congruent);
+    console.log(practice_stimuli_incongruent);
+}
+
+// repeat each stimulus reps times
 var stimuli_shuffled = jsPsych.randomization.repeat(stimuli_unique, stimuli_repetitions);  // repeat and shuffle
 if (no_incongruent_neighbors) { // ensure incongruent stimuli aren't presented consecutively
     function equality_test(a, b) {
@@ -63,6 +85,31 @@ if (no_incongruent_neighbors) { // ensure incongruent stimuli aren't presented c
 if (debug) {
     console.log('Shuffled trials:');
     console.log(stimuli_shuffled);
+}
+
+// evenly add each type of trial to practice stimuli array
+var practice_stimuli_shuffled = [];
+for (i = 0; i < (Math.floor(practice_trials / 2)); i++) {
+    if (practice_stimuli_congruent.length > i) {
+        practice_stimuli_shuffled.push(practice_stimuli_congruent[i]);
+    } else {
+        practice_stimuli_shuffled.push(practice_stimuli_congruent[i % practice_stimuli_congruent.length]);
+    }
+    if (practice_stimuli_incongruent.length > i) {
+        practice_stimuli_shuffled.push(practice_stimuli_incongruent[i]);
+    } else {
+        practice_stimuli_shuffled.push(practice_stimuli_incongruent[i % practice_stimuli_incongruent.length]);
+    }
+}
+if (debug) {
+    console.log('Shuffled practice trials:');
+    console.log(practice_stimuli_shuffled);
+}
+
+if (no_incongruent_neighbors) { // ensure incongruent stimuli aren't presented consecutively
+    var practice_stimuli_shuffled = jsPsych.randomization.shuffleNoRepeats(practice_stimuli_shuffled, equality_test);
+} else {
+    jsPsych.randomization.shuffleNoRepeats(practice_stimuli_shuffled);  // shuffle
 }
 
 var correct_key = ''; // correct key on each trial
@@ -125,12 +172,24 @@ var trial_sequence = {
     timeline_variables: stimuli_shuffled,
 };
 
+var practice_stimulus = jsPsych.utils.deepCopy(stimulus);
+delete practice_stimulus.on_start;
+practice_stimulus.on_start = function () {
+    stimulus_event = "practice";
+}
+
+var practice_trial_sequence = {
+    timeline: [practice_stimulus, feedback], // one timeline/trial has these objects
+    timeline_variables: practice_stimuli_shuffled, // the above timeline/trial is repeated stimuli_shuffled.length times
+};
+
 // create experiment timeline
 var timeline = [];
 const html_path = "../../tasks/flanker/consent.html";
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
-timeline.push(instructions, trial_sequence);
+// timeline.push(instructions, trial_sequence);
+timeline.push(instructions, practice_trial_sequence);
 timeline = create_demographics(timeline);
 
 // run experiment
