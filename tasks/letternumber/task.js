@@ -17,10 +17,16 @@ set_colour(font_colour, background_colour);
 const vowels = ["A", "E", "U"];
 const consonants = ["C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z"];
 const nums = [1, 2, 3, 4, 6, 7, 8, 9];
-const trials = 10;               // the total number of trials 
+const trials = 1;               // the total number of trials
+var reps = 12;                  // number of combinations per trial
 const max_tasktime_minutes = 5;   // maximum task time in minutes (task ends after this amount of time regardless of how many trials have been completed)
 var adaptive = true;  // adjust difficulty based on accuracy (true/false) (if true, reps and difficulty will be overwritten by difficulty_reps_steps[current_idx])
 var show_overall_performance = true; // whether to show overall performance at the end
+var n_trial = -1; // current trial number counter
+var n_rep = 0; // current rep counter
+var responses = [];  // subject's response on each trial $ and #
+var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task difficulty parameters
+var difficulty = 1; 
 
 // add data to all trials
 jsPsych.data.addProperties({
@@ -40,9 +46,9 @@ var instructions = {
     show_page_number: true,
 }; 
 
-var vowel = {
+var letter = {
     type: "html-keyboard-response",
-    prompt: generate_html("Press the <b>c</b> or <b>v</b> letter keys to indicate your choice of a consonant or vowel, respectively.", font_colour, 18, [0, -160]),
+    prompt: generate_html("Letter", font_colour, 18, [0, -160]),
     choices: ['c', 'v'],
     timeline: [{
         stimulus: function () {
@@ -57,9 +63,9 @@ var vowel = {
     }]
 };
 
-var consonant = {
+var number = {
     type: "html-keyboard-response",
-    prompt: generate_html("This is a switch. Press the <b>c</b> or <b>v</b> letter keys to indicate if the number is less than or greater than 5, respectively.", font_colour, 18, [0, -160]),
+    prompt: generate_html("Number", font_colour, 18, [0, -160]),
     choices: ['c', 'v'],
     timeline: [{
         stimulus: function () {
@@ -113,4 +119,12 @@ function summarize_data() {
     datasummary = {};
     datasummary.total_time = jsPsych.totalTime() / 60000;
     return datasummary;
+}
+
+function get_sequence() {
+    var arr = [];
+    for (var i=0;i<reps;i++) {
+        arr.push(Math.round(Math.random()))
+    }
+    return arr;
 }
