@@ -28,6 +28,7 @@ var responses = [];  // subject's response on each trial $ and #
 var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task difficulty parameters
 var difficulty = 1; 
 
+// Lines 32 - 44 generate the binary sequence and creates a combination of letter/numbers based on the binary sequence
 var arr = [];
 var sequence = []
 for (var i=0;i<=reps;i++) {
@@ -35,7 +36,7 @@ for (var i=0;i<=reps;i++) {
 }
 for (i=0;i<=reps;i++){
     if (arr[i] == 1) {
-        sequence.push({obj: random_choice(shuffle(vowels.concat(consonants)))+random_choice(nums), 'desc': 'Letter'})
+        sequence.push({obj: random_choice(shuffle(vowels.concat(consonants)))+random_choice(nums), desc: 'Letter'})
     }
     else {
         sequence.push({obj: random_choice(shuffle(vowels.concat(consonants)))+random_choice(nums), desc: 'Number'})
@@ -81,8 +82,9 @@ var timeline = [];
 const html_path = "../../tasks/letternumber/consent.html";
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
+timeline.push(instructions)
 timeline.push(trial);
-//timeline = create_demographics(timeline);
+timeline = create_demographics(timeline);
 
 // run task
 jsPsych.init({
