@@ -116,7 +116,7 @@ router.get("/tasks/updatemath/viz", function (req, res) {
             var temp_data = i.datasummary; // get datasummary
             data_array.push(temp_data);
         });
-        console.log(data_array)
+        // console.log(data_array)
         data_array = data_array.flat(1);  // flatten objects in array
 
         // prepare data for chloropleth
@@ -131,9 +131,9 @@ router.get("/tasks/updatemath/viz", function (req, res) {
                 }
             },
             d => d.country_code);  // group by country_code
-        // console.log(country_array);  // nested data
+        console.log(country_array);  // nested data
         country_array = Array.from(country_array, function (i) {  // unnest data
-            return { country_code: i[0], country: i[1].country, rt_interference: i[1].rt_interference }
+            return { country_code: i[0], country: i[1].country, rt: i[1].rt }
         })
 
         res.render('viz/updatemath.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req) });
