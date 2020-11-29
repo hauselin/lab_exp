@@ -35,11 +35,21 @@ for (var i=0;i<=reps;i++) {
     arr.push(Math.round(Math.random()))
 }
 for (i=0;i<=reps;i++){
+    var combo = random_choice(shuffle(vowels.concat(consonants)))+random_choice(nums)
     if (arr[i] == 1) {
-        sequence.push({obj: random_choice(shuffle(vowels.concat(consonants)))+random_choice(nums), desc: 'Letter'})
+        if (vowels.includes(combo[0])) {
+            sequence.push({obj: combo, desc: 'Letter', ans: 'v'})
+        }
+        else {
+            sequence.push({obj: combo, desc: 'Letter', ans: 'c'})
+        }
     }
     else {
-        sequence.push({obj: random_choice(shuffle(vowels.concat(consonants)))+random_choice(nums), desc: 'Number'})
+        if (parseInt(combo[1]) > 5) {
+            sequence.push({obj: combo, desc: 'Number', ans: 'v'})
+        } else {
+            sequence.push({obj: combo, desc: 'Number', ans: 'c'})
+        }
     }
 }
 
@@ -53,7 +63,6 @@ jsPsych.data.addProperties({
     uniquestudyid: taskinfo.uniquestudyid,
     desc: taskinfo.desc,
     condition: taskinfo.condition,
-    values: {'c': jsPsych.pluginAPI.convertKeyCharacterToKeyCode('c'), 'v': jsPsych.pluginAPI.convertKeyCharacterToKeyCode('v')}
     // datasummary_: datasummary_
 });
 
@@ -74,7 +83,10 @@ var trial = {
         },
         choices: ['c', 'v']
     }],
-    timeline_variables: sequence
+    timeline_variables: sequence, 
+    on_finish: function(data) {
+        console.log(data.key_press);
+    }
 }
 
 // create timeline (order of events)
