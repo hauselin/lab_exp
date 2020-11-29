@@ -18,7 +18,6 @@ const vowels = ["A", "E", "U"];
 const consonants = ["C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z"];
 const nums = [1, 2, 3, 4, 6, 7, 8, 9];
 const trials = 1;               // the total number of trials
-var reps = 12;                  // number of combinations per trial
 const max_tasktime_minutes = 5;   // maximum task time in minutes (task ends after this amount of time regardless of how many trials have been completed)
 var adaptive = true;  // adjust difficulty based on accuracy (true/false) (if true, reps and difficulty will be overwritten by difficulty_reps_steps[current_idx])
 var show_overall_performance = true; // whether to show overall performance at the end
@@ -26,9 +25,11 @@ var n_trial = -1; // current trial number counter
 var n_rep = 0; // current rep counter
 var responses = [];  // subject's response on each trial $ and #
 var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task difficulty parameters
+var reps = 12;                  // number of combinations per trial
 var difficulty = 1; 
+var your_ans = 0;
 
-// Lines 32 - 44 generate the binary sequence and creates a combination of letter/numbers based on the binary sequence
+// Lines 32 - 54 generate the binary sequence and creates a combination of letter/numbers based on the binary sequence
 var arr = [];
 var sequence = []
 for (var i=0;i<=reps;i++) {
@@ -38,17 +39,17 @@ for (i=0;i<=reps;i++){
     var combo = random_choice(shuffle(vowels.concat(consonants)))+random_choice(nums)
     if (arr[i] == 1) {
         if (vowels.includes(combo[0])) {
-            sequence.push({obj: combo, desc: 'Letter', ans: 'v'})
+            sequence.push({obj: combo, desc: 'Letter', ans: '67'})
         }
         else {
-            sequence.push({obj: combo, desc: 'Letter', ans: 'c'})
+            sequence.push({obj: combo, desc: 'Letter', ans: '86'})
         }
     }
     else {
         if (parseInt(combo[1]) > 5) {
-            sequence.push({obj: combo, desc: 'Number', ans: 'v'})
+            sequence.push({obj: combo, desc: 'Number', ans: '86'})
         } else {
-            sequence.push({obj: combo, desc: 'Number', ans: 'c'})
+            sequence.push({obj: combo, desc: 'Number', ans: '67'})
         }
     }
 }
@@ -85,8 +86,20 @@ var trial = {
     }],
     timeline_variables: sequence, 
     on_finish: function(data) {
-        console.log(data.key_press);
+        if (data.key_press == parseInt(jsPsych.timelineVariable('ans', true))) {
+            your_ans += 1
+        }
     }
+}
+
+var feedback = {
+    type: "html-keyboard-response", 
+    stimulus: function() {
+        var html = "Out of " + reps.toString() + " values, you guessed " + your_ans.toString() + " correctly.";
+        html += "<p> Press the right arrow to continue. </p>";
+        return html
+    },
+    show_clickable_nav: true
 }
 
 // create timeline (order of events)
@@ -94,8 +107,7 @@ var timeline = [];
 const html_path = "../../tasks/letternumber/consent.html";
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
-timeline.push(instructions)
-timeline.push(trial);
+timeline = [instructions, trial, feedback]
 timeline = create_demographics(timeline);
 
 // run task
