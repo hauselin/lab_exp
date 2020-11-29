@@ -294,9 +294,11 @@ jsPsych.init({
             jsPsych.data.displayData();
         }
         document.body.style.backgroundColor = 'white';
+        var datasummary = create_datasummary();
 
         jsPsych.data.get().first(1).addToAll({ 
             info_: info_,
+            datasummary: datasummary,
         });
         
         info_.tasks_completed.push(taskinfo.uniquestudyid);
@@ -305,3 +307,43 @@ jsPsych.init({
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); 
     },
 });
+
+// functions to summarize data
+
+// remove trials with too fast/slow RT
+function preprocess_updatemath() {
+    var data_sub = jsPsych.data.get().filter({ "event": "response" });  // select stroop trials
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 100 });
+    var cutoffs = mad_cutoffs(data_sub.select('rt').values);
+    data_sub = data_sub.filterCustom(function (trial) { return trial.rt > cutoffs[0] }).filterCustom(function (trial) { return trial.rt < cutoffs[1] });
+    return data_sub;
+}
+
+function create_datasummary() {
+    var d = preprocess_updatemath(); // preprocess/clean data
+    
+    // median rt and mean acc
+    var median_rt = d.select('rt').median();
+    var mean_acc = d.select('acc').mean();
+    if (d === undefined) {
+        rt = null;
+        acc = null;
+    }
+
+    // store above info in array
+    var datasummary = [
+        { param: "rt", value: median_rt },
+        { param: "acc", value: mean_acc },
+    ];
+
+    // add id/country information
+    datasummary.forEach(function (s) {
+        s.subject = info_.subject;
+        s.time = info_.time;
+        s.country_code = info_.demographics.country_code;
+        s.country = info_.demographics.country;
+        s.total_time = jsPsych.totalTime() / 60000;
+    })
+
+    return datasummary
+}
