@@ -109,6 +109,40 @@ router.get("/tasks/flanker/viz", function (req, res) {
     });
 })
 
+router.get("/tasks/updatemath/viz", function (req, res) {
+    DataLibrary.find({ uniquestudyid: 'updatemath' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
+        var data_array = [];
+        data.map(function (i) {  // map/loop through each document to get relevant data
+            var temp_data = i.datasummary; // get datasummary
+            data_array.push(temp_data);
+        });
+        console.log(data_array)
+        data_array = data_array.flat(1);  // flatten objects in array
+
+        // prepare data for chloropleth
+        // compute median rt interference for each country
+        var choropleth_data = data_array.filter(x => x.param == "rt");
+        // console.log(choropleth_data)
+        country_array = d3.rollups(choropleth_data,
+            function (v) {
+                return {
+                    rt: d3.median(v, d => d.value),  // median rt interference
+                    country: d3.min(v, d => d.country)  // get country name
+                }
+            },
+            d => d.country_code);  // group by country_code
+        // console.log(country_array);  // nested data
+        country_array = Array.from(country_array, function (i) {  // unnest data
+            return { country_code: i[0], country: i[1].country, rt_interference: i[1].rt_interference }
+        })
+
+        res.render('viz/updatemath.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req) });
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send(err);
+    });
+})
+
 router.get("/surveys/gritshort/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'gritshort' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
         var data_array = [];
