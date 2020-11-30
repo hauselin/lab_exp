@@ -4,7 +4,7 @@ const taskinfo = {
     uniquestudyid: 'updatemath', // unique task id: must be IDENTICAL to directory name
     desc: 'mental math', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: false // set to false if no redirection required
+    redirect_url: "/tasks/updatemath/viz" // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 const debug = true;
@@ -17,11 +17,12 @@ var num_to_update = null; // number to add to every digit
 var n_digits = 3; // amount of numbers to show (must be > 1)
 var n_distract_response = 3; // amount of distractors
 var n_trial = 2; // number of trials and the amount of sequences to show
+var n_practice_trial = 1; // number of practice trials and the amount of sequences to show
 var duration_digit = 500; // how long to show each digit (ms)
 var duration_post_digit = 200;  // pause duration after each digit
 var feedback_duration = 1500;
 var rt_update_deadline = 3000;
-var options_deadline = 3000; 
+var options_deadline = 3000;
 
 if (debug) {
     rt_update_deadline = 60000;
@@ -38,11 +39,11 @@ jsPsych.data.addProperties({  // do not edit this section unnecessarily!
 
 // keycode for responses
 var choices = [
-    { keycode: 37, response: 'left'}, 
-    { keycode: 39, response: 'right'},
+    { keycode: 37, response: 'left' },
+    { keycode: 39, response: 'right' },
 ];
 if (n_distract_response == 3) {
-    choices = choices.concat([{ keycode: 38, response: 'up'}, { keycode: 40, response: 'down'}]) // 3 distractors + 1 correct
+    choices = choices.concat([{ keycode: 38, response: 'up' }, { keycode: 40, response: 'down' }]) // 3 distractors + 1 correct
 }
 
 // generate mental math updating array
@@ -128,6 +129,28 @@ function process_choices(choices) {
     return choices_copy
 }
 
+var instructions = {
+    type: "instructions",
+    pages: [
+        generate_html("Welcome!", font_colour) + generate_html("Click next or press the right arrow key to proceed.", font_colour),
+        generate_html("You have a limited amount of time to see each number, so react quickly!", font_colour),
+        generate_html("Next up is a practice trial.", font_colour) + generate_html("Your data will NOT be recorded.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour)
+    ],
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
+
+var instructions2 = {
+    type: "instructions",
+    pages: [
+        generate_html("That was the practice trial.", font_colour) + generate_html("Click next or press the right arrow key to begin the experiment.", font_colour) + generate_html("Your data WILL be recorded this time.", font_colour)
+    ],
+    show_clickable_nav: true,
+    show_page_number: false,
+};
+
+
 var options = {
     type: "html-keyboard-response",
     stimulus: function () {
@@ -206,7 +229,7 @@ var response = {
     trial_duration: rt_update_deadline,
     data: { event: "response" },
     post_trial_gap: 500,
-    on_finish: function(data) {
+    on_finish: function (data) {
         var chosen = choices_shuffle.filter(x => x.keycode == data.key_press)[0];
         data.num_to_update = num_to_update;
         if (!chosen) { // no response
@@ -249,11 +272,78 @@ var trial_sequence = {
     repetitions: n_trial,
 };
 
+var practice_sequence = jsPsych.utils.deepCopy(trial_sequence);
+practice_sequence.repetitions = n_practice_trial
+for (i=0; i<practice_sequence.timeline.length; i++) {
+    practice_sequence.timeline[i].data = { event: "practice" }
+}
+
+var timeline = [instructions];
+const html_path = "../../tasks/updatemath/consent.html";
+timeline = create_consent(timeline, html_path);
+timeline = check_same_different_person(timeline);
+if (n_practice_trial > 0) {
+    timeline.push(practice_sequence, instructions2);
+}
+timeline.push(trial_sequence);
+
 jsPsych.init({
-    timeline: [trial_sequence],
+    timeline: timeline,
     on_finish: function () {
         if (debug) {
             jsPsych.data.displayData();
         }
+        document.body.style.backgroundColor = 'white';
+        var datasummary = create_datasummary();
+
+        jsPsych.data.get().first(1).addToAll({ 
+            info_: info_,
+            datasummary: datasummary,
+        });
+        
+        info_.tasks_completed.push(taskinfo.uniquestudyid);
+        info_.current_task_completed = 1;
+        localStorage.setObj('info_', info_); 
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); 
     },
 });
+
+// functions to summarize data
+
+// remove trials with too fast/slow RT
+function preprocess_updatemath() {
+    var data_sub = jsPsych.data.get().filter({ "event": "response" });  // select stroop trials
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 100 });
+    var cutoffs = mad_cutoffs(data_sub.select('rt').values);
+    data_sub = data_sub.filterCustom(function (trial) { return trial.rt > cutoffs[0] }).filterCustom(function (trial) { return trial.rt < cutoffs[1] });
+    return data_sub;
+}
+
+function create_datasummary() {
+    var d = preprocess_updatemath(); // preprocess/clean data
+    
+    // median rt and mean acc
+    var median_rt = d.select('rt').median();
+    var mean_acc = d.select('acc').mean();
+    if (d === undefined) {
+        rt = null;
+        acc = null;
+    }
+
+    // store above info in array
+    var datasummary = [
+        { param: "rt", value: median_rt },
+        { param: "acc", value: mean_acc },
+    ];
+
+    // add id/country information
+    datasummary.forEach(function (s) {
+        s.subject = info_.subject;
+        s.time = info_.time;
+        s.country_code = info_.demographics.country_code;
+        s.country = info_.demographics.country;
+        s.total_time = jsPsych.totalTime() / 60000;
+    })
+
+    return datasummary
+}
