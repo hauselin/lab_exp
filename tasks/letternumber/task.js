@@ -30,7 +30,7 @@ var your_ans = 0;
 var prop_switch = 0.4 // switch prop
 var n_trials = 12 // no. of total trials
 
-// Lines 32 - 54 generate the binary sequence and creates a combination of letter/numbers based on the binary sequence
+// Lines 34 - 80 generate the binary sequence and creates a combination of letter/numbers based on the binary sequence
 function get_switch_indices(trials, p_switch) {
     var n_switches = Math.floor(prop_switch * n_trials);  // no. of switch trials
     var switch_indices = jsPsych.randomization.sampleWithoutReplacement(range(1, n_trials-1), n_switches);  // exclude first/last trials from switching
@@ -73,9 +73,9 @@ function get_trials() {
             }
         }
     } 
-    console.log(switch_ind);
-    console.log(arr);
-    console.log(sequence);
+    console.log(switch_ind); // view switch indices
+    console.log(arr); // view the binary array
+    console.log(sequence); // view the combinations
     return sequence
 }
 
