@@ -32,7 +32,7 @@ var n_trials = 12 // no. of total trials
 
 // Lines 32 - 54 generate the binary sequence and creates a combination of letter/numbers based on the binary sequence
 function get_switch_indices(trials, p_switch) {
-    var n_switches = floor(prop_switch * n_trials);  // no. of switch trials
+    var n_switches = Math.floor(prop_switch * n_trials);  // no. of switch trials
     var switch_indices = jsPsych.randomization.sampleWithoutReplacement(range(1, n_trials-1), n_switches);  // exclude first/last trials from switching
     var ans = [];
     for (var i=0; i<trials; i++) {
@@ -40,17 +40,22 @@ function get_switch_indices(trials, p_switch) {
             ans.push(0) // @Hause, in this case, do we want the first trial to always be either number/letter focused?
         }
         else {
-            if (i in switch_indices) {
+            if (switch_indices.includes(i)) {
                 if (ans[i-1] == 1) {ans.push(0)} 
                 else { ans.push(1) }
             }
-            else {ans.push(i-1)}
+            else {ans.push(ans[i-1])}
         }
-    } return ans;
+        
+    } 
+    return [ans, switch_indices];
 }
 
 function get_trials() {
-    var arr = get_switch_indices(n_trials, get_switch_indices(n_trials, prop_switch))
+    var ans = get_switch_indices(n_trials, prop_switch);
+    var arr = ans[0];
+    var switch_ind = ans[1];
+    var sequence = []
     for (i=0;i<n_trials;i++){
         var combo = random_choice(shuffle(vowels.concat(consonants)))+random_choice(nums);
         if (arr[i] == 1) {
@@ -67,11 +72,12 @@ function get_trials() {
                 sequence.push({obj: combo, desc: 'Number', ans: '67'}) // v
             }
         }
-    }
+    } 
+    console.log(switch_ind);
+    console.log(arr);
+    console.log(sequence);
+    return sequence
 }
-
-console.log(arr);
-console.log(sequence);
 
 // add data to all trials
 jsPsych.data.addProperties({
@@ -100,7 +106,7 @@ var trial = {
         },
         choices: ['c', 'v']
     }],
-    timeline_variables: sequence, 
+    timeline_variables: get_trials(), 
     on_finish: function(data) {
         if (data.key_press == parseInt(jsPsych.timelineVariable('ans', true))) {
             your_ans += 1
