@@ -76,6 +76,7 @@ function get_trials() {
     console.log(switch_ind); // view switch indices
     console.log(arr); // view the binary array
     console.log(sequence); // view the combinations
+    jsPsych.data.addProperties({switch_indices: switch_ind})
     return sequence
 }
 
@@ -117,7 +118,7 @@ var trial = {
 var feedback = {
     type: "html-keyboard-response", 
     stimulus: function() {
-        var html = "Out of " + reps.toString() + " values, you guessed " + your_ans.toString() + " correctly.";
+        var html = "Out of " + n_trials.toString() + " values, you guessed " + your_ans.toString() + " correctly.";
         html += "<p> Press the right arrow to continue. </p>";
         return html
     },
