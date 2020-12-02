@@ -15,8 +15,8 @@ set_colour(font_colour, background_colour);
 
 // TASK PARAMETERS
 const vowels = ["A", "E", "U"];
-const consonants = ["C", "D", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z"];
-const nums = [1, 2, 3, 4, 6, 7, 8, 9];
+const consonants = ["C", "D", "F", "G", "H", "J", "K", "L"]; // ["M", "N", "P", "Q", "R", "S", "T", "V", "W", "X", "Y", "Z"];
+const nums = ["1", "2", "3", "4", "6", "7", "8", "9"];
 const trials = 1;               // the total number of trials
 const max_tasktime_minutes = 5;   // maximum task time in minutes (task ends after this amount of time regardless of how many trials have been completed)
 var adaptive = true;  // adjust difficulty based on accuracy (true/false) (if true, reps and difficulty will be overwritten by difficulty_reps_steps[current_idx])
@@ -25,31 +25,47 @@ var n_trial = -1; // current trial number counter
 var n_rep = 0; // current rep counter
 var responses = [];  // subject's response on each trial $ and #
 var switch_intensity = { 1: 2.4, 2: 2.2, 3: 1.8, 4: 1.5, 5: 1.3 } // task difficulty parameters
-var reps = 12;                  // number of combinations per trial
 var difficulty = 1; 
 var your_ans = 0;
+var prop_switch = 0.4 // switch prop
+var n_trials = 12 // no. of total trials
 
 // Lines 32 - 54 generate the binary sequence and creates a combination of letter/numbers based on the binary sequence
-var arr = [];
-var sequence = []
-for (var i=0;i<=reps;i++) {
-    arr.push(Math.round(Math.random()))
-}
-for (i=0;i<=reps;i++){
-    var combo = random_choice(shuffle(vowels.concat(consonants)))+random_choice(nums)
-    if (arr[i] == 1) {
-        if (vowels.includes(combo[0])) {
-            sequence.push({obj: combo, desc: 'Letter', ans: '67'})
+function get_switch_indices(trials, p_switch) {
+    var n_switches = floor(prop_switch * n_trials);  // no. of switch trials
+    var switch_indices = jsPsych.randomization.sampleWithoutReplacement(range(1, n_trials-1), n_switches);  // exclude first/last trials from switching
+    var ans = [];
+    for (var i=0; i<trials; i++) {
+        if (i == 0) {
+            ans.push(0) // @Hause, in this case, do we want the first trial to always be either number/letter focused?
         }
         else {
-            sequence.push({obj: combo, desc: 'Letter', ans: '86'})
+            if (i in switch_indices) {
+                if (ans[i-1] == 1) {ans.push(0)} 
+                else { ans.push(1) }
+            }
+            else {ans.push(i-1)}
         }
-    }
-    else {
-        if (parseInt(combo[1]) > 5) {
-            sequence.push({obj: combo, desc: 'Number', ans: '86'})
-        } else {
-            sequence.push({obj: combo, desc: 'Number', ans: '67'})
+    } return ans;
+}
+
+function get_trials() {
+    var arr = get_switch_indices(n_trials, get_switch_indices(n_trials, prop_switch))
+    for (i=0;i<n_trials;i++){
+        var combo = random_choice(shuffle(vowels.concat(consonants)))+random_choice(nums);
+        if (arr[i] == 1) {
+            if (vowels.includes(combo[0])) {
+                sequence.push({obj: combo, desc: 'Letter', ans: '86'}) // v
+            } else {
+                sequence.push({obj: combo, desc: 'Letter', ans: '67'}) // c
+            }
+        }
+        else {
+            if (parseInt(combo[1]) > 5) {
+                sequence.push({obj: combo, desc: 'Number', ans: '86'}) // c
+            } else {
+                sequence.push({obj: combo, desc: 'Number', ans: '67'}) // v
+            }
         }
     }
 }
@@ -142,5 +158,3 @@ function summarize_data() {
     datasummary.total_time = jsPsych.totalTime() / 60000;
     return datasummary;
 }
-
-
