@@ -61,7 +61,8 @@ var trial = {
             }
         }
         stimulus_index += 1;
-    }
+    },
+    response_ends_trial: false,
 }
 
 var iti = {
