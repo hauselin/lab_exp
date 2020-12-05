@@ -1,5 +1,5 @@
 const image_link = '1.gif';
-const num_back = 3;
+const num_back = 2;
 const grid_size = 3;
 const n_trials = 5;
 const trial_duration = 1500;
@@ -45,7 +45,18 @@ var trial = {
             back = update_array(back, coordinates[stimulus_index]);
         }
         console.log(back);
-        // if (back[back.length - 1])
+        if (back.length >= num_back && back[back.length - 1] == back[0]) {
+            console.log("Press spacebar now!");
+            if (data.key_press) {
+                console.log("Correct!");
+            } else {
+                console.log("You missed the repetition!");
+            };
+        } else {
+            if (data.key_press) {
+                console.log("Incorrect!");
+            }
+        }
         stimulus_index += 1;
     }
 }
