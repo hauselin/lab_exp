@@ -3,6 +3,7 @@ const num_back = 1;
 const grid_size = 3;
 const n_trials = 5;
 const trial_duration = 1500;
+const iti_duration = 500;
 
 function update_array(array, new_entry) {
     var new_array = jsPsych.utils.deepCopy(array);
@@ -50,7 +51,7 @@ var trial = {
                     console.log("Correct!");
                 } else {
                     console.log("You missed the repetition!");
-                };    
+                };
             } else {
                 console.log("Incorrect!")
             }
@@ -63,8 +64,15 @@ var trial = {
     }
 }
 
+var iti = {
+    type: 'vsl-grid-scene',
+    stimuli: scene,
+    image_size: [100,100],
+    trial_duration: iti_duration,
+}
+
 var trials = {
-    timeline: [trial],
+    timeline: [trial, iti],
     timeline_variables: scenes,
 }
 
