@@ -5,9 +5,10 @@ const n_trials = 5;
 const trial_duration = 1500;
 
 function update_array(array, new_entry) {
-    array.shift();
-    array.push(new_entry);
-    return array
+    var new_array = jsPsych.utils.deepCopy(array);
+    new_array.shift();
+    new_array.push(new_entry);
+    return new_array
 }
 
 function update_scene(matrix, coords) {
@@ -22,24 +23,30 @@ for (var i = 0; i < grid_size; i++) {
 }
 
 var scenes = [];
+var coordinates = [];
 for (var i = 0; i < n_trials; i++) {
     tile_x = Math.floor(Math.random() * (grid_size));
     tile_y = Math.floor(Math.random() * (grid_size));
+    coordinates.push([tile_x, tile_y])
     scenes.push({ stimulus: jsPsych.plugins['vsl-grid-scene'].generate_stimulus(update_scene(scene, [tile_x, tile_y]), [100, 100]) });
 }
 
 var back = [];
+var stimulus_index = 0;
 var trial = {
     type: 'html-keyboard-response',
     choices: [32],
     trial_duration: trial_duration,
     stimulus: jsPsych.timelineVariable('stimulus'),
-    on_finish: function () {
+    on_finish: function (data) {
         if (back.length < num_back) {
-            back.push([tile_x, tile_y]);
+            back.push(coordinates[stimulus_index]);
         } else {
-            back = update_array(back, [tile_x, tile_y])
+            back = update_array(back, coordinates[stimulus_index]);
         }
+        console.log(back);
+        // if (back[back.length - 1])
+        stimulus_index += 1;
     }
 }
 
