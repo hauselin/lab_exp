@@ -8,6 +8,11 @@ function update_array(array, new_entry) {
     return array
 }
 
+function update_scene(matrix, coords) {
+    matrix[coords[1], coords[0]] = image_link;
+    return matrix
+}
+
 var scene = [];
 for (var i = 0; i < grid_size; i++) {
     scene[i] = new Array(grid_size).fill(0);
@@ -17,8 +22,10 @@ var trial = {
     type: 'html-keyboard-response',
     stimulus: jsPsych.plugins['vsl-grid-scene'].generate_stimulus(scene, [100, 100]),
     on_start: function () {
-        tile = Math.floor(Math.random() * (grid_size ** 2));
-        console.log(tile);
+        tile_x = Math.floor(Math.random() * (grid_size));
+        tile_y = Math.floor(Math.random() * (grid_size));
+        console.log([tile_x, tile_y]);
+        scene = update_scene(scene, [tile_x, tile_y]);
     },
 }
 
