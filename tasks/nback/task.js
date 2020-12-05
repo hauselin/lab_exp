@@ -44,13 +44,16 @@ var trial = {
         } else {
             back = update_array(back, coordinates[stimulus_index]);
         }
-        if (back.length > num_back && back[back.length - 1] == back[0]) {
-            console.log("Press spacebar now!");
-            if (data.key_press) {
-                console.log("Correct!");
+        if (back.length > num_back) {
+            if (back[back.length - 1][0] == back[0][0] && back[back.length - 1][1] == back[0][1]) {
+                if (data.key_press) {
+                    console.log("Correct!");
+                } else {
+                    console.log("You missed the repetition!");
+                };    
             } else {
-                console.log("You missed the repetition!");
-            };
+                console.log("Incorrect!")
+            }
         } else {
             if (data.key_press) {
                 console.log("Incorrect!");
