@@ -30,6 +30,7 @@ for (var i = 0; i < n_trials; i++) {
 
 var trial = {
     type: 'html-keyboard-response',
+    choices: [32],
     stimulus: jsPsych.timelineVariable('stimulus'),
 }
 
