@@ -2,6 +2,7 @@ const image_link = '1.gif';
 const num_back = 3;
 const grid_size = 3;
 const n_trials = 5;
+const trial_duration = 1500;
 
 function update_array(array, new_entry) {
     array.shift();
@@ -31,6 +32,7 @@ var back = [];
 var trial = {
     type: 'html-keyboard-response',
     choices: [32],
+    trial_duration: trial_duration,
     stimulus: jsPsych.timelineVariable('stimulus'),
     on_finish: function () {
         if (back.length < num_back) {
