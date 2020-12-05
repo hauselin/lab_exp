@@ -1,5 +1,5 @@
 const image_link = '1.gif';
-const num_back = 2;
+const num_back = 1;
 const grid_size = 3;
 const n_trials = 5;
 const trial_duration = 1500;
@@ -39,13 +39,12 @@ var trial = {
     trial_duration: trial_duration,
     stimulus: jsPsych.timelineVariable('stimulus'),
     on_finish: function (data) {
-        if (back.length < num_back) {
-            back.push(coordinates[stimulus_index]);
+        if (back.length < (num_back + 1)) {
+            back = back.concat([coordinates[stimulus_index]]);
         } else {
             back = update_array(back, coordinates[stimulus_index]);
         }
-        console.log(back);
-        if (back.length >= num_back && back[back.length - 1] == back[0]) {
+        if (back.length > num_back && back[back.length - 1] == back[0]) {
             console.log("Press spacebar now!");
             if (data.key_press) {
                 console.log("Correct!");
