@@ -1,3 +1,6 @@
+const image_link = '1.gif';
+const num_back = 2;
+
 function update_array(array, new_entry) {
     array.shift();
     array.push(new_entry);
