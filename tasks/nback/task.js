@@ -25,17 +25,17 @@ for (var i = 0; i < n_trials; i++) {
     tile_x = Math.floor(Math.random() * (grid_size));
     tile_y = Math.floor(Math.random() * (grid_size));
     console.log([tile_x, tile_y]);
-    scenes.push(update_scene(scene, [tile_x, tile_y]));
+    scenes.push({stimulus: jsPsych.plugins['vsl-grid-scene'].generate_stimulus(update_scene(scene, [tile_x, tile_y]), [100, 100])});
 }
 
 var trial = {
     type: 'html-keyboard-response',
-    stimulus: jsPsych.plugins['vsl-grid-scene'].generate_stimulus(scene, [100, 100]),
+    stimulus: jsPsych.timelineVariable('stimulus'),
 }
 
 var trials = {
     timeline: [trial],
-    repetitions: 3,
+    timeline_variables: scenes,
 }
 
 jsPsych.init({
