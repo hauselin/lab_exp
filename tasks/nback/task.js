@@ -15,10 +15,19 @@ for (var i = 0; i < grid_size; i++) {
 
 var trial = {
     type: 'html-keyboard-response',
-    stimulus: jsPsych.plugins['vsl-grid-scene'].generate_stimulus(scene, [100, 100])
+    stimulus: jsPsych.plugins['vsl-grid-scene'].generate_stimulus(scene, [100, 100]),
+    on_start: function () {
+        tile = Math.floor(Math.random() * (grid_size ** 2));
+        console.log(tile);
+    },
+}
+
+var trials = {
+    timeline: [trial],
+    repetitions: 3,
 }
 
 jsPsych.init({
-    timeline: [trial],
-    on_finish: function () { jsPsych.data.displayData(); }
+    timeline: [trials],
+    on_finish: function () { jsPsych.data.displayData(); },
 });
