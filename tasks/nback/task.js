@@ -45,16 +45,12 @@ var trial = {
         } else {
             back = update_array(back, coordinates[stimulus_index]);
         }
-        if (back.length > num_back) {
-            if (back[back.length - 1][0] == back[0][0] && back[back.length - 1][1] == back[0][1]) {
-                if (data.key_press) {
-                    console.log("Correct!");
-                } else {
-                    console.log("You missed the repetition!");
-                };
+        if (back.length > num_back && back[back.length - 1][0] == back[0][0] && back[back.length - 1][1] == back[0][1]) {
+            if (data.key_press) {
+                console.log("Correct!");
             } else {
-                console.log("Incorrect!")
-            }
+                console.log("You missed the repetition!");
+            };
         } else {
             if (data.key_press) {
                 console.log("Incorrect!");
@@ -68,7 +64,7 @@ var trial = {
 var iti = {
     type: 'vsl-grid-scene',
     stimuli: scene,
-    image_size: [100,100],
+    image_size: [100, 100],
     trial_duration: iti_duration,
 }
 
