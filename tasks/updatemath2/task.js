@@ -24,7 +24,9 @@ var feedback_duration = 1500;
 var rt_update_deadline = 3000;
 var options_deadline = 3000;
 
-var update_options = [0, 1, "Do nothing"]
+// var update_options = [0, 1, "Do nothing"]
+var update_options = ["Do nothing"]
+
 
 if (debug) {
     rt_update_deadline = 60000;
@@ -157,8 +159,8 @@ option1 = 0
 var options = {
     type: "html-keyboard-response",
     stimulus: function () {
-        option2 = update_options[Math.floor(Math.random() * 3)];
-        if (typeof option1 == 'number') {
+        option2 = update_options[Math.floor(Math.random() * update_options.length)];
+        if (typeof option2 == 'number') {
             option2_str = "+" + String(option2)
         } else {
             option2_str = option2
@@ -184,6 +186,9 @@ var options = {
 var prompt_digit = {
     type: "html-keyboard-response",
     stimulus: function () {
+        if (isNaN(num_to_update)) {
+            return ''
+        }
         var remind = update_prompt(num_to_update) + " to each digit";
         remind = generate_html(remind, font_colour, 30);
         return remind
@@ -200,6 +205,9 @@ var number_sequence = {
         {
             type: "html-keyboard-response",
             stimulus: function () {
+                if (isNaN(num_to_update)) {
+                    return ''
+                }
                 var remind = update_prompt(num_to_update);
                 remind = generate_html(remind, font_colour, 30) + "<br>";
                 var d = generate_html(jsPsych.timelineVariable('digit', true), font_colour, 80)
