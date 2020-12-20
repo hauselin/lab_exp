@@ -234,6 +234,9 @@ var choices_shuffle;
 var response = {
     type: "html-keyboard-response",
     stimulus: function () {
+        if (isNaN(num_to_update)) {
+            return "Press any arrow key to continue to next trial."
+        }
         choices_shuffle = process_choices(choices);
         prompt_html = generate_html(choices_shuffle[0].prompt, font_colour, 30, [-100, 25]) + generate_html(choices_shuffle[1].prompt, font_colour, 30, [100, -25]);
         if (n_distract_response == 3) {
@@ -247,17 +250,22 @@ var response = {
     data: { event: "response" },
     post_trial_gap: 500,
     on_finish: function (data) {
-        var chosen = choices_shuffle.filter(x => x.keycode == data.key_press)[0];
-        data.num_to_update = num_to_update;
-        if (!chosen) { // no response
-            data.acc = null;
+        if (isNaN(num_to_update)) {
+            data.acc = 1;
             data.response = null;
-        } else {  // response made
-            data.response = chosen.response;
-            if (chosen.correct) {
-                data.acc = 1;
-            } else {
-                data.acc = 0;
+        } else {
+            var chosen = choices_shuffle.filter(x => x.keycode == data.key_press)[0];
+            data.num_to_update = num_to_update;
+            if (!chosen) { // no response
+                data.acc = null;
+                data.response = null;
+            } else {  // response made
+                data.response = chosen.response;
+                if (chosen.correct) {
+                    data.acc = 1;
+                } else {
+                    data.acc = 0;
+                }
             }
         }
         temp_digits = []; // clear digit sequences for next trial
@@ -275,6 +283,9 @@ var feedback = {
             var prompt = "respond faster";
         } else {
             var prompt = "wrong";
+        }
+        if (isNaN(num_to_update)) {
+            var prompt = ''
         }
         return generate_html(prompt, font_colour, 25);
     },
