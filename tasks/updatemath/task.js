@@ -170,9 +170,9 @@ var options = {
     post_trial_gap: 500,
     on_finish: function (data) {
         if (data.key_press == 37) { // pressed left
-            num_to_update = 0;
+            num_to_update = option1;
         } else if (data.key_press == 39) { // pressed right
-            num_to_update = 3;
+            num_to_update = option2;
         } else { // no response
             num_to_update = null;
         };
