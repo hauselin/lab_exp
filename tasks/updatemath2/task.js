@@ -1,10 +1,10 @@
 // DEFINE TASK (required)
 const taskinfo = {
     type: 'task', // 'task', 'survey', or 'study'
-    uniquestudyid: 'updatemath', // unique task id: must be IDENTICAL to directory name
+    uniquestudyid: 'updatemath2', // unique task id: must be IDENTICAL to directory name
     desc: 'mental math', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: "/tasks/updatemath/viz" // set to false if no redirection required
+    redirect_url: "/tasks/updatemath2/viz" // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 const debug = true;
@@ -23,6 +23,8 @@ var duration_post_digit = 200;  // pause duration after each digit
 var feedback_duration = 1500;
 var rt_update_deadline = 3000;
 var options_deadline = 3000;
+
+var update_options = [0, 1, "Do nothing"]
 
 if (debug) {
     rt_update_deadline = 60000;
@@ -151,16 +153,15 @@ var instructions2 = {
 };
 
 option1 = 0
-option2 = 3
 
 var options = {
     type: "html-keyboard-response",
     stimulus: function () {
-        option2 = Math.floor(Math.random() * 9) + 1;
-        option2_str = "+" + String(option2)
-        if (Math.random() < 0.5) {
-            option2 = - (Math.floor(Math.random() * 9) + 1);
-            option2_str = String(option2)
+        option2 = update_options[Math.floor(Math.random() * 3)];
+        if (typeof option1 == 'number') {
+            option2_str = "+" + String(option2)
+        } else {
+            option2_str = option2
         }
         return generate_html("0", font_colour, 30, [-100, 25]) + generate_html(option2_str, font_colour, 30, [100, -25]);
     },
@@ -287,7 +288,7 @@ for (i=0; i<practice_sequence.timeline.length; i++) {
 }
 
 var timeline = [instructions];
-const html_path = "../../tasks/updatemath/consent.html";
+const html_path = "../../tasks/updatemath2/consent.html";
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
 if (n_practice_trial > 0) {
