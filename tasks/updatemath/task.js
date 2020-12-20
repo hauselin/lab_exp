@@ -150,11 +150,18 @@ var instructions2 = {
     show_page_number: false,
 };
 
+option1 = 0
+option2 = 3
 
 var options = {
     type: "html-keyboard-response",
     stimulus: function () {
-        return generate_html("0", font_colour, 30, [-100, 25]) + generate_html("+3", font_colour, 30, [100, -25]);
+        option2 = Math.floor(Math.random() * 10);
+        if (Math.random() < 0.5) {
+            option2 = - Math.floor(Math.random() * 10);
+            return generate_html("0", font_colour, 30, [-100, 25]) + generate_html(String(option2), font_colour, 30, [100, -25]);
+        }
+        return generate_html("0", font_colour, 30, [-100, 25]) + generate_html("+" + String(option2), font_colour, 30, [100, -25]);
     },
     choices: [37, 39],
     trial_duration: options_deadline,
