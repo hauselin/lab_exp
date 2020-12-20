@@ -156,12 +156,13 @@ option2 = 3
 var options = {
     type: "html-keyboard-response",
     stimulus: function () {
-        option2 = Math.floor(Math.random() * 10);
+        option2 = Math.floor(Math.random() * 9) + 1;
+        option2_str = "+" + String(option2)
         if (Math.random() < 0.5) {
-            option2 = - Math.floor(Math.random() * 10);
-            return generate_html("0", font_colour, 30, [-100, 25]) + generate_html(String(option2), font_colour, 30, [100, -25]);
+            option2 = - (Math.floor(Math.random() * 9) + 1);
+            option2_str = String(option2)
         }
-        return generate_html("0", font_colour, 30, [-100, 25]) + generate_html("+" + String(option2), font_colour, 30, [100, -25]);
+        return generate_html("0", font_colour, 30, [-100, 25]) + generate_html(option2_str, font_colour, 30, [100, -25]);
     },
     choices: [37, 39],
     trial_duration: options_deadline,
