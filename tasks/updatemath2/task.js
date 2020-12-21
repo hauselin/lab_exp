@@ -7,7 +7,7 @@ const taskinfo = {
     redirect_url: "/tasks/updatemath2/viz" // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-const debug = true;
+const debug = false;
 var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
@@ -235,7 +235,7 @@ var response = {
     type: "html-keyboard-response",
     stimulus: function () {
         if (isNaN(num_to_update)) {
-            return "Press any arrow key to continue to next trial."
+            return 'Please wait...'
         }
         choices_shuffle = process_choices(choices);
         prompt_html = generate_html(choices_shuffle[0].prompt, font_colour, 30, [-100, 25]) + generate_html(choices_shuffle[1].prompt, font_colour, 30, [100, -25]);
@@ -269,7 +269,8 @@ var response = {
             }
         }
         temp_digits = []; // clear digit sequences for next trial
-    }
+    },
+    response_ends_trial: false
 }
 
 var feedback = {
