@@ -238,9 +238,9 @@ var response = {
             return 'Please wait...'
         }
         choices_shuffle = process_choices(choices);
-        prompt_html = generate_html(choices_shuffle[0].prompt, font_colour, 30, [-100, 25]) + generate_html(choices_shuffle[1].prompt, font_colour, 30, [100, -25]);
+        prompt_html = generate_html(choices_shuffle[0].prompt, font_colour, 30, [-100, 50]) + generate_html(choices_shuffle[1].prompt, font_colour, 30, [100, 2]);
         if (n_distract_response == 3) {
-            prompt_html = prompt_html.concat(generate_html(choices_shuffle[2].prompt, font_colour, 30, [0, -125]) + generate_html(choices_shuffle[3].prompt, font_colour, 30, [0, -70]));
+            prompt_html = prompt_html.concat(generate_html(choices_shuffle[2].prompt, font_colour, 30, [0, -100]) + generate_html(choices_shuffle[3].prompt, font_colour, 30, [0, -35]));
         }
         console.log(choices_shuffle);
         return prompt_html;
