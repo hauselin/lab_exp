@@ -459,17 +459,22 @@
                     mark: { type: "text", radiusOffset: 20, fontSize: 24 },
                     encoding:
                     {
-                        text: { aggregate: "median", field: "value", type: "quantitative" }
-                        // text: { field: "subscale", type: "nominal" }
+                        text: { aggregate: "median", field: "value", type: "quantitative" },
+                        // text: { field: "subscale", type: "nominal" },
                     }
                 }
             ],
             encoding: {
                 theta: { aggregate: "median", field: "value", type: "quantitative", stack: true },
-                radius: { aggregate: "median", field: "value", type: "quantitative", scale: { type: "sqrt", zero: true, rangeMin: 20 } },
-                color: { field: "subscale", type: "nominal", legend: {title: null} }
+                radius: { aggregate: "median", field: "value", type: "quantitative", scale: { type: "sqrt", zero: true } },
+                color: { 
+                    field: "subscale", 
+                    type: "nominal", 
+                    legend: {title: 'Big five facets', titleFontSize: 21, labelFontSize: 13, offset: -30}, 
+                    sort: ["openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism"]
+                } 
             },
-            view: { stroke: null },
+            view: { stroke: null },  // border around plot
         };
 
     </script>
