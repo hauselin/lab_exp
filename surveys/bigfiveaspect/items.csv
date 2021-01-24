@@ -1,7 +1,7 @@
 q,desc,subscale,subscale2,reverse
 1,Seldom feel blue.,neuroticism-withdrawal,neuroticism,1
 2,Am not interested in other people's problems.,agreeableness-compassion,agreeableness,1
-3,Carry out my plans.,conscientiousness-inudstriousness,conscientiousness,0
+3,Carry out my plans.,conscientiousness-industriousness,conscientiousness,0
 4,Make friends easily.,extraversion-enthusiasm,extraversion,0
 5,Am quick to understand things.,openness-intellect,openness,0
 6,Get angry easily.,neuroticism-volatility,neuroticism,0
@@ -11,7 +11,7 @@ q,desc,subscale,subscale2,reverse
 10,Enjoy the beauty of nature.,openness-openness,openness,0
 11,Am filled with doubts about things.,neuroticism-withdrawal,neuroticism,0
 12,Feel others' emotions.,agreeableness-compassion,agreeableness,0
-13,Waste my time.,conscientiousness-inudstriousness,conscientiousness,1
+13,Waste my time.,conscientiousness-industriousness,conscientiousness,1
 14,Am hard to get to know.,extraversion-enthusiasm,extraversion,1
 15,Have difficulty understanding abstract ideas.,openness-intellect,openness,1
 16,Rarely get irritated.,neuroticism-volatility,neuroticism,1
@@ -21,7 +21,7 @@ q,desc,subscale,subscale2,reverse
 20,Believe in the importance of art.,openness-openness,openness,0
 21,Feel comfortable with myself.,neuroticism-withdrawal,neuroticism,1
 22,Inquire about others' well-being.,agreeableness-compassion,agreeableness,0
-23,Find it difficult to get down to work.,conscientiousness-inudstriousness,conscientiousness,1
+23,Find it difficult to get down to work.,conscientiousness-industriousness,conscientiousness,1
 24,Keep others at a distance.,extraversion-enthusiasm,extraversion,1
 25,Can handle a lot of information.,openness-intellect,openness,0
 26,Get upset easily.,neuroticism-volatility,neuroticism,0
@@ -31,7 +31,7 @@ q,desc,subscale,subscale2,reverse
 30,Love to reflect on things.,openness-openness,openness,0
 31,Feel threatened easily.,neuroticism-withdrawal,neuroticism,0
 32,Can't be bothered with other's needs.,agreeableness-compassion,agreeableness,1
-33,Mess things up.,conscientiousness-inudstriousness,conscientiousness,1
+33,Mess things up.,conscientiousness-industriousness,conscientiousness,1
 34,Reveal little about myself.,extraversion-enthusiasm,extraversion,1
 35,Like to solve complex problems.,openness-intellect,openness,0
 36,Keep my emotions under control.,neuroticism-volatility,neuroticism,1
@@ -41,7 +41,7 @@ q,desc,subscale,subscale2,reverse
 40,Get deeply immersed in music.,openness-openness,openness,0
 41,Rarely feel depressed.,neuroticism-withdrawal,neuroticism,1
 42,Sympathize with others' feelings.,agreeableness-compassion,agreeableness,0
-43,Finish what I start.,conscientiousness-inudstriousness,conscientiousness,0
+43,Finish what I start.,conscientiousness-industriousness,conscientiousness,0
 44,Warm up quickly to others.,extraversion-enthusiasm,extraversion,0
 45,Avoid philosophical discussions.,openness-intellect,openness,1
 46,Change my mood a lot.,neuroticism-volatility,neuroticism,0
@@ -51,7 +51,7 @@ q,desc,subscale,subscale2,reverse
 50,Do not like poetry.,openness-openness,openness,1
 51,Worry about things.,neuroticism-withdrawal,neuroticism,0
 52,Am indifferent to the feelings of others.,agreeableness-compassion,agreeableness,1
-53,Don't put my mind on the task at hand.,conscientiousness-inudstriousness,conscientiousness,1
+53,Don't put my mind on the task at hand.,conscientiousness-industriousness,conscientiousness,1
 54,Rarely get caught up in the excitement.,extraversion-enthusiasm,extraversion,1
 55,Avoid difficult reading material.,openness-intellect,openness,1
 56,Rarely lose my composure.,neuroticism-volatility,neuroticism,1
@@ -61,7 +61,7 @@ q,desc,subscale,subscale2,reverse
 60,Seldom notice the emotional aspects of paintings and pictures.,openness-openness,openness,1
 61,Am easily discouraged.,neuroticism-withdrawal,neuroticism,0
 62,Take no time for others.,agreeableness-compassion,agreeableness,1
-63,Get things done quickly.,conscientiousness-inudstriousness,conscientiousness,0
+63,Get things done quickly.,conscientiousness-industriousness,conscientiousness,0
 64,Am not a very enthusiastic person.,extraversion-enthusiasm,extraversion,1
 65,Have a rich vocabulary.,openness-intellect,openness,0
 66,Am a person whose moods go up and down easily.,neuroticism-volatility,neuroticism,0
@@ -71,7 +71,7 @@ q,desc,subscale,subscale2,reverse
 70,Need a creative outlet.,openness-openness,openness,0
 71,Am not embarrassed easily.,neuroticism-withdrawal,neuroticism,1
 72,Take an interest in other people's lives.,agreeableness-compassion,agreeableness,0
-73,Always know what I am doing.,conscientiousness-inudstriousness,conscientiousness,0
+73,Always know what I am doing.,conscientiousness-industriousness,conscientiousness,0
 74,Show my feelings when I'm happy.,extraversion-enthusiasm,extraversion,0
 75,Think quickly.,openness-intellect,openness,0
 76,Am not easily annoyed.,neuroticism-volatility,neuroticism,1
@@ -81,7 +81,7 @@ q,desc,subscale,subscale2,reverse
 80,Seldom get lost in thought.,openness-openness,openness,1
 81,Become overwhelmed by events.,neuroticism-withdrawal,neuroticism,0
 82,Don't have a soft side.,agreeableness-compassion,agreeableness,1
-83,Postpone decisions.,conscientiousness-inudstriousness,conscientiousness,1
+83,Postpone decisions.,conscientiousness-industriousness,conscientiousness,1
 84,Have a lot of fun.,extraversion-enthusiasm,extraversion,0
 85,Learn things slowly.,openness-intellect,openness,1
 86,Get easily agitated.,neuroticism-volatility,neuroticism,0
@@ -91,7 +91,7 @@ q,desc,subscale,subscale2,reverse
 90,Seldom daydream.,openness-openness,openness,1
 91,Am afraid of many things.,neuroticism-withdrawal,neuroticism,0
 92,Like to do things for others.,agreeableness-compassion,agreeableness,0
-93,Am easily distracted.,conscientiousness-inudstriousness,conscientiousness,1
+93,Am easily distracted.,conscientiousness-industriousness,conscientiousness,1
 94,Laugh a lot.,extraversion-enthusiasm,extraversion,0
 95,Formulate ideas clearly.,openness-intellect,openness,0
 96,Can be stirred up easily.,neuroticism-volatility,neuroticism,0
