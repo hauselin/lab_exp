@@ -16,7 +16,7 @@ var items = [
   {
     "q": 3,
     "desc": "Carry out my plans.",
-    "subscale": "conscientiousness-inudstriousness",
+    "subscale": "conscientiousness-industriousness",
     "subscale2": "conscientiousness",
     "reverse": 0
   },
@@ -86,7 +86,7 @@ var items = [
   {
     "q": 13,
     "desc": "Waste my time.",
-    "subscale": "conscientiousness-inudstriousness",
+    "subscale": "conscientiousness-industriousness",
     "subscale2": "conscientiousness",
     "reverse": 1
   },
@@ -156,7 +156,7 @@ var items = [
   {
     "q": 23,
     "desc": "Find it difficult to get down to work.",
-    "subscale": "conscientiousness-inudstriousness",
+    "subscale": "conscientiousness-industriousness",
     "subscale2": "conscientiousness",
     "reverse": 1
   },
@@ -226,7 +226,7 @@ var items = [
   {
     "q": 33,
     "desc": "Mess things up.",
-    "subscale": "conscientiousness-inudstriousness",
+    "subscale": "conscientiousness-industriousness",
     "subscale2": "conscientiousness",
     "reverse": 1
   },
@@ -296,7 +296,7 @@ var items = [
   {
     "q": 43,
     "desc": "Finish what I start.",
-    "subscale": "conscientiousness-inudstriousness",
+    "subscale": "conscientiousness-industriousness",
     "subscale2": "conscientiousness",
     "reverse": 0
   },
@@ -366,7 +366,7 @@ var items = [
   {
     "q": 53,
     "desc": "Don't put my mind on the task at hand.",
-    "subscale": "conscientiousness-inudstriousness",
+    "subscale": "conscientiousness-industriousness",
     "subscale2": "conscientiousness",
     "reverse": 1
   },
@@ -436,7 +436,7 @@ var items = [
   {
     "q": 63,
     "desc": "Get things done quickly.",
-    "subscale": "conscientiousness-inudstriousness",
+    "subscale": "conscientiousness-industriousness",
     "subscale2": "conscientiousness",
     "reverse": 0
   },
@@ -506,7 +506,7 @@ var items = [
   {
     "q": 73,
     "desc": "Always know what I am doing.",
-    "subscale": "conscientiousness-inudstriousness",
+    "subscale": "conscientiousness-industriousness",
     "subscale2": "conscientiousness",
     "reverse": 0
   },
@@ -576,7 +576,7 @@ var items = [
   {
     "q": 83,
     "desc": "Postpone decisions.",
-    "subscale": "conscientiousness-inudstriousness",
+    "subscale": "conscientiousness-industriousness",
     "subscale2": "conscientiousness",
     "reverse": 1
   },
@@ -646,7 +646,7 @@ var items = [
   {
     "q": 93,
     "desc": "Am easily distracted.",
-    "subscale": "conscientiousness-inudstriousness",
+    "subscale": "conscientiousness-industriousness",
     "subscale2": "conscientiousness",
     "reverse": 1
   },
