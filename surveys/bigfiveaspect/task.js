@@ -109,7 +109,7 @@ timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
 timeline.push(instructions);
 timeline.push(procedure);
-timeline = create_demographics(timeline, [9, 10]);
+timeline = create_demographics(timeline);
 
 // run task
 jsPsych.init({
