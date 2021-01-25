@@ -28,13 +28,14 @@
         <div class="container">
             <div class="row py-6 text-center justify-content-center align-items-center layer-2">
                 <div class="col-xl-8 col-lg-10">
-                    <h1 class="display-4">How gritty are you?</h1>
+                    <h1 class="display-4">What is your personality?</h1>
                     <p id="no-data-text" class="lead mb-1"></p><br>
-                    <p class="lead mb-0">The grit questionnaire measures your <a
-                            href="https://en.wikipedia.org/wiki/Time_preference" target="_blank">time preference</a>. It
-                        measures how much you value or devalue a good that is available only in the future. It's
-                        associated with people's ability to delay gratification and save for the future.<br><br>
-                        Check out the interactive results below and help spread the word.</p><br>
+                    <p class="lead mb-0">
+
+                        What makes you who you are? What are the fundamental characteristics that make each person unique? Decades of scientific research have shown that people can be described by the <a href="https://en.wikipedia.org/wiki/Big_Five_personality_traits" target="_blank">'Big Five' dimensions</a>: openness, conscientiousness, extraversion, agreeableness, and neuroticism (OCEAN). 
+                        <br><br>
+                        The survey you just completed measures not only these five dimensions but also further divides each dimension into two <a href='https://psycnet.apa.org/buy/2007-15390-012' target="_blank">sub-dimensions</a>. Check out the interactive results below and help spread the word.</p><br>
+
                     <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.anthrope.me"
                         target="_blank"><img class="share-button"
                             src="../../public/assets/img/icons/social/facebook.svg" data-inject-svg /></a>
@@ -67,13 +68,11 @@
                         <div class="col-xl-10 col-lg-11">
                             <span id="no-data-tag0" class="badge badge-primary"></span>
                             <div class="my-2">
-                                <span class="h4">Response value distribution of the big five personality traits</span>
+                                <span class="h4">Big Five dimension scores</span>
                             </div>
-                            <p class="lead">Assume you'll receive $1 the future—this value is the maximum value on the
-                                y-axis. This boxplot suggests that the more days you have to wait before you receive $1,
-                                the more you devalue or discount that $1. The longer you have to wait, the more its <a
-                                    href="https://en.wikipedia.org/wiki/Subjective_theory_of_value"
-                                    target="_blank">subjective value</a> drops.</p>
+                            <p class="lead">
+                                Each slice of the pie is one Big Five dimension. The five slices are <strong>OCEAN: </strong> <strong>o</strong>penness, <strong>c</strong>onscientiousness, <strong>e</strong>xtraversion, <strong>a</strong>greeableness, <strong>n</strong>euroticism. Larger and taller slices indicate higher scores on a dimension. Scores range from 1 to 5.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -99,20 +98,19 @@
                     <div class="ml-3">
                         <h5>Self-control and impulsivity</h5>
                         <p>
-                            Those who devalue future rewards more are likely to have less self-control and be more
-                            impulsive. Try the <a href="#">self-control</a> or <a href="/surveys/gritshort">grit</a>
-                            scale.
+                            People who are more conscientious tend to have higher <a href="#">self-control</a> or <a href="/surveys/gritshort">grit</a> and may be less likely to <a href='/tasks/delaydiscount/'>discount future rewards</a>.
                         </p>
                     </div>
                 </div>
                 <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
                     <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/zoom-plus.svg"
                         alt="zoom-plus icon" data-inject-svg />
-                    <div class="ml-3">
+                    <div class="ml-3"> 
+                        <!-- TODO continue here -->
                         <h5>Other types of discounting</h5>
                         <p>
                             Discounting of future rewards is related to other kinds of discounting behavior. Try <a
-                                href="#"">another discounting task</a> now.
+                                href="/"">another discounting task</a> now.
                         </p>
                     </div>
                 </div>
@@ -470,7 +468,7 @@
                 color: { 
                     field: "subscale", 
                     type: "nominal", 
-                    legend: {title: 'Big five facets', titleFontSize: 21, labelFontSize: 13, offset: -30}, 
+                    legend: {title: 'Big five', titleFontSize: 21, labelFontSize: 16, offset: -30}, 
                     sort: ["openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism"]
                 } 
             },

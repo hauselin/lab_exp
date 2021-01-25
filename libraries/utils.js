@@ -424,13 +424,13 @@ function get_viz_subject_info(parent_path, num_subject_figures) {
         var subject_id = null;
         var start_time = null;
         for (i = 0; i < num_subject_figures; i++) {
-            document.getElementById('no-data-tag' + i.toString()).innerHTML = "Other users' behavior";
+            document.getElementById('no-data-tag' + i.toString()).innerHTML = "Other users";
         }
         document.getElementById('no-data-text').innerHTML = "To see your own results below, <a href='" + parent_path + "/'>complete the task</a> first.";
     } else {
         var subject_id = info.subject;
         for (i = 0; i < num_subject_figures; i++) {
-            document.getElementById('no-data-tag' + i.toString()).innerHTML = "You vs others";
+            document.getElementById('no-data-tag' + i.toString()).innerHTML = "You";
         }
         document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red dots or lines are your results.';
     }
