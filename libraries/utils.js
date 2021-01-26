@@ -430,7 +430,7 @@ function get_viz_subject_info(parent_path, num_subject_figures) {
     } else {
         var subject_id = info.subject;
         for (i = 0; i < num_subject_figures; i++) {
-            document.getElementById('no-data-tag' + i.toString()).innerHTML = "You";
+            document.getElementById('no-data-tag' + i.toString()).innerHTML = "Your scores";
         }
         document.getElementById('no-data-text').innerHTML = 'In the graphs below, the red dots or lines are your results.';
     }
