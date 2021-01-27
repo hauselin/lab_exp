@@ -179,12 +179,9 @@
                                 <div class="my-2">
                                     <span class="h4">Openness</span>
                                 </div>
-                                <!-- TODO continue here -->
-                                <p class="lead">People in different countries and cultures differ in how much they care
-                                    about or devalue future rewards. Brighter regions indicate less discounting or
-                                    impulsivity.</p>
-                                <p class="lead">If you find the results interesting, tell your friends from other
-                                    countries to complete this task.
+                                <p class="lead">
+                                    Openness is how open-minded you are. Open-minded people enjoys trying new things. They appreciate art, emotion, adventure, unusual ideas, imagination, curiosity, and different experiences.
+
                                 </p>
                             </div>
                         </div>
@@ -204,11 +201,8 @@
                                 <div class="my-2">
                                     <span class="h4">Concientiousness</span>
                                 </div>
-                                <p class="lead">People in different countries and cultures differ in how much they care
-                                    about or devalue future rewards. Brighter regions indicate less discounting or
-                                    impulsivity.</p>
-                                <p class="lead">If you find the results interesting, tell your friends from other
-                                    countries to complete this task.
+                                <p class="lead">
+                                    Conscientiousness is how much self-discipline and self-control you have. People who score high on this dimension tend to act dutifully and are good at regulating and directing their impulses. They also prefer planned rather than spontaneous activities.
                                 </p>
                             </div>
                         </div>
@@ -228,6 +222,7 @@
                                 <div class="my-2">
                                     <span class="h4">Extraversion</span>
                                 </div>
+                                <!-- TODO continue here -->
                                 <p class="lead">People in different countries and cultures differ in how much they care
                                     about or devalue future rewards. Brighter regions indicate less discounting or
                                     impulsivity.</p>
@@ -422,6 +417,8 @@
         // subject_id and time will be used to filter arrays for plotting subject data
         var subject_id = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 2);
 
+        
+
         if (subject_id) {
             // compute/add percentile
             var subject_data = data_array.filter(i => i.subject == subject_id);
@@ -434,8 +431,10 @@
     <!-- Subscale response radial graph -->
     <script type="text/javascript" defer>
         if (!subject_data) {
-            var pie_data = data_array
+            var pie_data = data_array;
         }
+
+        console.log(pie_data)
 
         var subscale_radial = {
             config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 14, labelFont: "Inter-UI-upright", offset: -50 } },
@@ -465,7 +464,8 @@
                     field: "subscale", 
                     type: "nominal", 
                     legend: {title: 'Big five', titleFontSize: 21, labelFontSize: 16, offset: -30}, 
-                    sort: ["openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism"]
+                    sort: ["openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism"],
+                    scale: { scheme: "set1" }
                 } 
             },
             view: { stroke: null },  // border around plot
@@ -502,7 +502,7 @@
                             axis: null,
                         },
                         size: { value: 18 },
-                        color: { field: "subscale", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
+                        color: { field: "subscale", legend: null, scale: { scheme: "viridis" }, type: "nominal", scale: { scheme: "viridis" }},
                         tooltip: [
                             { field: 'value', type: "quantitative", format: '.1f', title: "Response", aggregate: "mean" }
                         ]
@@ -549,7 +549,7 @@
                 {
                     data: { values: data_array.filter(x => x.subscale == 'openness') },
                     transform: [{ groupby: ["gender"], density: "value" }],
-                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
+                    mark: { type: "area", color: "#3755be", opacity: 0.5, tooltip: true },
                     encoding: {
                         x: {
                             type: "quantitative",
@@ -562,9 +562,9 @@
                             field: "density",
                             title: "Frequency (density)",
                         },
-                        color: { field: "gender", type: "nominal", legend: {title: null} },
+                        color: { field: "gender", type: "nominal", legend: {title: null}, scale: { scheme: "set1" }},
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Openness', type: "quantitative" },
+                            { field: 'value', format: ".1f", title: 'Openness', type: "quantitative" },
                             { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
                     }
                 },
@@ -576,13 +576,13 @@
                             return { values: [] };
                         }
                     }()),
-                    mark: { type: "rule", opacity: 0.7 },
+                    mark: { type: "rule", opacity: 0.5 },
                     encoding: {
                         x: { aggregate: "mean", field: "value", type: "quantitative" },
-                        color: { value: "#38405C", type: "quantitative" },
+                        color: { value: "#080808", type: "quantitative" },
                         size: { value: 3 },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Your openness', type: "quantitative" }]
+                            { field: 'value', format: ".1f", title: 'Your score', type: "quantitative" }]
                     },
                 }
             ],
@@ -604,7 +604,7 @@
                 {
                     data: { values: data_array.filter(x => x.subscale == 'conscientiousness') },
                     transform: [{ groupby: ["gender"], density: "value" }],
-                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
+                    mark: { type: "area", color: "#3755be", opacity: 0.5, tooltip: true },
                     encoding: {
                         x: {
                             type: "quantitative",
@@ -617,27 +617,27 @@
                             field: "density",
                             title: "Frequency (density)",
                         },
-                        color: { field: "gender", type: "nominal", legend: {title: null} },
+                        color: { field: "gender", type: "nominal", legend: {title: null}, scale: { scheme: "set1" }},
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Openness', type: "quantitative" },
+                            { field: 'value', format: ".1f", title: 'Conscientiousness', type: "quantitative" },
                             { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
                     }
                 },
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: subject_data.filter(i => i.subscale == "openness") };
+                            return { values: subject_data.filter(i => i.subscale == "conscientiousness") };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
                     }()),
-                    mark: { type: "rule", opacity: 0.7 },
+                    mark: { type: "rule", opacity: 0.5 },
                     encoding: {
                         x: { aggregate: "mean", field: "value", type: "quantitative" },
-                        color: { value: "#38405C", type: "quantitative" },
+                        color: { value: "#080808", type: "quantitative" },
                         size: { value: 3 },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Your openness', type: "quantitative" }]
+                            { field: 'value', format: ".1f", title: 'Your score', type: "quantitative" }]
                     },
                 }
             ],
@@ -659,7 +659,7 @@
                 {
                     data: { values: data_array.filter(x => x.subscale == 'extraversion') },
                     transform: [{ groupby: ["gender"], density: "value" }],
-                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
+                    mark: { type: "area", color: "#3755be", opacity: 0.5, tooltip: true },
                     encoding: {
                         x: {
                             type: "quantitative",
@@ -672,27 +672,27 @@
                             field: "density",
                             title: "Frequency (density)",
                         },
-                        color: { field: "gender", type: "nominal", legend: {title: null} },
+                        color: { field: "gender", type: "nominal", legend: {title: null}, scale: { scheme: "set1" }},
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Openness', type: "quantitative" },
+                            { field: 'value', format: ".1f", title: 'Extraversion', type: "quantitative" },
                             { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
                     }
                 },
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: subject_data.filter(i => i.subscale == "openness") };
+                            return { values: subject_data.filter(i => i.subscale == "extraversion") };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
                     }()),
-                    mark: { type: "rule", opacity: 0.7 },
+                    mark: { type: "rule", opacity: 0.5 },
                     encoding: {
                         x: { aggregate: "mean", field: "value", type: "quantitative" },
-                        color: { value: "#38405C", type: "quantitative" },
+                        color: { value: "#080808", type: "quantitative" },
                         size: { value: 3 },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Your openness', type: "quantitative" }]
+                            { field: 'value', format: ".1f", title: 'Your score', type: "quantitative" }]
                     },
                 }
             ],
@@ -714,7 +714,7 @@
                 {
                     data: { values: data_array.filter(x => x.subscale == 'agreeableness') },
                     transform: [{ groupby: ["gender"], density: "value" }],
-                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
+                    mark: { type: "area", color: "#3755be", opacity: 0.5, tooltip: true },
                     encoding: {
                         x: {
                             type: "quantitative",
@@ -727,27 +727,27 @@
                             field: "density",
                             title: "Frequency (density)",
                         },
-                        color: { field: "gender", type: "nominal", legend: {title: null} },
+                        color: { field: "gender", type: "nominal", legend: {title: null}, scale: { scheme: "set1" }},
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Openness', type: "quantitative" },
+                            { field: 'value', format: ".1f", title: 'Agreeableness', type: "quantitative" },
                             { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
                     }
                 },
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: subject_data.filter(i => i.subscale == "openness") };
+                            return { values: subject_data.filter(i => i.subscale == "agreeableness") };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
                     }()),
-                    mark: { type: "rule", opacity: 0.7 },
+                    mark: { type: "rule", opacity: 0.5 },
                     encoding: {
                         x: { aggregate: "mean", field: "value", type: "quantitative" },
-                        color: { value: "#38405C", type: "quantitative" },
+                        color: { value: "#080808", type: "quantitative"},
                         size: { value: 3 },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Your openness', type: "quantitative" }]
+                            { field: 'value', format: ".1f", title: 'Your score', type: "quantitative" }]
                     },
                 }
             ],
@@ -769,7 +769,7 @@
                 {
                     data: { values: data_array.filter(x => x.subscale == 'neuroticism') },
                     transform: [{ groupby: ["gender"], density: "value" }],
-                    mark: { type: "area", color: "#3755be", opacity: 0.7, tooltip: true },
+                    mark: { type: "area", color: "#3755be", opacity: 0.5, tooltip: true },
                     encoding: {
                         x: {
                             type: "quantitative",
@@ -782,27 +782,27 @@
                             field: "density",
                             title: "Frequency (density)",
                         },
-                        color: { field: "gender", type: "nominal", legend: {title: null} },
+                        color: { field: "gender", type: "nominal", legend: {title: null}, scale: {scheme: "set1"}},
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Openness', type: "quantitative" },
+                            { field: 'value', format: ".1f", title: 'Neuroticism', type: "quantitative" },
                             { field: 'density', title: 'Density', type: "quantitative", format: ".4f" }]
                     }
                 },
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: subject_data.filter(i => i.subscale == "openness") };
+                            return { values: subject_data.filter(i => i.subscale == "neuroticism") };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
                     }()),
-                    mark: { type: "rule", opacity: 0.7 },
+                    mark: { type: "rule", opacity: 0.5 },
                     encoding: {
                         x: { aggregate: "mean", field: "value", type: "quantitative" },
-                        color: { value: "#38405C", type: "quantitative" },
+                        color: { value: "#080808", type: "quantitative" },
                         size: { value: 3 },
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Your openness', type: "quantitative" }]
+                            { field: 'value', format: ".1f", title: 'Your score', type: "quantitative" }]
                     },
                 }
             ],
@@ -817,15 +817,16 @@
     <script type="text/javascript" defer>
 
         var correlation_heatmap = {
-            config: { axis: { labelExpr: "datum.label[0]", title: null, grid: true, tickBand: "extent", labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 13, labelFont: "Inter-UI-upright" } },
+            config: { axis: { labelExpr: "datum.label[0]", title: null, grid: true, tickBand: "extent", labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 13, labelFont: "Inter-UI-upright" }, padding: {left: 60}},
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
-            width: 500,
-            height: 400,
+            // position: 5000,
             layer: [
                 {
                     data: { values: matrix_array },
                     mark: { type: "rect", tooltip: true },
+                    width: 280,
+                    height: 280,
                     encoding: {
                         x: {
                             type: "ordinal",
@@ -836,26 +837,20 @@
                             type: "ordinal",
                             field: "y",
                             sort: ["openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism"]
-                        },
-                        color: { field: "value", type: "quantitative", title: "Correlation", legend: { gradientLength: 100 } },
+                        },                        
+                        color: { field: "value", type: "quantitative", title: "Correlation", legend: { gradientLength: 100 }, scale: {scheme: "magma"}},
                         tooltip: [
-                            { field: 'value', format: ".0f", title: 'Correlation', type: "quantitative" },
+                            { field: 'value', format: ".1f", title: 'Correlation', type: "quantitative" },
                         ]
                     }
                 },
                 {
                     mark: { type: "text", fontSize: 18 },
                     encoding: {
-                        text: { field: "value", type: "quantitative" },
-                        color: {
-                            condition: { test: "datum['value'] < 0", "value": "black" },
-                            value: "white"
-                        }
+                        text: { field: "value", type: "quantitative" }
                     }
                 }
             ],
-            width: 500,
-            height: 400,
         };
 
     </script>
