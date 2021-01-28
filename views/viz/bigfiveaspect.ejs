@@ -158,7 +158,7 @@
                                     Each Big Five dimension can be broken down into 2 sub-dimensions. To remember the Big Five dimensions, use the <strong>OCEAN</strong> acronym: </strong> <strong>o</strong>penness, <strong>c</strong>onscientiousness, <strong>e</strong>xtraversion, <strong>a</strong>greeableness, <strong>n</strong>euroticism.
                                 </p>
                                 <p class="lead">
-                                    Scores range from 1 to 5.
+                                    Scores range from 1 to 5. Hover over the bars to see the average score. Hover over the dot to see your score.
                                 </p>
                             </div>
                         </div>
@@ -222,12 +222,11 @@
                                 <div class="my-2">
                                     <span class="h4">Extraversion</span>
                                 </div>
-                                <!-- TODO continue here -->
-                                <p class="lead">People in different countries and cultures differ in how much they care
-                                    about or devalue future rewards. Brighter regions indicate less discounting or
-                                    impulsivity.</p>
-                                <p class="lead">If you find the results interesting, tell your friends from other
-                                    countries to complete this task.
+                                <p class="lead">
+                                    Extraversion reflects how much you prefer to enagage with the external world. Extraverts (higher scores) enjoy interacting with people and often come across as full of energy. They also like to assert themselves. 
+                                </p>
+                                <p class='lead'>
+                                    Introverts (lower scores), however, engage less socially and need less external stimulation. Thus, introverts tend to be more reserved than extraverts 
                                 </p>
                             </div>
                         </div>
@@ -247,12 +246,13 @@
                                 <div class="my-2">
                                     <span class="h4">Agreeableness</span>
                                 </div>
-                                <p class="lead">People in different countries and cultures differ in how much they care
-                                    about or devalue future rewards. Brighter regions indicate less discounting or
-                                    impulsivity.</p>
-                                <p class="lead">If you find the results interesting, tell your friends from other
-                                    countries to complete this task.
+                                <p class="lead">
+                                    Agreeable people (higher scores) value social harmony and try to get along well with others. They are willing to compromise their interests with others. 
+                                    </p>
+                                <p class='lead'>
+                                    Disagreeable people (lower scores) tend to be more self-interested and unconcerned about others' well-being. 
                                 </p>
+
                             </div>
                         </div>
                     </div>
@@ -271,11 +271,8 @@
                                 <div class="my-2">
                                     <span class="h4">Neuroticism</span>
                                 </div>
-                                <p class="lead">People in different countries and cultures differ in how much they care
-                                    about or devalue future rewards. Brighter regions indicate less discounting or
-                                    impulsivity.</p>
-                                <p class="lead">If you find the results interesting, tell your friends from other
-                                    countries to complete this task.
+                                <p class="lead">
+                                    Neuroticism measures emotional instability. People with higher scores tend to experience more negative emotions and are more reactive and vulnerable to stress. They might be worse are regulating their emotions and experience more stress and anxiety in their lives.
                                 </p>
                             </div>
                         </div>
@@ -295,11 +292,8 @@
                                 <div class="my-2">
                                     <span class="h4">Associations between dimensions</span>
                                 </div>
-                                <p class="lead">People in different countries and cultures differ in how much they care
-                                    about or devalue future rewards. Brighter regions indicate less discounting or
-                                    impulsivity.</p>
-                                <p class="lead">If you find the results interesting, tell your friends from other
-                                    countries to complete this task.
+                                <p class="lead">
+                                    Although the Big Five dimensions are distinct and generally quite independent of each other, they often correlate with each other slightly. The heatmap shows the correlations. Brighter colors are more positive correlations and darker colours are more negative correlations.
                                 </p>
                             </div>
                         </div>
@@ -351,7 +345,7 @@
                     <div class="list-group list-group-flush">
                         <a href="/tasks/stroop" class="list-group-item list-group-item-action row no-gutters">
                             <div class="col-xl-8 col-lg-7 col-md-6">
-                                <h5 class="mb-0">Attention and cognitive control</h5>
+                                <h5 class="mb-0">How well can you control your attention?</h5>
                             </div>
                             <div class="col-md">
                                 <span>5-8 min</span>
@@ -365,13 +359,13 @@
                                 <span>1-3 min</span>
                             </div>
                         </a>
-                        <a href="/surveys/bigfiveaspect/"
+                        <a href="/surveys/schulzvalues2019/"
                             class="list-group-item list-group-item-action row no-gutters py-2">
                             <div class="col-xl-8 col-lg-7 col-md-6">
-                                <h5 class="mb-0">Big-five personality traits</h5>
+                                <h5 class="mb-0">What are your fundamental values?</h5>
                             </div>
                             <div class="col-md">
-                                <span>5-10 min</span>
+                                <span>4-6 min</span>
                             </div>
                         </a>
                     </div>
@@ -525,7 +519,7 @@
                         },
                         y: { field: "value", type: "quantitative" },
                         size: { value: 150 },
-                        tooltip: [{ field: "value", format: ".1f", title: 'Your response', type: "quantitative" }] // format tooltip
+                        tooltip: [{ field: "value", format: ".1f", title: 'Your score', type: "quantitative" }] // format tooltip
                     },
                 }
             ],
