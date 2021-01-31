@@ -4,7 +4,7 @@ const taskinfo = {
     uniquestudyid: 'bigfiveaspect', // unique task id: must be IDENTICAL to directory name
     desc: 'DeYoung 2007 big five aspects scale', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: false// '/surveys/bigfiveaspect/viz' // set to false if no redirection required
+    redirect_url: '/surveys/bigfiveaspect/viz' // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 const debug = true;  // true to print messages to console and display json results
