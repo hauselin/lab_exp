@@ -493,7 +493,10 @@
                         x: {
                             field: "subscale",
                             type: "nominal",
-                            axis: null,
+                            axis: {
+                                // labelExpr: "datum.value[0] + slice(datum.value, indexof(datum.value, '-'), length(datum.value))"
+                                labelExpr: "if((indexof(datum.value, '-') != -1), (datum.value[0] + slice(datum.value, indexof(datum.value, '-'), length(datum.value))), datum.value)"
+                            },
                         },
                         size: { value: 18 },
                         color: { field: "subscale", legend: null, scale: { scheme: "viridis" }, type: "nominal", scale: { scheme: "viridis" }},
