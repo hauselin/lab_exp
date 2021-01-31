@@ -492,7 +492,8 @@
                         },
                         x: {
                             field: "subscale",
-                            type: "nominal",
+                            sort: ["openness", "openness-intellect", "openness-openness", "conscientiousness", "conscientiousness-industriousness", "conscientiousness-orderliness", "extraversion", "extraversion-assertiveness", "extraversion-enthusiasm", "agreeableness", "agreeableness-compassion", "agreeableness-politeness", "neuroticism", "neuroticism-volatility", "neuroticism-withdrawal"],
+                            type: "ordinal",
                             axis: {
                                 // labelExpr: "datum.value[0] + slice(datum.value, indexof(datum.value, '-'), length(datum.value))"
                                 labelExpr: "if((indexof(datum.value, '-') != -1), (datum.value[0] + slice(datum.value, indexof(datum.value, '-'), length(datum.value))), datum.value)"
@@ -518,7 +519,8 @@
                     encoding: {
                         x: {
                             field: "subscale",
-                            type: "nominal",
+                            sort: ["openness", "openness-intellect", "openness-openness", "conscientiousness", "conscientiousness-industriousness", "conscientiousness-orderliness", "extraversion", "extraversion-assertiveness", "extraversion-enthusiasm", "agreeableness", "agreeableness-compassion", "agreeableness-politeness", "neuroticism", "neuroticism-volatility", "neuroticism-withdrawal"],
+                            type: "ordinal",
                         },
                         y: { field: "value", type: "quantitative" },
                         size: { value: 150 },
