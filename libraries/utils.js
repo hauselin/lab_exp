@@ -2423,8 +2423,8 @@ function create_demographics(timeline, section = null) {
         ],
         required: true,
         on_finish: function (data) {
-            info_.demographics.cog_reflection_ans = data.value;
-            if (data.value == '5') {
+            info_.demographics.cog_reflection_ans = data.responses;
+            if (JSON.parse(data.responses)['Q0'] == '5') {
                 info_.demographics.cog_reflection_acc = 1;
             } else {
                 info_.demographics.cog_reflection_acc = 0;
