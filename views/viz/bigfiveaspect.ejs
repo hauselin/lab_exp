@@ -496,7 +496,7 @@
                             type: "ordinal",
                             axis: {
                                 // labelExpr: "datum.value[0] + slice(datum.value, indexof(datum.value, '-'), length(datum.value))"
-                                labelExpr: "if((indexof(datum.value, '-') != -1), (datum.value[0] + slice(datum.value, indexof(datum.value, '-'), length(datum.value))), datum.value)"
+                                labelExpr: "if((indexof(datum.value, '-') != -1), (datum.value[0] + slice(datum.value, indexof(datum.value, '-'), length(datum.value))), if(datum.value == 'variance', datum.value, datum.value[0]))",
                             },
                         },
                         size: { value: 18 },
