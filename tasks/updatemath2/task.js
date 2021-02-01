@@ -1,13 +1,13 @@
 // DEFINE TASK (required)
 const taskinfo = {
     type: 'task', // 'task', 'survey', or 'study'
-    uniquestudyid: 'updatemath', // unique task id: must be IDENTICAL to directory name
+    uniquestudyid: 'updatemath2', // unique task id: must be IDENTICAL to directory name
     desc: 'mental math', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: "/tasks/updatemath/viz" // set to false if no redirection required
+    redirect_url: "/tasks/updatemath2/viz" // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-const debug = true;
+const debug = false;
 var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
@@ -23,6 +23,10 @@ var duration_post_digit = 200;  // pause duration after each digit
 var feedback_duration = 1500;
 var rt_update_deadline = 3000;
 var options_deadline = 3000;
+
+// var update_options = [0, 1, "Do nothing"]
+var update_options = ["Do nothing"]
+
 
 if (debug) {
     rt_update_deadline = 60000;
@@ -151,16 +155,15 @@ var instructions2 = {
 };
 
 option1 = 0
-option2 = 3
 
 var options = {
     type: "html-keyboard-response",
     stimulus: function () {
-        option2 = Math.floor(Math.random() * 9) + 1;
-        option2_str = "+" + String(option2)
-        if (Math.random() < 0.5) {
-            option2 = - (Math.floor(Math.random() * 9) + 1);
-            option2_str = String(option2)
+        option2 = update_options[Math.floor(Math.random() * update_options.length)];
+        if (typeof option2 == 'number') {
+            option2_str = "+" + String(option2)
+        } else {
+            option2_str = option2
         }
         return generate_html("0", font_colour, 30, [-100, 25]) + generate_html(option2_str, font_colour, 30, [100, -25]);
     },
@@ -183,6 +186,9 @@ var options = {
 var prompt_digit = {
     type: "html-keyboard-response",
     stimulus: function () {
+        if (isNaN(num_to_update)) {
+            return ''
+        }
         var remind = update_prompt(num_to_update) + " to each digit";
         remind = generate_html(remind, font_colour, 30);
         return remind
@@ -199,6 +205,9 @@ var number_sequence = {
         {
             type: "html-keyboard-response",
             stimulus: function () {
+                if (isNaN(num_to_update)) {
+                    return ''
+                }
                 var remind = update_prompt(num_to_update);
                 remind = generate_html(remind, font_colour, 30) + "<br>";
                 var d = generate_html(jsPsych.timelineVariable('digit', true), font_colour, 80)
@@ -225,6 +234,9 @@ var choices_shuffle;
 var response = {
     type: "html-keyboard-response",
     stimulus: function () {
+        if (isNaN(num_to_update)) {
+            return 'Please wait...'
+        }
         choices_shuffle = process_choices(choices);
         prompt_html = generate_html(choices_shuffle[0].prompt, font_colour, 30, [-100, 50]) + generate_html(choices_shuffle[1].prompt, font_colour, 30, [100, 2]);
         if (n_distract_response == 3) {
@@ -238,21 +250,27 @@ var response = {
     data: { event: "response" },
     post_trial_gap: 500,
     on_finish: function (data) {
-        var chosen = choices_shuffle.filter(x => x.keycode == data.key_press)[0];
-        data.num_to_update = num_to_update;
-        if (!chosen) { // no response
-            data.acc = null;
+        if (isNaN(num_to_update)) {
+            data.acc = 1;
             data.response = null;
-        } else {  // response made
-            data.response = chosen.response;
-            if (chosen.correct) {
-                data.acc = 1;
-            } else {
-                data.acc = 0;
+        } else {
+            var chosen = choices_shuffle.filter(x => x.keycode == data.key_press)[0];
+            data.num_to_update = num_to_update;
+            if (!chosen) { // no response
+                data.acc = null;
+                data.response = null;
+            } else {  // response made
+                data.response = chosen.response;
+                if (chosen.correct) {
+                    data.acc = 1;
+                } else {
+                    data.acc = 0;
+                }
             }
         }
         temp_digits = []; // clear digit sequences for next trial
-    }
+    },
+    response_ends_trial: false
 }
 
 var feedback = {
@@ -266,6 +284,9 @@ var feedback = {
             var prompt = "respond faster";
         } else {
             var prompt = "wrong";
+        }
+        if (isNaN(num_to_update)) {
+            var prompt = ''
         }
         return generate_html(prompt, font_colour, 25);
     },
@@ -287,7 +308,7 @@ for (i=0; i<practice_sequence.timeline.length; i++) {
 }
 
 var timeline = [instructions];
-const html_path = "../../tasks/updatemath/consent.html";
+const html_path = "../../tasks/updatemath2/consent.html";
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
 if (n_practice_trial > 0) {
