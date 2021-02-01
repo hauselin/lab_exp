@@ -158,7 +158,7 @@
                                     Each Big Five dimension can be broken down into 2 sub-dimensions. To remember the Big Five dimensions, use the <strong>OCEAN</strong> acronym: </strong> <strong>o</strong>penness, <strong>c</strong>onscientiousness, <strong>e</strong>xtraversion, <strong>a</strong>greeableness, <strong>n</strong>euroticism.
                                 </p>
                                 <p class="lead">
-                                    Scores range from 1 to 5. Hover over the bars to see the average score. Hover over the dot to see your score.
+                                    Scores range from 1 to 5. Hover over the bars to see the average score. Hover over the dot to see your score. The very last bar indicates the variance across all dimensions.
                                 </p>
                             </div>
                         </div>
@@ -417,6 +417,7 @@
             // compute/add percentile
             var subject_data = data_array.filter(i => i.subject == subject_id);
             var latest_entry_time = Math.max(...subject_data.map(i => i.time));
+            var subject_data = subject_data.filter(i => i.time == latest_entry_time)
             var pie_data = subject_data;
         }
     </script>
@@ -433,8 +434,8 @@
         var subscale_radial = {
             config: { axis: { labelFontSize: 18, titleFontSize: 12, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 14, labelFont: "Inter-UI-upright", offset: -50 } },
             $schema: "https://vega.github.io/schema/vega-lite/v4.json",
-            width: 480,
-            height: 480,
+            width: 360,
+            height: 360,
             data: {
                 values: pie_data.filter(i => i.param == 'subscale2')
             },
@@ -443,7 +444,7 @@
                     mark: { type: "arc", innerRadius: 20, stroke: "#fff" }
                 },
                 {
-                    mark: { type: "text", radiusOffset: 20, fontSize: 24 },
+                    mark: { type: "text", radiusOffset: 30, fontSize: 24 },
                     encoding:
                     {
                         text: { aggregate: "median", field: "value", type: "quantitative" },
@@ -457,7 +458,7 @@
                 color: { 
                     field: "subscale", 
                     type: "nominal", 
-                    legend: {title: 'Big five', titleFontSize: 21, labelFontSize: 16, offset: -30}, 
+                    legend: {title: 'Big five', titleFontSize: 21, labelFontSize: 16, offset: 40}, 
                     sort: ["openness", "conscientiousness", "extraversion", "agreeableness", "neuroticism"],
                     scale: { scheme: "set1" }
                 } 
@@ -487,13 +488,18 @@
                         y: {
                             field: "value",
                             type: "quantitative",
-                            axis: { "title": "Response" },
+                            axis: { "title": "Score" },
                             // scale: { domain: [0, 7] }
                         },
                         x: {
                             field: "subscale",
-                            type: "nominal",
-                            axis: null,
+                            sort: ["openness", "openness-intellect", "openness-openness", "conscientiousness", "conscientiousness-industriousness", "conscientiousness-orderliness", "extraversion", "extraversion-assertiveness", "extraversion-enthusiasm", "agreeableness", "agreeableness-compassion", "agreeableness-politeness", "neuroticism", "neuroticism-volatility", "neuroticism-withdrawal"],
+                            type: "ordinal",
+                            axis: {
+                                // labelExpr: "datum.value[0] + slice(datum.value, indexof(datum.value, '-'), length(datum.value))"
+                                labelExpr: "if((indexof(datum.value, '-') != -1), (datum.value[0] + slice(datum.value, indexof(datum.value, '-'), length(datum.value))), if(datum.value == 'variance', datum.value, datum.value[0]))",
+                                title: null,
+                            },
                         },
                         size: { value: 18 },
                         color: { field: "subscale", legend: null, scale: { scheme: "viridis" }, type: "nominal", scale: { scheme: "viridis" }},
@@ -515,7 +521,8 @@
                     encoding: {
                         x: {
                             field: "subscale",
-                            type: "nominal",
+                            sort: ["openness", "openness-intellect", "openness-openness", "conscientiousness", "conscientiousness-industriousness", "conscientiousness-orderliness", "extraversion", "extraversion-assertiveness", "extraversion-enthusiasm", "agreeableness", "agreeableness-compassion", "agreeableness-politeness", "neuroticism", "neuroticism-volatility", "neuroticism-withdrawal"],
+                            type: "ordinal",
                         },
                         y: { field: "value", type: "quantitative" },
                         size: { value: 150 },
