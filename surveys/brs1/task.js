@@ -114,14 +114,14 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        // var datasummary = summarize_data();
+        var datasummary = summarize_data();
 
         jsPsych.data.get().addToAll({ 
             total_time: jsPsych.totalTime() / 60000,
         });
         jsPsych.data.get().first(1).addToAll({ 
             info_: info_,
-            // datasummary: datasummary,
+            datasummary: datasummary,
         });
         if (debug) {
             jsPsych.data.displayData();
