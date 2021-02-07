@@ -413,7 +413,7 @@ function language_name_to_code(language_name) {
 
 function percentile(number, array) {
     var greater_than = array.filter(i => i >= number);
-    return (1 - greater_than.length / array.length) * 100
+    return (1 - (greater_than.length - 1) / array.length) * 100
 }
 
 function get_viz_subject_info(parent_path, num_subject_figures) {
