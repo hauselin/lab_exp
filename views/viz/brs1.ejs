@@ -333,56 +333,55 @@
 
 
 
-    <!-- Subscale box plot -->
+    <!-- Age box plot -->
     <script type="text/javascript" defer>
 
-        var subscale_boxplot = {
+        var age_boxplot = {
             config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
             "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
             background: "#f3f5fb",
             layer: [
                 {
-                    data: { values: data_array.filter(i => i.type != "all") },
+                    data: { values: data_array.filter(i => i.age_group != null) },
                     mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
                     encoding: {
                         y: {
                             field: "value",
                             type: "quantitative",
                             axis: { "title": "Response" },
-                            // scale: { domain: [0, 7] }
                         },
                         x: {
-                            field: "type",
+                            field: "age_group",
                             type: "nominal",
-                            axis: { "title": "Two grit facets", tickMinStep: 20, labelAngle: 0, labelExpr: "if(datum.label=='consistent_interest', 'interest consistency', 'effort perseverence')" },
+                            axis: { "title": "Two grit facets", tickMinStep: 20, labelAngle: -45 },
                         },
                         size: { value: 18 },
-                        color: { field: "type", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
+                        color: { field: "age_group", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
                         tooltip: [
                             { field: 'value', type: "quantitative", format: '.1f', title: "Response", aggregate: "mean" }
                         ]
                     }
                 },
-                {
-                    // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
-                    data: (function () { // anonymous function
-                        if (subject_id) {
-                            return { values: data_array.filter(i => i.subject == subject_id && i.time == latest_entry_time && i.type != 'all').slice(0, 2) };
-                        } else {  // don't draw vertical rule
-                            return { values: [] };
-                        }
-                    }()),
-                    mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
-                    encoding: {
-                        x: {
-                            field: "type",
-                            type: "nominal",
-                        },
-                        y: { field: "value", type: "quantitative" },
-                        size: { value: 150 },
-                        tooltip: [{ field: "value", format: ".1f", title: 'You', type: "quantitative" }] // format tooltip
-                    },
-                }
+                // {
+                //     // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
+                //     data: (function () { // anonymous function
+                //         if (subject_id) {
+                //             return { values: data_array.filter(i => i.subject == subject_id && i.time == latest_entry_time && i.type != 'all').slice(0, 2) };
+                //         } else {  // don't draw vertical rule
+                //             return { values: [] };
+                //         }
+                //     }()),
+                //     mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
+                //     encoding: {
+                //         x: {
+                //             field: "type",
+                //             type: "nominal",
+                //         },
+                //         y: { field: "value", type: "quantitative" },
+                //         size: { value: 150 },
+                //         tooltip: [{ field: "value", format: ".1f", title: 'You', type: "quantitative" }] // format tooltip
+                //     },
+                // }
             ],
             width: 500,
             height: 400,
@@ -485,7 +484,7 @@
                 console.log("font loaded: " + f.family);
             }, "complete": function (error) {
                 vegaEmbed('#vis1', mean_density, { actions: { source: false, compiled: false, editor: false } });
-                vegaEmbed('#vis2', subscale_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+                vegaEmbed('#vis2', age_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
                 vegaEmbed('#vis3', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
             }
         }, 3000);

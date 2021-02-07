@@ -183,13 +183,13 @@ function summarize_data() {
         s.time = info_.time;
 
         if (s.age <= 14) {
-            s.age_group = "Children (0 - 14 years)"
+            s.age_group = "Children (0-14 yrs)"
         } else if (s.age <= 24) {
-            s.age_group = "Youth (15 - 24 years)"
+            s.age_group = "Youth (15-24 yrs)"
         } else if (s.age <= 64) {
-            s.age_group = "Adults (25 - 64 years)"
+            s.age_group = "Adults (25-64 yrs)"
         } else if (s.age > 64) {
-            s.age_group = "Seniors (65 years and over)"
+            s.age_group = "Seniors (>64 yrs)"
         } else {
             s.age_group = null
         }
