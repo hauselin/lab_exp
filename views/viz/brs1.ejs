@@ -362,26 +362,21 @@
                         ]
                     }
                 },
-                // {
-                //     // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
-                //     data: (function () { // anonymous function
-                //         if (subject_id) {
-                //             return { values: data_array.filter(i => i.subject == subject_id && i.time == latest_entry_time && i.type != 'all').slice(0, 2) };
-                //         } else {  // don't draw vertical rule
-                //             return { values: [] };
-                //         }
-                //     }()),
-                //     mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
-                //     encoding: {
-                //         x: {
-                //             field: "type",
-                //             type: "nominal",
-                //         },
-                //         y: { field: "value", type: "quantitative" },
-                //         size: { value: 150 },
-                //         tooltip: [{ field: "value", format: ".1f", title: 'You', type: "quantitative" }] // format tooltip
-                //     },
-                // }
+                {
+                    data: (function () { // anonymous function
+                        if (subject_id) {
+                            return { values: data_array.filter(i => i.subject == subject_id && i.time == latest_entry_time && i.age_group != null) };
+                        } else {  // don't draw vertical rule
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: { type: "rule", tooltip: true, color: "firebrick" },
+                    encoding: {
+                        y: { field: "value", type: "quantitative" },
+                        size: { value: 3 },
+                        tooltip: [{ field: "value", format: ".1f", title: 'You', type: "quantitative" }] // format tooltip
+                    },
+                }
             ],
             width: 500,
             height: 400,
