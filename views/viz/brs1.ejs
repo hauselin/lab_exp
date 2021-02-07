@@ -267,7 +267,7 @@
 
         if (subject_id) {
             // compute/add percentile
-            subject_data = data_array.filter(i => i.subject == subject_id);
+            var subject_data = data_array.filter(i => i.subject == subject_id);
             var latest_entry_time = Math.max(...subject_data.map(i => i.time));
 
             var response_array = data_array.map(x => x.value);

@@ -267,11 +267,13 @@
 
         if (subject_id) {
             // compute/add percentile
-            var response_array = data_array.filter(x => x.type == 'all').map(x => x.value);
-            var subject_response = data_array.filter(x => x.type == 'all' && x.subject == subject_id)[0].value;
-            document.getElementById('percentile').innerHTML = "Your score (red vertical line) is <strong>higher than " + percentile(subject_response, response_array).toFixed(0) + "% of our users</strong>.";
-            subject_data = data_array.filter(i => i.subject == subject_id);
+            var subject_data = data_array.filter(i => i.subject == subject_id);
             var latest_entry_time = Math.max(...subject_data.map(i => i.time));
+            subject_data = subject_data.filter(i => i.time == latest_entry_time);
+
+            var response_array = data_array.filter(x => x.type == 'all').map(x => x.value);
+            var subject_response = subject_data.filter(x => x.time == latest_entry_time)[0].value;
+            document.getElementById('percentile').innerHTML = "Your score (red vertical line) is <strong>higher than " + percentile(subject_response, response_array).toFixed(0) + "% of our users</strong>.";
         }
     </script>
 
@@ -307,7 +309,7 @@
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: data_array.filter(i => i.subject == subject_id && i.time == latest_entry_time && i.type == "all").slice(0, 1) };
+                            return { values: subject_data.filter(i => i.type == 'all') };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
@@ -367,7 +369,7 @@
                     // data: { values: data_array.filter(i => i.subject == subject_id && i.time == start_time) },
                     data: (function () { // anonymous function
                         if (subject_id) {
-                            return { values: data_array.filter(i => i.subject == subject_id && i.time == latest_entry_time && i.type != 'all').slice(0, 2) };
+                            return { values: subject_data.filter(i => i.type != 'all') };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }
