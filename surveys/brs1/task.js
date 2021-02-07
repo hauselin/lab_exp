@@ -163,15 +163,12 @@ function preprocess_data() {
 function summarize_data() {
     var d = preprocess_data(); // get preprocess/clean data
 
-    // select trials for each subscale
-    var brs = d.filter({ "subscale": "brs" });
-
     // mean resp
-    var brs_resp = brs.select('resp_reverse').mean();
+    var brs_resp = d.select('resp_reverse').mean();
 
     // store above info in array
     var datasummary = [
-        { type: "brs", param: "resp", value: brs_resp },
+        { type: "all", param: "resp", value: brs_resp },
     ];
 
     // add id/country information
