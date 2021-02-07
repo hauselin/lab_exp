@@ -176,6 +176,9 @@ function summarize_data() {
         s.subject = info_.subject;
         s.country = info_.demographics.country;
         s.country_code = info_.demographics.country_code;
+        s.gender = info_.demographics.gender;
+        s.age = info_.demographics.age;
+        s.religion = info_.demographics.religion;
         s.total_time = jsPsych.totalTime() / 60000;
         s.time = info_.time;
     })

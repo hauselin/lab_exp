@@ -202,8 +202,8 @@ function summarize_data() {
     datasummary.forEach(function (s) {
         s.subject = info_.subject;
         s.country = info_.demographics.country;
-        s.gender = info_.demographics.gender;
         s.country_code = info_.demographics.country_code;
+        s.gender = info_.demographics.gender;
         s.total_time = jsPsych.totalTime() / 60000;
         s.time = info_.time;
     })
