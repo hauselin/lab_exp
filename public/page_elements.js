@@ -19,11 +19,11 @@ var tasks_to_try = [
         uniquestudyid: 'brs1',
         time: '3-5 min'
     },
-    {
-        route: '/surveys/brs2',
-        uniquestudyid: 'brs2',
-        time: '4-7 min'
-    },
+    // {
+    //     route: '/surveys/brs2',
+    //     uniquestudyid: 'brs2',
+    //     time: '4-7 min'
+    // },
     {
         route: '/surveys/bigfiveaspect',
         uniquestudyid: 'bigfiveaspect',
@@ -55,12 +55,12 @@ var surveys = [
         description: "Do you find the mundane 'profound'?",
         time: '3-5 min'
     },
-    {
-        uniquestudyid: 'brs2',
-        name: 'Do you like profoundness?',
-        description: "Are you sensitive to the 'profound'?",
-        time: '4-7 min'
-    },
+    // {
+    //     uniquestudyid: 'brs2',
+    //     name: 'Do you like profoundness?',
+    //     description: "Are you sensitive to the 'profound'?",
+    //     time: '4-7 min'
+    // },
     {
         uniquestudyid: 'schulzvalues2019',
         name: 'What are your values?',
