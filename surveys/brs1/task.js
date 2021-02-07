@@ -164,19 +164,14 @@ function summarize_data() {
     var d = preprocess_data(); // get preprocess/clean data
 
     // select trials for each subscale
-    var consistent_interest = d.filter({ "subscale": "consistentInterest" });
-    var persevere_effort = d.filter({ "subscale": "persevereEffort" });
+    var brs = d.filter({ "subscale": "brs" });
 
     // mean resp
-    var consistent_resp = consistent_interest.select('resp_reverse').mean();
-    var persevere_resp = persevere_effort.select('resp_reverse').mean();
-    var mean_resp = d.select('resp_reverse').mean();
+    var brs_resp = brs.select('resp_reverse').mean();
 
     // store above info in array
     var datasummary = [
-        { type: "consistent_interest", param: "resp", value: consistent_resp },
-        { type: "persevere_effort", param: "resp", value: persevere_resp },
-        { type: "all", param: "resp", value: mean_resp },
+        { type: "brs", param: "resp", value: brs_resp },
     ];
 
     // add id/country information
