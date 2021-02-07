@@ -50,7 +50,7 @@ var procedure = {
         type: 'html-slider-response',
         stimulus: function () {
             return generate_html(jsPsych.timelineVariable('desc', true), font_colour);
-        },   
+        },
         data: {
             q: jsPsych.timelineVariable('q'),
             subscale: jsPsych.timelineVariable('subscale'),
@@ -116,10 +116,10 @@ jsPsych.init({
         document.body.style.backgroundColor = 'white';
         var datasummary = summarize_data();
 
-        jsPsych.data.get().addToAll({ 
+        jsPsych.data.get().addToAll({
             total_time: jsPsych.totalTime() / 60000,
         });
-        jsPsych.data.get().first(1).addToAll({ 
+        jsPsych.data.get().first(1).addToAll({
             info_: info_,
             datasummary: datasummary,
         });
@@ -129,8 +129,8 @@ jsPsych.init({
 
         info_.tasks_completed.push(taskinfo.uniquestudyid); // add uniquestudyid to info_
         info_.current_task_completed = 1;
-        localStorage.setObj('info_', info_); 
-        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); 
+        localStorage.setObj('info_', info_);
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url);
     }
 });
 
@@ -153,8 +153,8 @@ jsPsych.init({
 
 
 // functions to summarize data below
-function preprocess_data() {  
-    var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" }); 
+function preprocess_data() {
+    var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" });
     var data_sub = data_sub.filterCustom(function (trial) { return trial.q > 0 });
     var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 200 });
     return data_sub;
@@ -181,6 +181,19 @@ function summarize_data() {
         s.religion = info_.demographics.religion;
         s.total_time = jsPsych.totalTime() / 60000;
         s.time = info_.time;
+
+        if (s.age <= 14) {
+            s.age_group = "Children (0 - 14 years)"
+        } else if (s.age <= 24) {
+            s.age_group = "Youth (15 - 24 years)"
+        } else if (s.age <= 64) {
+            s.age_group = "Adults (25 - 64 years)"
+        } else if (s.age > 64) {
+            s.age_group = "Seniors (65 years and over)"
+        } else {
+            s.age_group = null
+        }
+
     })
     console.log(datasummary);
     return datasummary

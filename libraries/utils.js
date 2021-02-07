@@ -2293,7 +2293,7 @@ function create_demographics(timeline, section = null) {
         ],
         required: true,
         on_finish: function (data) {
-            info_.demographics.age = data.value;
+            info_.demographics.age = Number(data.value);
         }
     };
 
