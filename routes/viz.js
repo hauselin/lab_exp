@@ -170,6 +170,33 @@ router.get("/surveys/gritshort/viz", function (req, res) {
     });
 });
 
+router.get("/surveys/brs1/viz", function (req, res) {
+    DataLibrary.find({ uniquestudyid: 'brs1' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
+        var data_array = [];
+        data.map(function (i) {
+            data_array.push(i.datasummary);
+        });
+        data_array = data_array.flat(1);  // flatten objects in array
+
+        country_array = d3.rollups(data_array,
+            function (v) {
+                return {
+                    value: d3.median(v, d => d.value),
+                    country: d3.min(v, d => d.country)
+                }
+            },
+            d => d.country_code);
+        country_array = Array.from(country_array, function (i) {  // unnest data
+            return { country_code: i[0], country: i[1].country, value: i[1].value }
+        });
+
+        res.render('viz/brs1.ejs', { data_array: data_array, country_array: country_array, parent_path: helper.getParentPath(req) });
+    }).catch(err => {
+        console.log(err);
+        res.status(500).send(err);
+    });
+});
+
 
 router.get("/surveys/bigfiveaspect/viz", function (req, res) {
     DataLibrary.find({ uniquestudyid: 'bigfiveaspect' }, {}, { sort: { time: -1 }, limit: 1000 }).lean().then(data => {
