@@ -261,13 +261,13 @@
         
         if (subject_id) {
             // compute/add percentile
-            var subject_array = data_array.filter(x => x.cost == 2);
-            var auc_array = subject_array.map(x => x.auc);
-            var subject_auc = data_array.filter(i => i.subject == subject_id).slice(0, 1)[0].auc;
-            document.getElementById('percentile').innerHTML = "Your score (the red vertical line) is <strong>higher than " + percentile(subject_auc, auc_array).toFixed(0) + "% of our users</strong>.";
-            subject_data = data_array.filter(i => i.subject == subject_id);
+            var subject_data = data_array.filter(i => i.subject == subject_id);
             var latest_entry_time = Math.max(...subject_data.map(i => i.time));
             subject_data = subject_data.filter(i => i.time == latest_entry_time);
+
+            var auc_array = data_array.map(x => x.auc);
+            var subject_auc = subject_data[0].auc;
+            document.getElementById('percentile').innerHTML = "Your score (the red vertical line) is <strong>higher than " + percentile(subject_auc, auc_array).toFixed(0) + "% of our users</strong>.";
         }
 
     </script>
@@ -383,7 +383,7 @@
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: subject_data.slice(0, 1) };
+                            return { values: subject_data };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }

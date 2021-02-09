@@ -153,7 +153,7 @@
                                 <div class="my-2">
                                     <span class="h4">10 Big Five sub-dimensions</span>
                                 </div>
-                                <p id="percentile" class="lead mb-2"></p>
+                                <p class="lead mb-2"></p>
                                 <p class="lead">
                                     Each Big Five dimension can be broken down into 2 sub-dimensions. To remember the Big Five dimensions, use the <strong>OCEAN</strong> acronym: </strong> <strong>o</strong>penness, <strong>c</strong>onscientiousness, <strong>e</strong>xtraversion, <strong>a</strong>greeableness, <strong>n</strong>euroticism.
                                 </p>
@@ -414,7 +414,6 @@
         
 
         if (subject_id) {
-            // compute/add percentile
             var subject_data = data_array.filter(i => i.subject == subject_id);
             var latest_entry_time = Math.max(...subject_data.map(i => i.time));
             var subject_data = subject_data.filter(i => i.time == latest_entry_time)

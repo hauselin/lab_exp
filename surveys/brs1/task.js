@@ -50,7 +50,7 @@ var procedure = {
         type: 'html-slider-response',
         stimulus: function () {
             return generate_html(jsPsych.timelineVariable('desc', true), font_colour);
-        },   
+        },
         data: {
             q: jsPsych.timelineVariable('q'),
             subscale: jsPsych.timelineVariable('subscale'),
@@ -114,14 +114,14 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        // var datasummary = summarize_data();
+        var datasummary = summarize_data();
 
-        jsPsych.data.get().addToAll({ 
+        jsPsych.data.get().addToAll({
             total_time: jsPsych.totalTime() / 60000,
         });
-        jsPsych.data.get().first(1).addToAll({ 
+        jsPsych.data.get().first(1).addToAll({
             info_: info_,
-            // datasummary: datasummary,
+            datasummary: datasummary,
         });
         if (debug) {
             jsPsych.data.displayData();
@@ -129,8 +129,8 @@ jsPsych.init({
 
         info_.tasks_completed.push(taskinfo.uniquestudyid); // add uniquestudyid to info_
         info_.current_task_completed = 1;
-        localStorage.setObj('info_', info_); 
-        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); 
+        localStorage.setObj('info_', info_);
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url);
     }
 });
 
@@ -153,8 +153,8 @@ jsPsych.init({
 
 
 // functions to summarize data below
-function preprocess_data() {  
-    var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" }); 
+function preprocess_data() {
+    var data_sub = jsPsych.data.get().filter({ "trial_type": "html-slider-response" });
     var data_sub = data_sub.filterCustom(function (trial) { return trial.q > 0 });
     var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 200 });
     return data_sub;
@@ -163,20 +163,12 @@ function preprocess_data() {
 function summarize_data() {
     var d = preprocess_data(); // get preprocess/clean data
 
-    // select trials for each subscale
-    var consistent_interest = d.filter({ "subscale": "consistentInterest" });
-    var persevere_effort = d.filter({ "subscale": "persevereEffort" });
-
     // mean resp
-    var consistent_resp = consistent_interest.select('resp_reverse').mean();
-    var persevere_resp = persevere_effort.select('resp_reverse').mean();
-    var mean_resp = d.select('resp_reverse').mean();
+    var brs_resp = d.select('resp_reverse').mean();
 
     // store above info in array
     var datasummary = [
-        { type: "consistent_interest", param: "resp", value: consistent_resp },
-        { type: "persevere_effort", param: "resp", value: persevere_resp },
-        { type: "all", param: "resp", value: mean_resp },
+        { type: "all", param: "resp", value: brs_resp },
     ];
 
     // add id/country information
@@ -184,8 +176,24 @@ function summarize_data() {
         s.subject = info_.subject;
         s.country = info_.demographics.country;
         s.country_code = info_.demographics.country_code;
+        s.gender = info_.demographics.gender;
+        s.age = info_.demographics.age;
+        s.religion = info_.demographics.religion;
         s.total_time = jsPsych.totalTime() / 60000;
         s.time = info_.time;
+
+        if (s.age <= 14) {
+            s.age_group = "Children (0-14 yrs)"
+        } else if (s.age <= 24) {
+            s.age_group = "Youth (15-24 yrs)"
+        } else if (s.age <= 64) {
+            s.age_group = "Adults (25-64 yrs)"
+        } else if (s.age > 64) {
+            s.age_group = "Seniors (>64 yrs)"
+        } else {
+            s.age_group = null
+        }
+
     })
     console.log(datasummary);
     return datasummary

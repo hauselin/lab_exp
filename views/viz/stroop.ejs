@@ -188,6 +188,33 @@
                     <div class="col-auto col-xl-6">
                         <div id="vis4" class="center"></div>
                     </div>
+
+                    <div class="col-auto col-xl-6">
+                        <div class="row justify-content-center">
+                            <div class="col-xl-10 col-lg-11 ml-auto">
+                                <span id="no-data-tag2" class="badge badge-primary"></span>
+                                <div class="my-2">
+                                    <span class="h4">Devaluation or discounting summary</span>
+                                </div>
+                                <p id="percentile" class="lead mb-2"></p>
+                                <p class="lead">
+                                This area-under-curve (AUC) metric summarizes the results from the figure above as a single value. 1 implies no discounting at all, and 0 implies maximum discounting, where all future rewards are worthless.
+                                </p>
+                                <p class="lead">Larger AUC values are associated with better self-control and life outcomes.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="container pt-7">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-auto col-xl-6">
+                        <div id="vis5" class="center"></div>
+                    </div>
                     <div class="col-auto col-xl-6">
                         <div class="row justify-content-center">
                             <div class="col-xl-10 col-lg-11 ml-auto">
@@ -502,7 +529,59 @@
 
 
 
-
+    <!-- Accuracy box plot -->
+    <script type="text/javascript">
+        var acc_box_plot = {
+            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+            background: "#f3f5fb",
+            layer: [
+                {
+                    data: { values: data_array.filter(i => i.param == 'acc' && i.type != 'interference') },
+                    mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
+                    encoding: {
+                        x: {
+                            field: "type",
+                            type: "nominal",
+                            // rename label: https://github.com/vega/vega-lite/issues/5122#issuecomment-517006921
+                            //  https://vega.github.io/vega/docs/expressions/
+                            axis: { title: "Trial type", labelAngle: 0 },
+                        },
+                        y: {
+                            field: "value",
+                            type: "quantitative",
+                            title: "Accuracy"
+                        },
+                        size: { value: 18 },
+                        color: { field: "value", legend: null, scale: { scheme: "viridis" }, type: "quantitative", aggregate: "mean" },
+                        tooltip: [
+                            { field: 'value', type: "quantitative", format: '.3f', title: "abc", aggregate: "mean" },
+                        ]
+                    }
+                },
+                {
+                    data: (function () { // anonymous function
+                        if (subject_id) {
+                            return { values: subject_data.filter(i => i.param == 'acc' && i.param != 'interference' && i.time == latest_entry_time).slice(0, 3) };
+                        } else {  // don't draw points
+                            return { values: [] };
+                        }
+                    }()),
+                    mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
+                    encoding: {
+                        x: { field: "type", type: "nominal" },
+                        y: { field: "value", type: "quantitative" },
+                        size: { value: 150 },
+                        tooltip: [
+                            { field: "value", format: ".3f", title: 'You', type: "quantitative" }
+                        ] // format tooltip
+                    },
+                },
+            ],
+            width: 500,
+            height: 400,
+        };
+    </script>
 
 
 
@@ -601,7 +680,8 @@
                 vegaEmbed('#vis1', rt_density, { actions: { source: false, compiled: false, editor: false } });
                 vegaEmbed('#vis2', rt_interference_density, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
                 vegaEmbed('#vis3', ddm_box_plot, { actions: { source: false, compiled: false, editor: false } });
-                vegaEmbed('#vis4', global_interference_plot, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis4', acc_box_plot, { actions: { source: false, compiled: false, editor: false } });
+                vegaEmbed('#vis5', global_interference_plot, { actions: { source: false, compiled: false, editor: false } });
                 // vegaEmbed('#vis4', strip_plot, { actions: { source: false, compiled: false, editor: false } });
 
             }
