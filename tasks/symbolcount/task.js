@@ -4,7 +4,8 @@ const taskinfo = {
     uniquestudyid: 'symbolcount', // unique task id: must be IDENTICAL to directory name
     desc: 'symbol counting task', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: "/tasks/symbolcount/viz" // set to false if no redirection required
+    redirect_url: false
+    // redirect_url: "/tasks/symbolcount/viz" // set to false if no redirection required
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
@@ -311,14 +312,14 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        // var datasummary = summarize_data();
+        var datasummary = create_datasummary();
 
         jsPsych.data.get().addToAll({ // add parameters to all trials
             total_time: jsPsych.totalTime() / 60000,
         });
         jsPsych.data.get().first(1).addToAll({
             info_: info_,
-            // datasummary: datasummary,
+            datasummary: datasummary,
         });
         if (debug) {
             jsPsych.data.displayData();
@@ -330,3 +331,38 @@ jsPsych.init({
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url);
     }
 });
+
+// remove trials with too fast/slow RT
+function preprocess_symbolcount() {  // 
+    var data_sub = jsPsych.data.get().filter({ "event": "feedback" });  // select feedback trials
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 100 });
+    var cutoffs = mad_cutoffs(data_sub.select('rt').values);
+    data_sub = data_sub.filterCustom(function (trial) { return trial.rt > cutoffs[0] }).filterCustom(function (trial) { return trial.rt < cutoffs[1] });
+    return data_sub;
+}
+
+function create_datasummary() {
+    var d = preprocess_symbolcount(); // preprocess/clean data
+
+    var acc = d.select('acc').mean();
+
+    if (acc === undefined) {
+        acc = null;
+    }
+
+    // store above info in array
+    var datasummary = [
+        { param: "acc", value: acc },
+    ];
+
+    // add id/country information
+    datasummary.forEach(function (s) {
+        s.subject = info_.subject;
+        s.time = info_.time;
+        s.country_code = info_.demographics.country_code;
+        s.country = info_.demographics.country;
+        s.total_time = jsPsych.totalTime() / 60000;
+    })
+
+    return datasummary
+}
