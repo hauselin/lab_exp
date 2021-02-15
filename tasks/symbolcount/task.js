@@ -15,7 +15,8 @@ var background_colour = "white";
 set_colour(font_colour, background_colour);
 
 // DEFINE TASK PARAMETERS (required)
-const trials = 2;               // the total number of trials 
+const trials = 10;               // the total number of trials 
+const practice_trials = 2;
 const max_tasktime_minutes = 5;   // maximum task time in minutes (task ends after this amount of time regardless of how many trials have been completed)
 var reps = 12;                  // the number of symbols per trial
 var difficulty = 1;   // task difficult (1, 2, 3, 4, or 5; 5 is most difficult)
@@ -122,10 +123,22 @@ function update_difficulty(overall_acc) {
 
 var instructions = {
     type: "instructions",
-    pages: ["Weclome!<p>Click next or press the right arrow key to proceed.</p>", "<p>In this task, you'll see sequences of " + "dollar signs ($) and hash/pound symbols (#). <p>Your goal is to keep a count of " + "each of the two types of symbols.</p>", "Click next or press the right arrow key to begin."],
+    pages: [
+        generate_html("Welcome!", font_colour) + generate_html("Click next or press the right arrow key to proceed.", font_colour),
+        generate_html("In this task, you'll see sequences of dollar signs ($) and hash/pound symbols (#)", font_colour) + generate_html("Your goal is to keep a count of each of the two types of symbols.", font_colour),
+        generate_html("Next up is a practice trial.", font_colour) + generate_html("Your data will NOT be recorded.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour)],
     show_clickable_nav: true,
     show_page_number: true,
 }; 
+
+var instructions2 = {
+    type: "instructions",
+    pages: [
+        generate_html("That was the practice trial.", font_colour) + generate_html("Click next or press the right arrow key to begin the experiment.", font_colour) + generate_html("Your data WILL be recorded this time.", font_colour)
+    ],
+    show_clickable_nav: true,
+    show_page_number: false,
+};
 
 var symbols = [ // define symbols
     { symbol: "<div style='font-size:80px;'>$</div>" },
@@ -286,8 +299,15 @@ var debrief_block = {
     }
 }; 
 
+var practice_feedback = jsPsych.utils.deepCopy(feedback);
+delete practice_feedback.data;
+practice_feedback.data = {event: 'practice'}
 
-
+var practice_trial = jsPsych.utils.deepCopy(trial);
+delete practice_trial.timeline;
+delete practice_trial.repetitions;
+practice_trial.timeline = [fixation, symbols_sequence, response, practice_feedback]
+practice_trial.repetitions = practice_trials
 
 
 
@@ -302,7 +322,10 @@ var timeline = [];
 const html_path = "../../tasks/delaydiscount/consent.html";
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
+
 timeline.push(instructions);
+timeline.push(practice_trial);
+timeline.push(instructions2);
 timeline.push(trial);
 timeline.push(debrief_block);
 timeline = create_demographics(timeline);
