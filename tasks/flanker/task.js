@@ -21,7 +21,7 @@ var rt_deadline = 1500;
 var feedback_duration = 1500;
 var itis = iti_exponential(low = 300, high = 800);
 var n_trial = 0;  // trial counter
-var practice_trials = 5;
+var practice_trials = 6;
 if (practice_trials < 2) {
     practice_trials = 2;
 }
@@ -38,6 +38,9 @@ var instructions = {
     type: "instructions",
     pages: [
         generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("Click next or press the right arrow key to continue.", font_colour),
+        generate_html("A group of arrows will be shown next to each other, like <b><>><></b> or <b>>>>>></b>", font_colour) + generate_html("You will have to press the left or right arrow key that corresponds to the arrow in the very middle and ignore the rest.", font_colour),
+        generate_html("For example if the prompt is <b>><>><</b>") + generate_html("The correct response is to press the right arrow key") + generate_html("If the prompt is <b><<<<<</b>") + generate_html("The correct response is to press the left arrow key"),
+        generate_html("Next up is a practice trial.", font_colour) + generate_html("Your data will NOT be recorded.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour)
     ],
     show_clickable_nav: true,
     show_page_number: true,
