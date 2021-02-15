@@ -562,7 +562,7 @@
                 {
                     data: (function () { // anonymous function
                         if (subject_id) {
-                            return { values: subject_data.filter(i => i.param == 'acc' && i.param != 'interference' && i.time == latest_entry_time).slice(0, 3) };
+                            return { values: subject_data.filter(i => i.param == 'acc' && i.type != 'interference' && i.time == latest_entry_time).slice(0, 3) };
                         } else {  // don't draw points
                             return { values: [] };
                         }
