@@ -21,7 +21,7 @@ var rt_deadline = 1500;
 var feedback_duration = 1500;
 var itis = iti_exponential(low = 300, high = 800);
 var n_trial = 0;  // trial counter
-var practice_trials = 2;
+var practice_trials = 5;
 if (practice_trials < 2) {
     practice_trials = 2;
 }
@@ -56,10 +56,13 @@ var instructions2 = {
 };
 
 var stimuli_unique = [  // unique flanker trials
-    { data: { stimulus: '>>>>>', answer: 'rightarrow', trialtype: "congruent", reps: 2 } },
-    { data: { stimulus: '<<<<<', answer: 'leftarrow', trialtype: "congruent", reps: 2 } },
-    { data: { stimulus: '<<><<', answer: 'rightarrow', trialtype: "incongruent", reps: 1 } },
-    { data: { stimulus: '>><>>', answer: 'leftarrow', trialtype: "incongruent", reps: 1 } },
+    { data: { stimulus: '>>>>>', answer: 'rightarrow', trialtype: "congruent", reps: 5 } },
+    { data: { stimulus: '<<<<<', answer: 'leftarrow', trialtype: "congruent", reps: 5 } },
+    { data: { stimulus: '<<><<', answer: 'rightarrow', trialtype: "incongruent", reps: 3 } },
+    { data: { stimulus: '>><<>', answer: 'leftarrow', trialtype: "incongruent", reps: 3 } },
+    { data: { stimulus: '<>><>', answer: 'rightarrow', trialtype: "incongruent", reps: 3 } },
+    { data: { stimulus: '>><><', answer: 'leftarrow', trialtype: "incongruent", reps: 3 } },
+    { data: { stimulus: '><><<', answer: 'rightarrow', trialtype: "incongruent", reps: 3 } },
 ];
 
 var stimuli_repetitions = [];
