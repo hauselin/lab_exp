@@ -14,7 +14,8 @@ var background_colour = "white";
 set_colour(font_colour, background_colour);
 
 // DEFINE TASK PARAMETERS (required)
-const trials = 2;               // the total number of trials 
+const trials = 10;               // the total number of trials 
+const practice_trials = 2;
 const max_tasktime_minutes = 5;   // maximum task time in minutes (task ends after this amount of time regardless of how many trials have been completed)
 var reps = 12;                  // the number of symbols per trial
 var difficulty = 1;   // task difficult (1, 2, 3, 4, or 5; 5 is most difficult)
@@ -24,6 +25,11 @@ var show_overall_performance = true; // whether to show overall performance at t
 var symbol_duration = 1000;      // each symbol appears for this duration (ms) 
 var fixation_duration = 500;  // fixation duration
 var inter_symbol_duration = 400;  // gap between consecutive symbols
+
+if (debug) {
+    symbol_duration = 100
+    inter_symbol_duration = 0
+}
 
 // parameters below typically don't need to be changed
 var n_trial = -1; // current trial number counter
@@ -121,10 +127,22 @@ function update_difficulty(overall_acc) {
 
 var instructions = {
     type: "instructions",
-    pages: ["Weclome!<p>Click next or press the right arrow key to proceed.</p>", "<p>In this task, you'll see sequences of " + "dollar signs ($) and hash/pound symbols (#). <p>Your goal is to keep a count of " + "each of the two types of symbols.</p>", "Click next or press the right arrow key to begin."],
+    pages: [
+        generate_html("Welcome!", font_colour) + generate_html("Click next or press the right arrow key to proceed.", font_colour),
+        generate_html("In this task, you'll see sequences of dollar signs ($) and hash/pound symbols (#)", font_colour) + generate_html("Your goal is to keep a count of each of the two types of symbols.", font_colour),
+        generate_html("Next up is a practice trial.", font_colour) + generate_html("Your data will NOT be recorded.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour)],
     show_clickable_nav: true,
     show_page_number: true,
 }; 
+
+var instructions2 = {
+    type: "instructions",
+    pages: [
+        generate_html("That was the practice trial.", font_colour) + generate_html("Click next or press the right arrow key to begin the experiment.", font_colour) + generate_html("Your data WILL be recorded this time.", font_colour)
+    ],
+    show_clickable_nav: true,
+    show_page_number: false,
+};
 
 var symbols = [ // define symbols
     { symbol: "<div style='font-size:80px;'>$</div>" },
@@ -285,8 +303,15 @@ var debrief_block = {
     }
 }; 
 
+var practice_feedback = jsPsych.utils.deepCopy(feedback);
+delete practice_feedback.data;
+practice_feedback.data = {event: 'practice'}
 
-
+var practice_trial = jsPsych.utils.deepCopy(trial);
+delete practice_trial.timeline;
+delete practice_trial.repetitions;
+practice_trial.timeline = [fixation, symbols_sequence, response, practice_feedback]
+practice_trial.repetitions = practice_trials
 
 
 
@@ -301,7 +326,10 @@ var timeline = [];
 const html_path = "../../tasks/delaydiscount/consent.html";
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
+
 timeline.push(instructions);
+timeline.push(practice_trial);
+timeline.push(instructions2);
 timeline.push(trial);
 timeline.push(debrief_block);
 timeline = create_demographics(timeline);
@@ -311,14 +339,14 @@ jsPsych.init({
     timeline: timeline,
     on_finish: function () {
         document.body.style.backgroundColor = 'white';
-        // var datasummary = summarize_data();
+        var datasummary = create_datasummary();
 
         jsPsych.data.get().addToAll({ // add parameters to all trials
             total_time: jsPsych.totalTime() / 60000,
         });
         jsPsych.data.get().first(1).addToAll({
             info_: info_,
-            // datasummary: datasummary,
+            datasummary: datasummary,
         });
         if (debug) {
             jsPsych.data.displayData();
@@ -330,3 +358,38 @@ jsPsych.init({
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url);
     }
 });
+
+// remove trials with too fast/slow RT
+function preprocess_symbolcount() {  // 
+    var data_sub = jsPsych.data.get().filter({ "event": "feedback" });  // select feedback trials
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 100 });
+    var cutoffs = mad_cutoffs(data_sub.select('rt').values);
+    data_sub = data_sub.filterCustom(function (trial) { return trial.rt > cutoffs[0] }).filterCustom(function (trial) { return trial.rt < cutoffs[1] });
+    return data_sub;
+}
+
+function create_datasummary() {
+    var d = preprocess_symbolcount(); // preprocess/clean data
+
+    var acc = d.select('acc').mean();
+
+    if (acc === undefined) {
+        acc = null;
+    }
+
+    // store above info in array
+    var datasummary = [
+        { param: "acc", value: acc },
+    ];
+
+    // add id/country information
+    datasummary.forEach(function (s) {
+        s.subject = info_.subject;
+        s.time = info_.time;
+        s.country_code = info_.demographics.country_code;
+        s.country = info_.demographics.country;
+        s.total_time = jsPsych.totalTime() / 60000;
+    })
+
+    return datasummary
+}
