@@ -297,7 +297,7 @@
                 {
                     data: (function () { // anonymous function
                         if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: subject_data.filter(i => i.param == "acc") };
+                            return { values: subject_data.filter(i => i.param == "acc" && i.time == latest_entry_time) };
                         } else {  // don't draw vertical rule
                             return { values: [] };
                         }

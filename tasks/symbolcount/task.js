@@ -4,8 +4,7 @@ const taskinfo = {
     uniquestudyid: 'symbolcount', // unique task id: must be IDENTICAL to directory name
     desc: 'symbol counting task', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: false
-    // redirect_url: "/tasks/symbolcount/viz" // set to false if no redirection required
+    redirect_url: "/tasks/symbolcount/viz" // set to false if no redirection required
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
@@ -26,6 +25,11 @@ var show_overall_performance = true; // whether to show overall performance at t
 var symbol_duration = 1000;      // each symbol appears for this duration (ms) 
 var fixation_duration = 500;  // fixation duration
 var inter_symbol_duration = 400;  // gap between consecutive symbols
+
+if (debug) {
+    symbol_duration = 100
+    inter_symbol_duration = 0
+}
 
 // parameters below typically don't need to be changed
 var n_trial = -1; // current trial number counter
