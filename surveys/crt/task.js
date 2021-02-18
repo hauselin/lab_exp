@@ -13,3 +13,22 @@ var background_colour = "white";
 set_colour(font_colour, background_colour);
 
 // DEFINE TASK PARAMETERS (required)
+acc_vals = [-1, 0, 1]
+
+jsPsych.data.addProperties({ // do not edit this section unnecessarily!
+    subject: info_.subject,
+    type: taskinfo.type,
+    uniquestudyid: taskinfo.uniquestudyid,
+    desc: taskinfo.desc,
+    condition: taskinfo.condition,
+});
+
+// create experiment objects and timeline
+var instructions = {
+    type: "instructions",
+    pages: [
+        generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("You're going to read several brain teasers. Try to answer them!", font_colour),
+    ],
+    show_clickable_nav: true,
+    show_page_number: false,
+};
