@@ -14,6 +14,7 @@ set_colour(font_colour, background_colour);
 
 // DEFINE TASK PARAMETERS (required)
 acc_vals = [-1, 0, 1]
+time2 = []
 
 jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     subject: info_.subject,
@@ -32,3 +33,82 @@ var instructions = {
     show_clickable_nav: true,
     show_page_number: false,
 };
+
+time2.push(instructions)
+
+var start_point;  // to specify scale starting point on each trial
+
+for (i=0;i<items.length;i++) {
+    var procedure = {
+        timeline: [{
+            type: 'survey-text',
+            questions: [
+                {prompt: items[i]["desc"]}
+            ],
+            data: {
+                q: items[i]['q'],
+                subscale: items[i]['subscale'],
+
+                reverse: items[i]['reverse'],
+                answer_correct: items[i]['answer_correct'],
+                answer_intuitive: items[i]['answer_intuitive']
+            },
+            on_finish: function (data) {
+                data.resp = data.response;
+                data.resp_reverse = data.resp;
+                if (debug) {
+                    console.log("q" + data.q + " (reverse: " + data.reverse + "): " + data.stimulus);
+                    console.log("resp: " + data.resp + ", resp_reverse: " + data.resp_reverse);
+                }
+            }
+        }]
+    }
+    time2.push(procedure)
+
+};
+
+
+
+
+
+
+// create timeline (order of events)
+var timeline = [instructions];
+const html_path = "../../tasks/crt/consent.html";
+timeline = create_consent(timeline, html_path);
+timeline = check_same_different_person(timeline);
+timeline = time2
+timeline = create_demographics(timeline);
+
+// run task
+jsPsych.init({
+    timeline: timeline,
+    on_finish: function () {
+        document.body.style.backgroundColor = 'white';
+        var datasummary = summarize_data(); 
+
+        jsPsych.data.get().addToAll({ // add parameters to all trials
+            total_time: jsPsych.totalTime() / 60000,
+            auc: datasummary.auc,
+        });
+        jsPsych.data.get().first(1).addToAll({ 
+            info_: info_,
+            datasummary: datasummary,
+        });
+        if (debug) {
+            jsPsych.data.displayData();
+        }
+        
+        info_.tasks_completed.push(taskinfo.uniquestudyid);
+        info_.current_task_completed = 1;
+        localStorage.setObj('info_', info_); 
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); 
+    }
+});
+
+// functions to summarize data below
+function summarize_data() {
+    datasummary = {};
+    datasummary.total_time = jsPsych.totalTime() / 60000;
+    return datasummary;
+}
