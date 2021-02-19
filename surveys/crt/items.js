@@ -1,7 +1,7 @@
 var items = [
     {
         "q": 1,
-        "desc": "The ages of Mark and Adam add up to 28 years total. Mark is 20 years older than Adam. How many years old is Adam?",
+        "desc": "The ages of Mark and Adam add up to 28 years total. Mark is 20 years older than Adam. How many years old is Adam? (Please enter a number)",
         "subscale": "crt",
         "reverse": 0,
         "answer_correct": "4",
@@ -9,7 +9,7 @@ var items = [
     },
     {
         "q": 2,
-        "desc": "If it takes 10 seconds for 10 printers to print out 10 pages of paper, how many seconds will it take 50 printers to print out 50 pages of paper?",
+        "desc": "If it takes 10 seconds for 10 printers to print out 10 pages of paper, how many seconds will it take 50 printers to print out 50 pages of paper? (Please enter a number)",
         "subscale": "crt",
         "reverse": 0,
         "answer_correct": "10",
@@ -17,7 +17,7 @@ var items = [
     },
     {
         "q": 3,
-        "desc": "On a loaf of bread, there is a patch of mold. Every day, the patch doubles in size. If it takes 40 days for the patch to cover the entire loaf of bread, how many days would it take for the patch to cover half of the loaf of bread?",
+        "desc": "On a loaf of bread, there is a patch of mold. Every day, the patch doubles in size. If it takes 40 days for the patch to cover the entire loaf of bread, how many days would it take for the patch to cover half of the loaf of bread? (Please enter a number)",
         "subscale": "crt",
         "reverse": 0,
         "answer_correct": "39",
@@ -25,7 +25,7 @@ var items = [
     },
     {
         "q": 4,
-        "desc": "If you’re running a race and you pass the person in second place, what place are you in?",
+        "desc": "If you’re running a race and you pass the person in second place, what place are you in? (Please enter a number)",
         "subscale": "crt",
         "reverse": 0,
         "answer_correct": "2",
@@ -33,7 +33,7 @@ var items = [
     },
     {
         "q": 5,
-        "desc": "A farmer had 15 sheep and all but 8 died. How many are left?",
+        "desc": "A farmer had 15 sheep and all but 8 died. How many are left? (Please enter a number)",
         "subscale": "crt",
         "reverse": 0,
         "answer_correct": "8",
@@ -57,7 +57,7 @@ var items = [
     },
     {
         "q": 8,
-        "desc": "A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How many dollars does the ball cost?",
+        "desc": "A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How many dollars does the ball cost? (Please enter a number)",
         "subscale": "crt",
         "reverse": 0,
         "answer_correct": "0.05",
@@ -65,15 +65,15 @@ var items = [
     },
     {
         "q": 9,
-        "desc": "If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets?",
+        "desc": "If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets? (Please enter a number)",
         "subscale": "crt",
         "reverse": 0,
-        "answer_correct": "100",
-        "answer_intuitive": "5"
+        "answer_correct": "5",
+        "answer_intuitive": "100"
     },
     {
         "q": 10,
-        "desc": "In a lake, there is a patch of lily pads. Every day, the patch doubles in size. If it takes 48 days for the patch to cover the entire lake, how long would it take for the patch to cover half of the lake?",
+        "desc": "In a lake, there is a patch of lily pads. Every day, the patch doubles in size. If it takes 48 days for the patch to cover the entire lake, how long would it take for the patch to cover half of the lake? (Please enter a number)",
         "subscale": "crt",
         "reverse": 0,
         "answer_correct": "47",

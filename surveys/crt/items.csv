@@ -7,5 +7,5 @@ q,desc,subscale,reverse,answer_correct,answer_intuitive
 6,Emily’s father has three daughters. The first two are named April and May. What is the third daughter’s name?,crt,0,Emily,June
 7,"Like all animals, cows need to eat and drink. What do adult cows generally drink?",crt,0,water,milk
 8,A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How many dollars does the ball cost?,crt,0,0.05,0.10
-9,"If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets?",crt,0,100,5
+9,"If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets?",crt,0,5,100
 10,"In a lake, there is a patch of lily pads. Every day, the patch doubles in size. If it takes 48 days for the patch to cover the entire lake, how long would it take for the patch to cover half of the lake?",crt,0,47,24
