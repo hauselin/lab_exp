@@ -22,7 +22,7 @@ var duration_digit = 500; // how long to show each digit (ms)
 var duration_post_digit = 200;  // pause duration after each digit
 var feedback_duration = 1500;
 var rt_update_deadline = 3000;
-var options_deadline = 3000;
+var options_deadline = null;
 
 if (debug) {
     rt_update_deadline = 60000;
