@@ -28,33 +28,57 @@ jsPsych.data.addProperties({ // do not edit this section unnecessarily!
 var instructions = {
     type: "instructions",
     pages: [
-        generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("You're going to read several brain teasers. Try to answer them!", font_colour),
+        generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("You're going to read several brain teasers. Try to solve them!", font_colour),
     ],
     show_clickable_nav: true,
     show_page_number: false,
 };
 
-time2.push(instructions)
+time2.push(instructions);
 
-var start_point;  // to specify scale starting point on each trial
+function check_data(resp, i, corr_ans, int_ans) {
+
+    var resp1 = resp["Q0"].split(" ").join('');
+    var resp_convert = resp1.toLowerCase();
+
+    if (resp_convert == corr_ans.toLowerCase()) {
+        var obj = {acc: acc_vals[2]}
+        obj["Q" + String(i)] = resp["Q0"]
+        return obj
+    }
+    else if (resp_convert == int_ans.toLowerCase()) {
+        var obj = {acc: acc_vals[1]}
+        obj["Q" + String(i)] = resp["Q0"]
+        return obj
+    }
+    else { 
+        var obj = {acc: acc_vals[0]}
+        obj["Q" + String(i)] = resp["Q0"]
+        return obj
+    }
+}
+
 
 for (i=0;i<items.length;i++) {
     var procedure = {
         timeline: [{
             type: 'survey-text',
             questions: [
-                {prompt: items[i]["desc"]}
+                {prompt: items[i]["desc"], placeholder: "Your answer here."}
             ],
             data: {
                 q: items[i]['q'],
                 subscale: items[i]['subscale'],
-
                 reverse: items[i]['reverse'],
                 answer_correct: items[i]['answer_correct'],
                 answer_intuitive: items[i]['answer_intuitive']
+
             },
             on_finish: function (data) {
-                data.resp = data.response;
+                data.resps1 = JSON.parse(data.responses)
+                console.log(data.resps1)
+                data.resps = check_data(data.resps1, data.answer_correct, data.answer_intuitive)
+                console.log(data.resps)
                 data.resp_reverse = data.resp;
                 if (debug) {
                     console.log("q" + data.q + " (reverse: " + data.reverse + "): " + data.stimulus);
