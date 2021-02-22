@@ -36,28 +36,6 @@ var instructions = {
 
 time2.push(instructions);
 
-function check_data(resp, i, corr_ans, int_ans) {
-
-    var resp1 = resp["Q0"].split(" ").join('');
-    var resp_convert = resp1.toLowerCase();
-
-    if (resp_convert == corr_ans.toLowerCase()) {
-        var obj = {acc: acc_vals[2]}
-        obj["Q" + String(i)] = resp["Q0"]
-        return obj
-    }
-    else if (resp_convert == int_ans.toLowerCase()) {
-        var obj = {acc: acc_vals[1]}
-        obj["Q" + String(i)] = resp["Q0"]
-        return obj
-    }
-    else { 
-        var obj = {acc: acc_vals[0]}
-        obj["Q" + String(i)] = resp["Q0"]
-        return obj
-    }
-}
-
 
 for (i=0;i<items.length;i++) {
     var procedure = {
@@ -71,13 +49,32 @@ for (i=0;i<items.length;i++) {
                 subscale: items[i]['subscale'],
                 reverse: items[i]['reverse'],
                 answer_correct: items[i]['answer_correct'],
-                answer_intuitive: items[i]['answer_intuitive']
+                answer_intuitive: items[i]['answer_intuitive'],
+                question: i + 1
 
             },
             on_finish: function (data) {
-                data.resps1 = JSON.parse(data.responses)
-                console.log(data.resps1)
-                data.resps = check_data(data.resps1, data.answer_correct, data.answer_intuitive)
+                resp = JSON.parse(data.responses)
+
+                clean_resp = resp["Q0"].split(" ").join('');
+                resp_convert = clean_resp.toLowerCase();
+                corr_ans_lower = data.answer_correct.toLowerCase();
+                int_ans_lower = data.answer_intuitive.toLowerCase();
+            
+                if (resp_convert == corr_ans_lower) {
+                    var obj = {acc: acc_vals[2]}
+                    obj["response"] = resp["Q0"]
+                }
+                else if (resp_convert == int_ans_lower) {
+                    var obj = {acc: acc_vals[1]}
+                    obj["response"] = resp["Q0"]
+                }
+                else { 
+                    var obj = {acc: acc_vals[0]}
+                    obj["response"] = resp["Q0"]
+                }
+
+                data.resps = obj
                 console.log(data.resps)
                 data.resp_reverse = data.resp;
                 if (debug) {
