@@ -114,4 +114,4 @@ function matchData(req, array) {
     return array
 }
 
-module.exports = { json2csv, doc2datastring, deleteData, pick, deepCopy, cssFix, getParentPath }
+module.exports = { json2csv, doc2datastring, deleteData, pick, deepCopy, cssFix, getParentPath, matchData }

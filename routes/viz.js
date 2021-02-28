@@ -19,6 +19,7 @@ router.get("/tasks/delaydiscount/viz", function (req, res) {
             data_array.push(data_subset);
         });
         data_array = data_array.flat(1);  // flatten objects in array
+        data_array = helper.matchData(req, data_array);
 
         // average values per country (for choropleth)
         country_array = d3.rollups(data_array,
@@ -50,6 +51,7 @@ router.get("/tasks/stroop/viz", function (req, res) {
             data_array.push(temp_data);
         });
         data_array = data_array.flat(1);  // flatten objects in array
+        data_array = helper.matchData(req, data_array);
 
         // prepare data for chloropleth
         // compute median rt interference for each country
@@ -84,6 +86,7 @@ router.get("/tasks/flanker/viz", function (req, res) {
         });
         console.log(data_array)
         data_array = data_array.flat(1);  // flatten objects in array
+        data_array = helper.matchData(req, data_array);
 
         // prepare data for chloropleth
         // compute median rt interference for each country
@@ -118,6 +121,7 @@ router.get("/tasks/updatemath/viz", function (req, res) {
         });
         // console.log(data_array)
         data_array = data_array.flat(1);  // flatten objects in array
+        data_array = helper.matchData(req, data_array);
 
         // prepare data for chloropleth
         // compute median rt interference for each country
@@ -152,6 +156,7 @@ router.get("/tasks/symbolcount/viz", function (req, res) {
         });
         console.log(data_array)
         data_array = data_array.flat(1);  // flatten objects in array
+        data_array = helper.matchData(req, data_array);
 
         // prepare data for chloropleth
         // compute median rt interference for each country
@@ -184,6 +189,7 @@ router.get("/surveys/gritshort/viz", function (req, res) {
             data_array.push(i.datasummary);
         });
         data_array = data_array.flat(1);  // flatten objects in array
+        data_array = helper.matchData(req, data_array);
 
         country_array = d3.rollups(data_array,
             function (v) {
@@ -211,6 +217,7 @@ router.get("/surveys/brs1/viz", function (req, res) {
             data_array.push(i.datasummary);
         });
         data_array = data_array.flat(1);  // flatten objects in array
+        data_array = helper.matchData(req, data_array);
 
         country_array = d3.rollups(data_array,
             function (v) {
@@ -250,6 +257,7 @@ router.get("/surveys/bigfiveaspect/viz", function (req, res) {
             }
         });
         data_array = data_array.flat(1);  // flatten objects in array
+        data_array = helper.matchData(req, data_array);
 
         choropleth_filters = Object.keys(corr_matrix);
         choropleth_filters.push('variance');
