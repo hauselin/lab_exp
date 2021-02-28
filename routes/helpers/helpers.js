@@ -104,11 +104,13 @@ function getParentPath(req) {
 }
 
 function matchData(req, array) {
-    for (i = 0; i < array.length; i++) {
-        if (array[i].subject == req.query.id && array[i].time == req.query.time) {
-            array[i].match = true
-        } else {
-            array[i].match = false
+    if (req.query.subject && req.query.time) {
+        for (i = 0; i < array.length; i++) {
+            if (array[i].subject == req.query.id && array[i].time == req.query.time) {
+                array[i].match = true
+            } else {
+                array[i].match = false
+            }
         }
     }
     return array
