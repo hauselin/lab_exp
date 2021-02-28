@@ -314,16 +314,21 @@
             }
 
             all_array = [];
+            subject_all_array = [];
             for (i = 0; i < data_array.length; i++) {
                 if (data_array[i].param == 'all') {
                     data_array[i].value.map(function (v) {
                         v.subject = data_array[i].subject;
                         v.time = data_array[i].time;
                     })
-                    all_array.push(data_array[i].value)
+                    all_array.push(data_array[i].value);
+                    if (data_array[i].match) {
+                        subject_all_array.push(data_array[i].value);
+                    }
                 }
             }
             all_array = all_array.flat(1);
+            subject_all_array = subject_all_array.flat(1);
         </script>
 
 
@@ -393,7 +398,6 @@
                             color: { field: "type", type: "nominal" },
                             size: { value: 3 },
                             tooltip: [
-                                { field: 'type', title: 'Trial type', type: "nominal" },
                                 { field: 'value', format: ".0f", title: 'Your reaction time (ms)', type: "quantitative" }]
                         },
                     }
@@ -441,13 +445,7 @@
                     {
                         data: (function () { // anonymous function
                             if (subject_id) {
-                                return {
-                                    values: all_array.filter(function (i) {
-                                        if (i.time == String(latest_entry_time) && i.subject == subject_id) {
-                                            return true
-                                        }
-                                    })
-                                };
+                                return { values: subject_all_array };
                             } else {  // don't draw vertical rule
                                 return { values: [] };
                             }
