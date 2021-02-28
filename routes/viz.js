@@ -135,7 +135,7 @@ router.get("/tasks/updatemath/viz", function (req, res) {
                 }
             },
             d => d.country_code);  // group by country_code
-        console.log(country_array);  // nested data
+        // console.log(country_array);  // nested data
         country_array = Array.from(country_array, function (i) {  // unnest data
             return { country_code: i[0], country: i[1].country, rt: i[1].rt }
         })

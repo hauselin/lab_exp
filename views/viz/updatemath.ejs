@@ -190,6 +190,30 @@
                         <div class="col-auto col-xl-6">
                             <div class="row justify-content-center">
                                 <div class="col-xl-10 col-lg-11 ml-auto">
+                                    <div class="my-2">
+                                        <span class="h4">Discounting across the globe</span>
+                                    </div>
+                                    <p class="lead">People in different countries and cultures differ in how much they
+                                        care about or devalue future rewards. Brighter regions indicate less discounting
+                                        or impulsivity.</p>
+                                    <p class="lead">If you find the results interesting, tell your friends from other
+                                        countries to complete this task.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="container pt-7">
+                    <div class="row align-items-center justify-content-around">
+                        <div class="col-auto col-xl-6">
+                            <div id="vis4" class="center"></div>
+                        </div>
+                        <div class="col-auto col-xl-6">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-10 col-lg-11 ml-auto">
                                     <span class="badge badge-primary">Global choropleth</span>
                                     <div class="my-2">
                                         <span class="h4">Discounting across the globe</span>
@@ -410,10 +434,10 @@
 
 
 
-        <!-- Aggregate box plot -->
+        <!-- Reaction time box plot -->
         <script type="text/javascript" defer>
 
-            var aggregate_curve = {
+            var rt_boxplot = {
                 config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
                 background: "#f3f5fb",
                 "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
@@ -466,6 +490,60 @@
 
 
 
+        <!-- Accuracy time box plot -->
+        <script type="text/javascript" defer>
+
+            var acc_boxplot = {
+                config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+                background: "#f3f5fb",
+                "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+                encoding: {
+                    x: {
+                        field: "num_to_update",
+                        type: "quantitative",  // or nominal?
+                        axis: { "title": "Number to update", tickMinStep: 20 },
+                        scale: { domain: [-10, 10] }
+                    },
+                },
+                layer: [
+                    {
+                        data: { values: all_array },
+                        mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
+                        encoding: {
+                            y: {
+                                field: "acc",
+                                type: "quantitative",
+                                axis: { "title": "Accuracy" },
+                                scale: { domain: [0, 1] }
+                            },
+                            size: { value: 18 },
+                            color: { field: "acc", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
+                            tooltip: [
+                                { field: 'acc', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" }
+                            ]
+                        }
+                    },
+                    {
+                        data: (function () { // anonymous function
+                            if (subject_id) {
+                                return { values: subject_all_array };
+                            } else {  // don't draw vertical rule
+                                return { values: [] };
+                            }
+                        }()),
+                        mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
+                        encoding: {
+                            y: { field: "acc", type: "quantitative", scale: { domain: [0, 1] } },
+                            size: { value: 150 },
+                            tooltip: [{ field: "acc", format: ".3f", title: 'Accuracy', type: "quantitative" }, { field: "num_to_update", format: ".0f", title: 'Number to update', type: "nominal" }] // format tooltip
+                        },
+                    }
+                ],
+                width: 500,
+                height: 400,
+            };
+
+        </script>
 
 
 
@@ -563,8 +641,9 @@
                     console.log("font loaded: " + f.family);
                 }, "complete": function (error) {
                     vegaEmbed('#vis1', rt_density, { actions: { source: false, compiled: false, editor: false } });
-                    vegaEmbed('#vis2', aggregate_curve, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
-                    vegaEmbed('#vis3', global_interference_plot, { actions: { source: false, compiled: false, editor: false } });
+                    vegaEmbed('#vis2', rt_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+                    vegaEmbed('#vis3', acc_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+                    vegaEmbed('#vis4', global_interference_plot, { actions: { source: false, compiled: false, editor: false } });
 
                 }
             }, 3000);
