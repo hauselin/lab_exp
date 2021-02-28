@@ -1,5 +1,5 @@
 // DEFINE TASK (required)
-const taskinfo = {
+var taskinfo = {
     type: 'survey', // 'task', 'survey', or 'study'
     uniquestudyid: 'bigfiveaspect', // unique task id: must be IDENTICAL to directory name
     desc: 'DeYoung 2007 big five aspects scale', // brief description of task
@@ -7,6 +7,9 @@ const taskinfo = {
     redirect_url: '/surveys/bigfiveaspect/viz' // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
+if (info_.subject && info_.time) {
+    taskinfo.redirect_url = taskinfo.redirect_url + '?id=' + info_.subject + '&time=' + info_.time;
+}
 const debug = false;  // true to print messages to console and display json results
 var font_colour = "black";
 var background_colour = "white";
