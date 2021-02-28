@@ -4,10 +4,11 @@ var taskinfo = {
     uniquestudyid: 'updatemath', // unique task id: must be IDENTICAL to directory name
     desc: 'mental math', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: "/tasks/updatemath/viz" // set to false if no redirection required
+    // redirect_url: "/tasks/updatemath/viz" // set to false if no redirection required
+    redirect_url: null
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-if (info_.subject && info_.time) {
+if (info_.subject && info_.time && taskinfo.redirect_url) {
     taskinfo.redirect_url = taskinfo.redirect_url + '?id=' + info_.subject + '&time=' + info_.time;
 }
 const debug = true;
@@ -285,7 +286,7 @@ var trial_sequence = {
 
 var practice_sequence = jsPsych.utils.deepCopy(trial_sequence);
 practice_sequence.repetitions = n_practice_trial
-for (i=0; i<practice_sequence.timeline.length; i++) {
+for (i = 0; i < practice_sequence.timeline.length; i++) {
     practice_sequence.timeline[i].data = { event: "practice" }
 }
 
@@ -307,15 +308,15 @@ jsPsych.init({
         document.body.style.backgroundColor = 'white';
         var datasummary = create_datasummary();
 
-        jsPsych.data.get().first(1).addToAll({ 
+        jsPsych.data.get().first(1).addToAll({
             info_: info_,
             datasummary: datasummary,
         });
-        
+
         info_.tasks_completed.push(taskinfo.uniquestudyid);
         info_.current_task_completed = 1;
-        localStorage.setObj('info_', info_); 
-        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); 
+        localStorage.setObj('info_', info_);
+        submit_data(jsPsych.data.get().json(), taskinfo.redirect_url);
     },
 });
 
@@ -332,7 +333,14 @@ function preprocess_updatemath() {
 
 function create_datasummary() {
     var d = preprocess_updatemath(); // preprocess/clean data
-    
+
+    var d_all = JSON.parse(jsPsych.data.get().filter({ event: 'response' }).json());
+    d_all = d_all.map(obj => ['num_to_update', 'rt', 'acc'].reduce((newObj, key) => {
+        newObj[key] = obj[key]
+        return newObj
+    }, {}))
+    console.log(d_all);
+
     // median rt and mean acc
     var median_rt = d.select('rt').median();
     var mean_acc = d.select('acc').mean();
@@ -345,6 +353,7 @@ function create_datasummary() {
     var datasummary = [
         { param: "rt", value: median_rt },
         { param: "acc", value: mean_acc },
+        { param: "all", value: d_all },
     ];
 
     // add id/country information
