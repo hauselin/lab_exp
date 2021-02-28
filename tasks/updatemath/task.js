@@ -4,8 +4,7 @@ var taskinfo = {
     uniquestudyid: 'updatemath', // unique task id: must be IDENTICAL to directory name
     desc: 'mental math', // brief description of task
     condition: null, // experiment/task condition
-    // redirect_url: "/tasks/updatemath/viz" // set to false if no redirection required
-    redirect_url: null
+    redirect_url: "/tasks/updatemath/viz" // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
 if (info_.subject && info_.time && taskinfo.redirect_url) {
@@ -339,7 +338,7 @@ function create_datasummary() {
         newObj[key] = obj[key]
         return newObj
     }, {}))
-    console.log(d_all);
+    // console.log(d_all);
 
     // median rt and mean acc
     var median_rt = d.select('rt').median();
