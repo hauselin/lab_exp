@@ -1,4 +1,4 @@
-const taskinfo = {
+var taskinfo = {
     type: 'task', // 'task', 'survey', or 'study'
     uniquestudyid: 'letternumber', // unique task id: must be IDENTICAL to directory name
     desc: 'letter number task', // brief description of task
@@ -7,6 +7,9 @@ const taskinfo = {
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
+if (info_.subject && info_.time) {
+    taskinfo.redirect_url = taskinfo.redirect_url + '?id=' + info_.subject + '&time=' + info_.time;
+}
 //var datasummary_ = create_datasummary_(info_); // initialize datasummary object
 const debug = false;
 var font_colour = "black";

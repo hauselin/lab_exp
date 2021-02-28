@@ -1,5 +1,5 @@
 // DEFINE TASK (REQUIRED)
-const taskinfo = {
+var taskinfo = {
     type: 'task', // 'task', 'survey', or 'study'
     uniquestudyid: 'stroop', // unique task id: must be IDENTICAL to directory name
     desc: 'stroop', // brief description of task
@@ -8,6 +8,9 @@ const taskinfo = {
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
+if (info_.subject && info_.time) {
+    taskinfo.redirect_url = taskinfo.redirect_url + '?id=' + info_.subject + '&time=' + info_.time;
+}
 
 const debug = false;  // debug mode to print messages to console and display json data at the end
 const black_background = true; // if true, white text on black background
