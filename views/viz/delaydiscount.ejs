@@ -10,7 +10,7 @@
     <script src="../../libraries/FontLoader.js"></script>
     <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
         crossorigin="anonymous">
-    
+
     <link href="../../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
     <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
 
@@ -23,211 +23,241 @@
 <body class="is-preload">
     <%- include('../partials/menu_bar_viz') %>
 
-    <!-- main section text  -->
-    <section class="bg-primary-alt header-inner o-hidden pt-7">
-        <div class="container">
-            <div class="row py-6 text-center justify-content-center align-items-center layer-2">
-                <div class="col-xl-8 col-lg-10">
-                    <h1 class="display-4">Money now or money later?</h1>
-                    <p id="no-data-text" class="lead mb-1"></p><br>
-                    <p class="lead mb-0">The delay discounting task measures your <a href="https://en.wikipedia.org/wiki/Time_preference" target="_blank">time preference</a>. It measures how much you value or devalue a good that is available only in the future. It's associated with people's ability to delay gratification and save for the future.<br><br>
-                    Check out the interactive results below and help spread the word.</p><br>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.anthrope.me" target="_blank"><img class="share-button" src="../../public/assets/img/icons/social/facebook.svg" data-inject-svg /></a>
-                    <a href="https://twitter.com/intent/tweet?text=Check%20out%20@anthrope_me%20https://www.anthrope.me"  target="_blank"><img class="share-button" src="../../public/assets/img/icons/social/twitter.svg" data-inject-svg /></a>
-                    <a href="" onclick="copyURI(event,link)"><img class="share-button" src="../../public/assets/img/icons/theme/general/clipboard.svg" data-inject-svg /></a>
-                    <br><br>
-                </div>
-            </div>
-        </div>
-        <div class="divider layer-1">
-            <img src="../../public/assets/img/dividers/divider-2.svg" alt="graphical divider" data-inject-svg />
-        </div>
-    </section>
-
-    <!-- main/first figure id="vis1"  -->
-    <section>
-        <div class="container">
-
-            <div class="row align-items-center justify-content-around">
-                
-                <div class="col-auto col-xl-6">
-                    <div id="vis1" class="center"></div>
-                </div>
-                
-                <div class="col-auto col-xl-6">
-                    <div class="row justify-content-center">
-                        <div class="col-xl-10 col-lg-11">
-                            <span id="no-data-tag0" class="badge badge-primary"></span>
-                            <div class="my-2">
-                                <span class="h4">Longer delays increase devaluation</span>
-                            </div>
-                            <p class="lead">The red dots are you and the boxes are the response range for other people.</p>
-                            <p class="lead">Assume you'll receive $1 the future—this value is the maximum value on the y-axis. This boxplot suggests that the more days you have to wait before you receive $1, the more you devalue or discount that $1. The longer you have to wait, the more its <a href="https://en.wikipedia.org/wiki/Subjective_theory_of_value" target="_blank">subjective value</a> drops.</p>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-
-        </div>
-    </section>
-
-    <!-- next section -->
-    <!-- icons reference: https://leap.mediumra.re/elements-icons-reference.html -->
-    <section class="pt-0 has-divider">
-        <div class="container pt-1">
-            <div class="row mb-4" data-aos="fade-up">
-                <div class="col">
-                    <h2>What do these results mean?</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/zoom-plus.svg"
-                        alt="zoom-plus icon" data-inject-svg />
-                    <div class="ml-3">
-                        <h5>Self-control and impulsivity</h5>
-                        <p>
-                            Those who devalue future rewards more are likely to have less self-control and be more impulsive. Try the <a href="#">self-control</a> or <a href="/surveys/gritshort">grit</a> scale.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/zoom-plus.svg"
-                        alt="zoom-plus icon" data-inject-svg />
-                    <div class="ml-3">
-                        <h5>Other types of discounting</h5>
-                        <p>
-                            Discounting of future rewards is related to other kinds of discounting behavior. Try <a href="#"">another discounting task</a> now.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/zoom-plus.svg"
-                        alt="zoom-plus icon" data-inject-svg />
-                    <div class="ml-3">
-                        <h5>Time preferences</h5>
-                        <p>
-                            How much you devalue future rewards depends on your temporal or time preferences. Take the <a href="#">time preferences</a> survey to find out more.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="divider">
-            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
-                data-inject-svg />
-        </div>
-    </section>
-    
-    
-    <section class="bg-primary-alt viz-subsections">
-        <div class="container">
-            <div class="row justify-content-center mb-4">
-                <div class="col-lg-10 col-xl-8 text-center">
-                    <h2 class="h1">More visualizations</h2>
-                </div>
-            </div>
-
+        <!-- main section text  -->
+        <section class="bg-primary-alt header-inner o-hidden pt-7">
             <div class="container">
+                <div class="row py-6 text-center justify-content-center align-items-center layer-2">
+                    <div class="col-xl-8 col-lg-10">
+                        <h1 class="display-4">Money now or money later?</h1>
+                        <p id="no-data-text" class="lead mb-1"></p><br>
+                        <p class="lead mb-0">The delay discounting task measures your <a
+                                href="https://en.wikipedia.org/wiki/Time_preference" target="_blank">time
+                                preference</a>. It measures how much you value or devalue a good that is available only
+                            in the future. It's associated with people's ability to delay gratification and save for the
+                            future.<br><br>
+                            Check out the interactive results below and help spread the word.</p><br>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.anthrope.me"
+                            target="_blank"><img class="share-button"
+                                src="../../public/assets/img/icons/social/facebook.svg" data-inject-svg /></a>
+                        <a href="https://twitter.com/intent/tweet?text=Check%20out%20@anthrope_me%20https://www.anthrope.me"
+                            target="_blank"><img class="share-button"
+                                src="../../public/assets/img/icons/social/twitter.svg" data-inject-svg /></a>
+                        <a href="" onclick="copyURI(event,link)"><img class="share-button"
+                                src="../../public/assets/img/icons/theme/general/clipboard.svg" data-inject-svg /></a>
+                        <br><br>
+                    </div>
+                </div>
+            </div>
+            <div class="divider layer-1">
+                <img src="../../public/assets/img/dividers/divider-2.svg" alt="graphical divider" data-inject-svg />
+            </div>
+        </section>
+
+        <!-- main/first figure id="vis1"  -->
+        <section>
+            <div class="container">
+
                 <div class="row align-items-center justify-content-around">
+
                     <div class="col-auto col-xl-6">
-                        <div id="vis2" class="center"></div>
+                        <div id="vis1" class="center"></div>
                     </div>
 
                     <div class="col-auto col-xl-6">
                         <div class="row justify-content-center">
-                            <div class="col-xl-10 col-lg-11 ml-auto">
-                                <span class="badge badge-primary">Area-under-curve</span>
+                            <div class="col-xl-10 col-lg-11">
+                                <span id="no-data-tag0" class="badge badge-primary"></span>
                                 <div class="my-2">
-                                    <span class="h4">Devaluation or discounting summary</span>
+                                    <span class="h4">Longer delays increase devaluation</span>
                                 </div>
-                                <p id="percentile" class="lead mb-2"></p>
-                                <p class="lead">
-                                This area-under-curve (AUC) metric summarizes the results from the figure above as a single value. 1 implies no discounting at all, and 0 implies maximum discounting, where all future rewards are worthless.
-                                </p>
-                                <p class="lead">Larger AUC values are associated with better self-control and life outcomes.
-                                </p>
+                                <p class="lead">The red dots are you and the boxes are the response range for other
+                                    people.</p>
+                                <p class="lead">Assume you'll receive $1 the future—this value is the maximum value on
+                                    the y-axis. This boxplot suggests that the more days you have to wait before you
+                                    receive $1, the more you devalue or discount that $1. The longer you have to wait,
+                                    the more its <a href="https://en.wikipedia.org/wiki/Subjective_theory_of_value"
+                                        target="_blank">subjective value</a> drops.</p>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
+        </section>
 
-            <div class="container pt-7">
-                <div class="row align-items-center justify-content-around">
-                    <div class="col-auto col-xl-6">
-                        <div id="vis3" class="center"></div>
+        <!-- next section -->
+        <!-- icons reference: https://leap.mediumra.re/elements-icons-reference.html -->
+        <section class="pt-0 has-divider">
+            <div class="container pt-1">
+                <div class="row mb-4" data-aos="fade-up">
+                    <div class="col">
+                        <h2>What do these results mean?</h2>
                     </div>
-                    <div class="col-auto col-xl-6">
-                        <div class="row justify-content-center">
-                            <div class="col-xl-10 col-lg-11 ml-auto">
-                                <span class="badge badge-primary">Global choropleth</span>
-                                <div class="my-2">
-                                    <span class="h4">Discounting across the globe</span>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
+                        <img class="icon icon-md bg-primary"
+                            src="../../public/assets/img/icons/theme/design/zoom-plus.svg" alt="zoom-plus icon"
+                            data-inject-svg />
+                        <div class="ml-3">
+                            <h5>Self-control and impulsivity</h5>
+                            <p>
+                                Those who devalue future rewards more are likely to have less self-control and be more
+                                impulsive. Try the <a href="#">self-control</a> or <a href="/surveys/gritshort">grit</a>
+                                scale.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
+                        <img class="icon icon-md bg-primary"
+                            src="../../public/assets/img/icons/theme/design/zoom-plus.svg" alt="zoom-plus icon"
+                            data-inject-svg />
+                        <div class="ml-3">
+                            <h5>Other types of discounting</h5>
+                            <p>
+                                Discounting of future rewards is related to other kinds of discounting behavior. Try <a
+                                    href="#"">another discounting task</a> now.
+                        </p>
+                    </div>
+                </div>
+                <div class=" col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
+                                    <img class="icon icon-md bg-primary"
+                                        src="../../public/assets/img/icons/theme/design/zoom-plus.svg"
+                                        alt="zoom-plus icon" data-inject-svg />
+                                    <div class="ml-3">
+                                        <h5>Time preferences</h5>
+                                        <p>
+                                            How much you devalue future rewards depends on your temporal or time
+                                            preferences. Take the <a href="#">time preferences</a> survey to find out
+                                            more.
+                                        </p>
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="divider">
+                    <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg"
+                        alt="divider graphic" data-inject-svg />
+                </div>
+        </section>
+
+
+        <section class="bg-primary-alt viz-subsections">
+            <div class="container">
+                <div class="row justify-content-center mb-4">
+                    <div class="col-lg-10 col-xl-8 text-center">
+                        <h2 class="h1">More visualizations</h2>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row align-items-center justify-content-around">
+                        <div class="col-auto col-xl-6">
+                            <div id="vis2" class="center"></div>
+                        </div>
+
+                        <div class="col-auto col-xl-6">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-10 col-lg-11 ml-auto">
+                                    <span class="badge badge-primary">Area-under-curve</span>
+                                    <div class="my-2">
+                                        <span class="h4">Devaluation or discounting summary</span>
+                                    </div>
+                                    <p id="percentile" class="lead mb-2"></p>
+                                    <p class="lead">
+                                        This area-under-curve (AUC) metric summarizes the results from the figure above
+                                        as a single value. 1 implies no discounting at all, and 0 implies maximum
+                                        discounting, where all future rewards are worthless.
+                                    </p>
+                                    <p class="lead">Larger AUC values are associated with better self-control and life
+                                        outcomes.
+                                    </p>
                                 </div>
-                                <p class="lead">People in different countries and cultures differ in how much they care about or devalue future rewards. Brighter regions indicate less discounting or impulsivity.</p>
-                                <p class="lead">If you find the results interesting, tell your friends from other countries to complete this task.
-                                </p>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-            </div>
-    </section>
-
-    <!-- final section: link to other tasks -->
-    <section>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-10">
-                    
-                    <h2 class="mb-4">Curious? Complete another one.</h2>
-                    <div class="row no-gutters mb-3 d-none d-md-flex py-0">
-                        <div class="col-xl-8 col-lg-7 col-md-6">
-                            <span class="text-small text-muted"></span>
+                <div class="container pt-7">
+                    <div class="row align-items-center justify-content-around">
+                        <div class="col-auto col-xl-6">
+                            <div id="vis3" class="center"></div>
                         </div>
-                        <div class="col">
-                            <span class="text-small text-muted">Estimated time</span>
+                        <div class="col-auto col-xl-6">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-10 col-lg-11 ml-auto">
+                                    <span class="badge badge-primary">Global choropleth</span>
+                                    <div class="my-2">
+                                        <span class="h4">Discounting across the globe</span>
+                                    </div>
+                                    <p class="lead">People in different countries and cultures differ in how much they
+                                        care about or devalue future rewards. Brighter regions indicate less discounting
+                                        or impulsivity.</p>
+                                    <p class="lead">If you find the results interesting, tell your friends from other
+                                        countries to complete this task.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="list-group list-group-flush">
-                        <a href="/tasks/stroop" class="list-group-item list-group-item-action row no-gutters">
-                            <div class="col-xl-8 col-lg-7 col-md-6">
-                                <h5 class="mb-0">Attention and cognitive control</h5>
-                            </div>
-                            <div class="col-md">
-                                <span>5-8 min</span>
-                            </div>
-                        </a>
-                        <a href="/surveys/gritshort" class="list-group-item list-group-item-action row no-gutters py-2">
-                            <div class="col-xl-8 col-lg-7 col-md-6">
-                                <h5 class="mb-0">How gritty are you?</h5>
-                            </div>
-                            <div class="col-md">
-                                <span>1-3 min</span>
-                            </div>
-                        </a>
-                        <a href="/surveys/bigfiveaspect/" class="list-group-item list-group-item-action row no-gutters py-2">
-                            <div class="col-xl-8 col-lg-7 col-md-6">
-                                <h5 class="mb-0">Big-five personality traits</h5>
-                            </div>
-                            <div class="col-md">
-                                <span>5-10 min</span>
-                            </div>
-                        </a>
-                    </div>
-
-                    <span class="d-block mt-4"><a href="/tasks" class="hover-arrow">See more tasks</a>
-                    </span>
 
                 </div>
+        </section>
+
+        <!-- final section: link to other tasks -->
+        <section>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-10">
+
+                        <h2 class="mb-4">Curious? Complete another one.</h2>
+                        <div class="row no-gutters mb-3 d-none d-md-flex py-0">
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <span class="text-small text-muted"></span>
+                            </div>
+                            <div class="col">
+                                <span class="text-small text-muted">Estimated time</span>
+                            </div>
+                        </div>
+
+                        <div class="list-group list-group-flush">
+                            <a href="/tasks/stroop" class="list-group-item list-group-item-action row no-gutters">
+                                <div class="col-xl-8 col-lg-7 col-md-6">
+                                    <h5 class="mb-0">Attention and cognitive control</h5>
+                                </div>
+                                <div class="col-md">
+                                    <span>5-8 min</span>
+                                </div>
+                            </a>
+                            <a href="/surveys/gritshort"
+                                class="list-group-item list-group-item-action row no-gutters py-2">
+                                <div class="col-xl-8 col-lg-7 col-md-6">
+                                    <h5 class="mb-0">How gritty are you?</h5>
+                                </div>
+                                <div class="col-md">
+                                    <span>1-3 min</span>
+                                </div>
+                            </a>
+                            <a href="/surveys/bigfiveaspect/"
+                                class="list-group-item list-group-item-action row no-gutters py-2">
+                                <div class="col-xl-8 col-lg-7 col-md-6">
+                                    <h5 class="mb-0">Big-five personality traits</h5>
+                                </div>
+                                <div class="col-md">
+                                    <span>5-10 min</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <span class="d-block mt-4"><a href="/tasks" class="hover-arrow">See more tasks</a>
+                        </span>
+
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
 
 
@@ -248,271 +278,277 @@
 
 
 
-    <!-- specify vegalite figures below -->
+        <!-- specify vegalite figures below -->
 
-    <script type="text/javascript">
-        // data from database
-        const data_array = <%- JSON.stringify(data_array) %>;
-        const country_array = <%- JSON.stringify(country_array) %>;
-        const link = window.location.origin + <%- JSON.stringify(parent_path) %> + '/viz';
+        <script type="text/javascript">
+            // data from database
+            const data_array = <%- JSON.stringify(data_array) %>;
+            const country_array = <%- JSON.stringify(country_array) %>;
+            const link = window.location.origin + <%- JSON.stringify(parent_path) %> + '/viz';
 
-        // get subject_id from localStorage (null if doesn't exist)
-        var subject_id = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 1);
-        
-        if (subject_id) {
-            // compute/add percentile
-            var subject_data = data_array.filter(i => i.subject == subject_id);
-            var latest_entry_time = Math.max(...subject_data.map(i => i.time));
-            subject_data = subject_data.filter(i => i.time == latest_entry_time);
-
-            var auc_array = data_array.map(x => x.auc);
-            var subject_auc = subject_data[0].auc;
-            document.getElementById('percentile').innerHTML = "Your score (the red vertical line) is <strong>higher than " + percentile(subject_auc, auc_array).toFixed(0) + "% of our users</strong>.";
-        }
-
-    </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    <!-- Aggregate box plot -->
-    <script type="text/javascript" defer>
-
-        var aggregate_curve = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
-            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-            encoding: {
-                x: {
-                    field: "cost",
-                    type: "quantitative",  // or nominal?
-                    axis: { "title": "Delay (days to reward)", tickMinStep: 20 },
-                    scale: { domain: [0, 101] }
-                },
-            },
-            layer: [
-                {
-                    data: { values: data_array },
-                    mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
-                    encoding: {
-                        y: {
-                            field: "indifference_ratio",
-                            type: "quantitative",
-                            axis: { "title": "Subjective value" }
-                        },
-                        size: { value: 18 },
-                        color: { field: "cost", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
-                        tooltip: [
-                            { field: 'indifference_ratio', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" }
-                        ]
-                    }
-                },
-                {
-                    // data: { values: subject_data },
-                    data: (function () { // anonymous function
-                        if (subject_id) {
-                            return { values: subject_data };
-                        } else {  // don't draw vertical rule
-                            return { values: [] };
-                        }
-                    }()),
-                    mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
-                    encoding: {
-                        y: { field: "indifference_ratio", type: "quantitative", scale: { domain: [0, 1] } },
-                        size: { value: 150 },
-                        tooltip: [{ field: "indifference_ratio", format: ".3f", title: 'Subjective value', type: "quantitative" }, { field: "cost", format: ".0f", title: 'Delay', type: "nominal" }] // format tooltip
-                    },
+            const parameters = get_query_string()
+            if (parameters.id && parameters.time) {
+                var subject_id = parameters.id
+                var latest_entry_time = parameters.time;
+                var subject_data = data_array.filter(i => i.match == true);
+            } else {
+                // get subject_id from localStorage (null if doesn't exist)
+                var subject_id = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 1);
+                if (subject_id) {
+                    // compute/add percentile
+                    var subject_data = data_array.filter(i => i.subject == subject_id);
+                    var latest_entry_time = Math.max(...subject_data.map(i => i.time));
+                    subject_data = subject_data.filter(i => i.time == latest_entry_time);
                 }
-            ],
-            width: 500,
-            height: 400,
-        };
-
-    </script>
-
-
-
-
-
-
-
-
-
-    <!-- Aggregate AUC density -->
-    <script type="text/javascript" defer>
-
-        var auc_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
-            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-            background: "#f3f5fb",
-            layer: [
-                {
-                    data: { values: data_array.filter(i => i.cost == 2) },
-                    transform: [
-                        { density: "auc", counts: false, cumulative: false },
-                    ],
-                    mark: { type: "area", color: "#3755be", tooltip: true },
-                    encoding: {
-                        x: {
-                            type: "quantitative",
-                            field: "value",
-                            title: ["Area under curve (AUC)"],
-                            scale: { domain: [0, 1] }
-                        },
-                        y: {
-                            type: "quantitative",
-                            field: "density",
-                            title: "Frequency (density)",
-                        },
-                        color: { value: "#38405C", type: "quantitative" },
-                        tooltip: [{ field: 'value', format: ".3f", title: 'AUC', type: "quantitative" }, { field: 'density', format: ".2f", title: 'Density', type: "quantitative" }]
-                    }
-                },
-                {
-                    data: (function () { // anonymous function
-                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: subject_data };
-                        } else {  // don't draw vertical rule
-                            return { values: [] };
-                        }
-                    }()),
-                    mark: "rule",
-                    encoding: {
-                        x: { field: "auc", type: "quantitative" },
-                        color: { value: "firebrick", type: "quantitative" },
-                        size: { value: 3 },
-                        tooltip: [{ field: 'auc', format: ".3f", title: 'You', type: "quantitative" }]
-                    },
-                }
-            ],
-            // title: "Aggregate AUC density",
-            width: 550,
-            height: 400,
-        };
-
-    </script>
-
-
-
-
-
-
-
-
-    <!-- AUC choropleth -->
-    <script defer>
-        var global_auc_plot = {
-            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: { stroke: "transparent" } },
-            background: "#f3f5fb",
-            width: 600,
-            height: 400,
-            layer: [
-                {
-                    data: {
-                        url: "../../public/data/countries-110m.json",
-                        format: {
-                            type: "topojson",
-                            feature: "countries"
-                        }
-                    },
-                    projection: {
-                        type: "mercator", scale: 98, center: [0, 40]
-                    },
-                    mark: {
-                        type: "geoshape",
-                        fill: "#080808",
-                        stroke: "white"
-                    },
-                    encoding: {
-                        tooltip: { field: "properties.name", title: "Country", type: "nominal" }
-                    }
-                },
-                {
-                    data: {
-                        url: "../../public/data/countries-110m.json",
-                        format: {
-                            type: "topojson",
-                            feature: "countries"
-                        }
-                    },
-                    transform: [
-                        {
-                            lookup: "id",
-                            from: {
-                                data: { values: country_array },
-                                key: "country_code",
-                                fields: ["median_auc", "country_name"]
-                            },
-                        }
-                    ],
-                    projection: {
-                        type: "mercator", scale: 98, center: [0, 40]
-                    },
-                    mark: {
-                        type: "geoshape",
-                    },
-                    encoding: {
-                        color: {
-                            field: "median_auc",
-                            type: "quantitative",
-                            scale: { domain: [0, 1], scheme: "viridis" },
-                            legend: { title: null, direction: "horizontal", orient: "bottom-left" }
-                        },
-                        tooltip: [
-                            {
-                                field: "country_name",
-                                title: "Country",
-                                type: "nominal"
-                            },
-                            {
-                                field: "median_auc",
-                                title: "AUC",
-                                type: "quantitative",
-                                format: ".3f"
-                            },
-                        ]
-                    }
-                }
-            ]
-        };
-
-    </script>
-
-
-
-
-
-
-    <!--show vegalite figures-->
-    <script>
-        // show vegalite figures only after font is loaded
-        var fontLoader = new FontLoader(['Inter-UI-upright'], {
-            "fontLoaded": function (f) {
-                console.log("font loaded: " + f.family);
-            }, "complete": function (error) {
-                // https://github.com/vega/vega-embed#options
-                vegaEmbed('#vis1', aggregate_curve, { actions: { source: false, compiled: false, editor: false } }); 
-                vegaEmbed('#vis2', auc_density, { actions: { source: false, compiled: false, editor: false } });
-                vegaEmbed('#vis3', global_auc_plot, { actions: { source: false, compiled: false, editor: false } });
             }
-        }, 3000);
-        fontLoader.loadFonts();
-    </script>
+            if (subject_id && subject_data.length) {
+                var auc_array = data_array.map(x => x.auc);
+                var subject_auc = subject_data[0].auc;
+                document.getElementById('percentile').innerHTML = "Your score (the red vertical line) is <strong>higher than " + percentile(subject_auc, auc_array).toFixed(0) + "% of our users</strong>.";
+            }
+        </script>
 
-    <%- include('../partials/footer_viz') %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <!-- Aggregate box plot -->
+        <script type="text/javascript" defer>
+
+            var aggregate_curve = {
+                config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+                "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+                encoding: {
+                    x: {
+                        field: "cost",
+                        type: "quantitative",  // or nominal?
+                        axis: { "title": "Delay (days to reward)", tickMinStep: 20 },
+                        scale: { domain: [0, 101] }
+                    },
+                },
+                layer: [
+                    {
+                        data: { values: data_array },
+                        mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
+                        encoding: {
+                            y: {
+                                field: "indifference_ratio",
+                                type: "quantitative",
+                                axis: { "title": "Subjective value" }
+                            },
+                            size: { value: 18 },
+                            color: { field: "cost", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
+                            tooltip: [
+                                { field: 'indifference_ratio', type: "quantitative", format: '.2f', title: "abc", aggregate: "mean" }
+                            ]
+                        }
+                    },
+                    {
+                        // data: { values: subject_data },
+                        data: (function () { // anonymous function
+                            if (subject_id) {
+                                return { values: subject_data };
+                            } else {  // don't draw vertical rule
+                                return { values: [] };
+                            }
+                        }()),
+                        mark: { type: "point", tooltip: true, filled: true, color: "firebrick" },
+                        encoding: {
+                            y: { field: "indifference_ratio", type: "quantitative", scale: { domain: [0, 1] } },
+                            size: { value: 150 },
+                            tooltip: [{ field: "indifference_ratio", format: ".3f", title: 'Subjective value', type: "quantitative" }, { field: "cost", format: ".0f", title: 'Delay', type: "nominal" }] // format tooltip
+                        },
+                    }
+                ],
+                width: 500,
+                height: 400,
+            };
+
+        </script>
+
+
+
+
+
+
+
+
+
+        <!-- Aggregate AUC density -->
+        <script type="text/javascript" defer>
+
+            var auc_density = {
+                config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+                "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+                background: "#f3f5fb",
+                layer: [
+                    {
+                        data: { values: data_array.filter(i => i.cost == 2) },
+                        transform: [
+                            { density: "auc", counts: false, cumulative: false },
+                        ],
+                        mark: { type: "area", color: "#3755be", tooltip: true },
+                        encoding: {
+                            x: {
+                                type: "quantitative",
+                                field: "value",
+                                title: ["Area under curve (AUC)"],
+                                scale: { domain: [0, 1] }
+                            },
+                            y: {
+                                type: "quantitative",
+                                field: "density",
+                                title: "Frequency (density)",
+                            },
+                            color: { value: "#38405C", type: "quantitative" },
+                            tooltip: [{ field: 'value', format: ".3f", title: 'AUC', type: "quantitative" }, { field: 'density', format: ".2f", title: 'Density', type: "quantitative" }]
+                        }
+                    },
+                    {
+                        data: (function () { // anonymous function
+                            if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
+                                return { values: subject_data };
+                            } else {  // don't draw vertical rule
+                                return { values: [] };
+                            }
+                        }()),
+                        mark: "rule",
+                        encoding: {
+                            x: { field: "auc", type: "quantitative" },
+                            color: { value: "firebrick", type: "quantitative" },
+                            size: { value: 3 },
+                            tooltip: [{ field: 'auc', format: ".3f", title: 'You', type: "quantitative" }]
+                        },
+                    }
+                ],
+                // title: "Aggregate AUC density",
+                width: 550,
+                height: 400,
+            };
+
+        </script>
+
+
+
+
+
+
+
+
+        <!-- AUC choropleth -->
+        <script defer>
+            var global_auc_plot = {
+                $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+                config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: { stroke: "transparent" } },
+                background: "#f3f5fb",
+                width: 600,
+                height: 400,
+                layer: [
+                    {
+                        data: {
+                            url: "../../public/data/countries-110m.json",
+                            format: {
+                                type: "topojson",
+                                feature: "countries"
+                            }
+                        },
+                        projection: {
+                            type: "mercator", scale: 98, center: [0, 40]
+                        },
+                        mark: {
+                            type: "geoshape",
+                            fill: "#080808",
+                            stroke: "white"
+                        },
+                        encoding: {
+                            tooltip: { field: "properties.name", title: "Country", type: "nominal" }
+                        }
+                    },
+                    {
+                        data: {
+                            url: "../../public/data/countries-110m.json",
+                            format: {
+                                type: "topojson",
+                                feature: "countries"
+                            }
+                        },
+                        transform: [
+                            {
+                                lookup: "id",
+                                from: {
+                                    data: { values: country_array },
+                                    key: "country_code",
+                                    fields: ["median_auc", "country_name"]
+                                },
+                            }
+                        ],
+                        projection: {
+                            type: "mercator", scale: 98, center: [0, 40]
+                        },
+                        mark: {
+                            type: "geoshape",
+                        },
+                        encoding: {
+                            color: {
+                                field: "median_auc",
+                                type: "quantitative",
+                                scale: { domain: [0, 1], scheme: "viridis" },
+                                legend: { title: null, direction: "horizontal", orient: "bottom-left" }
+                            },
+                            tooltip: [
+                                {
+                                    field: "country_name",
+                                    title: "Country",
+                                    type: "nominal"
+                                },
+                                {
+                                    field: "median_auc",
+                                    title: "AUC",
+                                    type: "quantitative",
+                                    format: ".3f"
+                                },
+                            ]
+                        }
+                    }
+                ]
+            };
+
+        </script>
+
+
+
+
+
+
+        <!--show vegalite figures-->
+        <script>
+            // show vegalite figures only after font is loaded
+            var fontLoader = new FontLoader(['Inter-UI-upright'], {
+                "fontLoaded": function (f) {
+                    console.log("font loaded: " + f.family);
+                }, "complete": function (error) {
+                    // https://github.com/vega/vega-embed#options
+                    vegaEmbed('#vis1', aggregate_curve, { actions: { source: false, compiled: false, editor: false } });
+                    vegaEmbed('#vis2', auc_density, { actions: { source: false, compiled: false, editor: false } });
+                    vegaEmbed('#vis3', global_auc_plot, { actions: { source: false, compiled: false, editor: false } });
+                }
+            }, 3000);
+            fontLoader.loadFonts();
+        </script>
+
+        <%- include('../partials/footer_viz') %>
 
 </body>
 

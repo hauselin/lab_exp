@@ -103,4 +103,17 @@ function getParentPath(req) {
     return reqpath.slice(0, idx);
 }
 
-module.exports = { json2csv, doc2datastring, deleteData, pick, deepCopy, cssFix, getParentPath }
+function matchData(req, array) {
+    if (req.query.subject && req.query.time) {
+        for (i = 0; i < array.length; i++) {
+            if (array[i].subject == req.query.id && array[i].time == req.query.time) {
+                array[i].match = true
+            } else {
+                array[i].match = false
+            }
+        }
+    }
+    return array
+}
+
+module.exports = { json2csv, doc2datastring, deleteData, pick, deepCopy, cssFix, getParentPath, matchData }

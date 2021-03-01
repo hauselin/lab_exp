@@ -10,7 +10,7 @@
     <script src="../../libraries/FontLoader.js"></script>
     <link rel="preload" as="font" href="../../public/assets/fonts/Inter-UI-upright.var.woff2" type="font/woff2"
         crossorigin="anonymous">
-    
+
     <link href="../../public/assets/css/custom.css" rel="stylesheet" type="text/css" media="all" />
     <link href="../../public/assets/css/theme.css" rel="stylesheet" type="text/css" media="all" />
 
@@ -23,216 +23,240 @@
 <body class="is-preload">
     <%- include('../partials/menu_bar_viz') %>
 
-    <!-- main section text  -->
-    <section class="bg-primary-alt header-inner o-hidden pt-7">
-        <div class="container">
-            <div class="row py-6 text-center justify-content-center align-items-center layer-2">
-                <div class="col-xl-8 col-lg-10">
-                    <h1 class="display-4">How gritty are you?</h1>
-                    <p id="no-data-text" class="lead mb-1"></p><br>
-                    <p class="lead mb-0">
-                       You just completed the Short Grit Scale (<a href="https://www.tandfonline.com/doi/full/10.1080/00223890802634290" target="_blank">Duckworth & Quinn, 2009</a>). It measures how passionate and persevering you are. It's also related to how much self-control you have and how <a href="/surveys/bigfiveaspect" target="_blank">conscientious</a> you are.
-                        <br><br>
-                    Check out the interactive results below and help spread the word.</p><br>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.anthrope.me" target="_blank"><img class="share-button" src="../../public/assets/img/icons/social/facebook.svg" data-inject-svg /></a>
-                    <a href="https://twitter.com/intent/tweet?text=Check%20out%20@anthrope_me%20https://www.anthrope.me"  target="_blank"><img class="share-button" src="../../public/assets/img/icons/social/twitter.svg" data-inject-svg /></a>
-                    <a href="" onclick="copyURI(event,link)"><img class="share-button" src="../../public/assets/img/icons/theme/general/clipboard.svg" data-inject-svg /></a>
-                    <br><br>
-                </div>
-            </div>
-        </div>
-        <div class="divider layer-1">
-            <img src="../../public/assets/img/dividers/divider-2.svg" alt="graphical divider" data-inject-svg />
-        </div>
-    </section>
-
-    <!-- main/first figure id="vis1"  -->
-    <section>
-        <div class="container">
-
-            <div class="row align-items-center justify-content-around">
-                
-                <div class="col-auto col-xl-6">
-                    <div id="vis1" class="center"></div>
-                </div>
-                
-                <div class="col-auto col-xl-6">
-                    <div class="row justify-content-center">
-                        <div class="col-xl-10 col-lg-11">
-                            <span id="no-data-tag0" class="badge badge-primary"></span>
-                            <div class="my-2">
-                                <span class="h4">Grit among users</span>
-                            </div>
-                            <p id="percentile" class="lead mb-2"></p>
-                            <p class="lead">The blue region is the distribution of grit scores among all users. The lowest and highest values are 1 and 5, respectively. Higher values reflect more grit.</p>
-                        </div>
-                    </div>
-                </div>
-                
-            </div>
-
-        </div>
-    </section>
-
-    <!-- next section -->
-    <!-- icons reference: https://leap.mediumra.re/elements-icons-reference.html -->
-    <section class="pt-0 has-divider">
-        <div class="container pt-1">
-            <div class="row mb-4" data-aos="fade-up">
-                <div class="col">
-                    <h2>What do these results mean?</h2>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/zoom-plus.svg"
-                        alt="zoom-plus icon" data-inject-svg />
-                    <div class="ml-3">
-                        <h5>Consistency & perseverance</h5>
-                        <p>
-                            This grit scale measures your consistency of interest and perseverance of effort. Explore more below.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/zoom-plus.svg"
-                        alt="zoom-plus icon" data-inject-svg />
-                    <div class="ml-3">
-                        <h5>Self-control and impulsivity</h5>
-                        <p>
-                            Grittier people tend to be less impulsivity and plan for the future. Try the <a href="/tasks/delaydiscount">delay discounting task</a>.
-                        </p>
-                    </div>
-                </div>
-                <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
-                    <img class="icon icon-md bg-primary" src="../../public/assets/img/icons/theme/design/zoom-plus.svg"
-                        alt="zoom-plus icon" data-inject-svg />
-                    <div class="ml-3">
-                        <h5>Cognitive control</h5>
-                        <p>
-                           Grit might be related to cognitive or executive functioning. Try one of our cognitive tasks: <a href="/tasks/stroop">Stroop</a> or <a href="/tasks/flanker">flanker</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="divider">
-            <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
-                data-inject-svg />
-        </div>
-    </section>
-    
-    
-    <section class="bg-primary-alt viz-subsections">
-        <div class="container">
-            <div class="row justify-content-center mb-4">
-                <div class="col-lg-10 col-xl-8 text-center">
-                    <h2 class="h1">More visualizations</h2>
-                </div>
-            </div>
-
+        <!-- main section text  -->
+        <section class="bg-primary-alt header-inner o-hidden pt-7">
             <div class="container">
+                <div class="row py-6 text-center justify-content-center align-items-center layer-2">
+                    <div class="col-xl-8 col-lg-10">
+                        <h1 class="display-4">How gritty are you?</h1>
+                        <p id="no-data-text" class="lead mb-1"></p><br>
+                        <p class="lead mb-0">
+                            You just completed the Short Grit Scale (<a
+                                href="https://www.tandfonline.com/doi/full/10.1080/00223890802634290"
+                                target="_blank">Duckworth & Quinn, 2009</a>). It measures how passionate and persevering
+                            you are. It's also related to how much self-control you have and how <a
+                                href="/surveys/bigfiveaspect" target="_blank">conscientious</a> you are.
+                            <br><br>
+                            Check out the interactive results below and help spread the word.
+                        </p><br>
+                        <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.anthrope.me"
+                            target="_blank"><img class="share-button"
+                                src="../../public/assets/img/icons/social/facebook.svg" data-inject-svg /></a>
+                        <a href="https://twitter.com/intent/tweet?text=Check%20out%20@anthrope_me%20https://www.anthrope.me"
+                            target="_blank"><img class="share-button"
+                                src="../../public/assets/img/icons/social/twitter.svg" data-inject-svg /></a>
+                        <a href="" onclick="copyURI(event,link)"><img class="share-button"
+                                src="../../public/assets/img/icons/theme/general/clipboard.svg" data-inject-svg /></a>
+                        <br><br>
+                    </div>
+                </div>
+            </div>
+            <div class="divider layer-1">
+                <img src="../../public/assets/img/dividers/divider-2.svg" alt="graphical divider" data-inject-svg />
+            </div>
+        </section>
+
+        <!-- main/first figure id="vis1"  -->
+        <section>
+            <div class="container">
+
                 <div class="row align-items-center justify-content-around">
+
                     <div class="col-auto col-xl-6">
-                        <div id="vis2" class="center"></div>
+                        <div id="vis1" class="center"></div>
                     </div>
 
                     <div class="col-auto col-xl-6">
                         <div class="row justify-content-center">
-                            <div class="col-xl-10 col-lg-11 ml-auto">
-                                <span class="badge badge-primary">Grit facets</span>
+                            <div class="col-xl-10 col-lg-11">
+                                <span id="no-data-tag0" class="badge badge-primary"></span>
                                 <div class="my-2">
-                                    <span class="h4">Consistency & perseverance</span>
+                                    <span class="h4">Grit among users</span>
                                 </div>
-                                <p class="lead">
-                                Each boxplot shows the range of scores among all users. The red dots are your scores. 
-                                </p>
-                                <p class="lead">
-                                The "interest consistency" facet measures how you respond to questions like "I become interested in new pursuits every few months." 
-                                </p>
-                                <p class="lead">
-                                The "effort perseverance" facet measures your response to questions like "I ﬁnish whatever I begin."
-                                </p>
+                                <p id="percentile" class="lead mb-2"></p>
+                                <p class="lead">The blue region is the distribution of grit scores among all users. The
+                                    lowest and highest values are 1 and 5, respectively. Higher values reflect more
+                                    grit.</p>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
+        </section>
 
-            <div class="container pt-7">
-                <div class="row align-items-center justify-content-around">
-                    <div class="col-auto col-xl-6">
-                        <div id="vis3" class="center"></div>
+        <!-- next section -->
+        <!-- icons reference: https://leap.mediumra.re/elements-icons-reference.html -->
+        <section class="pt-0 has-divider">
+            <div class="container pt-1">
+                <div class="row mb-4" data-aos="fade-up">
+                    <div class="col">
+                        <h2>What do these results mean?</h2>
                     </div>
-                    <div class="col-auto col-xl-6">
-                        <div class="row justify-content-center">
-                            <div class="col-xl-10 col-lg-11 ml-auto">
-                                <span class="badge badge-primary">Global choropleth</span>
-                                <div class="my-2">
-                                    <span class="h4">Grit across the globe</span>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="100">
+                        <img class="icon icon-md bg-primary"
+                            src="../../public/assets/img/icons/theme/design/zoom-plus.svg" alt="zoom-plus icon"
+                            data-inject-svg />
+                        <div class="ml-3">
+                            <h5>Consistency & perseverance</h5>
+                            <p>
+                                This grit scale measures your consistency of interest and perseverance of effort.
+                                Explore more below.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="200">
+                        <img class="icon icon-md bg-primary"
+                            src="../../public/assets/img/icons/theme/design/zoom-plus.svg" alt="zoom-plus icon"
+                            data-inject-svg />
+                        <div class="ml-3">
+                            <h5>Self-control and impulsivity</h5>
+                            <p>
+                                Grittier people tend to be less impulsivity and plan for the future. Try the <a
+                                    href="/tasks/delaydiscount">delay discounting task</a>.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md d-flex mb-3 mb-md-0" data-aos="fade-up" data-aos-delay="300">
+                        <img class="icon icon-md bg-primary"
+                            src="../../public/assets/img/icons/theme/design/zoom-plus.svg" alt="zoom-plus icon"
+                            data-inject-svg />
+                        <div class="ml-3">
+                            <h5>Cognitive control</h5>
+                            <p>
+                                Grit might be related to cognitive or executive functioning. Try one of our cognitive
+                                tasks: <a href="/tasks/stroop">Stroop</a> or <a href="/tasks/flanker">flanker</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="divider">
+                <img class="bg-primary-alt" src="../../public/assets/img/dividers/divider-1.svg" alt="divider graphic"
+                    data-inject-svg />
+            </div>
+        </section>
+
+
+        <section class="bg-primary-alt viz-subsections">
+            <div class="container">
+                <div class="row justify-content-center mb-4">
+                    <div class="col-lg-10 col-xl-8 text-center">
+                        <h2 class="h1">More visualizations</h2>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row align-items-center justify-content-around">
+                        <div class="col-auto col-xl-6">
+                            <div id="vis2" class="center"></div>
+                        </div>
+
+                        <div class="col-auto col-xl-6">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-10 col-lg-11 ml-auto">
+                                    <span class="badge badge-primary">Grit facets</span>
+                                    <div class="my-2">
+                                        <span class="h4">Consistency & perseverance</span>
+                                    </div>
+                                    <p class="lead">
+                                        Each boxplot shows the range of scores among all users. The red dots are your
+                                        scores.
+                                    </p>
+                                    <p class="lead">
+                                        The "interest consistency" facet measures how you respond to questions like "I
+                                        become interested in new pursuits every few months."
+                                    </p>
+                                    <p class="lead">
+                                        The "effort perseverance" facet measures your response to questions like "I
+                                        ﬁnish whatever I begin."
+                                    </p>
                                 </div>
-                                <p class="lead">People in different countries and cultures differ in how gritty they are.</p>
-                                <p class="lead">If you find the results interesting, tell your friends from other countries to complete this task.
-                                </p>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
-            </div>
-    </section>
-
-    <!-- final section: link to other tasks -->
-    <section>
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-10">
-                    
-                    <h2 class="mb-4">Curious? Complete another one.</h2>
-                    <div class="row no-gutters mb-3 d-none d-md-flex py-0">
-                        <div class="col-xl-8 col-lg-7 col-md-6">
-                            <span class="text-small text-muted"></span>
+                <div class="container pt-7">
+                    <div class="row align-items-center justify-content-around">
+                        <div class="col-auto col-xl-6">
+                            <div id="vis3" class="center"></div>
                         </div>
-                        <div class="col">
-                            <span class="text-small text-muted">Estimated time</span>
+                        <div class="col-auto col-xl-6">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-10 col-lg-11 ml-auto">
+                                    <span class="badge badge-primary">Global choropleth</span>
+                                    <div class="my-2">
+                                        <span class="h4">Grit across the globe</span>
+                                    </div>
+                                    <p class="lead">People in different countries and cultures differ in how gritty they
+                                        are.</p>
+                                    <p class="lead">If you find the results interesting, tell your friends from other
+                                        countries to complete this task.
+                                    </p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="list-group list-group-flush">
-                        <a href="/tasks/stroop" class="list-group-item list-group-item-action row no-gutters">
-                            <div class="col-xl-8 col-lg-7 col-md-6">
-                                <h5 class="mb-0">Attention and cognitive control</h5>
-                            </div>
-                            <div class="col-md">
-                                <span>5-8 min</span>
-                            </div>
-                        </a>
-                        <a href="/tasks/flanker" class="list-group-item list-group-item-action row no-gutters py-2">
-                            <div class="col-xl-8 col-lg-7 col-md-6">
-                                <h5 class="mb-0">Distractibility and attention</h5>
-                            </div>
-                            <div class="col-md">
-                                <span>5-8 min</span>
-                            </div>
-                        </a>
-                        <a href="/surveys/bigfiveaspect/" class="list-group-item list-group-item-action row no-gutters py-2">
-                            <div class="col-xl-8 col-lg-7 col-md-6">
-                                <h5 class="mb-0">Big-five personality traits</h5>
-                            </div>
-                            <div class="col-md">
-                                <span>5-10 min</span>
-                            </div>
-                        </a>
-                    </div>
-
-                    <span class="d-block mt-4"><a href="/tasks" class="hover-arrow">See more tasks</a>
-                    </span>
 
                 </div>
+        </section>
+
+        <!-- final section: link to other tasks -->
+        <section>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-10">
+
+                        <h2 class="mb-4">Curious? Complete another one.</h2>
+                        <div class="row no-gutters mb-3 d-none d-md-flex py-0">
+                            <div class="col-xl-8 col-lg-7 col-md-6">
+                                <span class="text-small text-muted"></span>
+                            </div>
+                            <div class="col">
+                                <span class="text-small text-muted">Estimated time</span>
+                            </div>
+                        </div>
+
+                        <div class="list-group list-group-flush">
+                            <a href="/tasks/stroop" class="list-group-item list-group-item-action row no-gutters">
+                                <div class="col-xl-8 col-lg-7 col-md-6">
+                                    <h5 class="mb-0">Attention and cognitive control</h5>
+                                </div>
+                                <div class="col-md">
+                                    <span>5-8 min</span>
+                                </div>
+                            </a>
+                            <a href="/tasks/flanker" class="list-group-item list-group-item-action row no-gutters py-2">
+                                <div class="col-xl-8 col-lg-7 col-md-6">
+                                    <h5 class="mb-0">Distractibility and attention</h5>
+                                </div>
+                                <div class="col-md">
+                                    <span>5-8 min</span>
+                                </div>
+                            </a>
+                            <a href="/surveys/bigfiveaspect/"
+                                class="list-group-item list-group-item-action row no-gutters py-2">
+                                <div class="col-xl-8 col-lg-7 col-md-6">
+                                    <h5 class="mb-0">Big-five personality traits</h5>
+                                </div>
+                                <div class="col-md">
+                                    <span>5-10 min</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <span class="d-block mt-4"><a href="/tasks" class="hover-arrow">See more tasks</a>
+                        </span>
+
+                    </div>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
 
 
@@ -253,242 +277,255 @@
 
 
 
-    <!-- specify vegalite figures below -->
+        <!-- specify vegalite figures below -->
 
-    <script type="text/javascript">
-        // data from database
-        const data_array = <%- JSON.stringify(data_array) %>;
-        const country_array = <%- JSON.stringify(country_array) %>;
-        const link = window.location.origin + <%- JSON.stringify(parent_path) %> + '/viz';
-        
-        // get subject_id from localStorage (null if doesn't exist)
-        // subject_id and time will be used to filter arrays for plotting subject data
-        var subject_id = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 1);
+        <script type="text/javascript">
+            // data from database
+            const data_array = <%- JSON.stringify(data_array) %>;
+            const country_array = <%- JSON.stringify(country_array) %>;
+            const link = window.location.origin + <%- JSON.stringify(parent_path) %> + '/viz';
 
-        if (subject_id) {
-            // compute/add percentile
-            var subject_data = data_array.filter(i => i.subject == subject_id);
-            var latest_entry_time = Math.max(...subject_data.map(i => i.time));
+            const parameters = get_query_string()
+            if (parameters.id && parameters.time) {
+                var subject_id = parameters.id
+                var latest_entry_time = parameters.time;
+                var subject_data = data_array.filter(i => i.match == true);
 
-            var response_array = data_array.map(x => x.value);
-            var subject_response = subject_data.filter(x => x.time == latest_entry_time)[0].value;
-            document.getElementById('percentile').innerHTML = "Your score (red vertical line) is <strong>higher than " + percentile(subject_response, response_array).toFixed(0) + "% of our users</strong>.";
-        }
-    </script>
-
-
-    <!-- Mean response density -->
-    <script type="text/javascript" defer>
-
-        var mean_density = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { title: null, labelFontSize: 15, labelFont: "Inter-UI-upright", orient: "bottom" } },
-            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-            layer: [
-                {
-                    data: { values: data_array.filter(i => i.type == "all") },
-                    transform: [{
-                        density: "value",
-                    }],
-                    mark: { type: "area", color: "#3755be", tooltip: true },
-                    encoding: {
-                        x: {
-                            type: "quantitative",
-                            field: "value",
-                            title: "Response",
-                        },
-                        y: {
-                            type: "quantitative",
-                            field: "density",
-                            title: "Frequency (density)",
-                        },
-                        color: { value: "#38405C", type: "nominal" },
-                        tooltip: [{ field: 'value', format: ".1f", title: 'Response', type: "quantitative" }, { field: 'density', format: ".1f", title: 'Density', type: "quantitative" }]
-                    }
-                },
-                {
-                    data: (function () { // anonymous function
-                        if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
-                            return { values: data_array.filter(i => i.subject == subject_id && i.time == latest_entry_time && i.type == "all").slice(0, 1) };
-                        } else {  // don't draw vertical rule
-                            return { values: [] };
-                        }
-                    }()),
-                    mark: { type: "rule"},
-                    encoding: {
-                        x: { field: "value", type: "quantitative" },
-                        color: { value: "firebrick", type: "quantitative" },
-                        size: { value: 3 },
-                        tooltip: [
-                            { field: 'value', format: ".1f", title: 'You', type: "quantitative" }]
-                    },
-                }
-            ],
-            width: 500,
-            height: 400,
-        };
-
-    </script>
-
-
-
-
-
-
-    <!-- Age box plot -->
-    <script type="text/javascript" defer>
-
-        var age_boxplot = {
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
-            "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
-            background: "#f3f5fb",
-            layer: [
-                {
-                    data: { values: data_array.filter(i => i.age_group != null) },
-                    mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
-                    encoding: {
-                        y: {
-                            field: "value",
-                            type: "quantitative",
-                            axis: { "title": "Response" },
-                        },
-                        x: {
-                            field: "age_group",
-                            type: "nominal",
-                            axis: { "title": "Age group", tickMinStep: 20, labelAngle: -45 },
-                        },
-                        size: { value: 18 },
-                        color: { field: "age_group", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
-                        tooltip: [
-                            { field: 'value', type: "quantitative", format: '.1f', title: "Response", aggregate: "mean" }
-                        ]
-                    }
-                },
-                {
-                    data: (function () { // anonymous function
-                        if (subject_id) {
-                            return { values: data_array.filter(i => i.subject == subject_id && i.time == latest_entry_time && i.age_group != null) };
-                        } else {  // don't draw vertical rule
-                            return { values: [] };
-                        }
-                    }()),
-                    mark: { type: "rule", tooltip: true, color: "firebrick" },
-                    encoding: {
-                        y: { field: "value", type: "quantitative" },
-                        size: { value: 3 },
-                        tooltip: [{ field: "value", format: ".1f", title: 'You', type: "quantitative" }] // format tooltip
-                    },
-                }
-            ],
-            width: 500,
-            height: 400,
-        };
-
-    </script>
-
-
-
-
-
-
-
-
-    <!-- Global response mean choropleth -->
-    <script defer>
-        var global_mean_plot = {
-            $schema: "https://vega.github.io/schema/vega-lite/v4.json",
-            config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: { stroke: "transparent" } },
-            background: "#f3f5fb",
-            width: 600,
-            height: 400,
-            layer: [
-                {
-                    data: {
-                        url: "../../public/data/countries-110m.json",
-                        format: {
-                            type: "topojson",
-                            feature: "countries"
-                        }
-                    },
-                    projection: {
-                        type: "mercator", scale: 98, center: [0, 40]
-                    },
-                    mark: {
-                        type: "geoshape",
-                        fill: "#080808",
-                        stroke: "white"
-                    },
-                    encoding: {
-                        tooltip: { field: "properties.name", title: "Country", type: "nominal" }
-                    }
-                },
-                {
-                    data: {
-                        url: "../../public/data/countries-110m.json",
-                        format: {
-                            type: "topojson",
-                            feature: "countries"
-                        }
-                    },
-                    transform: [
-                        {
-                            lookup: "id",
-                            from: {
-                                data: { values: country_array },
-                                key: "country_code",
-                                fields: ["value", "country"]
-                            },
-                        }
-                    ],
-                    projection: {
-                        type: "mercator", scale: 98, center: [0, 40]
-                    },
-                    mark: {
-                        type: "geoshape",
-                    },
-                    encoding: {
-                        color: {
-                            field: "value",
-                            type: "quantitative",
-                            scale: { scheme: "viridis" },
-                            legend: { title: null, direction: "horizontal", orient: "bottom-left" }
-                        },
-                        tooltip: [
-                            {
-                                field: "country",
-                                title: "Country",
-                                type: "nominal"
-                            },
-                            {
-                                field: "value",
-                                title: "Average",
-                                type: "quantitative",
-                                format: ".1f"
-                            },
-                        ]
-                    }
-                }
-            ]
-        };
-
-    </script>
-
-    <!--show vegalite figures-->
-    <script>
-        // show vegalite figures only after font is loaded
-        var fontLoader = new FontLoader(['Inter-UI-upright'], {
-            "fontLoaded": function (f) {
-                console.log("font loaded: " + f.family);
-            }, "complete": function (error) {
-                vegaEmbed('#vis1', mean_density, { actions: { source: false, compiled: false, editor: false } });
-                vegaEmbed('#vis2', age_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
-                vegaEmbed('#vis3', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
+                var response_array = data_array.map(x => x.value);
+                var subject_response = subject_data.filter(x => x.time == latest_entry_time)[0].value;
+                document.getElementById('percentile').innerHTML = "Your score (red vertical line) is <strong>higher than " + percentile(subject_response, response_array).toFixed(0) + "% of our users</strong>.";
             }
-        }, 3000);
-        fontLoader.loadFonts();
-    </script>
+            else {
+                // get subject_id from localStorage (null if doesn't exist)
+                // subject_id and time will be used to filter arrays for plotting subject data
+                var subject_id = get_viz_subject_info(<%- JSON.stringify(parent_path) %>, 1);
+                if (subject_id) {
+                    // compute/add percentile
+                    var subject_data = data_array.filter(i => i.subject == subject_id);
+                    var latest_entry_time = Math.max(...subject_data.map(i => i.time));
+
+                    var response_array = data_array.map(x => x.value);
+                    var subject_response = subject_data.filter(x => x.time == latest_entry_time)[0].value;
+                    document.getElementById('percentile').innerHTML = "Your score (red vertical line) is <strong>higher than " + percentile(subject_response, response_array).toFixed(0) + "% of our users</strong>.";
+                }
+
+            }
+
+        </script>
 
 
-    <%- include('../partials/footer_viz') %>
+        <!-- Mean response density -->
+        <script type="text/javascript" defer>
+
+            var mean_density = {
+                config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { title: null, labelFontSize: 15, labelFont: "Inter-UI-upright", orient: "bottom" } },
+                "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+                layer: [
+                    {
+                        data: { values: data_array.filter(i => i.type == "all") },
+                        transform: [{
+                            density: "value",
+                        }],
+                        mark: { type: "area", color: "#3755be", tooltip: true },
+                        encoding: {
+                            x: {
+                                type: "quantitative",
+                                field: "value",
+                                title: "Response",
+                            },
+                            y: {
+                                type: "quantitative",
+                                field: "density",
+                                title: "Frequency (density)",
+                            },
+                            color: { value: "#38405C", type: "nominal" },
+                            tooltip: [{ field: 'value', format: ".1f", title: 'Response', type: "quantitative" }, { field: 'density', format: ".1f", title: 'Density', type: "quantitative" }]
+                        }
+                    },
+                    {
+                        data: (function () { // anonymous function
+                            if (subject_id) { // if subject_id exists, retrieve data and draw vertical line
+                                return { values: data_array.filter(i => i.subject == subject_id && i.time == latest_entry_time && i.type == "all").slice(0, 1) };
+                            } else {  // don't draw vertical rule
+                                return { values: [] };
+                            }
+                        }()),
+                        mark: { type: "rule" },
+                        encoding: {
+                            x: { field: "value", type: "quantitative" },
+                            color: { value: "firebrick", type: "quantitative" },
+                            size: { value: 3 },
+                            tooltip: [
+                                { field: 'value', format: ".1f", title: 'You', type: "quantitative" }]
+                        },
+                    }
+                ],
+                width: 500,
+                height: 400,
+            };
+
+        </script>
+
+
+
+
+
+
+        <!-- Age box plot -->
+        <script type="text/javascript" defer>
+
+            var age_boxplot = {
+                config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 30, labelFont: "Inter-UI-upright" } },
+                "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+                background: "#f3f5fb",
+                layer: [
+                    {
+                        data: { values: data_array.filter(i => i.age_group != null) },
+                        mark: { type: "boxplot", extent: 1.5, opacity: 0.7, tooltip: true, median: { color: "black" } },
+                        encoding: {
+                            y: {
+                                field: "value",
+                                type: "quantitative",
+                                axis: { "title": "Response" },
+                            },
+                            x: {
+                                field: "age_group",
+                                type: "nominal",
+                                axis: { "title": "Age group", tickMinStep: 20, labelAngle: -45 },
+                            },
+                            size: { value: 18 },
+                            color: { field: "age_group", legend: null, scale: { scheme: "viridis" }, type: "nominal" },
+                            tooltip: [
+                                { field: 'value', type: "quantitative", format: '.1f', title: "Response", aggregate: "mean" }
+                            ]
+                        }
+                    },
+                    {
+                        data: (function () { // anonymous function
+                            if (subject_id) {
+                                return { values: data_array.filter(i => i.subject == subject_id && i.time == latest_entry_time && i.age_group != null) };
+                            } else {  // don't draw vertical rule
+                                return { values: [] };
+                            }
+                        }()),
+                        mark: { type: "rule", tooltip: true, color: "firebrick" },
+                        encoding: {
+                            y: { field: "value", type: "quantitative" },
+                            size: { value: 3 },
+                            tooltip: [{ field: "value", format: ".1f", title: 'You', type: "quantitative" }] // format tooltip
+                        },
+                    }
+                ],
+                width: 500,
+                height: 400,
+            };
+
+        </script>
+
+
+
+
+
+
+
+
+        <!-- Global response mean choropleth -->
+        <script defer>
+            var global_mean_plot = {
+                $schema: "https://vega.github.io/schema/vega-lite/v4.json",
+                config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { labelFontSize: 12, labelFont: "Inter-UI-upright" }, view: { stroke: "transparent" } },
+                background: "#f3f5fb",
+                width: 600,
+                height: 400,
+                layer: [
+                    {
+                        data: {
+                            url: "../../public/data/countries-110m.json",
+                            format: {
+                                type: "topojson",
+                                feature: "countries"
+                            }
+                        },
+                        projection: {
+                            type: "mercator", scale: 98, center: [0, 40]
+                        },
+                        mark: {
+                            type: "geoshape",
+                            fill: "#080808",
+                            stroke: "white"
+                        },
+                        encoding: {
+                            tooltip: { field: "properties.name", title: "Country", type: "nominal" }
+                        }
+                    },
+                    {
+                        data: {
+                            url: "../../public/data/countries-110m.json",
+                            format: {
+                                type: "topojson",
+                                feature: "countries"
+                            }
+                        },
+                        transform: [
+                            {
+                                lookup: "id",
+                                from: {
+                                    data: { values: country_array },
+                                    key: "country_code",
+                                    fields: ["value", "country"]
+                                },
+                            }
+                        ],
+                        projection: {
+                            type: "mercator", scale: 98, center: [0, 40]
+                        },
+                        mark: {
+                            type: "geoshape",
+                        },
+                        encoding: {
+                            color: {
+                                field: "value",
+                                type: "quantitative",
+                                scale: { scheme: "viridis" },
+                                legend: { title: null, direction: "horizontal", orient: "bottom-left" }
+                            },
+                            tooltip: [
+                                {
+                                    field: "country",
+                                    title: "Country",
+                                    type: "nominal"
+                                },
+                                {
+                                    field: "value",
+                                    title: "Average",
+                                    type: "quantitative",
+                                    format: ".1f"
+                                },
+                            ]
+                        }
+                    }
+                ]
+            };
+
+        </script>
+
+        <!--show vegalite figures-->
+        <script>
+            // show vegalite figures only after font is loaded
+            var fontLoader = new FontLoader(['Inter-UI-upright'], {
+                "fontLoaded": function (f) {
+                    console.log("font loaded: " + f.family);
+                }, "complete": function (error) {
+                    vegaEmbed('#vis1', mean_density, { actions: { source: false, compiled: false, editor: false } });
+                    vegaEmbed('#vis2', age_boxplot, { actions: { source: false, compiled: false, editor: false } }); // https://github.com/vega/vega-embed#options
+                    vegaEmbed('#vis3', global_mean_plot, { actions: { source: false, compiled: false, editor: false } });
+                }
+            }, 3000);
+            fontLoader.loadFonts();
+        </script>
+
+
+        <%- include('../partials/footer_viz') %>
 
 </body>
 
