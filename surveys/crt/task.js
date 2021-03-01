@@ -14,7 +14,7 @@ set_colour(font_colour, background_colour);
 
 // DEFINE TASK PARAMETERS (required)
 acc_vals = [-1, 0, 1]
-time2 = []
+timeline = []
 
 jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     subject: info_.subject,
@@ -34,71 +34,64 @@ var instructions = {
     show_page_number: false,
 };
 
-time2.push(instructions);
+timeline.push(instructions);
 
+var procedure = {
+    timeline: [{
+        type: 'survey-text',
+        questions: [
+            {prompt: jsPsych.timelineVariable('desc'), columns: 20, required: true, name: jsPsych.timelineVariable('q'), placeholder: "Your answer here."}
+        ],
+        data: {
+            question: jsPsych.timelineVariable('q'),
+            subscale: jsPsych.timelineVariable('subscale'),
+            reverse: jsPsych.timelineVariable('reverse'),
+            answer_correct: jsPsych.timelineVariable('answer_correct'),
+            answer_intuitive: jsPsych.timelineVariable('answer_intuitive'),
 
-for (i=0;i<items.length;i++) {
-    var procedure = {
-        timeline: [{
-            type: 'survey-text',
-            questions: [
-                {prompt: items[i]["desc"], placeholder: "Your answer here."}
-            ],
-            data: {
-                q: items[i]['q'],
-                subscale: items[i]['subscale'],
-                reverse: items[i]['reverse'],
-                answer_correct: items[i]['answer_correct'],
-                answer_intuitive: items[i]['answer_intuitive'],
-                question: i + 1
-
-            },
-            on_finish: function (data) {
-                resp = JSON.parse(data.responses)
-
-                clean_resp = resp["Q0"].split(" ").join('');
-                resp_convert = clean_resp.toLowerCase();
-                corr_ans_lower = data.answer_correct.toLowerCase();
-                int_ans_lower = data.answer_intuitive.toLowerCase();
+        },
+        on_finish: function (data) {
+            resp = JSON.parse(data.responses)
+            question = Object.keys(resp)[0]
+            clean_resp = resp[question].split(" ").join('');
+            resp_convert = clean_resp.toLowerCase();
+            corr_ans_lower = data.answer_correct.toLowerCase();
+            int_ans_lower = data.answer_intuitive.toLowerCase();
             
-                if (resp_convert == corr_ans_lower) {
-                    var obj = {acc: acc_vals[2]}
-                    obj["response"] = resp["Q0"]
-                }
-                else if (resp_convert == int_ans_lower) {
-                    var obj = {acc: acc_vals[1]}
-                    obj["response"] = resp["Q0"]
-                }
-                else { 
-                    var obj = {acc: acc_vals[0]}
-                    obj["response"] = resp["Q0"]
-                }
-
-                data.resps = obj
-                console.log(data.resps)
-                data.resp_reverse = data.resp;
-                if (debug) {
-                    console.log("q" + data.q + " (reverse: " + data.reverse + "): " + data.stimulus);
-                    console.log("resp: " + data.resp + ", resp_reverse: " + data.resp_reverse);
-                }
+            var obj = {}
+            obj["question"] = question
+            obj["response"] = resp_convert
+            
+            if (resp_convert == corr_ans_lower) {
+                obj["acc"] = acc_vals[2]
             }
-        }]
-    }
-    time2.push(procedure)
+            else if (resp_convert == int_ans_lower) {
+                obj["acc"] = acc_vals[1]
+            }
+            else { 
+                obj["acc"] = acc_vals[0]
+            }
 
-};
-
-
+            data.resps = obj
+            console.log(data.resps)
+            data.resp_reverse = data.resp;
+            if (debug) {
+                console.log("q" + data.q + " (reverse: " + data.reverse + "): " + data.stimulus);
+                console.log("resp: " + data.resp + ", resp_reverse: " + data.resp_reverse);
+            }
+        }
+    }], 
+    timeline_variables: items
+}
 
 
 
 
 // create timeline (order of events)
-var timeline = [instructions];
-const html_path = "../../tasks/crt/consent.html";
+var timeline = [instructions, procedure];
+const html_path = "../../surveys/crt/consent.html";
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
-timeline = time2
 timeline = create_demographics(timeline);
 
 // run task
