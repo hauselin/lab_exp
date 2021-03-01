@@ -1,5 +1,5 @@
 // DEFINE TASK (required)
-const taskinfo = {
+var taskinfo = {
     type: 'task', // 'task', 'survey', or 'study'
     uniquestudyid: 'symbolcount', // unique task id: must be IDENTICAL to directory name
     desc: 'symbol counting task', // brief description of task
@@ -8,6 +8,9 @@ const taskinfo = {
 };
 
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
+if (info_.subject && info_.time) {
+    taskinfo.redirect_url = taskinfo.redirect_url + '?id=' + info_.subject + '&time=' + info_.time;
+}
 const debug = true;  // true to print messages to console and display json results
 var font_colour = "black";
 var background_colour = "white";
