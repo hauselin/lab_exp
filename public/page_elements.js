@@ -1,3 +1,4 @@
+// randomly select a task on homepage
 var tasks_to_try = [
     {
         route: '/tasks/delaydiscount',
@@ -33,6 +34,11 @@ var tasks_to_try = [
         route: '/surveys/schulzvalues2019',
         uniquestudyid: 'schulzvalues2019',
         time: '5-6 min'
+    },
+    {
+        route: '/surveys/crt',
+        uniquestudyid: 'crt',
+        time: '4-6 min'
     }
 ];
 
@@ -66,6 +72,12 @@ var surveys = [
         name: 'What are your values?',
         description: "What values do you care about?",
         time: '5-6 min'
+    },
+    {
+        uniquestudyid: 'crt',
+        name: "What's your thinking style?",
+        description: "How do you think?",
+        time: '4-6 min'
     }
 ];
 
