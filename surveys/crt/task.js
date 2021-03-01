@@ -2,19 +2,18 @@
 const taskinfo = {
     type: 'survey', // 'task', 'survey', or 'study'
     uniquestudyid: 'crt', // unique task id: must be IDENTICAL to directory name
-    desc: 'cognitive reflection', // brief description of task
+    description: 'cognitive reflection', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: "/surveys/crt/viz" // set to false if no redirection required
+    redirect_url: false // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-const debug = false;  // true to print messages to console and display json results
+const debug = true;  // true to print messages to console and display json results
 var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
 
 // DEFINE TASK PARAMETERS (required)
 acc_vals = [-1, 0, 1]
-timeline = []
 
 jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     subject: info_.subject,
@@ -34,16 +33,17 @@ var instructions = {
     show_page_number: false,
 };
 
-timeline.push(instructions);
 
 var procedure = {
     timeline: [{
         type: 'survey-text',
+        autocorrect: false,
         questions: [
-            {prompt: jsPsych.timelineVariable('desc'), columns: 20, required: true, name: jsPsych.timelineVariable('q'), placeholder: "Your answer here."}
+            {prompt: jsPsych.timelineVariable('desc'), columns: 20, required: true, name: jsPsych.timelineVariable('q'), placeholder: ""}
         ],
         data: {
             question: jsPsych.timelineVariable('q'),
+            question: jsPsych.timelineVariable('desc'),
             subscale: jsPsych.timelineVariable('subscale'),
             reverse: jsPsych.timelineVariable('reverse'),
             answer_correct: jsPsych.timelineVariable('answer_correct'),
@@ -51,34 +51,26 @@ var procedure = {
 
         },
         on_finish: function (data) {
-            resp = JSON.parse(data.responses)
-            question = Object.keys(resp)[0]
-            clean_resp = resp[question].split(" ").join('');
-            resp_convert = clean_resp.toLowerCase();
-            corr_ans_lower = data.answer_correct.toLowerCase();
-            int_ans_lower = data.answer_intuitive.toLowerCase();
-            
-            var obj = {}
-            obj["question"] = question
-            obj["response"] = resp_convert
+            var resp = JSON.parse(data.responses)
+            var question = Object.keys(resp)[0]
+            var clean_resp = resp[question].split(" ").join('');
+            var resp_convert = clean_resp.toLowerCase();
+            data.response_text = resp_convert;
+            console.log('Response: ', data.response_text);
+
+            var corr_ans_lower = data.answer_correct.toLowerCase();
+            var int_ans_lower = data.answer_intuitive.toLowerCase();
             
             if (resp_convert == corr_ans_lower) {
-                obj["acc"] = acc_vals[2]
+                data.acc = acc_vals[2]
             }
             else if (resp_convert == int_ans_lower) {
-                obj["acc"] = acc_vals[1]
+                data.acc = acc_vals[1]
             }
             else { 
-                obj["acc"] = acc_vals[0]
+                data.acc = acc_vals[0]
             }
-
-            data.resps = obj
-            console.log(data.resps)
-            data.resp_reverse = data.resp;
-            if (debug) {
-                console.log("q" + data.q + " (reverse: " + data.reverse + "): " + data.stimulus);
-                console.log("resp: " + data.resp + ", resp_reverse: " + data.resp_reverse);
-            }
+            console.log('Accuracy: ', data.acc);
         }
     }], 
     timeline_variables: items
@@ -88,10 +80,12 @@ var procedure = {
 
 
 // create timeline (order of events)
-var timeline = [instructions, procedure];
+var timeline = []
 const html_path = "../../surveys/crt/consent.html";
 timeline = create_consent(timeline, html_path);
 timeline = check_same_different_person(timeline);
+timeline.push(instructions);
+timeline.push(procedure);
 timeline = create_demographics(timeline);
 
 // run task
@@ -101,22 +95,19 @@ jsPsych.init({
         document.body.style.backgroundColor = 'white';
         var datasummary = summarize_data(); 
 
-        jsPsych.data.get().addToAll({ // add parameters to all trials
-            total_time: jsPsych.totalTime() / 60000,
-            auc: datasummary.auc,
-        });
         jsPsych.data.get().first(1).addToAll({ 
             info_: info_,
             datasummary: datasummary,
         });
-        if (debug) {
-            jsPsych.data.displayData();
-        }
         
         info_.tasks_completed.push(taskinfo.uniquestudyid);
         info_.current_task_completed = 1;
         localStorage.setObj('info_', info_); 
+
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url); 
+        if (debug) {
+            jsPsych.data.displayData();
+        }
     }
 });
 

@@ -7,7 +7,7 @@ const taskinfo = {
     redirect_url: "/tasks/updatemath/viz" // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-const debug = true;
+const debug = false;
 var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
@@ -22,7 +22,7 @@ var duration_digit = 500; // how long to show each digit (ms)
 var duration_post_digit = 200;  // pause duration after each digit
 var feedback_duration = 1500;
 var rt_update_deadline = 3000;
-var options_deadline = 3000;
+var options_deadline = null;
 
 if (debug) {
     rt_update_deadline = 60000;
