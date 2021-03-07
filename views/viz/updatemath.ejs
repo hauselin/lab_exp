@@ -349,6 +349,23 @@
             }
             all_array = all_array.flat(1);
             subject_all_array = subject_all_array.flat(1);
+
+            choice_array = [];
+            subject_choice_array = [];
+            for (i = 0; i < data_array.length; i++) {
+                if (data_array[i].param == 'choice') {
+                    data_array[i].value.map(function (v) {
+                        v.subject = data_array[i].subject;
+                        v.time = data_array[i].time;
+                    })
+                    choice_array.push(data_array[i].value);
+                    if (data_array[i].match || data_array[i].subject == subject_id) {
+                        subject_choice_array.push(data_array[i].value);
+                    }
+                }
+            }
+            choice_array = choice_array.flat(1);
+            subject_choice_array = subject_choice_array.flat(1);
         </script>
 
 
