@@ -2418,21 +2418,21 @@ function create_demographics(timeline, section = null) {
         }
     }
 
-    var cog_reflection = {
-        type: 'survey-text',
-        questions: [
-            { prompt: 'A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How many cents does the ball cost?', placeholder: 'Please type your answer as number of cents', columns: 50 }
-        ],
-        required: true,
-        on_finish: function (data) {
-            info_.demographics.cog_reflection_ans = data.responses;
-            if (JSON.parse(data.responses)['Q0'] == '5') {
-                info_.demographics.cog_reflection_acc = 1;
-            } else {
-                info_.demographics.cog_reflection_acc = 0;
-            }
-        }
-    };
+    // var cog_reflection = {
+    //     type: 'survey-text',
+    //     questions: [
+    //         { prompt: 'A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How many cents does the ball cost?', placeholder: 'Please type your answer as number of cents', columns: 50 }
+    //     ],
+    //     required: true,
+    //     on_finish: function (data) {
+    //         info_.demographics.cog_reflection_ans = data.responses;
+    //         if (JSON.parse(data.responses)['Q0'] == '5') {
+    //             info_.demographics.cog_reflection_acc = 1;
+    //         } else {
+    //             info_.demographics.cog_reflection_acc = 0;
+    //         }
+    //     }
+    // };
 
     if (!localStorage.getObj("info_").demographics.country) {
         demographics_timeline = [select_age, select_country, select_country_associated, select_language, select_religion, select_ethnicity, life_satisfaction, select_gender, select_handedness, cog_reflection]
