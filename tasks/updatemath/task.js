@@ -295,6 +295,7 @@ if (n_practice_trial > 0) {
     timeline.push(practice_sequence, instructions2);
 }
 timeline.push(trial_sequence);
+timeline = create_demographics(timeline);
 
 jsPsych.init({
     timeline: timeline,
