@@ -177,6 +177,7 @@ var options = {
             num_to_update = null;
         };
         data.choice = num_to_update;
+        data.hard_choice = option2;
     }
 };
 
@@ -342,7 +343,7 @@ function create_datasummary() {
     // console.log(d_all);
 
     var d_choice = JSON.parse(d.filter({ event: 'choice_options' }).json());
-    d_choice = d_choice.map(obj => ['choice', 'key_press'].reduce((newObj, key) => {
+    d_choice = d_choice.map(obj => ['choice', 'hard_choice'].reduce((newObj, key) => {
         newObj[key] = obj[key]
         return newObj
     }, {}))
