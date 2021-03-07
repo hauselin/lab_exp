@@ -369,10 +369,6 @@
 
         <!-- Reaction time density -->
         <script type="text/javascript">
-            // var temp_data = data_array.filter(i =>
-            //     i.type == "congruent" ||
-            //     i.type == "incongruent" ||
-            //     i.type == "neutral").filter(i => i.param == "rt");
             var temp_data = data_array.filter(i => i.param == "rt");
             var rt_density = {
                 config: { axis: { labelFontSize: 18, titleFontSize: 21, labelFont: "Inter-UI-upright", titleFont: "Inter-UI-upright" }, title: { fontSize: 28 }, legend: { title: null, labelFontSize: 15, labelFont: "Inter-UI-upright", orient: "bottom" } },
@@ -441,8 +437,11 @@
                     x: {
                         field: "num_to_update",
                         type: "quantitative",  // or nominal?
-                        axis: { "title": "Number to update", tickMinStep: 20 },
-                        scale: { domain: [-10, 10] }
+                        axis: { 
+                            title: "Number to update", 
+                            values: Array.from(Array(10).keys())
+                        },
+                        scale: { domain: [0, 9] }
                     },
                 },
                 layer: [
@@ -497,8 +496,11 @@
                     x: {
                         field: "num_to_update",
                         type: "quantitative",  // or nominal?
-                        axis: { "title": "Number to update", tickMinStep: 20 },
-                        scale: { domain: [-10, 10] }
+                        axis: { 
+                            title: "Number to update", 
+                            values: Array.from(Array(10).keys())
+                        },
+                        scale: { domain: [0, 9] }
                     },
                 },
                 layer: [
