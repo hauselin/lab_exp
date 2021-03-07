@@ -320,7 +320,11 @@ jsPsych.init({
 
 // remove trials with too fast/slow RT
 function preprocess_updatemath() {
-    var data_sub = jsPsych.data.get().filter({ "event": "response" });  // select stroop trials
+    var data_sub = jsPsych.data.get().filterCustom(
+        function (trial) {
+            return trial.event == 'response' || trial.event == 'choice_options'
+        }
+    );  // select trials
     var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 100 });
     var cutoffs = mad_cutoffs(data_sub.select('rt').values);
     data_sub = data_sub.filterCustom(function (trial) { return trial.rt > cutoffs[0] }).filterCustom(function (trial) { return trial.rt < cutoffs[1] });
@@ -330,16 +334,22 @@ function preprocess_updatemath() {
 function create_datasummary() {
     var d = preprocess_updatemath(); // preprocess/clean data
 
-    var d_all = JSON.parse(jsPsych.data.get().filter({ event: 'response' }).json());
+    var d_all = JSON.parse(d.filter({ event: 'response' }).json());
     d_all = d_all.map(obj => ['num_to_update', 'rt', 'acc'].reduce((newObj, key) => {
         newObj[key] = obj[key]
         return newObj
     }, {}))
     // console.log(d_all);
 
+    var d_choice = JSON.parse(d.filter({ event: 'choice_options' }).json());
+    d_choice = d_choice.map(obj => ['choice', 'key_press'].reduce((newObj, key) => {
+        newObj[key] = obj[key]
+        return newObj
+    }, {}))
+
     // median rt and mean acc
-    var median_rt = d.select('rt').median();
-    var mean_acc = d.select('acc').mean();
+    var median_rt = d.filter({ event: 'response' }).select('rt').median();
+    var mean_acc = d.filter({ event: 'response' }).select('acc').mean();
     if (d === undefined) {
         rt = null;
         acc = null;
@@ -347,9 +357,10 @@ function create_datasummary() {
 
     // store above info in array
     var datasummary = [
-        { param: "rt", value: median_rt },
+        { param: "rt", value: median_rt  },
         { param: "acc", value: mean_acc },
         { param: "all", value: d_all },
+        { param: "choice", value: d_choice }
     ];
 
     // add id/country information
