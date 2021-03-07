@@ -104,7 +104,7 @@ function getParentPath(req) {
 }
 
 function matchData(req, array) {
-    if (req.query.subject && req.query.time) {
+    if (req.query.id && req.query.time) {
         for (i = 0; i < array.length; i++) {
             if (array[i].subject == req.query.id && array[i].time == req.query.time) {
                 array[i].match = true
