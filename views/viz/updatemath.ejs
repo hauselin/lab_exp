@@ -342,7 +342,7 @@
                         v.time = data_array[i].time;
                     })
                     all_array.push(data_array[i].value);
-                    if (data_array[i].match) {
+                    if (data_array[i].match || data_array[i].subject == subject_id) {
                         subject_all_array.push(data_array[i].value);
                     }
                 }
