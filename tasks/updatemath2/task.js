@@ -1,5 +1,5 @@
 // DEFINE TASK (required)
-const taskinfo = {
+var taskinfo = {
     type: 'task', // 'task', 'survey', or 'study'
     uniquestudyid: 'updatemath2', // unique task id: must be IDENTICAL to directory name
     desc: 'mental math', // brief description of task
@@ -7,6 +7,9 @@ const taskinfo = {
     redirect_url: "/tasks/updatemath2/viz" // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
+if (info_.subject && info_.time) {
+    taskinfo.redirect_url = taskinfo.redirect_url + '?id=' + info_.subject + '&time=' + info_.time;
+}
 const debug = false;
 var font_colour = "black";
 var background_colour = "white";
