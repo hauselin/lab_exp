@@ -2416,8 +2416,11 @@ function create_demographics(timeline, section = null) {
         }
     }
 
+    // !!! remember change demo questions order and items below!!
+    var demo_timeline = [select_age, select_country, select_country_associated, select_language, select_religion, select_ethnicity, life_satisfaction, select_gender, select_handedness];
+
     if (!localStorage.getObj("info_").demographics.country) {
-        demographics_timeline = [select_age, select_country, select_country_associated, select_language, select_religion, select_ethnicity, life_satisfaction, select_gender, select_handedness]
+        demographics_timeline = demo_timeline;
         if (!section) {
             timeline = timeline.concat(demographics_timeline);
         } else {
