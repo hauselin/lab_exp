@@ -179,9 +179,9 @@ var options = {
         data.choice = num_to_update;
         data.hard_choice = option2;
         if (data.choice == data.hard_choice) {
-            data.choose_hard = 1;
+            data.percent_hard = 1;
         } else {
-            data.choose_hard = 0;
+            data.percent_hard = 0;
         }
     }
 };
@@ -351,7 +351,7 @@ function create_datasummary() {
     // console.log(d_all);
 
     var d_choice = JSON.parse(d.filter({ event: 'choice_options' }).json());
-    d_choice = d_choice.map(obj => ['hard_choice', 'choose_hard'].reduce((newObj, key) => {
+    d_choice = d_choice.map(obj => ['hard_choice', 'percent_hard'].reduce((newObj, key) => {
         newObj[key] = obj[key]
         return newObj
     }, {}))
@@ -359,12 +359,12 @@ function create_datasummary() {
     choice_array = d3.rollups(d_choice,
         function (v) {
             return {
-                choose_hard: d3.mean(v, d => d.choose_hard),
+                percent_hard: d3.mean(v, d => d.percent_hard),
             }
         },
         d => d.hard_choice);
     choice_array = Array.from(choice_array, function (i) {  // unnest data
-        return { hard_choice: i[0], choose_hard: i[1].choose_hard, subject: info_.subject, time: info_.time }
+        return { hard_choice: i[0], percent_hard: i[1].percent_hard, subject: info_.subject, time: info_.time }
     })
 
     // median rt and mean acc
