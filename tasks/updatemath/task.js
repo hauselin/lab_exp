@@ -236,7 +236,9 @@ var response = {
         if (n_distract_response == 3) {
             prompt_html = prompt_html.concat(generate_html(choices_shuffle[2].prompt, font_colour, 30, [0, -100]) + generate_html(choices_shuffle[3].prompt, font_colour, 30, [0, -35]));
         }
-        console.log(choices_shuffle);
+        if (debug) {
+            console.log(choices_shuffle);
+        }
         return prompt_html;
     },
     choices: choices.map(x => x.keycode),
@@ -349,7 +351,7 @@ function create_datasummary() {
     // console.log(d_all);
 
     var d_choice = JSON.parse(d.filter({ event: 'choice_options' }).json());
-    d_choice = d_choice.map(obj => ['choice', 'hard_choice'].reduce((newObj, key) => {
+    d_choice = d_choice.map(obj => ['choice', 'hard_choice', 'choose_hard'].reduce((newObj, key) => {
         newObj[key] = obj[key]
         return newObj
     }, {}))
