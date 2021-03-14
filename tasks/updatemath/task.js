@@ -351,10 +351,21 @@ function create_datasummary() {
     // console.log(d_all);
 
     var d_choice = JSON.parse(d.filter({ event: 'choice_options' }).json());
-    d_choice = d_choice.map(obj => ['choice', 'hard_choice', 'choose_hard'].reduce((newObj, key) => {
+    d_choice = d_choice.map(obj => ['hard_choice', 'choose_hard'].reduce((newObj, key) => {
         newObj[key] = obj[key]
         return newObj
     }, {}))
+
+    choice_array = d3.rollups(d_choice,
+        function (v) {
+            return {
+                choose_hard: d3.mean(v, d => d.choose_hard),
+            }
+        },
+        d => d.hard_choice);
+    choice_array = Array.from(choice_array, function (i) {  // unnest data
+        return { hard_choice: i[0], choose_hard: i[1].choose_hard, subject: info_.subject, time: info_.time }
+    })
 
     // median rt and mean acc
     var median_rt = d.filter({ event: 'response' }).select('rt').median();
@@ -366,10 +377,10 @@ function create_datasummary() {
 
     // store above info in array
     var datasummary = [
-        { param: "rt", value: median_rt  },
+        { param: "rt", value: median_rt },
         { param: "acc", value: mean_acc },
         { param: "all", value: d_all },
-        { param: "choice", value: d_choice }
+        { param: "choice", value: choice_array }
     ];
 
     // add id/country information
