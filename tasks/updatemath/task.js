@@ -178,6 +178,11 @@ var options = {
         };
         data.choice = num_to_update;
         data.hard_choice = option2;
+        if (data.choice == data.hard_choice) {
+            data.choose_hard = 1;
+        } else {
+            data.choose_hard = 0;
+        }
     }
 };
 
