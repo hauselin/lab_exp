@@ -2,7 +2,7 @@
 var taskinfo = {
     type: 'task', // 'task', 'survey', or 'study'
     uniquestudyid: 'delaydiscount', // unique task id: must be IDENTICAL to directory name
-    desc: 'delay discounting task staircase with 5 delays', // brief description of task
+    description: 'delay discounting task staircase with 5 delays', // brief description of task
     condition: null, // experiment/task condition
     redirect_url: "/tasks/delaydiscount/viz" // set to false if no redirection required
 };
@@ -42,7 +42,7 @@ jsPsych.data.addProperties({  // do not edit this section unnecessarily!
     subject: info_.subject,
     type: taskinfo.type,
     uniquestudyid: taskinfo.uniquestudyid,
-    desc: taskinfo.desc,
+    description: taskinfo.description,
     condition: taskinfo.condition,    
 });
 

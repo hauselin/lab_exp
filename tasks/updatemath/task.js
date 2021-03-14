@@ -33,7 +33,7 @@ jsPsych.data.addProperties({  // do not edit this section unnecessarily!
     subject: info_.subject,
     type: taskinfo.type,
     uniquestudyid: taskinfo.uniquestudyid,
-    desc: taskinfo.desc,
+    description: taskinfo.description,
     condition: taskinfo.condition,
 });
 
