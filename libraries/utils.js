@@ -367,7 +367,17 @@ function white_on_black() {
 
 
 // add consent to timeline
-function create_consent(timeline, html_path) {
+function create_consent(timeline, uniquestudyid) {
+    if (uniquestudyid.includes("consent.html")) {
+        // for backwards compatibility: we use to accept only the html path
+        var html_path = uniquestudyid;
+    } else { 
+        var html_path = "../../tasks/" + uniquestudyid + "/consent.html";
+        console.log("Consent form path generated from uniquestudyid")
+    }
+    console.log("Consent form path: " + html_path);
+    globalThis.html_path = html_path; // global variable required by all consent.html
+
     var consent = {
         on_start: function () {
             document.body.style.backgroundColor = "white";
