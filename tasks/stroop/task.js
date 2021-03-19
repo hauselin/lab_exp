@@ -143,11 +143,31 @@ var n_trial = 0; // stroop trial number counter
 var instructions = {
     type: "instructions",
     pages: [
-        generate_html("Welcome!", font_colour) + generate_html("Click next or press the right arrow key to proceed.", font_colour),
-        generate_html("In this task, you'll have to select the correct font colour for each of the words shown.", font_colour) + generate_html("If you see red coloured text, press 'r'; if you see blue coloured text, press 'b'; if you see yellow coloured text, press 'y';", font_colour),
-        generate_html("For example, you'll see:", font_colour) + generate_html("red", "red") + generate_html("And the correct response would be pressing 'r'.", font_colour),
-        generate_html("You have a limited amount of time to respond to each prompted word, so react quickly!", font_colour),
-        generate_html("Next up is a practice trial.", font_colour) + generate_html("Your data will NOT be recorded.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour)
+        // new page
+        generate_html("Welcome!", font_colour) +
+        generate_html("Click next or press the right arrow key to proceed.", font_colour),
+        generate_html("In this task, you'll have to indicate the <u>font color</u> of different words.", font_colour) +
+        generate_html("You should ignore the word itself and focus on only the <u>font color</u>.", font_colour),
+
+        // new page
+        generate_html("If you see red text, press R (red).", 'red') +
+        generate_html("If you see blue text, press B (blue).", 'blue') +
+        generate_html("If you see yellow text, press Y (yellow).", 'yellow'), 
+        
+        // new page
+        generate_html("For example, if you see the text below", font_colour) +
+        generate_html("blue", "red") +
+        generate_html("You should press the R (red) key.", font_colour),
+
+        // new page
+        generate_html("If you see the text below", font_colour) +
+        generate_html("yellow", "blue") +
+        generate_html("You should press the B (blue) key.", font_colour),
+        
+        // new page
+        generate_html("You have a limited amount of time to respond to each word, so respond as quickly as possible!", font_colour),
+        generate_html("Let's practice.", font_colour) +
+        generate_html("Click next or press the right arrow key to begin.", font_colour)
     ],
     show_clickable_nav: true,
     show_page_number: true,
@@ -156,7 +176,8 @@ var instructions = {
 var instructions2 = {
     type: "instructions",
     pages: [
-        generate_html("That was the practice trial.", font_colour) + generate_html("Click next or press the right arrow key to begin the experiment.", font_colour) + generate_html("Your data WILL be recorded this time.", font_colour)
+        generate_html("You've finished practicing.", font_colour) +
+        generate_html("Click next or press the right arrow key to begin the actual task.", font_colour)
     ],
     show_clickable_nav: true,
     show_page_number: false,
