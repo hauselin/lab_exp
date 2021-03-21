@@ -98,11 +98,11 @@ var procedure = {
 
 
 
-// create timeline (order of events)
+// create timeline and events/objects for study (the first next lines are always the same! consent then check whether it's same person)
 var timeline = [];
-var html_path = "../../surveys/gritshort/consent.html";  // make it a global variable
-timeline = create_consent(timeline, html_path);
+timeline = create_consent(timeline, taskinfo);
 timeline = check_same_different_person(timeline);
+
 timeline.push(instructions);
 timeline.push(procedure);
 timeline = create_demographics(timeline);

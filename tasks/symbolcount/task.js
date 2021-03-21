@@ -324,10 +324,9 @@ practice_trial.repetitions = practice_trials
 
 
 
-// create timeline (order of events)
+// create timeline and events/objects for study (the first next lines are always the same! consent then check whether it's same person)
 var timeline = [];
-const html_path = "../../tasks/delaydiscount/consent.html";
-timeline = create_consent(timeline, html_path);
+timeline = create_consent(timeline, taskinfo);
 timeline = check_same_different_person(timeline);
 
 timeline.push(instructions);

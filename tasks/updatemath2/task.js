@@ -310,10 +310,19 @@ for (i=0; i<practice_sequence.timeline.length; i++) {
     practice_sequence.timeline[i].data = { event: "practice" }
 }
 
-var timeline = [instructions];
-const html_path = "../../tasks/updatemath2/consent.html";
-timeline = create_consent(timeline, html_path);
+
+
+
+
+
+
+
+// create timeline and events/objects for study (the first next lines are always the same! consent then check whether it's same person)
+var timeline = [];
+timeline = create_consent(timeline, taskinfo);
 timeline = check_same_different_person(timeline);
+
+
 if (n_practice_trial > 0) {
     timeline.push(practice_sequence, instructions2);
 }

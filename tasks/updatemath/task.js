@@ -294,9 +294,12 @@ for (i = 0; i < practice_sequence.timeline.length; i++) {
     practice_sequence.timeline[i].data = { event: "practice" }
 }
 
+
+// create timeline and events/objects for study (the first next lines are always the same!)
 var timeline = [];
-timeline = create_consent(timeline, taskinfo.uniquestudyid);
-timeline = check_same_different_person(timeline);  // check AFTER consent!!!
+timeline = create_consent(timeline, taskinfo);
+timeline = check_same_different_person(timeline);
+
 timeline.push(instructions);
 if (n_practice_trial > 0) {
     timeline.push(practice_sequence, instructions2);
