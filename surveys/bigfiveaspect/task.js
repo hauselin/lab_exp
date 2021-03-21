@@ -106,10 +106,10 @@ var procedure = {
 
 
 // create timeline (order of events)
+
 var timeline = [];
-var html_path = "../../surveys/bigfiveaspect/consent.html";  // make it a global variable
-timeline = create_consent(timeline, html_path);
-timeline = check_same_different_person(timeline);
+timeline = create_consent(timeline, taskinfo);  // always add consent first
+timeline = check_same_different_person(timeline); // check AFTER consent!!!
 timeline.push(instructions);
 timeline.push(procedure);
 timeline = create_demographics(timeline);
@@ -128,14 +128,14 @@ jsPsych.init({
             info_: info_,
             datasummary: datasummary,
         });
-        if (debug) {
-            jsPsych.data.displayData();
-        }
-
         info_.tasks_completed.push(taskinfo.uniquestudyid); // add uniquestudyid to info_
         info_.current_task_completed = 1;
         localStorage.setObj('info_', info_);
         submit_data(jsPsych.data.get().json(), taskinfo.redirect_url);
+
+        if (debug) {
+            jsPsych.data.displayData();
+        }
     }
 });
 

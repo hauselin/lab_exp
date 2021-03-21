@@ -367,12 +367,21 @@ function white_on_black() {
 
 
 // add consent to timeline
-function create_consent(timeline, uniquestudyid) {
-    if (uniquestudyid.includes("consent.html")) {
+function create_consent(timeline, taskinfo) {
+    if (taskinfo.uniquestudyid.includes("consent.html")) {
         // for backwards compatibility: we use to accept only the html path
-        var html_path = uniquestudyid;
-    } else { 
-        var html_path = "../../tasks/" + uniquestudyid + "/consent.html";
+        var html_path = taskinfo;
+    } else {
+        // construct path to consent.html
+        var directory = '';
+        if (taskinfo.type == "task") {
+            directory = 'tasks';
+        } else if (taskinfo.type == 'survey') {
+            directory = 'surveys';
+        } else if (taskinfo.type == "study") {
+            directory = "studies";
+        }
+        var html_path = "../../" + directory + "/" + taskinfo.uniquestudyid + "/consent.html";
         console.log("Consent form path generated from uniquestudyid")
     }
     console.log("Consent form path: " + html_path);
