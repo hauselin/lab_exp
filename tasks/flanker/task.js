@@ -2,7 +2,7 @@
 var taskinfo = {
     type: 'task', // 'task', 'survey', or 'study'
     uniquestudyid: 'flanker', // unique task id: must be IDENTICAL to directory name
-    desc: 'flanker task', // brief description of task
+    description: 'flanker task', // brief description of task
     condition: null, // experiment/task condition
     redirect_url: "/tasks/flanker/viz" // set to false if no redirection required
 };
@@ -33,7 +33,7 @@ jsPsych.data.addProperties({
     subject: info_.subject,
     type: taskinfo.type,
     uniquestudyid: taskinfo.uniquestudyid,
-    desc: taskinfo.desc,
+    description: taskinfo.description,
     condition: taskinfo.condition,
 });
 

@@ -33,7 +33,7 @@ jsPsych.data.addProperties({  // do not edit this section unnecessarily!
     subject: info_.subject,
     type: taskinfo.type,
     uniquestudyid: taskinfo.uniquestudyid,
-    desc: taskinfo.desc,
+    description: taskinfo.description,
     condition: taskinfo.condition,
 });
 
@@ -178,6 +178,11 @@ var options = {
         };
         data.choice = num_to_update;
         data.hard_choice = option2;
+        if (data.choice == data.hard_choice) {
+            data.percent_hard = 1;
+        } else {
+            data.percent_hard = 0;
+        }
     }
 };
 
@@ -231,7 +236,9 @@ var response = {
         if (n_distract_response == 3) {
             prompt_html = prompt_html.concat(generate_html(choices_shuffle[2].prompt, font_colour, 30, [0, -100]) + generate_html(choices_shuffle[3].prompt, font_colour, 30, [0, -35]));
         }
-        console.log(choices_shuffle);
+        if (debug) {
+            console.log(choices_shuffle);
+        }
         return prompt_html;
     },
     choices: choices.map(x => x.keycode),
@@ -344,10 +351,21 @@ function create_datasummary() {
     // console.log(d_all);
 
     var d_choice = JSON.parse(d.filter({ event: 'choice_options' }).json());
-    d_choice = d_choice.map(obj => ['choice', 'hard_choice'].reduce((newObj, key) => {
+    d_choice = d_choice.map(obj => ['hard_choice', 'percent_hard'].reduce((newObj, key) => {
         newObj[key] = obj[key]
         return newObj
     }, {}))
+
+    choice_array = d3.rollups(d_choice,
+        function (v) {
+            return {
+                percent_hard: d3.mean(v, d => d.percent_hard),
+            }
+        },
+        d => d.hard_choice);
+    choice_array = Array.from(choice_array, function (i) {  // unnest data
+        return { hard_choice: i[0], percent_hard: i[1].percent_hard, subject: info_.subject, time: info_.time }
+    })
 
     // median rt and mean acc
     var median_rt = d.filter({ event: 'response' }).select('rt').median();
@@ -359,10 +377,10 @@ function create_datasummary() {
 
     // store above info in array
     var datasummary = [
-        { param: "rt", value: median_rt  },
+        { param: "rt", value: median_rt },
         { param: "acc", value: mean_acc },
         { param: "all", value: d_all },
-        { param: "choice", value: d_choice }
+        { param: "choice", value: choice_array }
     ];
 
     // add id/country information

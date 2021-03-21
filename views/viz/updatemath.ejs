@@ -361,6 +361,10 @@
 
             all_array = [];
             subject_all_array = [];
+
+            choice_array = [];
+            subject_choice_array = [];
+
             for (i = 0; i < data_array.length; i++) {
                 if (data_array[i].param == 'all') {
                     data_array[i].value.map(function (v) {
@@ -372,42 +376,15 @@
                         subject_all_array.push(data_array[i].value);
                     }
                 }
-            }
-            all_array = all_array.flat(1);
-            subject_all_array = subject_all_array.flat(1);
-
-            choice_array = [];
-            subject_choice_array = [];
-            for (i = 0; i < data_array.length; i++) {
                 if (data_array[i].param == 'choice') {
-                    for (j = -9; j <= 9; j++) {
-                        for (k = 0; k < data_array[i].value.length; k++) {
-                            num_hard = 0;
-                            num_easy = 0;
-                            if (data_array[i].value[k].hard_choice == j) {
-                                if (data_array[i].value[k].choice == j) {
-                                    num_hard++;
-                                } else {
-                                    num_easy++;
-                                }
-                            }
-                            if (num_easy || num_hard) {
-                                choice_data =
-                                {
-                                    hard_choice: j,
-                                    percent_hard: num_hard / (num_easy + num_hard),
-                                    subject: data_array[i].subject,
-                                    time: data_array[i].time
-                                };
-                                choice_array.push(choice_data);
-                                if (data_array[i].match || data_array[i].subject == subject_id) {
-                                    subject_choice_array.push(choice_data);
-                                }
-                            }
-                        }
+                    choice_array.push(data_array[i].value);
+                    if (data_array[i].match || data_array[i].subject == subject_id) {
+                        subject_choice_array.push(data_array[i].value);
                     }
                 }
             }
+            all_array = all_array.flat(1);
+            subject_all_array = subject_all_array.flat(1);
             choice_array = choice_array.flat(1);
             subject_choice_array = subject_choice_array.flat(1);
         </script>
