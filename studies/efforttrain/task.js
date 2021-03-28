@@ -3,12 +3,12 @@ var background_colour = "black";
 set_colour(font_colour, background_colour);
 
 const rocket_files = [
-    'stimuli/rocket01.jpg',
-    'stimuli/rocket02.jpg',
-    'stimuli/rocket03.jpg',
-    'stimuli/rocket04.jpg',
-    'stimuli/rocket05.jpg',
-    'stimuli/rocket06.jpg'
+    'rocket01.jpg',
+    'rocket02.jpg',
+    'rocket03.jpg',
+    'rocket04.jpg',
+    'rocket05.jpg',
+    'rocket06.jpg'
 ]
 
 const rockets_shuffled = jsPsych.randomization.shuffle(rocket_files)
@@ -20,38 +20,45 @@ var rockets = {
     type: "html-keyboard-response",
     stimulus: `
       <div>
-      <div style='float: left; padding-right: 10px'><img src='${rocket1}' width='100'></img></div>
-      <div style='float: right; padding-left: 10px'><img src='${rocket2}' width='100'></img></div>
+      <div style='float: left; padding-right: 10px'><img src='stimuli/${rocket1}' width='100'></img></div>
+      <div style='float: right; padding-left: 10px'><img src='stimuli/${rocket2}' width='100'></img></div>
       </div>
     `,
     choices: [37, 39],
+    on_finish: function (data) {
+        if (data.key_press == 37) {
+            data.rocket = rocket1
+        } else {
+            data.rocket = rocket2
+        }
+    }
 };
 
 var left_rocket_remaining =
     `<div>
-    <div style='float: left; padding-right: 10px'><img src='${rocket1}' width='100'></img></div>
+    <div style='float: left; padding-right: 10px'><img src='stimuli/${rocket1}' width='100'></img></div>
     <div style='float: right; padding-left: 10px'><img width='100'></img></div>
     </div>`;
 
 var right_rocket_remaining =
     `<div>
     <div style='float: left; padding-right: 10px'><img width='100'></img></div>
-    <div style='float: right; padding-left: 10px'><img src='${rocket2}' width='100'></img></div>
+    <div style='float: right; padding-left: 10px'><img src='stimuli/${rocket2}' width='100'></img></div>
     </div>`;
 
 var rocket_chosen = {
     type: 'html-keyboard-response',
     stimulus: '',
     on_start: function (trial) {
-        var data = jsPsych.data.get().last(1).values()[0];
-        if (data.key_press == 37) {
+        var key_press = jsPsych.data.get().last(1).values()[0].key_press;
+        if (key_press == 37) {
             trial.stimulus = left_rocket_remaining;
         } else {
             trial.stimulus = right_rocket_remaining;
         }
     },
     choices: jsPsych.NO_KEYS,
-    trial_duration: 1000
+    trial_duration: 1000,
 }
 
 
