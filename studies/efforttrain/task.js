@@ -27,33 +27,36 @@ var rockets = {
     choices: [37, 39],
 };
 
-var left_rocket_remaining = {
-    type: "html-keyboard-response",
-    stimulus: `
-      <div>
-      <div style='float: left; padding-right: 10px'><img src='${rocket1}' width='100'></img></div>
-      <div style='float: right; padding-left: 10px'><img width='100'></img></div>
-      </div>
-    `,
-    choices: jsPsych.NO_KEYS,
-    trial_duration: 1000
-};
+var left_rocket_remaining =
+    `<div>
+    <div style='float: left; padding-right: 10px'><img src='${rocket1}' width='100'></img></div>
+    <div style='float: right; padding-left: 10px'><img width='100'></img></div>
+    </div>`;
 
-var right_rocket_remaining = {
-    type: "html-keyboard-response",
-    stimulus: `
-      <div>
-      <div style='float: left; padding-right: 10px'><img width='100'></img></div>
-      <div style='float: right; padding-left: 10px'><img src='${rocket2}' width='100'></img></div>
-      </div>
-    `,
+var right_rocket_remaining =
+    `<div>
+    <div style='float: left; padding-right: 10px'><img width='100'></img></div>
+    <div style='float: right; padding-left: 10px'><img src='${rocket2}' width='100'></img></div>
+    </div>`;
+
+var rocket_chosen = {
+    type: 'html-keyboard-response',
+    stimulus: '',
+    on_start: function (trial) {
+        var data = jsPsych.data.get().last(1).values()[0];
+        if (data.key_press == 37) {
+            trial.stimulus = left_rocket_remaining;
+        } else {
+            trial.stimulus = right_rocket_remaining;
+        }
+    },
     choices: jsPsych.NO_KEYS,
     trial_duration: 1000
-};
+}
 
 
 jsPsych.init({
-    timeline: [rockets],
+    timeline: [rockets, rocket_chosen],
     on_finish: function () {
         jsPsych.data.displayData();
     }
