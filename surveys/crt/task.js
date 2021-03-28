@@ -111,8 +111,26 @@ jsPsych.init({
 });
 
 // functions to summarize data below
+function preprocess_data() {  
+    var data_sub = jsPsych.data.get().filter({ "trial_type": "survey-text" }); 
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.trial_index > 0 });
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 200 });
+    return data_sub;
+}
+
 function summarize_data() {
+    var d = preprocess_data(); // get preprocess/clean data
+
+    var mean_acc = d.select('acc').mean();
+
+    var acc_array = d.select('acc').values;
+    acc_array = acc_array.map(function(a){if (a == -1) {a = 0}})
+    var mean_cor = acc_array.reduce((a, b) => a + b, 0) / acc_array.length || 0
+
+
     datasummary = {};
     datasummary.total_time = jsPsych.totalTime() / 60000;
+    datasummary.mean_acc = mean_acc;
+    datasummary.mean_cor = mean_cor;
     return datasummary;
 }
