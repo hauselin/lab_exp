@@ -20,13 +20,33 @@ var rockets = {
     type: "html-keyboard-response",
     stimulus: `
       <div>
-      <div style='float: left; padding-right: 10px'><img src='${rocket1}' width='100'></img>
-      <div style='float: right; padding-left: 10px'><img src='${rocket2}' width='100'></img>
+      <div style='float: left; padding-right: 10px'><img src='${rocket1}' width='100'></img></div>
+      <div style='float: right; padding-left: 10px'><img src='${rocket2}' width='100'></img></div>
+      </div>
+    `,
+    choices: [37, 39],
+};
+
+var left_rocket_remaining = {
+    type: "html-keyboard-response",
+    stimulus: `
+      <div>
+      <div style='float: left; padding-right: 10px'><img src='${rocket1}' width='100'></img></div>
+      <div style='float: right; padding-left: 10px'><img width='100'></img></div>
       </div>
     `,
 };
 
-var timeline = []
+var right_rocket_remaining = {
+    type: "html-keyboard-response",
+    stimulus: `
+      <div>
+      <div style='float: left; padding-right: 10px'><img width='100'></img></div>
+      <div style='float: right; padding-left: 10px'><img src='${rocket2}' width='100'></img></div>
+      </div>
+    `,
+};
+
 
 jsPsych.init({
     timeline: [rockets],
