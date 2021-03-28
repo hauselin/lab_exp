@@ -35,6 +35,8 @@ var left_rocket_remaining = {
       <div style='float: right; padding-left: 10px'><img width='100'></img></div>
       </div>
     `,
+    choices: jsPsych.NO_KEYS,
+    trial_duration: 1000
 };
 
 var right_rocket_remaining = {
@@ -45,6 +47,8 @@ var right_rocket_remaining = {
       <div style='float: right; padding-left: 10px'><img src='${rocket2}' width='100'></img></div>
       </div>
     `,
+    choices: jsPsych.NO_KEYS,
+    trial_duration: 1000
 };
 
 
