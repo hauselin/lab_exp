@@ -329,8 +329,8 @@
                         encoding: {
                             x: {
                                 type: "quantitative",
-                                field: "mean_cor",
-                                title: "Response",
+                                field: "value",
+                                title: "Correctness",
                             },
                             y: {
                                 type: "quantitative",
@@ -338,7 +338,7 @@
                                 title: "Frequency (density)",
                             },
                             color: { value: "#38405C", type: "nominal" },
-                            tooltip: [{ field: 'mean_cor', format: ".1f", title: 'Response', type: "quantitative" }, { field: 'density', format: ".1f", title: 'Density', type: "quantitative" }]
+                            tooltip: [{ field: 'value', format: ".1f", title: 'Response', type: "quantitative" }, { field: 'density', format: ".1f", title: 'Density', type: "quantitative" }]
                         }
                     },
                     {
@@ -387,8 +387,8 @@
                         encoding: {
                             x: {
                                 type: "quantitative",
-                                field: "mean_acc",
-                                title: "Response",
+                                field: "value",
+                                title: "Accuracy",
                             },
                             y: {
                                 type: "quantitative",
@@ -396,7 +396,7 @@
                                 title: "Frequency (density)",
                             },
                             color: { value: "#38405C", type: "nominal" },
-                            tooltip: [{ field: 'mean_acc', format: ".1f", title: 'Response', type: "quantitative" }, { field: 'density', format: ".1f", title: 'Density', type: "quantitative" }]
+                            tooltip: [{ field: 'value', format: ".1f", title: 'Response', type: "quantitative" }, { field: 'density', format: ".1f", title: 'Density', type: "quantitative" }]
                         }
                     },
                     {
