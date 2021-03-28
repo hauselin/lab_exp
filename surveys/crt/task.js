@@ -4,10 +4,10 @@ const taskinfo = {
     uniquestudyid: 'crt', // unique task id: must be IDENTICAL to directory name
     description: 'cognitive reflection', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: false // set to false if no redirection required
+    redirect_url: "/surveys/crt/viz" // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-const debug = true;  // true to print messages to console and display json results
+const debug = false;  // true to print messages to console and display json results
 var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
@@ -111,8 +111,36 @@ jsPsych.init({
 });
 
 // functions to summarize data below
+function preprocess_data() {  
+    var data_sub = jsPsych.data.get().filter({ "trial_type": "survey-text" }); 
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.trial_index > 0 });
+    var data_sub = data_sub.filterCustom(function (trial) { return trial.rt > 200 });
+    return data_sub;
+}
+
 function summarize_data() {
+    var d = preprocess_data(); // get preprocess/clean data
+
+    var mean_acc = d.select('acc').mean();
+
+    var acc_array = d.select('acc').values;
+    acc_array = acc_array.map(function(a) {
+        if (a == 1) {
+            return 1
+        } else {
+            return 0
+        }
+    })
+    var mean_cor = acc_array.reduce((a, b) => a + b, 0) / acc_array.length
+
+
     datasummary = {};
     datasummary.total_time = jsPsych.totalTime() / 60000;
+    datasummary.subject = info_.subject;
+    datasummary.country = info_.demographics.country;
+    datasummary.country_code = info_.demographics.country_code;
+    datasummary.time = info_.time;
+    datasummary.mean_acc = mean_acc;
+    datasummary.mean_cor = mean_cor;
     return datasummary;
 }
