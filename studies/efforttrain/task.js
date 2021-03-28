@@ -5,7 +5,6 @@ set_colour(font_colour, background_colour);
 var subject_id = 1;
 var assigned_info = assign.filter(i => i.subject == subject_id)[0];
 
-var rocket_choices = [];
 
 var images = {
     bg: 'instruct_background.png',
@@ -25,6 +24,7 @@ for (const [key, value] of Object.entries(images)) {
 
 
 
+var rocket_choices = [];
 var rockets = {
     type: "html-keyboard-response",
     stimulus: `
@@ -74,10 +74,17 @@ var rocket_chosen = {
     trial_duration: 500,
 }
 
+// TODO: put the above in a procedure to run multiple trials (timeline varaible)
+var rockets_procedure = {
+    timeline: [rockets, rocket_chosen]
+}
+
+
+
+
 
 jsPsych.init({
     timeline: [rockets, rocket_chosen],
-    // TODO: fix preloading images
     preload_images: Object.values(images),
     on_finish: function () {
         jsPsych.data.displayData();
