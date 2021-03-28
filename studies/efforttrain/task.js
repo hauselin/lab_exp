@@ -23,12 +23,13 @@ var rockets = {
         } else {
             data.rocket = assigned_info.rocket2
         }
+        rocket_choices.push(data.rocket);
     }
 };
 
 var left_rocket_remaining =
     `<div>
-    <div style='float: left; padding-right: 10px'><img src='stimuli/${rocket1}' width='100'></img></div>
+    <div style='float: left; padding-right: 10px'><img src='stimuli/${assigned_info.rocket1}' width='100'></img></div>
     <div style='float: right; padding-left: 10px'><img width='100'></img></div>
     </div>`;
 
