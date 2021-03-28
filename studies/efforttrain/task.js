@@ -11,12 +11,17 @@ const rocket_files = [
     'stimuli/rocket06.jpg'
 ]
 
+const rockets_shuffled = jsPsych.randomization.shuffle(rocket_files)
+const rocket1 = rockets_shuffled[0]
+const rocket2 = rockets_shuffled[1]
+
+
 var rockets = {
     type: "html-keyboard-response",
     stimulus: `
       <div>
-      <div style='float: left; padding-right: 10px'><img src='stimuli/rocket01.jpg' width='100'></img>
-      <div style='float: right; padding-left: 10px'><img src='stimuli/rocket02.jpg' width='100'></img>
+      <div style='float: left; padding-right: 10px'><img src='${rocket1}' width='100'></img>
+      <div style='float: right; padding-left: 10px'><img src='${rocket2}' width='100'></img>
       </div>
     `,
 };
