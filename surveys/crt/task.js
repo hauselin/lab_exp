@@ -4,10 +4,10 @@ const taskinfo = {
     uniquestudyid: 'crt', // unique task id: must be IDENTICAL to directory name
     description: 'cognitive reflection', // brief description of task
     condition: null, // experiment/task condition
-    redirect_url: false // set to false if no redirection required
+    redirect_url: "/surveys/crt/viz" // set to false if no redirection required
 };
 var info_ = create_info_(taskinfo);  // initialize subject id and task parameters
-const debug = true;  // true to print messages to console and display json results
+const debug = false;  // true to print messages to console and display json results
 var font_colour = "black";
 var background_colour = "white";
 set_colour(font_colour, background_colour);
@@ -130,6 +130,10 @@ function summarize_data() {
 
     datasummary = {};
     datasummary.total_time = jsPsych.totalTime() / 60000;
+    datasummary.subject = info_.subject;
+    datasummary.country = info_.demographics.country;
+    datasummary.country_code = info_.demographics.country_code;
+    datasummary.time = info_.time;
     datasummary.mean_acc = mean_acc;
     datasummary.mean_cor = mean_cor;
     return datasummary;
