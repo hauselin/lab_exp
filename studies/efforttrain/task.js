@@ -12,20 +12,25 @@ var images = {
     no_reward_feedback: 'alien_noreward_feedback.png',
     no_reward: 'alien_noreward.png',
     reward_feedback: 'alien_reward_feedback.png',
-    reward: 'alien_reward',
+    reward: 'alien_reward.png',
     rocket1: assigned_info.rocket1,
     rocket2: assigned_info.rocket2,
     pattern1: assigned_info.pattern1,
     pattern2: assigned_info.pattern2
 };
-images = images.entries().map(i => '/stimuli/' + i);
+
+for (const [key, value] of Object.entries(images)) {
+    images[key] = "stimuli/" + value;
+}
+
+
 
 var rockets = {
     type: "html-keyboard-response",
     stimulus: `
       <div>
-      <div style='float: left; padding-right: 10px'><img src='stimuli/${assigned_info.rocket1}' width='100'></img></div>
-      <div style='float: right; padding-left: 10px'><img src='stimuli/${assigned_info.rocket2}' width='100'></img></div>
+      <div style='float: left; padding-right: 10px'><img src='${images.rocket1}' width='100'></img></div>
+      <div style='float: right; padding-left: 10px'><img src='${images.rocket2}' width='100'></img></div>
       </div>
     `,
     choices: [37, 39],
@@ -42,14 +47,14 @@ var rockets = {
 
 var left_rocket_remaining =
     `<div>
-    <div style='float: left; padding-right: 10px'><img src='stimuli/${assigned_info.rocket1}' width='100'></img></div>
+    <div style='float: left; padding-right: 10px'><img src='${images.rocket1}' width='100'></img></div>
     <div style='float: right; padding-left: 10px'><img width='100'></img></div>
     </div>`;
 
 var right_rocket_remaining =
     `<div>
     <div style='float: left; padding-right: 10px'><img width='100'></img></div>
-    <div style='float: right; padding-left: 10px'><img src='stimuli/${assigned_info.rocket2}' width='100'></img></div>
+    <div style='float: right; padding-left: 10px'><img src='${images.rocket2}' width='100'></img></div>
     </div>`;
 
 var rocket_chosen = {
@@ -73,7 +78,7 @@ var rocket_chosen = {
 jsPsych.init({
     timeline: [rockets, rocket_chosen],
     // TODO: fix preloading images
-    // preload_images: images,
+    preload_images: Object.values(images),
     on_finish: function () {
         jsPsych.data.displayData();
     }
