@@ -24,6 +24,8 @@ for (const [key, value] of Object.entries(images)) {
 
 
 
+// TODO add instructions: welcome screen (background: is images.bg)
+
 var rocket_choices = [];
 var rockets = {
     type: "html-keyboard-response",
@@ -74,10 +76,16 @@ var rocket_chosen = {
     trial_duration: 500,
 }
 
+// TODO add dot motion task here
+
+
+
 // TODO: put the above in a procedure to run multiple trials (timeline varaible)
 var rockets_procedure = {
     timeline: [rockets, rocket_chosen]
 }
+
+
 
 
 
