@@ -124,8 +124,14 @@ function summarize_data() {
     var mean_acc = d.select('acc').mean();
 
     var acc_array = d.select('acc').values;
-    acc_array = acc_array.map(function(a){if (a == -1) {a = 0}})
-    var mean_cor = acc_array.reduce((a, b) => a + b, 0) / acc_array.length || 0
+    acc_array = acc_array.map(function(a) {
+        if (a == 1) {
+            return 1
+        } else {
+            return 0
+        }
+    })
+    var mean_cor = acc_array.reduce((a, b) => a + b, 0) / acc_array.length
 
 
     datasummary = {};
