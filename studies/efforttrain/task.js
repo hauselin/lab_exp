@@ -7,6 +7,19 @@ var assigned_info = assign.filter(i => i.subject == subject_id)[0];
 
 var rocket_choices = [];
 
+var images = {
+    bg: 'instruct_background.png',
+    no_reward_feedback: 'alien_noreward_feedback.png',
+    no_reward: 'alien_noreward.png',
+    reward_feedback: 'alien_reward_feedback.png',
+    reward: 'alien_reward',
+    rocket1: assigned_info.rocket1,
+    rocket2: assigned_info.rocket2,
+    pattern1: assigned_info.pattern1,
+    pattern2: assigned_info.pattern2
+};
+images = images.entries().map(i => '/stimuli/' + i);
+
 var rockets = {
     type: "html-keyboard-response",
     stimulus: `
@@ -59,6 +72,8 @@ var rocket_chosen = {
 
 jsPsych.init({
     timeline: [rockets, rocket_chosen],
+    // TODO: fix preloading images
+    // preload_images: images,
     on_finish: function () {
         jsPsych.data.displayData();
     }
