@@ -1,3 +1,7 @@
+var font_colour = "white";
+var background_colour = "black";
+set_colour(font_colour, background_colour);
+
 var instructions = {
     type: "html-keyboard-response",
     stimulus: `
