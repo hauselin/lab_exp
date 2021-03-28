@@ -2,34 +2,26 @@ var font_colour = "white";
 var background_colour = "black";
 set_colour(font_colour, background_colour);
 
-const rocket_files = [
-    'rocket01.jpg',
-    'rocket02.jpg',
-    'rocket03.jpg',
-    'rocket04.jpg',
-    'rocket05.jpg',
-    'rocket06.jpg'
-]
+var subject_id = 1;
+var assigned_info = assign.filter(i => i.subject == subject_id)[0];
 
-const rockets_shuffled = jsPsych.randomization.shuffle(rocket_files)
-const rocket1 = rockets_shuffled[0]
-const rocket2 = rockets_shuffled[1]
-
+var rocket_choices = [];
 
 var rockets = {
     type: "html-keyboard-response",
     stimulus: `
       <div>
-      <div style='float: left; padding-right: 10px'><img src='stimuli/${rocket1}' width='100'></img></div>
-      <div style='float: right; padding-left: 10px'><img src='stimuli/${rocket2}' width='100'></img></div>
+      <div style='float: left; padding-right: 10px'><img src='stimuli/${assigned_info.rocket1}' width='100'></img></div>
+      <div style='float: right; padding-left: 10px'><img src='stimuli/${assigned_info.rocket2}' width='100'></img></div>
       </div>
     `,
     choices: [37, 39],
+    trial_duration: 3000,
     on_finish: function (data) {
         if (data.key_press == 37) {
-            data.rocket = rocket1
+            data.rocket = assigned_info.rocket1
         } else {
-            data.rocket = rocket2
+            data.rocket = assigned_info.rocket2
         }
     }
 };
@@ -43,7 +35,7 @@ var left_rocket_remaining =
 var right_rocket_remaining =
     `<div>
     <div style='float: left; padding-right: 10px'><img width='100'></img></div>
-    <div style='float: right; padding-left: 10px'><img src='stimuli/${rocket2}' width='100'></img></div>
+    <div style='float: right; padding-left: 10px'><img src='stimuli/${assigned_info.rocket2}' width='100'></img></div>
     </div>`;
 
 var rocket_chosen = {
@@ -53,12 +45,14 @@ var rocket_chosen = {
         var key_press = jsPsych.data.get().last(1).values()[0].key_press;
         if (key_press == 37) {
             trial.stimulus = left_rocket_remaining;
-        } else {
+        } else if (key_press == 39) {
             trial.stimulus = right_rocket_remaining;
+        } else {
+            trial.stimulus = 'Too slow'
         }
     },
     choices: jsPsych.NO_KEYS,
-    trial_duration: 1000,
+    trial_duration: 500,
 }
 
 
