@@ -31,6 +31,9 @@ var instructions = {
         document.body.style.backgroundImage = "url('stimuli/instruct_background.png')";
         document.body.style.backgroundSize = "cover";
     },
+    on_finish: function () {
+        document.body.style.backgroundImage = '';
+    },
     show_clickable_nav: true,
     show_page_number: true,
 };
