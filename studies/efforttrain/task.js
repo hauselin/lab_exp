@@ -22,6 +22,14 @@ for (const [key, value] of Object.entries(images)) {
     images[key] = "stimuli/" + value;
 }
 
+var instructions = {
+    type: "instructions",
+    pages: [
+        generate_html("Welcome!", font_colour) + generate_html("Click next or press the right arrow key to proceed.", font_colour),
+    ],
+    show_clickable_nav: true,
+    show_page_number: true,
+}; 
 
 
 // TODO add instructions: welcome screen (background: is images.bg)
@@ -92,7 +100,7 @@ var rockets_procedure = {
 
 
 jsPsych.init({
-    timeline: [rockets, rocket_chosen],
+    timeline: [instructions, rockets, rocket_chosen],
     preload_images: Object.values(images),
     on_finish: function () {
         jsPsych.data.displayData();
