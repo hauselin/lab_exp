@@ -27,6 +27,10 @@ var instructions = {
     pages: [
         generate_html("Welcome!", font_colour) + generate_html("Click next or press the right arrow key to proceed.", font_colour),
     ],
+    on_start: function(){
+        document.body.style.backgroundImage = "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
     show_clickable_nav: true,
     show_page_number: true,
 }; 
