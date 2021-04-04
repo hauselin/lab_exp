@@ -27,16 +27,14 @@ var instructions = {
     pages: [
         generate_html("Welcome!", font_colour) + generate_html("Click next or press the right arrow key to proceed.", font_colour),
     ],
-    on_start: function(){
+    on_start: function () {
         document.body.style.backgroundImage = "url('stimuli/instruct_background.png')";
         document.body.style.backgroundSize = "cover";
     },
     show_clickable_nav: true,
     show_page_number: true,
-}; 
+};
 
-
-// TODO add instructions: welcome screen (background: is images.bg)
 
 var rocket_choices = [];
 var rockets = {
@@ -94,7 +92,7 @@ var rocket_chosen = {
 
 // TODO: put the above in a procedure to run multiple trials (timeline varaible)
 var rockets_procedure = {
-    timeline: [rockets, rocket_chosen]
+    timeline: [rockets, rocket_chosen],
 }
 
 
@@ -104,7 +102,7 @@ var rockets_procedure = {
 
 
 jsPsych.init({
-    timeline: [instructions, rockets, rocket_chosen],
+    timeline: [instructions, rockets_procedure],
     preload_images: Object.values(images),
     on_finish: function () {
         jsPsych.data.displayData();
