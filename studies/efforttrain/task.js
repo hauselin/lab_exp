@@ -2,6 +2,8 @@ var font_colour = "white";
 var background_colour = "black";
 set_colour(font_colour, background_colour);
 
+trial_repetitions = 5;
+
 var subject_id = 1;
 var assigned_info = assign.filter(i => i.subject == subject_id)[0];
 
@@ -96,6 +98,7 @@ var rocket_chosen = {
 // TODO: put the above in a procedure to run multiple trials (timeline varaible)
 var rockets_procedure = {
     timeline: [rockets, rocket_chosen],
+    repetitions: trial_repetitions,
 }
 
 
