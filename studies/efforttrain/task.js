@@ -91,7 +91,6 @@ var rocket_chosen = {
     trial_duration: 500,
 }
 
-// TODO add dot motion task here
 var dot_motion = {
     type: "rdk",
     background_color: background_colour,
@@ -110,7 +109,6 @@ var dot_motion = {
 
 
 
-// TODO: put the above in a procedure to run multiple trials (timeline varaible)
 var rockets_procedure = {
     timeline: [rockets, rocket_chosen, dot_motion],
     repetitions: trial_repetitions,
