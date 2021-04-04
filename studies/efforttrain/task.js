@@ -91,6 +91,7 @@ var rocket_chosen = {
     trial_duration: 500,
 }
 
+// TODO: keep array of reaction times of dot motion task.
 var dot_motion = {
     type: "rdk",
     background_color: background_colour,
@@ -102,13 +103,17 @@ var dot_motion = {
     number_of_apertures: 2,
     number_of_dots: [50, 200],
     RDK_type: 2,
-    aperture_width: 300,
+    aperture_width: 500,
     aperture_center_x: [(window.innerWidth / 2), (window.innerWidth / 2)],
     aperture_center_y: [(window.innerHeight / 2), (window.innerHeight / 2)],
 }
 
 
-
+// TODO: 3 blocks: pre-training, training, post-training
+// pre-training = post-training -> no feedback for correctness
+// no data for post-training
+// store dot motion acc, correct rt, num correct
+// training -> feedback with aliens
 var rockets_procedure = {
     timeline: [rockets, rocket_chosen, dot_motion],
     repetitions: trial_repetitions,
@@ -116,12 +121,15 @@ var rockets_procedure = {
 
 
 
-
+var timeline = []
+// timeline.push(instructions);
+timeline.push(rockets_procedure);
 
 
 
 jsPsych.init({
-    timeline: [instructions, rockets_procedure],
+    // timeline: [instructions, rockets_procedure],
+    timeline: timeline,
     preload_images: Object.values(images),
     on_finish: function () {
         jsPsych.data.displayData();
