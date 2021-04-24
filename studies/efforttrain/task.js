@@ -175,7 +175,7 @@ function hard_task_timeline_variables() {
                 var trial_variable = answer_moves_left;
             }
         } else {
-            if (0.5 < Math.random()) {
+            if (colours_left.includes(answer)) {
                 var trial_variable = answer_moves_left;
             } else {
                 var trial_variable = answer_moves_right;
