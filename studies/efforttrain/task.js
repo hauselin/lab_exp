@@ -7,9 +7,9 @@ rocket_selection_deadline = null; // ms
 
 // colours used for task, with left and right randomized for each experiment
 colours = ['red', 'blue', 'green', 'yellow'];
-var colours_shuffled = jsPsych.randomization.repeat(colours, 1);
-colours_left = colours_shuffled.slice(2, 4)
-colours_right = colours_shuffled.slice(0, 2)
+var colours = jsPsych.randomization.repeat(colours, 1);
+colours_left = colours.slice(2, 4)
+colours_right = colours.slice(0, 2)
 
 var subject_id = 1;
 var assigned_info = assign.filter(i => i.subject == subject_id)[0];
