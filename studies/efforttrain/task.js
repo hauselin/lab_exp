@@ -92,6 +92,7 @@ var rocket_chosen = {
 }
 
 // TODO: keep array of reaction times of dot motion task.
+var dot_motion_rt = [];
 var dot_motion = {
     type: "rdk",
     background_color: background_colour,
@@ -106,6 +107,9 @@ var dot_motion = {
     aperture_width: 500,
     aperture_center_x: [(window.innerWidth / 2), (window.innerWidth / 2)],
     aperture_center_y: [(window.innerHeight / 2), (window.innerHeight / 2)],
+    on_finish: function(data) {
+        dot_motion_rt.push(data.rt);
+    }
 }
 
 
