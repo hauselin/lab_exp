@@ -4,7 +4,7 @@ set_colour(font_colour, background_colour);
 
 var debug = true;
 
-trial_repetitions = 1;
+trial_repetitions = 5;
 rocket_selection_deadline = null; // ms
 
 // dot motion task parameters
@@ -121,89 +121,86 @@ var rocket_chosen = {
 }
 
 var dot_motion_rt = [];
+var dot_motion_parameters = hard_task_trial_variable();
 var dot_motion = {
+    on_start: function() {
+        dot_motion_parameters = hard_task_trial_variable();
+    },
     type: "rdk",
     RDK_type: 1,
     background_color: background_colour,
     choices: [37, 39],
     trial_duration: 10000,
-    coherence: [jsPsych.timelineVariable('answer_coherence'), jsPsych.timelineVariable('distractor_coherence')],
-    dot_color: [jsPsych.timelineVariable('answer'), jsPsych.timelineVariable('distractor')],
-    correct_choice: [jsPsych.timelineVariable('correct_choice')],
+    coherence: function () { return [dot_motion_parameters.answer_coherence, dot_motion_parameters.distractor_coherence] },
+    dot_color: function () { return [dot_motion_parameters.answer, dot_motion_parameters.distractor] },
+    correct_choice: function () { return [dot_motion_parameters.correct_choice] },
     move_distance: 6,
     number_of_apertures: 2,
-    number_of_dots: [jsPsych.timelineVariable('num_answers'), jsPsych.timelineVariable('num_distractors')],
+    number_of_dots: function () { return [dot_motion_parameters.num_answers, dot_motion_parameters.num_distractors] },
     RDK_type: 2,
     aperture_width: 500,
     aperture_center_x: [(window.innerWidth / 2), (window.innerWidth / 2)],
     aperture_center_y: [(window.innerHeight / 2), (window.innerHeight / 2)],
     on_finish: function (data) {
         dot_motion_rt.push(data.rt);
-        data.congruency = jsPsych.timelineVariable('congruency');
+        // data.congruency = jsPsych.timelineVariable('congruency');
     }
 }
 
-// 3 dot motion trials in a sequence
-function hard_task_timeline_variables() {
-    var timeline_variables = []
-    for (i = 0; i < dot_motion_repetitions; i++) {
-        // select two random colours and assign them to answer and distractor
-        var colour1 = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];  // choose random colour
-        if (colours_left.includes(colour1)) { // if random colour chosen is a left colour
-            var colour2 = jsPsych.randomization.sampleWithoutReplacement(colours_right, 1)[0];  // second colour is right colour
-        } else {
-            var colour2 = jsPsych.randomization.sampleWithoutReplacement(colours_left, 1)[0];
-        }
-        var selected_colours = jsPsych.randomization.shuffle([colour1, colour2])
-        var answer = selected_colours[0];
-        var distractor = selected_colours[1];
-
-        // store answers and their respective dot motion properties into object
-        var trial_variable = {
-            answer: answer,
-            distractor: distractor,
-            num_answers: num_answers,
-            num_distractors: Math.floor(Math.random() * (50 - 20 + 1)) + 20,
-            answer_coherence: Math.random() * (1 - 0.75) + 0.75,
-            distractor_coherence: Math.random() * (1 - 0.75) + 0.75,
-        };
-
-        // evaluate correct choice
-        if (colours_left.includes(answer)) {
-            trial_variable.correct_choice = 37;  // correct answer is left arrow
-        } else {
-            trial_variable.correct_choice = 39; // correct answer is right arrow
-        }
-
-        // evaluate motion direction
-        if (p_incongruent_dots < Math.random()) { // if incongruent
-            if (colours_left.includes(answer)) {  // if answer is a left colour
-                trial_variable.coherent_direction = 0;  // coherent dots move right
-            } else {  // if answer is a right colour
-                trial_variable.coherent_direction = 180;  // coherent dots move left
-            }
-            trial_variable.congruency = false;
-        } else {  // if congruent
-            if (colours_left.includes(answer)) {  // if answer is a left colour
-                trial_variable.coherent_direction = 180;  // coherent dots move left
-            } else {  // if answer is a right colour
-                trial_variable.coherent_direction = 0;  // coherent dots move right
-            }
-            trial_variable.congruency = true;
-        }
-        timeline_variables.push(trial_variable);
+// 1 dot motion trial
+function hard_task_trial_variable() {
+    // select two random colours and assign them to answer and distractor
+    var colour1 = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];  // choose random colour
+    if (colours_left.includes(colour1)) { // if random colour chosen is a left colour
+        var colour2 = jsPsych.randomization.sampleWithoutReplacement(colours_right, 1)[0];  // second colour is right colour
+    } else {
+        var colour2 = jsPsych.randomization.sampleWithoutReplacement(colours_left, 1)[0];
     }
-    if (debug) {
-        console.log(timeline_variables);
-    }
-    return timeline_variables;
-};
+    var selected_colours = jsPsych.randomization.shuffle([colour1, colour2])
+    var answer = selected_colours[0];
+    var distractor = selected_colours[1];
 
-console.log(hard_task_timeline_variables());
+    // store answers and their respective dot motion properties into object
+    var trial_variable = {
+        answer: answer,
+        distractor: distractor,
+        num_answers: num_answers,
+        num_distractors: Math.floor(Math.random() * (50 - 20 + 1)) + 20,
+        answer_coherence: Math.random() * (1 - 0.75) + 0.75,
+        distractor_coherence: Math.random() * (1 - 0.75) + 0.75,
+    };
+
+    // evaluate correct choice
+    if (colours_left.includes(answer)) {
+        trial_variable.correct_choice = 37;  // correct answer is left arrow
+    } else {
+        trial_variable.correct_choice = 39; // correct answer is right arrow
+    }
+
+    // evaluate motion direction
+    if (p_incongruent_dots < Math.random()) { // if incongruent
+        if (colours_left.includes(answer)) {  // if answer is a left colour
+            trial_variable.coherent_direction = 0;  // coherent dots move right
+        } else {  // if answer is a right colour
+            trial_variable.coherent_direction = 180;  // coherent dots move left
+        }
+        trial_variable.congruency = false;
+    } else {  // if congruent
+        if (colours_left.includes(answer)) {  // if answer is a left colour
+            trial_variable.coherent_direction = 180;  // coherent dots move left
+        } else {  // if answer is a right colour
+            trial_variable.coherent_direction = 0;  // coherent dots move right
+        }
+        trial_variable.congruency = true;
+    }
+
+    // if (debug) { console.log(trial_variable); }
+    return trial_variable;
+}
 
 var dot_motion_trials = {
     timeline: [dot_motion],
-    timeline_variables: hard_task_timeline_variables()
+    repetitions: 3,
 }
 
 // TODO: 3 blocks: pre-training, training, post-training
