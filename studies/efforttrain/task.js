@@ -4,6 +4,12 @@ set_colour(font_colour, background_colour);
 
 trial_repetitions = 5;
 
+// colours used for task, with left and right randomized for each experiment
+colours = ['red', 'blue', 'green', 'yellow'];
+var colours_shuffled = jsPsych.randomization.repeat(colours, 1);
+colours_left = colours_shuffled.slice(2,4)
+colours_right = colours_shuffled.slice(0,2)
+
 var subject_id = 1;
 var assigned_info = assign.filter(i => i.subject == subject_id)[0];
 
@@ -91,7 +97,6 @@ var rocket_chosen = {
     trial_duration: 500,
 }
 
-// TODO: keep array of reaction times of dot motion task.
 var dot_motion_rt = [];
 var dot_motion = {
     type: "rdk",
