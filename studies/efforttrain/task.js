@@ -10,10 +10,8 @@ rocket_selection_deadline = null; // ms
 // dot motion task parameters
 dot_motion_repetitions = 3;
 p_incongruent_dots = 0.65;
-num_distractors = 30;
 num_answers = 300;
 distractor_coherence = 0.75;
-answer_coherence = 0.75;
 
 // colours used for task, with left and right randomized for each experiment
 colours = ['red', 'blue', 'green', 'yellow'];
@@ -165,9 +163,9 @@ function hard_task_timeline_variables() {
             answer: answer,
             distractor: distractor,
             num_answers: num_answers,
-            num_distractors: num_distractors,
-            answer_coherence: answer_coherence,
-            distractor_coherence: distractor_coherence,
+            num_distractors: Math.floor(Math.random() * (50 - 20 + 1)) + 20,
+            answer_coherence: Math.random() * (1 - 0.75) + 0.75,
+            distractor_coherence: Math.random() * (1 - 0.75) + 0.75,
         };
 
         // evaluate correct choice
