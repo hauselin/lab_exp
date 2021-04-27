@@ -10,7 +10,7 @@ rocket_selection_deadline = null; // ms
 // dot motion task parameters
 dot_motion_repetitions = 3;
 p_incongruent_dots = 0.65;
-num_answers = 300;
+num_majority = 300;
 distractor_coherence = 0.75;
 
 // colours used for task, with left and right randomized for each experiment
@@ -137,7 +137,7 @@ var dot_motion = {
     correct_choice: function () { return [dot_motion_parameters.correct_choice] },
     move_distance: 6,
     number_of_apertures: 2,
-    number_of_dots: function () { return [dot_motion_parameters.num_answers, dot_motion_parameters.num_distractors] },
+    number_of_dots: function () { return [dot_motion_parameters.num_majority, dot_motion_parameters.num_distractors] },
     RDK_type: 2,
     aperture_width: 500,
     aperture_center_x: [(window.innerWidth / 2), (window.innerWidth / 2)],
@@ -159,7 +159,7 @@ function dot_motion_trial_variable(is_hard) {
     var trial_variable = {
         majority_col: majority_col,
         distractor_col: distractor_col,
-        num_answers: num_answers,
+        num_majority: num_majority,
         num_distractors: Math.floor(Math.random() * (50 - 20 + 1)) + 20,
         majority_coherence: Math.random() * (1 - 0.75) + 0.75,
         distractor_coherence: Math.random() * (1 - 0.75) + 0.75,
