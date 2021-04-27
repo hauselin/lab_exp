@@ -146,6 +146,11 @@ var dot_motion = {
             dot_motion_rt.push(data.rt);
             if (debug) {
                 console.log(dot_motion_rt);
+                console.log('Your answer is correct');
+            }
+        } else {
+            if (debug) {
+                console.log('Your answer is incorrect')
             }
         }
 
