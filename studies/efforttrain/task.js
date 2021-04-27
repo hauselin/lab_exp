@@ -175,16 +175,16 @@ function dot_motion_trial_variable(is_hard) {
     // evaluate motion direction
     if (p_incongruent_dots < Math.random()) { // if incongruent
         if (colours_left.includes(majority_col)) {  // if answer is a left colour
-            trial_variable.coherent_direction = [0, 180];  // coherent dots move right
+            trial_variable.coherent_direction = [0, 180];  // majority dots move right
         } else {  // if answer is a right colour
-            trial_variable.coherent_direction = [180, 0];  // coherent dots move left
+            trial_variable.coherent_direction = [180, 0];  // majority dots move left
         }
         trial_variable.congruency = false;
     } else {  // if congruent
         if (colours_left.includes(majority_col)) {  // if answer is a left colour
-            trial_variable.coherent_direction = [180, 0];  // coherent dots move left
+            trial_variable.coherent_direction = [180, 0];  // majority dots move left
         } else {  // if answer is a right colour
-            trial_variable.coherent_direction = [0, 180];  // coherent dots move right
+            trial_variable.coherent_direction = [0, 180];  // majority dots move right
         }
         trial_variable.congruency = true;
     }
