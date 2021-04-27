@@ -165,13 +165,6 @@ function dot_motion_trial_variable(is_hard) {
         distractor_coherence: Math.random() * (1 - 0.75) + 0.75,
     };
 
-    // evaluate correct choice
-    if (colours_left.includes(majority_col)) {
-        trial_variable.correct_choice = 37;  // correct answer is left arrow
-    } else {
-        trial_variable.correct_choice = 39; // correct answer is right arrow
-    }
-
     // evaluate motion direction
     if (p_incongruent_dots < Math.random()) { // if incongruent
         if (colours_left.includes(majority_col)) {  // if answer is a left colour
@@ -188,8 +181,26 @@ function dot_motion_trial_variable(is_hard) {
         }
         trial_variable.congruency = true;
     }
+    
+    // evaluate correct choice
+    if (is_hard) {
+        if (colours_left.includes(majority_col)) {
+            trial_variable.correct_choice = 37;  // correct answer is left arrow
+        } else {
+            trial_variable.correct_choice = 39; // correct answer is right arrow
+        }
+    } else {
+        if (trial_variable.coherent_direction[0] == 0) {
+            trial_variable.correct_choice = 39;
+        } else {
+            trial_variable.correct_choice = 37;
+        }
+    }
 
-    // if (debug) { console.log(trial_variable); }
+    if (debug) { 
+        console.log(selected_colours);
+        console.log(trial_variable.correct_choice);
+    }
     return trial_variable;
 }
 
