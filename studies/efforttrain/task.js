@@ -14,7 +14,7 @@ num_answers = 300;
 distractor_coherence = 0.75;
 
 // colours used for task, with left and right randomized for each experiment
-colours = ['red', 'blue', 'green', 'yellow'];
+colours = ['#D00000', '#FF9505', '#6DA34D', '#3772FF'];
 var colours_shuffled = jsPsych.randomization.repeat(colours, 1);
 colours_left = colours_shuffled.slice(2, 4)
 colours_right = colours_shuffled.slice(0, 2)
@@ -59,12 +59,12 @@ var colour_blocks = {
     type: "html-keyboard-response",
     stimulus: `
     <div style='width: 100px; float:left; padding-right: 10px;'>
-    <div style='background-color: ${colours_left[0]}; margin-bottom: 20px; width: 100px; height: 100px; position: relative;'></div>
-    <div style='background-color: ${colours_left[1]}; width: 100px; height: 100px; position: relative'></div>
+    <div style='color: ${colours_left[0]}; font-size:610%; margin-bottom: 20px; width: 100px; height: 100px; position: relative;'>&lArr;</div>
+    <div style='color: ${colours_left[1]}; font-size:610%; width: 100px; height: 100px; position: relative'>&lArr;</div>
     </div>
     <div style='width: 100px; float:right; padding-left: 10px;'>
-    <div style='background-color: ${colours_right[0]}; margin-bottom: 20px; width: 100px; height: 100px; position: relative;'></div>
-    <div style='background-color: ${colours_right[1]}; width: 100px; height: 100px; position: relative'></div>
+    <div style='color: ${colours_right[0]}; font-size:610%; margin-bottom: 20px; width: 100px; height: 100px; position: relative;'>&rArr;</div>
+    <div style='color: ${colours_right[1]}; font-size:610%; width: 100px; height: 100px; position: relative'>&rArr;</div>
     </div>
   `
 }
