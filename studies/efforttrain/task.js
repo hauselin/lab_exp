@@ -143,7 +143,13 @@ var dot_motion = {
     aperture_center_x: [(window.innerWidth / 2), (window.innerWidth / 2)],
     aperture_center_y: [(window.innerHeight / 2), (window.innerHeight / 2)],
     on_finish: function (data) {
-        dot_motion_rt.push(data.rt);
+        if (data.correct) {
+            dot_motion_rt.push(data.rt);
+            if (debug) {
+                console.log(dot_motion_rt);
+            }
+        }
+
         // data.congruency = jsPsych.timelineVariable('congruency');
     }
 }
