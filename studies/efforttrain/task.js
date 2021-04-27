@@ -121,19 +121,19 @@ var rocket_chosen = {
 }
 
 var dot_motion_rt = [];
-var dot_motion_parameters = hard_task_trial_variable();
+var dot_motion_parameters = dot_motion_trial_variable(true);
 var dot_motion = {
     on_start: function() {
-        dot_motion_parameters = hard_task_trial_variable();
+        dot_motion_parameters = dot_motion_trial_variable(true);
     },
     type: "rdk",
     RDK_type: 1,
     background_color: background_colour,
     choices: [37, 39],
     trial_duration: 10000,
-    coherence: function () { return [dot_motion_parameters.answer_coherence, dot_motion_parameters.distractor_coherence] },
+    coherence: function () { return [dot_motion_parameters.majority_coherence, dot_motion_parameters.distractor_coherence] },
     coherent_direction: function () { return dot_motion_parameters.coherent_direction },
-    dot_color: function () { return [dot_motion_parameters.answer, dot_motion_parameters.distractor] },
+    dot_color: function () { return [dot_motion_parameters.majority_col, dot_motion_parameters.distractor_col] },
     correct_choice: function () { return [dot_motion_parameters.correct_choice] },
     move_distance: 6,
     number_of_apertures: 2,
@@ -149,30 +149,24 @@ var dot_motion = {
 }
 
 // 1 dot motion trial
-function hard_task_trial_variable() {
+function dot_motion_trial_variable(is_hard) {
     // select two random colours and assign them to answer and distractor
-    var colour1 = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];  // choose random colour
-    if (colours_left.includes(colour1)) { // if random colour chosen is a left colour
-        var colour2 = jsPsych.randomization.sampleWithoutReplacement(colours_right, 1)[0];  // second colour is right colour
-    } else {
-        var colour2 = jsPsych.randomization.sampleWithoutReplacement(colours_left, 1)[0];
-    }
-    var selected_colours = jsPsych.randomization.shuffle([colour1, colour2])
-    var answer = selected_colours[0];
-    var distractor = selected_colours[1];
+    var selected_colours = jsPsych.randomization.sampleWithoutReplacement(colours, 2)
+    var majority_col = selected_colours[0];
+    var distractor_col = selected_colours[1];
 
     // store answers and their respective dot motion properties into object
     var trial_variable = {
-        answer: answer,
-        distractor: distractor,
+        majority_col: majority_col,
+        distractor_col: distractor_col,
         num_answers: num_answers,
         num_distractors: Math.floor(Math.random() * (50 - 20 + 1)) + 20,
-        answer_coherence: Math.random() * (1 - 0.75) + 0.75,
+        majority_coherence: Math.random() * (1 - 0.75) + 0.75,
         distractor_coherence: Math.random() * (1 - 0.75) + 0.75,
     };
 
     // evaluate correct choice
-    if (colours_left.includes(answer)) {
+    if (colours_left.includes(majority_col)) {
         trial_variable.correct_choice = 37;  // correct answer is left arrow
     } else {
         trial_variable.correct_choice = 39; // correct answer is right arrow
@@ -180,14 +174,14 @@ function hard_task_trial_variable() {
 
     // evaluate motion direction
     if (p_incongruent_dots < Math.random()) { // if incongruent
-        if (colours_left.includes(answer)) {  // if answer is a left colour
+        if (colours_left.includes(majority_col)) {  // if answer is a left colour
             trial_variable.coherent_direction = [0, 180];  // coherent dots move right
         } else {  // if answer is a right colour
             trial_variable.coherent_direction = [180, 0];  // coherent dots move left
         }
         trial_variable.congruency = false;
     } else {  // if congruent
-        if (colours_left.includes(answer)) {  // if answer is a left colour
+        if (colours_left.includes(majority_col)) {  // if answer is a left colour
             trial_variable.coherent_direction = [180, 0];  // coherent dots move left
         } else {  // if answer is a right colour
             trial_variable.coherent_direction = [0, 180];  // coherent dots move right
