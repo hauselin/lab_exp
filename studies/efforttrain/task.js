@@ -9,15 +9,15 @@ rocket_selection_deadline = null; // ms
 
 // dot motion task parameters
 dot_motion_repetitions = 3;
+dot_motion_deadline = 10000;
 p_incongruent_dots = 0.65;
 num_majority = 300;
-distractor_coherence = 0.75;
 
 // colours used for task, with left and right randomized for each experiment
 colours = ['#D00000', '#FF9505', '#6DA34D', '#3772FF'];
-var colours_shuffled = jsPsych.randomization.repeat(colours, 1);
-colours_left = colours_shuffled.slice(2, 4)
-colours_right = colours_shuffled.slice(0, 2)
+var colours = jsPsych.randomization.repeat(colours, 1);
+colours_left = colours.slice(2, 4)
+colours_right = colours.slice(0, 2)
 
 var subject_id = 1;
 var assigned_info = assign.filter(i => i.subject == subject_id)[0];
@@ -127,10 +127,9 @@ var dot_motion = {
         dot_motion_parameters = dot_motion_trial_variable(true);
     },
     type: "rdk",
-    RDK_type: 1,
     background_color: background_colour,
     choices: [37, 39],
-    trial_duration: 10000,
+    trial_duration: dot_motion_deadline,
     coherence: function () { return [dot_motion_parameters.majority_coherence, dot_motion_parameters.distractor_coherence] },
     coherent_direction: function () { return dot_motion_parameters.coherent_direction },
     dot_color: function () { return [dot_motion_parameters.majority_col, dot_motion_parameters.distractor_col] },
@@ -150,7 +149,7 @@ var dot_motion = {
             }
         }
 
-        // data.congruency = jsPsych.timelineVariable('congruency');
+        data.congruent = dot_motion_parameters.congruent;
     }
 }
 
@@ -178,14 +177,14 @@ function dot_motion_trial_variable(is_hard) {
         } else {  // if answer is a right colour
             trial_variable.coherent_direction = [180, 0];  // majority dots move left
         }
-        trial_variable.congruency = false;
+        trial_variable.congruent = false;
     } else {  // if congruent
         if (colours_left.includes(majority_col)) {  // if answer is a left colour
             trial_variable.coherent_direction = [180, 0];  // majority dots move left
         } else {  // if answer is a right colour
             trial_variable.coherent_direction = [0, 180];  // majority dots move right
         }
-        trial_variable.congruency = true;
+        trial_variable.congruent = true;
     }
     
     // evaluate correct choice
@@ -212,7 +211,7 @@ function dot_motion_trial_variable(is_hard) {
 
 var dot_motion_trials = {
     timeline: [dot_motion],
-    repetitions: 3,
+    repetitions: dot_motion_repetitions,
 }
 
 // TODO: 3 blocks: pre-training, training, post-training
