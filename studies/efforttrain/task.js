@@ -132,6 +132,7 @@ var dot_motion = {
     choices: [37, 39],
     trial_duration: 10000,
     coherence: function () { return [dot_motion_parameters.answer_coherence, dot_motion_parameters.distractor_coherence] },
+    coherent_direction: function () { return dot_motion_parameters.coherent_direction },
     dot_color: function () { return [dot_motion_parameters.answer, dot_motion_parameters.distractor] },
     correct_choice: function () { return [dot_motion_parameters.correct_choice] },
     move_distance: 6,
@@ -180,16 +181,16 @@ function hard_task_trial_variable() {
     // evaluate motion direction
     if (p_incongruent_dots < Math.random()) { // if incongruent
         if (colours_left.includes(answer)) {  // if answer is a left colour
-            trial_variable.coherent_direction = 0;  // coherent dots move right
+            trial_variable.coherent_direction = [0, 180];  // coherent dots move right
         } else {  // if answer is a right colour
-            trial_variable.coherent_direction = 180;  // coherent dots move left
+            trial_variable.coherent_direction = [180, 0];  // coherent dots move left
         }
         trial_variable.congruency = false;
     } else {  // if congruent
         if (colours_left.includes(answer)) {  // if answer is a left colour
-            trial_variable.coherent_direction = 180;  // coherent dots move left
+            trial_variable.coherent_direction = [180, 0];  // coherent dots move left
         } else {  // if answer is a right colour
-            trial_variable.coherent_direction = 0;  // coherent dots move right
+            trial_variable.coherent_direction = [0, 180];  // coherent dots move right
         }
         trial_variable.congruency = true;
     }
