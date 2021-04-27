@@ -183,15 +183,15 @@ function dot_motion_trial_variable(is_hard) {
     }
     
     // evaluate correct choice
-    if (is_hard) {
+    if (is_hard) {  // if task is hard
         if (colours_left.includes(majority_col)) {
             trial_variable.correct_choice = 37;  // correct answer is left arrow
         } else {
             trial_variable.correct_choice = 39; // correct answer is right arrow
         }
-    } else {
-        if (trial_variable.coherent_direction[0] == 0) {
-            trial_variable.correct_choice = 39;
+    } else {  // if task is easy
+        if (trial_variable.coherent_direction[0] == 0) {  // if majority's coherent direction is right
+            trial_variable.correct_choice = 39;  // correct answer is right arrow
         } else {
             trial_variable.correct_choice = 37;
         }
