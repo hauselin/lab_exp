@@ -23,7 +23,6 @@ for (const [key, value] of Object.entries(images)) {
 }
 
 
-
 // TODO add instructions: welcome screen (background: is images.bg)
 
 var rocket_choices = [];
