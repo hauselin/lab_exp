@@ -246,16 +246,13 @@ var cue = {
     // },
 }
 
+var training_timeline_variables = get_training_timeline_variables(num_reward_trials, num_probe_trials, false);
 
 var training = {
     timeline: [cue],
-    timeline_variables: [
-        { trial_type: 'reward' },
-        { trial_type: 'probe' }
-    ]
+    timeline_variables: training_timeline_variables
 }
 
-var training_timeline_variables = get_training_timeline_variables(num_reward_trials, num_probe_trials, false);
 
 var timeline = []
 // timeline.push(instructions);

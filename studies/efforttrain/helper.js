@@ -7,10 +7,12 @@ function get_training_timeline_variables(num_reward_trials, num_probe_trials, de
     var num_probe = 0;
 
     for (i = 1; i < (num_reward_trials + num_probe_trials); i++) {
+        // if the most recently added trial is a probe trial, the next one added must be a reward trial
         if (training_timeline_variables[training_timeline_variables.length - 1] == probe_trial_variable) {
             training_timeline_variables.push(reward_trial_variable);
             num_reward++;
         } else {
+            // add probe trials based on its theoretical probability
             if (num_probe_trials / (num_reward_trials + num_probe_trials) < Math.random()) {
                 training_timeline_variables.push(probe_trial_variable);
                 num_probe++;
@@ -27,18 +29,18 @@ function get_training_timeline_variables(num_reward_trials, num_probe_trials, de
         console.log('Number of total trials:', training_timeline_variables.length);
     }
 
-    if (num_probe > num_probe_trials) {
-        potential_reward_index = []
+    if (num_probe > num_probe_trials) { // if there is a more than expected number of probes
+        potential_reward_index = [] // create array of indeces of probe trials that can potentially be reward trials
         for (i = 1; i < training_timeline_variables.length; i++) {
-            if (training_timeline_variables[i] == probe_trial_variable) {
+            if (training_timeline_variables[i] == probe_trial_variable) { // any probe trial is a potential reward trial
                 potential_reward_index.push(i);
             }
         }
-        var probes_changed = jsPsych.randomization.sampleWithoutReplacement(potential_reward_index, (num_probe - num_probe_trials))
+        var probes_changed = jsPsych.randomization.sampleWithoutReplacement(potential_reward_index, (num_probe - num_probe_trials)) // randomly select trials to change based on the extra number of probe trials
         if (debug) {
             console.log('Indeces of probes changed to rewards:', probes_changed);
         }
-        for (i = 0; i < probes_changed.length; i++) {
+        for (i = 0; i < probes_changed.length; i++) { // change trials
             training_timeline_variables[probes_changed[i]] = reward_trial_variable
             num_probe--;
             num_reward++;
@@ -47,11 +49,11 @@ function get_training_timeline_variables(num_reward_trials, num_probe_trials, de
         potential_probe_index = []
         for (i = 1; i < training_timeline_variables.length; i++) {
             if (training_timeline_variables[i] == reward_trial_variable) {
-                if (potential_probe_index.findIndex(a => a == (i - 1)) == -1) {
-                    if (training_timeline_variables[i - 1] == reward_trial_variable) {
-                        if (i == training_timeline_variables.length - 1) {
+                if (potential_probe_index.findIndex(a => a == (i - 1)) == -1) { // if the previous trial is not a potential probe
+                    if (training_timeline_variables[i - 1] == reward_trial_variable) { // if the previous trial is not a probe
+                        if (i == training_timeline_variables.length - 1) { // the last trial is a potential probe
                             potential_probe_index.push(i);
-                        } else if (training_timeline_variables[i + 1] == reward_trial_variable) {
+                        } else if (training_timeline_variables[i + 1] == reward_trial_variable) { // a trial is a potential probe if the next trial is also a reward trial
                             potential_probe_index.push(i);
                         }
                     }
