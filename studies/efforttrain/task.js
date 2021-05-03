@@ -235,8 +235,10 @@ var pre_training = {
 
 
 var cue = {
-    type: "html-keyboard-response",
-    stimulus: jsPsych.timelineVariable('trial_type'),
+    type: "image-keyboard-response",
+    stimulus: jsPsych.timelineVariable('cue_image'),
+    stimulus_height: window.innerHeight/2,
+    maintain_aspect_ratio: true,
     // on_start: function () {
     //     document.body.style.backgroundImage = "url('stimuli/alien_reward.png')";
     //     document.body.style.backgroundSize = "cover";

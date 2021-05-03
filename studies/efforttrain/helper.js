@@ -1,6 +1,6 @@
 function get_training_timeline_variables(num_reward_trials, num_probe_trials, debug=false) {
-    var reward_trial_variable = { trial_type: 'reward' };
-    var probe_trial_variable = { trial_type: 'probe' };
+    var reward_trial_variable = { trial_type: 'reward', cue_image: 'stimuli/alien_reward.png' };
+    var probe_trial_variable = { trial_type: 'probe', cue_image: 'stimuli/alien_noreward.png' };
     var training_timeline_variables = [reward_trial_variable];
 
     var num_reward = 1;
