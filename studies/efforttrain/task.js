@@ -13,6 +13,10 @@ dot_motion_deadline = 10000;
 p_incongruent_dots = 0.65;
 num_majority = 300;
 
+// training block parameters
+num_reward_trials = 40;
+num_probe_trials = 20;
+
 // colours used for task, with left and right randomized for each experiment
 colours = ['#D00000', '#FF9505', '#6DA34D', '#3772FF'];
 var colours = jsPsych.randomization.repeat(colours, 1);
@@ -251,6 +255,39 @@ var training = {
     ]
 }
 
+var reward_trial_variable = { trial_type: 'reward' };
+var probe_trial_variable = { trial_type: 'probe' };
+var training_timeline_variables = [reward_trial_variable];
+
+var num_reward = 1;
+var num_probe = 0;
+
+for (i = 1; i < (num_reward_trials + num_probe_trials); i++) {
+    if (training_timeline_variables[training_timeline_variables.length - 1] == probe_trial_variable) {
+        training_timeline_variables.push(reward_trial_variable);
+        num_reward++;
+    } else {
+        if (num_probe_trials / (num_reward_trials + num_probe_trials) < Math.random()) {
+            training_timeline_variables.push(probe_trial_variable);
+            num_probe++;
+        } else {
+            training_timeline_variables.push(reward_trial_variable);
+            num_reward++;
+        }
+    }
+}
+console.log('Number of initial probes:',num_probe)
+console.log('Number of initial rewards:',num_reward)
+console.log('Number of total trials:',training_timeline_variables.length)
+
+// if (num_probe > num_probe_trials) {
+//     potential_reward_index = []
+//     for (i = 1; i < training_timeline_variables.length; i++) {
+//         if (training_timeline_variables[i] == probe_trial_variable) {
+//             potential_reward_index.push(i);
+//         }
+//     }
+// }
 
 
 var timeline = []
