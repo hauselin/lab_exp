@@ -230,16 +230,33 @@ var pre_training = {
 }
 
 
+var cue = {
+    type: "html-keyboard-response",
+    stimulus: '',
+    on_start: function () {
+        document.body.style.backgroundImage = "url('stimuli/alien_reward.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = '';
+    },
+}
+
+
+var training = {
+    timeline: [cue]
+}
+
+
 
 var timeline = []
 // timeline.push(instructions);
-timeline.push(colour_blocks);
-timeline.push(pre_training);
-
+// timeline.push(colour_blocks);
+// timeline.push(pre_training);
+timeline.push(training);
 
 
 jsPsych.init({
-    // timeline: [instructions, rockets_procedure],
     timeline: timeline,
     preload_images: Object.values(images),
     on_finish: function () {
