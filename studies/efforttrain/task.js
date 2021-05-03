@@ -123,7 +123,7 @@ var rocket_chosen = {
 var dot_motion_rt = [];
 var dot_motion_parameters = dot_motion_trial_variable(true);
 var dot_motion = {
-    on_start: function() {
+    on_start: function () {
         dot_motion_parameters = dot_motion_trial_variable(true);
     },
     type: "rdk",
@@ -191,7 +191,7 @@ function dot_motion_trial_variable(is_hard) {
         }
         trial_variable.congruent = true;
     }
-    
+
     // evaluate correct choice
     if (is_hard) {  // if task is hard
         if (colours_left.includes(majority_col)) {
@@ -207,7 +207,7 @@ function dot_motion_trial_variable(is_hard) {
         }
     }
 
-    if (debug) { 
+    if (debug) {
         console.log(selected_colours);
         console.log(trial_variable.correct_choice);
     }
@@ -232,19 +232,23 @@ var pre_training = {
 
 var cue = {
     type: "html-keyboard-response",
-    stimulus: '',
-    on_start: function () {
-        document.body.style.backgroundImage = "url('stimuli/alien_reward.png')";
-        document.body.style.backgroundSize = "cover";
-    },
-    on_finish: function () {
-        document.body.style.backgroundImage = '';
-    },
+    stimulus: jsPsych.timelineVariable('trial_type'),
+    // on_start: function () {
+    //     document.body.style.backgroundImage = "url('stimuli/alien_reward.png')";
+    //     document.body.style.backgroundSize = "cover";
+    // },
+    // on_finish: function () {
+    //     document.body.style.backgroundImage = '';
+    // },
 }
 
 
 var training = {
-    timeline: [cue]
+    timeline: [cue],
+    timeline_variables: [
+        { trial_type: 'reward' },
+        { trial_type: 'probe' }
+    ]
 }
 
 
