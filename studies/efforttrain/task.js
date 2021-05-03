@@ -276,18 +276,29 @@ for (i = 1; i < (num_reward_trials + num_probe_trials); i++) {
         }
     }
 }
-console.log('Number of initial probes:',num_probe)
-console.log('Number of initial rewards:',num_reward)
-console.log('Number of total trials:',training_timeline_variables.length)
+console.log('Number of initial probes:',num_probe);
+console.log('Number of initial rewards:',num_reward);
+console.log('Number of total trials:',training_timeline_variables.length);
 
-// if (num_probe > num_probe_trials) {
-//     potential_reward_index = []
-//     for (i = 1; i < training_timeline_variables.length; i++) {
-//         if (training_timeline_variables[i] == probe_trial_variable) {
-//             potential_reward_index.push(i);
-//         }
-//     }
-// }
+if (num_probe > num_probe_trials) {
+    potential_reward_index = []
+    for (i = 1; i < training_timeline_variables.length; i++) {
+        if (training_timeline_variables[i] == probe_trial_variable) {
+            potential_reward_index.push(i);
+        }
+    }
+    var probes_changed = jsPsych.randomization.sampleWithoutReplacement(potential_reward_index, (num_probe - num_probe_trials))
+    console.log('Indeces of probes changed to rewards:',probes_changed);
+    for (i = 0; i < probes_changed.length; i++) {
+        training_timeline_variables[i] = reward_trial_variable
+        num_probe--;
+        num_reward++;
+    }
+}
+console.log('Number of new probes:',num_probe);
+console.log('Number of new rewards:',num_reward);
+console.log('Number of total trials:',training_timeline_variables.length);
+
 
 
 var timeline = []
