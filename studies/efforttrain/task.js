@@ -244,8 +244,9 @@ var cue = {
         document.body.style.backgroundImage = "url("+ training_timeline_variables[training_index].cue_image +")";
         document.body.style.backgroundSize = "cover";
     },
-    on_finish: function () {
+    on_finish: function (data) {
         document.body.style.backgroundImage = '';
+        data.cue_type = training_timeline_variables[training_index].trial_type;
         training_index++;
     },
 }
