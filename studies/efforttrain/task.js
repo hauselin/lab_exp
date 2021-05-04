@@ -9,7 +9,7 @@ rocket_selection_deadline = null; // ms
 
 // dot motion task parameters
 dot_motion_repetitions = 3;
-dot_motion_deadline = 10000;
+dot_motion_deadline = 1500;
 p_incongruent_dots = 0.65;
 num_majority = 300;
 
