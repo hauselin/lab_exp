@@ -234,18 +234,20 @@ var pre_training = {
 }
 
 
+var training_index = 0
 var cue = {
     type: "image-keyboard-response",
-    stimulus: jsPsych.timelineVariable('cue_image'),
+    stimulus: '',
     stimulus_height: window.innerHeight/2,
     maintain_aspect_ratio: true,
-    // on_start: function () {
-    //     document.body.style.backgroundImage = "url('stimuli/alien_reward.png')";
-    //     document.body.style.backgroundSize = "cover";
-    // },
-    // on_finish: function () {
-    //     document.body.style.backgroundImage = '';
-    // },
+    on_start: function () {
+        document.body.style.backgroundImage = "url("+ training_timeline_variables[training_index].cue_image +")";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = '';
+        training_index++;
+    },
 }
 
 var training_timeline_variables = get_training_timeline_variables(num_reward_trials, num_probe_trials, false);
