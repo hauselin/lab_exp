@@ -9,9 +9,13 @@ rocket_selection_deadline = null; // ms
 
 // dot motion task parameters
 dot_motion_repetitions = 3;
-dot_motion_deadline = 10000;
+dot_motion_deadline = 1500;
 p_incongruent_dots = 0.65;
 num_majority = 300;
+
+// training block parameters
+num_reward_trials = 40;
+num_probe_trials = 20;
 
 // colours used for task, with left and right randomized for each experiment
 colours = ['#D00000', '#FF9505', '#6DA34D', '#3772FF'];
@@ -123,7 +127,7 @@ var rocket_chosen = {
 var dot_motion_rt = [];
 var dot_motion_parameters = dot_motion_trial_variable(true);
 var dot_motion = {
-    on_start: function() {
+    on_start: function () {
         dot_motion_parameters = dot_motion_trial_variable(true);
     },
     type: "rdk",
@@ -191,7 +195,7 @@ function dot_motion_trial_variable(is_hard) {
         }
         trial_variable.congruent = true;
     }
-    
+
     // evaluate correct choice
     if (is_hard) {  // if task is hard
         if (colours_left.includes(majority_col)) {
@@ -207,7 +211,7 @@ function dot_motion_trial_variable(is_hard) {
         }
     }
 
-    if (debug) { 
+    if (debug) {
         console.log(selected_colours);
         console.log(trial_variable.correct_choice);
     }
@@ -230,16 +234,39 @@ var pre_training = {
 }
 
 
+var training_index = 0
+var cue = {
+    type: "image-keyboard-response",
+    stimulus: '',
+    stimulus_height: window.innerHeight/2,
+    maintain_aspect_ratio: true,
+    on_start: function () {
+        document.body.style.backgroundImage = "url("+ training_timeline_variables[training_index].cue_image +")";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function (data) {
+        document.body.style.backgroundImage = '';
+        data.cue_type = training_timeline_variables[training_index].trial_type;
+        training_index++;
+    },
+}
+
+var training_timeline_variables = get_training_timeline_variables(num_reward_trials, num_probe_trials, false);
+
+var training = {
+    timeline: [cue],
+    timeline_variables: training_timeline_variables
+}
+
 
 var timeline = []
 // timeline.push(instructions);
-timeline.push(colour_blocks);
-timeline.push(pre_training);
-
+// timeline.push(colour_blocks);
+// timeline.push(pre_training);
+timeline.push(training);
 
 
 jsPsych.init({
-    // timeline: [instructions, rockets_procedure],
     timeline: timeline,
     preload_images: Object.values(images),
     on_finish: function () {
