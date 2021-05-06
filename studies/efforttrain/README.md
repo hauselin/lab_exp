@@ -1,0 +1,5 @@
+- rockets shown for 3 s
+- 1.5 s to choose rockets in pre-training
+- cues shown for 1.5 s
+- all post-trial iti (after feedback)
+- if too many non-responses in a row, catch people (display alert?)

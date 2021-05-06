@@ -4,8 +4,12 @@ set_colour(font_colour, background_colour);
 
 var debug = true;
 
+const instruct_fontsize = 21;
 const trial_repetitions = 5;
 const rocket_selection_deadline = null; // ms
+const cue_duration = 1500;
+const feedback_duration = 1500;
+
 
 var rnorm = new Ziggurat();  // rnorm.nextGaussian() * 5 to generate random normal variable with mean 0 sd 5
 var itis = iti_exponential(200, 700);  // intervals between dot-motion reps
@@ -49,9 +53,11 @@ for (const [key, value] of Object.entries(images)) {
 
 var instructions = {
     type: "instructions",
-    pages: [
-        generate_html("Welcome!", font_colour) + generate_html("Click next or press the right arrow key to proceed.", font_colour),
-    ],
+    pages: function () {
+        let instructions = [instruct_browser, instruct_intro, instruct_mission1, instruct_mission2, instruct_colortask, instruct_colortask2];
+        instructions = instructions.map(i => generate_html(i, font_colour, instruct_fontsize));
+        return instructions;
+    },
     on_start: function () {
         document.body.style.backgroundImage = "url('stimuli/instruct_background.png')";
         document.body.style.backgroundSize = "cover";
@@ -64,14 +70,15 @@ var instructions = {
 };
 
 // FIXME: left arrows are bigger and misaligned on chrome/safari (but okay on firefox)?
+// FIXME: fix distance between left/right arrows
 var colour_blocks = {
     type: "html-keyboard-response",
-    stimulus: `
-    <div style='width: 100px; float:left; padding-right: 55px;'>
+    stimulus: generate_html(instruct_colors, font_colour, instruct_fontsize) + `
+    <div style='width: 100px; float:left; padding-right: 21px;'>
         <div style='color: ${colours_left[0]}; font-size:987%; margin-bottom: 55px; width: 100px; height: 100px; position: relative;'>&lArr;</div>
         <div style='color: ${colours_left[1]}; font-size:987%; width: 100px; height: 100px; position: relative'>&lArr;</div>
     </div>
-    <div style='width: 100px; float:right; padding-left: 55px;'>
+    <div style='width: 100px; float:right; padding-left: 21px;'>
         <div style='color: ${colours_right[0]}; font-size:987%; margin-bottom: 55px; width: 100px; height: 100px; position: relative;'>&rArr;</div>
         <div style='color: ${colours_right[1]}; font-size:987%; width: 100px; height: 100px; position: relative'>&rArr;</div>
     </div>
@@ -256,6 +263,7 @@ var cue = {
         data.cue_type = training_timeline_variables[training_index].trial_type;
         training_index++;
     },
+    trial_duration: cue_duration
 }
 
 var training_timeline_variables = get_training_timeline_variables(num_reward_trials, num_probe_trials, false);
@@ -267,7 +275,7 @@ var training = {
 
 
 var timeline = []
-// timeline.push(instructions);
+timeline.push(instructions);
 timeline.push(colour_blocks);
 timeline.push(pre_training);
 timeline.push(training);
