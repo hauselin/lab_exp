@@ -265,6 +265,7 @@ var cue = {
     },
     trial_duration: cue_duration
 }
+// BUG? cues sometimes are shown for longer than cue_duration? hmm...
 
 var training_timeline_variables = get_training_timeline_variables(num_reward_trials, num_probe_trials, false);
 
