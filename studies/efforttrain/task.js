@@ -125,10 +125,19 @@ var rocket_chosen = {
 }
 
 var dot_motion_rt = [];
-var dot_motion_parameters = dot_motion_trial_variable(true);
+if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket1) {
+    var dot_motion_parameters = dot_motion_trial_variable(true);
+} else {
+    var dot_motion_parameters = dot_motion_trial_variable(false);
+}
+
 var dot_motion = {
     on_start: function () {
-        dot_motion_parameters = dot_motion_trial_variable(true);
+        if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket1) {
+            dot_motion_parameters = dot_motion_trial_variable(true);
+        } else {
+            dot_motion_parameters = dot_motion_trial_variable(false);
+        }
     },
     type: "rdk",
     background_color: background_colour,
@@ -258,12 +267,14 @@ var training = {
     timeline_variables: training_timeline_variables
 }
 
+// TODO: keep track of accuracy and rt with arrays, clear at the end of each training loop
+
 
 var timeline = []
 // timeline.push(instructions);
-// timeline.push(colour_blocks);
-// timeline.push(pre_training);
-timeline.push(training);
+timeline.push(colour_blocks);
+timeline.push(pre_training);
+// timeline.push(training);
 
 
 jsPsych.init({
