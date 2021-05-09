@@ -28,7 +28,7 @@ const num_probe_trials = 20;
 
 // colours used for task, with left and right randomized for each experiment
 // TODO orange and red might be too similar?!? (green/blue too??)
-var colours = ['#D00000', '#FF9505', '#6DA34D', '#3772FF'];  
+var colours = ['#D00000', '#FF9505', '#6DA34D', '#3772FF'];
 var colours = jsPsych.randomization.repeat(colours, 1);
 var colours_left = colours.slice(2, 4)
 var colours_right = colours.slice(0, 2)
@@ -139,12 +139,10 @@ var rocket_chosen = {
 }
 
 var pre_training_rt = [];
-var is_pre_training = true;
-if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket1) {
-    var dot_motion_parameters = dot_motion_trial_variable(true);
-} else {
-    var dot_motion_parameters = dot_motion_trial_variable(false);
-}
+var training_rt = [];
+var is_pre_training;
+var is_training;
+var dot_motion_parameters = dot_motion_trial_variable(true);
 
 var dot_motion = {
     on_start: function () {
@@ -171,25 +169,29 @@ var dot_motion = {
     aperture_center_x: [(window.innerWidth / 2), (window.innerWidth / 2)],
     aperture_center_y: [(window.innerHeight / 2), (window.innerHeight / 2)],
     on_finish: function (data) {
-        if (is_pre_training) {
-            if (data.correct) {
+        if (data.correct) {
+            if (is_pre_training) {
                 pre_training_rt.push(data.rt);
                 if (debug) {
-                    console.log(pre_training_rt);
-                    console.log('Your answer is correct');
+                    console.log('Pre-training rt added', pre_training_rt);
                 }
-            } else {
+            } else if (is_training) {
+                training_rt.push(data.rt);
                 if (debug) {
-                    console.log('Your answer is incorrect')
+                    console.log('Training rt added', training_rt);
                 }
             }
             if (debug) {
-                console.log(pre_training_rt);
+                console.log('Your answer is correct');
+            }
+        } else {
+            if (debug) {
+                console.log('Your answer is incorrect')
             }
         }
         data.congruent = dot_motion_parameters.congruent;
     },
-    post_trial_gap: function() {return random_choice(itis)}
+    post_trial_gap: function () { return random_choice(itis) }
 }
 // FIXME: weird that scrollbar shows up during dotmotion rep (see https://github.com/jspsych/jsPsych/discussions/787)
 
@@ -261,8 +263,9 @@ var dot_motion_trials = {
 // training -> feedback with aliens
 var pre_training = {
     timeline: [rockets, rocket_chosen, dot_motion_trials],
-    on_start: function() {
+    on_start: function () {
         is_pre_training = true;
+        is_training = false;
     },
     repetitions: pre_trial_repetitions,
 }
@@ -291,10 +294,11 @@ var training_timeline_variables = get_training_timeline_variables(num_reward_tri
 
 var training = {
     timeline: [cue, rockets, rocket_chosen, dot_motion_trials],
-    on_start: function() {
+    on_start: function () {
+        is_training = true;
         is_pre_training = false;
     },
-    timeline_variables: training_timeline_variables
+    timeline_variables: training_timeline_variables,
 }
 
 // TODO: keep track of accuracy and rt with arrays, clear at the end of each training loop
