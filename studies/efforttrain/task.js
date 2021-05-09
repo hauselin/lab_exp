@@ -9,7 +9,6 @@ const rocket_selection_deadline = null; // ms
 const cue_duration = 1500;
 const feedback_duration = 1500;
 
-
 var rnorm = new Ziggurat();  // rnorm.nextGaussian() * 5 to generate random normal variable with mean 0 sd 5
 var itis = iti_exponential(200, 700);  // intervals between dot-motion reps
 
@@ -18,9 +17,10 @@ const pre_trial_repetitions = 5;
 
 // dot motion task parameters
 const dot_motion_repetitions = 3;
-const dot_motion_deadline = 1500;
+const dot_motion_deadline = 15000;
 const p_incongruent_dots = 0.65;
 const num_majority = 300;
+var dot_motion_parameters;
 
 // training block parameters
 const num_reward_trials = 40;
@@ -136,15 +136,23 @@ var rocket_chosen = {
     },
     choices: jsPsych.NO_KEYS,
     trial_duration: 500,
+    on_finish: function () {
+        if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket1) {
+            dot_motion_parameters = dot_motion_trial_variable(true);
+        } else {
+            dot_motion_parameters = dot_motion_trial_variable(false);
+        }
+    }
 }
+
 
 var pre_training_rt = [];
 var training_rt = [];
 var is_pre_training;
 var is_training;
-var dot_motion_parameters = dot_motion_trial_variable(true);
 
 var dot_motion = {
+    type: "rdk",
     on_start: function () {
         if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket1) {
             dot_motion_parameters = dot_motion_trial_variable(true);
@@ -152,7 +160,6 @@ var dot_motion = {
             dot_motion_parameters = dot_motion_trial_variable(false);
         }
     },
-    type: "rdk",
     background_color: background_colour,
     choices: [37, 39],
     trial_duration: dot_motion_deadline,
@@ -253,6 +260,9 @@ function dot_motion_trial_variable(is_hard) {
 
 var dot_motion_trials = {
     timeline: [dot_motion],
+    on_start: function() {
+        console.log('onstart')
+    },
     repetitions: dot_motion_repetitions,
 }
 
@@ -305,10 +315,10 @@ var training = {
 
 
 var timeline = []
-timeline.push(instructions);
+// timeline.push(instructions);
 timeline.push(colour_blocks);
 timeline.push(pre_training);
-timeline.push(training);
+// timeline.push(training);
 
 
 jsPsych.init({
