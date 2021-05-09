@@ -4,7 +4,7 @@ set_colour(font_colour, background_colour);
 
 var debug = true;
 
-trial_repetitions = 5;
+pre_trial_repetitions = 1;
 rocket_selection_deadline = null; // ms
 
 // dot motion task parameters
@@ -124,7 +124,8 @@ var rocket_chosen = {
     trial_duration: 500,
 }
 
-var dot_motion_rt = [];
+var pre_training_rt = [];
+var is_pre_training = true;
 if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket1) {
     var dot_motion_parameters = dot_motion_trial_variable(true);
 } else {
@@ -155,15 +156,20 @@ var dot_motion = {
     aperture_center_x: [(window.innerWidth / 2), (window.innerWidth / 2)],
     aperture_center_y: [(window.innerHeight / 2), (window.innerHeight / 2)],
     on_finish: function (data) {
-        if (data.correct) {
-            dot_motion_rt.push(data.rt);
-            if (debug) {
-                console.log(dot_motion_rt);
-                console.log('Your answer is correct');
+        if (is_pre_training) {
+            if (data.correct) {
+                pre_training_rt.push(data.rt);
+                if (debug) {
+                    console.log(pre_training_rt);
+                    console.log('Your answer is correct');
+                }
+            } else {
+                if (debug) {
+                    console.log('Your answer is incorrect')
+                }
             }
-        } else {
             if (debug) {
-                console.log('Your answer is incorrect')
+                console.log(pre_training_rt);
             }
         }
 
@@ -239,7 +245,10 @@ var dot_motion_trials = {
 // training -> feedback with aliens
 var pre_training = {
     timeline: [rockets, rocket_chosen, dot_motion_trials],
-    repetitions: trial_repetitions,
+    on_start: function() {
+        is_pre_training = true;
+    },
+    repetitions: pre_trial_repetitions,
 }
 
 
@@ -247,10 +256,10 @@ var training_index = 0
 var cue = {
     type: "image-keyboard-response",
     stimulus: '',
-    stimulus_height: window.innerHeight/2,
+    stimulus_height: window.innerHeight / 2,
     maintain_aspect_ratio: true,
     on_start: function () {
-        document.body.style.backgroundImage = "url("+ training_timeline_variables[training_index].cue_image +")";
+        document.body.style.backgroundImage = "url(" + training_timeline_variables[training_index].cue_image + ")";
         document.body.style.backgroundSize = "cover";
     },
     on_finish: function (data) {
@@ -263,7 +272,10 @@ var cue = {
 var training_timeline_variables = get_training_timeline_variables(num_reward_trials, num_probe_trials, false);
 
 var training = {
-    timeline: [cue],
+    timeline: [cue, rockets, rocket_chosen, dot_motion_trials],
+    on_start: function() {
+        is_pre_training = false;
+    },
     timeline_variables: training_timeline_variables
 }
 
@@ -274,7 +286,7 @@ var timeline = []
 // timeline.push(instructions);
 timeline.push(colour_blocks);
 timeline.push(pre_training);
-// timeline.push(training);
+timeline.push(training);
 
 
 jsPsych.init({
