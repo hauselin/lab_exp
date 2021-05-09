@@ -1,4 +1,4 @@
-function get_training_timeline_variables(num_reward_trials, num_probe_trials, debug=false) {
+function get_training_timeline_variables(num_reward_trials, num_probe_trials, debug = false) {
     var reward_trial_variable = { trial_type: 'reward', cue_image: 'stimuli/alien_reward.png' };
     var probe_trial_variable = { trial_type: 'probe', cue_image: 'stimuli/alien_noreward.png' };
     var training_timeline_variables = [reward_trial_variable];
@@ -75,8 +75,8 @@ function get_training_timeline_variables(num_reward_trials, num_probe_trials, de
         console.log('Number of new probes:', num_probe);
         console.log('Number of new rewards:', num_reward);
         console.log('Number of total trials:', training_timeline_variables.length);
-    
-        console.log('Final timeline variables:', training_timeline_variables)    
+
+        console.log('Final timeline variables:', training_timeline_variables)
     }
 
     return training_timeline_variables
@@ -244,4 +244,8 @@ function Ziggurat() {
         }
     }
     zigset();
+}
+
+function reward(x, b = -0.1) {
+    return (1 / (1 + exp(-x * b)))
 }

@@ -5,7 +5,6 @@ set_colour(font_colour, background_colour);
 var debug = true;
 
 const instruct_fontsize = 21;
-const pre_trial_repetitions = 5;
 const rocket_selection_deadline = null; // ms
 const cue_duration = 1500;
 const feedback_duration = 1500;
@@ -13,6 +12,9 @@ const feedback_duration = 1500;
 
 var rnorm = new Ziggurat();  // rnorm.nextGaussian() * 5 to generate random normal variable with mean 0 sd 5
 var itis = iti_exponential(200, 700);  // intervals between dot-motion reps
+
+// pre_training block parameters
+const pre_trial_repetitions = 5;
 
 // dot motion task parameters
 const dot_motion_repetitions = 3;
