@@ -246,6 +246,37 @@ function Ziggurat() {
     zigset();
 }
 
-function reward(x, b = -0.1) {
-    return (1 / (1 + exp(-x * b)))
+function determine_reward(x, b = -0.1) {
+    return x.map(i => (1 / (1 + Math.exp(-i * b))))
+}
+
+
+
+
+function calculate_points_obj(rt, rew_min=230, rew_max=370, rew_mean=300, func=determine_reward, func_param=-0.8) {
+    if (rt.length == 0) {  // in case there aren't RTs in array
+        rt = [300, 500, 700];
+    }
+    // trim RTs
+    var rtcutoffs = mad_cutoffs(rt, 3.0);
+    rt = rt.filter(i => i > rtcutoffs[0] && i < rtcutoffs[1]);
+
+    // generate sequence of RTs from min to max value
+    rt = range(Math.floor(Math.min(...rt)), Math.ceil(Math.max(...rt)))
+
+    // median-center RT values
+    rtC = rt.map(i => i - median(rt))  // vectorize
+
+    // points for each RT
+    points = func(rtC, func_param);
+    rew_range = rew_max - rew_min;
+    points = points.map(i => round(i * rew_range + rew_min));
+
+    // create object maps rt to points {300: 370, 301: 369}...
+    let obj = {};
+    for (i=0; i<rt.length; i++) {
+        obj[rt[i]] = points[i];
+    }
+    
+    return obj;
 }

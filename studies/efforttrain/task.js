@@ -33,6 +33,9 @@ var colours = jsPsych.randomization.repeat(colours, 1);
 var colours_left = colours.slice(2, 4)
 var colours_right = colours.slice(0, 2)
 
+// initialize points object
+var points = calculate_points_obj([]);
+
 var subject_id = 1;
 var assigned_info = assign.filter(i => i.subject == subject_id)[0];
 
@@ -177,6 +180,7 @@ var dot_motion = {
     aperture_center_y: [(window.innerHeight / 2), (window.innerHeight / 2)],
     on_finish: function (data) {
         if (data.correct) {
+            // TODO push to global variable and compute points (another helper function)
             if (is_pre_training) {
                 pre_training_rt.push(data.rt);
                 if (debug) {
@@ -195,6 +199,7 @@ var dot_motion = {
             if (debug) {
                 console.log('Your answer is incorrect')
             }
+            // TODO push to global variable and save to data 0 points
         }
         data.congruent = dot_motion_parameters.congruent;
     },
@@ -260,9 +265,6 @@ function dot_motion_trial_variable(is_hard) {
 
 var dot_motion_trials = {
     timeline: [dot_motion],
-    on_start: function() {
-        console.log('onstart')
-    },
     repetitions: dot_motion_repetitions,
 }
 
@@ -278,6 +280,10 @@ var pre_training = {
         is_training = false;
     },
     repetitions: pre_trial_repetitions,
+    on_finish: function () {
+        console.log("compute points obj again");
+        points = calculate_points_obj(pre_training_rt);
+    }
 }
 
 
@@ -302,8 +308,10 @@ var cue = {
 
 var training_timeline_variables = get_training_timeline_variables(num_reward_trials, num_probe_trials, false);
 
+var feedback; // TODO feedback cue
+
 var training = {
-    timeline: [cue, rockets, rocket_chosen, dot_motion_trials],
+    timeline: [cue, rockets, rocket_chosen, dot_motion_trials], // TODO add feedback
     on_start: function () {
         is_training = true;
         is_pre_training = false;
@@ -315,7 +323,7 @@ var training = {
 
 
 var timeline = []
-// timeline.push(instructions);
+timeline.push(instructions);
 timeline.push(colour_blocks);
 timeline.push(pre_training);
 // timeline.push(training);
@@ -328,3 +336,5 @@ jsPsych.init({
         jsPsych.data.displayData();
     }
 });
+
+
