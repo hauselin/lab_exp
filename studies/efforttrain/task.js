@@ -5,20 +5,22 @@ set_colour(font_colour, background_colour);
 var debug = true;
 
 const instruct_fontsize = 21;
-const trial_repetitions = 5;
 const rocket_selection_deadline = null; // ms
 const cue_duration = 1500;
 const feedback_duration = 1500;
 
-
 var rnorm = new Ziggurat();  // rnorm.nextGaussian() * 5 to generate random normal variable with mean 0 sd 5
 var itis = iti_exponential(200, 700);  // intervals between dot-motion reps
 
+// pre_training block parameters
+const pre_trial_repetitions = 5;
+
 // dot motion task parameters
 const dot_motion_repetitions = 3;
-const dot_motion_deadline = 1500;
+const dot_motion_deadline = 15000;
 const p_incongruent_dots = 0.65;
 const num_majority = 300;
+var dot_motion_parameters;
 
 // training block parameters
 const num_reward_trials = 40;
@@ -26,10 +28,13 @@ const num_probe_trials = 20;
 
 // colours used for task, with left and right randomized for each experiment
 // TODO orange and red might be too similar?!? (green/blue too??)
-var colours = ['#D00000', '#FF9505', '#6DA34D', '#3772FF'];  
+var colours = ['#D00000', '#FF9505', '#6DA34D', '#3772FF'];
 var colours = jsPsych.randomization.repeat(colours, 1);
 var colours_left = colours.slice(2, 4)
 var colours_right = colours.slice(0, 2)
+
+// initialize points object
+var points = calculate_points_obj([]);
 
 var subject_id = 1;
 var assigned_info = assign.filter(i => i.subject == subject_id)[0];
@@ -134,15 +139,30 @@ var rocket_chosen = {
     },
     choices: jsPsych.NO_KEYS,
     trial_duration: 500,
+    on_finish: function () {
+        if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket1) {
+            dot_motion_parameters = dot_motion_trial_variable(true);
+        } else {
+            dot_motion_parameters = dot_motion_trial_variable(false);
+        }
+    }
 }
 
-var dot_motion_rt = [];
-var dot_motion_parameters = dot_motion_trial_variable(true);
+
+var pre_training_rt = [];
+var training_rt = [];
+var is_pre_training;
+var is_training;
+
 var dot_motion = {
-    on_start: function () {
-        dot_motion_parameters = dot_motion_trial_variable(true);
-    },
     type: "rdk",
+    on_start: function () {
+        if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket1) {
+            dot_motion_parameters = dot_motion_trial_variable(true);
+        } else {
+            dot_motion_parameters = dot_motion_trial_variable(false);
+        }
+    },
     background_color: background_colour,
     choices: [37, 39],
     trial_duration: dot_motion_deadline,
@@ -160,19 +180,30 @@ var dot_motion = {
     aperture_center_y: [(window.innerHeight / 2), (window.innerHeight / 2)],
     on_finish: function (data) {
         if (data.correct) {
-            dot_motion_rt.push(data.rt);
+            // TODO push to global variable and compute points (another helper function)
+            if (is_pre_training) {
+                pre_training_rt.push(data.rt);
+                if (debug) {
+                    console.log('Pre-training rt added', pre_training_rt);
+                }
+            } else if (is_training) {
+                training_rt.push(data.rt);
+                if (debug) {
+                    console.log('Training rt added', training_rt);
+                }
+            }
             if (debug) {
-                console.log(dot_motion_rt);
                 console.log('Your answer is correct');
             }
         } else {
             if (debug) {
                 console.log('Your answer is incorrect')
             }
+            // TODO push to global variable and save to data 0 points
         }
         data.congruent = dot_motion_parameters.congruent;
     },
-    post_trial_gap: function() {return random_choice(itis)}
+    post_trial_gap: function () { return random_choice(itis) }
 }
 // FIXME: weird that scrollbar shows up during dotmotion rep (see https://github.com/jspsych/jsPsych/discussions/787)
 
@@ -244,7 +275,15 @@ var dot_motion_trials = {
 // training -> feedback with aliens
 var pre_training = {
     timeline: [rockets, rocket_chosen, dot_motion_trials],
-    repetitions: trial_repetitions,
+    on_start: function () {
+        is_pre_training = true;
+        is_training = false;
+    },
+    repetitions: pre_trial_repetitions,
+    on_finish: function () {
+        console.log("compute points obj again");
+        points = calculate_points_obj(pre_training_rt);
+    }
 }
 
 
@@ -269,17 +308,25 @@ var cue = {
 
 var training_timeline_variables = get_training_timeline_variables(num_reward_trials, num_probe_trials, false);
 
+var feedback; // TODO feedback cue
+
 var training = {
-    timeline: [cue], 
-    timeline_variables: training_timeline_variables
+    timeline: [cue, rockets, rocket_chosen, dot_motion_trials], // TODO add feedback
+    on_start: function () {
+        is_training = true;
+        is_pre_training = false;
+    },
+    timeline_variables: training_timeline_variables,
 }
+
+// TODO: keep track of accuracy and rt with arrays, clear at the end of each training loop
 
 
 var timeline = []
 timeline.push(instructions);
 timeline.push(colour_blocks);
 timeline.push(pre_training);
-timeline.push(training);
+// timeline.push(training);
 
 
 jsPsych.init({
@@ -289,3 +336,5 @@ jsPsych.init({
         jsPsych.data.displayData();
     }
 });
+
+

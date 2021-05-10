@@ -1,4 +1,4 @@
-function get_training_timeline_variables(num_reward_trials, num_probe_trials, debug=false) {
+function get_training_timeline_variables(num_reward_trials, num_probe_trials, debug = false) {
     var reward_trial_variable = { trial_type: 'reward', cue_image: 'stimuli/alien_reward.png' };
     var probe_trial_variable = { trial_type: 'probe', cue_image: 'stimuli/alien_noreward.png' };
     var training_timeline_variables = [reward_trial_variable];
@@ -75,8 +75,8 @@ function get_training_timeline_variables(num_reward_trials, num_probe_trials, de
         console.log('Number of new probes:', num_probe);
         console.log('Number of new rewards:', num_reward);
         console.log('Number of total trials:', training_timeline_variables.length);
-    
-        console.log('Final timeline variables:', training_timeline_variables)    
+
+        console.log('Final timeline variables:', training_timeline_variables)
     }
 
     return training_timeline_variables
@@ -244,4 +244,39 @@ function Ziggurat() {
         }
     }
     zigset();
+}
+
+function determine_reward(x, b = -0.1) {
+    return x.map(i => (1 / (1 + Math.exp(-i * b))))
+}
+
+
+
+
+function calculate_points_obj(rt, rew_min=230, rew_max=370, rew_mean=300, func=determine_reward, func_param=-0.8) {
+    if (rt.length == 0) {  // in case there aren't RTs in array
+        rt = [300, 500, 700];
+    }
+    // trim RTs
+    var rtcutoffs = mad_cutoffs(rt, 3.0);
+    rt = rt.filter(i => i > rtcutoffs[0] && i < rtcutoffs[1]);
+
+    // generate sequence of RTs from min to max value
+    rt = range(Math.floor(Math.min(...rt)), Math.ceil(Math.max(...rt)))
+
+    // median-center RT values
+    rtC = rt.map(i => i - median(rt))  // vectorize
+
+    // points for each RT
+    points = func(rtC, func_param);
+    rew_range = rew_max - rew_min;
+    points = points.map(i => round(i * rew_range + rew_min));
+
+    // create object maps rt to points {300: 370, 301: 369}...
+    let obj = {};
+    for (i=0; i<rt.length; i++) {
+        obj[rt[i]] = points[i];
+    }
+    
+    return obj;
 }
