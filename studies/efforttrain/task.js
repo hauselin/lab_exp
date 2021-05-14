@@ -280,10 +280,6 @@ var pre_training = {
         is_training = false;
     },
     repetitions: pre_trial_repetitions,
-    on_finish: function () {
-        console.log("compute points obj again");
-        points = calculate_points_obj(pre_training_rt);
-    }
 }
 
 
@@ -315,6 +311,8 @@ var training = {
     on_start: function () {
         is_training = true;
         is_pre_training = false;
+        console.log("compute points obj again");
+        points = calculate_points_obj(pre_training_rt);
     },
     timeline_variables: training_timeline_variables,
 }
@@ -326,7 +324,7 @@ var timeline = []
 timeline.push(instructions);
 timeline.push(colour_blocks);
 timeline.push(pre_training);
-// timeline.push(training);
+timeline.push(training);
 
 
 jsPsych.init({
