@@ -268,9 +268,9 @@ function calculate_points_obj(rt, rew_min=230, rew_max=370, rew_mean=300, func=d
     rtC = rt.map(i => i - median(rt))  // vectorize
 
     // points for each RT
-    points = func(rtC, func_param);
-    rew_range = rew_max - rew_min;
-    points = points.map(i => round(i * rew_range + rew_min));
+    var points = func(rtC, func_param);
+    var rew_range = rew_max - rew_min;
+    var points = points.map(i => round(i * rew_range + rew_min));
 
     // create object maps rt to points {300: 370, 301: 369}...
     let obj = {};
