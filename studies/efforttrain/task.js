@@ -292,11 +292,13 @@ var cue = {
     on_start: function () {
         document.body.style.backgroundImage = "url(" + training_timeline_variables[training_index].cue_image + ")";
         document.body.style.backgroundSize = "cover";
+        if (debug) {
+            console.log('Training index:', training_index);
+        }
     },
     on_finish: function (data) {
         document.body.style.backgroundImage = '';
         data.cue_type = training_timeline_variables[training_index].trial_type;
-        training_index++;
     },
     trial_duration: cue_duration
 }
@@ -304,10 +306,22 @@ var cue = {
 
 var training_timeline_variables = get_training_timeline_variables(num_reward_trials, num_probe_trials, false);
 
-var feedback; // TODO feedback cue
+var feedback = {
+    type: "html-keyboard-response",
+    stimulus: '',
+    on_start: function () {
+        document.body.style.backgroundImage = "url(" + training_timeline_variables[training_index].feedback_image + ")";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function (data) {
+        document.body.style.backgroundImage = '';
+        data.cue_type = training_timeline_variables[training_index].trial_type;
+        training_index++;
+    },
+}
 
 var training = {
-    timeline: [cue, rockets, rocket_chosen, dot_motion_trials], // TODO add feedback
+    timeline: [cue, rockets, rocket_chosen, dot_motion_trials, feedback], // TODO add feedback
     on_start: function () {
         is_training = true;
         is_pre_training = false;
