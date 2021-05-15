@@ -285,10 +285,10 @@ function calculate_points(rt, points_obj) {
     if (points_obj[Math.round(rt)] != undefined) {
         return points_obj[Math.round(rt)]
     } else {
-        if (Math.round(rt) < keys(points_obj)[0]) {
-            return values(points_obj)[0]
-        } else if (Math.round(rt) > keys(points_obj)[keys(points_obj).length-1]) {
-            return values(points_obj)[keys(points_obj).length-1]
+        if (Math.round(rt) < Object.keys(points_obj)[0]) {
+            return Object.values(points_obj)[0]
+        } else if (Math.round(rt) > Object.keys(points_obj)[Object.keys(points_obj).length-1]) {
+            return Object.values(points_obj)[Object.keys(points_obj).length-1]
         }
     }
 }

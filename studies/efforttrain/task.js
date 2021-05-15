@@ -151,6 +151,7 @@ var rocket_chosen = {
 
 var pre_training_rt = [];
 var training_rt = [];
+var training_points = [];
 var is_pre_training;
 var is_training;
 
@@ -188,7 +189,11 @@ var dot_motion = {
                 }
             } else if (is_training) {
                 training_rt.push(data.rt);
+                training_points.push(calculate_points(data.rt, points));
+                data.points = calculate_points(data.rt, points);
                 if (debug) {
+                    console.log('Reaction time:', data.rt);
+                    console.log('Points scored:', data.points);
                     console.log('Training rt added', training_rt);
                 }
             }
@@ -335,9 +340,9 @@ var training = {
 
 
 var timeline = []
-timeline.push(instructions);
-timeline.push(colour_blocks);
-timeline.push(pre_training);
+// timeline.push(instructions);
+// timeline.push(colour_blocks);
+// timeline.push(pre_training);
 timeline.push(training);
 
 
