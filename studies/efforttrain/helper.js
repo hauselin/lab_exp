@@ -283,7 +283,7 @@ function calculate_points_obj(rt, rew_min=230, rew_max=370, rew_mean=300, func=d
 
 function calculate_points(rt, points_obj) {
     if (points_obj[Math.round(rt)] != undefined) {
-        return points_obj[rt]
+        return points_obj[Math.round(rt)]
     } else {
         if (Math.round(rt) < keys(points_obj)[0]) {
             return values(points_obj)[0]
