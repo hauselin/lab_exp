@@ -185,16 +185,13 @@ var dot_motion = {
             if (is_pre_training) {
                 pre_training_rt.push(data.rt);
                 if (debug) {
-                    console.log('Pre-training rt added', pre_training_rt);
+                    console.log('Pre-training rt added:', data.rt);
                 }
             } else if (is_training) {
                 training_rt.push(data.rt);
                 training_points.push(calculate_points(data.rt, points));
-                data.points = calculate_points(data.rt, points);
                 if (debug) {
-                    console.log('Reaction time:', data.rt);
-                    console.log('Points scored:', data.points);
-                    console.log('Training rt added', training_rt);
+                    console.log('Training rt added:', data.rt);
                 }
             }
             if (debug) {
@@ -313,7 +310,15 @@ var training_timeline_variables = get_training_timeline_variables(num_reward_tri
 
 var feedback = {
     type: "html-keyboard-response",
-    stimulus: '',
+    stimulus: function () {
+        if (training_timeline_variables[training_index].trial_type == 'reward') {
+            return sum(training_points.slice(training_points.length - 3)).toString()
+        } else if (training_timeline_variables[training_index].trial_type == 'probe') {
+            return '0'
+        } else {
+            return ''
+        }
+    },
     on_start: function () {
         document.body.style.backgroundImage = "url(" + training_timeline_variables[training_index].feedback_image + ")";
         document.body.style.backgroundSize = "cover";
