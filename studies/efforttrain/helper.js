@@ -126,6 +126,13 @@ function mean(x) {
     return sum(x) / x.length;
 }
 
+function array_range(arr) {
+    if (arr.length == 0) {
+        throw 'Array length must be greater than 0!'
+    }
+    return Math.max(...arr) - Math.min(...arr);
+}
+
 // median absolute deviation for values in array x
 function mad(x, constant = 1.4826) {
     var med = median(x);
@@ -256,7 +263,7 @@ function determine_reward(x, b = -0.1) {
 function calculate_points_obj(rt, rew_min=230, rew_max=370, rew_mean=300, func=determine_reward, func_param=-0.8) {
     if (rt.length == 0) {  // in case there aren't RTs in array
         rt = [300, 500, 700];
-    } else if (rt.length == 1) {
+    } else if (array_range(rt) == 0) {  // in case there is not enough range
         rt.push(rt[0] / 2);
         rt.push(rt[0] + rt[0] / 2);
     }
