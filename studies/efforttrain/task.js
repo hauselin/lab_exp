@@ -7,7 +7,6 @@ var debug = true;
 const instruct_fontsize = 21;
 const rocket_selection_deadline = null; // ms
 const cue_duration = 1500;
-const feedback_duration = 1500;
 
 var rnorm = new Ziggurat();  // rnorm.nextGaussian() * 5 to generate random normal variable with mean 0 sd 5
 var itis = iti_exponential(200, 700);  // intervals between dot-motion reps
@@ -23,8 +22,9 @@ const num_majority = 300;
 var dot_motion_parameters;
 
 // training block parameters
-const num_reward_trials = 40;
-const num_probe_trials = 20;
+const num_reward_trials = 4;
+const num_probe_trials = 2;
+const feedback_duration = 1500;
 
 // colours used for task, with left and right randomized for each experiment
 // TODO orange and red might be too similar?!? (green/blue too??)
@@ -150,7 +150,6 @@ var rocket_chosen = {
 
 
 var pre_training_rt = [];
-var training_rt = [];
 var training_points = [];
 var is_pre_training;
 var is_training;
@@ -188,7 +187,6 @@ var dot_motion = {
                     console.log('Pre-training rt added:', data.rt);
                 }
             } else if (is_training) {
-                training_rt.push(data.rt);
                 training_points.push(calculate_points(data.rt, points));
                 if (debug) {
                     console.log('Training rt added:', data.rt);
@@ -198,12 +196,16 @@ var dot_motion = {
                 console.log('Your answer is correct');
             }
         } else {
+            if (is_training) {
+                training_points.push(0);
+            }
             if (debug) {
                 console.log('Your answer is incorrect')
             }
             // TODO push to global variable and save to data 0 points
         }
         data.congruent = dot_motion_parameters.congruent;
+        data.points = training_points[training_points.length - 1];
     },
     post_trial_gap: function () { return random_choice(itis) }
 }
@@ -310,11 +312,12 @@ var training_timeline_variables = get_training_timeline_variables(num_reward_tri
 
 var feedback = {
     type: "html-keyboard-response",
+    choices: [],
+    trial_duration: feedback_duration,
     stimulus: function () {
         if (training_timeline_variables[training_index].trial_type == 'reward') {
-            return sum(training_points.slice(training_points.length - 3)).toString()
-        } else if (training_timeline_variables[training_index].trial_type == 'probe') {
-            return '0'
+            let point_scored = mean(training_points.slice(training_points.length - 3)) + rnorm.nextGaussian() * 5;
+            return generate_html(Math.round(point_scored), font_colour, 89, [0, -200]);
         } else {
             return ''
         }
@@ -326,6 +329,7 @@ var feedback = {
     on_finish: function (data) {
         document.body.style.backgroundImage = '';
         data.cue_type = training_timeline_variables[training_index].trial_type;
+        data.mean_points = mean(training_points.slice(training_points.length - 3));
         training_index++;
     },
 }
