@@ -323,9 +323,9 @@ var cue = {
         document.body.style.backgroundImage = '';
         data.cue_type = training_timeline_variables[training_index].trial_type;
         data.event = 'training_cue';
-        data.trial_number = trial_number;
+        data.trial_number = trial_number + 1;
         if (debug) {
-            console.log('Trial number:', trial_number);
+            console.log('Trial number:', trial_number + 1);
         }
     },
     trial_duration: cue_duration
@@ -365,7 +365,7 @@ var feedback = {
 
 var training = {
     timeline: [cue, rockets, rocket_chosen, dot_motion_trials, feedback], // TODO add feedback
-    on_start: function () {
+    on_start: function () {  // does it once during the timeline at the first trial that does not have on_start
         trial_number++;
         is_training = true;
         is_pre_training = false;
