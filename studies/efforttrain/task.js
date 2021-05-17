@@ -382,6 +382,17 @@ var training = {
 var timeline = []
 timeline.push(instructions);
 timeline.push(colour_blocks);
+// Below are actual trials
+
+// TODO: practice colour timeline -> 80 times unless (use jspsych conditionals) if they have completed more than 10 trials and their overall accuracy in the last 15 trials is >0.8
+// Show only hard task rocket in the middle -> only do hard task
+// 1 dot motion repetition
+// Get feedback (points) after every trial
+
+// TODO: practice motion timeline (same as the colour timeline)
+
+// TODO: rocket choosing practice, just rockets and rockets chosen, instructions for choosing hard / easy
+
 timeline.push(pre_training);
 timeline.push(training);
 
