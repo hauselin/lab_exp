@@ -22,9 +22,12 @@ const num_majority = 300;
 var dot_motion_parameters;
 
 // training block parameters
-const num_reward_trials = 4;
-const num_probe_trials = 2;
+const num_reward_trials = 40;
+const num_probe_trials = 20;
 const feedback_duration = 1500;
+
+// Overal trial number pretraining / training (don't change)
+var trial_number = 0;
 
 // colours used for task, with left and right randomized for each experiment
 // TODO orange and red might be too similar?!? (green/blue too??)
@@ -109,6 +112,11 @@ var rockets = {
             data.rocket = assigned_info.rocket2
         }
         rocket_choices.push(data.rocket);
+        data.event = 'rockets';
+        data.trial_number = trial_number;
+        if (debug) {
+            console.log('Trial number:', trial_number);
+        }
     }
 };
 
@@ -139,11 +147,16 @@ var rocket_chosen = {
     },
     choices: jsPsych.NO_KEYS,
     trial_duration: 500,
-    on_finish: function () {
+    on_finish: function (data) {
         if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket1) {
             dot_motion_parameters = dot_motion_trial_variable(true);
         } else {
             dot_motion_parameters = dot_motion_trial_variable(false);
+        }
+        data.event = 'rocket_chosen';
+        data.trial_number = trial_number;
+        if (debug) {
+            console.log('Trial number:', trial_number);
         }
     }
 }
@@ -206,6 +219,11 @@ var dot_motion = {
         }
         data.congruent = dot_motion_parameters.congruent;
         data.points = training_points[training_points.length - 1];
+        data.event = 'dot_motion';
+        data.trial_number = trial_number;
+        if (debug) {
+            console.log('Trial number:', trial_number);
+        }
     },
     post_trial_gap: function () { return random_choice(itis) }
 }
@@ -280,6 +298,7 @@ var dot_motion_trials = {
 var pre_training = {
     timeline: [rockets, rocket_chosen, dot_motion_trials],
     on_start: function () {
+        trial_number++;
         is_pre_training = true;
         is_training = false;
     },
@@ -303,6 +322,11 @@ var cue = {
     on_finish: function (data) {
         document.body.style.backgroundImage = '';
         data.cue_type = training_timeline_variables[training_index].trial_type;
+        data.event = 'training_cue';
+        data.trial_number = trial_number;
+        if (debug) {
+            console.log('Trial number:', trial_number);
+        }
     },
     trial_duration: cue_duration
 }
@@ -330,6 +354,11 @@ var feedback = {
         document.body.style.backgroundImage = '';
         data.cue_type = training_timeline_variables[training_index].trial_type;
         data.mean_points = mean(training_points.slice(training_points.length - 3));
+        data.event = 'training_feedback';
+        data.trial_number = trial_number;
+        if (debug) {
+            console.log('Trial number:', trial_number);
+        }
         training_index++;
     },
 }
@@ -337,6 +366,7 @@ var feedback = {
 var training = {
     timeline: [cue, rockets, rocket_chosen, dot_motion_trials, feedback], // TODO add feedback
     on_start: function () {
+        trial_number++;
         is_training = true;
         is_pre_training = false;
         console.log("compute points obj again");
@@ -349,9 +379,9 @@ var training = {
 
 
 var timeline = []
-// timeline.push(instructions);
-// timeline.push(colour_blocks);
-// timeline.push(pre_training);
+timeline.push(instructions);
+timeline.push(colour_blocks);
+timeline.push(pre_training);
 timeline.push(training);
 
 
