@@ -1,6 +1,6 @@
 function get_training_timeline_variables(num_reward_trials, num_probe_trials, debug = false) {
-    var reward_trial_variable = { trial_type: 'reward', cue_image: 'stimuli/alien_reward.png' };
-    var probe_trial_variable = { trial_type: 'probe', cue_image: 'stimuli/alien_noreward.png' };
+    var reward_trial_variable = { trial_type: 'reward', cue_image: 'stimuli/alien_reward.png', feedback_image: 'stimuli/alien_reward_feedback.png' };
+    var probe_trial_variable = { trial_type: 'probe', cue_image: 'stimuli/alien_noreward.png', feedback_image: 'stimuli/alien_noreward_feedback.png' };
     var training_timeline_variables = [reward_trial_variable];
 
     var num_reward = 1;
@@ -124,6 +124,13 @@ function sum(x) {
 
 function mean(x) {
     return sum(x) / x.length;
+}
+
+function array_range(arr) {
+    if (arr.length == 0) {
+        throw 'Array length must be greater than 0!'
+    }
+    return Math.max(...arr) - Math.min(...arr);
 }
 
 // median absolute deviation for values in array x
@@ -256,6 +263,9 @@ function determine_reward(x, b = -0.1) {
 function calculate_points_obj(rt, rew_min=230, rew_max=370, rew_mean=300, func=determine_reward, func_param=-0.8) {
     if (rt.length == 0) {  // in case there aren't RTs in array
         rt = [300, 500, 700];
+    } else if (array_range(rt) == 0) {  // in case there is not enough range
+        rt.push(rt[0] / 2);
+        rt.push(rt[0] + rt[0] / 2);
     }
     // trim RTs
     var rtcutoffs = mad_cutoffs(rt, 3.0);
@@ -268,9 +278,9 @@ function calculate_points_obj(rt, rew_min=230, rew_max=370, rew_mean=300, func=d
     rtC = rt.map(i => i - median(rt))  // vectorize
 
     // points for each RT
-    points = func(rtC, func_param);
-    rew_range = rew_max - rew_min;
-    points = points.map(i => round(i * rew_range + rew_min));
+    var points = func(rtC, func_param);
+    var rew_range = rew_max - rew_min;
+    var points = points.map(i => round(i * rew_range + rew_min));
 
     // create object maps rt to points {300: 370, 301: 369}...
     let obj = {};
@@ -279,4 +289,16 @@ function calculate_points_obj(rt, rew_min=230, rew_max=370, rew_mean=300, func=d
     }
     
     return obj;
+}
+
+function calculate_points(rt, points_obj) {
+    if (points_obj[Math.round(rt)] != undefined) {
+        return points_obj[Math.round(rt)]
+    } else {
+        if (Math.round(rt) < Object.keys(points_obj)[0]) {
+            return Object.values(points_obj)[0]
+        } else if (Math.round(rt) > Object.keys(points_obj)[Object.keys(points_obj).length-1]) {
+            return Object.values(points_obj)[Object.keys(points_obj).length-1]
+        }
+    }
 }
