@@ -396,6 +396,8 @@ timeline.push(colour_blocks);
 timeline.push(pre_training);
 timeline.push(training);
 
+// TODO: post training
+
 
 jsPsych.init({
     timeline: timeline,
