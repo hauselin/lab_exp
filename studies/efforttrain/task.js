@@ -313,6 +313,7 @@ var cue = {
     stimulus_height: window.innerHeight / 2,
     maintain_aspect_ratio: true,
     on_start: function () {
+        console.log('TRIAL NUM =', trial_number + 1);
         document.body.style.backgroundImage = "url(" + training_timeline_variables[training_index].cue_image + ")";
         document.body.style.backgroundSize = "cover";
         if (debug) {
