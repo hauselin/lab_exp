@@ -18,6 +18,9 @@ var prac_colour_acc = 0.8; // required accuracy for the last 15 trials
 var prac_colour_max = 80; // maximum practice trials before moving on
 var prac_colour_deadline = 15000; // rt deadline for colour block practice trial
 var prac_colour_feedback_duration = 1000 // feedback duration
+// practice hard rocket
+var prac_hard_rocket_trials = 5; // number of practice trials
+var prac_hard_rocket_prompt_duration = 2000; // hard rocket prompt duration
 
 // pre_training block parameters
 const pre_trial_repetitions = 5;
@@ -464,6 +467,42 @@ var practice_colour_trials = {
     },
 }
 
+var practice_hard_rocket_prompt = {
+    type: "html-keyboard-response",
+    stimulus: `
+      <div><img src='${images.rocket1}' width='233'></img></div>
+    `,
+    on_finish: function () {
+        dot_motion_parameters = dot_motion_trial_variable(true);
+    },
+    trial_duration: prac_hard_rocket_prompt_duration,
+}
+
+var practice_hard_rocket = jsPsych.utils.deepCopy(dot_motion);
+practice_hard_rocket.on_start = function () {
+    dot_motion_parameters = dot_motion_trial_variable(true);
+};
+practice_hard_rocket.on_finish = function (data) {
+    if (data.correct) {
+        data.points = calculate_points(data.rt, points);
+    } else {
+        data.points = 0;
+    }
+    data.event = 'practice_hard_rocket';
+}
+
+var practice_hard_rocket_feedback = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        return JSON.parse(jsPsych.data.getLastTrialData().json())[0].points
+    },
+    trial_duration: 2000,
+}
+var practice_hard_rocket_trials = {
+    timeline: [practice_hard_rocket_prompt, practice_hard_rocket, practice_hard_rocket_feedback],
+    repetitions: prac_hard_rocket_trials,
+}
+
 // Show only hard task rocket in the middle -> only do hard task
 // 1 dot motion repetition
 // Get feedback (points) after every trial
@@ -474,7 +513,8 @@ var practice_colour_trials = {
 
 // timeline.push(pre_training);
 // timeline.push(training);
-timeline.push(practice_colour_trials);
+// timeline.push(practice_colour_trials);
+timeline.push(practice_hard_rocket_trials);
 
 // TODO: post training
 
