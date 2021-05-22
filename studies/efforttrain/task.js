@@ -389,7 +389,7 @@ var training = {
 
 var timeline = []
 // timeline.push(instructions);
-// timeline.push(colour_blocks);
+timeline.push(colour_blocks);
 // Below are actual trials
 
 // TODO: practice colour timeline -> 80 times unless (use jspsych conditionals) if they have completed more than 10 trials and their overall accuracy in the last 15 trials is >0.8
@@ -398,9 +398,6 @@ var practice_colour_accuracies = [];
 var practice_colour_prompt = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];
 var practice_colour = {
     type: "html-keyboard-response",
-    on_start: function () {
-        practice_colour_prompt = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];
-    },
     stimulus: function () {
         return `<div style='background-color: ${practice_colour_prompt}; width: 100px; height: 100px;'></div>`
     },
@@ -426,6 +423,7 @@ var practice_colour = {
             practice_colour_accuracies.push(0);
         }
         data.event = 'practice_colour';
+        practice_colour_prompt = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];
     }
 };
 
@@ -446,8 +444,18 @@ var practice_colour_feedback = {
 var practice_colour_trials = {
     timeline: [practice_colour, practice_colour_feedback],
     repetitions: prac_colour_max,
-    conditional_function: function() {
-        return true
+    conditional_function: function () {
+        var repeat_colour_practice = true;
+        if (practice_colour_accuracies.length > 10) {
+            if (practice_colour_accuracies.length <= 15) {
+                if (mean(practice_colour_accuracies) > prac_colour_acc) {
+                    repeat_colour_practice = false;
+                }
+            } else if (mean(practice_colour_accuracies.slice(practice_colour_accuracies.length - 15)) > prac_colour_acc) {
+                repeat_colour_practice = false;
+            }
+        }
+        return repeat_colour_practice
     },
 }
 
