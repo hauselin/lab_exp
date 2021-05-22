@@ -18,10 +18,14 @@ var prac_colour_acc = 0.8; // required accuracy for the last 15 trials
 var prac_colour_max = 80; // maximum practice trials before moving on
 var prac_colour_deadline = 15000; // rt deadline for colour block practice trial
 var prac_colour_feedback_duration = 1000 // feedback duration
-// practice rocket
-var prac_rocket_trials = 5; // number of practice trials
-var prac_rocket_prompt_duration = 2000; // hard rocket prompt duration
-var prac_rocket_feedback_duration = 2000; // feedback duration
+// practice dot motion
+var prac_dot_trials = 5; // number of practice trials
+var prac_dot_prompt_duration = 2000; // hard rocket prompt duration
+var prac_dot_feedback_duration = 2000; // feedback duration
+// practice rocket selection
+var prac_rocket_max = 10; // maximum practice trials before moving on
+var prac_rocket_deadline = 15000; // rt deadline for colour block practice trial
+var prac_rocket_feedback_duration = 1000 // feedback duration
 
 // pre_training block parameters
 const pre_trial_repetitions = 5;
@@ -392,11 +396,9 @@ var training = {
 
 
 var timeline = []
-// timeline.push(instructions);
+timeline.push(instructions);
 timeline.push(colour_blocks);
 // Below are actual trials
-
-// TODO: practice colour timeline -> 80 times unless (use jspsych conditionals) if they have completed more than 10 trials and their overall accuracy in the last 15 trials is >0.8
 
 var practice_colour_accuracies = [];
 var practice_colour_prompt = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];
@@ -468,7 +470,7 @@ var practice_colour_trials = {
     },
 }
 
-var practice_hard_rocket_prompt = {
+var practice_hard_dot_prompt = {
     type: "html-keyboard-response",
     stimulus: `
       <div><img src='${images.rocket1}' width='233'></img></div>
@@ -476,14 +478,14 @@ var practice_hard_rocket_prompt = {
     on_finish: function () {
         dot_motion_parameters = dot_motion_trial_variable(true);
     },
-    trial_duration: prac_rocket_prompt_duration,
+    trial_duration: prac_dot_prompt_duration,
 }
 
-var practice_hard_rocket = jsPsych.utils.deepCopy(dot_motion);
-practice_hard_rocket.on_start = function () {
+var practice_hard_dot = jsPsych.utils.deepCopy(dot_motion);
+practice_hard_dot.on_start = function () {
     dot_motion_parameters = dot_motion_trial_variable(true);
 };
-practice_hard_rocket.on_finish = function (data) {
+practice_hard_dot.on_finish = function (data) {
     if (data.correct) {
         data.points = calculate_points(data.rt, points);
     } else {
@@ -492,19 +494,19 @@ practice_hard_rocket.on_finish = function (data) {
     data.event = 'practice_hard_rocket';
 }
 
-var practice_rocket_feedback = {
+var practice_dot_feedback = {
     type: "html-keyboard-response",
     stimulus: function () {
         return JSON.parse(jsPsych.data.getLastTrialData().json())[0].points
     },
-    trial_duration: prac_rocket_feedback_duration,
+    trial_duration: prac_dot_feedback_duration,
 }
-var practice_hard_rocket_trials = {
-    timeline: [practice_hard_rocket_prompt, practice_hard_rocket, practice_rocket_feedback],
-    repetitions: prac_rocket_trials,
+var practice_hard_dot_trials = {
+    timeline: [practice_hard_dot_prompt, practice_hard_dot, practice_dot_feedback],
+    repetitions: prac_dot_trials,
 }
 
-var practice_easy_rocket_prompt = {
+var practice_easy_dot_prompt = {
     type: "html-keyboard-response",
     stimulus: `
       <div><img src='${images.rocket2}' width='233'></img></div>
@@ -512,14 +514,14 @@ var practice_easy_rocket_prompt = {
     on_finish: function () {
         dot_motion_parameters = dot_motion_trial_variable(false);
     },
-    trial_duration: prac_rocket_prompt_duration,
+    trial_duration: prac_dot_prompt_duration,
 }
 
-var practice_easy_rocket = jsPsych.utils.deepCopy(dot_motion);
-practice_easy_rocket.on_start = function () {
+var practice_easy_dot = jsPsych.utils.deepCopy(dot_motion);
+practice_easy_dot.on_start = function () {
     dot_motion_parameters = dot_motion_trial_variable(false);
 };
-practice_easy_rocket.on_finish = function (data) {
+practice_easy_dot.on_finish = function (data) {
     if (data.correct) {
         data.points = calculate_points(data.rt, points);
     } else {
@@ -528,24 +530,60 @@ practice_easy_rocket.on_finish = function (data) {
     data.event = 'practice_easy_rocket';
 }
 
-var practice_easy_rocket_trials = {
-    timeline: [practice_easy_rocket_prompt, practice_easy_rocket, practice_rocket_feedback],
-    repetitions: prac_rocket_trials,
+var practice_easy_dot_trials = {
+    timeline: [practice_easy_dot_prompt, practice_easy_dot, practice_dot_feedback],
+    repetitions: prac_dot_trials,
 }
 
-// Show only hard task rocket in the middle -> only do hard task
-// 1 dot motion repetition
-// Get feedback (points) after every trial
-
-// TODO: practice motion timeline (same as the colour timeline)
-
 // TODO: rocket choosing practice, just rockets and rockets chosen, instructions for choosing hard / easy
+var practice_rocket_prompt = jsPsych.randomization.sampleWithoutReplacement(['colour', 'motion'], 1)[0];
+var practice_rocket = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        return `Choose the rocket associated to the <b>${practice_rocket_prompt}</b> task
+        <div>
+        <div style='float: left; padding-right: 10px'><img src='${images.rocket1}' width='233'></img></div>
+        <div style='float: right; padding-left: 10px'><img src='${images.rocket2}' width='233'></img></div>
+        </div>
+    `
+    },
+    choices: [37, 39],
+    trial_duration: prac_rocket_deadline,
+    on_finish: function (data) {
+        if (data.key_press == 37) {
+            if (practice_rocket_prompt == 'colour') {
+                data.correct = true;
+            } else {
+                data.correct = false;
+            }
+        } else if (data.key_press == 39) {
+            if (practice_rocket_prompt == 'motion') {
+                data.correct = true;
+            } else {
+                data.correct = false;
+            }
+        }
+        data.event = 'practice_rocket';
+        practice_rocket_prompt = jsPsych.randomization.sampleWithoutReplacement(['colour', 'motion'], 1)[0];
+    }
+
+}
+
+var practice_rocket_feedback = jsPsych.utils.deepCopy(practice_colour_feedback);
+practice_rocket_feedback.trial_duration = prac_rocket_feedback_duration;
+
+var practice_rocket_trials = {
+    timeline: [practice_rocket, practice_rocket_feedback],
+    repetitions: prac_rocket_max,
+}
+
 
 // timeline.push(pre_training);
 // timeline.push(training);
-// timeline.push(practice_colour_trials);
-timeline.push(practice_hard_rocket_trials);
-timeline.push(practice_easy_rocket_trials);
+timeline.push(practice_colour_trials);
+timeline.push(practice_hard_dot_trials);
+timeline.push(practice_easy_dot_trials);
+timeline.push(practice_rocket_trials);
 
 // TODO: post training
 
