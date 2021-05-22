@@ -17,6 +17,7 @@ var itis = iti_exponential(200, 700);  // intervals between dot-motion reps
 var prac_colour_acc = 0.8; // required accuracy for the last 15 trials
 var prac_colour_max = 80; // maximum practice trials before moving on
 var prac_colour_deadline = 15000; // rt deadline for colour block practice trial
+var prac_colour_feedback_duration = 1000 // feedback duration
 
 // pre_training block parameters
 const pre_trial_repetitions = 5;
@@ -419,12 +420,31 @@ var practice_colour = {
                 data.correct = false;
             }
         }
+        if (data.correct) {
+            practice_colour_accuracies.push(1);
+        } else {
+            practice_colour_accuracies.push(0);
+        }
         data.event = 'practice_colour';
     }
 };
 
+var practice_colour_feedback = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        if (JSON.parse(jsPsych.data.getLastTrialData().json())[0].correct == true) {
+            return 'Your answer is correct'
+        } else if (JSON.parse(jsPsych.data.getLastTrialData().json())[0].correct == false) {
+            return 'Your answer is incorrect'
+        } else {
+            return 'Response faster'
+        }
+    },
+    trial_duration: prac_colour_feedback_duration,
+}
+
 var practice_colour_trials = {
-    timeline: [practice_colour],
+    timeline: [practice_colour, practice_colour_feedback],
     repetitions: prac_colour_max,
     conditional_function: function() {
         return true
