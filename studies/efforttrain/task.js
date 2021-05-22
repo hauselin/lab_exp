@@ -422,6 +422,11 @@ var practice_colour = {
         } else {
             practice_colour_accuracies.push(0);
         }
+
+        if (debug) {
+            console.log(practice_colour_accuracies);
+        }
+
         data.event = 'practice_colour';
         practice_colour_prompt = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];
     }
