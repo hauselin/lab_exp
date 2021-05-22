@@ -11,6 +11,13 @@ const cue_duration = 1500;
 var rnorm = new Ziggurat();  // rnorm.nextGaussian() * 5 to generate random normal variable with mean 0 sd 5
 var itis = iti_exponential(200, 700);  // intervals between dot-motion reps
 
+
+// practice trial parameters
+// practice colour blocks
+var prac_colour_acc = 0.8; // required accuracy for the last 15 trials
+var prac_colour_max = 80; // maximum practice trials before moving on
+var prac_colour_deadline = 15000; // rt deadline for colour block practice trial
+
 // pre_training block parameters
 const pre_trial_repetitions = 5;
 
@@ -380,11 +387,50 @@ var training = {
 
 
 var timeline = []
-timeline.push(instructions);
-timeline.push(colour_blocks);
+// timeline.push(instructions);
+// timeline.push(colour_blocks);
 // Below are actual trials
 
 // TODO: practice colour timeline -> 80 times unless (use jspsych conditionals) if they have completed more than 10 trials and their overall accuracy in the last 15 trials is >0.8
+
+var practice_colour_accuracies = [];
+var practice_colour_prompt = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];
+var practice_colour = {
+    type: "html-keyboard-response",
+    on_start: function () {
+        practice_colour_prompt = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];
+    },
+    stimulus: function () {
+        return `<div style='background-color: ${practice_colour_prompt}; width: 100px; height: 100px;'></div>`
+    },
+    choices: [37, 39],
+    trial_duration: prac_colour_deadline,
+    on_finish: function (data) {
+        if (data.key_press == 37) {
+            if (colours_left.includes(practice_colour_prompt)) {
+                data.correct = true;
+            } else {
+                data.correct = false;
+            }
+        } else if (data.key_press == 39) {
+            if (colours_right.includes(practice_colour_prompt)) {
+                data.correct = true;
+            } else {
+                data.correct = false;
+            }
+        }
+        data.event = 'practice_colour';
+    }
+};
+
+var practice_colour_trials = {
+    timeline: [practice_colour],
+    repetitions: prac_colour_max,
+    conditional_function: function() {
+        return true
+    },
+}
+
 // Show only hard task rocket in the middle -> only do hard task
 // 1 dot motion repetition
 // Get feedback (points) after every trial
@@ -393,8 +439,9 @@ timeline.push(colour_blocks);
 
 // TODO: rocket choosing practice, just rockets and rockets chosen, instructions for choosing hard / easy
 
-timeline.push(pre_training);
-timeline.push(training);
+// timeline.push(pre_training);
+// timeline.push(training);
+timeline.push(practice_colour_trials);
 
 // TODO: post training
 
