@@ -225,11 +225,13 @@ var dot_motion = {
                 if (debug) {
                     console.log('Pre-training rt added:', data.rt);
                 }
+                data.block = 'pre-training';
             } else if (is_training) {
                 training_points.push(current_points);
                 if (debug) {
                     console.log('Training rt added:', data.rt);
                 }
+                data.block = 'training';
             }
             if (debug) {
                 console.log('Your answer is correct');
@@ -237,6 +239,9 @@ var dot_motion = {
         } else {
             if (is_training) {
                 training_points.push(current_points);
+                data.block = 'training';
+            } else if (is_pre_training) {
+                data.block = 'pre-training';
             }
             if (debug) {
                 console.log('Your answer is incorrect')
@@ -590,17 +595,23 @@ var practice_rocket_trials = {
 }
 
 var timeline = [];
-// timeline.push(instructions);
+timeline.push(instructions);
 timeline.push(colour_blocks);
 // timeline.push(practice_colour_trials);
 // timeline.push(practice_hard_dot_trials);
 // timeline.push(practice_easy_dot_trials);
 // timeline.push(practice_rocket_trials);
 
+// TODO: deepcopy pre-training for 5 trials of practice
+
 // timeline.push(pre_training);
+
+// TODO: introduce aliens, use background image, 2 pages
+// TODO: training that only includes the reward alien / noreward alien, 5 trials each
+// TODO: proper training practice that includes both alien types, 4 each.
 // timeline.push(training);
 
-// TODO: post training
+// TODO: post training, identical to pre-training, change event, do not store anything extra, store post-training to data.block
 
 
 jsPsych.init({
