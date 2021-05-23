@@ -408,7 +408,7 @@ var training = {
 
 // Below are actual trials
 
-// TODO: feedback for dot motion practice -> accuracy instead of points. conditionals for dot motion (make feedback larger generate_html)
+// TODO: feedback for dot motion practice -> accuracy and rt instead of points. conditionals for dot motion (make feedback larger generate_html)
 
 var practice_colour_accuracies = [];
 var practice_colour_prompt = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];
@@ -592,8 +592,8 @@ var practice_rocket_trials = {
 var timeline = [];
 // timeline.push(instructions);
 timeline.push(colour_blocks);
-timeline.push(practice_colour_trials);
-timeline.push(practice_hard_dot_trials);
+// timeline.push(practice_colour_trials);
+// timeline.push(practice_hard_dot_trials);
 // timeline.push(practice_easy_dot_trials);
 // timeline.push(practice_rocket_trials);
 
