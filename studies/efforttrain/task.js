@@ -156,18 +156,6 @@ function get_rocket_remaining(position, random_rockets) {
     return string
 }
 
-// var left_rocket_remaining =
-//     `<div>
-//     <div style='float: left; padding-right: 10px'><img src='stimuli/${random_rockets[0]}' width='233'></img></div>
-//     <div style='float: right; padding-left: 10px'><img width='233'></img></div>
-//     </div>`;
-
-// var right_rocket_remaining =
-//     `<div>
-//     <div style='float: left; padding-right: 10px'><img width='233'></img></div>
-//     <div style='float: right; padding-left: 10px'><img src='stimuli/${random_rockets[1]}' width='233'></img></div>
-//     </div>`;
-
 var rocket_chosen = {
     type: 'html-keyboard-response',
     stimulus: '',
