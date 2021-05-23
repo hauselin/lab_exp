@@ -109,23 +109,26 @@ var colour_blocks = {
   `
 }
 
-
+// TODO: make rockets randomly swap places.
 var rocket_choices = [];
+var random_rockets = jsPsych.randomization.shuffle([assigned_info.rocket1, assigned_info.rocket2]);
+// console.log(random_rockets);
 var rockets = {
     type: "html-keyboard-response",
-    stimulus: `
-      <div>
-      <div style='float: left; padding-right: 10px'><img src='${images.rocket1}' width='233'></img></div>
-      <div style='float: right; padding-left: 10px'><img src='${images.rocket2}' width='233'></img></div>
-      </div>
-    `,
+    stimulus: function () {
+        random_rockets = jsPsych.randomization.shuffle([assigned_info.rocket1, assigned_info.rocket2]);
+        return `<div>
+        <div style='float: left; padding-right: 10px'><img src='stimuli/${random_rockets[0]}' width='233'></img></div>
+        <div style='float: right; padding-left: 10px'><img src='stimuli/${random_rockets[1]}' width='233'></img></div>
+        </div>`
+    },
     choices: [37, 39],
     trial_duration: rocket_selection_deadline,
     on_finish: function (data) {
         if (data.key_press == 37) {
-            data.rocket = assigned_info.rocket1
+            data.rocket = random_rockets[0]
         } else {
-            data.rocket = assigned_info.rocket2
+            data.rocket = random_rockets[1]
         }
         rocket_choices.push(data.rocket);
         data.event = 'rockets';
@@ -136,17 +139,34 @@ var rockets = {
     }
 };
 
-var left_rocket_remaining =
-    `<div>
-    <div style='float: left; padding-right: 10px'><img src='${images.rocket1}' width='233'></img></div>
-    <div style='float: right; padding-left: 10px'><img width='233'></img></div>
+function get_rocket_remaining(position, random_rockets) {
+    var string = `<div>
+    <div style='float: left; padding-right: 10px'><img LEFT width='233'></img></div>
+    <div style='float: right; padding-left: 10px'><img RIGHT width='233'></img></div>
     </div>`;
 
-var right_rocket_remaining =
-    `<div>
-    <div style='float: left; padding-right: 10px'><img width='233'></img></div>
-    <div style='float: right; padding-left: 10px'><img src='${images.rocket2}' width='233'></img></div>
-    </div>`;
+    if (position == 'left') {
+        string = string.replace('LEFT', `src='stimuli/${random_rockets[0]}'`)
+        string = string.replace('RIGHT', '')
+    } else if (position == 'right') {
+        string = string.replace('LEFT', '')
+        string = string.replace('RIGHT', `src='stimuli/${random_rockets[1]}'`)
+    }
+
+    return string
+}
+
+// var left_rocket_remaining =
+//     `<div>
+//     <div style='float: left; padding-right: 10px'><img src='stimuli/${random_rockets[0]}' width='233'></img></div>
+//     <div style='float: right; padding-left: 10px'><img width='233'></img></div>
+//     </div>`;
+
+// var right_rocket_remaining =
+//     `<div>
+//     <div style='float: left; padding-right: 10px'><img width='233'></img></div>
+//     <div style='float: right; padding-left: 10px'><img src='stimuli/${random_rockets[1]}' width='233'></img></div>
+//     </div>`;
 
 var rocket_chosen = {
     type: 'html-keyboard-response',
@@ -154,9 +174,9 @@ var rocket_chosen = {
     on_start: function (trial) {
         var key_press = jsPsych.data.get().last(1).values()[0].key_press;
         if (key_press == 37) {
-            trial.stimulus = left_rocket_remaining;
+            trial.stimulus = get_rocket_remaining('left', random_rockets);
         } else if (key_press == 39) {
-            trial.stimulus = right_rocket_remaining;
+            trial.stimulus = get_rocket_remaining('right', random_rockets);
         } else {
             trial.stimulus = 'Too slow'
         }
@@ -208,7 +228,9 @@ var dot_motion = {
     aperture_center_x: [(window.innerWidth / 2), (window.innerWidth / 2)],
     aperture_center_y: [(window.innerHeight / 2), (window.innerHeight / 2)],
     on_finish: function (data) {
+        var current_points = 0;
         if (data.correct) {
+            current_points = calculate_points(data.rt, points);
             // TODO push to global variable and compute points (another helper function)
             if (is_pre_training) {
                 pre_training_rt.push(data.rt);
@@ -216,7 +238,7 @@ var dot_motion = {
                     console.log('Pre-training rt added:', data.rt);
                 }
             } else if (is_training) {
-                training_points.push(calculate_points(data.rt, points));
+                training_points.push(current_points);
                 if (debug) {
                     console.log('Training rt added:', data.rt);
                 }
@@ -226,7 +248,7 @@ var dot_motion = {
             }
         } else {
             if (is_training) {
-                training_points.push(0);
+                training_points.push(current_points);
             }
             if (debug) {
                 console.log('Your answer is incorrect')
@@ -234,11 +256,12 @@ var dot_motion = {
             // TODO push to global variable and save to data 0 points
         }
         data.congruent = dot_motion_parameters.congruent;
-        data.points = training_points[training_points.length - 1];
+        data.points = current_points;
         data.event = 'dot_motion';
         data.trial_number = trial_number;
         if (debug) {
             console.log('Trial number:', trial_number);
+            console.log('Current points:', current_points);
         }
     },
     post_trial_gap: function () { return random_choice(itis) }
@@ -396,7 +419,7 @@ var training = {
 
 
 var timeline = []
-timeline.push(instructions);
+// timeline.push(instructions);
 timeline.push(colour_blocks);
 // Below are actual trials
 
@@ -540,10 +563,11 @@ var practice_rocket_prompt = jsPsych.randomization.sampleWithoutReplacement(['co
 var practice_rocket = {
     type: "html-keyboard-response",
     stimulus: function () {
+        random_rockets = jsPsych.randomization.shuffle([assigned_info.rocket1, assigned_info.rocket2]);
         return `Choose the rocket associated to the <b>${practice_rocket_prompt}</b> task
         <div>
-        <div style='float: left; padding-right: 10px'><img src='${images.rocket1}' width='233'></img></div>
-        <div style='float: right; padding-left: 10px'><img src='${images.rocket2}' width='233'></img></div>
+        <div style='float: left; padding-right: 10px'><img src='stimuli/${random_rockets[0]}' width='233'></img></div>
+        <div style='float: right; padding-left: 10px'><img src='stimuli/${random_rockets[1]}' width='233'></img></div>
         </div>
     `
     },
@@ -578,12 +602,12 @@ var practice_rocket_trials = {
 }
 
 
-// timeline.push(pre_training);
+timeline.push(pre_training);
 // timeline.push(training);
-timeline.push(practice_colour_trials);
-timeline.push(practice_hard_dot_trials);
-timeline.push(practice_easy_dot_trials);
-timeline.push(practice_rocket_trials);
+// timeline.push(practice_colour_trials);
+// timeline.push(practice_hard_dot_trials);
+// timeline.push(practice_easy_dot_trials);
+// timeline.push(practice_rocket_trials);
 
 // TODO: post training
 
