@@ -406,10 +406,9 @@ var training = {
 // TODO: keep track of accuracy and rt with arrays, clear at the end of each training loop
 
 
-var timeline = []
-// timeline.push(instructions);
-timeline.push(colour_blocks);
 // Below are actual trials
+
+// TODO: feedback for dot motion practice -> accuracy instead of points. conditionals for dot motion (make feedback larger generate_html)
 
 var practice_colour_accuracies = [];
 var practice_colour_prompt = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];
@@ -559,43 +558,47 @@ var practice_rocket = {
         </div>
     `
     },
-    choices: [37, 39],
-    trial_duration: prac_rocket_deadline,
-    on_finish: function (data) {
-        if (data.key_press == 37) {
-            if (practice_rocket_prompt == 'colour') {
-                data.correct = true;
+    choices: function () {
+        var choices_arr;
+        if (practice_rocket_prompt == 'colour') {
+            if (random_rockets[0] == assigned_info.rocket1) {
+                choices_arr = [37]
             } else {
-                data.correct = false;
+                choices_arr = [39]
             }
-        } else if (data.key_press == 39) {
-            if (practice_rocket_prompt == 'motion') {
-                data.correct = true;
+        } else {
+            if (random_rockets[0] == assigned_info.rocket2) {
+                choices_arr = [37]
             } else {
-                data.correct = false;
+                choices_arr = [39]
             }
         }
+        return choices_arr
+    },
+    trial_duration: prac_rocket_deadline,
+    post_trial_gap: 300,
+    on_finish: function (data) {
         data.event = 'practice_rocket';
         practice_rocket_prompt = jsPsych.randomization.sampleWithoutReplacement(['colour', 'motion'], 1)[0];
     }
 
 }
 
-var practice_rocket_feedback = jsPsych.utils.deepCopy(practice_colour_feedback);
-practice_rocket_feedback.trial_duration = prac_rocket_feedback_duration;
-
 var practice_rocket_trials = {
-    timeline: [practice_rocket, practice_rocket_feedback],
+    timeline: [practice_rocket],
     repetitions: prac_rocket_max,
 }
 
-
-timeline.push(pre_training);
-// timeline.push(training);
-// timeline.push(practice_colour_trials);
-// timeline.push(practice_hard_dot_trials);
+var timeline = [];
+// timeline.push(instructions);
+timeline.push(colour_blocks);
+timeline.push(practice_colour_trials);
+timeline.push(practice_hard_dot_trials);
 // timeline.push(practice_easy_dot_trials);
 // timeline.push(practice_rocket_trials);
+
+// timeline.push(pre_training);
+// timeline.push(training);
 
 // TODO: post training
 
