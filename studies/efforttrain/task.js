@@ -26,7 +26,7 @@ var prac_rocket_feedback_duration = 1000 // feedback duration
 var practice_pre_training_repetitions = 3;
 
 // pre_training block parameters
-const pre_trial_repetitions = 5;
+const pre_training_repetitions = 5;
 
 // dot motion task parameters
 const dot_motion_repetitions = 3;
@@ -335,7 +335,7 @@ var pre_training = {
         is_training = false;
         is_practice = false;
     },
-    repetitions: pre_trial_repetitions,
+    repetitions: pre_training_repetitions,
 }
 
 
