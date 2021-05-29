@@ -13,14 +13,10 @@ var itis = iti_exponential(200, 700);  // intervals between dot-motion reps
 
 
 // practice trial parameters
-// practice colour blocks
-var prac_colour_acc = 0.8; // required accuracy for the last 15 trials
-var prac_colour_max = 80; // maximum practice trials before moving on
-var prac_colour_deadline = 15000; // rt deadline for colour block practice trial
-var prac_colour_feedback_duration = 1000 // feedback duration
 // practice dot motion
-var prac_dot_trials = 5; // number of practice trials
-var prac_dot_prompt_duration = 2000; // hard rocket prompt duration
+var prac_dot_acc = 0.8; // required accuracy for the last 15 trials
+var prac_dot_max = 80; // maximum practice trials before moving on
+var prac_dot_deadline = 15000; // rt deadline for dot practice trial
 var prac_dot_feedback_duration = 2000; // feedback duration
 // practice rocket selection
 var prac_rocket_max = 10; // maximum practice trials before moving on
@@ -415,76 +411,7 @@ var training = {
 
 // TODO: feedback for dot motion practice -> accuracy and rt instead of points. conditionals for dot motion (make feedback larger generate_html)
 
-var practice_colour_accuracies = [];
-var practice_colour_prompt = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];
-var practice_colour = {
-    type: "html-keyboard-response",
-    stimulus: function () {
-        return `<div style='background-color: ${practice_colour_prompt}; width: 100px; height: 100px;'></div>`
-    },
-    choices: [37, 39],
-    trial_duration: prac_colour_deadline,
-    on_finish: function (data) {
-        if (data.key_press == 37) {
-            if (colours_left.includes(practice_colour_prompt)) {
-                data.correct = true;
-            } else {
-                data.correct = false;
-            }
-        } else if (data.key_press == 39) {
-            if (colours_right.includes(practice_colour_prompt)) {
-                data.correct = true;
-            } else {
-                data.correct = false;
-            }
-        }
-        if (data.correct) {
-            practice_colour_accuracies.push(1);
-        } else {
-            practice_colour_accuracies.push(0);
-        }
-
-        if (debug) {
-            console.log(practice_colour_accuracies);
-        }
-
-        data.event = 'practice_colour';
-        practice_colour_prompt = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];
-    }
-};
-
-var practice_colour_feedback = {
-    type: "html-keyboard-response",
-    stimulus: function () {
-        if (JSON.parse(jsPsych.data.getLastTrialData().json())[0].correct == true) {
-            return 'Your answer is correct'
-        } else if (JSON.parse(jsPsych.data.getLastTrialData().json())[0].correct == false) {
-            return 'Your answer is incorrect'
-        } else {
-            return 'Response faster'
-        }
-    },
-    trial_duration: prac_colour_feedback_duration,
-}
-
-var practice_colour_trials = {
-    timeline: [practice_colour, practice_colour_feedback],
-    repetitions: prac_colour_max,
-    conditional_function: function () {
-        var repeat_colour_practice = true;
-        if (practice_colour_accuracies.length > 10) {
-            if (practice_colour_accuracies.length <= 15) {
-                if (mean(practice_colour_accuracies) > prac_colour_acc) {
-                    repeat_colour_practice = false;
-                }
-            } else if (mean(practice_colour_accuracies.slice(practice_colour_accuracies.length - 15)) > prac_colour_acc) {
-                repeat_colour_practice = false;
-            }
-        }
-        return repeat_colour_practice
-    },
-}
-
+var practice_hard_dot_accuracies = [];
 var practice_hard_dot_prompt = {
     type: "html-keyboard-response",
     stimulus: `
@@ -493,7 +420,7 @@ var practice_hard_dot_prompt = {
     on_finish: function () {
         dot_motion_parameters = dot_motion_trial_variable(true);
     },
-    trial_duration: prac_dot_prompt_duration,
+    trial_duration: prac_dot_deadline,
 }
 
 var practice_hard_dot = jsPsych.utils.deepCopy(dot_motion);
@@ -502,9 +429,9 @@ practice_hard_dot.on_start = function () {
 };
 practice_hard_dot.on_finish = function (data) {
     if (data.correct) {
-        data.points = calculate_points(data.rt, points);
+        practice_hard_dot_accuracies.push(1);
     } else {
-        data.points = 0;
+        practice_hard_dot_accuracies.push(0);
     }
     data.event = 'practice_hard_rocket';
 }
@@ -512,15 +439,37 @@ practice_hard_dot.on_finish = function (data) {
 var practice_dot_feedback = {
     type: "html-keyboard-response",
     stimulus: function () {
-        return JSON.parse(jsPsych.data.getLastTrialData().json())[0].points
+        if (debug) {
+            console.log('Hard dot accuracies:', practice_hard_dot_accuracies);
+            console.log('Easy dot accuracies:', practice_easy_dot_accuracies);
+        }
+        if (JSON.parse(jsPsych.data.getLastTrialData().json())[0].correct) {
+            return 'Correct! Your reaction time was ' + jsPsych.data.getLastTrialData().json()[0].rt
+        } else {
+            return 'Incorrect!'
+        }
     },
     trial_duration: prac_dot_feedback_duration,
 }
 var practice_hard_dot_trials = {
     timeline: [practice_hard_dot_prompt, practice_hard_dot, practice_dot_feedback],
-    repetitions: prac_dot_trials,
+    repetitions: prac_dot_max,
+    conditional_function: function () {
+        var repeat_colour_practice = true;
+        if (practice_hard_dot_accuracies.length > 10) {
+            if (practice_hard_dot_accuracies.length <= 15) {
+                if (mean(practice_hard_dot_accuracies) > prac_dot_acc) {
+                    repeat_colour_practice = false;
+                }
+            } else if (mean(practice_hard_dot_accuracies.slice(practice_hard_dot_accuracies.length - 15)) > prac_dot_acc) {
+                repeat_colour_practice = false;
+            }
+        }
+        return repeat_colour_practice
+    },
 }
 
+var practice_easy_dot_accuracies = [];
 var practice_easy_dot_prompt = {
     type: "html-keyboard-response",
     stimulus: `
@@ -529,7 +478,7 @@ var practice_easy_dot_prompt = {
     on_finish: function () {
         dot_motion_parameters = dot_motion_trial_variable(false);
     },
-    trial_duration: prac_dot_prompt_duration,
+    trial_duration: prac_dot_deadline,
 }
 
 var practice_easy_dot = jsPsych.utils.deepCopy(dot_motion);
@@ -538,16 +487,29 @@ practice_easy_dot.on_start = function () {
 };
 practice_easy_dot.on_finish = function (data) {
     if (data.correct) {
-        data.points = calculate_points(data.rt, points);
+        practice_easy_dot_accuracies.push(1);
     } else {
-        data.points = 0;
+        practice_easy_dot_accuracies.push(0);
     }
     data.event = 'practice_easy_rocket';
 }
 
 var practice_easy_dot_trials = {
     timeline: [practice_easy_dot_prompt, practice_easy_dot, practice_dot_feedback],
-    repetitions: prac_dot_trials,
+    repetitions: prac_dot_max,
+    conditional_function: function () {
+        var repeat_colour_practice = true;
+        if (practice_easy_dot_accuracies.length > 10) {
+            if (practice_easy_dot_accuracies.length <= 15) {
+                if (mean(practice_easy_dot_accuracies) > prac_dot_acc) {
+                    repeat_colour_practice = false;
+                }
+            } else if (mean(practice_easy_dot_accuracies.slice(practice_easy_dot_accuracies.length - 15)) > prac_dot_acc) {
+                repeat_colour_practice = false;
+            }
+        }
+        return repeat_colour_practice
+    },
 }
 
 // TODO: rocket choosing practice, just rockets and rockets chosen, instructions for choosing hard / easy
@@ -597,9 +559,8 @@ var practice_rocket_trials = {
 var timeline = [];
 timeline.push(instructions);
 timeline.push(colour_blocks);
-// timeline.push(practice_colour_trials);
-// timeline.push(practice_hard_dot_trials);
-// timeline.push(practice_easy_dot_trials);
+timeline.push(practice_hard_dot_trials);
+timeline.push(practice_easy_dot_trials);
 // timeline.push(practice_rocket_trials);
 
 // TODO: deepcopy pre-training for 5 trials of practice
