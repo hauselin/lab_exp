@@ -559,8 +559,8 @@ var practice_rocket_trials = {
 var timeline = [];
 timeline.push(instructions);
 timeline.push(colour_blocks);
-timeline.push(practice_hard_dot_trials);
-timeline.push(practice_easy_dot_trials);
+// timeline.push(practice_hard_dot_trials);
+// timeline.push(practice_easy_dot_trials);
 // timeline.push(practice_rocket_trials);
 
 // TODO: deepcopy pre-training for 5 trials of practice
@@ -568,6 +568,32 @@ timeline.push(practice_easy_dot_trials);
 // timeline.push(pre_training);
 
 // TODO: introduce aliens, use background image, 2 pages
+var alien_introduction = {
+    timeline: [
+        {
+            type: 'html-keyboard-response',
+            stimulus: generate_html('This is the reward alien', font_colour, 48),
+            on_start: function () {
+                document.body.style.backgroundImage = "url(" + images.reward + ")";
+                document.body.style.backgroundSize = "cover";
+            },
+        },
+        {
+            type: 'html-keyboard-response',
+            stimulus: generate_html('This is the no reward alien', font_colour, 48),
+            on_start: function () {
+                document.body.style.backgroundImage = "url(" + images.no_reward + ")";
+                document.body.style.backgroundSize = "cover";
+            },
+            on_finish: function () {
+                document.body.style.backgroundImage = '';
+            }
+        }
+    ],
+};
+
+timeline.push(alien_introduction);
+
 // TODO: training that only includes the reward alien / noreward alien, 5 trials each
 // TODO: proper training practice that includes both alien types, 4 each.
 // timeline.push(training);
