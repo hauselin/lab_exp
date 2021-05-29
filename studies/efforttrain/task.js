@@ -624,7 +624,7 @@ var alien_introduction = {
 var num_to_update = null; // number to add to every digit
 var n_digits = 3; // amount of numbers to show (must be > 1)
 var n_distract_response = 3; // amount of distractors
-var n_update_trial = 2; // number of trials and the amount of sequences to show
+var n_update_trial = 5; // number of trials and the amount of sequences to show
 var n_practice_update_trial = 1; // number of practice trials and the amount of sequences to show
 var duration_digit = 500; // how long to show each digit (ms)
 var duration_post_digit = 200;  // pause duration after each digit
@@ -749,18 +749,17 @@ var update_instructions2 = {
     show_page_number: false,
 };
 
-option1 = 0
-option2 = 3
+var option1 = 0
+var option2 = 3
 
 var options = {
     type: "html-keyboard-response",
     stimulus: function () {
-        option2 = Math.floor(Math.random() * 9) + 1;
-        option2_str = "+" + String(option2)
+        option2 = 3;
         if (Math.random() < 0.5) {
-            option2 = - (Math.floor(Math.random() * 9) + 1);
-            option2_str = String(option2)
+            option2 = 5;
         }
+        var option2_str = "+" + String(option2)
         return generate_html("0", font_colour, 30, [-100, 25]) + generate_html(option2_str, font_colour, 30, [100, -25]);
     },
     choices: [37, 39],
@@ -897,17 +896,17 @@ for (i = 0; i < practice_sequence.timeline.length; i++) {
 
 
 var timeline = [];
-timeline.push(instructions);
-timeline.push(colour_blocks);
+// timeline.push(instructions);
+// timeline.push(colour_blocks);
 // timeline.push(practice_hard_dot_trials);
 // timeline.push(practice_easy_dot_trials);
 // timeline.push(practice_rocket_trials);
 // timeline.push(alien_introduction);
 // create timeline and updatemath events/objects for study (the first next lines are always the same!)
-timeline.push(update_instructions1);
-if (n_practice_update_trial > 0) {
-    timeline.push(practice_sequence, update_instructions2);
-}
+// timeline.push(update_instructions1);
+// if (n_practice_update_trial > 0) {
+//     timeline.push(practice_sequence, update_instructions2);
+// }
 timeline.push(trial_sequence);
 
 
