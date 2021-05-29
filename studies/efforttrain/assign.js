@@ -1,16 +1,16 @@
 var assign = [
     {
         "subject": 1,
-        "rocket1": "rocket06.jpg",
-        "rocket2": "rocket01.jpg",
-        "pattern1": "pattern01.jpg",
-        "pattern2": "pattern03.jpg"
+        "rocket_easy": "rocket06.jpg",
+        "rocket_hard": "rocket01.jpg",
+        "pattern_easy": "pattern01.jpg",
+        "pattern_hard": "pattern03.jpg"
     },
     {
         "subject": 2,
-        "rocket1": "rocket01.jpg",
-        "rocket2": "rocket06.jpg",
-        "pattern1": "pattern01.jpg",
-        "pattern2": "pattern04.jpg"
+        "rocket_easy": "rocket01.jpg",
+        "rocket_hard": "rocket06.jpg",
+        "pattern_easy": "pattern01.jpg",
+        "pattern_hard": "pattern04.jpg"
     }
 ];
