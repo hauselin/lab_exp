@@ -107,7 +107,6 @@ var colour_blocks = {
   `
 }
 
-// TODO: make rockets randomly swap places.
 var rocket_choices = [];
 var random_rockets = jsPsych.randomization.shuffle([assigned_info.rocket1, assigned_info.rocket2]);
 // console.log(random_rockets);
@@ -218,7 +217,6 @@ var dot_motion = {
         var current_points = 0;
         if (data.correct) {
             current_points = calculate_points(data.rt, points);
-            // TODO push to global variable and compute points (another helper function)
             if (is_pre_training) {
                 if (!is_practice) {
                     pre_training_rt.push(data.rt);
@@ -247,7 +245,6 @@ var dot_motion = {
             if (debug) {
                 console.log('Your answer is incorrect')
             }
-            // TODO push to global variable and save to data 0 points
         }
         data.congruent = dot_motion_parameters.congruent;
         data.points = current_points;
@@ -421,7 +418,7 @@ var feedback = {
 }
 
 var training = {
-    timeline: [cue, rockets, rocket_chosen, dot_motion_trials, feedback], // TODO add feedback
+    timeline: [cue, rockets, rocket_chosen, dot_motion_trials, feedback],
     on_start: function () {  // does it once during the timeline at the first trial that does not have on_start
         trial_number++;
         is_training = true;
@@ -433,12 +430,8 @@ var training = {
     timeline_variables: training_timeline_variables,
 }
 
-// TODO: keep track of accuracy and rt with arrays, clear at the end of each training loop
-
 
 // Below are actual trials
-
-// TODO: feedback for dot motion practice -> accuracy and rt instead of points. conditionals for dot motion (make feedback larger generate_html)
 
 var practice_hard_dot_accuracies = [];
 var practice_hard_dot_prompt = {
@@ -473,7 +466,7 @@ var practice_dot_feedback = {
             console.log('Easy dot accuracies:', practice_easy_dot_accuracies);
         }
         if (JSON.parse(jsPsych.data.getLastTrialData().json())[0].correct) {
-            return 'Correct! Your reaction time was ' + jsPsych.data.getLastTrialData().json()[0].rt
+            return 'Correct! Your reaction time was ' + Math.round(JSON.parse(jsPsych.data.getLastTrialData().json())[0].rt) + 'ms'
         } else {
             return 'Incorrect!'
         }
@@ -541,7 +534,6 @@ var practice_easy_dot_trials = {
     },
 }
 
-// TODO: rocket choosing practice, just rockets and rockets chosen, instructions for choosing hard / easy
 var practice_rocket_prompt = jsPsych.randomization.sampleWithoutReplacement(['colour', 'motion'], 1)[0];
 var practice_rocket = {
     type: "html-keyboard-response",
@@ -585,7 +577,6 @@ var practice_rocket_trials = {
     repetitions: prac_rocket_max,
 }
 
-// TODO: deepcopy pre-training for 5 trials of practice
 
 
 var alien_introduction = {
@@ -642,7 +633,6 @@ practice_training.on_start = function () {  // does it once during the timeline 
 };
 practice_training.timeline_variables = prac_training_timeline_variables;
 
-// TODO: post training, identical to pre-training, change event, do not store anything extra, store post-training to data.block
 
 
 
@@ -951,7 +941,7 @@ for (i = 0; i < practice_sequence.timeline.length; i++) {
 var timeline = [];
 // timeline.push(instructions);
 timeline.push(colour_blocks);
-// timeline.push(practice_hard_dot_trials);
+timeline.push(practice_hard_dot_trials);
 // timeline.push(practice_easy_dot_trials);
 // timeline.push(practice_rocket_trials);
 // timeline.push(alien_introduction);
@@ -963,7 +953,7 @@ timeline.push(colour_blocks);
 // timeline.push(trial_sequence);
 // timeline.push(practice_pre_training);
 // timeline.push(pre_training);
-timeline.push(practice_training);
+// timeline.push(practice_training);
 // timeline.push(training);
 
 
