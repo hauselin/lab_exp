@@ -188,6 +188,7 @@ var pre_training_rt = [];
 var training_points = [];
 var is_pre_training;
 var is_training;
+var is_practice;
 
 var dot_motion = {
     type: "rdk",
@@ -346,16 +347,24 @@ var cue = {
     stimulus_height: window.innerHeight / 2,
     maintain_aspect_ratio: true,
     on_start: function () {
+        var trial_timeline_variable = training_timeline_variables[training_index]
+        if (is_practice) {
+            trial_timeline_variable = prac_training_timeline_variables[prac_training_index];
+        }
         console.log('TRIAL NUM =', trial_number + 1);
-        document.body.style.backgroundImage = "url(" + training_timeline_variables[training_index].cue_image + ")";
+        document.body.style.backgroundImage = "url(" + trial_timeline_variable.cue_image + ")";
         document.body.style.backgroundSize = "cover";
         if (debug) {
             console.log('Training index:', training_index);
         }
     },
     on_finish: function (data) {
+        var trial_timeline_variable = training_timeline_variables[training_index]
+        if (is_practice) {
+            trial_timeline_variable = prac_training_timeline_variables[prac_training_index];
+        }
         document.body.style.backgroundImage = '';
-        data.cue_type = training_timeline_variables[training_index].trial_type;
+        data.cue_type = trial_timeline_variable.trial_type;
         data.event = 'training_cue';
         data.trial_number = trial_number + 1;
         if (debug) {
@@ -373,7 +382,11 @@ var feedback = {
     choices: [],
     trial_duration: feedback_duration,
     stimulus: function () {
-        if (training_timeline_variables[training_index].trial_type == 'reward') {
+        var trial_timeline_variable = training_timeline_variables[training_index]
+        if (is_practice) {
+            trial_timeline_variable = prac_training_timeline_variables[prac_training_index];
+        }
+        if (trial_timeline_variable.trial_type == 'reward') {
             let point_scored = mean(training_points.slice(training_points.length - 3)) + rnorm.nextGaussian() * 5;
             return generate_html(Math.round(point_scored), font_colour, 89, [0, -200]);
         } else {
@@ -381,19 +394,29 @@ var feedback = {
         }
     },
     on_start: function () {
-        document.body.style.backgroundImage = "url(" + training_timeline_variables[training_index].feedback_image + ")";
+        var trial_timeline_variable = training_timeline_variables[training_index]
+        if (is_practice) {
+            trial_timeline_variable = prac_training_timeline_variables[prac_training_index];
+        }
+        document.body.style.backgroundImage = "url(" + trial_timeline_variable.feedback_image + ")";
         document.body.style.backgroundSize = "cover";
     },
     on_finish: function (data) {
+        var trial_timeline_variable = training_timeline_variables[training_index]
+        if (is_practice) {
+            trial_timeline_variable = prac_training_timeline_variables[prac_training_index];
+            prac_training_index++;
+        } else {
+            training_index++;
+        }
         document.body.style.backgroundImage = '';
-        data.cue_type = training_timeline_variables[training_index].trial_type;
+        data.cue_type = trial_timeline_variable.trial_type;
         data.mean_points = mean(training_points.slice(training_points.length - 3));
         data.event = 'training_feedback';
         data.trial_number = trial_number;
         if (debug) {
             console.log('Trial number:', trial_number);
         }
-        training_index++;
     },
 }
 
@@ -592,6 +615,7 @@ var alien_introduction = {
 
 var practice_pre_training = jsPsych.utils.deepCopy(pre_training);
 practice_pre_training.on_start = function () {
+    trial_number++;
     is_pre_training = true;
     is_training = false;
     is_practice = true;
@@ -608,47 +632,14 @@ for (i = 0; i < 4; i++) {
 var prac_training_timeline_variables = [prac_reward_training_timeline_variables, prac_noreward_training_timeline_variables, prac_mixed_training_timeline_variables].flat();
 
 var prac_training_index = 0
-
-var practice_training_cue = jsPsych.utils.deepCopy(cue);
-practice_training_cue.on_start = function () {
-    document.body.style.backgroundImage = "url(" + prac_training_timeline_variables[prac_training_index].cue_image + ")";
-    document.body.style.backgroundSize = "cover";
-};
-practice_training_cue.on_finish = function (data) {
-    document.body.style.backgroundImage = '';
-    data.cue_type = prac_training_timeline_variables[prac_training_index].trial_type;
-    data.event = 'practice_training_cue';
-};
-
-var practice_training_feedback = jsPsych.utils.deepCopy(feedback);
-practice_training_feedback.stimulus = function () {
-    if (prac_training_timeline_variables[prac_training_index].trial_type == 'reward') {
-        let point_scored = mean(training_points.slice(training_points.length - 3)) + rnorm.nextGaussian() * 5;
-        return generate_html(Math.round(point_scored), font_colour, 89, [0, -200]);
-    } else {
-        return ''
-    }
-};
-practice_training_feedback.on_start = function () {
-    document.body.style.backgroundImage = "url(" + prac_training_timeline_variables[prac_training_index].feedback_image + ")";
-    document.body.style.backgroundSize = "cover";
-};
-practice_training_feedback.on_finish = function (data) {
-    document.body.style.backgroundImage = '';
-    data.cue_type = prac_training_timeline_variables[prac_training_index].trial_type;
-    data.mean_points = mean(training_points.slice(training_points.length - 3));
-    data.event = 'practice_training_feedback';
-    prac_training_index++;
-};
-
 var practice_training = jsPsych.utils.deepCopy(training);
 practice_training.on_start = function () {  // does it once during the timeline at the first trial that does not have on_start
+    trial_number++;
     is_training = true;
     is_pre_training = false;
     is_practice = true;
     points = calculate_points_obj(pre_training_rt);
 };
-practice_training.timeline = [practice_training_cue, rockets, rocket_chosen, dot_motion_trials, practice_training_feedback];
 practice_training.timeline_variables = prac_training_timeline_variables;
 
 // TODO: post training, identical to pre-training, change event, do not store anything extra, store post-training to data.block
@@ -970,9 +961,9 @@ timeline.push(colour_blocks);
 //     timeline.push(practice_sequence, update_instructions2);
 // }
 // timeline.push(trial_sequence);
-timeline.push(practice_pre_training);
+// timeline.push(practice_pre_training);
 // timeline.push(pre_training);
-// timeline.push(practice_training);
+timeline.push(practice_training);
 // timeline.push(training);
 
 
