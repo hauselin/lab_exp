@@ -710,19 +710,22 @@ var update_instructions2 = {
     show_page_number: false,
 };
 
-var option1 = 0
-var option2 = 3
+var number_options = [3, 4];
+var hard_num = random_choice(number_options);
+var is_hard_left;
 
 // TODO: make hard and easy options' locations random
 var options = {
     type: "html-keyboard-response",
     stimulus: function () {
-        option2 = 3;
+        hard_num = random_choice(number_options);
         if (Math.random() < 0.5) {
-            option2 = 4;
+            is_hard_left = true;
+            return generate_html(hard_num, font_colour, 30, [-100, 25]) + generate_html('0', font_colour, 30, [100, -25]);
+        } else {
+            is_hard_left = false;
+            return generate_html('0', font_colour, 30, [-100, 25]) + generate_html(hard_num, font_colour, 30, [100, -25]);
         }
-        var option2_str = "+" + String(option2)
-        return generate_html("0", font_colour, 30, [-100, 25]) + generate_html(option2_str, font_colour, 30, [100, -25]);
     },
     choices: [37, 39],
     trial_duration: options_deadline,
@@ -730,14 +733,22 @@ var options = {
     post_trial_gap: 500,
     on_finish: function (data) {
         if (data.key_press == 37) { // pressed left
-            num_to_update = option1;
+            if (is_hard_left) {
+                num_to_update = hard_num;
+            } else {
+                num_to_update = 0;
+            }
         } else if (data.key_press == 39) { // pressed right
-            num_to_update = option2;
+            if (is_hard_left) {
+                num_to_update = 0;
+            } else {
+                num_to_update = hard_num;
+            }
         } else { // no response
             num_to_update = null;
         };
         data.choice = num_to_update;
-        data.hard_choice = option2;
+        data.hard_choice = hard_num;
         if (data.choice == data.hard_choice) {
             data.percent_hard = 1;
         } else {
@@ -798,6 +809,7 @@ var update_response = {
         }
         if (debug) {
             console.log(choices_shuffle);
+            console.log(choices_shuffle.filter(x => x.correct)[0].prompt);
         }
         return prompt_html;
     },
@@ -864,7 +876,7 @@ var timeline = [];
 // timeline.push(practice_easy_dot_trials);
 // timeline.push(practice_rocket_trials);
 // timeline.push(alien_introduction);
-timeline.push(update_instructions1);
+// timeline.push(update_instructions1);
 if (n_practice_update_trial > 0) {
     timeline.push(practice_sequence, update_instructions2);
 }
