@@ -63,10 +63,10 @@ var images = {
     no_reward: 'alien_noreward.png',
     reward_feedback: 'alien_reward_feedback.png',
     reward: 'alien_reward.png',
-    rocket1: assigned_info.rocket1,
-    rocket2: assigned_info.rocket2,
-    pattern1: assigned_info.pattern1,
-    pattern2: assigned_info.pattern2
+    rocket1: assigned_info.rocket1, // easy
+    rocket2: assigned_info.rocket2, // hard
+    pattern1: assigned_info.pattern1, // easy
+    pattern2: assigned_info.pattern2 // hard
 };
 
 for (const [key, value] of Object.entries(images)) {
