@@ -22,6 +22,8 @@ var prac_dot_feedback_duration = 2000; // feedback duration
 var prac_rocket_max = 10; // maximum practice trials before moving on
 var prac_rocket_deadline = 15000; // rt deadline for colour block practice trial
 var prac_rocket_feedback_duration = 1000 // feedback duration
+// practice pre-training / training
+var practice_pre_training_repetitions = 3;
 
 // pre_training block parameters
 const pre_trial_repetitions = 5;
@@ -217,9 +219,11 @@ var dot_motion = {
             current_points = calculate_points(data.rt, points);
             // TODO push to global variable and compute points (another helper function)
             if (is_pre_training) {
-                pre_training_rt.push(data.rt);
-                if (debug) {
-                    console.log('Pre-training rt added:', data.rt);
+                if (!is_practice) {
+                    pre_training_rt.push(data.rt);
+                    if (debug) {
+                        console.log('Pre-training rt added:', data.rt);
+                    }
                 }
                 data.block = 'pre-training';
             } else if (is_training) {
@@ -329,6 +333,7 @@ var pre_training = {
         trial_number++;
         is_pre_training = true;
         is_training = false;
+        is_practice = false;
     },
     repetitions: pre_trial_repetitions,
 }
@@ -398,6 +403,7 @@ var training = {
         trial_number++;
         is_training = true;
         is_pre_training = false;
+        is_practice = false;
         console.log("compute points obj again");
         points = calculate_points_obj(pre_training_rt);
     },
@@ -583,6 +589,15 @@ var alien_introduction = {
     ],
 };
 
+
+var practice_pre_training = jsPsych.utils.deepCopy(pre_training);
+practice_pre_training.on_start = function () {
+    is_pre_training = true;
+    is_training = false;
+    is_practice = true;
+};
+practice_pre_training.repetitions = practice_pre_training_repetitions;
+
 var mixed_training_timeline_variables = [{ trial_type: 'reward', cue_image: 'stimuli/alien_reward.png', feedback_image: 'stimuli/alien_reward_feedback.png' }, { trial_type: 'probe', cue_image: 'stimuli/alien_noreward.png', feedback_image: 'stimuli/alien_noreward_feedback.png' }];
 var prac_reward_training_timeline_variables = Array(5).fill(mixed_training_timeline_variables[0]);
 var prac_noreward_training_timeline_variables = Array(5).fill(mixed_training_timeline_variables[1]);
@@ -627,6 +642,12 @@ practice_training_feedback.on_finish = function (data) {
 };
 
 var practice_training = jsPsych.utils.deepCopy(training);
+practice_training.on_start = function () {  // does it once during the timeline at the first trial that does not have on_start
+    is_training = true;
+    is_pre_training = false;
+    is_practice = true;
+    points = calculate_points_obj(pre_training_rt);
+};
 practice_training.timeline = [practice_training_cue, rockets, rocket_chosen, dot_motion_trials, practice_training_feedback];
 practice_training.timeline_variables = prac_training_timeline_variables;
 
@@ -949,8 +970,9 @@ timeline.push(colour_blocks);
 //     timeline.push(practice_sequence, update_instructions2);
 // }
 // timeline.push(trial_sequence);
+timeline.push(practice_pre_training);
 // timeline.push(pre_training);
-timeline.push(practice_training);
+// timeline.push(practice_training);
 // timeline.push(training);
 
 
