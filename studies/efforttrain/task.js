@@ -5,7 +5,7 @@ set_colour(font_colour, background_colour);
 var debug = true;
 
 const instruct_fontsize = 21;
-const rocket_selection_deadline = 3000; // ms
+const rocket_selection_deadline = null; // ms
 const cue_duration = 1500;
 
 var rnorm = new Ziggurat(); // rnorm.nextGaussian() * 5 to generate random normal variable with mean 0 sd 5
@@ -43,7 +43,6 @@ const feedback_duration = 1500;
 var trial_number = 0;
 
 // colours used for task, with left and right randomized for each experiment
-// TODO orange and red might be too similar?!? (green/blue too??)
 const hex2txt = {
   "#D00000": "red",
   "#FF9505": "orange",
@@ -166,22 +165,6 @@ var rockets = {
   },
 };
 
-function get_rocket_remaining(position, random_rockets) {
-  var string = `<div>
-    <div style='float: left; padding-right: 10px'><img LEFT width='233'></img></div>
-    <div style='float: right; padding-left: 10px'><img RIGHT width='233'></img></div>
-    </div>`;
-
-  if (position == "left") {
-    string = string.replace("LEFT", `src='stimuli/${random_rockets[0]}'`);
-    string = string.replace("RIGHT", "");
-  } else if (position == "right") {
-    string = string.replace("LEFT", "");
-    string = string.replace("RIGHT", `src='stimuli/${random_rockets[1]}'`);
-  }
-  return string;
-}
-
 var rocket_chosen = {
   type: "html-keyboard-response",
   stimulus: "",
@@ -192,7 +175,7 @@ var rocket_chosen = {
     } else if (key_press == 39) {
       trial.stimulus = get_rocket_remaining("right", random_rockets);
     } else {
-      trial.stimulus = "Too slow";
+      trial.stimulus = "Respond faster";
     }
   },
   choices: jsPsych.NO_KEYS,
@@ -232,7 +215,10 @@ var dot_motion = {
   },
   background_color: background_colour,
   choices: [37, 39],
-  trial_duration: dot_motion_deadline,
+  trial_duration: function () {
+    return dot_motion_deadline;
+    // FIXME trial_duration in training depends on pre-training RT (use function here)
+  },
   coherence: function () {
     return [
       dot_motion_parameters.majority_coherence,
@@ -284,7 +270,7 @@ var dot_motion = {
         data.block = "training";
       }
       if (debug) {
-        console.log("Your answer is correct");
+        console.log("CORRECT");
       }
     } else {
       if (is_training) {
@@ -294,7 +280,7 @@ var dot_motion = {
         data.block = "pre-training";
       }
       if (debug) {
-        console.log("wrong");
+        console.log("WRONG");
       }
     }
     data.congruent = dot_motion_parameters.congruent;
@@ -1019,7 +1005,7 @@ for (i = 0; i < practice_sequence.timeline.length; i++) {
 var timeline = [];
 // timeline.push(instructions);
 // timeline.push(colour_blocks);
-timeline.push(practice_hard_dot_trials);
+// timeline.push(practice_hard_dot_trials);
 // timeline.push(practice_easy_dot_trials);
 // timeline.push(practice_rocket_trials);
 // timeline.push(update_instructions1);
@@ -1027,7 +1013,7 @@ timeline.push(practice_hard_dot_trials);
 //     timeline.push(practice_sequence, update_instructions2);
 // }
 // timeline.push(trial_sequence);
-// timeline.push(practice_pre_training);
+timeline.push(practice_pre_training);
 // timeline.push(pre_training);
 // timeline.push(alien_introduction);
 // timeline.push(practice_training);
