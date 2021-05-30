@@ -13,22 +13,20 @@ var itis = iti_exponential(200, 700);  // intervals between dot-motion reps
 
 
 // practice trial parameters
-// practice colour blocks
-var prac_colour_acc = 0.8; // required accuracy for the last 15 trials
-var prac_colour_max = 80; // maximum practice trials before moving on
-var prac_colour_deadline = 15000; // rt deadline for colour block practice trial
-var prac_colour_feedback_duration = 1000 // feedback duration
 // practice dot motion
-var prac_dot_trials = 5; // number of practice trials
-var prac_dot_prompt_duration = 2000; // hard rocket prompt duration
+var prac_dot_acc = 0.8; // required accuracy for the last 15 trials
+var prac_dot_max = 80; // maximum practice trials before moving on
+var prac_dot_deadline = 15000; // rt deadline for dot practice trial
 var prac_dot_feedback_duration = 2000; // feedback duration
 // practice rocket selection
 var prac_rocket_max = 10; // maximum practice trials before moving on
 var prac_rocket_deadline = 15000; // rt deadline for colour block practice trial
 var prac_rocket_feedback_duration = 1000 // feedback duration
+// practice pre-training / training
+var practice_pre_training_repetitions = 3;
 
 // pre_training block parameters
-const pre_trial_repetitions = 5;
+const pre_training_repetitions = 5;
 
 // dot motion task parameters
 const dot_motion_repetitions = 3;
@@ -65,10 +63,10 @@ var images = {
     no_reward: 'alien_noreward.png',
     reward_feedback: 'alien_reward_feedback.png',
     reward: 'alien_reward.png',
-    rocket1: assigned_info.rocket1,
-    rocket2: assigned_info.rocket2,
-    pattern1: assigned_info.pattern1,
-    pattern2: assigned_info.pattern2
+    rocket_easy: assigned_info.rocket_easy, // easy
+    rocket_hard: assigned_info.rocket_hard, // hard
+    pattern_easy: assigned_info.pattern_easy, // easy
+    pattern_hard: assigned_info.pattern_hard // hard
 };
 
 for (const [key, value] of Object.entries(images)) {
@@ -109,14 +107,13 @@ var colour_blocks = {
   `
 }
 
-// TODO: make rockets randomly swap places.
 var rocket_choices = [];
-var random_rockets = jsPsych.randomization.shuffle([assigned_info.rocket1, assigned_info.rocket2]);
+var random_rockets = jsPsych.randomization.shuffle([assigned_info.rocket_easy, assigned_info.rocket_hard]);
 // console.log(random_rockets);
 var rockets = {
     type: "html-keyboard-response",
     stimulus: function () {
-        random_rockets = jsPsych.randomization.shuffle([assigned_info.rocket1, assigned_info.rocket2]);
+        random_rockets = jsPsych.randomization.shuffle([assigned_info.rocket_easy, assigned_info.rocket_hard]);
         return `<div>
         <div style='float: left; padding-right: 10px'><img src='stimuli/${random_rockets[0]}' width='233'></img></div>
         <div style='float: right; padding-left: 10px'><img src='stimuli/${random_rockets[1]}' width='233'></img></div>
@@ -172,7 +169,7 @@ var rocket_chosen = {
     choices: jsPsych.NO_KEYS,
     trial_duration: 500,
     on_finish: function (data) {
-        if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket1) {
+        if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket_easy) {
             dot_motion_parameters = dot_motion_trial_variable(true);
         } else {
             dot_motion_parameters = dot_motion_trial_variable(false);
@@ -190,11 +187,12 @@ var pre_training_rt = [];
 var training_points = [];
 var is_pre_training;
 var is_training;
+var is_practice;
 
 var dot_motion = {
     type: "rdk",
     on_start: function () {
-        if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket1) {
+        if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket_easy) {
             dot_motion_parameters = dot_motion_trial_variable(true);
         } else {
             dot_motion_parameters = dot_motion_trial_variable(false);
@@ -219,11 +217,12 @@ var dot_motion = {
         var current_points = 0;
         if (data.correct) {
             current_points = calculate_points(data.rt, points);
-            // TODO push to global variable and compute points (another helper function)
             if (is_pre_training) {
-                pre_training_rt.push(data.rt);
-                if (debug) {
-                    console.log('Pre-training rt added:', data.rt);
+                if (!is_practice) {
+                    pre_training_rt.push(data.rt);
+                    if (debug) {
+                        console.log('Pre-training rt added:', data.rt);
+                    }
                 }
                 data.block = 'pre-training';
             } else if (is_training) {
@@ -246,7 +245,6 @@ var dot_motion = {
             if (debug) {
                 console.log('Your answer is incorrect')
             }
-            // TODO push to global variable and save to data 0 points
         }
         data.congruent = dot_motion_parameters.congruent;
         data.points = current_points;
@@ -333,8 +331,9 @@ var pre_training = {
         trial_number++;
         is_pre_training = true;
         is_training = false;
+        is_practice = false;
     },
-    repetitions: pre_trial_repetitions,
+    repetitions: pre_training_repetitions,
 }
 
 
@@ -345,16 +344,24 @@ var cue = {
     stimulus_height: window.innerHeight / 2,
     maintain_aspect_ratio: true,
     on_start: function () {
+        var trial_timeline_variable = training_timeline_variables[training_index]
+        if (is_practice) {
+            trial_timeline_variable = prac_training_timeline_variables[prac_training_index];
+        }
         console.log('TRIAL NUM =', trial_number + 1);
-        document.body.style.backgroundImage = "url(" + training_timeline_variables[training_index].cue_image + ")";
+        document.body.style.backgroundImage = "url(" + trial_timeline_variable.cue_image + ")";
         document.body.style.backgroundSize = "cover";
         if (debug) {
             console.log('Training index:', training_index);
         }
     },
     on_finish: function (data) {
+        var trial_timeline_variable = training_timeline_variables[training_index]
+        if (is_practice) {
+            trial_timeline_variable = prac_training_timeline_variables[prac_training_index];
+        }
         document.body.style.backgroundImage = '';
-        data.cue_type = training_timeline_variables[training_index].trial_type;
+        data.cue_type = trial_timeline_variable.trial_type;
         data.event = 'training_cue';
         data.trial_number = trial_number + 1;
         if (debug) {
@@ -372,7 +379,11 @@ var feedback = {
     choices: [],
     trial_duration: feedback_duration,
     stimulus: function () {
-        if (training_timeline_variables[training_index].trial_type == 'reward') {
+        var trial_timeline_variable = training_timeline_variables[training_index]
+        if (is_practice) {
+            trial_timeline_variable = prac_training_timeline_variables[prac_training_index];
+        }
+        if (trial_timeline_variable.trial_type == 'reward') {
             let point_scored = mean(training_points.slice(training_points.length - 3)) + rnorm.nextGaussian() * 5;
             return generate_html(Math.round(point_scored), font_colour, 89, [0, -200]);
         } else {
@@ -380,120 +391,59 @@ var feedback = {
         }
     },
     on_start: function () {
-        document.body.style.backgroundImage = "url(" + training_timeline_variables[training_index].feedback_image + ")";
+        var trial_timeline_variable = training_timeline_variables[training_index]
+        if (is_practice) {
+            trial_timeline_variable = prac_training_timeline_variables[prac_training_index];
+        }
+        document.body.style.backgroundImage = "url(" + trial_timeline_variable.feedback_image + ")";
         document.body.style.backgroundSize = "cover";
     },
     on_finish: function (data) {
+        var trial_timeline_variable = training_timeline_variables[training_index]
+        if (is_practice) {
+            trial_timeline_variable = prac_training_timeline_variables[prac_training_index];
+            prac_training_index++;
+        } else {
+            training_index++;
+        }
         document.body.style.backgroundImage = '';
-        data.cue_type = training_timeline_variables[training_index].trial_type;
+        data.cue_type = trial_timeline_variable.trial_type;
         data.mean_points = mean(training_points.slice(training_points.length - 3));
         data.event = 'training_feedback';
         data.trial_number = trial_number;
         if (debug) {
             console.log('Trial number:', trial_number);
         }
-        training_index++;
     },
 }
 
 var training = {
-    timeline: [cue, rockets, rocket_chosen, dot_motion_trials, feedback], // TODO add feedback
+    timeline: [cue, rockets, rocket_chosen, dot_motion_trials, feedback],
     on_start: function () {  // does it once during the timeline at the first trial that does not have on_start
         trial_number++;
         is_training = true;
         is_pre_training = false;
+        is_practice = false;
         console.log("compute points obj again");
         points = calculate_points_obj(pre_training_rt);
+        training_points = [];
     },
     timeline_variables: training_timeline_variables,
 }
 
-// TODO: keep track of accuracy and rt with arrays, clear at the end of each training loop
-
 
 // Below are actual trials
 
-// TODO: feedback for dot motion practice -> accuracy and rt instead of points. conditionals for dot motion (make feedback larger generate_html)
-
-var practice_colour_accuracies = [];
-var practice_colour_prompt = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];
-var practice_colour = {
-    type: "html-keyboard-response",
-    stimulus: function () {
-        return `<div style='background-color: ${practice_colour_prompt}; width: 100px; height: 100px;'></div>`
-    },
-    choices: [37, 39],
-    trial_duration: prac_colour_deadline,
-    on_finish: function (data) {
-        if (data.key_press == 37) {
-            if (colours_left.includes(practice_colour_prompt)) {
-                data.correct = true;
-            } else {
-                data.correct = false;
-            }
-        } else if (data.key_press == 39) {
-            if (colours_right.includes(practice_colour_prompt)) {
-                data.correct = true;
-            } else {
-                data.correct = false;
-            }
-        }
-        if (data.correct) {
-            practice_colour_accuracies.push(1);
-        } else {
-            practice_colour_accuracies.push(0);
-        }
-
-        if (debug) {
-            console.log(practice_colour_accuracies);
-        }
-
-        data.event = 'practice_colour';
-        practice_colour_prompt = jsPsych.randomization.sampleWithoutReplacement(colours, 1)[0];
-    }
-};
-
-var practice_colour_feedback = {
-    type: "html-keyboard-response",
-    stimulus: function () {
-        if (JSON.parse(jsPsych.data.getLastTrialData().json())[0].correct == true) {
-            return 'Your answer is correct'
-        } else if (JSON.parse(jsPsych.data.getLastTrialData().json())[0].correct == false) {
-            return 'Your answer is incorrect'
-        } else {
-            return 'Response faster'
-        }
-    },
-    trial_duration: prac_colour_feedback_duration,
-}
-
-var practice_colour_trials = {
-    timeline: [practice_colour, practice_colour_feedback],
-    repetitions: prac_colour_max,
-    conditional_function: function () {
-        var repeat_colour_practice = true;
-        if (practice_colour_accuracies.length > 10) {
-            if (practice_colour_accuracies.length <= 15) {
-                if (mean(practice_colour_accuracies) > prac_colour_acc) {
-                    repeat_colour_practice = false;
-                }
-            } else if (mean(practice_colour_accuracies.slice(practice_colour_accuracies.length - 15)) > prac_colour_acc) {
-                repeat_colour_practice = false;
-            }
-        }
-        return repeat_colour_practice
-    },
-}
-
+var practice_hard_dot_accuracies = [];
 var practice_hard_dot_prompt = {
     type: "html-keyboard-response",
     stimulus: `
-      <div><img src='${images.rocket1}' width='233'></img></div>
+      <div><img src='${images.rocket_easy}' width='233'></img></div>
     `,
     on_finish: function () {
         dot_motion_parameters = dot_motion_trial_variable(true);
     },
-    trial_duration: prac_dot_prompt_duration,
+    trial_duration: prac_dot_deadline,
 }
 
 var practice_hard_dot = jsPsych.utils.deepCopy(dot_motion);
@@ -502,34 +452,56 @@ practice_hard_dot.on_start = function () {
 };
 practice_hard_dot.on_finish = function (data) {
     if (data.correct) {
-        data.points = calculate_points(data.rt, points);
+        practice_hard_dot_accuracies.push(1);
     } else {
-        data.points = 0;
+        practice_hard_dot_accuracies.push(0);
     }
-    data.event = 'practice_hard_rocket';
+    data.event = 'practice_hard_dot';
 }
 
 var practice_dot_feedback = {
     type: "html-keyboard-response",
     stimulus: function () {
-        return JSON.parse(jsPsych.data.getLastTrialData().json())[0].points
+        if (debug) {
+            console.log('Hard dot accuracies:', practice_hard_dot_accuracies);
+            console.log('Easy dot accuracies:', practice_easy_dot_accuracies);
+        }
+        if (JSON.parse(jsPsych.data.getLastTrialData().json())[0].correct) {
+            return 'Correct! Your reaction time was ' + Math.round(JSON.parse(jsPsych.data.getLastTrialData().json())[0].rt) + 'ms'
+        } else {
+            return 'Incorrect!'
+        }
     },
     trial_duration: prac_dot_feedback_duration,
 }
 var practice_hard_dot_trials = {
     timeline: [practice_hard_dot_prompt, practice_hard_dot, practice_dot_feedback],
-    repetitions: prac_dot_trials,
+    repetitions: prac_dot_max,
+    conditional_function: function () {
+        var repeat_colour_practice = true;
+        if (practice_hard_dot_accuracies.length > 10) {
+            if (practice_hard_dot_accuracies.length <= 15) {
+                if (mean(practice_hard_dot_accuracies) > prac_dot_acc) {
+                    repeat_colour_practice = false;
+                }
+            } else if (mean(practice_hard_dot_accuracies.slice(practice_hard_dot_accuracies.length - 15)) > prac_dot_acc) {
+                repeat_colour_practice = false;
+            }
+        }
+        return repeat_colour_practice
+    },
 }
 
+var practice_easy_dot_accuracies = [];
 var practice_easy_dot_prompt = {
     type: "html-keyboard-response",
     stimulus: `
-      <div><img src='${images.rocket2}' width='233'></img></div>
+      <div><img src='${images.rocket_hard}' width='233'></img></div>
     `,
     on_finish: function () {
         dot_motion_parameters = dot_motion_trial_variable(false);
     },
-    trial_duration: prac_dot_prompt_duration,
+    trial_duration: prac_dot_deadline,
 }
 
 var practice_easy_dot = jsPsych.utils.deepCopy(dot_motion);
@@ -538,24 +510,36 @@ practice_easy_dot.on_start = function () {
 };
 practice_easy_dot.on_finish = function (data) {
     if (data.correct) {
-        data.points = calculate_points(data.rt, points);
+        practice_easy_dot_accuracies.push(1);
     } else {
-        data.points = 0;
+        practice_easy_dot_accuracies.push(0);
     }
-    data.event = 'practice_easy_rocket';
+    data.event = 'practice_easy_dot';
 }
 
 var practice_easy_dot_trials = {
     timeline: [practice_easy_dot_prompt, practice_easy_dot, practice_dot_feedback],
-    repetitions: prac_dot_trials,
+    repetitions: prac_dot_max,
+    conditional_function: function () {
+        var repeat_colour_practice = true;
+        if (practice_easy_dot_accuracies.length > 10) {
+            if (practice_easy_dot_accuracies.length <= 15) {
+                if (mean(practice_easy_dot_accuracies) > prac_dot_acc) {
+                    repeat_colour_practice = false;
+                }
+            } else if (mean(practice_easy_dot_accuracies.slice(practice_easy_dot_accuracies.length - 15)) > prac_dot_acc) {
+                repeat_colour_practice = false;
+            }
+        }
+        return repeat_colour_practice
+    },
 }
 
-// TODO: rocket choosing practice, just rockets and rockets chosen, instructions for choosing hard / easy
 var practice_rocket_prompt = jsPsych.randomization.sampleWithoutReplacement(['colour', 'motion'], 1)[0];
 var practice_rocket = {
     type: "html-keyboard-response",
     stimulus: function () {
-        random_rockets = jsPsych.randomization.shuffle([assigned_info.rocket1, assigned_info.rocket2]);
+        random_rockets = jsPsych.randomization.shuffle([assigned_info.rocket_easy, assigned_info.rocket_hard]);
         return `Choose the rocket associated to the <b>${practice_rocket_prompt}</b> task
         <div>
         <div style='float: left; padding-right: 10px'><img src='stimuli/${random_rockets[0]}' width='233'></img></div>
@@ -566,13 +550,13 @@ var practice_rocket = {
     choices: function () {
         var choices_arr;
         if (practice_rocket_prompt == 'colour') {
-            if (random_rockets[0] == assigned_info.rocket1) {
+            if (random_rockets[0] == assigned_info.rocket_easy) {
                 choices_arr = [37]
             } else {
                 choices_arr = [39]
             }
         } else {
-            if (random_rockets[0] == assigned_info.rocket2) {
+            if (random_rockets[0] == assigned_info.rocket_hard) {
                 choices_arr = [37]
             } else {
                 choices_arr = [39]
@@ -594,25 +578,331 @@ var practice_rocket_trials = {
     repetitions: prac_rocket_max,
 }
 
+
+
+var alien_introduction = {
+    timeline: [
+        {
+            type: 'html-keyboard-response',
+            stimulus: generate_html('This is the reward alien', font_colour, 48),
+            on_start: function () {
+                document.body.style.backgroundImage = "url(" + images.reward + ")";
+                document.body.style.backgroundSize = "cover";
+            },
+        },
+        {
+            type: 'html-keyboard-response',
+            stimulus: generate_html('This is the no reward alien', font_colour, 48),
+            on_start: function () {
+                document.body.style.backgroundImage = "url(" + images.no_reward + ")";
+                document.body.style.backgroundSize = "cover";
+            },
+            on_finish: function () {
+                document.body.style.backgroundImage = '';
+            }
+        }
+    ],
+};
+
+
+var practice_pre_training = jsPsych.utils.deepCopy(pre_training);
+practice_pre_training.on_start = function () {
+    trial_number++;
+    is_pre_training = true;
+    is_training = false;
+    is_practice = true;
+};
+practice_pre_training.repetitions = practice_pre_training_repetitions;
+
+var mixed_training_timeline_variables = [{ trial_type: 'reward', cue_image: 'stimuli/alien_reward.png', feedback_image: 'stimuli/alien_reward_feedback.png' }, { trial_type: 'probe', cue_image: 'stimuli/alien_noreward.png', feedback_image: 'stimuli/alien_noreward_feedback.png' }];
+var prac_reward_training_timeline_variables = Array(5).fill(mixed_training_timeline_variables[0]);
+var prac_noreward_training_timeline_variables = Array(5).fill(mixed_training_timeline_variables[1]);
+var prac_mixed_training_timeline_variables = [];
+for (i = 0; i < 4; i++) {
+    prac_mixed_training_timeline_variables.push(...mixed_training_timeline_variables);
+}
+var prac_training_timeline_variables = [prac_reward_training_timeline_variables, prac_noreward_training_timeline_variables, prac_mixed_training_timeline_variables].flat();
+
+var prac_training_index = 0
+var practice_training = jsPsych.utils.deepCopy(training);
+practice_training.on_start = function () {  // does it once during the timeline at the first trial that does not have on_start
+    trial_number++;
+    is_training = true;
+    is_pre_training = false;
+    is_practice = true;
+    points = calculate_points_obj(pre_training_rt);
+};
+practice_training.timeline_variables = prac_training_timeline_variables;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// DEFINE TASK PARAMETERS (required)
+var num_to_update = null; // number to add to every digit
+var n_digits = 3; // amount of numbers to show (must be > 1)
+var n_distract_response = 3; // amount of distractors
+var n_update_trial = 5; // number of trials and the amount of sequences to show
+var n_practice_update_trial = 1; // number of practice trials and the amount of sequences to show
+var duration_digit = 500; // how long to show each digit (ms)
+var duration_post_digit = 200;  // pause duration after each digit
+var update_feedback_duration = 1500;
+var update_response_deadline = 3000;  // deadline for responding
+var update_choice_deadline = null; // deadline for choosing hard or easy task
+
+if (debug) {
+    update_response_deadline = 60000;
+}
+
+// keycode for responses
+var choices = [
+    { keycode: 37, response: 'left' },
+    { keycode: 39, response: 'right' },
+];
+if (n_distract_response == 3) {
+    choices = choices.concat([{ keycode: 38, response: 'up' }, { keycode: 40, response: 'down' }]) // 3 distractors + 1 correct
+}
+
+
+var update_instructions1 = {
+    type: "instructions",
+    pages: [
+        generate_html("Welcome!", font_colour) + generate_html("Click next or press the right arrow key to proceed.", font_colour),
+        generate_html("You have a limited amount of time to see each number, so react quickly!", font_colour),
+        generate_html("Next up is a practice trial.", font_colour) + generate_html("Your data will NOT be recorded.", font_colour) + generate_html("Click next or press the right arrow key to begin.", font_colour)
+    ],
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
+
+var update_instructions2 = {
+    type: "instructions",
+    pages: [
+        generate_html("That was the practice trial.", font_colour) + generate_html("Click next or press the right arrow key to begin the experiment.", font_colour) + generate_html("Your data WILL be recorded this time.", font_colour)
+    ],
+    show_clickable_nav: true,
+    show_page_number: false,
+};
+
+var number_options = [3, 4];
+var hard_num = random_choice(number_options);
+var is_hard_left;
+
+// TODO: make hard and easy options' locations random
+var options = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        hard_num = random_choice(number_options);
+        if (Math.random() < 0.5) {
+            is_hard_left = true;
+            return `<div>
+            <div style='float: left; padding-right: 10px'><img src='stimuli/${assigned_info.pattern_hard}' width='233'></img></div>
+            <div style='float: right; padding-left: 10px'><img src='stimuli/${assigned_info.pattern_easy}' width='233'></img></div>
+            </div>`
+        } else {
+            is_hard_left = false;
+            return `<div>
+            <div style='float: left; padding-right: 10px'><img src='stimuli/${assigned_info.pattern_easy}' width='233'></img></div>
+            <div style='float: right; padding-left: 10px'><img src='stimuli/${assigned_info.pattern_hard}' width='233'></img></div>
+            </div>`
+        }
+    },
+    choices: [37, 39],
+    trial_duration: update_choice_deadline,
+    data: { event: "update_choices" },
+    post_trial_gap: 500,
+    on_finish: function (data) {
+        if (data.key_press == 37) { // pressed left
+            if (is_hard_left) {
+                num_to_update = hard_num;
+            } else {
+                num_to_update = 0;
+            }
+        } else if (data.key_press == 39) { // pressed right
+            if (is_hard_left) {
+                num_to_update = 0;
+            } else {
+                num_to_update = hard_num;
+            }
+        } else { // no response
+            num_to_update = null;
+        };
+        data.choice = num_to_update;
+        data.hard_choice = hard_num;
+        if (data.choice == data.hard_choice) {
+            data.percent_hard = 1;
+        } else {
+            data.percent_hard = 0;
+        }
+    }
+};
+
+var prompt_digit = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        var remind = update_prompt(num_to_update) + " to each digit";
+        remind = generate_html(remind, font_colour, 30);
+        return remind
+    },
+    choices: jsPsych.NO_KEYS,
+    trial_duration: 1000,
+    data: { event: "digit_prompt" },
+    post_trial_gap: 750
+};
+
+var temp_digits = [];
+var number_sequence = {
+    timeline: [
+        {
+            type: "html-keyboard-response",
+            stimulus: function () {
+                var remind = update_prompt(num_to_update);
+                remind = generate_html(remind, font_colour, 30, [0, -50]) + "<br>";
+                var d = generate_html(jsPsych.timelineVariable('digit', true), font_colour, 80, [0, -50])
+                return remind + d;
+            },
+            choices: jsPsych.NO_KEYS,
+            trial_duration: duration_digit,
+            data: { event: "digit" },
+            post_trial_gap: duration_post_digit,
+            on_finish: function (data) {
+                data.digit = jsPsych.timelineVariable('digit', true);
+                temp_digits.push(data.digit);
+            }
+        }
+    ],
+    timeline_variables: Array.from(range(0, 10), x => Object({ digit: x })),
+    sample: { // pick different n_digits to present on each trial/sequence
+        type: 'with-replacement',
+        size: n_digits
+    }
+}
+
+var choices_shuffle;
+var update_response = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        choices_shuffle = process_choices(choices);
+        prompt_html = generate_html(choices_shuffle[0].prompt, font_colour, 30, [-100, 50]) + generate_html(choices_shuffle[1].prompt, font_colour, 30, [100, 2]);
+        if (n_distract_response == 3) {
+            prompt_html = prompt_html.concat(generate_html(choices_shuffle[2].prompt, font_colour, 30, [0, -100]) + generate_html(choices_shuffle[3].prompt, font_colour, 30, [0, -35]));
+        }
+        if (debug) {
+            console.log(choices_shuffle);
+            console.log(choices_shuffle.filter(x => x.correct)[0].prompt);
+        }
+        return prompt_html;
+    },
+    choices: choices.map(x => x.keycode),
+    trial_duration: update_response_deadline,
+    data: { event: "update_response" },
+    post_trial_gap: 500,
+    on_finish: function (data) {
+        var chosen = choices_shuffle.filter(x => x.keycode == data.key_press)[0];
+        data.num_to_update = num_to_update;
+        if (!chosen) { // no response
+            data.acc = null;
+            data.response = null;
+        } else {  // response made
+            data.response = chosen.response;
+            if (chosen.correct) {
+                data.acc = 1;
+            } else {
+                data.acc = 0;
+            }
+        }
+        temp_digits = []; // clear digit sequences for next trial
+    }
+}
+
+var update_feedback = {
+    type: "html-keyboard-response",
+    stimulus: function () {
+        last_trial_data = jsPsych.data.getLastTrialData();
+        last_trial_value = last_trial_data.select('acc').values[0];
+        if (last_trial_value > 0) {
+            var prompt = "correct, your reaction time was " + Math.round(last_trial_data.select('rt').values[0]) + " ms";
+        } else if (last_trial_value === null) {
+            var prompt = "respond faster";
+        } else {
+            var prompt = "wrong";
+        }
+        return generate_html(prompt, font_colour, 25);
+    },
+    choices: jsPsych.NO_KEYS,
+    trial_duration: feedback_duration,
+    data: { event: "update_feedback" },
+    post_trial_gap: 500
+}
+
+var trial_sequence = {
+    timeline: [options, prompt_digit, number_sequence, update_response, update_feedback],
+    repetitions: n_update_trial,
+};
+
+var practice_sequence = jsPsych.utils.deepCopy(trial_sequence);
+practice_sequence.repetitions = n_practice_update_trial
+for (i = 0; i < practice_sequence.timeline.length; i++) {
+    practice_sequence.timeline[i].data = { event: "update_practice" }
+}
+
+
+
+
 var timeline = [];
-timeline.push(instructions);
-timeline.push(colour_blocks);
-// timeline.push(practice_colour_trials);
+// timeline.push(instructions);
+// timeline.push(colour_blocks);
 // timeline.push(practice_hard_dot_trials);
 // timeline.push(practice_easy_dot_trials);
 // timeline.push(practice_rocket_trials);
-
-// TODO: deepcopy pre-training for 5 trials of practice
-
+// timeline.push(alien_introduction);
+// timeline.push(update_instructions1);
+// if (n_practice_update_trial > 0) {
+//     timeline.push(practice_sequence, update_instructions2);
+// }
+// timeline.push(trial_sequence);
+// timeline.push(practice_pre_training);
 // timeline.push(pre_training);
-
-// TODO: introduce aliens, use background image, 2 pages
-// TODO: training that only includes the reward alien / noreward alien, 5 trials each
-// TODO: proper training practice that includes both alien types, 4 each.
+// timeline.push(practice_training);
 // timeline.push(training);
 
-// TODO: post training, identical to pre-training, change event, do not store anything extra, store post-training to data.block
-
+// TODO: post-training -> dotmotion, updating
+// just deepcopy of pre-training
+// TODO: add block (pre/post training) into data
+// TODO: helper function: convert to cash -> average is 300, take training-points array as input
+// 300 * 40 * 3 = average performance. max is 370 * 40 * 3 -> upper bound for final cash
+// 370 * 40 * 3 / 2 is the upper bound -> $5
+// 230 * 40 * 3 / 2 or lower -> $1
+// $12.5 for doing the task for everyone
+// TODO: practice hard and easy update math separately -> 5 trials
+// TODO: practice choosing hard and easy update math prompts
 
 jsPsych.init({
     timeline: timeline,
@@ -621,5 +911,3 @@ jsPsych.init({
         jsPsych.data.displayData();
     }
 });
-
-
