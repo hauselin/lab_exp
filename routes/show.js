@@ -5,6 +5,7 @@ const fs = require('fs');
 const helper = require('../routes/helpers/helpers');
 
 router.get('/:type/:uniquestudyid', function (req, res, next) {
+    // TODO: retrieve in data the number of people who completed the task -> do them inside DataLibrary
 
     var home = "lab_exp";
     if (process.env.NODE_ENV == 'production') {
@@ -24,7 +25,7 @@ router.get('/:type/:uniquestudyid', function (req, res, next) {
                 // next(); // if file doesn't exist, go to next route
             }
         } else {
-            res.sendFile('task.html', { root: root })
+            res.sendFile('task.html', { root: root }) // TODO: put number of people completed the task into the URL variable
         }
     })
 });
