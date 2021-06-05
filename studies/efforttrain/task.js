@@ -1166,7 +1166,10 @@ timeline.push(colour_blocks);
 // timeline.push(training);
 // timeline.push(post_training);
 
-// TODO: practice hard and easy update math separately -> 5 trials
+// TODO: try implementing backend
+// TODO: testing -> start with biggest potential for mistakes. unit tests. catch edge cases & no responses. test transitions between sections
+// TODO: create assign.csv with python. 1-2000 subjects. itertools.
+
 
 jsPsych.init({
     timeline: timeline,
