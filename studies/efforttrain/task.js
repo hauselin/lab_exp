@@ -133,7 +133,6 @@ var rockets = {
         if (debug) {
             console.log('Trial number:', trial_number);
         }
-        data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
     }
 };
 
@@ -180,7 +179,6 @@ var rocket_chosen = {
         if (debug) {
             console.log('Trial number:', trial_number);
         }
-        data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
     }
 }
 
@@ -217,7 +215,6 @@ var dot_motion = {
     aperture_center_y: [(window.innerHeight / 2), (window.innerHeight / 2)],
     on_finish: function (data) {
         var current_points = 0;
-        data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
         if (data.correct) {
             current_points = calculate_points(data.rt, points);
             if (is_pre_training) {
@@ -227,11 +224,13 @@ var dot_motion = {
                         console.log('Pre-training rt added:', data.rt);
                     }
                 }
+                data.block = 'pre-training';
             } else if (is_training) {
                 training_points.push(current_points);
                 if (debug) {
                     console.log('Training rt added:', data.rt);
                 }
+                data.block = 'training';
             }
             if (debug) {
                 console.log('Your answer is correct');
@@ -239,6 +238,9 @@ var dot_motion = {
         } else {
             if (is_training) {
                 training_points.push(current_points);
+                data.block = 'training';
+            } else if (is_pre_training) {
+                data.block = 'pre-training';
             }
             if (debug) {
                 console.log('Your answer is incorrect')
@@ -328,7 +330,6 @@ var pre_training = {
     on_start: function () {
         trial_number++;
         is_pre_training = true;
-        is_post_training = false;
         is_training = false;
         is_practice = false;
     },
@@ -366,7 +367,6 @@ var cue = {
         if (debug) {
             console.log('Trial number:', trial_number + 1);
         }
-        data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
     },
     trial_duration: cue_duration
 }
@@ -414,7 +414,6 @@ var feedback = {
         if (debug) {
             console.log('Trial number:', trial_number);
         }
-        data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
     },
 }
 
@@ -422,9 +421,8 @@ var training = {
     timeline: [cue, rockets, rocket_chosen, dot_motion_trials, feedback],
     on_start: function () {  // does it once during the timeline at the first trial that does not have on_start
         trial_number++;
-        is_pre_training = false;
-        is_post_training = false;
         is_training = true;
+        is_pre_training = false;
         is_practice = false;
         console.log("compute points obj again");
         points = calculate_points_obj(pre_training_rt);
@@ -510,7 +508,7 @@ var practice_easy_dot = jsPsych.utils.deepCopy(dot_motion);
 practice_easy_dot.on_start = function () {
     dot_motion_parameters = dot_motion_trial_variable(false);
 };
-practice_easy_dot.on_finish = function () {
+practice_easy_dot.on_finish = function (data) {
     if (data.correct) {
         practice_easy_dot_accuracies.push(1);
     } else {
@@ -611,7 +609,6 @@ var practice_pre_training = jsPsych.utils.deepCopy(pre_training);
 practice_pre_training.on_start = function () {
     trial_number++;
     is_pre_training = true;
-    is_post_training = false;
     is_training = false;
     is_practice = true;
 };
@@ -632,7 +629,6 @@ practice_training.on_start = function () {  // does it once during the timeline 
     trial_number++;
     is_training = true;
     is_pre_training = false;
-    is_post_training = false;
     is_practice = true;
     points = calculate_points_obj(pre_training_rt);
 };
@@ -765,7 +761,6 @@ var options = {
         } else {
             data.percent_hard = 0;
         }
-        data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
     }
 };
 
@@ -779,10 +774,7 @@ var prompt_digit = {
     choices: jsPsych.NO_KEYS,
     trial_duration: 1000,
     data: { event: "digit_prompt" },
-    post_trial_gap: 750,
-    on_finish: function (data) {
-        data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
-    }
+    post_trial_gap: 750
 };
 
 var temp_digits = [];
@@ -803,7 +795,6 @@ var number_sequence = {
             on_finish: function (data) {
                 data.digit = jsPsych.timelineVariable('digit', true);
                 temp_digits.push(data.digit);
-                data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
             }
         }
     ],
@@ -848,7 +839,6 @@ var update_response = {
             }
         }
         temp_digits = []; // clear digit sequences for next trial
-        data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
     }
 }
 
@@ -869,10 +859,7 @@ var update_feedback = {
     choices: jsPsych.NO_KEYS,
     trial_duration: feedback_duration,
     data: { event: "update_feedback" },
-    post_trial_gap: 500,
-    on_finish: function (data) {
-        data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
-    }
+    post_trial_gap: 500
 }
 
 var trial_sequence = {
@@ -887,16 +874,26 @@ for (i = 0; i < practice_sequence.timeline.length; i++) {
 }
 
 
-// TODO: post-training -> dotmotion, updating
-var post_training = jsPsych.utils.deepCopy(pre_training);
-post_training.on_start = function () {
-    trial_number++;
-    is_pre_training = false;
-    is_post_training = true;
-    is_training = false;
-    is_practice = false;
-};
 
+
+var timeline = [];
+// timeline.push(instructions);
+// timeline.push(colour_blocks);
+// timeline.push(practice_hard_dot_trials);
+// timeline.push(practice_easy_dot_trials);
+// timeline.push(practice_rocket_trials);
+// timeline.push(alien_introduction);
+// timeline.push(update_instructions1);
+// if (n_practice_update_trial > 0) {
+//     timeline.push(practice_sequence, update_instructions2);
+// }
+// timeline.push(trial_sequence);
+// timeline.push(practice_pre_training);
+// timeline.push(pre_training);
+// timeline.push(practice_training);
+// timeline.push(training);
+
+// TODO: post-training -> dotmotion, updating
 // just deepcopy of pre-training
 // TODO: add block (pre/post training) into data
 // TODO: helper function: convert to cash -> average is 300, take training-points array as input
@@ -906,32 +903,6 @@ post_training.on_start = function () {
 // $12.5 for doing the task for everyone
 // TODO: practice hard and easy update math separately -> 5 trials
 // TODO: practice choosing hard and easy update math prompts
-
-
-
-
-
-
-
-var timeline = [];
-timeline.push(instructions);
-timeline.push(colour_blocks);
-timeline.push(practice_hard_dot_trials);
-timeline.push(practice_easy_dot_trials);
-timeline.push(practice_rocket_trials);
-timeline.push(alien_introduction);
-timeline.push(update_instructions1);
-if (n_practice_update_trial > 0) {
-    timeline.push(practice_sequence, update_instructions2);
-}
-timeline.push(trial_sequence);
-timeline.push(practice_pre_training);
-timeline.push(pre_training);
-timeline.push(trial_sequence);
-timeline.push(practice_training);
-timeline.push(training);
-timeline.push(post_training);
-timeline.push(trial_sequence);
 
 jsPsych.init({
     timeline: timeline,
