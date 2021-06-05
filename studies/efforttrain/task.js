@@ -23,6 +23,8 @@ var prac_rocket_deadline = 2000; // rt deadline for colour block practice trial
 var prac_rocket_feedback_duration = 1000; // feedback duration
 // practice pre-training / training
 var practice_pre_training_repetitions = 3;
+// practice update math
+var prac_pattern_max = 10;
 
 // pre_training block parameters
 const pre_training_repetitions = 5;
@@ -1025,13 +1027,65 @@ post_training.on_start = function () {
 };
 post_training.repetitions = post_training_repetitions;
 
+var practice_pattern_prompt = jsPsych.randomization.sampleWithoutReplacement(
+    ["hard", "easy"],
+    1
+  )[0];
+var practice_pattern = {
+type: "html-keyboard-response",
+stimulus: function () {
+    random_patterns = jsPsych.randomization.shuffle([
+    assigned_info.pattern_easy,
+    assigned_info.pattern_hard,
+    ]);
+    return `Choose the rocket associated to the <b>${practice_pattern_prompt}</b> task
+        <div>
+        <div style='float: left; padding-right: 10px'><img src='stimuli/${random_patterns[0]}' width='233'></img></div>
+        <div style='float: right; padding-left: 10px'><img src='stimuli/${random_patterns[1]}' width='233'></img></div>
+        </div>
+    `;
+},
+choices: function () {
+    var choices_arr;
+    if (practice_pattern_prompt == "easy") {
+    if (random_patterns[0] == assigned_info.pattern_easy) {
+        choices_arr = [37];
+    } else {
+        choices_arr = [39];
+    }
+    } else {
+    if (random_patterns[0] == assigned_info.pattern_hard) {
+        choices_arr = [37];
+    } else {
+        choices_arr = [39];
+    }
+    }
+    return choices_arr;
+},
+trial_duration: null,
+post_trial_gap: 300,
+on_finish: function (data) {
+    data.event = "practice_pattern";
+    practice_pattern_prompt = jsPsych.randomization.sampleWithoutReplacement(
+    ["easy", "hard"],
+    1
+    )[0];
+},
+};
+
+var practice_pattern_trials = {
+timeline: [practice_pattern],
+repetitions: prac_pattern_max,
+};
+
 var timeline = [];
 // timeline.push(instructions);
-timeline.push(colour_blocks);
+// timeline.push(colour_blocks);
 // timeline.push(practice_hard_dot_trials);
 // timeline.push(practice_easy_dot_trials);
 // timeline.push(practice_rocket_trials);
 // timeline.push(update_instructions1);
+timeline.push(practice_pattern_trials);
 // if (n_practice_update_trial > 0) {
 //     timeline.push(practice_sequence, update_instructions2);
 // }
@@ -1041,7 +1095,7 @@ timeline.push(colour_blocks);
 // timeline.push(alien_introduction);
 // timeline.push(practice_training);
 // timeline.push(training);
-timeline.push(post_training);
+// timeline.push(post_training);
 
 // TODO: practice hard and easy update math separately -> 5 trials
 // TODO: practice choosing hard and easy update math prompts
