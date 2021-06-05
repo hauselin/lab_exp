@@ -151,6 +151,7 @@ var rockets = {
   choices: [37, 39],
   trial_duration: rocket_selection_deadline,
   on_finish: function (data) {
+    data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
     if (data.key_press == 37) {
       data.rocket = random_rockets[0];
     } else {
@@ -181,6 +182,7 @@ var rocket_chosen = {
   choices: jsPsych.NO_KEYS,
   trial_duration: 500,
   on_finish: function (data) {
+    data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
     if (
       rocket_choices[rocket_choices.length - 1] == assigned_info.rocket_easy
     ) {
@@ -252,6 +254,7 @@ var dot_motion = {
   aperture_center_x: [window.innerWidth / 2, window.innerWidth / 2],
   aperture_center_y: [window.innerHeight / 2, window.innerHeight / 2],
   on_finish: function (data) {
+    data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
     var current_points = 0;
     if (data.correct) {
       current_points = calculate_points(data.rt, points);
@@ -262,13 +265,11 @@ var dot_motion = {
             console.log("Pre-training rt added:", data.rt);
           }
         }
-        data.block = "pre-training";
       } else if (is_training) {
         training_points.push(current_points);
         if (debug) {
           console.log("Training rt added:", data.rt);
         }
-        data.block = "training";
       }
       if (debug) {
         console.log("CORRECT");
@@ -276,9 +277,6 @@ var dot_motion = {
     } else {
       if (is_training) {
         training_points.push(current_points);
-        data.block = "training";
-      } else if (is_pre_training) {
-        data.block = "pre-training";
       }
       if (debug) {
         console.log("WRONG");
@@ -410,6 +408,7 @@ var cue = {
     }
   },
   on_finish: function (data) {
+    data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
     var trial_timeline_variable = training_timeline_variables[training_index];
     if (is_practice) {
       trial_timeline_variable =
@@ -468,6 +467,7 @@ var feedback = {
     document.body.style.backgroundSize = "cover";
   },
   on_finish: function (data) {
+    data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
     var trial_timeline_variable = training_timeline_variables[training_index];
     if (is_practice) {
       trial_timeline_variable =
@@ -848,6 +848,7 @@ var options = {
   data: { event: "update_choices" },
   post_trial_gap: 500,
   on_finish: function (data) {
+    data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
     if (data.key_press == 37) {
       // pressed left
       if (is_hard_left) {
@@ -910,6 +911,7 @@ var number_sequence = {
       data: { event: "digit" },
       post_trial_gap: duration_post_digit,
       on_finish: function (data) {
+        data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
         data.digit = jsPsych.timelineVariable("digit", true);
         temp_digits.push(data.digit);
       },
@@ -948,6 +950,7 @@ var update_response = {
   data: { event: "update_response" },
   post_trial_gap: 500,
   on_finish: function (data) {
+    data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
     var chosen = choices_shuffle.filter((x) => x.keycode == data.key_press)[0];
     data.num_to_update = num_to_update;
     if (!chosen) {
