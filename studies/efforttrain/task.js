@@ -1043,14 +1043,6 @@ timeline.push(colour_blocks);
 // timeline.push(training);
 timeline.push(post_training);
 
-// TODO: post-training -> dotmotion, updating
-// just deepcopy of pre-training
-// TODO: add block (pre/post training) into data
-// TODO: helper function: convert to cash -> average is 300, take training-points array as input
-// 300 * 40 * 3 = average performance. max is 370 * 40 * 3 -> upper bound for final cash
-// 370 * 40 * 3 / 2 is the upper bound -> $5
-// 230 * 40 * 3 / 2 or lower -> $1
-// $12.5 for doing the task for everyone
 // TODO: practice hard and easy update math separately -> 5 trials
 // TODO: practice choosing hard and easy update math prompts
 

@@ -467,3 +467,25 @@ function check_block(is_pre, is_train, is_post, is_prac) {
   }
   return block
 }
+
+
+// TODO: helper function: convert to cash -> average is 300, take training-points array as input
+// 300 * 40 * 3 = average performance. max is 370 * 40 * 3 -> upper bound for final cash
+// 370 * 40 * 3 / 2 is the upper bound -> $5
+// 230 * 40 * 3 / 2 or lower -> $1
+// $12.5 for doing the task for everyone
+
+function calculate_cash(points_arr, num_training=40, num_dot_motion=3, rew_min = 230, rew_max = 370, cash_min = 1, cash_max = 5, cash_base = 12.5) {
+  var bonus = cash_min;
+  var total_points = sum(points_arr);
+  var min_points = rew_min * num_training * num_dot_motion / 2;
+  var max_points = rew_max * num_training * num_dot_motion / 2;
+  if (total_points > min_points) {
+    var cash_per_point = (cash_max - cash_min) / (max_points - min_points);
+    bonus += (total_points - min_points) * cash_per_point;
+  }
+  if (total_points > max_points) {
+    bonus = cash_max;
+  }
+  return (bonus + cash_base).toFixed(2)
+}
