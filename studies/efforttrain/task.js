@@ -189,9 +189,9 @@ var rocket_chosen = {
     if (
       rocket_choices[rocket_choices.length - 1] == assigned_info.rocket_easy
     ) {
-      dot_motion_parameters = dot_motion_trial_variable(true);
-    } else {
       dot_motion_parameters = dot_motion_trial_variable(false);
+    } else {
+      dot_motion_parameters = dot_motion_trial_variable(true);
     }
     data.event = "rocket_chosen";
     data.trial_number = trial_number;
@@ -214,9 +214,9 @@ var dot_motion = {
     if (
       rocket_choices[rocket_choices.length - 1] == assigned_info.rocket_easy
     ) {
-      dot_motion_parameters = dot_motion_trial_variable(true);
-    } else {
       dot_motion_parameters = dot_motion_trial_variable(false);
+    } else {
+      dot_motion_parameters = dot_motion_trial_variable(true);
     }
   },
   background_color: background_colour,
@@ -510,7 +510,7 @@ var practice_hard_dot_accuracies = [];
 var practice_hard_dot_prompt = {
   type: "html-keyboard-response",
   stimulus: `
-      <div><img src='${images.rocket_easy}' width='233'></img></div>
+      <div><img src='${images.rocket_hard}' width='233'></img></div>
     `,
   on_finish: function () {
     dot_motion_parameters = dot_motion_trial_variable(true);
@@ -581,7 +581,7 @@ var practice_easy_dot_accuracies = [];
 var practice_easy_dot_prompt = {
   type: "html-keyboard-response",
   stimulus: `
-      <div><img src='${images.rocket_hard}' width='233'></img></div>
+      <div><img src='${images.rocket_easy}' width='233'></img></div>
     `,
   on_finish: function () {
     dot_motion_parameters = dot_motion_trial_variable(false);
@@ -1027,7 +1027,7 @@ post_training.repetitions = post_training_repetitions;
 
 var timeline = [];
 // timeline.push(instructions);
-// timeline.push(colour_blocks);
+timeline.push(colour_blocks);
 // timeline.push(practice_hard_dot_trials);
 // timeline.push(practice_easy_dot_trials);
 // timeline.push(practice_rocket_trials);
