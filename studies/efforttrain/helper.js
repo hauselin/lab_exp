@@ -435,3 +435,18 @@ function process_choices(choices) {
   }
   return choices_copy
 }
+
+
+function check_block(is_pre, is_train, is_post, is_prac) {
+  var block = null;
+  if (is_pre) {
+    block = 'pre_training';
+  } else if (is_train) {
+    block = 'training';
+  } else if (is_post) {
+    block = 'post_training';
+  } else if (is_prac) {
+    block = 'practice';
+  }
+  return block
+}
