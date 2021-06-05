@@ -27,6 +27,9 @@ var practice_pre_training_repetitions = 3;
 // pre_training block parameters
 const pre_training_repetitions = 5;
 
+// post_training block parameters
+const post_training_repetitions = 5;
+
 // dot motion task parameters
 const dot_motion_repetitions = 3;
 const dot_motion_deadline = 1500;
@@ -1020,6 +1023,7 @@ post_training.on_start = function () {
     is_training = false;
     is_practice = false;
 };
+post_training.repetitions = post_training_repetitions;
 
 var timeline = [];
 // timeline.push(instructions);
@@ -1032,11 +1036,12 @@ var timeline = [];
 //     timeline.push(practice_sequence, update_instructions2);
 // }
 // timeline.push(trial_sequence);
-timeline.push(practice_pre_training);
+// timeline.push(practice_pre_training);
 // timeline.push(pre_training);
 // timeline.push(alien_introduction);
 // timeline.push(practice_training);
 // timeline.push(training);
+timeline.push(post_training);
 
 // TODO: post-training -> dotmotion, updating
 // just deepcopy of pre-training
