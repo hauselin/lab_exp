@@ -47,13 +47,14 @@ const feedback_duration = 1500;
 // Overal trial number pretraining / training (don't change)
 var trial_number = 0;
 
+var subject_id = 1;
+var assigned_info = assign.filter((i) => i.subject == subject_id)[0];
+
 // colours used for task, with left and right randomized for each experiment
-const hex2txt = {
-    "#D00000": "red",
-    "#FF9505": "orange",
-    "#6DA34D": "green",
-    "#3772FF": "blue",
-};
+const hex2txt = {};
+for (i = 0; i < 4; i++) {
+    hex2txt[assigned_info.colours_hex.split('-')[i]] = assigned_info.colours_name.split('-')[i];
+}
 var colours = Object.keys(hex2txt);
 // var colours = jsPsych.randomization.repeat(colours, 1);  // TODO will counterbalance
 var colours_left = colours.slice(0, 2);
@@ -61,9 +62,6 @@ var colours_right = colours.slice(2, 4);
 
 // initialize points object
 var points = calculate_points_obj([]);
-
-var subject_id = 1;
-var assigned_info = assign.filter((i) => i.subject == subject_id)[0];
 
 var images = {
     bg: "instruct_background.png",
@@ -1148,15 +1146,15 @@ var practice_pattern_trials = {
 };
 
 var timeline = [];
-// timeline.push(instructions);
-// timeline.push(colour_blocks);
+timeline.push(instructions);
+timeline.push(colour_blocks);
 // timeline.push(practice_hard_dot_trials);
 // timeline.push(practice_easy_dot_trials);
 // timeline.push(practice_rocket_trials);
 // timeline.push(update_instructions1);
 // timeline.push(practice_pattern_trials);
-timeline.push(practice_hard_update);
-timeline.push(practice_easy_update);
+// timeline.push(practice_hard_update);
+// timeline.push(practice_easy_update);
 // if (n_practice_update_trial > 0) {
 //     timeline.push(practice_sequence, update_instructions2);
 // }
