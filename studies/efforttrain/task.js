@@ -200,6 +200,7 @@ var pre_training_rt = [];
 var training_points = [];
 var is_pre_training;
 var is_training;
+var is_post_training;
 var is_practice;
 
 var dot_motion = {
@@ -381,6 +382,7 @@ var pre_training = {
   on_start: function () {
     trial_number++;
     is_pre_training = true;
+    is_post_training = false;
     is_training = false;
     is_practice = false;
   },
@@ -492,6 +494,7 @@ var training = {
     trial_number++;
     is_training = true;
     is_pre_training = false;
+    is_post_training = false;
     is_practice = false;
     console.log("compute points obj again");
     points = calculate_points_obj(pre_training_rt);
@@ -703,6 +706,7 @@ var practice_pre_training = jsPsych.utils.deepCopy(pre_training);
 practice_pre_training.on_start = function () {
   trial_number++;
   is_pre_training = true;
+  is_post_training = false;
   is_training = false;
   is_practice = true;
 };
@@ -745,6 +749,7 @@ practice_training.on_start = function () {
   trial_number++;
   is_training = true;
   is_pre_training = false;
+  is_post_training = false;
   is_practice = true;
   points = calculate_points_obj(pre_training_rt);
 };
@@ -1001,6 +1006,17 @@ practice_sequence.repetitions = n_practice_update_trial;
 for (i = 0; i < practice_sequence.timeline.length; i++) {
   practice_sequence.timeline[i].data = { event: "update_practice" };
 }
+
+
+
+var post_training = jsPsych.utils.deepCopy(pre_training);
+post_training.on_start = function () {
+    trial_number++;
+    is_pre_training = false;
+    is_post_training = true;
+    is_training = false;
+    is_practice = false;
+};
 
 var timeline = [];
 // timeline.push(instructions);
