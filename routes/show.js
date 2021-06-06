@@ -15,7 +15,7 @@ router.get("/:type/:uniquestudyid", function (req, res, next) {
   // TODO if has query parameter "count=true", query database to count no. of items counter (else don't query)
   // http://localhost:8080/surveys/gritshort/?counter=true
   let counter = 0;
-  if (req.query.counter) {
+  if (req.query.count) {
     // count=true exist in query string
     console.log("query database");
     // TODO: retrieve in data the number of people who completed the task -> do them inside DataLibrary
