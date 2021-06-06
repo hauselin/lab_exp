@@ -1,3 +1,9 @@
-﻿subject,rocket1,rocket2,pattern1,pattern2
-1,rocket06.jpg,rocket01.jpg,a,b
-2,rocket01.jpg,rocket06.jpg,c,d
+subject,pretrain_order,posttrain_order,colours_hex,colours_name
+1,dotmotion-update,dotmotion-update,#D00000-#FF9505-#6DA34D-#3772FF,red-orange-green-blue
+2,dotmotion-update,update-dotmotion,#D00000-#FF9505-#6DA34D-#3772FF,red-orange-green-blue
+3,update-dotmotion,dotmotion-update,#D00000-#FF9505-#6DA34D-#3772FF,red-orange-green-blue
+4,update-dotmotion,update-dotmotion,#D00000-#FF9505-#6DA34D-#3772FF,red-orange-green-blue
+5,dotmotion-update,dotmotion-update,#D00000-#6DA34D-#FF9505-#3772FF,red-green-orange-blue
+6,dotmotion-update,update-dotmotion,#D00000-#6DA34D-#FF9505-#3772FF,red-green-orange-blue
+7,update-dotmotion,dotmotion-update,#D00000-#6DA34D-#FF9505-#3772FF,red-green-orange-blue
+8,update-dotmotion,update-dotmotion,#D00000-#6DA34D-#FF9505-#3772FF,red-green-orange-blue
