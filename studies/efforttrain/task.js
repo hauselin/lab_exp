@@ -53,9 +53,17 @@ var client = new XMLHttpRequest();
 client.open("HEAD", "http://localhost:8080/" + route, true);  // get only headers (if you want body too, change "HEAD" to "GET")
 client.send();
 var count = 1;
-window.addEventListener('load', (event) => {
-    var count = client.getResponseHeader(header);
-    console.log(count);
+
+var promise = new Promise(function(resolve, reject) {
+    window.addEventListener('load', (event) => {
+        resolve(Number(client.getResponseHeader(header)));
+        console.log(count);
+    });
+});
+promise.then(function(value) {
+    count=value;
+}).then(function() {
+    console.log(count)
 });
 
 var assigned_info = assign[count % assign.length];
