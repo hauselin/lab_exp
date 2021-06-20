@@ -1,5 +1,6 @@
 import itertools
 import csv
+import json
 
 num_rockets = 6
 num_patterns = 6
@@ -61,7 +62,7 @@ for c in range(len(colour_code_permutations)):
 print(len(subjects))
 # print(subjects)
 
-with open('assign_test.csv', mode='w') as file:
+with open('assign.csv', mode='w') as file:
     writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     writer.writerow(['rocket_easy', 'rocket_hard', 'pattern_easy', 'pattern_hard', 'colour_hex', 'colour_name', 'pretrain_order', 'posttrain_order'])
     for subject in subjects:
@@ -75,3 +76,6 @@ with open('assign_test.csv', mode='w') as file:
             subject['pretrain_order'],
             subject['posttrain_order']
         ])
+
+with open('assign.txt', 'w') as outfile:
+    json.dump(subjects, outfile)
