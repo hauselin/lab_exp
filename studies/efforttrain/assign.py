@@ -1,4 +1,5 @@
 import itertools
+import csv
 
 num_rockets = 6
 num_patterns = 6
@@ -49,5 +50,18 @@ for c in range(len(colour_code_permutations)):
             }
             subjects.append(subject)
 
-print(len(subjects))
-print(subjects)
+# print(len(subjects))
+# print(subjects)
+
+with open('assign_test.csv', mode='w') as file:
+    writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    writer.writerow(['rocket_easy', 'rocket_hard', 'pattern_easy', 'pattern_hard', 'colour_hex', 'colour_name'])
+    for subject in subjects:
+        writer.writerow([
+            subject['rocket_easy'],
+            subject['rocket_hard'],
+            subject['pattern_easy'],
+            subject['pattern_hard'],
+            subject['colour_hex'],
+            subject['colour_name'],
+        ])
