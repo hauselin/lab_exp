@@ -50,6 +50,19 @@ var trial_number = 0;
 var subject_id = 1;
 var assigned_info = assign.filter((i) => i.subject == subject_id)[0];
 
+let route = "studies/efforttrain?count=true"
+const header = "X-counter";  // from server
+var client = new XMLHttpRequest();
+client.open("HEAD", "http://localhost:8080/" + route, true);  // get only headers (if you want body too, change "HEAD" to "GET")
+client.send();
+var count = null;
+window.addEventListener('load', (event) => {
+    var count = client.getResponseHeader(header);
+    console.log(count);
+});
+
+console.log(count);
+
 // colours used for task, with left and right randomized for each experiment
 const hex2txt = {};
 for (i = 0; i < 4; i++) {
