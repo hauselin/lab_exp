@@ -35,4 +35,19 @@ for perm in colour_permutations:
         code_permutation += colour_hexcodes[colour] + '-'
     colour_code_permutations.append(code_permutation[0:-1])
 
-print(colour_code_permutations)
+subjects = []
+for c in range(len(colour_code_permutations)):
+    for r in range(len(rocket_permutations)):
+        for p in range(len(pattern_permutations)):
+            subject = {
+                'rocket_easy': rocket_permutations[r][0],
+                'rocket_hard': rocket_permutations[r][1],
+                'pattern_easy': pattern_permutations[p][0],
+                'pattern_hard': pattern_permutations[p][1],
+                'colour_hex': colour_code_permutations[c],
+                'colour_name': colour_permutations[c],
+            }
+            subjects.append(subject)
+
+print(len(subjects))
+print(subjects)
