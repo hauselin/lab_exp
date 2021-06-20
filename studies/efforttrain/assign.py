@@ -8,9 +8,9 @@ num_patterns = 6
 rockets = []
 patterns = []
 for r in range(num_rockets):
-    rockets.append('rocket' + f"{r+1:02}" + '.png')
+    rockets.append('rocket' + f"{r+1:02}" + '.jpg')
 for p in range(num_patterns):
-    patterns.append('pattern' + f"{p+1:02}" + '.png')
+    patterns.append('pattern' + f"{p+1:02}" + '.jpg')
 
 rocket_permutations = list(itertools.permutations(rockets, 2))
 pattern_permutations = list(itertools.permutations(patterns, 2))
