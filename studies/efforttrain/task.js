@@ -52,7 +52,7 @@ const header = "X-counter";  // from server
 var client = new XMLHttpRequest();
 client.open("HEAD", "http://localhost:8080/" + route, true);  // get only headers (if you want body too, change "HEAD" to "GET")
 client.send();
-var count = null;
+var count = 1;
 window.addEventListener('load', (event) => {
     var count = client.getResponseHeader(header);
     console.log(count);

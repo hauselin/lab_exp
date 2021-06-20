@@ -36,8 +36,8 @@ colour_permutations = [
 colour_code_permutations = []
 for perm in colour_permutations:
     code_permutation = ''
-    colour_names = perm.split('-')
-    for colour in colour_names:
+    colours_names = perm.split('-')
+    for colour in colours_names:
         code_permutation += colour_hexcodes[colour] + '-'
     colour_code_permutations.append(code_permutation[0:-1])
 
@@ -52,8 +52,8 @@ for c in range(len(colour_code_permutations)):
                         'rocket_hard': rocket_permutations[r][1],
                         'pattern_easy': pattern_permutations[p][0],
                         'pattern_hard': pattern_permutations[p][1],
-                        'colour_hex': colour_code_permutations[c],
-                        'colour_name': colour_permutations[c],
+                        'colours_hex': colour_code_permutations[c],
+                        'colours_name': colour_permutations[c],
                         'pretrain_order': '-'.join(pretrain_orders[pre]),
                         'posttrain_order': '-'.join(posttrain_orders[post]),
                     }
@@ -64,15 +64,15 @@ print(len(subjects))
 
 with open('assign.csv', mode='w') as file:
     writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-    writer.writerow(['rocket_easy', 'rocket_hard', 'pattern_easy', 'pattern_hard', 'colour_hex', 'colour_name', 'pretrain_order', 'posttrain_order'])
+    writer.writerow(['rocket_easy', 'rocket_hard', 'pattern_easy', 'pattern_hard', 'colours_hex', 'colours_name', 'pretrain_order', 'posttrain_order'])
     for subject in subjects:
         writer.writerow([
             subject['rocket_easy'],
             subject['rocket_hard'],
             subject['pattern_easy'],
             subject['pattern_hard'],
-            subject['colour_hex'],
-            subject['colour_name'],
+            subject['colours_hex'],
+            subject['colours_name'],
             subject['pretrain_order'],
             subject['posttrain_order']
         ])

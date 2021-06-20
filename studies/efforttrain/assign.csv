@@ -1,4 +1,4 @@
-rocket_easy,rocket_hard,pattern_easy,pattern_hard,colour_hex,colour_name,pretrain_order,posttrain_order
+rocket_easy,rocket_hard,pattern_easy,pattern_hard,colours_hex,colours_name,pretrain_order,posttrain_order
 rocket01,rocket02,pattern01,pattern02,#3772FF-#6DA34D-#FF9505-#D00000,blue-green-orange-red,dotmotion-update,dotmotion-update
 rocket01,rocket02,pattern01,pattern02,#3772FF-#6DA34D-#FF9505-#D00000,blue-green-orange-red,dotmotion-update,update-dotmotion
 rocket01,rocket02,pattern01,pattern02,#3772FF-#6DA34D-#FF9505-#D00000,blue-green-orange-red,update-dotmotion,dotmotion-update
