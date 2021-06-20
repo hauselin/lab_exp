@@ -17,7 +17,7 @@ router.get("/:type/:uniquestudyid", function (req, res, next) {
   // http://localhost:8080/surveys/gritshort/?counter=true
   let counter = 0;
   if (req.query.count) {
-    DataLibrary.count({ uniquestudyid: req.params.uniquestudyid }, function(err, count){
+    DataLibrary.countDocuments({ uniquestudyid: req.params.uniquestudyid }, function(err, count){
       console.log( "Number of docs: ", count );
       // count=true exist in query string
       console.log("query database");

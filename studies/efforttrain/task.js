@@ -57,7 +57,6 @@ var count = 1;
 var promise = new Promise(function(resolve, reject) {
     window.addEventListener('load', (event) => {
         resolve(Number(client.getResponseHeader(header)));
-        console.log(count);
     });
 });
 promise.then(function(value) {
