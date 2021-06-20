@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const fs = require("fs");
 const helper = require("../routes/helpers/helpers");
+const DataLibrary = require("../models/datalibrary");
 
 router.get("/:type/:uniquestudyid", function (req, res, next) {
   var home = "lab_exp";
@@ -16,10 +17,13 @@ router.get("/:type/:uniquestudyid", function (req, res, next) {
   // http://localhost:8080/surveys/gritshort/?counter=true
   let counter = 0;
   if (req.query.count) {
-    // count=true exist in query string
-    console.log("query database");
-    // TODO: retrieve in data the number of people who completed the task -> do them inside DataLibrary
-    counter = 9999999;
+    DataLibrary.count({ uniquestudyid: req.params.uniquestudyid }, function(err, count){
+      console.log( "Number of docs: ", count );
+      // count=true exist in query string
+      console.log("query database");
+      // TODO: retrieve in data the number of people who completed the task -> do them inside DataLibrary
+      counter = count;
+    });
   }
 
   // check if html static file exists without opening it

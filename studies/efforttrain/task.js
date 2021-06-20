@@ -61,8 +61,6 @@ window.addEventListener('load', (event) => {
     console.log(count);
 });
 
-console.log(count);
-
 // colours used for task, with left and right randomized for each experiment
 const hex2txt = {};
 for (i = 0; i < 4; i++) {
