@@ -47,9 +47,6 @@ const feedback_duration = 1500;
 // Overal trial number pretraining / training (don't change)
 var trial_number = 0;
 
-var subject_id = 1;
-var assigned_info = assign.filter((i) => i.subject == subject_id)[0];
-
 let route = "studies/efforttrain?count=true"
 const header = "X-counter";  // from server
 var client = new XMLHttpRequest();
@@ -60,6 +57,9 @@ window.addEventListener('load', (event) => {
     var count = client.getResponseHeader(header);
     console.log(count);
 });
+
+var assigned_info = assign[count % assign.length];
+var subject_id = count + 1;
 
 // colours used for task, with left and right randomized for each experiment
 const hex2txt = {};

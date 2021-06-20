@@ -21,7 +21,6 @@ router.get("/:type/:uniquestudyid", function (req, res, next) {
       console.log( "Number of docs: ", count );
       // count=true exist in query string
       console.log("query database");
-      // TODO: retrieve in data the number of people who completed the task -> do them inside DataLibrary
       counter = count;
     });
   }
