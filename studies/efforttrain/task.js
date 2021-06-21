@@ -47,8 +47,26 @@ const feedback_duration = 1500;
 // Overal trial number pretraining / training (don't change)
 var trial_number = 0;
 
-var subject_id = 1;
-var assigned_info = assign.filter((i) => i.subject == subject_id)[0];
+let route = "studies/efforttrain?count=true"
+const header = "X-counter";  // from server
+var client = new XMLHttpRequest();
+client.open("HEAD", "http://localhost:8080/" + route, true);  // get only headers (if you want body too, change "HEAD" to "GET")
+client.send();
+var count = 1;
+
+var promise = new Promise(function(resolve, reject) {
+    window.addEventListener('load', (event) => {
+        resolve(Number(client.getResponseHeader(header)));
+    });
+});
+promise.then(function(value) {
+    count=value;
+}).then(function() {
+    console.log(count)
+});
+
+var assigned_info = assign[count % assign.length];
+var subject_id = count + 1;
 
 // colours used for task, with left and right randomized for each experiment
 const hex2txt = {};
@@ -1169,6 +1187,8 @@ timeline.push(colour_blocks);
 // TODO: try implementing backend
 // TODO: testing -> start with biggest potential for mistakes. unit tests. catch edge cases & no responses. test transitions between sections
 // TODO: create assign.csv with python. 1-2000 subjects. itertools.
+// TODO: dot-motion and update task orders.
+// TODO: randomize rocket and patterns.
 
 
 jsPsych.init({
