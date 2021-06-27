@@ -1082,7 +1082,7 @@ var update_feedback = {
     post_trial_gap: 500,
 };
 
-var trial_sequence = {
+var update_math_sequence = {
     timeline: [
         options,
         prompt_digit,
@@ -1115,7 +1115,7 @@ var practice_easy_update = {
     repetitions: n_easy_practice,
 }
 
-var practice_sequence = jsPsych.utils.deepCopy(trial_sequence);
+var practice_sequence = jsPsych.utils.deepCopy(update_math_sequence);
 practice_sequence.repetitions = n_practice_update_trial;
 for (i = 0; i < practice_sequence.timeline.length; i++) {
     practice_sequence.timeline[i].data = { event: "update_practice" };
@@ -1190,20 +1190,31 @@ timeline.push(colour_blocks);
 // timeline.push(practice_hard_dot_trials);
 // timeline.push(practice_easy_dot_trials);
 // timeline.push(practice_rocket_trials);
-// timeline.push(update_instructions1);
 // timeline.push(practice_pattern_trials);
 // timeline.push(practice_hard_update);
 // timeline.push(practice_easy_update);
-// if (n_practice_update_trial > 0) {
-//     timeline.push(practice_sequence, update_instructions2);
-// }
-// timeline.push(trial_sequence);
+// timeline.push(update_instructions1, practice_sequence, update_instructions2);
 // timeline.push(practice_pre_training);
-// timeline.push(pre_training);
+
+// below are actual trials
+
+// if (assigned_info.pretrain_order == 'dotmotion-update') {
+//     timeline.push(pre_training);
+//     timeline.push(update_math_sequence);
+// } else {
+//     timeline.push(update_math_sequence);
+//     timeline.push(pre_training);
+// }
 // timeline.push(alien_introduction);
 // timeline.push(practice_training);
 // timeline.push(training);
-// timeline.push(post_training);
+// if (assigned_info.posttrain_order == 'dotmotion-update') {
+//     timeline.push(post_training);
+//     timeline.push(update_math_sequence);
+// } else {
+//     timeline.push(update_math_sequence);
+//     timeline.push(post_training);
+// }
 
 // TODO: try implementing backend
 // TODO: testing -> start with biggest potential for mistakes. unit tests. catch edge cases & no responses. test transitions between sections
