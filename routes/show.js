@@ -4,8 +4,10 @@ const router = express.Router();
 const fs = require("fs");
 const helper = require("../routes/helpers/helpers");
 const DataLibrary = require("../models/datalibrary");
+const SiteInfo = require("../models/siteinfo");
 
 router.get("/:type/:uniquestudyid", function (req, res, next) {
+  // SiteInfo.findOneAndUpdate({type :'visitor_count'}, {$inc : {'visitors' : 1}}).exec();
   var home = "lab_exp";
   if (process.env.NODE_ENV == "production") {
     home = "app";
