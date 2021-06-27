@@ -66,6 +66,27 @@ promise.then(function(value) {
 });
 
 var assigned_info = assign[count % assign.length];
+var two_rockets = jsPsych.randomization.sampleWithoutReplacement([
+    'rocket01.jpg',
+    'rocket02.jpg',
+    'rocket03.jpg',
+    'rocket04.jpg',
+    'rocket05.jpg',
+    'rocket06.jpg'
+], 2);
+var two_patterns = jsPsych.randomization.sampleWithoutReplacement([
+    'pattern01.jpg',
+    'pattern02.jpg',
+    'pattern03.jpg',
+    'pattern04.jpg',
+    'pattern05.jpg',
+    'pattern06.jpg'
+], 2);
+assigned_info.rocket_easy = two_rockets[0];
+assigned_info.rocket_hard = two_rockets[1];
+assigned_info.pattern_easy = two_patterns[0];
+assigned_info.pattern_hard = two_patterns[1];
+
 var subject_id = count + 1;
 
 // colours used for task, with left and right randomized for each experiment
@@ -1188,7 +1209,6 @@ timeline.push(colour_blocks);
 // TODO: testing -> start with biggest potential for mistakes. unit tests. catch edge cases & no responses. test transitions between sections
 // TODO: create assign.csv with python. 1-2000 subjects. itertools.
 // TODO: dot-motion and update task orders.
-// TODO: randomize rocket and patterns.
 
 
 jsPsych.init({
