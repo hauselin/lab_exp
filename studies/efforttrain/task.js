@@ -695,7 +695,7 @@ var practice_rocket = {
     },
     choices: function () {
         var choices_arr;
-        if (practice_rocket_prompt == "colour") {
+        if (practice_rocket_prompt == "motion") {
             if (random_rockets[0] == assigned_info.rocket_easy) {
                 choices_arr = [37];
             } else {
