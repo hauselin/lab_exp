@@ -47,23 +47,29 @@ const feedback_duration = 1500;
 // Overal trial number pretraining / training (don't change)
 var trial_number = 0;
 
-let route = "studies/efforttrain?count=true"
-const header = "X-counter";  // from server
-var client = new XMLHttpRequest();
-client.open("HEAD", "http://localhost:8080/" + route, true);  // get only headers (if you want body too, change "HEAD" to "GET")
-client.send();
-var count = 1;
+var count = null;
+if (get_query_string().count === 'true') {
+    let route = "studies/efforttrain?count=true"
+    const header = "X-counter";  // from server
+    var client = new XMLHttpRequest();
+    client.open("HEAD", "http://localhost:8080/" + route, true);  // get only headers (if you want body too, change "HEAD" to "GET")
+    client.send()
 
-var promise = new Promise(function(resolve, reject) {
-    window.addEventListener('load', (event) => {
-        resolve(Number(client.getResponseHeader(header)));
+    var promise = new Promise(function(resolve, reject) {
+        window.addEventListener('load', (event) => {
+            resolve(Number(client.getResponseHeader(header)));
+        });
     });
-});
-promise.then(function(value) {
-    count=value;
-}).then(function() {
-    console.log(count)
-});
+    promise.then(function(value) {
+        count=value;
+    }).then(function() {
+        console.log('Number of documents:', count)
+    });
+} else {
+    count = null;
+    console.log('Not counting documents')
+}
+
 
 var assigned_info = assign[count % assign.length];
 var two_rockets = jsPsych.randomization.sampleWithoutReplacement([

@@ -21,7 +21,7 @@ router.get("/:type/:uniquestudyid", function (req, res, next) {
       resolve(0);
     }
     if (req.query.count === 'true') {
-      DataLibrary.countDocuments({  }, function(err, count){
+      DataLibrary.countDocuments({ uniquestudyid: req.params.uniquestudyid }, function(err, count){
         resolve(count);
       });
     }
