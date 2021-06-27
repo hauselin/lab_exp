@@ -1197,34 +1197,34 @@ var practice_pattern_trials = {
 var timeline = [];
 timeline.push(instructions);
 timeline.push(colour_blocks);
-// timeline.push(practice_hard_dot_trials);
-// timeline.push(practice_easy_dot_trials);
-// timeline.push(practice_rocket_trials);
-// timeline.push(practice_pattern_trials);
-// timeline.push(practice_hard_update);
-// timeline.push(practice_easy_update);
-// timeline.push(update_instructions1, practice_sequence, update_instructions2);
-// timeline.push(practice_pre_training);
+timeline.push(practice_hard_dot_trials);
+timeline.push(practice_easy_dot_trials);
+timeline.push(practice_rocket_trials);
+timeline.push(practice_pattern_trials);
+timeline.push(practice_hard_update);
+timeline.push(practice_easy_update);
+timeline.push(update_instructions1, practice_sequence, update_instructions2);
+timeline.push(practice_pre_training);
+timeline.push(alien_introduction);
+timeline.push(practice_training);
 
 // below are actual trials
 
-// if (assigned_info.pretrain_order == 'dotmotion-update') {
-//     timeline.push(pre_training);
-//     timeline.push(update_math_sequence);
-// } else {
-//     timeline.push(update_math_sequence);
-//     timeline.push(pre_training);
-// }
-// timeline.push(alien_introduction);
-// timeline.push(practice_training);
-// timeline.push(training);
-// if (assigned_info.posttrain_order == 'dotmotion-update') {
-//     timeline.push(post_training);
-//     timeline.push(update_math_sequence);
-// } else {
-//     timeline.push(update_math_sequence);
-//     timeline.push(post_training);
-// }
+if (assigned_info.pretrain_order == 'dotmotion-update') {
+    timeline.push(pre_training);
+    timeline.push(update_math_sequence);
+} else {
+    timeline.push(update_math_sequence);
+    timeline.push(pre_training);
+}
+timeline.push(training);
+if (assigned_info.posttrain_order == 'dotmotion-update') {
+    timeline.push(post_training);
+    timeline.push(update_math_sequence);
+} else {
+    timeline.push(update_math_sequence);
+    timeline.push(post_training);
+}
 
 // TODO: try implementing backend
 // TODO: testing -> start with biggest potential for mistakes. unit tests. catch edge cases & no responses. test transitions between sections
