@@ -93,6 +93,10 @@ assigned_info.rocket_hard = two_rockets[1];
 assigned_info.pattern_easy = two_patterns[0];
 assigned_info.pattern_hard = two_patterns[1];
 
+if (debug) {
+    console.log(assigned_info);
+};
+
 var subject_id = count + 1;
 
 // colours used for task, with left and right randomized for each experiment
