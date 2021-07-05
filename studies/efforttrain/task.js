@@ -47,25 +47,56 @@ const feedback_duration = 1500;
 // Overal trial number pretraining / training (don't change)
 var trial_number = 0;
 
-let route = "studies/efforttrain?count=true"
-const header = "X-counter";  // from server
-var client = new XMLHttpRequest();
-client.open("HEAD", "http://localhost:8080/" + route, true);  // get only headers (if you want body too, change "HEAD" to "GET")
-client.send();
-var count = 1;
+var count = null;
+if (get_query_string().count === 'true') {
+    let route = "studies/efforttrain?count=true"
+    const header = "X-counter";  // from server
+    var client = new XMLHttpRequest();
+    client.open("HEAD", "http://localhost:8080/" + route, true);  // get only headers (if you want body too, change "HEAD" to "GET")
+    client.send()
 
-var promise = new Promise(function(resolve, reject) {
-    window.addEventListener('load', (event) => {
-        resolve(Number(client.getResponseHeader(header)));
+    var promise = new Promise(function(resolve, reject) {
+        window.addEventListener('load', (event) => {
+            resolve(Number(client.getResponseHeader(header)));
+        });
     });
-});
-promise.then(function(value) {
-    count=value;
-}).then(function() {
-    console.log(count)
-});
+    promise.then(function(value) {
+        count=value;
+    }).then(function() {
+        console.log('Number of documents:', count)
+    });
+} else {
+    count = null;
+    console.log('Not counting documents')
+}
+
 
 var assigned_info = assign[count % assign.length];
+var two_rockets = jsPsych.randomization.sampleWithoutReplacement([
+    'rocket01.jpg',
+    'rocket02.jpg',
+    'rocket03.jpg',
+    'rocket04.jpg',
+    'rocket05.jpg',
+    'rocket06.jpg'
+], 2);
+var two_patterns = jsPsych.randomization.sampleWithoutReplacement([
+    'pattern01.jpg',
+    'pattern02.jpg',
+    'pattern03.jpg',
+    'pattern04.jpg',
+    'pattern05.jpg',
+    'pattern06.jpg'
+], 2);
+assigned_info.rocket_easy = two_rockets[0];
+assigned_info.rocket_hard = two_rockets[1];
+assigned_info.pattern_easy = two_patterns[0];
+assigned_info.pattern_hard = two_patterns[1];
+
+if (debug) {
+    console.log(assigned_info);
+};
+
 var subject_id = count + 1;
 
 // colours used for task, with left and right randomized for each experiment
@@ -668,7 +699,7 @@ var practice_rocket = {
     },
     choices: function () {
         var choices_arr;
-        if (practice_rocket_prompt == "colour") {
+        if (practice_rocket_prompt == "motion") {
             if (random_rockets[0] == assigned_info.rocket_easy) {
                 choices_arr = [37];
             } else {
@@ -1061,7 +1092,7 @@ var update_feedback = {
     post_trial_gap: 500,
 };
 
-var trial_sequence = {
+var update_math_sequence = {
     timeline: [
         options,
         prompt_digit,
@@ -1094,7 +1125,7 @@ var practice_easy_update = {
     repetitions: n_easy_practice,
 }
 
-var practice_sequence = jsPsych.utils.deepCopy(trial_sequence);
+var practice_sequence = jsPsych.utils.deepCopy(update_math_sequence);
 practice_sequence.repetitions = n_practice_update_trial;
 for (i = 0; i < practice_sequence.timeline.length; i++) {
     practice_sequence.timeline[i].data = { event: "update_practice" };
@@ -1166,29 +1197,39 @@ var practice_pattern_trials = {
 var timeline = [];
 timeline.push(instructions);
 timeline.push(colour_blocks);
-// timeline.push(practice_hard_dot_trials);
-// timeline.push(practice_easy_dot_trials);
-// timeline.push(practice_rocket_trials);
-// timeline.push(update_instructions1);
-// timeline.push(practice_pattern_trials);
-// timeline.push(practice_hard_update);
-// timeline.push(practice_easy_update);
-// if (n_practice_update_trial > 0) {
-//     timeline.push(practice_sequence, update_instructions2);
-// }
-// timeline.push(trial_sequence);
-// timeline.push(practice_pre_training);
-// timeline.push(pre_training);
-// timeline.push(alien_introduction);
-// timeline.push(practice_training);
-// timeline.push(training);
-// timeline.push(post_training);
+timeline.push(practice_hard_dot_trials);
+timeline.push(practice_easy_dot_trials);
+timeline.push(practice_rocket_trials);
+timeline.push(practice_pattern_trials);
+timeline.push(practice_hard_update);
+timeline.push(practice_easy_update);
+timeline.push(update_instructions1, practice_sequence, update_instructions2);
+timeline.push(practice_pre_training);
+timeline.push(alien_introduction);
+timeline.push(practice_training);
+
+// below are actual trials
+
+if (assigned_info.pretrain_order == 'dotmotion-update') {
+    timeline.push(pre_training);
+    timeline.push(update_math_sequence);
+} else {
+    timeline.push(update_math_sequence);
+    timeline.push(pre_training);
+}
+timeline.push(training);
+if (assigned_info.posttrain_order == 'dotmotion-update') {
+    timeline.push(post_training);
+    timeline.push(update_math_sequence);
+} else {
+    timeline.push(update_math_sequence);
+    timeline.push(post_training);
+}
 
 // TODO: try implementing backend
 // TODO: testing -> start with biggest potential for mistakes. unit tests. catch edge cases & no responses. test transitions between sections
 // TODO: create assign.csv with python. 1-2000 subjects. itertools.
 // TODO: dot-motion and update task orders.
-// TODO: randomize rocket and patterns.
 
 
 jsPsych.init({
