@@ -296,11 +296,11 @@ var dot_motion = {
         data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
         var current_points = 0;
         if (data.correct) {
-            if (assigned_info.reward_condition == 2) {
+            if (assigned_info.reward_condition == 'performance') {
                 current_points = calculate_points(data.rt, points);
-            } else if (assigned_info.reward_condition == 3) {
+            } else if (assigned_info.reward_condition == 'neutral') {
                 current_points = mid_reward;
-            } else if (assigned_info.reward_condition == 1) {
+            } else if (assigned_info.reward_condition == 'effort') {
                 if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket_easy) {
                     current_points = min_reward;
                 } else if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket_hard) {

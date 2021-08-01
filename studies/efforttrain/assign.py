@@ -15,7 +15,7 @@ import json
 # rocket_permutations = list(itertools.permutations(rockets, 2))
 # pattern_permutations = list(itertools.permutations(patterns, 2))
 
-reward_conditions = 3
+reward_conditions = ['effort', 'performance', 'neutral']
 
 train_types = ['dotmotion', 'update']
 pretrain_orders = list(itertools.permutations(train_types, 2))
@@ -47,9 +47,9 @@ subjects = []
 for c in range(len(colour_code_permutations)):
     # for r in range(len(rocket_permutations)):
     #     for p in range(len(pattern_permutations)):
-    for cond in range(reward_conditions):
-        for pre in range(len(pretrain_orders)):
-            for post in range(len(posttrain_orders)):
+    for pre in range(len(pretrain_orders)):
+        for post in range(len(posttrain_orders)):
+            for cond in reward_conditions:
                 subject = {
                     # 'rocket_easy': rocket_permutations[r][0],
                     # 'rocket_hard': rocket_permutations[r][1],
@@ -59,7 +59,7 @@ for c in range(len(colour_code_permutations)):
                     'colours_name': colour_permutations[c],
                     'pretrain_order': '-'.join(pretrain_orders[pre]),
                     'posttrain_order': '-'.join(posttrain_orders[post]),
-                    'reward_condition': cond + 1
+                    'reward_condition': cond
                 }
                 subjects.append(subject)
 
