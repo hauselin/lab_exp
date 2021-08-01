@@ -1192,6 +1192,10 @@ var practice_pattern_trials = {
 };
 
 var timeline = [];
+timeline.push({
+    type: 'fullscreen',
+    fullscreen_mode: true
+  });  
 timeline.push(instructions);
 timeline.push(colour_blocks);
 timeline.push(practice_hard_dot_trials);
