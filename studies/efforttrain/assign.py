@@ -15,6 +15,8 @@ import json
 # rocket_permutations = list(itertools.permutations(rockets, 2))
 # pattern_permutations = list(itertools.permutations(patterns, 2))
 
+reward_conditions = ['effort', 'performance', 'neutral']
+
 train_types = ['dotmotion', 'update']
 pretrain_orders = list(itertools.permutations(train_types, 2))
 posttrain_orders = list(itertools.permutations(train_types, 2))
@@ -45,19 +47,21 @@ subjects = []
 for c in range(len(colour_code_permutations)):
     # for r in range(len(rocket_permutations)):
     #     for p in range(len(pattern_permutations)):
-            for pre in range(len(pretrain_orders)):
-                for post in range(len(posttrain_orders)):
-                    subject = {
-                        # 'rocket_easy': rocket_permutations[r][0],
-                        # 'rocket_hard': rocket_permutations[r][1],
-                        # 'pattern_easy': pattern_permutations[p][0],
-                        # 'pattern_hard': pattern_permutations[p][1],
-                        'colours_hex': colour_code_permutations[c],
-                        'colours_name': colour_permutations[c],
-                        'pretrain_order': '-'.join(pretrain_orders[pre]),
-                        'posttrain_order': '-'.join(posttrain_orders[post]),
-                    }
-                    subjects.append(subject)
+    for pre in range(len(pretrain_orders)):
+        for post in range(len(posttrain_orders)):
+            for cond in reward_conditions:
+                subject = {
+                    # 'rocket_easy': rocket_permutations[r][0],
+                    # 'rocket_hard': rocket_permutations[r][1],
+                    # 'pattern_easy': pattern_permutations[p][0],
+                    # 'pattern_hard': pattern_permutations[p][1],
+                    'colours_hex': colour_code_permutations[c],
+                    'colours_name': colour_permutations[c],
+                    'pretrain_order': '-'.join(pretrain_orders[pre]),
+                    'posttrain_order': '-'.join(posttrain_orders[post]),
+                    'reward_condition': cond
+                }
+                subjects.append(subject)
 
 print(len(subjects))
 # print(subjects)
@@ -65,11 +69,11 @@ print(len(subjects))
 with open('assign.csv', mode='w') as file:
     writer = csv.writer(file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
     writer.writerow([
-        # 'rocket_easy', 
-        # 'rocket_hard', 
-        # 'pattern_easy', 
-        # 'pattern_hard', 
-        'colours_hex', 'colours_name', 'pretrain_order', 'posttrain_order'])
+        # 'rocket_easy',
+        # 'rocket_hard',
+        # 'pattern_easy',
+        # 'pattern_hard',
+        'colours_hex', 'colours_name', 'pretrain_order', 'posttrain_order', 'reward_condition'])
     for subject in subjects:
         writer.writerow([
             # subject['rocket_easy'],
@@ -79,7 +83,8 @@ with open('assign.csv', mode='w') as file:
             subject['colours_hex'],
             subject['colours_name'],
             subject['pretrain_order'],
-            subject['posttrain_order']
+            subject['posttrain_order'],
+            subject['reward_condition']
         ])
 
 with open('assign.txt', 'w') as outfile:
