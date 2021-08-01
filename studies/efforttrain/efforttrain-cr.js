@@ -76,6 +76,10 @@ assigned_info.rocket_hard = two_rockets[1];
 assigned_info.pattern_easy = two_patterns[0];
 assigned_info.pattern_hard = two_patterns[1];
 
+jsPsych.data.addProperties({ // do not edit this section unnecessarily!
+    condition: CONDITION,
+});
+
 if (debug) {
     console.log(assigned_info);
 };
