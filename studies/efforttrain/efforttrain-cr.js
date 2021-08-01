@@ -220,7 +220,7 @@ var rocket_chosen = {
             trial.stimulus = "Respond faster";
         }
     },
-    choices: jsPsych.NO_KEYS,
+    choices: [],
     trial_duration: 500,
     on_finish: function (data) {
         data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
@@ -468,6 +468,7 @@ var cue = {
             console.log("Training index:", training_index);
         }
     },
+    choices: [],
     on_finish: function (data) {
         data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
         var trial_timeline_variable = training_timeline_variables[training_index];
@@ -573,6 +574,7 @@ var practice_hard_dot_prompt = {
     on_finish: function () {
         dot_motion_parameters = dot_motion_trial_variable(true);
     },
+    choices: [],
     trial_duration: prac_dot_rocket_duration,
 };
 
@@ -644,6 +646,7 @@ var practice_easy_dot_prompt = {
     on_finish: function () {
         dot_motion_parameters = dot_motion_trial_variable(false);
     },
+    choices: [],
     trial_duration: prac_dot_rocket_duration,
 };
 
@@ -992,7 +995,7 @@ var prompt_digit = {
         remind = generate_html(remind, font_colour, 30);
         return remind;
     },
-    choices: jsPsych.NO_KEYS,
+    choices: [],
     trial_duration: 1000,
     data: { event: "digit_prompt" },
     post_trial_gap: 750,
@@ -1014,7 +1017,7 @@ var number_sequence = {
                 );
                 return remind + d;
             },
-            choices: jsPsych.NO_KEYS,
+            choices: [],
             trial_duration: duration_digit,
             data: { event: "digit" },
             post_trial_gap: duration_post_digit,
@@ -1095,7 +1098,7 @@ var update_feedback = {
         }
         return generate_html(prompt, font_colour, 34);
     },
-    choices: jsPsych.NO_KEYS,
+    choices: [],
     trial_duration: feedback_duration,
     data: { event: "update_feedback" },
     post_trial_gap: 500,
