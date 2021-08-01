@@ -11,6 +11,11 @@ const cue_duration = 1500;
 var rnorm = new Ziggurat(); // rnorm.nextGaussian() * 5 to generate random normal variable with mean 0 sd 5
 var itis = iti_exponential(200, 700); // intervals between dot-motion reps
 
+// reward points based on conditions
+var min_reward = 230;
+var max_reward = 370;
+var mid_reward = 300;
+
 // practice trial parameters
 // practice dot motion
 var prac_dot_acc = 0.8; // required accuracy for the last 15 trials
@@ -287,7 +292,21 @@ var dot_motion = {
         data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
         var current_points = 0;
         if (data.correct) {
-            current_points = calculate_points(data.rt, points);
+            if (assigned_info.reward_condition == 2) {
+                current_points = calculate_points(data.rt, points);
+            } else if (assigned_info.reward_condition == 3) {
+                current_points = mid_reward;
+            } else if (assigned_info.reward_condition == 1) {
+                if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket_easy) {
+                    current_points = min_reward;
+                } else if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket_hard) {
+                    current_points = max_reward;
+                } else {
+                    current_points = null;
+                }
+            } else {
+                current_points = null;
+            }
             if (is_pre_training) {
                 if (!is_practice) {
                     pre_training_rt.push(data.rt);
