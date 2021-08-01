@@ -34,10 +34,10 @@ var practice_pre_training_repetitions = 3;
 var prac_pattern_max = 10;
 
 // pre_training block parameters
-const pre_training_repetitions = 5;
+const pre_training_repetitions = 5; // use 40 for experiment
 
 // post_training block parameters
-const post_training_repetitions = 5;
+const post_training_repetitions = 5; // use 20 for experiment
 
 // dot motion task parameters
 const dot_motion_repetitions = 3;
@@ -54,7 +54,7 @@ const feedback_duration = 1500;
 // Overal trial number pretraining / training (don't change)
 var trial_number = 0;
 
-var count = CONDITION
+var count = CONDITION;
 
 var assigned_info = assign[count % assign.length];
 var two_rockets = jsPsych.randomization.sampleWithoutReplacement([
