@@ -2,6 +2,8 @@ var font_colour = "white";
 var background_colour = "black";
 set_colour(font_colour, background_colour);
 
+// CONDITION = 1
+
 var debug = true;
 
 const instruct_fontsize = 21;
@@ -258,8 +260,14 @@ var dot_motion = {
     background_color: background_colour,
     choices: [37, 39],
     trial_duration: function () {
+        if (is_training) {
+            let training_deadline = mad_cutoffs(pre_training_rt, 1.0)[1] + 150;
+            if (debug) {
+                console.log(training_deadline);
+            }
+            return training_deadline;
+        }
         return dot_motion_deadline;
-        // FIXME trial_duration in training depends on pre-training RT (use function here)
     },
     coherence: function () {
         return [
