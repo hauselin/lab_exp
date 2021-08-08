@@ -1,15 +1,14 @@
 // instruction text
 let instruct_browser = [
-  "To ensure a seamless experience,<br>please use Chrome or Firefox web browser.",
+  "To ensure a seamless experience, please use Chrome or Firefox web browser.<br><br>Other browsers like Internet Explorer or Safari aren't supported.",
 ];
 
 let instruct_intro = [
   "Welcome to our space station.<br><br>Whenever you're ready, click next or press the right arow key on your keyboard to proceed.",
 ];
 
-// same something about payment and bonus
 let instruct_mission1 = [
-  "You are an adventurous space explorer who will complete several missions in space.<br><br>These missions will require about <span style='color:orange; font-weight:bold'>1.5 hours</span> to complete.",
+  "You are an adventurous space explorer who will complete several missions in space.<br><br>These missions will require about <span style='color:orange; font-weight:bold'>1.5 hours</span> to complete.<br><br>You will receive <span style='color:orange; font-weight:bold'>$12.50</span> for completing all missions.<br><br>You can also earn a bonus of <span style='color:orange; font-weight:bold'>up to $5</span> (details provided later).",
 ];
 
 let instruct_mission2 = [
@@ -21,7 +20,7 @@ let instruct_colortask = [
 ];
 
 let instruct_colortask2 = [
-  "You'll see stars in different colors.<br><br>Focus on identifying the <span style='color:orange; font-weight:bold'>predominant color</span>. Which color appears most frequently?<br><br>Also, you'll see a rocket before seeing the colored stars. Whenever you see that rocket, it means you have to identify the <span style='color:orange; font-weight:bold'>color</span> of the stars.<br><br>Memorize that rocket's appearance.",
+  "You'll see stars in four different colors, moving in different directions.<br><br>Focus on identifying the <span style='color:orange; font-weight:bold'>predominant color</span>. Which color appears most frequently?<br><br>You'll also see a rocket before seeing the colored stars. Whenever you see that particular rocket, it means you have to identify the <span style='color:orange; font-weight:bold'>color</span> of the stars.<br><br>Memorize that particular rocket's appearance.",
 ];
 
 // color blocks

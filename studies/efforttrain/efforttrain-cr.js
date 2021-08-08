@@ -3,7 +3,7 @@ const debug = true;  // set to false for actual experiment
 const local = true;  // set to false for actual experiment
 
 if (local) {
-    var CONDITION = 1;
+    var CONDITION = 0;
 }
 
 const font_colour = "white";
@@ -18,9 +18,9 @@ var rnorm = new Ziggurat(); // rnorm.nextGaussian() * 5 to generate random norma
 var itis = iti_exponential(200, 700); // intervals between dot-motion reps
 
 // reward points based on conditions
-var min_reward = 230;
-var max_reward = 370;
-var mid_reward = 300;
+const min_reward = 230;
+const max_reward = 370;
+const mid_reward = 300;
 
 // practice trial parameters
 // practice dot motion
@@ -1210,50 +1210,56 @@ var practice_pattern_trials = {
     repetitions: prac_pattern_max,
 };
 
+// CREATE EXPERIMENT TIMELINE
 var timeline = [];
 if (fullscreen) {
     timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 }
+
+// PRACTICE
 timeline.push(instructions);
 timeline.push(colour_blocks);
 timeline.push(practice_hard_dot_trials);
-timeline.push(practice_easy_dot_trials);
-timeline.push(practice_rocket_trials);
-timeline.push(practice_pattern_trials);
-timeline.push(practice_hard_update);
-timeline.push(practice_easy_update);
-timeline.push(update_instructions1, practice_sequence, update_instructions2);
-timeline.push(practice_pre_training);
-timeline.push(alien_introduction);
-timeline.push(practice_training);
 
-// below are actual trials
+if (false) {
+    timeline.push(practice_easy_dot_trials);
+    timeline.push(practice_rocket_trials);
+    timeline.push(practice_pattern_trials);
+    timeline.push(practice_hard_update);
+    timeline.push(practice_easy_update);
+    timeline.push(update_instructions1, practice_sequence, update_instructions2);
+    timeline.push(practice_pre_training);
+    timeline.push(alien_introduction);
+    timeline.push(practice_training);
 
-if (assigned_info.pretrain_order == 'dotmotion-update') {
-    timeline.push(pre_training);
-    timeline.push(update_math_sequence);
-} else {
-    timeline.push(update_math_sequence);
-    timeline.push(pre_training);
+    // below are actual trials
+    if (assigned_info.pretrain_order == 'dotmotion-update') {
+        timeline.push(pre_training);
+        timeline.push(update_math_sequence);
+    } else {
+        timeline.push(update_math_sequence);
+        timeline.push(pre_training);
+    }
+    timeline.push(training);
+
+    // post training
+    if (assigned_info.posttrain_order == 'dotmotion-update') {
+        timeline.push(post_training);
+        timeline.push(update_math_sequence);
+    } else {
+        timeline.push(update_math_sequence);
+        timeline.push(post_training);
+    }
 }
-timeline.push(training);
-if (assigned_info.posttrain_order == 'dotmotion-update') {
-    timeline.push(post_training);
-    timeline.push(update_math_sequence);
-} else {
-    timeline.push(update_math_sequence);
-    timeline.push(post_training);
-}
 
 
-// don't alllow safari
+// don't allow safari
 var is_Safari = navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome');
 if (is_Safari) {
 	timeline = [{
 		type: 'instructions', allow_backward: false, button_label_next: '', show_clickable_nav: false, allow_keys: false,
 		pages: ["You might be using an incompatible web browser.<br><br>Please switch to <strong>Google Chrome</strong> or <strong>Firefox</strong> for a better experience."],
 	}];
-	stim_preload = [];
 }
 
 jsPsych.init({
