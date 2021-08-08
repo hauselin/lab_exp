@@ -29,7 +29,7 @@ var prac_dot_max = 80; // maximum practice trials before moving on
 var prac_dot_rocket_duration = 1000; // duration of rocket during practice
 var prac_dot_feedback_duration = 1000; // feedback duration
 // practice rocket selection
-var prac_rocket_max = 10; // maximum practice trials before moving on
+var prac_rocket_max = 12; // maximum practice trials before moving on
 var prac_rocket_deadline = 2000; // rt deadline for colour block practice trial
 var prac_rocket_feedback_duration = 1000; // feedback duration
 // practice pre-training / training
@@ -719,7 +719,7 @@ var practice_easy_dot_trials = {
 };
 
 var practice_rocket_prompt = jsPsych.randomization.sampleWithoutReplacement(
-    ["identifying the color", "identifying the motion"],
+    ["color", "motion"],
     1
 )[0];
 var practice_rocket = {
@@ -729,7 +729,7 @@ var practice_rocket = {
             assigned_info.rocket_easy,
             assigned_info.rocket_hard,
         ]);
-        const txt = `Which rocket is associated with <span style='color:orange; font-weight:bold'>${practice_rocket_prompt}</span> of the stars?<br><br>Respond by pressing the left/right key for the left/right rocket, respectively.<br><br>
+        const txt = `Which rocket is associated with <span style='color:orange; font-weight:bold'>identifying the ${practice_rocket_prompt}</span> of the stars?<br><br>Respond by pressing the left/right key for the left/right rocket, respectively.<br><br>
         <div>
         <div style='float: left; padding-right: 11px'><img src='stimuli/${random_rockets[0]}' width='233'></img></div>
         <div style='float: right; padding-left: 10px'><img src='stimuli/${random_rockets[1]}' width='233'></img></div>
@@ -758,7 +758,7 @@ var practice_rocket = {
     on_finish: function (data) {
         data.event = "practice_rocket";
         practice_rocket_prompt = jsPsych.randomization.sampleWithoutReplacement(
-            ["colour", "motion"],
+            ["color", "motion"],
             1
         )[0];
     },
