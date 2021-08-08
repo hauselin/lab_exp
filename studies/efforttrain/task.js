@@ -1226,12 +1226,6 @@ if (assigned_info.posttrain_order == 'dotmotion-update') {
     timeline.push(post_training);
 }
 
-// TODO: try implementing backend
-// TODO: testing -> start with biggest potential for mistakes. unit tests. catch edge cases & no responses. test transitions between sections
-// TODO: create assign.csv with python. 1-2000 subjects. itertools.
-// TODO: dot-motion and update task orders.
-
-
 jsPsych.init({
     timeline: timeline,
     preload_images: Object.values(images),

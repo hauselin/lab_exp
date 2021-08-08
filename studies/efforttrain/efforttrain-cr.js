@@ -2,9 +2,11 @@ var font_colour = "white";
 var background_colour = "black";
 set_colour(font_colour, background_colour);
 
-// CONDITION = 1
-
 var debug = true;
+var local = true;
+if (local) {
+    var CONDITION = 1;
+}
 
 const instruct_fontsize = 21;
 const rocket_selection_deadline = null; // ms
