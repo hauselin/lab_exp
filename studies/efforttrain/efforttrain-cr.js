@@ -2,25 +2,11 @@ const fullscreen = false;  // set to true for actual experiment
 const debug = true;  // set to false for actual experiment
 const local = true;  // set to false for actual experiment
 
+const redirect_url = '';  // qualtrics url for surveys
+
 if (local) {
     var CONDITION = 0;  // if local is false, variable will be set by cognition.run
 }
-
-const font_colour = "white";
-const background_colour = "black";
-set_colour(font_colour, background_colour);
-
-const instruct_fontsize = 21;
-const rocket_selection_deadline = null; // ms
-const cue_duration = 1500;
-
-var rnorm = new Ziggurat(); // rnorm.nextGaussian() * 5 to generate random normal variable with mean 0 sd 5
-var itis = iti_exponential(200, 700); // intervals between dot-motion reps
-
-// reward points based on conditions
-const min_reward = 230;
-const max_reward = 370;
-const mid_reward = 300;
 
 // practice trial parameters
 // practice dot motion
@@ -35,7 +21,7 @@ var prac_rocket_feedback_duration = 1000; // feedback duration
 // practice pre-training / training
 var practice_pre_training_repetitions = 10;  // no. of practice trials for pre-training (use 10 trials for experiemnt)
 // practice update math
-var prac_pattern_max = 10;
+var prac_pattern_max = 10;  // no. of practice trials for pre-training (use 10 trials for experiemnt)
 
 // pre_training block parameters
 const pre_training_repetitions = 5; // use 40 for experiment
@@ -54,6 +40,22 @@ var dot_motion_parameters;
 const num_reward_trials = 40;
 const num_probe_trials = 20;
 const feedback_duration = 1500;
+
+const font_colour = "white";
+const background_colour = "black";
+set_colour(font_colour, background_colour);
+
+const instruct_fontsize = 21;
+const rocket_selection_deadline = null; // ms
+const cue_duration = 1500;
+
+var rnorm = new Ziggurat(); // rnorm.nextGaussian() * 5 to generate random normal variable with mean 0 sd 5
+var itis = iti_exponential(200, 700); // intervals between dot-motion reps
+
+// reward points based on conditions
+const min_reward = 230;
+const max_reward = 370;
+const mid_reward = 300;
 
 // Overal trial number pretraining / training (don't change)
 var trial_number = 0;
@@ -247,6 +249,26 @@ var instruct_practice_pre_training = {
     show_page_number: true,
 };
 
+var instruct_pre_training = {
+    type: "instructions",
+    pages: function () {
+        let instructions = [instruct_pre_training1, instruct_pre_training2];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
+};
 
 var rocket_choices = [];
 var random_rockets = jsPsych.randomization.shuffle([
@@ -1324,9 +1346,13 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // timeline.push(instruct_practice_rocket_choose)
 // timeline.push(practice_rocket_trials);
 
-timeline.push(instruct_practice_pre_training);
-timeline.push(practice_pre_training);
+// PRACTICE motion task - demand selection
+// timeline.push(instruct_practice_pre_training);
+// timeline.push(practice_pre_training);
 
+// ACTUAL motion task - demand selection (pre-training)
+// timeline.push(instruct_pre_training);
+// timeline.push(pre_training);
 
 if (false) {
     // PRACTICE UPDATING TASK
