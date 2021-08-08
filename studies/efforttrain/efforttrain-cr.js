@@ -1249,10 +1249,13 @@ if (fullscreen) {
 // timeline.push(practice_easy_dot_trials);
 
 // PRACTICE CHOOSING easy/hard motion task
+// TODO add instructions
 timeline.push(practice_rocket_trials);
-// TODO show feedback correct percent
-timeline.push(practice_pre_training);
+
+// TODO show feedback no. correct responses out of 3
 // TODO: add instructions (3 times)
+timeline.push(practice_pre_training);
+
 
 if (false) {
     // PRACTICE UPDATING TASK
