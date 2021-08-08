@@ -117,4 +117,4 @@ const instruct_practice_pre_training2 = ["You'll practice choosing rockets and d
 
 const instruct_pre_training1 = ["You're ready for the actual space mission.<br><br>You'll choose a rocket (which corresponds to the identify-color or identify-motion task).<br>Then you'll perform the task you have selected."]
 
-const instruct_pre_training2 = ["You have up to 1.5 seconds to perform the task you've chosen.<br><br>You won't receive feedback on the mission.<br><br>Let's begin!"]
+const instruct_pre_training2 = ["You have up to 1.5 seconds to perform the task you've chosen.<br><br>You won't receive feedback on the mission.<br><br>Let's begin the actual space mission!"]

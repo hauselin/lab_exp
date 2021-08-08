@@ -5,7 +5,7 @@ const local = true;  // set to false for actual experiment
 const redirect_url = '';  // qualtrics url for surveys
 
 if (local) {
-    var CONDITION = 0;  // if local is false, variable will be set by cognition.run
+    var CONDITION = 1;  // if local is false, variable will be set by cognition.run
 }
 
 // practice trial parameters
@@ -1351,8 +1351,8 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // timeline.push(practice_pre_training);
 
 // ACTUAL motion task - demand selection (pre-training)
-// timeline.push(instruct_pre_training);
-// timeline.push(pre_training);
+timeline.push(instruct_pre_training);
+timeline.push(pre_training);
 
 if (false) {
     // PRACTICE UPDATING TASK
