@@ -3,7 +3,7 @@ const debug = true;  // set to false for actual experiment
 const local = true;  // set to false for actual experiment
 
 if (local) {
-    var CONDITION = 0;
+    var CONDITION = 0;  // if local is false, variable will be set by cognition.run
 }
 
 const font_colour = "white";
@@ -29,7 +29,7 @@ var prac_dot_max = 80; // maximum practice trials before moving on
 var prac_dot_rocket_duration = 1000; // duration of rocket during practice
 var prac_dot_feedback_duration = 1000; // feedback duration
 // practice rocket selection
-var prac_rocket_max = 12; // maximum practice trials before moving on
+var prac_rocket_max = 15; // maximum practice trials before moving on
 var prac_rocket_deadline = 2000; // rt deadline for colour block practice trial
 var prac_rocket_feedback_duration = 1000; // feedback duration
 // practice pre-training / training
@@ -98,7 +98,6 @@ for (i = 0; i < 4; i++) {
     hex2txt[assigned_info.colours_hex.split('-')[i]] = assigned_info.colours_name.split('-')[i];
 }
 var colours = Object.keys(hex2txt);
-// var colours = jsPsych.randomization.repeat(colours, 1);  // TODO will counterbalance
 var colours_left = colours.slice(0, 2);
 var colours_right = colours.slice(2, 4);
 
@@ -180,6 +179,48 @@ var instruct_motion = {
     type: "instructions",
     pages: function () {
         let instructions = [instruct_motion1, instruct_motion2, instruct_motion3];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
+var instruct_practice_rocket_choose = {
+    type: "instructions",
+    pages: function () {
+        let instructions = [instruct_prac_choose_rocket1];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
+var instruct_practice_pre_training = {
+    type: "instructions",
+    pages: function () {
+        let instructions = [instruct_practice_pre_training1];
         instructions = instructions.map((i) =>
             generate_html(i, font_colour, instruct_fontsize)
         );
@@ -458,11 +499,6 @@ var dot_motion_trials = {
     repetitions: dot_motion_repetitions,
 };
 
-// TODO: 3 blocks: pre-training, training, post-training
-// pre-training = post-training -> no feedback for correctness
-// no data for post-training
-// store dot motion acc, correct rt, num correct
-// training -> feedback with aliens
 var pre_training = {
     timeline: [rockets, rocket_chosen, dot_motion_trials],
     on_start: function () {
@@ -961,8 +997,6 @@ var easy_option = {
     }
 }
 
-
-// TODO: make hard and easy options' locations random
 var options = {
     type: "html-keyboard-response",
     stimulus: function () {
@@ -1235,9 +1269,7 @@ var practice_pattern_trials = {
 
 // CREATE EXPERIMENT TIMELINE
 var timeline = [];
-if (fullscreen) {
-    timeline.push({ type: 'fullscreen', fullscreen_mode: true });
-}
+if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 
 // PRACTICE COLOR/HARD motion task
 // timeline.push(instructions);
@@ -1249,12 +1281,12 @@ if (fullscreen) {
 // timeline.push(practice_easy_dot_trials);
 
 // PRACTICE CHOOSING easy/hard motion task
-// TODO add instructions
-timeline.push(practice_rocket_trials);
+// timeline.push(instruct_practice_rocket_choose)
+// timeline.push(practice_rocket_trials);
 
-// TODO show feedback no. correct responses out of 3
-// TODO: add instructions (3 times)
-timeline.push(practice_pre_training);
+
+timeline.push(instruct_practice_pre_training);
+timeline.push(practice_pre_training);  // TODO show feedback no. correct responses out of 3
 
 
 if (false) {
