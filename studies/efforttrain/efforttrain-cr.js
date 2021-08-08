@@ -156,7 +156,7 @@ var instruct_color = {
             instruct_colors(colours, hex2txt),
             colors_remind(
                 colours,
-                "Try to memorize the colors associated with the left/right keys.<br><br>Next, you'll have the opportunity to practice identifying the colors of the stars. You'll automatically proceed to the next mission when you're performing well. So always try your best to <span style='color:orange; font-weight:bold'>respond as accurately and quickly as possible</span>!<br><br>Remember to ignore the motion of the stars and focus on the colors!"
+                "Try to memorize the colors associated with the left/right keys.<br><br>Next, you'll have the opportunity to practice identifying the colors of the stars. You'll automatically proceed to the next stage when you're performing well (at least 80% accurate). So always try your best to <span style='color:orange; font-weight:bold'>respond as accurately and quickly as possible</span>!<br><br>Remember to ignore the motion of the stars and focus on the colors! Distractor colors will often appear, so ignore them and focus on identifying the most predominant color."
             ),
         ];
         instructions = instructions.map((i) =>
@@ -179,7 +179,7 @@ var instruct_color = {
 var instruct_motion = {
     type: "instructions",
     pages: function () {
-        let instructions = ["You're now ready for the next part.", 'motion task instructions', 'cde'];
+        let instructions = [instruct_motion1, instruct_motion2, instruct_motion3];
         instructions = instructions.map((i) =>
             generate_html(i, font_colour, instruct_fontsize)
         );
@@ -287,13 +287,14 @@ var dot_motion = {
     choices: [37, 39],
     trial_duration: function () {
         if (is_training) {
+            // subject-specific RT deadline for training block
             let training_deadline = mad_cutoffs(pre_training_rt, 1.0)[1] + 150;
             if (debug) {
                 console.log(training_deadline);
             }
             return training_deadline;
         }
-        return dot_motion_deadline;
+        return dot_motion_deadline;  // same RT deadline for all other blocks
     },
     coherence: function () {
         return [
@@ -718,7 +719,7 @@ var practice_easy_dot_trials = {
 };
 
 var practice_rocket_prompt = jsPsych.randomization.sampleWithoutReplacement(
-    ["colour", "motion"],
+    ["identifying the color", "identifying the motion"],
     1
 )[0];
 var practice_rocket = {
@@ -728,12 +729,12 @@ var practice_rocket = {
             assigned_info.rocket_easy,
             assigned_info.rocket_hard,
         ]);
-        return `Choose the rocket associated to the <b>${practice_rocket_prompt}</b> task
+        const txt = `Which rocket is associated with <span style='color:orange; font-weight:bold'>${practice_rocket_prompt}</span> of the stars?<br><br>Respond by pressing the left/right key for the left/right rocket, respectively.<br><br>
         <div>
-        <div style='float: left; padding-right: 10px'><img src='stimuli/${random_rockets[0]}' width='233'></img></div>
+        <div style='float: left; padding-right: 11px'><img src='stimuli/${random_rockets[0]}' width='233'></img></div>
         <div style='float: right; padding-left: 10px'><img src='stimuli/${random_rockets[1]}' width='233'></img></div>
-        </div>
-    `;
+        </div>`;
+        return generate_html(txt, font_colour, instruct_fontsize)
     },
     choices: function () {
         var choices_arr;
@@ -1238,25 +1239,29 @@ if (fullscreen) {
     timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 }
 
-// PRACTICE
+// PRACTICE COLOR/HARD motion task
 // timeline.push(instructions);
 // timeline.push(instruct_color);
 // timeline.push(practice_hard_dot_trials);
 
-timeline.push(instruct_motion);
-timeline.push(practice_easy_dot_trials);
+// PRACTICE MOTION/EASY motion task
+// timeline.push(instruct_motion);
+// timeline.push(practice_easy_dot_trials);
+
+// PRACTICE CHOOSING easy/hard motion task
+timeline.push(practice_rocket_trials);
+// TODO show feedback correct percent
+timeline.push(practice_pre_training);
+// TODO: add instructions (3 times)
 
 if (false) {
-    timeline.push(practice_rocket_trials);
+    // PRACTICE UPDATING TASK
     timeline.push(practice_pattern_trials);
     timeline.push(practice_hard_update);
     timeline.push(practice_easy_update);
     timeline.push(update_instructions1, practice_sequence, update_instructions2);
-    timeline.push(practice_pre_training);
-    timeline.push(alien_introduction);
-    timeline.push(practice_training);
-
-    // below are actual trials
+    
+    // PRE-TRAINING
     if (assigned_info.pretrain_order == 'dotmotion-update') {
         timeline.push(pre_training);
         timeline.push(update_math_sequence);
@@ -1264,9 +1269,13 @@ if (false) {
         timeline.push(update_math_sequence);
         timeline.push(pre_training);
     }
+
+    // TRAINING
+    timeline.push(alien_introduction);
+    timeline.push(practice_training);
     timeline.push(training);
 
-    // post training
+    // POST-TRAINING
     if (assigned_info.posttrain_order == 'dotmotion-update') {
         timeline.push(post_training);
         timeline.push(update_math_sequence);

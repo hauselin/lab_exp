@@ -20,7 +20,7 @@ let instruct_colortask = [
 ];
 
 let instruct_colortask2 = [
-  "You'll see stars in four different colors, moving in different directions.<br><br>Your goal is to ignore the motion/direction of the stars. Instead, focus on identifying the <span style = 'color:orange; font-weight:bold'>predominant color</span>.<br><br>A rocket will also appear before the stars appear. It tells you what you have to do: <span style='color:orange; font-weight:bold'>identify the color of the stars</span>. Memorize its appearance.",
+  "You'll see stars in four different colors, moving in different directions.<br><br>Your goal is to ignore the motion/direction of the stars. Instead, focus on identifying the <span style = 'color:orange; font-weight:bold'>predominant color</span>.<br><br>A rocket will also appear before the stars appear. It tells you what you have to do: <span style='color:orange; font-weight:bold'>identify the color of the stars</span>. Try to memorize its appearance.",
 ];
 
 // color blocks
@@ -99,3 +99,10 @@ const colors_remind = (colours, remind_txt) => {
 
   return [html];
 };
+
+
+const instruct_motion1 = ["You're an amazing space explorer and are really good at identifying the color of the moving stars.<br><br>In the next stage, you'll practice identifying the <span style='color:orange; font-weight:bold'>motion/direction</span> the stars, which will be moving mostly <span style='color:orange; font-weight:bold'>left or right</span>.<br><br>Ignore the colors and the few outlier stars that move in other directions."]
+
+const instruct_motion2 = ["A rocket will also appear before the stars appear. This rocket will look different from the one you saw just now.<br><br>It tells you what you have to do: <span style='color:orange; font-weight:bold'>identify the motion of the stars</span>. Again, try to memorize its appearance."]
+
+const instruct_motion3 = ["Next, you'll have the opportunity to practice identifying the motion (left or right) of the majority of the moving stars.<br><br>You'll automatically proceed to the next stage when you're performing well (at least 80% accurate). So try your best to <span style='color:orange; font-weight:bold'>respond as accurately and quickly as possible</span>!<br><br>Remember to ignore the colors of the stars!"]
