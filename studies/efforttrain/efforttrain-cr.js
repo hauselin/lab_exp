@@ -33,7 +33,7 @@ var prac_rocket_max = 15; // maximum practice trials before moving on
 var prac_rocket_deadline = 2000; // rt deadline for colour block practice trial
 var prac_rocket_feedback_duration = 1000; // feedback duration
 // practice pre-training / training
-var practice_pre_training_repetitions = 3;
+var practice_pre_training_repetitions = 10;  // no. of practice trials for pre-training (use 10 trials for experiemnt)
 // practice update math
 var prac_pattern_max = 10;
 
@@ -61,6 +61,7 @@ var trial_number = 0;
 var count = CONDITION;
 
 var assigned_info = assign[count % assign.length];
+// randomly choose two rockets, two patterns
 var two_rockets = jsPsych.randomization.sampleWithoutReplacement([
     'rocket01.jpg',
     'rocket02.jpg',
@@ -81,6 +82,14 @@ assigned_info.rocket_easy = two_rockets[0];
 assigned_info.rocket_hard = two_rockets[1];
 assigned_info.pattern_easy = two_patterns[0];
 assigned_info.pattern_hard = two_patterns[1];
+if (debug) {
+    assigned_info.rocket_easy = 'rocket01.jpg';
+    assigned_info.rocket_hard = 'rocket02.jpg';
+    assigned_info.pattern_easy = 'pattern01.jpg';
+    assigned_info.pattern_hard = 'pattern02.jpg';
+}
+
+
 
 jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     condition: CONDITION,
@@ -220,7 +229,7 @@ var instruct_practice_rocket_choose = {
 var instruct_practice_pre_training = {
     type: "instructions",
     pages: function () {
-        let instructions = [instruct_practice_pre_training1];
+        let instructions = [instruct_practice_pre_training1, instruct_practice_pre_training2];
         instructions = instructions.map((i) =>
             generate_html(i, font_colour, instruct_fontsize)
         );
@@ -312,6 +321,7 @@ var is_pre_training;
 var is_training;
 var is_post_training;
 var is_practice;
+var practice_pre_training_accuracy = [];
 
 var dot_motion = {
     type: "rdk",
@@ -393,6 +403,9 @@ var dot_motion = {
                     if (debug) {
                         console.log("Pre-training rt added:", data.rt);
                     }
+                } else {
+                    practice_pre_training_accuracy.push(1);
+                    console.log('PRACTICE accuracies: ', practice_pre_training_accuracy);
                 }
             } else if (is_training) {
                 training_points.push(current_points);
@@ -404,6 +417,7 @@ var dot_motion = {
                 console.log("CORRECT");
             }
         } else {
+            practice_pre_training_accuracy.push(0);
             if (is_training) {
                 training_points.push(current_points);
             }
@@ -499,6 +513,31 @@ var dot_motion_trials = {
     repetitions: dot_motion_repetitions,
 };
 
+var pre_training_feedback = {
+    type: "html-keyboard-response",
+    choices: [],
+    trial_duration: feedback_duration,
+    stimulus: function () {
+        last3 = practice_pre_training_accuracy.slice(-3);
+        practice_pre_training_accuracy = [];
+        console.log("PRACTICE accuracies (feedback): ", last3);
+        const acc = mean(last3).toFixed(2) * 100;
+        return generate_html(
+            acc + "% correct",
+            font_colour,
+            55,
+            [0, -21]
+        );
+    },
+    on_finish: function (data) {
+        practice_pre_training_accuracy = [];
+        data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
+        if (debug) {
+            console.log("Trial number:", trial_number);
+        }
+    },
+};
+
 var pre_training = {
     timeline: [rockets, rocket_chosen, dot_motion_trials],
     on_start: function () {
@@ -549,7 +588,7 @@ var cue = {
     },
     trial_duration: cue_duration,
 };
-// BUG? cues sometimes are shown for longer than cue_duration? hmm...
+// BUG potentially? cues sometimes are shown for longer than cue_duration? hmm...
 
 var training_timeline_variables = get_training_timeline_variables(
     num_reward_trials,
@@ -838,6 +877,7 @@ practice_pre_training.on_start = function () {
     is_practice = true;
 };
 practice_pre_training.repetitions = practice_pre_training_repetitions;
+practice_pre_training.timeline.push(pre_training_feedback)  // provide feedback during pre-training practice
 
 var mixed_training_timeline_variables = [
     {
@@ -1284,9 +1324,8 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // timeline.push(instruct_practice_rocket_choose)
 // timeline.push(practice_rocket_trials);
 
-
 timeline.push(instruct_practice_pre_training);
-timeline.push(practice_pre_training);  // TODO show feedback no. correct responses out of 3
+timeline.push(practice_pre_training);
 
 
 if (false) {
