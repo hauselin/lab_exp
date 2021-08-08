@@ -1,6 +1,6 @@
 // instruction text
 let instruct_browser = [
-  "To ensure a seamless experience, please use Chrome or Firefox web browser.<br><br>Other browsers like Internet Explorer or Safari aren't supported.",
+  "To ensure a seamless experience, please use <span style='color:orange; font-weight:bold'>Chrome</span> or <span style='color:orange; font-weight:bold'>Firefox</span> web browser.<br><br>Other browsers like Internet Explorer or Safari aren't supported.",
 ];
 
 let instruct_intro = [
@@ -20,7 +20,7 @@ let instruct_colortask = [
 ];
 
 let instruct_colortask2 = [
-  "You'll see stars in four different colors, moving in different directions.<br><br>Focus on identifying the <span style='color:orange; font-weight:bold'>predominant color</span>. Which color appears most frequently?<br><br>You'll also see a rocket before seeing the colored stars. Whenever you see that particular rocket, it means you have to identify the <span style='color:orange; font-weight:bold'>color</span> of the stars.<br><br>Memorize that particular rocket's appearance.",
+  "You'll see stars in four different colors, moving in different directions.<br><br>Your goal is to ignore the motion/direction of the stars. Instead, focus on identifying the <span style = 'color:orange; font-weight:bold'>predominant color</span>.<br><br>A rocket will also appear before the stars appear. It tells you what you have to do: <span style='color:orange; font-weight:bold'>identify the color of the stars</span>. Memorize its appearance.",
 ];
 
 // color blocks

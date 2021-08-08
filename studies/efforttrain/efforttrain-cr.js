@@ -149,14 +149,14 @@ var instructions = {
     show_page_number: true,
 };
 
-var colour_blocks = {
+var instruct_color = {
     type: "instructions",
     pages: function () {
         let instructions = [
             instruct_colors(colours, hex2txt),
             colors_remind(
                 colours,
-                "Try to memorize the colors associated with the left/right keys.<br><br>Let's practice!"
+                "Try to memorize the colors associated with the left/right keys.<br><br>Next, you'll have the opportunity to practice identifying the colors of the stars. You'll automatically proceed to the next mission when you're performing well. So always try your best to <span style='color:orange; font-weight:bold'>respond as accurately and quickly as possible</span>!<br><br>Remember to ignore the motion of the stars and focus on the colors!"
             ),
         ];
         instructions = instructions.map((i) =>
@@ -175,6 +175,28 @@ var colour_blocks = {
     show_clickable_nav: true,
     show_page_number: true,
 };
+
+var instruct_motion = {
+    type: "instructions",
+    pages: function () {
+        let instructions = ["You're now ready for the next part.", 'motion task instructions', 'cde'];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
 
 var rocket_choices = [];
 var random_rockets = jsPsych.randomization.shuffle([
@@ -1217,12 +1239,14 @@ if (fullscreen) {
 }
 
 // PRACTICE
-timeline.push(instructions);
-timeline.push(colour_blocks);
-timeline.push(practice_hard_dot_trials);
+// timeline.push(instructions);
+// timeline.push(instruct_color);
+// timeline.push(practice_hard_dot_trials);
+
+timeline.push(instruct_motion);
+timeline.push(practice_easy_dot_trials);
 
 if (false) {
-    timeline.push(practice_easy_dot_trials);
     timeline.push(practice_rocket_trials);
     timeline.push(practice_pattern_trials);
     timeline.push(practice_hard_update);
