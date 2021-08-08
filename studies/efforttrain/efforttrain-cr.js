@@ -1,12 +1,14 @@
-var font_colour = "white";
-var background_colour = "black";
-set_colour(font_colour, background_colour);
+const fullscreen = false;  // set to true for actual experiment
+const debug = true;  // set to false for actual experiment
+const local = true;  // set to false for actual experiment
 
-var debug = true;
-var local = true;
 if (local) {
     var CONDITION = 1;
 }
+
+const font_colour = "white";
+const background_colour = "black";
+set_colour(font_colour, background_colour);
 
 const instruct_fontsize = 21;
 const rocket_selection_deadline = null; // ms
@@ -1209,10 +1211,9 @@ var practice_pattern_trials = {
 };
 
 var timeline = [];
-timeline.push({
-    type: 'fullscreen',
-    fullscreen_mode: true
-  });  
+if (fullscreen) {
+    timeline.push({ type: 'fullscreen', fullscreen_mode: true });
+}
 timeline.push(instructions);
 timeline.push(colour_blocks);
 timeline.push(practice_hard_dot_trials);
@@ -1254,9 +1255,6 @@ if (is_Safari) {
 	}];
 	stim_preload = [];
 }
-
-// TODO: Make fullscreen for actual trials
-
 
 jsPsych.init({
     timeline: timeline,
