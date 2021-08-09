@@ -321,7 +321,7 @@ function calculate_points_obj(
     rt.push(rt[0] + rt[0] / 2);
   }
   // trim RTs
-  var rtcutoffs = mad_cutoffs(rt, 3.0);
+  var rtcutoffs = mad_cutoffs(rt, 1.0);
   rt = rt.filter((i) => i > rtcutoffs[0] && i < rtcutoffs[1]);
 
   // generate sequence of RTs from min to max value
@@ -469,7 +469,6 @@ function check_block(is_pre, is_train, is_post, is_prac) {
 }
 
 
-// TODO: helper function: convert to cash -> average is 300, take training-points array as input
 // 300 * 40 * 3 = average performance. max is 370 * 40 * 3 -> upper bound for final cash
 // 370 * 40 * 3 / 2 is the upper bound -> $5
 // 230 * 40 * 3 / 2 or lower -> $1

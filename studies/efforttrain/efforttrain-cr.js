@@ -8,6 +8,10 @@ if (local) {
     var CONDITION = 1;  // if local is false, variable will be set by cognition.run
 }
 
+if (debug) {
+    update_response_deadline = 60000;  // RT deadline for update/math task
+}
+
 // practice trial parameters
 // practice dot motion
 var prac_dot_acc = 0.8; // required accuracy for the last 15 trials
@@ -406,7 +410,7 @@ var dot_motion = {
     on_finish: function (data) {
         data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
         var current_points = 0;
-        if (data.correct) {
+        if (data.correct) {  // correct response
             if (assigned_info.reward_condition == 'performance') {
                 current_points = calculate_points(data.rt, points);
             } else if (assigned_info.reward_condition == 'neutral') {
@@ -441,7 +445,7 @@ var dot_motion = {
             if (debug) {
                 console.log("CORRECT");
             }
-        } else {
+        } else {  // wrong response
             practice_pre_training_accuracy.push(0);
             if (is_training) {
                 training_points.push(current_points);
@@ -1025,7 +1029,7 @@ practice_training.timeline_variables = prac_training_timeline_variables;
 
 
 
-// DEFINE TASK PARAMETERS (required)
+// DEFINE UPDATING/MATH TASK PARAMETERS (required)
 var num_to_update = null; // number to add to every digit
 var n_digits = 3; // amount of numbers to show (must be > 1)
 var n_distract_response = 3; // amount of distractors
@@ -1038,10 +1042,6 @@ var update_response_deadline = 3000; // deadline for responding
 var update_choice_deadline = null; // deadline for choosing hard or easy task
 var n_hard_practice = 5; // number of hard trials for practice
 var n_easy_practice = 5; // number of easy trials for practice
-
-if (debug) {
-    update_response_deadline = 60000;
-}
 
 // keycode for responses
 var choices = [
@@ -1383,6 +1383,28 @@ var practice_pattern_trials = {
     timeline: [practice_pattern],
     repetitions: prac_pattern_max,
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // CREATE EXPERIMENT TIMELINE
 var timeline = [];
