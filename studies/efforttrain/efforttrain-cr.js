@@ -1,7 +1,7 @@
 const fullscreen = false;  // set to true for actual experiment
 const debug = true;  // set to false for actual experiment
 const local = true;  // set to false for actual experiment
-const redirect_url = "https://www.bing.com";  // qualtrics url for surveys
+let redirect_url = "https://www.bing.com";  // qualtrics url for surveys
 
 if (local) {
     var CONDITION = 0;  // if local is false, variable will be set by cognition.run
@@ -126,9 +126,16 @@ jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     subject_id: subject_id
 });
 
+// TODO construct url with prolific id etc.
+redirect_url += ("?subject=" + subject_id);
+redirect_url += ("&CONDITION=" + CONDITION);
+redirect_url += ("&PROLIFIC_PID=123");
+
 if (debug) {
-    console.log("COUNTERBALANCING object")
+    console.log("COUNTERBALANCING object");
     console.log(assigned_info);
+    console.log("REDIRECT_URL");
+    console.log(redirect_url);
 };
 
 // colours used for task, with left and right randomized for each experiment
@@ -1503,7 +1510,7 @@ var instruct_finish = {
 var redirect_trial = {
 	type: 'html-keyboard-response',
     stimulus: function () {
-        const txt = `The final part of this study requires you to complete a brief survey.<br><br>Click <a href="${redirect_url}" target="_blank" style="color:orange; font-weight:bold">here</a> to open the survey in a new browser tab.`;
+        const txt = `The final part of this study requires you to complete a brief survey.<br><br>Click <a href="${redirect_url}" target="_blank" style="color:orange; font-weight:bold">here</a> to open and complete the survey in a new browser tab.`;
         return generate_html(txt, font_colour, instruct_fontsize)
     },
 	choices: [37, 39]
