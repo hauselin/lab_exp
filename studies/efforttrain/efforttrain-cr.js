@@ -5,7 +5,7 @@ const local = true;  // set to false for actual experiment
 const redirect_url = '';  // qualtrics url for surveys
 
 if (local) {
-    var CONDITION = 1;  // if local is false, variable will be set by cognition.run
+    var CONDITION = 0;  // if local is false, variable will be set by cognition.run
 }
 
 if (debug) {
@@ -57,7 +57,7 @@ const cue_duration = 1500;
 var rnorm = new Ziggurat(); // rnorm.nextGaussian() * 5 to generate random normal variable with mean 0 sd 5
 var itis = iti_exponential(200, 700); // intervals between dot-motion reps
 
-// reward points based on conditions
+// reward/points for dot-motion task in training section
 const min_reward = 230;
 const max_reward = 370;
 const mid_reward = 300;

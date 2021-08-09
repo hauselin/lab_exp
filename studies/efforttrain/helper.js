@@ -321,7 +321,7 @@ function calculate_points_obj(
     rt.push(rt[0] + rt[0] / 2);
   }
   // trim RTs
-  var rtcutoffs = mad_cutoffs(rt, 1.0);
+  var rtcutoffs = mad_cutoffs(rt, 1.0);  // see manuscript for parameters
   rt = rt.filter((i) => i > rtcutoffs[0] && i < rtcutoffs[1]);
 
   // generate sequence of RTs from min to max value
