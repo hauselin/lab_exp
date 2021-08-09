@@ -1,17 +1,13 @@
 const fullscreen = false;  // set to true for actual experiment
 const debug = true;  // set to false for actual experiment
 const local = true;  // set to false for actual experiment
-
 const redirect_url = '';  // qualtrics url for surveys
 
 if (local) {
     var CONDITION = 0;  // if local is false, variable will be set by cognition.run
 }
 
-if (debug) {
-    update_response_deadline = 60000;  // RT deadline for update/math task
-}
-
+// DOT MOTION TASK PARAMETERS
 // practice trial parameters
 // practice dot motion
 var prac_dot_acc = 0.8; // required accuracy for the last 15 trials
@@ -46,6 +42,7 @@ const num_probe_trials = 20;
 const feedback_duration = 1500;
 const training_iti = 750;
 
+// set background color
 const font_colour = "white";
 const background_colour = "black";
 set_colour(font_colour, background_colour);
@@ -62,10 +59,9 @@ const min_reward = 230;
 const max_reward = 370;
 const mid_reward = 300;
 
-// Overal trial number pretraining / training (don't change)
+// Overal trial number pretraining / training (don't edit it!)
 var trial_number = 0;
-
-var count = CONDITION;
+const count = CONDITION;
 
 var assigned_info = assign[count % assign.length];
 // randomly choose two rockets, two patterns
@@ -98,15 +94,42 @@ if (debug) {
 
 
 
+
+
+// UPDATING/MATH TASK PARAMETERS
+var num_to_update = null; // number to add to every digit
+var n_digits = 3; // amount of numbers to show (must be > 1)
+var n_distract_response = 3; // amount of distractors
+var n_update_trial_pre_training = 40;  // 40 for actual experiment
+var n_update_trial_post_training = 20;  // 20 for actual experiment
+var n_practice_update_trial = 5; // number of practice trials and the amount of sequences to show
+var duration_digit = 800; // how long to show each digit (ms)
+var duration_post_digit = 500; // pause duration after each digit
+var update_feedback_duration = 1500;
+var update_response_deadline = 3000; // deadline for responding
+var update_choice_deadline = null; // deadline for choosing hard or easy task
+var n_hard_practice = 3; // number of hard trials for practice
+var n_easy_practice = 3; // number of easy trials for practice
+
+if (debug) {  // make task faster/easier for debugging
+    update_response_deadline = 60000;  // RT deadline for update/math task
+    duration_digit = 400; // how long to show each digit (ms)
+    duration_post_digit = 200; // pause duration after each digit
+    update_feedback_duration = 500;
+}
+
+const subject_id = count + 1;
+
+// TODO also save url queries from prolific and cognition.run
 jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     condition: CONDITION,
+    subject_id: subject_id
 });
 
 if (debug) {
+    console.log("COUNTERBALANCING object")
     console.log(assigned_info);
 };
-
-var subject_id = count + 1;
 
 // colours used for task, with left and right randomized for each experiment
 const hex2txt = {};
@@ -1052,19 +1075,6 @@ practice_training.timeline_variables = prac_training_timeline_variables;
 
 
 
-// DEFINE UPDATING/MATH TASK PARAMETERS (required)
-var num_to_update = null; // number to add to every digit
-var n_digits = 3; // amount of numbers to show (must be > 1)
-var n_distract_response = 3; // amount of distractors
-var n_update_trial = 5; // number of trials and the amount of sequences to show
-var n_practice_update_trial = 1; // number of practice trials and the amount of sequences to show
-var duration_digit = 500; // how long to show each digit (ms)
-var duration_post_digit = 200; // pause duration after each digit
-var update_feedback_duration = 1500;
-var update_response_deadline = 3000; // deadline for responding
-var update_choice_deadline = null; // deadline for choosing hard or easy task
-var n_hard_practice = 5; // number of hard trials for practice
-var n_easy_practice = 5; // number of easy trials for practice
 
 // keycode for responses
 var choices = [
@@ -1197,9 +1207,9 @@ var prompt_digit = {
         return remind;
     },
     choices: [],
-    trial_duration: 1000,
+    trial_duration: 400,
     data: { event: "digit_prompt" },
-    post_trial_gap: 750,
+    post_trial_gap: 600,
 };
 
 var temp_digits = [];
@@ -1305,7 +1315,7 @@ var update_feedback = {
     post_trial_gap: 500,
 };
 
-var update_math_sequence = {
+var update_math_sequence_pre_training = {
     timeline: [
         options,
         prompt_digit,
@@ -1313,8 +1323,11 @@ var update_math_sequence = {
         update_response,
         update_feedback,
     ],
-    repetitions: n_update_trial,
+    repetitions: n_update_trial_pre_training,
 };
+
+var update_math_sequence_post_training = jsPsych.utils.deepCopy(update_math_sequence_pre_training);
+update_math_sequence_post_training.repetitions = n_update_trial_post_training;
 
 var practice_hard_update = {
     timeline: [
@@ -1338,7 +1351,7 @@ var practice_easy_update = {
     repetitions: n_easy_practice,
 }
 
-var practice_sequence = jsPsych.utils.deepCopy(update_math_sequence);
+var practice_sequence = jsPsych.utils.deepCopy(update_math_sequence_pre_training);
 practice_sequence.repetitions = n_practice_update_trial;
 for (i = 0; i < practice_sequence.timeline.length; i++) {
     practice_sequence.timeline[i].data = { event: "update_practice" };
@@ -1433,7 +1446,7 @@ var practice_pattern_trials = {
 var timeline = [];
 if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 
-// TODO counterbalance the two tasks
+// TODO counterbalance the two tasks: create separate arrays first then use timeline = timeline.concat(x) to concatenate arrays
 // SECTION: PRE-TRAINING
 // MOTION TASK
 // PRACTICE COLOR/HARD motion task
@@ -1461,42 +1474,44 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // PRE-TRAINING - math task
 
 // SECTION: TRAINING (rewards delivered with alien cues)
-// PRACTICE - introduce reward cues
+// PRACTICE: introduce reward cues
 // timeline.push(instruct_alien_introduction)
 // timeline.push(alien_introduction);
 // timeline.push(instruct_alien_rewards)
 // timeline.push(practice_training);
 
 // ACTUAL TRAINING (dot-motion task)
-timeline.push(instruct_training)
-timeline.push(training);
+// timeline.push(instruct_training)
+// timeline.push(training);
 
 // POST-TRAINING
 // MOTION TASK
 // TODO instructions
+// TODO add cue reminders
+timeline.push(post_training);
 
 if (false) {
     // PRACTICE UPDATING TASK
     timeline.push(practice_pattern_trials);
     timeline.push(practice_hard_update);
     timeline.push(practice_easy_update);
-    timeline.push(update_instructions1, practice_sequence, update_instructions2);
+    timeline.push(update_instructions1, practice_sequence, update_instructions2); // remove feedback for actual task
     
     // PRE-TRAINING
     if (assigned_info.pretrain_order == 'dotmotion-update') {
         timeline.push(pre_training);
-        timeline.push(update_math_sequence);
+        timeline.push(update_math_sequence_pre_training);
     } else {
         timeline.push(update_math_sequence);
-        timeline.push(pre_training);
+        timeline.push(update_math_sequence_pre_training);
     }
 
     // POST-TRAINING
     if (assigned_info.posttrain_order == 'dotmotion-update') {
         timeline.push(post_training);
-        timeline.push(update_math_sequence);
+        timeline.push(update_math_sequence_post_training);
     } else {
-        timeline.push(update_math_sequence);
+        timeline.push(update_math_sequence_post_training);
         timeline.push(post_training);
     }
 }
