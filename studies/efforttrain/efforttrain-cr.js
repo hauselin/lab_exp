@@ -4,7 +4,7 @@ const local = true;  // set to false for actual experiment
 let redirect_url = "https://www.bing.com";  // qualtrics url for surveys
 
 if (local) {
-    var CONDITION = 0;  // if local is false, variable will be set by cognition.run
+    var CONDITION = 69;  // if local is false, variable will be set by cognition.run
 }
 
 // DOT MOTION TASK PARAMETERS
@@ -61,9 +61,14 @@ const mid_reward = 300;
 
 // Overal trial number pretraining / training (don't edit it!)
 var trial_number = 0;
-const count = CONDITION;
 
-var assigned_info = assign[count % assign.length];
+let idx = CONDITION % assign.length;
+if (idx == 0) {
+    idx = 72;
+}
+console.log("CONDITION: ", CONDITION);
+console.log("condition_idx: ", idx);
+var assigned_info = assign.filter(i => i.condition_idx == idx)[0];
 // randomly choose two rockets, two patterns
 var two_rockets = jsPsych.randomization.sampleWithoutReplacement([
     'rocket01.jpg',
@@ -118,11 +123,14 @@ if (debug) {  // make task faster/easier for debugging
     update_feedback_duration = 500;
 }
 
-const subject_id = count + 1;
+// generate subject ID
+var date = new Date()
+var subject_id = jsPsych.randomization.randomID(4) + "-" + date.getTime();
 
 // TODO also save url queries from prolific and cognition.run
 jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     condition: CONDITION,
+    condition_idx: idx,
     subject_id: subject_id
 });
 
@@ -1510,10 +1518,10 @@ var instruct_finish = {
 var redirect_trial = {
 	type: 'html-keyboard-response',
     stimulus: function () {
-        const txt = `The final part of this study requires you to complete a brief survey.<br><br>Click <a href="${redirect_url}" target="_blank" style="color:orange; font-weight:bold">here</a> to open and complete the survey in a new browser tab.`;
+        const txt = `The final part of the study requires you to complete a brief survey.<br><br>Click <a href="${redirect_url}" target="_blank" style="color:orange; font-weight:bold">here</a> to open and complete the survey in a new browser tab.`;
         return generate_html(txt, font_colour, instruct_fontsize)
     },
-	choices: [37, 39]
+	choices: [39]
 }
 
 
@@ -1582,7 +1590,7 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // timeline.push(post_training);
 
 // FINISH
-// timeline.push(instruct_finish)
+timeline.push(instruct_finish)
 timeline.push(redirect_trial)
 
 
@@ -1627,6 +1635,6 @@ jsPsych.init({
     preload_images: Object.values(images),
     on_finish: function () {
         if (debug) jsPsych.data.displayData();
-        if (redirect_url) window.location = redirect_url;
+        if (!debug && redirect_url) window.location = redirect_url;
     },
 });

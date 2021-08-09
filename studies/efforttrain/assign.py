@@ -44,12 +44,14 @@ for perm in colour_permutations:
     colour_code_permutations.append(code_permutation[0:-1])
 
 subjects = []
+idx = 0
 for c in range(len(colour_code_permutations)):
     # for r in range(len(rocket_permutations)):
     #     for p in range(len(pattern_permutations)):
     for pre in range(len(pretrain_orders)):
         for post in range(len(posttrain_orders)):
             for cond in reward_conditions:
+                idx += 1
                 subject = {
                     # 'rocket_easy': rocket_permutations[r][0],
                     # 'rocket_hard': rocket_permutations[r][1],
@@ -59,7 +61,8 @@ for c in range(len(colour_code_permutations)):
                     'colours_name': colour_permutations[c],
                     'pretrain_order': '-'.join(pretrain_orders[pre]),
                     'posttrain_order': '-'.join(posttrain_orders[post]),
-                    'reward_condition': cond
+                    'reward_condition': cond,
+                    'condition_idx': idx
                 }
                 subjects.append(subject)
 
@@ -73,7 +76,7 @@ with open('assign.csv', mode='w') as file:
         # 'rocket_hard',
         # 'pattern_easy',
         # 'pattern_hard',
-        'colours_hex', 'colours_name', 'pretrain_order', 'posttrain_order', 'reward_condition'])
+        'colours_hex', 'colours_name', 'pretrain_order', 'posttrain_order', 'reward_condition', "condition_idx"])
     for subject in subjects:
         writer.writerow([
             # subject['rocket_easy'],
@@ -84,7 +87,8 @@ with open('assign.csv', mode='w') as file:
             subject['colours_name'],
             subject['pretrain_order'],
             subject['posttrain_order'],
-            subject['reward_condition']
+            subject['reward_condition'],
+            subject['condition_idx']
         ])
 
 with open('assign.txt', 'w') as outfile:
