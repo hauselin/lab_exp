@@ -138,3 +138,15 @@ const instruct_alien_rewards4 = ["Let's practice.<br><br>Since it's just a pract
 const instruct_training1 = ["Now that you've practiced and familiarized yourself with the aliens and the mission, you're ready to begin the actual mission.<br><br>In the upcoming mission, the <span style='color:orange; font-weight:bold'>spaceship will sometimes land</span> (aliens delivering rewards).<br>But <span style='color:orange; font-weight:bold'>other times it won't land</span> (alien not delivering rewards)."]
 const instruct_training2 = ["Always remain vigilant.<br><br>Observe <span style='color:orange; font-weight:bold'>whether the spaceship has landed</span> and <span style='color:orange; font-weight:bold'>the number of points you receive</span>."]
 const instruct_training3 = ["<br><br>To maximize your earnings (and cash bonus), constantly use the feedback/points you receive from the aliens to improve <span style='color:orange; font-weight:bold'>how well you perform</span> and inform <span style='color:orange; font-weight:bold'>which rocket to choose</span> in the future.<br><br>Begin the actual mission whenever you're ready."]
+
+
+const instruct_post_training1 = ["The aliens have retreated so they won't be around to deliver points or rewards."]
+
+const instruct_post_training2 = ["In the next mission, you'll complete the <span style='color:orange; font-weight:bold'>star color-motion task</span> and <span style='color:orange; font-weight:bold'> asteroids task</span> again.<br><br>The tasks will be identical to the ones you completed before the aliens showed up.<br><br>You choose the task you prefer; then you do the task you've chosen.<br><br>Remember, because the aliens have retreated, you will not receive rewards or points from now on."]
+
+
+
+
+
+
+const instruct_practice_rocket_choose_post1 = ["Before we begin the <span style='color:orange; font-weight:bold'>star color-motion task</span>, let's quickly review the rockets to make sure you still remember them."]

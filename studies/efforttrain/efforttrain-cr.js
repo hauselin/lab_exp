@@ -256,6 +256,28 @@ var instruct_practice_rocket_choose = {
     show_page_number: true,
 };
 
+
+var instruct_practice_rocket_choose_post = {
+    type: "instructions",
+    pages: function () {
+        let instructions = [instruct_practice_rocket_choose_post1];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
 var instruct_practice_pre_training = {
     type: "instructions",
     pages: function () {
@@ -927,6 +949,11 @@ var practice_rocket_trials = {
     repetitions: prac_rocket_max,
 };
 
+var practice_rocket_trials_post = {
+    timeline: [practice_rocket],
+    repetitions: Math.floor(prac_rocket_max / 2),
+};
+
 var instruct_alien_introduction = {
     type: "instructions",
     pages: function () {
@@ -1358,6 +1385,30 @@ for (i = 0; i < practice_sequence.timeline.length; i++) {
 }
 
 
+var instruct_post_training = {
+    type: "instructions",
+    pages: function () {
+        let instructions = [
+            instruct_post_training1,
+            instruct_post_training2,
+        ];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
 
 var post_training = jsPsych.utils.deepCopy(pre_training);
 post_training.on_start = function () {
@@ -1485,10 +1536,16 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // timeline.push(training);
 
 // POST-TRAINING
+timeline.push(instruct_post_training)
+
 // MOTION TASK
-// TODO instructions
-// TODO add cue reminders
+timeline.push(instruct_practice_rocket_choose_post); 
+timeline.push(practice_rocket_trials_post); // practice/remind cues
+timeline.push(instruct_pre_training);
 timeline.push(post_training);
+
+// FINISH
+
 
 if (false) {
     // PRACTICE UPDATING TASK
@@ -1502,17 +1559,17 @@ if (false) {
         timeline.push(pre_training);
         timeline.push(update_math_sequence_pre_training);
     } else {
-        timeline.push(update_math_sequence);
+        // timeline.push(pre_training);
         timeline.push(update_math_sequence_pre_training);
     }
 
     // POST-TRAINING
     if (assigned_info.posttrain_order == 'dotmotion-update') {
-        timeline.push(post_training);
+        // timeline.push(post_training);
         timeline.push(update_math_sequence_post_training);
     } else {
         timeline.push(update_math_sequence_post_training);
-        timeline.push(post_training);
+        // timeline.push(post_training);
     }
 }
 
