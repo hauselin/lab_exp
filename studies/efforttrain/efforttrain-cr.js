@@ -1,7 +1,7 @@
 const fullscreen = false;  // set to true for actual experiment
 const debug = true;  // set to false for actual experiment
 const local = true;  // set to false for actual experiment
-const redirect_url = '';  // qualtrics url for surveys
+const redirect_url = "https://www.bing.com";  // qualtrics url for surveys
 
 if (local) {
     var CONDITION = 0;  // if local is false, variable will be set by cognition.run
@@ -1474,10 +1474,40 @@ var practice_pattern_trials = {
 
 
 
+var instruct_finish = {
+    type: "instructions",
+    pages: function () {
+        let instructions = [
+            instruct_finish1,
+            // [`The final part of this study requires you to complete a brief survey.<br><br>If you are not redirectedly automatically to the survey URL, visit the following URL:<br><br><span style='color:orange; font-weight:bold'>${redirect_url}</span>`]
+        ];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
+};
 
 
 
-
+var redirect_trial = {
+	type: 'html-keyboard-response',
+    stimulus: function () {
+        const txt = `The final part of this study requires you to complete a brief survey.<br><br>Click <a href="${redirect_url}" target="_blank" style="color:orange; font-weight:bold">here</a> to open the survey in a new browser tab.`;
+        return generate_html(txt, font_colour, instruct_fontsize)
+    },
+	choices: [37, 39]
+}
 
 
 
@@ -1536,15 +1566,17 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // timeline.push(training);
 
 // POST-TRAINING
-timeline.push(instruct_post_training)
+// timeline.push(instruct_post_training)
 
 // MOTION TASK
-timeline.push(instruct_practice_rocket_choose_post); 
-timeline.push(practice_rocket_trials_post); // practice/remind cues
-timeline.push(instruct_pre_training);
-timeline.push(post_training);
+// timeline.push(instruct_practice_rocket_choose_post); 
+// timeline.push(practice_rocket_trials_post); // practice/remind cues
+// timeline.push(instruct_pre_training);
+// timeline.push(post_training);
 
 // FINISH
+// timeline.push(instruct_finish)
+timeline.push(redirect_trial)
 
 
 if (false) {
@@ -1587,6 +1619,7 @@ jsPsych.init({
     timeline: timeline,
     preload_images: Object.values(images),
     on_finish: function () {
-        jsPsych.data.displayData();
+        if (debug) jsPsych.data.displayData();
+        if (redirect_url) window.location = redirect_url;
     },
 });
