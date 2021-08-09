@@ -130,11 +130,11 @@ const instruct_alien_rewards1 = ["Remember, when you see a landed spaceship, <sp
 
 const instruct_alien_rewards2 = ["How many points you could earn from the aliens depends on some combination of <span style='color:orange; font-weight:bold'>which rocket you choose</span> or/and <span style='color:orange; font-weight:bold'>how well you perform (accuracy and reaction time)</span>.<br><br>If you respond incorrectly or too slowly, you will receive 0 points for that particular response.<br><br>So if the alien gave you very few points, it's likely because you made too many mistakes or/and were slow."]
 
-const instruct_alien_rewards3 = ["<br><br>To maximize your earnings, use the feedback/points you receive from the aliens to improve <span style='color:orange; font-weight:bold'>how well you perform</span> and inform <span style='color:orange; font-weight:bold'>which rocket to choose</span> in the future"]
+const instruct_alien_rewards3 = ["<br><br>To maximize your earnings, use the feedback/points you receive from the aliens to improve <span style='color:orange; font-weight:bold'>how well you perform</span> and inform <span style='color:orange; font-weight:bold'>which rocket to choose</span> in the future."]
 
 const instruct_alien_rewards4 = ["Let's practice.<br><br>Since it's just a practice, be adventurous and try choosing different rockets.<br><br>Importantly, observe whether a spaceship has landed initially.<br><br>See how your behavior influences the points you receive from the alien."]
 
 
-const instruct_training1 = ["hey"]
-const instruct_training2 = [""]
-const instruct_training3 = [""]
+const instruct_training1 = ["Now that you've practiced and familiarized yourself with the aliens and the mission, you're ready to begin the actual mission.<br><br>In the upcoming mission, the <span style='color:orange; font-weight:bold'>spaceship will sometimes land</span> (aliens delivering rewards).<br>But <span style='color:orange; font-weight:bold'>other times it won't land</span> (alien not delivering rewards)."]
+const instruct_training2 = ["Always remain vigilant.<br><br>Observe <span style='color:orange; font-weight:bold'>whether the spaceship has landed</span> and <span style='color:orange; font-weight:bold'>the number of points you receive</span>."]
+const instruct_training3 = ["<br><br>To maximize your earnings (and cash bonus), constantly use the feedback/points you receive from the aliens to improve <span style='color:orange; font-weight:bold'>how well you perform</span> and inform <span style='color:orange; font-weight:bold'>which rocket to choose</span> in the future.<br><br>Begin the actual mission whenever you're ready."]

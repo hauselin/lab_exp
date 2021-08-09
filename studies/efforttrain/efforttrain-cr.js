@@ -690,7 +690,7 @@ var feedback = {
 var instruct_training = {
     type: "instructions",
     pages: function () {
-        let instructions = [instruct_training1, instruct_training1, instruct_training1];
+        let instructions = [instruct_training1, instruct_training2, instruct_training3];
         instructions = instructions.map((i) =>
             generate_html(i, font_colour, instruct_fontsize)
         );
@@ -706,6 +706,7 @@ var instruct_training = {
     },
     show_clickable_nav: true,
     show_page_number: true,
+    post_trial_gap: 1500,
 };
 
 
@@ -1459,18 +1460,20 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // MATH TASK
 // PRE-TRAINING - math task
 
-// SECTION: TRAINING
+// SECTION: TRAINING (rewards delivered with alien cues)
 // PRACTICE - introduce reward cues
 // timeline.push(instruct_alien_introduction)
 // timeline.push(alien_introduction);
 // timeline.push(instruct_alien_rewards)
 // timeline.push(practice_training);
 
-// ACTUAL TRAINING
-// TODO add instructions
+// ACTUAL TRAINING (dot-motion task)
 timeline.push(instruct_training)
-// timeline.push(training);
+timeline.push(training);
 
+// POST-TRAINING
+// MOTION TASK
+// TODO instructions
 
 if (false) {
     // PRACTICE UPDATING TASK
@@ -1488,7 +1491,6 @@ if (false) {
         timeline.push(pre_training);
     }
 
-   
     // POST-TRAINING
     if (assigned_info.posttrain_order == 'dotmotion-update') {
         timeline.push(post_training);
