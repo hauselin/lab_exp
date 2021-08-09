@@ -303,6 +303,7 @@ var rockets = {
             console.log("Trial number:", trial_number);
         }
     },
+    post_trial_gap: 0
 };
 
 var rocket_chosen = {
@@ -686,6 +687,7 @@ var training = {
         points = calculate_points_obj(pre_training_rt);
         training_points = [];
     },
+    post_trial_gap: 750,
     timeline_variables: training_timeline_variables,
 };
 
@@ -866,19 +868,41 @@ var practice_rocket_trials = {
     repetitions: prac_rocket_max,
 };
 
+var instruct_alien_introduction = {
+    type: "instructions",
+    pages: function () {
+        let instructions = [instruct_alien_introduction1, instruct_alien_introduction2, instruct_alien_introduction3];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
 var alien_introduction = {
     timeline: [
         {
             type: "html-keyboard-response",
-            stimulus: generate_html("This is the reward alien", font_colour, 48),
+            stimulus: generate_html("This is a landed spaceship.<br><br>It means <span style='color:orange; font-weight:bold'>you can earn rewards</span> from the alien for completing the star color-motion task.<br><br>Press the right arrow key to proceed.", font_colour, 21, [0, -144]),
             on_start: function () {
                 document.body.style.backgroundImage = "url(" + images.reward + ")";
                 document.body.style.backgroundSize = "cover";
             },
+            choices: [39]
         },
         {
             type: "html-keyboard-response",
-            stimulus: generate_html("This is the no reward alien", font_colour, 48),
+            stimulus: generate_html("This spaceship has not landed.<br><br>It means <span style='color:orange; font-weight:bold'>you cannot earn rewards</span> from the alien for completing the star color-motion task.<br><br>Press the right arrow key to proceed.", font_colour, 21, [0, -144]),
             on_start: function () {
                 document.body.style.backgroundImage = "url(" + images.no_reward + ")";
                 document.body.style.backgroundSize = "cover";
@@ -886,8 +910,30 @@ var alien_introduction = {
             on_finish: function () {
                 document.body.style.backgroundImage = "";
             },
+            choices: [39]
         },
     ],
+};
+
+var instruct_alien_rewards = {
+    type: "instructions",
+    pages: function () {
+        let instructions = [instruct_alien_rewards1, instruct_alien_rewards2, instruct_alien_rewards3, instruct_alien_rewards4];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
 };
 
 var practice_pre_training = jsPsych.utils.deepCopy(pre_training);
@@ -1333,6 +1379,9 @@ var practice_pattern_trials = {
 var timeline = [];
 if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 
+// TODO counterbalance the two tasks
+// SECTION: PRE-TRAINING
+// MOTION TASK
 // PRACTICE COLOR/HARD motion task
 // timeline.push(instructions);
 // timeline.push(instruct_color);
@@ -1350,9 +1399,23 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // timeline.push(instruct_practice_pre_training);
 // timeline.push(practice_pre_training);
 
-// ACTUAL motion task - demand selection (pre-training)
-timeline.push(instruct_pre_training);
-timeline.push(pre_training);
+// ACTUAL PRE-TRAINING - motion task - demand selection
+// timeline.push(instruct_pre_training);
+// timeline.push(pre_training);
+
+// MATH TASK
+// PRE-TRAINING - math task
+
+// SECTION: TRAINING
+// PRACTICE - introduce reward cues
+// timeline.push(instruct_alien_introduction)
+// timeline.push(alien_introduction);
+timeline.push(instruct_alien_rewards)
+timeline.push(practice_training);
+
+// ACTUAL TRAINING
+// timeline.push(training);
+
 
 if (false) {
     // PRACTICE UPDATING TASK
@@ -1370,11 +1433,7 @@ if (false) {
         timeline.push(pre_training);
     }
 
-    // TRAINING
-    timeline.push(alien_introduction);
-    timeline.push(practice_training);
-    timeline.push(training);
-
+   
     // POST-TRAINING
     if (assigned_info.posttrain_order == 'dotmotion-update') {
         timeline.push(post_training);

@@ -118,3 +118,18 @@ const instruct_practice_pre_training2 = ["You'll practice choosing rockets and d
 const instruct_pre_training1 = ["You're ready for the actual space mission.<br><br>You'll choose a rocket (which corresponds to the identify-color or identify-motion task).<br>Then you'll perform the task you have selected."]
 
 const instruct_pre_training2 = ["You have up to 1.5 seconds to perform the task you've chosen.<br><br>You won't receive feedback on the mission.<br><br>Let's begin the actual space mission!"]
+
+const instruct_alien_introduction1 = ["You just completed another space mission.<br><br>As a result, you've traveled to somewhere in the universe where extraterrestrial life forms and aliens exist."]
+
+const instruct_alien_introduction2 = ["Aliens enjoy the company of space explorers, so they'll provide opportunities to earn points or rewards from them while you're completing missions."]
+
+const instruct_alien_introduction3 = ["If you see a <span style='color:orange; font-weight:bold'>landed spaceship, an alien will be delivering rewards</span> for completing the star color-motion task.<br><br>But if <span style='color:orange; font-weight:bold'>the spaceship hasn't landed, you WON'T be receiving rewards</span>.<br><br>Now you'll take a look at how these two spaceships look like."]
+
+
+const instruct_alien_rewards1 = ["Remember, when you see a landed spaceship, <span style='color:orange; font-weight:bold'>you can earn points/rewards</span> from the aliens for completing the star color-motion task.<br><br>Importantly, the points you earn will be converted to a <span style='color:orange; font-weight:bold'>cash bonus</span> (up to $5) at the end."]
+
+const instruct_alien_rewards2 = ["How many points you could earn from the aliens depends on some combination of <span style='color:orange; font-weight:bold'>which rocket you choose</span> or/and <span style='color:orange; font-weight:bold'>how well you perform (accuracy and reaction time)</span>.<br><br>If you respond incorrectly or too slowly, you will receive 0 points for that particular response.<br><br>So if the alien gave you very few points, it's likely because you made too many mistakes or/and were slow."]
+
+const instruct_alien_rewards3 = ["<br><br>To maximize your earnings, use the feedback/points you receive from the aliens to improve <span style='color:orange; font-weight:bold'>how well you perform</span> and inform <span style='color:orange; font-weight:bold'>which rocket to choose</span> in the future"]
+
+const instruct_alien_rewards4 = ["Let's practice.<br><br>Since it's just a practice, be adventurous and try choosing different rockets.<br><br>Importantly, observe whether a spaceship has landed initially.<br><br>See how your behavior influences the points you receive from the alien."]
