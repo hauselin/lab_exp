@@ -133,3 +133,8 @@ const instruct_alien_rewards2 = ["How many points you could earn from the aliens
 const instruct_alien_rewards3 = ["<br><br>To maximize your earnings, use the feedback/points you receive from the aliens to improve <span style='color:orange; font-weight:bold'>how well you perform</span> and inform <span style='color:orange; font-weight:bold'>which rocket to choose</span> in the future"]
 
 const instruct_alien_rewards4 = ["Let's practice.<br><br>Since it's just a practice, be adventurous and try choosing different rockets.<br><br>Importantly, observe whether a spaceship has landed initially.<br><br>See how your behavior influences the points you receive from the alien."]
+
+
+const instruct_training1 = ["hey"]
+const instruct_training2 = [""]
+const instruct_training3 = [""]

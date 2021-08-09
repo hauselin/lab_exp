@@ -687,6 +687,28 @@ var feedback = {
     },
 };
 
+var instruct_training = {
+    type: "instructions",
+    pages: function () {
+        let instructions = [instruct_training1, instruct_training1, instruct_training1];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
+
 var training = {
     timeline: [cue, rockets, rocket_chosen, dot_motion_trials, feedback],
     on_start: function () {
@@ -1441,10 +1463,12 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // PRACTICE - introduce reward cues
 // timeline.push(instruct_alien_introduction)
 // timeline.push(alien_introduction);
-timeline.push(instruct_alien_rewards)
-timeline.push(practice_training);
+// timeline.push(instruct_alien_rewards)
+// timeline.push(practice_training);
 
 // ACTUAL TRAINING
+// TODO add instructions
+timeline.push(instruct_training)
 // timeline.push(training);
 
 
