@@ -364,6 +364,7 @@ var dot_motion = {
         if (is_training) {
             // subject-specific RT deadline for training block
             let training_deadline = mad_cutoffs(pre_training_rt, 1.0)[1] + 150;
+            if (isNaN(training_deadline)) training_deadline = dot_motion_deadline;
             if (debug) {
                 console.log(training_deadline);
             }
