@@ -463,7 +463,7 @@ var dot_motion = {
         return random_choice(itis);
     },
 };
-// FIXME: weird that scrollbar shows up during dotmotion rep (see https://github.com/jspsych/jsPsych/discussions/787)
+// FIXME: weird that scrollbar shows up during dotmotion rep (see https://github.com/jspsych/jsPsych/discussions/787) (problem doesn't show up on cognition.run)
 
 // generate 1 dot motion trial
 function dot_motion_trial_variable(is_hard) {
@@ -633,8 +633,15 @@ var feedback = {
         }
         if (trial_timeline_variable.trial_type == "reward") {
             let point_scored =
-                mean(training_points.slice(training_points.length - 3)) +
-                rnorm.nextGaussian() * 5;
+                mean(training_points.slice(training_points.length - 3));
+            if (point_scored <= 0) {
+                point_scored = 0;
+            } else {
+                for (let i = 0; i < 3; i++) {
+                    point_scored += (rnorm.nextGaussian() * 5)
+                }
+            };
+            if (point_scored <= 0) point_scored = 0;
             return generate_html(
                 Math.round(point_scored),
                 font_colour,
