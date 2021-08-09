@@ -4,7 +4,7 @@ let instruct_browser = [
 ];
 
 let instruct_intro = [
-  "Welcome to our space station.<br><br>Whenever you're ready, click next or press the right arow key on your keyboard to proceed.",
+  "Welcome to our space station.<br><br>Whenever you're ready, press the  <span style='color:orange; font-weight:bold'>right arow key</span> on your keyboard to proceed.",
 ];
 
 let instruct_mission1 = [
@@ -15,8 +15,9 @@ let instruct_mission2 = [
   "You'll have <span style='color:orange; font-weight:bold'>complete them in one setting</span>, so please ensure you feel well-rested and won't be disturbed in the next <span style='color:orange; font-weight:bold'>1.5 hours</span>.<br><br>Most of the time, you will be using the <span style='color:orange; font-weight:bold'>arrow keys</span> on your keyboard to complete the missions.",
 ];
 
+// DOT-MOTION TASK
 let instruct_colortask = [
-  "One mission is the <span style='color:orange; font-weight:bold'>star color-motion task</span>.<br><br>First, let's learn to identify the <span style='color:orange; font-weight:bold'>color</span> of the moving stars.",
+  "<span style='color:orange; font-weight:bold; font-size:34px;'>Mission: Star Color-Motion Task</span><br><br>For this mission, you'll first learn to identify the <span style='color:orange; font-weight:bold'>color</span> of the moving stars.",
 ];
 
 let instruct_colortask2 = [
@@ -153,3 +154,17 @@ const instruct_practice_rocket_choose_post1 = ["Before we begin the <span style=
 
 
 const instruct_finish1 = ["You're an amazing space explorer! You successfully completed all the space missions.<br><br>Based on the points you've earned from the aliens, you've earned <span style='color:orange; font-weight:bold'>$3.50</span> cash bonus."]
+
+
+
+
+
+
+
+// UPDATE-MATH TASK
+const update_instructions1 = [
+  "<span style='color:orange; font-weight:bold; font-size:34px;'>Mission: Asteroid Counting Task</span><br><br>For this mission, you'll do arithmetic tasks that involving adding small numbers.",
+];
+
+const update_instructions2 = ['Add 3/4 instructions']
+const update_instructions3 = ['Add 0 instructions']

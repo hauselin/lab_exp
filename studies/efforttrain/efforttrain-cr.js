@@ -4,7 +4,7 @@ const local = true;  // set to false for actual experiment
 let redirect_url = "https://www.bing.com";  // qualtrics url for surveys
 
 if (local) {
-    var CONDITION = 69;  // if local is false, variable will be set by cognition.run
+    var CONDITION = 1;  // if local is false, variable will be set by cognition.run
 }
 
 // DOT MOTION TASK PARAMETERS
@@ -182,8 +182,6 @@ var instructions = {
             instruct_intro,
             instruct_mission1,
             instruct_mission2,
-            instruct_colortask,
-            instruct_colortask2,
         ];
         instructions = instructions.map((i) =>
             generate_html(i, font_colour, instruct_fontsize)
@@ -206,6 +204,8 @@ var instruct_color = {
     type: "instructions",
     pages: function () {
         let instructions = [
+            instruct_colortask,
+            instruct_colortask2,
             instruct_colors(colours, hex2txt),
             colors_remind(
                 colours,
@@ -1130,47 +1130,35 @@ if (n_distract_response == 3) {
     ]); // 3 distractors + 1 correct
 }
 
-var update_instructions1 = {
+
+var update_instructions = {
     type: "instructions",
-    pages: [
-        generate_html("Welcome!", font_colour) +
-        generate_html(
-            "Click next or press the right arrow key to proceed.",
-            font_colour
-        ),
-        generate_html(
-            "You have a limited amount of time to see each number, so react quickly!",
-            font_colour
-        ),
-        generate_html("Next up is a practice trial.", font_colour) +
-        generate_html("Your data will NOT be recorded.", font_colour) +
-        generate_html(
-            "Click next or press the right arrow key to begin.",
-            font_colour
-        ),
-    ],
+    pages: function () {
+        let instructions = [
+            update_instructions1,
+            update_instructions2,
+        ];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
     show_clickable_nav: true,
     show_page_number: true,
 };
 
-var update_instructions2 = {
-    type: "instructions",
-    pages: [
-        generate_html("That was the practice trial.", font_colour) +
-        generate_html(
-            "Click next or press the right arrow key to begin the experiment.",
-            font_colour
-        ) +
-        generate_html("Your data WILL be recorded this time.", font_colour),
-    ],
-    show_clickable_nav: true,
-    show_page_number: false,
-};
 
 var number_options = [3, 4];
 var hard_num = random_choice(number_options);
 var is_hard_left;
-
 
 var hard_option = {
     type: "html-keyboard-response",
@@ -1178,7 +1166,8 @@ var hard_option = {
         hard_num = random_choice(number_options);
         num_to_update = hard_num;
         return `<div style='float: center;'><img src='stimuli/${assigned_info.pattern_hard}' width='233'></img></div>`;
-    }
+    },
+    trial_duration: 1000
 }
 
 var easy_option = {
@@ -1186,7 +1175,8 @@ var easy_option = {
     stimulus: function () {
         num_to_update = 0;
         return `<div style='float: center;'><img src='stimuli/${assigned_info.pattern_easy}' width='233'></img></div>`;
-    }
+    }, 
+    trial_duration: 1000
 }
 
 var options = {
@@ -1249,9 +1239,9 @@ var prompt_digit = {
         return remind;
     },
     choices: [],
-    trial_duration: 400,
+    trial_duration: 700,
     data: { event: "digit_prompt" },
-    post_trial_gap: 600,
+    post_trial_gap: 300,
 };
 
 var temp_digits = [];
@@ -1436,7 +1426,7 @@ post_training.on_start = function () {
 post_training.repetitions = post_training_repetitions;
 
 var practice_pattern_prompt = jsPsych.randomization.sampleWithoutReplacement(
-    ["hard", "easy"],
+    ["0", "3 or 4"],
     1
 )[0];
 var practice_pattern = {
@@ -1446,16 +1436,16 @@ var practice_pattern = {
             assigned_info.pattern_easy,
             assigned_info.pattern_hard,
         ]);
-        return `Choose the rocket associated to the <b>${practice_pattern_prompt}</b> task
+        const txt = `Which asteroid is associated with <span style='color:orange; font-weight:bold'>adding ${practice_pattern_prompt}</span>?<br><br>Respond by pressing the left/right key for the left/right asteroid, respectively.<br><br>
         <div>
-        <div style='float: left; padding-right: 10px'><img src='stimuli/${random_patterns[0]}' width='233'></img></div>
+        <div style='float: left; padding-right: 11px'><img src='stimuli/${random_patterns[0]}' width='233'></img></div>
         <div style='float: right; padding-left: 10px'><img src='stimuli/${random_patterns[1]}' width='233'></img></div>
-        </div>
-    `;
+        </div>`;
+        return generate_html(txt, font_colour, instruct_fontsize)
     },
     choices: function () {
         var choices_arr;
-        if (practice_pattern_prompt == "easy") {
+        if (practice_pattern_prompt == "0") {
             if (random_patterns[0] == assigned_info.pattern_easy) {
                 choices_arr = [37];
             } else {
@@ -1475,7 +1465,7 @@ var practice_pattern = {
     on_finish: function (data) {
         data.event = "practice_pattern";
         practice_pattern_prompt = jsPsych.randomization.sampleWithoutReplacement(
-            ["easy", "hard"],
+            ["0", "3 or 4"],
             1
         )[0];
     },
@@ -1566,9 +1556,6 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // timeline.push(instruct_pre_training);
 // timeline.push(pre_training);
 
-// MATH TASK
-// PRE-TRAINING - math task
-
 // SECTION: TRAINING (rewards delivered with alien cues)
 // PRACTICE: introduce reward cues
 // timeline.push(instruct_alien_introduction)
@@ -1590,20 +1577,31 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // timeline.push(post_training);
 
 // FINISH
-timeline.push(instruct_finish)
-timeline.push(redirect_trial)
+// timeline.push(instruct_finish)
+// timeline.push(redirect_trial)
+
+
+
+
+
+
+
+// MATH TASK
+// PRE-TRAINING - math task
+// PRACTICE CHOOSING
+// TODO: add instructions
+timeline.push(update_instructions); 
+// timeline.push(practice_hard_update);
+// timeline.push(practice_easy_update);
+timeline.push(practice_pattern_trials);  
+// timeline.push(practice_sequence); // remove feedback for actual task  
+
 
 
 if (false) {
-    // PRACTICE UPDATING TASK
-    timeline.push(practice_pattern_trials);
-    timeline.push(practice_hard_update);
-    timeline.push(practice_easy_update);
-    timeline.push(update_instructions1, practice_sequence, update_instructions2); // remove feedback for actual task
-    
     // PRE-TRAINING
     if (assigned_info.pretrain_order == 'dotmotion-update') {
-        timeline.push(pre_training);
+        // timeline.push(pre_training);
         timeline.push(update_math_sequence_pre_training);
     } else {
         // timeline.push(pre_training);
