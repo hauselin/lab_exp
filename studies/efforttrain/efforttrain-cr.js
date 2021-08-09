@@ -40,6 +40,7 @@ var dot_motion_parameters;
 const num_reward_trials = 40;
 const num_probe_trials = 20;
 const feedback_duration = 1500;
+const training_iti = 750;
 
 const font_colour = "white";
 const background_colour = "black";
@@ -687,7 +688,7 @@ var training = {
         points = calculate_points_obj(pre_training_rt);
         training_points = [];
     },
-    post_trial_gap: 750,
+    post_trial_gap: training_iti,
     timeline_variables: training_timeline_variables,
 };
 
