@@ -540,6 +540,7 @@ function dot_motion_trial_variable(is_hard) {
     var distractor_col = selected_colours[1];
 
     // store answers and their respective dot motion properties into object
+    // TODO: save is_hard flag in object?
     var trial_variable = {
         majority_col: majority_col,
         distractor_col: distractor_col,
@@ -1537,6 +1538,8 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // MOTION TASK
 // PRACTICE COLOR/HARD motion task
 // timeline.push(instructions);
+
+var timeline_pre_training_dot_motion = [];
 // timeline.push(instruct_color);
 // timeline.push(practice_hard_dot_trials);
 
@@ -1558,6 +1561,7 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 
 // SECTION: TRAINING (rewards delivered with alien cues)
 // PRACTICE: introduce reward cues
+var timeline_training = [];
 // timeline.push(instruct_alien_introduction)
 // timeline.push(alien_introduction);
 // timeline.push(instruct_alien_rewards)
@@ -1568,6 +1572,7 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // timeline.push(training);
 
 // POST-TRAINING
+var timeline_post_training_dot_motion = [];
 // timeline.push(instruct_post_training)
 
 // MOTION TASK
@@ -1589,12 +1594,15 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // MATH TASK
 // PRE-TRAINING - math task
 // PRACTICE CHOOSING
+var timeline_pre_training_update = [];
 // TODO: add instructions
 timeline.push(update_instructions); 
 // timeline.push(practice_hard_update);
 // timeline.push(practice_easy_update);
 timeline.push(practice_pattern_trials);  
-// timeline.push(practice_sequence); // remove feedback for actual task  
+// timeline.push(practice_sequence); 
+// TODO remove feedback for actual task  
+
 
 
 
@@ -1636,3 +1644,5 @@ jsPsych.init({
         if (!debug && redirect_url) window.location = redirect_url;
     },
 });
+
+// done
