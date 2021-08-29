@@ -1353,8 +1353,7 @@ var update_math_sequence_pre_training = {
         options,
         prompt_digit,
         number_sequence,
-        update_response,
-        update_feedback,
+        update_response
     ],
     repetitions: n_update_trial_pre_training,
 };
