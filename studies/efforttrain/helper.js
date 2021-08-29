@@ -306,22 +306,6 @@ function determine_reward(x, b = -0.1) {
   return x.map((i) => 1 / (1 + Math.exp(-i * b)));
 }
 
-function calculate_points2(
-  rt,
-  rt_easy,
-  rt_hard,
-  rew_min = 230,
-  rew_max = 370,
-) {
-  let rt_easy_median = median(rt_easy);
-  let rt_hard_median = median(rt_hard);
-  if (rt_easy_median < rt_hard_median) {
-    let a1 = rew_min / rt_hard_median ** 3;
-    let a2 = rew_max / rt_easy_median ** 3;
-  }
-  return (a1 + a2) / 2 * rt ** 3
-}
-
 function calculate_points_obj(
   rt,
   rew_min = 230,
