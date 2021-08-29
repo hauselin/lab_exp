@@ -317,7 +317,7 @@ function calculate_points2(
   let rt_hard_median = median(rt_hard);
   if (rt_easy_median < rt_hard_median) {
     let a1 = rew_min / rt_hard_median ** 3;
-    let a2 = rew_max / rt_hard_easy ** 3;
+    let a2 = rew_max / rt_easy_median ** 3;
   }
   return (a1 + a2) / 2 * rt ** 3
 }

@@ -475,6 +475,7 @@ var dot_motion = {
         if (data.correct) {  // correct response
             if (assigned_info.reward_condition == 'performance') {
                 current_points = calculate_points(data.rt, points);
+                // current_points = calculate_points2(data.rt, pre_training_rt_easy, pre_training_rt_hard);
             } else if (assigned_info.reward_condition == 'neutral') {
                 current_points = mid_reward;
             } else if (assigned_info.reward_condition == 'effort') {
