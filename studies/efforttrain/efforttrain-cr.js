@@ -404,6 +404,8 @@ var rocket_chosen = {
 };
 
 var pre_training_rt = [];
+var pre_training_rt_easy = [];
+var pre_training_rt_hard = [];
 var training_points = [];
 var is_pre_training;
 var is_training;
@@ -473,6 +475,7 @@ var dot_motion = {
         if (data.correct) {  // correct response
             if (assigned_info.reward_condition == 'performance') {
                 current_points = calculate_points(data.rt, points);
+                // current_points = calculate_points2(data.rt, pre_training_rt_easy, pre_training_rt_hard);
             } else if (assigned_info.reward_condition == 'neutral') {
                 current_points = mid_reward;
             } else if (assigned_info.reward_condition == 'effort') {
@@ -489,6 +492,11 @@ var dot_motion = {
             if (is_pre_training) {
                 if (!is_practice) {
                     pre_training_rt.push(data.rt);
+                    if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket_easy) {
+                        pre_training_rt_easy.push(data.rt);
+                    } else if (rocket_choices[rocket_choices.length - 1] == assigned_info.rocket_hard) {
+                        pre_training_rt_hard.push(data.rt);
+                    };
                     if (debug) {
                         console.log("Pre-training rt added:", data.rt);
                     }
@@ -1353,8 +1361,7 @@ var update_math_sequence_pre_training = {
         options,
         prompt_digit,
         number_sequence,
-        update_response,
-        update_feedback,
+        update_response
     ],
     repetitions: n_update_trial_pre_training,
 };
