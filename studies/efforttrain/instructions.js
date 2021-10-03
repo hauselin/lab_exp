@@ -17,7 +17,7 @@ let instruct_mission2 = [
 
 // DOT-MOTION TASK
 let instruct_colortask = [
-  "<span style='color:orange; font-weight:bold; font-size:34px;'>Mission: Star Color-Motion Task</span><br><br>For this mission, you'll first learn to identify the <span style='color:orange; font-weight:bold'>color</span> of the moving stars.",
+  "<span style='color:orange; font-weight:bold; font-size:34px;'>New mission: Star Color-Motion Task</span><br><br>For this mission, you'll first learn to identify the <span style='color:orange; font-weight:bold'>color</span> of the moving stars.",
 ];
 
 let instruct_colortask2 = [
@@ -120,12 +120,11 @@ const instruct_pre_training1 = ["You're ready for the actual space mission.<br><
 
 const instruct_pre_training2 = ["You have up to 1.5 seconds to perform the task you've chosen.<br><br>You won't receive feedback on the mission.<br><br>Let's begin the actual space mission!"]
 
-const instruct_alien_introduction1 = ["You just completed another space mission.<br><br>As a result, you've traveled to somewhere in the universe where extraterrestrial life forms and aliens exist."]
+const instruct_alien_introduction1 = ["<span style='color:orange; font-weight:bold; font-size:34px;'>New mission: Friendly Alien Task</span><br><br>You just completed another space mission.<br><br>As a result, you've traveled to somewhere in the universe where extraterrestrial life forms and aliens exist."]
 
 const instruct_alien_introduction2 = ["Aliens enjoy the company of space explorers, so they'll provide opportunities to earn points or rewards from them while you're completing missions."]
 
 const instruct_alien_introduction3 = ["If you see a <span style='color:orange; font-weight:bold'>landed spaceship, an alien will be delivering rewards</span> for completing the star color-motion task.<br><br>But if <span style='color:orange; font-weight:bold'>the spaceship hasn't landed, you WON'T be receiving rewards</span>.<br><br>Now you'll take a look at how these two spaceships look like."]
-
 
 const instruct_alien_rewards1 = ["Remember, when you see a landed spaceship, <span style='color:orange; font-weight:bold'>you can earn points/rewards</span> from the aliens for completing the star color-motion task.<br><br>Importantly, the points you earn will be converted to a <span style='color:orange; font-weight:bold'>cash bonus</span> (up to $5) at the end."]
 
@@ -163,10 +162,27 @@ const instruct_finish1 = ["You're an amazing space explorer! You successfully co
 
 // UPDATE-MATH TASK
 const update_instructions1 = [
-  "<span style='color:orange; font-weight:bold; font-size:34px;'>Mission: Asteroid Counting Task</span><br><br>For this mission, you'll do arithmetic tasks that involving adding simple addition.<br><br>You'll see sequences of <span style='color:orange; font-weight:bold;'>three numbers</span> that appear one at a time, <span style='color:orange; font-weight:bold;'>add a digit (0, 3, or 4) to each number</span>, and indicate the resulting sequence of numbers."
+  "<span style='color:orange; font-weight:bold; font-size:34px;'>New mission: Asteroid Addition Task</span><br><br>For this mission, you'll do arithmetic tasks that involving adding simple addition.<br><br>You'll see sequences of <span style='color:orange; font-weight:bold;'>three numbers</span>. These three numbers will appear one at at time.<span style='color:orange; font-weight:bold;'><br><br>You have to add a digit (0, 3, or 4) to each number</span>, and then indicate the resulting sequence of numbers."
 ];
 
 const update_instructions2 = ["<br><br>For example, you might see the numbers <span style='color:orange; font-weight:bold;'>0, 7, 8</span>, presented one at a time.<br><br>If you're adding the digit <span style='color:orange; font-weight:bold;'>3</span> to each number in this <span style='color:orange; font-weight:bold;'>078</span> sequence, the resulting sequence is <span style='color:red; font-weight:bold;'>301</span>:<br><br>0 + 3 = <span style='color:red; font-weight:bold;'>3</span><br>7 + 3 = 1<span style='color:red; font-weight:bold;'>0</span><br>8 + 3 = 1<span style='color:red; font-weight:bold;'>1</span>.<br><br>As you can see, if the sum of two numbers is equal to or greater than 10, you ignore the tens digit and report only the ones digit (in <span style='color:red; font-weight:bold;'>red</span>)."]
 
-const update_instructions_34 = ["You'll first practice adding the digit <span style='color:orange; font-weight:bold;'>3</span> or <span style='color:orange; font-weight:bold;'>4</span> to sequences of numbers.<br><br>After adding them, you'll see four potential answers. Only one of them is correct. Use the <span style='color:orange; font-weight:bold;'>up, down, left, or right</span> arrow keys to choose the correct answer.<br><br>A symbol will also appear before the numbers appear. It tells you what you have to do: <span style='color:orange; font-weight:bold'>add a digit (either 3 or 4)</span> to each number. Try to memorize the symbol's appearance.<br><br>Note that the same symbol is used for both adding 3 or 4."]
+const update_instructions_34 = ["You'll first practice adding the digit <span style='color:orange; font-weight:bold;'>3</span> or <span style='color:orange; font-weight:bold;'>4</span> to sequences of numbers.<br><br>After adding them, you'll see four potential answers. Only one of them is correct. Use the <span style='color:orange; font-weight:bold;'>up, down, left, or right</span> arrow keys to choose the correct answer.<br><br>An asteroid will also appear before the numbers appear. It tells you what you have to do: <span style='color:orange; font-weight:bold'>add a digit (either 3 or 4)</span> to each number. Try to memorize the asteroid's appearance.<br><br>Note that the same asteroid is used for both adding 3 or 4.<br><br>Let's start practicing."]
 
+const update_instructions_0 = ["You just practiced adding the digit 3 or 4 to sequences of numbers.<br><br>In addition, you'll also get to <span style='color:orange; font-weight:bold;'>add the digit 0</span>, which is equivalent to remembering the sequence of numbers that appear.<br><br>You'll practice adding 0 in a moment."]
+
+const update_instructions_0_1 = ["Again, an asteroid will also appear before the numbers appear. It tells you what you have to do: <span style='color:orange; font-weight:bold'>add the digit 0</span> to each number. Try to memorize the asteroid's appearance.<br><br>Note that the asteroid for adding 0 is different from the one you saw earlier (add 3 or 4).<br><br>Let's start practicing."]
+
+const update_instructions_prac_choose = ["Great job so far! From now on, you get to choose what you prefer to do.<br><br>You can choose to <span style='color:orange; font-weight:bold'>add 0</span><span style='color:orange; font-weight:bold'></span>.<br><br>Or you can choose to <span style='color:orange; font-weight:bold;'>add 3 or 4</span>.<br>If you choose this option, whether it's 3 or 4 will be randomly decided.<br><br>Let's practice and memorize the appearances of the asteroids."]
+
+const update_instructions_prac_pre_training1 = ["Now that you've memorized the asteroiods and understand how to add 0, 3, or 4. Let's practice the actual mission.<br><br>When you see two asteroids, you'll <span style='color:orange; font-weight:bold'>choose the one you prefer</span>. Remember that the two asteroids refer to two different tasks: add 0 versus add 3 or 4.<br><br>After you've chosen your preferred asteroid, you'll <span style='color:orange; font-weight:bold'>add a digit to each number in a sequence of three numbers</span>.<br><br>For example, if you chose the asteroid associated with add 3 or 4, you'll add either 3 or 4 (randomly determined) to each number presented. Then you'll pick the correct answer (out of 4 possible answers)."]
+
+const update_instructions_prac_pre_training2 = ["You'll practice choosing asteroids and doing the addition task for 5 rounds.<br><br>Since you're just practicing for now, <span style='color:orange; font-weight:bold'>be adventurous by trying to choose different asteroids on each round so you fully understand this mission</span>.<br>Don't just stick with choosing one asteroid.<br><br>You have <span style='color:orange; font-weight:bold'>up to 3 seconds</span> to respond."]
+
+const update_instructions_prac_pre_training3 = ["No feedback will be provided after each round. If you respond correctly, incorrectly, or too slowly, you'll proceed to the next round."]
+
+const update_instruc_pretraining1 = ["You're ready for the actual space mission.<br><br>You'll choose an asteroid (which corresponds either to add 0, or add 3 or 4).<br>Then you'll perform the task you have selected."]
+
+const update_instruc_pretraining2 = ["You have up to 3 seconds to perform the task you've chosen.<br><br>You won't receive feedback on the mission.<br><br>Let's begin the actual space mission!"]
+
+const instruct_practice_update_choose_post1 = ["Before we begin the <span style='color:orange; font-weight:bold'>asteroid addition task</span>, let's quickly review the asteroids to make sure you still remember them."]

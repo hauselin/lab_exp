@@ -21,7 +21,6 @@ var prac_rocket_feedback_duration = 1000; // feedback duration
 // practice pre-training / training
 var practice_pre_training_repetitions = 10;  // no. of practice trials for pre-training (use 10 trials for experiemnt)
 // practice update math
-var prac_pattern_max = 10;  // no. of practice trials for pre-training (use 10 trials for experiemnt)
 
 // pre_training block parameters
 const pre_training_repetitions = 5; // use 40 for experiment
@@ -108,13 +107,14 @@ var n_distract_response = 3; // amount of distractors
 var n_update_trial_pre_training = 40;  // 40 for actual experiment
 var n_update_trial_post_training = 20;  // 20 for actual experiment
 var n_practice_update_trial = 5; // number of practice trials and the amount of sequences to show
-var duration_digit = 800; // how long to show each digit (ms)
-var duration_post_digit = 500; // pause duration after each digit
+var duration_digit = 750; // how long to show each digit (ms)
+var duration_post_digit = 550; // pause duration after each digit
 var update_feedback_duration = 1000;
 var update_response_deadline = 3000; // deadline for responding
 var update_choice_deadline = null; // deadline for choosing hard or easy task
 var n_hard_practice = 3; // number of hard trials for practice
 var n_easy_practice = 3; // number of easy trials for practice
+var prac_pattern_max = 10;  // no. of practice trials for pre-training (use 10 trials for experiemnt)
 
 if (debug) {  // make task faster/easier for debugging
     update_response_deadline = 60000;  // RT deadline for update/math task
@@ -1140,13 +1140,136 @@ if (n_distract_response == 3) {
 }
 
 
-var update_instructions = {
+var update_instructions_intro_34 = {
     type: "instructions",
     pages: function () {
         let instructions = [
             update_instructions1,
             update_instructions2,
             update_instructions_34,
+        ];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
+
+var update_instructions_intro_0 = {
+    type: "instructions",
+    pages: function () {
+        let instructions = [
+            update_instructions_0,
+            update_instructions_0_1
+        ];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
+
+var update_instructions_choice = {
+    type: "instructions",
+    pages: function () {
+        let instructions = [
+            update_instructions_prac_choose,
+        ];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
+
+var update_instructions_practice = {
+    type: "instructions",
+    pages: function () {
+        let instructions = [
+            update_instructions_prac_pre_training1,
+            update_instructions_prac_pre_training2,
+            update_instructions_prac_pre_training3,
+        ];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
+var update_instructions_pretrain = {
+    type: "instructions",
+    pages: function () {
+        let instructions = [
+            update_instruc_pretraining1,
+            update_instruc_pretraining2,
+        ];
+        instructions = instructions.map((i) =>
+            generate_html(i, font_colour, instruct_fontsize)
+        );
+        return instructions;
+    },
+    on_start: function () {
+        document.body.style.backgroundImage =
+            "url('stimuli/instruct_background.png')";
+        document.body.style.backgroundSize = "cover";
+    },
+    on_finish: function () {
+        document.body.style.backgroundImage = "";
+    },
+    show_clickable_nav: true,
+    show_page_number: true,
+};
+
+
+var update_instructions_posttrain_review = {
+    type: "instructions",
+    pages: function () {
+        let instructions = [
+            instruct_practice_update_choose_post1,
         ];
         instructions = instructions.map((i) =>
             generate_html(i, font_colour, instruct_fontsize)
@@ -1394,6 +1517,7 @@ var practice_easy_update = {
 
 var practice_sequence = jsPsych.utils.deepCopy(update_math_sequence_pre_training);
 practice_sequence.repetitions = n_practice_update_trial;
+// practice_sequence.timeline.push(update_feedback)
 for (i = 0; i < practice_sequence.timeline.length; i++) {
     practice_sequence.timeline[i].data = { event: "update_practice" };
 }
@@ -1445,7 +1569,7 @@ var practice_pattern = {
             assigned_info.pattern_easy,
             assigned_info.pattern_hard,
         ]);
-        const txt = `Which asteroid is associated with <span style='color:orange; font-weight:bold'>adding ${practice_pattern_prompt}</span>?<br><br>Respond by pressing the left/right key for the left/right asteroid, respectively.<br><br>
+        const txt = `Which asteroid is associated with <span style='color:orange; font-weight:bold'>add ${practice_pattern_prompt}</span>?<br><br>Respond by pressing the left/right key for the left/right asteroid, respectively.<br><br>
         <div>
         <div style='float: left; padding-right: 11px'><img src='stimuli/${random_patterns[0]}' width='233'></img></div>
         <div style='float: right; padding-left: 10px'><img src='stimuli/${random_patterns[1]}' width='233'></img></div>
@@ -1545,10 +1669,10 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // SECTION: PRE-TRAINING
 // MOTION TASK
 // PRACTICE COLOR/HARD motion task
-timeline.push(instructions);
+// timeline.push(instructions);
 
 var timeline_pre_training_dot_motion = [];
-timeline.push(instruct_color);
+// timeline.push(instruct_color);
 // timeline.push(practice_hard_dot_trials);
 
 // PRACTICE MOTION/EASY motion task
@@ -1600,18 +1724,27 @@ var timeline_post_training_dot_motion = [];
 
 
 // MATH TASK
-// PRE-TRAINING - math task
-// PRACTICE CHOOSING
+// INSTRUCTIONS
 var timeline_pre_training_update = [];
-timeline.push(update_instructions); 
-timeline.push(practice_hard_update);
-
-// TODO: add instructions for add 0
-
+// timeline.push(update_instructions_intro_34);
+// timeline.push(practice_hard_update);
+// timeline.push(update_instructions_intro_0);
 // timeline.push(practice_easy_update);
-timeline.push(practice_pattern_trials);  
+// timeline.push(update_instructions_choice);
+// timeline.push(practice_pattern_trials);  
+// timeline.push(update_instructions_practice);
 // timeline.push(practice_sequence); 
-// TODO remove feedback for actual task  
+
+// PRE-TRAINING - math task
+// timeline.push(update_instructions_pretrain);
+// timeline.push(update_math_sequence_pre_training);
+
+// POST-TRAINING - math task
+timeline.push(update_instructions_posttrain_review);
+timeline.push(practice_pattern_trials);  
+timeline.push(update_instructions_pretrain);
+timeline.push(update_math_sequence_post_training);
+
 
 
 // TODO: counterbalance
