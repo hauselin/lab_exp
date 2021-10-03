@@ -110,7 +110,7 @@ var n_update_trial_post_training = 20;  // 20 for actual experiment
 var n_practice_update_trial = 5; // number of practice trials and the amount of sequences to show
 var duration_digit = 800; // how long to show each digit (ms)
 var duration_post_digit = 500; // pause duration after each digit
-var update_feedback_duration = 1500;
+var update_feedback_duration = 1000;
 var update_response_deadline = 3000; // deadline for responding
 var update_choice_deadline = null; // deadline for choosing hard or easy task
 var n_hard_practice = 3; // number of hard trials for practice
@@ -118,9 +118,9 @@ var n_easy_practice = 3; // number of easy trials for practice
 
 if (debug) {  // make task faster/easier for debugging
     update_response_deadline = 60000;  // RT deadline for update/math task
-    duration_digit = 400; // how long to show each digit (ms)
-    duration_post_digit = 200; // pause duration after each digit
-    update_feedback_duration = 500;
+    duration_digit = 750; // how long to show each digit (ms)
+    duration_post_digit = 550; // pause duration after each digit
+    update_feedback_duration = 1000;
 }
 
 // generate subject ID
@@ -134,7 +134,7 @@ jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     subject_id: subject_id
 });
 
-// TODO construct url with prolific id etc.
+// TODO construct qualtrics url with prolific id etc.
 redirect_url += ("?subject=" + subject_id);
 redirect_url += ("&CONDITION=" + CONDITION);
 redirect_url += ("&PROLIFIC_PID=123");
@@ -1352,7 +1352,7 @@ var update_feedback = {
         return generate_html(prompt, font_colour, 34);
     },
     choices: [],
-    trial_duration: feedback_duration,
+    trial_duration: update_feedback_duration,
     data: { event: "update_feedback" },
     post_trial_gap: 500,
 };
@@ -1606,7 +1606,7 @@ var timeline_pre_training_update = [];
 timeline.push(update_instructions); 
 timeline.push(practice_hard_update);
 
-// TODO: add instructions
+// TODO: add instructions for add 0
 
 // timeline.push(practice_easy_update);
 timeline.push(practice_pattern_trials);  
