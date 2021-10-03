@@ -314,7 +314,7 @@ function calculate_points_obj(
 ) {
   if (rt.length == 0) {
     // in case there aren't RTs in array
-    rt = [300, 500, 700];
+    rt = [300, 500, 800];
   } else if (array_range(rt) == 0) {
     // in case there is not enough range
     rt.push(rt[0] / 2);
