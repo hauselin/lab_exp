@@ -1676,45 +1676,48 @@ timeline.push(instructions);
 // PRACTICE COLOR/HARD motion task
 
 var timeline_pre_training_dot_motion = [];
-// timeline.push(instruct_color);
-// timeline.push(practice_hard_dot_trials);
+timeline_pre_training_dot_motion.push(instruct_color);
+timeline_pre_training_dot_motion.push(practice_hard_dot_trials);
 
 // PRACTICE MOTION/EASY motion task
-// timeline.push(instruct_motion);
-// timeline.push(practice_easy_dot_trials);
+timeline_pre_training_dot_motion.push(instruct_motion);
+timeline_pre_training_dot_motion.push(practice_easy_dot_trials);
 
 // PRACTICE CHOOSING easy/hard motion task
-// timeline.push(instruct_practice_rocket_choose)
-// timeline.push(practice_rocket_trials);
+timeline_pre_training_dot_motion.push(instruct_practice_rocket_choose)
+timeline_pre_training_dot_motion.push(practice_rocket_trials);
 
 // PRACTICE motion task - demand selection
-// timeline.push(instruct_practice_pre_training);
-// timeline.push(practice_pre_training);
+timeline_pre_training_dot_motion.push(instruct_practice_pre_training);
+timeline_pre_training_dot_motion.push(practice_pre_training);
 
 // ACTUAL PRE-TRAINING - motion task - demand selection
-// timeline.push(instruct_pre_training);
-// timeline.push(pre_training);
+timeline_pre_training_dot_motion.push(instruct_pre_training);
+timeline_pre_training_dot_motion.push(pre_training);
+// timeline = timeline.concat(timeline_pre_training_dot_motion); // add to timeline
 
 // SECTION: TRAINING (rewards delivered with alien cues)
 // PRACTICE: introduce reward cues
 var timeline_training = [];
-// timeline.push(instruct_alien_introduction)
-// timeline.push(alien_introduction);
-// timeline.push(instruct_alien_rewards)
-// timeline.push(practice_training);
+timeline_training.push(instruct_alien_introduction)
+timeline_training.push(alien_introduction);
+timeline_training.push(instruct_alien_rewards)
+// timeline_training.push(practice_training);  // add to timeline
 
 // ACTUAL TRAINING (dot-motion task)
-// timeline.push(instruct_training)
-// timeline.push(training);
+timeline_training.push(instruct_training)
+timeline_training.push(training);
+// timeline = timeline.concat(timeline_training);  // add to timeline
 
 // POST-TRAINING
 var timeline_post_training_dot_motion = [];
-// timeline.push(instruct_post_training)
+timeline_post_training_dot_motion.push(instruct_post_training)
 // MOTION TASK
-// timeline.push(instruct_practice_rocket_choose_post); 
-// timeline.push(practice_rocket_trials_post); // practice/remind cues
-// timeline.push(instruct_pre_training);
-// timeline.push(post_training);
+timeline_post_training_dot_motion.push(instruct_practice_rocket_choose_post); 
+timeline_post_training_dot_motion.push(practice_rocket_trials_post); // practice/remind cues
+timeline_post_training_dot_motion.push(instruct_pre_training);
+timeline_post_training_dot_motion.push(post_training);
+// timeline = timeline.concat(timeline_post_training_dot_motion);  // add to timeline
 
 
 
@@ -1731,13 +1734,13 @@ timeline_instructions_update.push(update_instructions_choice);
 timeline_instructions_update.push(practice_pattern_trials);  
 timeline_instructions_update.push(update_instructions_practice);
 timeline_instructions_update.push(practice_sequence); 
-// timeline = timeline.concat(timeline_instructions_update);
+// timeline = timeline.concat(timeline_instructions_update);  // add to timeline
 
 // PRE-TRAINING - math task
 let timeline_pretrain_update = [];
 timeline_pretrain_update.push(update_instructions_pretrain);
 timeline_pretrain_update.push(update_math_sequence_pre_training);
-// timeline = timeline.concat(timeline_pretrain_update);
+// timeline = timeline.concat(timeline_pretrain_update);  // add to timeline
 
 // POST-TRAINING - math task
 let timeline_posttrain_update = [];
@@ -1746,7 +1749,7 @@ timeline_posttrain_update.push(update_instructions_posttrain_review);
 timeline_posttrain_update.push(practice_pattern_trials);  
 timeline_posttrain_update.push(update_instructions_pretrain);
 timeline_posttrain_update.push(update_math_sequence_post_training);
-// timeline = timeline.concat(timeline_posttrain_update);
+// timeline = timeline.concat(timeline_posttrain_update);  // add to timeline
 
 
 if (false) {
@@ -1758,6 +1761,8 @@ if (false) {
         // timeline.push(pre_training);
         timeline.push(update_math_sequence_pre_training);
     }
+
+    // TRAINING
 
     // POST-TRAINING
     if (assigned_info.posttrain_order == 'dotmotion-update') {
