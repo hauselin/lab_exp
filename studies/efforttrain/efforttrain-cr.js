@@ -1611,7 +1611,7 @@ timeline.push(practice_pattern_trials);
 // TODO remove feedback for actual task  
 
 
-
+// TODO: counterbalance
 
 if (false) {
     // PRE-TRAINING

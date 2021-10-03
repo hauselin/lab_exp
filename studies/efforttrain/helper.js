@@ -319,10 +319,13 @@ function calculate_points_obj(
     // in case there is not enough range
     rt.push(rt[0] / 2);
     rt.push(rt[0] + rt[0] / 2);
-  }
+  }  // TODO: catch cases where range is less than 50
+  
   // trim RTs
   var rtcutoffs = mad_cutoffs(rt, 1.0);  // see manuscript for parameters
   rt = rt.filter((i) => i > rtcutoffs[0] && i < rtcutoffs[1]);
+
+  // TODO: make sure no missing/NA values
 
   // generate sequence of RTs from min to max value
   let rt_min = Math.floor(Math.min(...rt));

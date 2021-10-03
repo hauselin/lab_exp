@@ -163,8 +163,9 @@ const instruct_finish1 = ["You're an amazing space explorer! You successfully co
 
 // UPDATE-MATH TASK
 const update_instructions1 = [
-  "<span style='color:orange; font-weight:bold; font-size:34px;'>Mission: Asteroid Counting Task</span><br><br>For this mission, you'll do arithmetic tasks that involving adding small numbers.",
+  "<span style='color:orange; font-weight:bold; font-size:34px;'>Mission: Asteroid Counting Task</span><br><br>For this mission, you'll do arithmetic tasks that involving adding simple addition.<br><br>You'll see sequences of <span style='color:orange; font-weight:bold;'>three numbers</span> that appear one at a time, <span style='color:orange; font-weight:bold;'>add a digit (0, 3, or 4) to each number</span>, and indicate the resulting sequence of numbers."
 ];
 
-const update_instructions2 = ['Add 3/4 instructions']
+const update_instructions2 = ["<br><br>For example, you might see the numbers <span style='color:orange; font-weight:bold;'>0, 7, 8</span>, presented one at a time.<br><br>If you're adding the digit <span style='color:orange; font-weight:bold;'>3</span> to each number in this <span style='color:orange; font-weight:bold;'>078</span> sequence, the resulting sequence is <span style='color:red; font-weight:bold;'>301</span>:<br><br>0 + 3 = <span style='color:red; font-weight:bold;'>3</span><br>7 + 3 = 1<span style='color:red; font-weight:bold;'>0</span><br>8 + 3 = 1<span style='color:red; font-weight:bold;'>1</span>.<br><br>As you can see, if the sum of two numbers is equal to or greater than 10, you ignore the tens digit and report only the ones digit (in <span style='color:red; font-weight:bold;'>red</span>)."]
+
 const update_instructions3 = ['Add 0 instructions']
