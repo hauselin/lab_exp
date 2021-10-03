@@ -1,7 +1,7 @@
 const fullscreen = false;  // set to true for actual experiment
 const debug = true;  // set to false for actual experiment
 const local = true;  // set to false for actual experiment
-let redirect_url = "https://www.bing.com";  // qualtrics url for surveys
+let redirect_url = "https://utorontopsych.az1.qualtrics.com/jfe/form/SV_2b1OebsH1F8CEey";  // qualtrics url for surveys
 
 if (local) {
     var CONDITION = 1;  // if local is false, variable will be set by cognition.run
@@ -129,7 +129,7 @@ if (debug) {  // make task faster/easier for debugging
 var date = new Date()
 var subject_id = jsPsych.randomization.randomID(4) + "-" + date.getTime();
 
-// TODO also save url queries from prolific and cognition.run
+// TODO also save url queries from recruitment platform and cognition.run
 jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     condition: CONDITION,
     condition_idx: idx,
@@ -137,9 +137,9 @@ jsPsych.data.addProperties({ // do not edit this section unnecessarily!
 });
 
 // TODO construct qualtrics url with prolific id etc.
-redirect_url += ("?subject=" + subject_id);
+redirect_url += ("?SUBJ=" + subject_id);
 redirect_url += ("&CONDITION=" + CONDITION);
-redirect_url += ("&PROLIFIC_PID=123");
+redirect_url += ("&PID=123");
 
 if (debug) {
     console.log("COUNTERBALANCING object");
