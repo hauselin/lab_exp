@@ -107,8 +107,8 @@ var n_distract_response = 3; // amount of distractors
 var n_update_trial_pre_training = 40;  // 40 for actual experiment
 var n_update_trial_post_training = 20;  // 20 for actual experiment
 var n_practice_update_trial = 5; // number of practice trials and the amount of sequences to show
-var duration_digit = 750; // how long to show each digit (ms)
-var duration_post_digit = 550; // pause duration after each digit
+var duration_digit = 850; // how long to show each digit (ms)
+var duration_post_digit = 450; // pause duration after each digit
 var update_feedback_duration = 1000;
 var update_response_deadline = 3000; // deadline for responding
 var update_choice_deadline = null; // deadline for choosing hard or easy task
@@ -117,9 +117,11 @@ var n_easy_practice = 3; // number of easy trials for practice
 var prac_pattern_max = 10;  // no. of practice trials for pre-training (use 10 trials for experiemnt)
 
 if (debug) {  // make task faster/easier for debugging
+    n_update_trial_pre_training = 2;
+    n_update_trial_post_training = 1;
     update_response_deadline = 60000;  // RT deadline for update/math task
-    duration_digit = 750; // how long to show each digit (ms)
-    duration_post_digit = 550; // pause duration after each digit
+    duration_digit = 850; // how long to show each digit (ms)
+    duration_post_digit = 450; // pause duration after each digit
     update_feedback_duration = 1000;
 }
 
@@ -1665,11 +1667,13 @@ var redirect_trial = {
 var timeline = [];
 if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 
+// GENERAL INSTRUCTIONS/INTRO
+timeline.push(instructions);
+
 // TODO counterbalance the two tasks: create separate arrays first then use timeline = timeline.concat(x) to concatenate arrays
 // SECTION: PRE-TRAINING
 // MOTION TASK
 // PRACTICE COLOR/HARD motion task
-// timeline.push(instructions);
 
 var timeline_pre_training_dot_motion = [];
 // timeline.push(instruct_color);
@@ -1706,18 +1710,11 @@ var timeline_training = [];
 // POST-TRAINING
 var timeline_post_training_dot_motion = [];
 // timeline.push(instruct_post_training)
-
 // MOTION TASK
 // timeline.push(instruct_practice_rocket_choose_post); 
 // timeline.push(practice_rocket_trials_post); // practice/remind cues
 // timeline.push(instruct_pre_training);
 // timeline.push(post_training);
-
-// FINISH
-// timeline.push(instruct_finish)
-// timeline.push(redirect_trial)
-
-
 
 
 
@@ -1725,29 +1722,32 @@ var timeline_post_training_dot_motion = [];
 
 // MATH TASK
 // INSTRUCTIONS
-var timeline_pre_training_update = [];
-// timeline.push(update_instructions_intro_34);
-// timeline.push(practice_hard_update);
-// timeline.push(update_instructions_intro_0);
-// timeline.push(practice_easy_update);
-// timeline.push(update_instructions_choice);
-// timeline.push(practice_pattern_trials);  
-// timeline.push(update_instructions_practice);
-// timeline.push(practice_sequence); 
+let timeline_instructions_update = [];
+timeline_instructions_update.push(update_instructions_intro_34);
+timeline_instructions_update.push(practice_hard_update);
+timeline_instructions_update.push(update_instructions_intro_0);
+timeline_instructions_update.push(practice_easy_update);
+timeline_instructions_update.push(update_instructions_choice);
+timeline_instructions_update.push(practice_pattern_trials);  
+timeline_instructions_update.push(update_instructions_practice);
+timeline_instructions_update.push(practice_sequence); 
+// timeline = timeline.concat(timeline_instructions_update);
 
 // PRE-TRAINING - math task
-// timeline.push(update_instructions_pretrain);
-// timeline.push(update_math_sequence_pre_training);
+let timeline_pretrain_update = [];
+timeline_pretrain_update.push(update_instructions_pretrain);
+timeline_pretrain_update.push(update_math_sequence_pre_training);
+// timeline = timeline.concat(timeline_pretrain_update);
 
 // POST-TRAINING - math task
-timeline.push(update_instructions_posttrain_review);
-timeline.push(practice_pattern_trials);  
-timeline.push(update_instructions_pretrain);
-timeline.push(update_math_sequence_post_training);
+let timeline_posttrain_update = [];
+timeline_posttrain_update.push(update_instructions_posttrain_review);
+timeline_posttrain_update.push(update_instructions_posttrain_review);
+timeline_posttrain_update.push(practice_pattern_trials);  
+timeline_posttrain_update.push(update_instructions_pretrain);
+timeline_posttrain_update.push(update_math_sequence_post_training);
+// timeline = timeline.concat(timeline_posttrain_update);
 
-
-
-// TODO: counterbalance
 
 if (false) {
     // PRE-TRAINING
@@ -1768,6 +1768,11 @@ if (false) {
         // timeline.push(post_training);
     }
 }
+
+// FINISH
+timeline.push(instruct_finish)
+timeline.push(redirect_trial)
+
 
 
 // don't allow safari
