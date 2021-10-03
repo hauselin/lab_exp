@@ -1670,7 +1670,7 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // GENERAL INSTRUCTIONS/INTRO
 timeline.push(instructions);
 
-// TODO counterbalance the two tasks: create separate arrays first then use timeline = timeline.concat(x) to concatenate arrays
+// NOTE: objects below wil be counterbalanced later/below!
 // SECTION: PRE-TRAINING
 // MOTION TASK
 // PRACTICE COLOR/HARD motion task
@@ -1751,34 +1751,39 @@ timeline_posttrain_update.push(update_instructions_pretrain);
 timeline_posttrain_update.push(update_math_sequence_post_training);
 // timeline = timeline.concat(timeline_posttrain_update);  // add to timeline
 
-
-if (false) {
+// COUNTERBALANCE
+if (true) {
     // PRE-TRAINING
     if (assigned_info.pretrain_order == 'dotmotion-update') {
-        // timeline.push(pre_training);
-        timeline.push(update_math_sequence_pre_training);
+        // dot motion
+        timeline = timeline.concat(timeline_pre_training_dot_motion);
+        // update
+        timeline = timeline.concat(timeline_instructions_update);
+        timeline = timeline.concat(timeline_pretrain_update);
     } else {
-        // timeline.push(pre_training);
-        timeline.push(update_math_sequence_pre_training);
+        // math
+        timeline = timeline.concat(timeline_instructions_update);
+        timeline = timeline.concat(timeline_pretrain_update);
+        // dot motion
+        timeline = timeline.concat(timeline_pre_training_dot_motion);
     }
 
     // TRAINING
+    timeline = timeline.concat(timeline_training);  // add to timeline
 
     // POST-TRAINING
     if (assigned_info.posttrain_order == 'dotmotion-update') {
-        // timeline.push(post_training);
-        timeline.push(update_math_sequence_post_training);
+        timeline = timeline.concat(timeline_post_training_dot_motion);
+        timeline = timeline.concat(timeline_posttrain_update); 
     } else {
-        timeline.push(update_math_sequence_post_training);
-        // timeline.push(post_training);
+        timeline = timeline.concat(timeline_posttrain_update);
+        timeline = timeline.concat(timeline_post_training_dot_motion);
     }
 }
 
 // FINISH
 timeline.push(instruct_finish)
 timeline.push(redirect_trial)
-
-
 
 // don't allow safari
 var is_Safari = navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome');
