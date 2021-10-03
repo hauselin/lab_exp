@@ -1146,6 +1146,7 @@ var update_instructions = {
         let instructions = [
             update_instructions1,
             update_instructions2,
+            update_instructions_34,
         ];
         instructions = instructions.map((i) =>
             generate_html(i, font_colour, instruct_fontsize)
@@ -1544,10 +1545,10 @@ if (fullscreen) timeline.push({ type: 'fullscreen', fullscreen_mode: true });
 // SECTION: PRE-TRAINING
 // MOTION TASK
 // PRACTICE COLOR/HARD motion task
-// timeline.push(instructions);
+timeline.push(instructions);
 
 var timeline_pre_training_dot_motion = [];
-// timeline.push(instruct_color);
+timeline.push(instruct_color);
 // timeline.push(practice_hard_dot_trials);
 
 // PRACTICE MOTION/EASY motion task
@@ -1602,9 +1603,11 @@ var timeline_post_training_dot_motion = [];
 // PRE-TRAINING - math task
 // PRACTICE CHOOSING
 var timeline_pre_training_update = [];
-// TODO: add instructions
 timeline.push(update_instructions); 
-// timeline.push(practice_hard_update);
+timeline.push(practice_hard_update);
+
+// TODO: add instructions
+
 // timeline.push(practice_easy_update);
 timeline.push(practice_pattern_trials);  
 // timeline.push(practice_sequence); 
