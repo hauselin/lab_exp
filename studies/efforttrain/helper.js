@@ -335,22 +335,27 @@ function calculate_points_obj(
   let rtMin = Math.min(...rt);
   let rtMax = Math.max(...rt);
   let stepsize = (rtMax - rtMin) / (units - 1);
-  console.log(rtMin);
-  console.log(rtMax);
-  console.log(stepsize);
+  // console.log(rtMin);
+  // console.log(rtMax);
+  // console.log(stepsize);
 
   let rts = [];
   for (i=1; i<units+1; i++) {
     rts.push(rtMedian - ((units + 1) * stepsize / 2) + stepsize * i);
   }
-  console.log(rts);
+  // console.log(rts);
+
+  let points = [];
+  let stepsize_points = (width * 2) / (units - 1);
+  for (i = 1; i<units +1 ; i++) {
+    points.push(- ((units + 1) * stepsize_points / 2) + stepsize_points * i);
+  }
+  // console.log(points)
 
   points_obj = {}
   for (i=0; i<units; i++) {
-    points_obj[rts[i]] = null;
+    points_obj[rts[i]] = points[i];
   }
-
-
 
   return points_obj;
 
