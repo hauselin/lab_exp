@@ -354,7 +354,7 @@ function calculate_points_obj(
 
   points_obj = {}
   for (i=0; i<units; i++) {
-    points_obj[rts[i]] = points[i];
+    points_obj[rts[i]] = Math.round(((Math.tan(points[points.length-1-i]) / 10 + 0.6) + pointsadd) * pointsscale);
   }
 
   return points_obj;
