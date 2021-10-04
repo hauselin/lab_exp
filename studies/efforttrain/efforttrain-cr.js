@@ -840,6 +840,7 @@ var practice_dot_feedback = {
             return generate_html("wrong", font_colour, 34);
         }
     },
+    choices: [],
     trial_duration: prac_dot_feedback_duration,
 };
 var practice_hard_dot_trials = {
