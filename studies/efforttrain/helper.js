@@ -176,6 +176,15 @@ function mean(x) {
   return sum(x) / x.length;
 }
 
+// median function adapted from jspsych
+function median(array) {
+  if (array.length == 0) { return undefined };
+  var numbers = array.slice(0).sort(function (a, b) { return a - b; }); // sort
+  var middle = Math.floor(numbers.length / 2);
+  var isEven = numbers.length % 2 === 0;
+  return isEven ? (numbers[middle] + numbers[middle - 1]) / 2 : numbers[middle];
+}
+
 function array_range(arr) {
   if (arr.length == 0) {
     throw "Array length must be greater than 0!";
@@ -310,52 +319,93 @@ function calculate_points_obj(
   rt,
   rew_min = 230,
   rew_max = 370,
-  func = determine_reward
 ) {
-  if (rt.length == 0) {
-    // in case there aren't RTs in array
-    rt = [300, 500, 800];
-  } else if (array_range(rt) == 0) {
-    // in case there is not enough range
-    rt.push(rt[0] / 2);
-    rt.push(rt[0] + rt[0] / 2);
-  }  // TODO: catch cases where range is less than 50
+  let bins = 9;
+  let divs = 3;
+  let units = bins * divs;
+
+  let pointsscale = 365;
+  let width = 1.487;
+  let pointsadd = 0.00005;
   
-  // trim RTs
-  var rtcutoffs = mad_cutoffs(rt, 1.0);  // see manuscript for parameters
-  rt = rt.filter((i) => i > rtcutoffs[0] && i < rtcutoffs[1]);
+  // let rtcutoffs = mad_cutoffs(rt, 1.0);  // see manuscript for parameters
+  // rt = rt.filter((i) => i > rtcutoffs[0] && i < rtcutoffs[1]);
 
-  // TODO: make sure no missing/NA values
+  let rtMedian = median(rt);
+  let rtMin = Math.min(...rt);
+  let rtMax = Math.max(...rt);
+  let stepsize = (rtMax - rtMin) / (units - 1);
+  console.log(rtMin);
+  console.log(rtMax);
+  console.log(stepsize);
 
-  // generate sequence of RTs from min to max value
-  let rt_min = Math.floor(Math.min(...rt));
-  let rt_max = Math.floor(Math.max(...rt));
-  let rt_range = rt_max - rt_min;
-  rt = range(rt_min, rt_max); // range function excludes last value
-  rt.push(Math.max(...rt) + 1); // add last value
+  let rts = [];
+  for (i=1; i<units+1; i++) {
+    rts.push(rtMedian - ((units + 1) * stepsize / 2) + stepsize * i);
+  }
+  console.log(rts);
 
-  // median-center RT values
-  rtC = rt.map((i) => i - median(rt)); // vectorize
-
-  // calculate beta (which depends on RT range)
-  // TODO: 25 can be changed, but looks good
-  let beta = (-1 / rt_range) * 25;
-
-  // points for each RT
-  var points = func(rtC, beta);
-  points[0] = Math.ceil(points[0]);
-  points[points.length - 1] = Math.floor(points[points.length - 1]);
-  var rew_range = rew_max - rew_min;
-  var points = points.map((i) => i * rew_range + rew_min);
-
-  // create object maps rt to points {300: 370, 301: 369}...
-  let obj = {};
-  for (i = 0; i < rt.length; i++) {
-    obj[rt[i]] = points[i];
+  points_obj = {}
+  for (i=0; i<units; i++) {
+    points_obj[rts[i]] = null;
   }
 
-  return obj;
+
+
+  return points_obj;
+
 }
+
+// function calculate_points_obj(
+//   rt,
+//   rew_min = 230,
+//   rew_max = 370,
+//   func = determine_reward
+// ) {
+//   if (rt.length == 0) {
+//     // in case there aren't RTs in array
+//     rt = [300, 500, 800];
+//   } else if (array_range(rt) == 0) {
+//     // in case there is not enough range
+//     rt.push(rt[0] / 2);
+//     rt.push(rt[0] + rt[0] / 2);
+//   }  // TODO: catch cases where range is less than 50
+  
+//   // trim RTs
+//   var rtcutoffs = mad_cutoffs(rt, 1.0);  // see manuscript for parameters
+//   rt = rt.filter((i) => i > rtcutoffs[0] && i < rtcutoffs[1]);
+
+//   // TODO: make sure no missing/NA values
+
+//   // generate sequence of RTs from min to max value
+//   let rt_min = Math.floor(Math.min(...rt));
+//   let rt_max = Math.floor(Math.max(...rt));
+//   let rt_range = rt_max - rt_min;
+//   rt = range(rt_min, rt_max); // range function excludes last value
+//   rt.push(Math.max(...rt) + 1); // add last value
+
+//   // median-center RT values
+//   rtC = rt.map((i) => i - median(rt)); // vectorize
+
+//   // calculate beta (which depends on RT range)
+//   // TODO: 25 can be changed, but looks good
+//   let beta = (-1 / rt_range) * 25;
+
+//   // points for each RT
+//   var points = func(rtC, beta);
+//   points[0] = Math.ceil(points[0]);
+//   points[points.length - 1] = Math.floor(points[points.length - 1]);
+//   var rew_range = rew_max - rew_min;
+//   var points = points.map((i) => i * rew_range + rew_min);
+
+//   // create object maps rt to points {300: 370, 301: 369}...
+//   let obj = {};
+//   for (i = 0; i < rt.length; i++) {
+//     obj[rt[i]] = points[i];
+//   }
+
+//   return obj;
+// }
 
 function calculate_points(rt, points_obj) {
   if (points_obj[Math.round(rt)] != undefined) {
