@@ -360,10 +360,6 @@ function calculate_points_obj(rt, rew_min = 230, rew_max = 370) {
       (Math.tan(points[points.length - 1 - i]) / 10 + 0.6 + pointsadd) *
         pointsscale
     );
-
-    if (i === 10) {
-      break;
-    }
   }
 
   points = Object.values(points_obj).sort((a, b) => a - b);
@@ -373,6 +369,12 @@ function calculate_points_obj(rt, rew_min = 230, rew_max = 370) {
   while (Math.min(...Object.values(points_obj)) > 0) {
     points_obj[Math.max(...Object.keys(points_obj)) + stepsize] =
       Math.min(...Object.values(points_obj)) - ptsdiff;
+  }
+
+  for (const [key, value] of Object.entries(points_obj)) {
+    if (value < 0) {
+      points_obj[key] = 0;
+    }
   }
 
   return points_obj;
