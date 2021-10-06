@@ -1,3 +1,5 @@
+const { min, max } = require("d3-array");
+
 function get_rocket_remaining(position, random_rockets) {
   var string = `<div>
     <div style='float: left; padding-right: 10px'><img LEFT width='233'></img></div>
@@ -178,8 +180,12 @@ function mean(x) {
 
 // median function adapted from jspsych
 function median(array) {
-  if (array.length == 0) { return undefined };
-  var numbers = array.slice(0).sort(function (a, b) { return a - b; }); // sort
+  if (array.length == 0) {
+    return undefined;
+  }
+  var numbers = array.slice(0).sort(function (a, b) {
+    return a - b;
+  }); // sort
   var middle = Math.floor(numbers.length / 2);
   var isEven = numbers.length % 2 === 0;
   return isEven ? (numbers[middle] + numbers[middle - 1]) / 2 : numbers[middle];
@@ -315,11 +321,7 @@ function determine_reward(x, b = -0.1) {
   return x.map((i) => 1 / (1 + Math.exp(-i * b)));
 }
 
-function calculate_points_obj(
-  rt,
-  rew_min = 230,
-  rew_max = 370,
-) {
+function calculate_points_obj(rt, rew_min = 230, rew_max = 370) {
   let bins = 9;
   let divs = 3;
   let units = bins * divs;
@@ -327,7 +329,7 @@ function calculate_points_obj(
   let pointsscale = 365;
   let width = 1.487;
   let pointsadd = 0.00005;
-  
+
   // let rtcutoffs = mad_cutoffs(rt, 1.0);  // see manuscript for parameters
   // rt = rt.filter((i) => i > rtcutoffs[0] && i < rtcutoffs[1]);
 
@@ -340,25 +342,40 @@ function calculate_points_obj(
   // console.log(stepsize);
 
   let rts = [];
-  for (i=1; i<units+1; i++) {
-    rts.push(rtMedian - ((units + 1) * stepsize / 2) + stepsize * i);
+  for (i = 1; i < units + 1; i++) {
+    rts.push(rtMedian - ((units + 1) * stepsize) / 2 + stepsize * i);
   }
   // console.log(rts);
 
   let points = [];
   let stepsize_points = (width * 2) / (units - 1);
-  for (i = 1; i<units +1 ; i++) {
-    points.push(- ((units + 1) * stepsize_points / 2) + stepsize_points * i);
+  for (i = 1; i < units + 1; i++) {
+    points.push(-(((units + 1) * stepsize_points) / 2) + stepsize_points * i);
   }
   // console.log(points)
 
-  points_obj = {}
-  for (i=0; i<units; i++) {
-    points_obj[rts[i]] = Math.round(((Math.tan(points[points.length-1-i]) / 10 + 0.6) + pointsadd) * pointsscale);
+  points_obj = {};
+  for (i = 0; i < units; i++) {
+    points_obj[rts[i]] = Math.round(
+      (Math.tan(points[points.length - 1 - i]) / 10 + 0.6 + pointsadd) *
+        pointsscale
+    );
+
+    if (i === 10) {
+      break;
+    }
+  }
+
+  points = Object.values(points_obj).sort((a, b) => a - b);
+  // console.log(points);
+  let ptsdiff = Math.abs(points[0] - points[1]);
+
+  while (Math.min(...Object.values(points_obj)) > 0) {
+    points_obj[Math.max(...Object.keys(points_obj)) + stepsize] =
+      Math.min(...Object.values(points_obj)) - ptsdiff;
   }
 
   return points_obj;
-
 }
 
 // function calculate_points_obj(
@@ -375,7 +392,7 @@ function calculate_points_obj(
 //     rt.push(rt[0] / 2);
 //     rt.push(rt[0] + rt[0] / 2);
 //   }  // TODO: catch cases where range is less than 50
-  
+
 //   // trim RTs
 //   var rtcutoffs = mad_cutoffs(rt, 1.0);  // see manuscript for parameters
 //   rt = rt.filter((i) => i > rtcutoffs[0] && i < rtcutoffs[1]);
@@ -511,32 +528,39 @@ function process_choices(choices) {
   return choices_copy;
 }
 
-
 function check_block(is_pre, is_train, is_post, is_prac) {
   var block = null;
   if (is_prac) {
-    block = 'practice';
+    block = "practice";
   } else if (is_pre) {
-    block = 'pre_training';
+    block = "pre_training";
   } else if (is_train) {
-    block = 'training';
+    block = "training";
   } else if (is_post) {
-    block = 'post_training';
+    block = "post_training";
   }
-  return block
+  return block;
 }
-
 
 // 300 * 40 * 3 = average performance. max is 370 * 40 * 3 -> upper bound for final cash
 // 370 * 40 * 3 / 2 is the upper bound -> $5
 // 230 * 40 * 3 / 2 or lower -> $1
 // $12.5 for doing the task for everyone
 
-function calculate_cash(points_arr, num_training=40, num_dot_motion=3, rew_min = 230, rew_max = 370, cash_min = 1, cash_max = 5, cash_base = 12.5) {
+function calculate_cash(
+  points_arr,
+  num_training = 40,
+  num_dot_motion = 3,
+  rew_min = 230,
+  rew_max = 370,
+  cash_min = 1,
+  cash_max = 5,
+  cash_base = 12.5
+) {
   var bonus = cash_min;
   var total_points = sum(points_arr);
-  var min_points = rew_min * num_training * num_dot_motion / 2;
-  var max_points = rew_max * num_training * num_dot_motion / 2;
+  var min_points = (rew_min * num_training * num_dot_motion) / 2;
+  var max_points = (rew_max * num_training * num_dot_motion) / 2;
   if (total_points > min_points) {
     var cash_per_point = (cash_max - cash_min) / (max_points - min_points);
     bonus += (total_points - min_points) * cash_per_point;
@@ -544,5 +568,5 @@ function calculate_cash(points_arr, num_training=40, num_dot_motion=3, rew_min =
   if (total_points > max_points) {
     bonus = cash_max;
   }
-  return (bonus + cash_base).toFixed(2)
+  return (bonus + cash_base).toFixed(2);
 }
