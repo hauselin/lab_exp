@@ -321,7 +321,12 @@ function determine_reward(x, b = -0.1) {
   return x.map((i) => 1 / (1 + Math.exp(-i * b)));
 }
 
-function calculate_points_obj(rt, rew_min = 230, rew_max = 370) {
+function calculate_points_obj(rt) {
+  if (rt.length == 0) {
+    // in case there aren't RTs in array
+    rt = [300, 500, 800];
+  }
+
   let bins = 9;
   let divs = 3;
   let units = bins * divs;
@@ -330,8 +335,8 @@ function calculate_points_obj(rt, rew_min = 230, rew_max = 370) {
   let width = 1.487;
   let pointsadd = 0.00005;
 
-  // let rtcutoffs = mad_cutoffs(rt, 1.0);  // see manuscript for parameters
-  // rt = rt.filter((i) => i > rtcutoffs[0] && i < rtcutoffs[1]);
+  let rtcutoffs = mad_cutoffs(rt, 1.0); // see manuscript for parameters
+  rt = rt.filter((i) => i > rtcutoffs[0] && i < rtcutoffs[1]);
 
   let rtMedian = median(rt);
   let rtMin = Math.min(...rt);
