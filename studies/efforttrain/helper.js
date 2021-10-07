@@ -432,18 +432,15 @@ function calculate_points_obj(rt, rew_min = 230, rew_max = 370) {
 // }
 
 function calculate_points(rt, points_obj) {
-  if (points_obj[Math.round(rt)] != undefined) {
-    return points_obj[Math.round(rt)];
-  } else {
-    if (Math.round(rt) < Object.keys(points_obj)[0]) {
-      return Object.values(points_obj)[0];
-    } else if (
-      Math.round(rt) >
-      Object.keys(points_obj)[Object.keys(points_obj).length - 1]
-    ) {
-      return Object.values(points_obj)[Object.keys(points_obj).length - 1];
-    }
+  if (Math.round(rt) < Math.min(...Object.keys(points_obj))) {
+    return Math.max(...Object.values(points_obj));
+  } else if (Math.round(rt) > Math.max(...Object.keys(points_obj))) {
+    return Math.min(...Object.values(points_obj));
   }
+  let rts = Object.keys(points_obj);
+  let rts_diff = rts.map((r) => Math.abs(r - rt));
+  let idx = rts_diff.indexOf(Math.min(...rts_diff));
+  return points_obj[rts[idx]];
 }
 
 // generate mental math updating array
