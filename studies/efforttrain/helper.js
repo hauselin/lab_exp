@@ -1,5 +1,3 @@
-const { min, max } = require("d3-array");
-
 function get_rocket_remaining(position, random_rockets) {
   var string = `<div>
     <div style='float: left; padding-right: 10px'><img LEFT width='233'></img></div>
