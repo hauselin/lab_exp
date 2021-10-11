@@ -176,6 +176,19 @@ function mean(x) {
   return sum(x) / x.length;
 }
 
+// median function adapted from jspsych
+function median(array) {
+  if (array.length == 0) {
+    return undefined;
+  }
+  var numbers = array.slice(0).sort(function (a, b) {
+    return a - b;
+  }); // sort
+  var middle = Math.floor(numbers.length / 2);
+  var isEven = numbers.length % 2 === 0;
+  return isEven ? (numbers[middle] + numbers[middle - 1]) / 2 : numbers[middle];
+}
+
 function array_range(arr) {
   if (arr.length == 0) {
     throw "Array length must be greater than 0!";
@@ -306,70 +319,131 @@ function determine_reward(x, b = -0.1) {
   return x.map((i) => 1 / (1 + Math.exp(-i * b)));
 }
 
-function calculate_points_obj(
-  rt,
-  rew_min = 230,
-  rew_max = 370,
-  func = determine_reward
-) {
+function calculate_points_obj(rt) {
   if (rt.length == 0) {
     // in case there aren't RTs in array
     rt = [300, 500, 800];
-  } else if (array_range(rt) == 0) {
-    // in case there is not enough range
-    rt.push(rt[0] / 2);
-    rt.push(rt[0] + rt[0] / 2);
-  }  // TODO: catch cases where range is less than 50
-  
-  // trim RTs
-  var rtcutoffs = mad_cutoffs(rt, 1.0);  // see manuscript for parameters
+  }
+
+  let bins = 9;
+  let divs = 3;
+  let units = bins * divs;
+
+  let pointsscale = 365;
+  let width = 1.487;
+  let pointsadd = 0.00005;
+
+  let rtcutoffs = mad_cutoffs(rt, 1.0); // see manuscript for parameters
   rt = rt.filter((i) => i > rtcutoffs[0] && i < rtcutoffs[1]);
 
-  // TODO: make sure no missing/NA values
+  let rtMedian = median(rt);
+  let rtMin = Math.min(...rt);
+  let rtMax = Math.max(...rt);
+  let stepsize = (rtMax - rtMin) / (units - 1);
+  // console.log(rtMin);
+  // console.log(rtMax);
+  // console.log(stepsize);
 
-  // generate sequence of RTs from min to max value
-  let rt_min = Math.floor(Math.min(...rt));
-  let rt_max = Math.floor(Math.max(...rt));
-  let rt_range = rt_max - rt_min;
-  rt = range(rt_min, rt_max); // range function excludes last value
-  rt.push(Math.max(...rt) + 1); // add last value
+  let rts = [];
+  for (i = 1; i < units + 1; i++) {
+    rts.push(rtMedian - ((units + 1) * stepsize) / 2 + stepsize * i);
+  }
+  // console.log(rts);
 
-  // median-center RT values
-  rtC = rt.map((i) => i - median(rt)); // vectorize
+  let points = [];
+  let stepsize_points = (width * 2) / (units - 1);
+  for (i = 1; i < units + 1; i++) {
+    points.push(-(((units + 1) * stepsize_points) / 2) + stepsize_points * i);
+  }
+  // console.log(points)
 
-  // calculate beta (which depends on RT range)
-  // TODO: 25 can be changed, but looks good
-  let beta = (-1 / rt_range) * 25;
-
-  // points for each RT
-  var points = func(rtC, beta);
-  points[0] = Math.ceil(points[0]);
-  points[points.length - 1] = Math.floor(points[points.length - 1]);
-  var rew_range = rew_max - rew_min;
-  var points = points.map((i) => i * rew_range + rew_min);
-
-  // create object maps rt to points {300: 370, 301: 369}...
-  let obj = {};
-  for (i = 0; i < rt.length; i++) {
-    obj[rt[i]] = points[i];
+  points_obj = {};
+  for (i = 0; i < units; i++) {
+    points_obj[rts[i]] = Math.round(
+      (Math.tan(points[points.length - 1 - i]) / 10 + 0.6 + pointsadd) *
+        pointsscale
+    );
   }
 
-  return obj;
-}
+  points = Object.values(points_obj).sort((a, b) => a - b);
+  // console.log(points);
+  let ptsdiff = Math.abs(points[0] - points[1]);
 
-function calculate_points(rt, points_obj) {
-  if (points_obj[Math.round(rt)] != undefined) {
-    return points_obj[Math.round(rt)];
-  } else {
-    if (Math.round(rt) < Object.keys(points_obj)[0]) {
-      return Object.values(points_obj)[0];
-    } else if (
-      Math.round(rt) >
-      Object.keys(points_obj)[Object.keys(points_obj).length - 1]
-    ) {
-      return Object.values(points_obj)[Object.keys(points_obj).length - 1];
+  while (Math.min(...Object.values(points_obj)) > 0) {
+    points_obj[Math.max(...Object.keys(points_obj)) + stepsize] =
+      Math.min(...Object.values(points_obj)) - ptsdiff;
+  }
+
+  for (const [key, value] of Object.entries(points_obj)) {
+    if (value < 0) {
+      points_obj[key] = 0;
     }
   }
+
+  return points_obj;
+}
+
+// function calculate_points_obj(
+//   rt,
+//   rew_min = 230,
+//   rew_max = 370,
+//   func = determine_reward
+// ) {
+//   if (rt.length == 0) {
+//     // in case there aren't RTs in array
+//     rt = [300, 500, 800];
+//   } else if (array_range(rt) == 0) {
+//     // in case there is not enough range
+//     rt.push(rt[0] / 2);
+//     rt.push(rt[0] + rt[0] / 2);
+//   }  // TODO: catch cases where range is less than 50
+
+//   // trim RTs
+//   var rtcutoffs = mad_cutoffs(rt, 1.0);  // see manuscript for parameters
+//   rt = rt.filter((i) => i > rtcutoffs[0] && i < rtcutoffs[1]);
+
+//   // TODO: make sure no missing/NA values
+
+//   // generate sequence of RTs from min to max value
+//   let rt_min = Math.floor(Math.min(...rt));
+//   let rt_max = Math.floor(Math.max(...rt));
+//   let rt_range = rt_max - rt_min;
+//   rt = range(rt_min, rt_max); // range function excludes last value
+//   rt.push(Math.max(...rt) + 1); // add last value
+
+//   // median-center RT values
+//   rtC = rt.map((i) => i - median(rt)); // vectorize
+
+//   // calculate beta (which depends on RT range)
+//   // TODO: 25 can be changed, but looks good
+//   let beta = (-1 / rt_range) * 25;
+
+//   // points for each RT
+//   var points = func(rtC, beta);
+//   points[0] = Math.ceil(points[0]);
+//   points[points.length - 1] = Math.floor(points[points.length - 1]);
+//   var rew_range = rew_max - rew_min;
+//   var points = points.map((i) => i * rew_range + rew_min);
+
+//   // create object maps rt to points {300: 370, 301: 369}...
+//   let obj = {};
+//   for (i = 0; i < rt.length; i++) {
+//     obj[rt[i]] = points[i];
+//   }
+
+//   return obj;
+// }
+
+function calculate_points(rt, points_obj) {
+  if (Math.round(rt) < Math.min(...Object.keys(points_obj))) {
+    return Math.max(...Object.values(points_obj));
+  } else if (Math.round(rt) > Math.max(...Object.keys(points_obj))) {
+    return Math.min(...Object.values(points_obj));
+  }
+  let rts = Object.keys(points_obj);
+  let rts_diff = rts.map((r) => Math.abs(r - rt));
+  let idx = rts_diff.indexOf(Math.min(...rts_diff));
+  return points_obj[rts[idx]];
 }
 
 // generate mental math updating array
@@ -456,32 +530,39 @@ function process_choices(choices) {
   return choices_copy;
 }
 
-
 function check_block(is_pre, is_train, is_post, is_prac) {
   var block = null;
   if (is_prac) {
-    block = 'practice';
+    block = "practice";
   } else if (is_pre) {
-    block = 'pre_training';
+    block = "pre_training";
   } else if (is_train) {
-    block = 'training';
+    block = "training";
   } else if (is_post) {
-    block = 'post_training';
+    block = "post_training";
   }
-  return block
+  return block;
 }
-
 
 // 300 * 40 * 3 = average performance. max is 370 * 40 * 3 -> upper bound for final cash
 // 370 * 40 * 3 / 2 is the upper bound -> $5
 // 230 * 40 * 3 / 2 or lower -> $1
 // $12.5 for doing the task for everyone
 
-function calculate_cash(points_arr, num_training=40, num_dot_motion=3, rew_min = 230, rew_max = 370, cash_min = 1, cash_max = 5, cash_base = 12.5) {
+function calculate_cash(
+  points_arr,
+  num_training = 40,
+  num_dot_motion = 3,
+  rew_min = 230,
+  rew_max = 370,
+  cash_min = 1,
+  cash_max = 5,
+  cash_base = 12.5
+) {
   var bonus = cash_min;
   var total_points = sum(points_arr);
-  var min_points = rew_min * num_training * num_dot_motion / 2;
-  var max_points = rew_max * num_training * num_dot_motion / 2;
+  var min_points = (rew_min * num_training * num_dot_motion) / 2;
+  var max_points = (rew_max * num_training * num_dot_motion) / 2;
   if (total_points > min_points) {
     var cash_per_point = (cash_max - cash_min) / (max_points - min_points);
     bonus += (total_points - min_points) * cash_per_point;
@@ -489,5 +570,5 @@ function calculate_cash(points_arr, num_training=40, num_dot_motion=3, rew_min =
   if (total_points > max_points) {
     bonus = cash_max;
   }
-  return (bonus + cash_base).toFixed(2)
+  return (bonus + cash_base).toFixed(2);
 }
