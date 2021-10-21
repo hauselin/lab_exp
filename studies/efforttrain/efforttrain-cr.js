@@ -129,17 +129,30 @@ if (debug) {  // make task faster/easier for debugging
 var date = new Date()
 var subject_id = jsPsych.randomization.randomID(4) + "-" + date.getTime();
 
-// TODO also save url queries from recruitment platform and cognition.run
 jsPsych.data.addProperties({ // do not edit this section unnecessarily!
     condition: CONDITION,
     condition_idx: idx,
     subject_id: subject_id
 });
 
-// TODO construct qualtrics url with prolific id etc.
+// add url parameters
+let urlvar = jsPsych.data.urlVariables();
+let urlvar_keys = Object.keys(urlvar);
+let urlvar_n = urlvar_keys.length;
+if (urlvar_n > 0) {
+	console.log("URL variables")
+	for (var i = 0; i < urlvar_n; i++) {
+		var key_i = urlvar_keys[i];
+		var temp_obj = {};
+		temp_obj[key_i] = urlvar[urlvar_keys[i]];
+		console.log(temp_obj)
+		jsPsych.data.addProperties(temp_obj);
+	}
+}
+
 redirect_url += ("?SUBJ=" + subject_id);
 redirect_url += ("&CONDITION=" + CONDITION);
-redirect_url += ("&PID=123");
+redirect_url += ("&PID=" + urlvar['sona_id']);  // NOTE: change to PID for prolific later on
 
 if (debug) {
     console.log("COUNTERBALANCING object");
