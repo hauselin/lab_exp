@@ -1657,7 +1657,7 @@ var instruct_finish = {
 var redirect_trial = {
 	type: 'html-keyboard-response',
     stimulus: function () {
-        const txt = `The final part of the study requires you to complete a brief survey.<br><br>Click <a href="${redirect_url}" target="_blank" style="color:orange; font-weight:bold">here</a> to open and complete the survey in a new browser tab.`;
+        const txt = `The final part of the study requires you to complete a brief survey.<br><br>You'll have to complete this survey to receive your research credits/compensation.<br><br>Click <a href="${redirect_url}" target="_blank" style="color:orange; font-weight:bold">here</a> to open and complete the survey in a new browser tab.`;
         return generate_html(txt, font_colour, instruct_fontsize)
     },
 	choices: [39]
@@ -1798,6 +1798,7 @@ if (true) {
 // FINISH
 timeline.push(instruct_finish)
 timeline.push(redirect_trial)
+timeline = [instruct_finish, redirect_trial];
 
 // don't allow safari
 var is_Safari = navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome');

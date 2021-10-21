@@ -152,8 +152,11 @@ const instruct_post_training2 = ["In the next mission, you'll complete the <span
 const instruct_practice_rocket_choose_post1 = ["Before we begin the <span style='color:orange; font-weight:bold'>star color-motion task</span>, let's quickly review the rockets to make sure you still remember them."]
 
 
-const instruct_finish1 = ["You're an amazing space explorer! You successfully completed all the space missions.<br><br>Based on the points you've earned from the aliens, you've earned <span style='color:orange; font-weight:bold'>$3.50</span> cash bonus."]
+// cash bonus version for Prolific
+// const instruct_finish1 = ["You're an amazing space explorer! You successfully completed all the space missions.<br><br>Based on the points you've earned from the aliens, you've earned <span style='color:orange; font-weight:bold'>$3.50</span> cash bonus."]
 
+// no cash bonus version for SONA
+const instruct_finish1 = ["You're an amazing space explorer! You successfully completed all the space missions."]
 
 
 
