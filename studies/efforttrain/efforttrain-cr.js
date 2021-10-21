@@ -1798,7 +1798,6 @@ if (true) {
 // FINISH
 timeline.push(instruct_finish)
 timeline.push(redirect_trial)
-timeline = [instruct_finish, redirect_trial];
 
 // don't allow safari
 var is_Safari = navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome');
