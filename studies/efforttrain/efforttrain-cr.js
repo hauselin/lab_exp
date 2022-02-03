@@ -11,7 +11,7 @@ if (local) {
 // practice trial parameters
 // practice dot motion
 var prac_dot_acc = 0.8; // required accuracy for the last 15 trials
-var prac_dot_max = 80; // maximum practice trials before moving on
+var prac_dot_max = 80; // maximum practice trials before moving on (80 in actual experiment)
 var prac_dot_rocket_duration = 1000; // duration of rocket during practice
 var prac_dot_feedback_duration = 1000; // feedback duration
 // practice rocket selection
@@ -19,7 +19,7 @@ var prac_rocket_max = 10; // maximum practice trials before moving on
 var prac_rocket_deadline = 2000; // rt deadline for colour block practice trial
 var prac_rocket_feedback_duration = 1000; // feedback duration
 // practice pre-training / training
-var practice_pre_training_repetitions = 80;  // no. of practice trials for pre-training (use 10 trials for experiemnt)
+var practice_pre_training_repetitions = 8;  // no. of practice trials for pre-training (use 8 trials for experiemnt)
 // practice update math
 
 // pre_training block parameters
@@ -106,14 +106,14 @@ var n_digits = 3; // amount of numbers to show (must be > 1)
 var n_distract_response = 3; // amount of distractors
 var n_update_trial_pre_training = 40;  // 40 for actual experiment
 var n_update_trial_post_training = 20;  // 20 for actual experiment
-var n_practice_update_trial = 5; // number of practice trials and the amount of sequences to show
+var n_practice_update_trial = 6; // number of practice trials and the amount of sequences to show (6)
 var duration_digit = 850; // how long to show each digit (ms)
 var duration_post_digit = 450; // pause duration after each digit
 var update_feedback_duration = 1000;
 var update_response_deadline = 3000; // deadline for responding
 var update_choice_deadline = null; // deadline for choosing hard or easy task
-var n_hard_practice = 20; // number of hard trials for practice
-var n_easy_practice = 20; // number of easy trials for practice
+var n_hard_practice = 20; // max number of hard trials for practice (20)
+var n_easy_practice = 20; // max number of easy trials for practice (20)
 var prac_pattern_max = 10;  // no. of practice trials for pre-training (use 10 trials for experiemnt)
 
 if (debug) {  // make task faster/easier for debugging
@@ -1523,6 +1523,9 @@ var practice_hard_update = {
         update_feedback,
     ],
     repetitions: n_hard_practice,
+    on_finish: function (data) {
+        data.block_practice = "practice_hard_update";
+    },
     conditional_function: function () {
         console.log(update_accuracies);
         let repeat = true;
@@ -1547,6 +1550,9 @@ var practice_easy_update = {
         update_feedback,
     ],
     repetitions: n_easy_practice,
+    on_finish: function (data) {
+        data.block_practice = "practice_easy_update";
+    },
     conditional_function: function () {
         console.log(update_accuracies);
         let repeat = true;
@@ -1754,7 +1760,7 @@ timeline_pre_training_dot_motion.push(practice_rocket_trials);
 
 // PRACTICE motion task - demand selection
 timeline_pre_training_dot_motion.push(instruct_practice_pre_training);
-timeline_pre_training_dot_motion.push(practice_pre_training);
+timeline_pre_training_dot_motion.push(practice_pre_training);  // up to practice_pre_training_repetitions reps
 
 // ACTUAL PRE-TRAINING - motion task - demand selection
 timeline_pre_training_dot_motion.push(instruct_pre_training);
@@ -1859,10 +1865,13 @@ if (is_Safari) {
 	}];
 }
 
+// timeline = [];
+
 jsPsych.init({
     timeline: timeline,
     preload_images: Object.values(images),
     on_finish: function () {
+        // jsPsych.data.displayData();
         if (debug) jsPsych.data.displayData();
         if (!debug && redirect_url) window.location = redirect_url;
     },
