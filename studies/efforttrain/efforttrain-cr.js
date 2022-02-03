@@ -1,6 +1,6 @@
-const fullscreen = false;  // set to true for actual experiment
+const fullscreen = true;  // set to true for actual experiment
 const debug = false;  // set to false for actual experiment
-const local = true;  // set to false for actual experiment
+const local = false;  // set to false for actual experiment
 let redirect_url = "https://utorontopsych.az1.qualtrics.com/jfe/form/SV_elnuzIVjX3c6i1w";  // qualtrics url for surveys
 
 if (local) {
