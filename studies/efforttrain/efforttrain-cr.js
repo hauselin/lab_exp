@@ -1,7 +1,7 @@
 const fullscreen = false;  // set to true for actual experiment
-const debug = true;  // set to false for actual experiment
+const debug = false;  // set to false for actual experiment
 const local = true;  // set to false for actual experiment
-let redirect_url = "https://utorontopsych.az1.qualtrics.com/jfe/form/SV_2b1OebsH1F8CEey";  // qualtrics url for surveys
+let redirect_url = "https://utorontopsych.az1.qualtrics.com/jfe/form/SV_elnuzIVjX3c6i1w";  // qualtrics url for surveys
 
 if (local) {
     var CONDITION = 1;  // if local is false, variable will be set by cognition.run
@@ -15,18 +15,18 @@ var prac_dot_max = 80; // maximum practice trials before moving on
 var prac_dot_rocket_duration = 1000; // duration of rocket during practice
 var prac_dot_feedback_duration = 1000; // feedback duration
 // practice rocket selection
-var prac_rocket_max = 15; // maximum practice trials before moving on
+var prac_rocket_max = 10; // maximum practice trials before moving on
 var prac_rocket_deadline = 2000; // rt deadline for colour block practice trial
 var prac_rocket_feedback_duration = 1000; // feedback duration
 // practice pre-training / training
-var practice_pre_training_repetitions = 10;  // no. of practice trials for pre-training (use 10 trials for experiemnt)
+var practice_pre_training_repetitions = 80;  // no. of practice trials for pre-training (use 10 trials for experiemnt)
 // practice update math
 
 // pre_training block parameters
-const pre_training_repetitions = 5; // use 40 for experiment
+const pre_training_repetitions = 40; // use 40 for experiment
 
 // post_training block parameters
-const post_training_repetitions = 5; // use 20 for experiment
+const post_training_repetitions = 20; // use 20 for experiment
 
 // dot motion task parameters
 const dot_motion_repetitions = 3;
@@ -112,8 +112,8 @@ var duration_post_digit = 450; // pause duration after each digit
 var update_feedback_duration = 1000;
 var update_response_deadline = 3000; // deadline for responding
 var update_choice_deadline = null; // deadline for choosing hard or easy task
-var n_hard_practice = 3; // number of hard trials for practice
-var n_easy_practice = 3; // number of easy trials for practice
+var n_hard_practice = 20; // number of hard trials for practice
+var n_easy_practice = 20; // number of easy trials for practice
 var prac_pattern_max = 10;  // no. of practice trials for pre-training (use 10 trials for experiemnt)
 
 if (debug) {  // make task faster/easier for debugging
@@ -152,7 +152,7 @@ if (urlvar_n > 0) {
 
 redirect_url += ("?SUBJ=" + subject_id);
 redirect_url += ("&CONDITION=" + CONDITION);
-redirect_url += ("&PID=" + urlvar['sona_id']);  // NOTE: change to PID for prolific later on
+redirect_url += ("&PID=" + urlvar['PROLIFIC_PID']);  // NOTE: change to PID for prolific
 
 if (debug) {
     console.log("COUNTERBALANCING object");
@@ -864,8 +864,9 @@ var practice_hard_dot_trials = {
     ],
     repetitions: prac_dot_max,
     conditional_function: function () {
+        console.log(practice_hard_dot_accuracies);
         var repeat_colour_practice = true;
-        if (practice_hard_dot_accuracies.length > 10) {
+        if (practice_hard_dot_accuracies.length > 20) {
             if (practice_hard_dot_accuracies.length <= 15) {
                 if (mean(practice_hard_dot_accuracies) > prac_dot_acc) {
                     repeat_colour_practice = false;
@@ -918,8 +919,9 @@ var practice_easy_dot_trials = {
     ],
     repetitions: prac_dot_max,
     conditional_function: function () {
+        console.log(practice_easy_dot_accuracies);
         var repeat_colour_practice = true;
-        if (practice_easy_dot_accuracies.length > 10) {
+        if (practice_easy_dot_accuracies.length > 20) {
             if (practice_easy_dot_accuracies.length <= 15) {
                 if (mean(practice_easy_dot_accuracies) > prac_dot_acc) {
                     repeat_colour_practice = false;
@@ -1429,6 +1431,7 @@ var number_sequence = {
 };
 
 var choices_shuffle;
+var update_accuracies = [];
 var update_response = {
     type: "html-keyboard-response",
     stimulus: function () {
@@ -1465,8 +1468,10 @@ var update_response = {
             data.response = chosen.response;
             if (chosen.correct) {
                 data.acc = 1;
+                update_accuracies.push(1);
             } else {
                 data.acc = 0;
+                update_accuracies.push(0);
             }
         }
         temp_digits = []; // clear digit sequences for next trial
@@ -1518,6 +1523,19 @@ var practice_hard_update = {
         update_feedback,
     ],
     repetitions: n_hard_practice,
+    conditional_function: function () {
+        console.log(update_accuracies);
+        let repeat = true;
+        if (update_accuracies.length >= 5) {
+            let acc_mean = mean(update_accuracies.slice(update_accuracies.length - 10));
+            console.log("mean acc:", acc_mean);
+            if (acc_mean >= 0.7) {
+                repeat = false;
+                update_accuracies = [];
+            }
+        }
+        return repeat;
+    }
 }
 
 var practice_easy_update = {
@@ -1529,6 +1547,19 @@ var practice_easy_update = {
         update_feedback,
     ],
     repetitions: n_easy_practice,
+    conditional_function: function () {
+        console.log(update_accuracies);
+        let repeat = true;
+        if (update_accuracies.length >= 3) {
+            let acc_mean = mean(update_accuracies.slice(update_accuracies.length - 10));
+            console.log("mean acc:", acc_mean);
+            if (acc_mean >= 0.7) {
+                repeat = false;
+                update_accuracies = [];
+            }
+        }
+        return repeat;
+    }
 }
 
 var practice_sequence = jsPsych.utils.deepCopy(update_math_sequence_pre_training);
@@ -1657,11 +1688,31 @@ var instruct_finish = {
 var redirect_trial = {
 	type: 'html-keyboard-response',
     stimulus: function () {
-        const txt = `The final part of the study requires you to complete a brief survey.<br><br>You'll have to complete this survey to receive your research credits/compensation.<br><br>Click <a href="${redirect_url}" target="_blank" style="color:orange; font-weight:bold">here</a> to open and complete the survey in a new browser tab.`;
+        const txt = `The final part of the study requires you to complete a brief survey.<br><br>Click <a href="${redirect_url}" target="_blank" style="color:orange; font-weight:bold">here</a> to open and complete the survey in a new browser tab.`;
         return generate_html(txt, font_colour, instruct_fontsize)
     },
 	choices: [39]
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1691,11 +1742,11 @@ timeline.push(instructions);
 
 var timeline_pre_training_dot_motion = [];
 timeline_pre_training_dot_motion.push(instruct_color);
-timeline_pre_training_dot_motion.push(practice_hard_dot_trials);
+timeline_pre_training_dot_motion.push(practice_hard_dot_trials);  // up to prac_dot_max trials/reps
 
 // PRACTICE MOTION/EASY motion task
 timeline_pre_training_dot_motion.push(instruct_motion);
-timeline_pre_training_dot_motion.push(practice_easy_dot_trials);
+timeline_pre_training_dot_motion.push(practice_easy_dot_trials);  // up to prac_dot_max trials/reps
 
 // PRACTICE CHOOSING easy/hard motion task
 timeline_pre_training_dot_motion.push(instruct_practice_rocket_choose)
@@ -1747,7 +1798,7 @@ timeline_instructions_update.push(practice_easy_update);
 timeline_instructions_update.push(update_instructions_choice);
 timeline_instructions_update.push(practice_pattern_trials);  
 timeline_instructions_update.push(update_instructions_practice);
-timeline_instructions_update.push(practice_sequence); 
+timeline_instructions_update.push(practice_sequence);  // up to n_practice_update_trial trials/reps
 // timeline = timeline.concat(timeline_instructions_update);  // add to timeline
 
 // PRE-TRAINING - math task

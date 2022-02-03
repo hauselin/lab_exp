@@ -27,7 +27,7 @@ jsPsych.data.addProperties({ // do not edit this section unnecessarily!
 var instructions = {
     type: "instructions",
     pages: [
-        generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("You're going to read a few problems and questions. Try to answer as accurately as possible.", font_colour),
+        generate_html("Welcome!", font_colour, 25, [0, 0]) + generate_html("You're going to read a few problems and questions. Try to answer as accurately as possible. JABIN", font_colour),
     ],
     show_clickable_nav: true,
     show_page_number: false,
