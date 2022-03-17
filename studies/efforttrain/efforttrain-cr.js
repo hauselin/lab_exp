@@ -471,7 +471,7 @@ var dot_motion = {
     correct_choice: function () {
         return [dot_motion_parameters.correct_choice];
     },
-    move_distance: 9,
+    move_distance: [9, 7],
     number_of_apertures: 2,
     dot_radius: 2.5, // dot size (default 2)
     number_of_dots: function () {
@@ -480,7 +480,7 @@ var dot_motion = {
             dot_motion_parameters.num_distractors,
         ];
     },
-    RDK_type: 3,
+    RDK_type: [1, 2],
     aperture_width: 610,
     aperture_center_x: [window.innerWidth / 2, window.innerWidth / 2],
     aperture_center_y: [window.innerHeight / 2, window.innerHeight / 2],
@@ -568,7 +568,7 @@ function dot_motion_trial_variable(is_hard) {
         majority_col: majority_col,
         distractor_col: distractor_col,
         num_majority: num_majority,
-        num_distractors: Math.floor(Math.random() * (50 - 20 + 1)) + 20,
+        num_distractors: Math.floor(Math.random() * (50 - 20 + 1)) + 10,
         majority_coherence: Math.random() * (1 - 0.75) + 0.75,
         distractor_coherence: Math.random() * (1 - 0.75) + 0.75,
     };
@@ -1611,6 +1611,7 @@ post_training.on_start = function () {
 };
 post_training.repetitions = post_training_repetitions;
 
+
 var practice_pattern_prompt = jsPsych.randomization.sampleWithoutReplacement(
     ["0", "3 or 4"],
     1
@@ -1789,7 +1790,6 @@ timeline_post_training_dot_motion.push(practice_rocket_trials_post); // practice
 timeline_post_training_dot_motion.push(instruct_pre_training);
 timeline_post_training_dot_motion.push(post_training);
 // timeline = timeline.concat(timeline_post_training_dot_motion);  // add to timeline
-
 
 
 
