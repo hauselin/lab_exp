@@ -31,7 +31,7 @@ const post_training_repetitions = 20; // use 20 for experiment
 // dot motion task parameters
 const dot_motion_repetitions = 3;
 const dot_motion_deadline = 1500;
-const p_incongruent_dots = 0.65;
+const p_incongruent_dots = 0.35;  // reverse-coded (equivalent to manuscript's 65% incongruent)
 const num_majority = 300;
 var dot_motion_parameters;
 var current_section = "pre-training!";
@@ -569,9 +569,11 @@ function dot_motion_trial_variable(is_hard) {
         majority_col: majority_col,
         distractor_col: distractor_col,
         num_majority: num_majority,
-        num_distractors: Math.floor(Math.random() * (50 - 20 + 1)) + 10,
-        majority_coherence: Math.random() * (1 - 0.75) + 0.75,
-        distractor_coherence: Math.random() * (1 - 0.75) + 0.75,
+        num_distractors: Math.floor(Math.random() * (50 - 20 + 1)) + 15,
+        // majority_coherence: Math.random() * (1 - 0.75) + 0.75,
+        // distractor_coherence: Math.random() * (1 - 0.75) + 0.75,
+        majority_coherence: Math.random() * (1 - 0.80) + 0.80,
+        distractor_coherence: Math.random() * (1 - 0.60) + 0.60,
     };
 
     // evaluate motion direction
