@@ -1,6 +1,6 @@
-const fullscreen = false;  // set to true for actual experiment
+const fullscreen = true;  // set to true for actual experiment
 const debug = false;  // set to false for actual experiment
-const local = true;  // set to false for actual experiment
+const local = false;  // set to false for actual experiment
 let redirect_url = "https://utorontopsych.az1.qualtrics.com/jfe/form/SV_elnuzIVjX3c6i1w";  // qualtrics url for surveys
 
 if (local) {
@@ -34,6 +34,7 @@ const dot_motion_deadline = 1500;
 const p_incongruent_dots = 0.65;
 const num_majority = 300;
 var dot_motion_parameters;
+var current_section = "pre-training!";
 
 // training block parameters
 const num_reward_trials = 40;
@@ -662,6 +663,8 @@ var pre_training = {
     },
     repetitions: pre_training_repetitions,
 };
+console.log("dot motion pre_training");
+console.log(pre_training);
 
 var training_index = 0;
 var cue = {
@@ -864,7 +867,11 @@ var practice_hard_dot_trials = {
     ],
     repetitions: prac_dot_max,
     conditional_function: function () {
+        console.log(current_section);
         console.log(practice_hard_dot_accuracies);
+        if (current_section != "pre-training!") {
+            return true;
+        }
         var repeat_colour_practice = true;
         if (practice_hard_dot_accuracies.length > 20) {
             if (practice_hard_dot_accuracies.length <= 15) {
@@ -919,7 +926,11 @@ var practice_easy_dot_trials = {
     ],
     repetitions: prac_dot_max,
     conditional_function: function () {
+        console.log(current_section);
         console.log(practice_easy_dot_accuracies);
+        if (current_section != "pre-training!") {
+            return true;
+        }
         var repeat_colour_practice = true;
         if (practice_easy_dot_accuracies.length > 20) {
             if (practice_easy_dot_accuracies.length <= 15) {
@@ -1009,6 +1020,8 @@ var instruct_alien_introduction = {
         document.body.style.backgroundImage =
             "url('stimuli/instruct_background.png')";
         document.body.style.backgroundSize = "cover";
+        current_section = "post-training!";
+        console.log(current_section)
     },
     on_finish: function () {
         document.body.style.backgroundImage = "";
@@ -1527,7 +1540,11 @@ var practice_hard_update = {
         data.block_practice = "practice_hard_update";
     },
     conditional_function: function () {
+        console.log(current_section);
         console.log(update_accuracies);
+        if (current_section != "pre-training!") {
+            return true;
+        }
         let repeat = true;
         if (update_accuracies.length >= 5) {
             let acc_mean = mean(update_accuracies.slice(update_accuracies.length - 10));
@@ -1554,7 +1571,11 @@ var practice_easy_update = {
         data.block_practice = "practice_easy_update";
     },
     conditional_function: function () {
+        console.log(current_section);
         console.log(update_accuracies);
+        if (current_section != "pre-training!") {
+            return true;
+        }
         let repeat = true;
         if (update_accuracies.length >= 3) {
             let acc_mean = mean(update_accuracies.slice(update_accuracies.length - 10));
@@ -1610,7 +1631,8 @@ post_training.on_start = function () {
     is_practice = false;
 };
 post_training.repetitions = post_training_repetitions;
-
+console.log("dot motion post_training");
+console.log(post_training);
 
 var practice_pattern_prompt = jsPsych.randomization.sampleWithoutReplacement(
     ["0", "3 or 4"],
@@ -1853,8 +1875,11 @@ if (true) {
 }
 
 // FINISH
-timeline.push(instruct_finish)
-timeline.push(redirect_trial)
+timeline.push(instruct_finish);
+timeline.push(redirect_trial);
+console.log('full timeline');
+// timeline = [practice_hard_dot_trials, instruct_alien_introduction, post_training]; // debugging
+console.log(timeline);
 
 // don't allow safari
 var is_Safari = navigator.userAgent.includes('Safari') && !navigator.userAgent.includes('Chrome');
