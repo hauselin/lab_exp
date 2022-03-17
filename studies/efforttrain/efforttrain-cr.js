@@ -1,6 +1,6 @@
-const fullscreen = true;  // set to true for actual experiment
+const fullscreen = false;  // set to true for actual experiment
 const debug = false;  // set to false for actual experiment
-const local = false;  // set to false for actual experiment
+const local = true;  // set to false for actual experiment
 let redirect_url = "https://utorontopsych.az1.qualtrics.com/jfe/form/SV_elnuzIVjX3c6i1w";  // qualtrics url for surveys
 
 if (local) {
@@ -489,7 +489,7 @@ var dot_motion = {
         var current_points = 0;
         if (data.correct) {  // correct response
             if (assigned_info.reward_condition == 'performance') {
-                current_points = calculate_points(data.rt, points);
+                current_points = calculate_points(data.rt, points) - 30;  // people getting more points in performance condition, so we subtract a little
                 // current_points = calculate_points2(data.rt, pre_training_rt_easy, pre_training_rt_hard);
             } else if (assigned_info.reward_condition == 'neutral') {
                 current_points = mid_reward;
