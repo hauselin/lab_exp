@@ -1,6 +1,6 @@
 // instruction text
 let instruct_browser = [
-  "To ensure a seamless experience, please use <span style='color:orange; font-weight:bold'>Chrome</span> or <span style='color:orange; font-weight:bold'>Firefox</span> web browser.<br><br>Other browsers like Internet Explorer or Safari aren't supported.",
+  "To ensure a seamless experience, please use <span style='color:orange; font-weight:bold'>Chrome</span> or <span style='color:orange; font-weight:bold'>Firefox</span> web browser.<br><br>Other browsers like Internet Explorer or Safari aren't fully supported.",
 ];
 
 let instruct_intro = [
@@ -9,7 +9,7 @@ let instruct_intro = [
 
 // Prolific version
 let instruct_mission1 = [
-  "You are an adventurous space explorer who will complete several missions in space.<br><br>These missions will require about <span style='color:orange; font-weight:bold'>1.5 to 2 hours</span> to complete.<br><br>You will receive <span style='color:orange; font-weight:bold'>$12.50</span> for completing all missions.<br><br>You can also earn a bonus of <span style='color:orange; font-weight:bold'>up to $5</span> (details provided later).",
+  "You are an adventurous space explorer who will complete several missions in space.<br><br>These missions will require about <span style='color:orange; font-weight:bold'>1 to 1.5 hours</span> to complete.<br><br>You will not only be compensated for completing all missions, but also can also <span style='color:orange; font-weight:bold'>earn cash bonus</span> (details provided later).",
 ];
 // // SONA version
 // let instruct_mission1 = [
@@ -17,7 +17,7 @@ let instruct_mission1 = [
 // ];
 
 let instruct_mission2 = [
-  "You'll have <span style='color:orange; font-weight:bold'>complete them in one setting</span>, so please ensure you feel well-rested and won't be disturbed in the next <span style='color:orange; font-weight:bold'>1.5 hours</span>.<br><br>Most of the time, you will be using the <span style='color:orange; font-weight:bold'>arrow keys</span> on your keyboard to complete the missions.",
+  "You'll have <span style='color:orange; font-weight:bold'>complete them in one setting</span>, so ensure you won't be distracted in the next <span style='color:orange; font-weight:bold'>1 to 1.5 hours</span>.<br><br>Most of the time, you will be using the <span style='color:orange; font-weight:bold'>arrow keys</span> on your keyboard to complete the missions.",
 ];
 
 // DOT-MOTION TASK
@@ -132,7 +132,7 @@ const instruct_alien_introduction2 = ["Aliens enjoy the company of space explore
 const instruct_alien_introduction3 = ["If you see a <span style='color:orange; font-weight:bold'>landed spaceship, an alien will be delivering rewards</span> for completing the star color-motion task.<br><br>But if <span style='color:orange; font-weight:bold'>the spaceship hasn't landed, you WON'T be receiving rewards</span>.<br><br>Now you'll take a look at how these two spaceships look like."]
 
 // PROLIFIC
-const instruct_alien_rewards1 = ["Remember, when you see a landed spaceship, <span style='color:orange; font-weight:bold'>you can earn points/rewards</span> from the aliens for completing the star color-motion task.<br><br>Importantly, the points you earn will be converted to a <span style='color:orange; font-weight:bold'>cash bonus</span> (up to $5) at the end."]
+const instruct_alien_rewards1 = ["Remember, when you see a landed spaceship, <span style='color:orange; font-weight:bold'>you can earn points/rewards</span> from the aliens for completing the star color-motion task.<br><br>Importantly, the points you earn will be converted to a <span style='color:orange; font-weight:bold'>cash bonus</span> at the end."]
 // SONA
 // const instruct_alien_rewards1 = ["Remember, when you see a landed spaceship, <span style='color:orange; font-weight:bold'>you can earn points/rewards</span> from the aliens for completing the star color-motion task."]
 
@@ -165,7 +165,7 @@ const instruct_practice_rocket_choose_post1 = ["Before we begin the <span style=
 
 
 // cash bonus version for Prolific
-const instruct_finish1 = ["You're an amazing space explorer! You successfully completed all the space missions.<br><br>Based on the points you've earned from the aliens, you've earned <span style='color:orange; font-weight:bold'>$3.50</span> cash bonus."]
+const instruct_finish1 = ["You're an amazing space explorer! You successfully completed all the space missions.<br><br>You should receive your payment and bonus on Prolific in the next few days."]
 // SONA version
 // const instruct_finish1 = ["You're an amazing space explorer! You successfully completed all the space missions."]
 
