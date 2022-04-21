@@ -490,7 +490,7 @@ var dot_motion = {
         var current_points = 0;
         if (data.correct) {  // correct response
             if (assigned_info.reward_condition == 'performance') {
-                current_points = calculate_points(data.rt, points) - 30;  // people getting more points in performance condition, so we subtract a little
+                current_points = calculate_points(data.rt, points) - 50;  // people getting more points in performance condition, so we subtract a little
                 // current_points = calculate_points2(data.rt, pre_training_rt_easy, pre_training_rt_hard);
             } else if (assigned_info.reward_condition == 'neutral') {
                 current_points = mid_reward;
