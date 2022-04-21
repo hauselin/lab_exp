@@ -1,6 +1,6 @@
-const fullscreen = true;  // set to true for actual experiment
+const fullscreen = false;  // set to false for actual experiment
 const debug = false;  // set to false for actual experiment
-const local = false;  // set to false for actual experiment
+const local = true;  // set to false for actual experiment
 let redirect_url = "https://utorontopsych.az1.qualtrics.com/jfe/form/SV_elnuzIVjX3c6i1w";  // qualtrics url for surveys
 
 if (local) {
@@ -484,8 +484,8 @@ var dot_motion = {
     },
     RDK_type: [1, 1],  // type 
     aperture_width: 610,
-    aperture_center_x: [window.innerWidth / 2, window.innerWidth / 2],
-    aperture_center_y: [window.innerHeight / 2, window.innerHeight / 2],
+    aperture_center_x: [window.innerWidth / 2 - 20, window.innerWidth / 2 - 20],
+    // aperture_center_y: [window.innerHeight / 2 + 15, window.innerHeight / 2 + 15],
     on_finish: function (data) {
         data.block = check_block(is_pre_training, is_training, is_post_training, is_practice);
         var current_points = 0;
