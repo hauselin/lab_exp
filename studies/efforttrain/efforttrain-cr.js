@@ -1,6 +1,6 @@
-const fullscreen = true;  // set to true for actual experiment
+const fullscreen = false;  // set to true for actual experiment
 const debug = false;  // set to false for actual experiment
-const local = false;  // set to false for actual experiment
+const local = true;  // set to false for actual experiment
 let redirect_url = "https://utorontopsych.az1.qualtrics.com/jfe/form/SV_elnuzIVjX3c6i1w";  // qualtrics url for surveys
 
 if (local) {
@@ -472,7 +472,8 @@ var dot_motion = {
     correct_choice: function () {
         return [dot_motion_parameters.correct_choice];
     },
-    move_distance: [9, 7],
+    // reinsert_type: [2, 1],
+    move_distance: [9, 9],  // dot speed: see https://www.jspsych.org/6.3/plugins/jspsych-rdk/
     number_of_apertures: 2,
     dot_radius: 2.5, // dot size (default 2)
     number_of_dots: function () {
@@ -481,7 +482,7 @@ var dot_motion = {
             dot_motion_parameters.num_distractors,
         ];
     },
-    RDK_type: [1, 2],
+    RDK_type: [1, 1],  // type 
     aperture_width: 610,
     aperture_center_x: [window.innerWidth / 2, window.innerWidth / 2],
     aperture_center_y: [window.innerHeight / 2, window.innerHeight / 2],
@@ -597,6 +598,17 @@ function dot_motion_trial_variable(is_hard) {
             trial_variable.coherent_direction = [0, 180]; // majority dots move right
         }
         trial_variable.congruent = true;
+    }
+
+    if (!is_hard) {  // make easy task really easy
+        console.log("motion task");
+        trial_variable.majority_coherence = 1.0;
+        trial_variable.distractor_coherence = 0.99;
+        trial_variable.coherent_direction[1] = trial_variable.coherent_direction[0]
+        // trial_variable.num_distractors = 0;
+        // trial_variable.distractor_col = majority_col;
+    } else {
+        console.log("color task")
     }
 
     // evaluate correct choice
@@ -1880,7 +1892,7 @@ if (true) {
 timeline.push(instruct_finish);
 timeline.push(redirect_trial);
 console.log('full timeline');
-// timeline = [practice_hard_dot_trials, instruct_alien_introduction, post_training]; // debugging
+// timeline = [practice_easy_dot_trials, instruct_alien_introduction, post_training]; // debugging
 console.log(timeline);
 
 // don't allow safari
