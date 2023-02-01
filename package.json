@@ -28,7 +28,7 @@
     "express-useragent": "^1.0.15",
     "geoip-lite": "^1.4.2",
     "jstat": "^1.9.4",
-    "mongoose": "^5.9.18",
+    "mongoose": "^5.13.15",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "passport": "^0.4.1",
